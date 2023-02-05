@@ -1,0 +1,24 @@
+using Projectiles;
+using UnityEngine;
+
+class FireArrow : UnitTargetAbility {
+
+    static FireArrow() {
+        RotW.Precache("FireArrow", "Sprites/SpellFireArrow", ResourceType.SPRITE);
+    }
+
+    public FireArrow(Unit owner) : base(owner, 12) {
+    }
+
+    public override void OnCastFinished (bool succes) {
+        if (!succes) { return; }
+        ProjectileManager.CreateTrackingProjectile(Owner.Origin, CursorTarget, 10, 10, false, false, "fireball", this, Owner, null);
+    }
+
+    public override bool OnProjectileHit(Unit target, Vector3 location) {
+        RotW.ApplyDamage(new DamageEvent( victim: target, attacker: Owner, AbilityDamage, this, 0 ));
+        return true;
+    }
+
+
+}

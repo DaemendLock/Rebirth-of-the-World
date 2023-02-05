@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70b6596d0e344a2418aefe9a7e2d47bb, type: 3}
+  m_Name: Florence
+  m_EditorClassIdentifier: 
+  role: 2
+  unitId: 0
+  Attack:
+    baseValue: 50
+    gain:
+    - 0
+  Spellpower:
+    baseValue: 100
+    gain:
+    - 0
+  Crit:
+    baseValue: 0
+    gain:
+    - 0
+  Versa:
+    baseValue: 0
+    gain:
+    - 0
+  MaxHp:
+    baseValue: 1000
+    gain:
+    - 0
+  maxResource:
+  - 1000
+  - 100
+  resourceRegen:
+  - 0
+  - 10
+  Lifesteal:
+    baseValue: 0
+    gain:
+    - 0
+  Movespeed:
+    baseValue: 3
+    gain:
+    - 0
+  AoeResist:
+    baseValue: 0
+    gain:
+    - 0
+  Block:
+    baseValue: 0
+    gain:
+    - 0
+  Evade:
+    baseValue: 0
+    gain:
+    - 0
+  Parry:
+    baseValue: 0
+    gain:
+    - 0
+  AttackSpeed: 1.7
+  AttackRange: 15
+  RangedAttack: 1
+  ProjectileSpeed: 10
+  abilities:
+  - {fileID: 11400000, guid: f5b49d568f1940542bf94c98c98dc1ef, type: 2}
+  - {fileID: 11400000, guid: 566f3556381c0884a9b5876643d7a5b8, type: 2}
+  - {fileID: 11400000, guid: 11091d59c9d25b24caa7a13cc623a62c, type: 2}
+  - {fileID: 11400000, guid: 7eeca8d2690b55c40b6d5364bd49827d, type: 2}
+  - {fileID: 11400000, guid: 6a30e566a4fdb654a810d133261f34e0, type: 2}
+  - {fileID: 11400000, guid: 5b843da5fb03bd549ab79fe61c6d511f, type: 2}
+  GalleryCard: {fileID: 21300000, guid: ccccba1452ede90479173ca212efc0e9, type: 3}
+  _unitPrefab: {fileID: 8213167160493638156, guid: 8d404fd7725f0a849afb475635ef6f56, type: 3}

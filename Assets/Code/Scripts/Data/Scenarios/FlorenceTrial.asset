@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e00c5ccc7101dc40bcde671f8b3d032, type: 3}
+  m_Name: FlorenceTrial
+  m_EditorClassIdentifier: 
+  _allies: []
+  _enemies: []
+  _terrain: {fileID: 5917314330610629159, guid: 61f9b6ab0f56c3942a30d373242ed3d8, type: 3}
+  _spawnLocations:
+  - Position: {x: 0, y: 0, z: 0}
+    Direction: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  _unitsEngaged: 1
+  _scenarioName: Florence Trial
+  _presetUnit:
+  - baseData: {fileID: 11400000, guid: 8fd01aadb06c33b4b8779191f09f5ee1, type: 2}
+    icon: {fileID: 0}
+    _gear: []
+    name: 
+    lvl: 0
+    affection: 0
+    role: 0
+    abilities: []
