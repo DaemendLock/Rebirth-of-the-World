@@ -361,3 +361,20 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Assets/Adaptive Performance
+/Assets/Elven Long Bow
+/Assets/Fox
+/Assets/Kiki
+/Assets/Samples/AI Navigation/1.0.0-exp.4/Build And Connect NavMesh Surfaces
+/Assets/unity-chan!/Unity-chan! Model
+/Assets/TextMesh Pro
+/Library
+/ProjectSettings
+/Temp
+/UserSettings
+/Unity.AI.Navigation.Samples.Editor.csproj
+/Unity.AI.Navigation.Samples.csproj
+/Rebirth of the World.sln
+/Assembly-CSharp.csproj
+/Assembly-CSharp-Editor.csproj
+/.vsconfig
