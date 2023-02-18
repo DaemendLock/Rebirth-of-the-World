@@ -98,7 +98,8 @@ namespace Projectiles {
         }
 
         public override void Hit(Unit unit) {
-            if (ability.OnProjectileHit(unit, location)) _hit = true;
+            if (ability.OnProjectileHit(unit, location))
+                _hit = true;
         }
     }
 

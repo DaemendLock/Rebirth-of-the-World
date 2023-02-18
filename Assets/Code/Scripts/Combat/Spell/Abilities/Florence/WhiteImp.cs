@@ -12,7 +12,7 @@ public class WhiteImp : NotargetAbility {
 
     public override AbilityBehavior AbilityBehavior => AbilityBehavior.NO_TARGET;
 
-    public override AbilityResource AbilityResource => AbilityResource.RESOURCE_RIGHT;
+    public override AbilityResource AbilityResource => AbilityResource.RIGHT;
 
     public override float AbilityCost => 0;
 
@@ -30,7 +30,7 @@ public class WhiteImp : NotargetAbility {
 
     public override void OnSpellStart() {
         Owner.SetResource(0, 1);
-        Owner.GiveMana(100, 0);
+        Owner.GiveMana(100, AbilityResource.LEFT);
     }
 
     public override string GetPassiveStatusName() {
@@ -42,15 +42,17 @@ public class Whitedevil : Status {
     public Whitedevil(Unit owner, Unit caster, Ability ability, Dictionary<string, float> data) : base(owner, caster, ability, data) {
     }
 
+    public override StatsTable Bonuses => StatsTable.EMPTY_TABLE;
+
     public override void OnCreated() {
         StartIntervalThink(0.5f);
     }
 
     public override void OnIntervalThink() {
         if (Parent.GetResourcePercent(1) >= 1) {
-            Parent.SpendMana(5,0);
-        }
-        else Parent.GiveMana(5, 0);
+            Parent.SpendMana(5, 0);
+        } else
+            Parent.GiveMana(5, 0);
     }
 
 

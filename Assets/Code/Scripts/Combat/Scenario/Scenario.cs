@@ -1,17 +1,15 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
 
-public class Scenario : ScriptableObject{
+public class Scenario : ScriptableObject {
     public static readonly Dictionary<int, Type> scenarios = new();
 
     public int ID { get; }
-    
+
     public string ScenarioName { get; }
 
     [Serializable]
@@ -23,7 +21,6 @@ public class Scenario : ScriptableObject{
         public int UnitsEngaged;
 
         public UnitPreview[] PresetUnit;
-
     }
 
     [Header("Units Info")]
@@ -41,13 +38,13 @@ public class Scenario : ScriptableObject{
     public virtual IQuest NextQuest(int phase) {
         return null;
     }
-    
+
     public virtual void OnLoad() { }
 
     public void Load() {
         Loader.Instance.SetupScene(Terrain, UnitsProperties.Allies, UnitsProperties.Enemies);
-
         EventManager.GoalAchived += ToNextQuest;
+        
         OnLoad();
         ToNextQuest();
     }
@@ -64,7 +61,7 @@ public class Scenario : ScriptableObject{
         try {
             NextQuest(curQuest).StartQuest();
             curQuest++;
-        } catch (Exception) { }   
+        } catch (Exception) { }
     }
 
     public virtual UnitPreview[] GetUnitsPreset() => UnitsProperties.PresetUnit;
@@ -117,7 +114,7 @@ public class ScenarioEditor : Editor {
         }
 
         int choice = EditorGUILayout.Popup("Add new Quest", -1, _questTypeNames.ToArray());
-        if(choice != -1) {
+        if (choice != -1) {
             ScriptableObject quest = ScriptableObject.CreateInstance(_questTypeNames[choice]);
             AssetDatabase.AddObjectToAsset(quest, target);
 
@@ -140,9 +137,9 @@ public class ScenarioEditor : Editor {
             EditorGUILayout.EndHorizontal();
         }
 
-        
 
-        if(toDelete != 1) {
+
+        if (toDelete != 1) {
             UnityEngine.Object item = _quests.GetArrayElementAtIndex(toDelete).objectReferenceValue;
             DestroyImmediate(item);
 

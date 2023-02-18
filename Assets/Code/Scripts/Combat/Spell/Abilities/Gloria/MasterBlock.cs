@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 
 public abstract class MasterBlock : NotargetAbility {
 
@@ -26,6 +27,8 @@ public class MasterBlockShieldRegen : Status {
     public MasterBlockShieldRegen(Unit owner, Unit caster, Ability ability, Dictionary<string, float> data) : base(owner, caster, ability, data) {
     }
 
+    public override StatsTable Bonuses => StatsTable.EMPTY_TABLE;
+
     public override void OnCreated() {
         StartIntervalThink(1);
     }
@@ -35,29 +38,27 @@ public class MasterBlockShieldRegen : Status {
     }
 }
 
-public class BlockingShield : Status {
+public class BlockingShield : OvershieldStatus {
 
     private const float DamageConverationPercent = 0.3f;
 
-    public BlockingShield(Unit owner, Unit caster, Ability ability, Dictionary<string, float> data) : base(owner, caster, ability, data) {
+    public BlockingShield(Unit owner, Unit caster, Ability ability, Dictionary<string, float> data) : base(owner, caster, ability, data, 0, false) {
+        owner.RecivedDamage += OnDamage;
+        DurabilityUpdated += ManageResource;
     }
 
-    modifierfunction[] func = { modifierfunction.MODIFIER_EVENT_ON_DAMAGE, modifierfunction.MODIFIER_PROPERTY_DAMAGE_BLOCK };
+    public override StatsTable Bonuses => StatsTable.EMPTY_TABLE;
 
-
-    public override modifierfunction[] DeclareFunctions() {
-        return func;
+    public void OnDamage(AttackEventInstance e) {
+        Parent.GiveMana(e.OriginalValue * DamageConverationPercent, 0);
     }
 
-    public override float GetModifierDamageBlock(AttackEventInstance e) {
-        float mana = Parent.GetResource(1);
-        Parent.SpendMana(e.damage, 1);
-        return math.min(e.damage, mana);
+    private void ManageResource(float value) {
+        Parent.SetResource(Durability, 1);
     }
-
-    public override void OnDamage(AttackEventInstance e) {
-        Parent.GiveMana(e.damage * DamageConverationPercent, 0);
+    
+    public override void OnDestroy() {
+        Parent.RecivedDamage -= OnDamage;
     }
-
 
 }

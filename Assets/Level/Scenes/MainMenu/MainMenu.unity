@@ -876,7 +876,6 @@ MonoBehaviour:
   Unit:
     baseData: {fileID: 0}
     icon: {fileID: 0}
-    _gear: []
     name: 
     lvl: 0
     affection: 0
@@ -2867,7 +2866,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -6094,7 +6093,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -9621,7 +9620,7 @@ GameObject:
   - component: {fileID: 1141602156}
   - component: {fileID: 1141602155}
   m_Layer: 5
-  m_Name: GearWeapon
+  m_Name: GearRightHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12530,7 +12529,6 @@ MonoBehaviour:
   _unit:
     baseData: {fileID: 0}
     icon: {fileID: 0}
-    _gear: []
     name: 
     lvl: 0
     affection: 0
@@ -12547,6 +12545,16 @@ MonoBehaviour:
   - {fileID: 1959313877}
   - {fileID: 599580768}
   - {fileID: 2065105441}
+  _gear:
+  - {fileID: 1426028080}
+  - {fileID: 1271984132}
+  - {fileID: 604385550}
+  - {fileID: 1959284430}
+  - {fileID: 1141602155}
+  - {fileID: 1593916767}
+  - {fileID: 2103454131}
+  - {fileID: 2016689499}
+  - {fileID: 929096312}
   showHideGear: {fileID: 2003582789}
 --- !u!222 &1475014287
 CanvasRenderer:
@@ -15675,7 +15683,7 @@ GameObject:
   - component: {fileID: 1959284431}
   - component: {fileID: 1959284430}
   m_Layer: 5
-  m_Name: GearBoots
+  m_Name: GearLeftHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -21,7 +21,7 @@ namespace Data {
         [SerializeField] private string _description;
 
         public void OnEnable() {
-           RotW.StoreAbilityData(this, _abilityId);
+            RotW.StoreAbilityData(this, _abilityId);
         }
 
         public AbilityData() {

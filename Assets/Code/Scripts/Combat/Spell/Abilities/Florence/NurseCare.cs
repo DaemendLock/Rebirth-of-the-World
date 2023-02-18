@@ -1,6 +1,5 @@
 using Data;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class NurseCare : NotargetAbility {
 
@@ -14,7 +13,7 @@ public class NurseCare : NotargetAbility {
 
     public override AbilityBehavior AbilityBehavior => AbilityBehavior.NO_TARGET;
 
-    public override AbilityResource AbilityResource => AbilityResource.RESOURCE_LEFT;
+    public override AbilityResource AbilityResource => AbilityResource.LEFT;
 
     public override float AbilityCost => 15;
 
@@ -24,13 +23,14 @@ public class NurseCare : NotargetAbility {
 
     public override ushort SpellId => 1;
 
-   
+    private HealEvent _healEvent;
 
     static NurseCare() {
         RotW.LinkStatus("status_nursing", typeof(Nursing));
     }
 
     public NurseCare(Unit owner) : base(owner) {
+        _healEvent = new HealEvent(null, owner, 0, this);
     }
 
     private float timeTotal = 0.5f;
@@ -48,23 +48,26 @@ public class NurseCare : NotargetAbility {
 
     private void Tick() {
         timeLeft += timeTotal;
-        if (Owner.GetResource((int)AbilityResource.RESOURCE_RIGHT) < AbilityCost) {
+        if (Owner.GetResource((int) AbilityResource.RIGHT) < AbilityCost) {
             Owner.Interrupt();
             return;
         }
         Owner.SpendMana(AbilityCost, 1);
-        
+
         List<Unit> allies = RotW.FindUnitsInRadius(Owner.Origin, 40, Owner, UNIT_TARGET_TEAM.FRIENDLY, false);
         if (allies.Count == 0) {
             return;
         }
         Unit low = allies[0];
         foreach (Unit unit in allies) {
-            if (unit.HealthPercent < low.HealthPercent) low = unit;
+            if (unit.HealthPercent < low.HealthPercent)
+                low = unit;
         }
-        low.Heal(Owner.Spellpower * AbilityDamage * 0.01f, this);
-        
-        low.AddNewStatus(Owner, this, "status_nursing", new Dictionary<string, float> { ["additional_stacks"] = 1});
+        _healEvent.Target = low;
+        _healEvent.Healing = Owner.Spellpower * AbilityDamage * 0.01f;
+        RotW.ApplyHealing(_healEvent);
+
+        low.AddNewStatus(Owner, this, "status_nursing", new Dictionary<string, float> { ["additional_stacks"] = 1 });
     }
 
 }
@@ -73,7 +76,9 @@ public class Nursing : Status {
 
     private static readonly int STACK_DAMAGE_REDUCTION = 16;
 
-    public Nursing(Unit owner, Unit caster, Ability ability, Dictionary<string, float> data) : base(owner, caster, ability, data) {
+    public override StatsTable Bonuses => StatsTable.EMPTY_TABLE;
+
+    public Nursing(Unit owner, Unit caster, Ability ability, Dictionary<string, float> data) : base(owner, caster, ability, data, (long)modifierfunction.MODIFIER_PROPERTY_DAMAGE_RECIVE_PERCENT) {
     }
 
     public override void OnCreated(Dictionary<string, float> param) {
@@ -88,19 +93,13 @@ public class Nursing : Status {
             StackCount = 5;
     }
 
-    modifierfunction[] func = new modifierfunction[] {modifierfunction.MODIFIER_PROPERTY_RECEIVE_DAMAGE_PERCENT};
-
-    public override modifierfunction[] DeclareFunctions() {
-        return func;
-    }
-
-    public override float GetModifierReceiveDamage_Percent (AttackEventInstance e){
+    public override float GetDamageRecivePercentBonus(AttackEventInstance e) {
         float res = -STACK_DAMAGE_REDUCTION * StackCount;
         StackCount--;
         if (StackCount == 0)
             Remove();
         return res;
-        
+
     }
 
 

@@ -98,10 +98,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb45d7af6dec8ad47b37dc0d5fa88aff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseUnit: {fileID: 11400000, guid: 8fd01aadb06c33b4b8779191f09f5ee1, type: 2}
-  leftColor: {r: 0, g: 0.39836818, b: 0.7924528, a: 1}
-  rightColor: {r: 0.38881758, g: 0, b: 0.7735849, a: 1}
-  team: 0
+  _unitId: 0
+  _template: {fileID: 11400000, guid: 8fd01aadb06c33b4b8779191f09f5ee1, type: 2}
+  _team: 0
 --- !u!1001 &182548196979545120
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -201,6 +200,26 @@ PrefabInstance:
       propertyPath: unit
       value: 
       objectReference: {fileID: 7329709397182196792}
+    - target: {fileID: 6591819534885702256, guid: c1c1e42e29b0d0047bb6d59ef1dd5ed8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6591819534885702256, guid: c1c1e42e29b0d0047bb6d59ef1dd5ed8, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6591819534885702256, guid: c1c1e42e29b0d0047bb6d59ef1dd5ed8, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6591819534885702256, guid: c1c1e42e29b0d0047bb6d59ef1dd5ed8, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6591819534885702256, guid: c1c1e42e29b0d0047bb6d59ef1dd5ed8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6591819535474761652, guid: c1c1e42e29b0d0047bb6d59ef1dd5ed8, type: 3}
       propertyPath: m_Name
       value: Nameplate

@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class TeamSelection : MonoBehaviour
-{
+public sealed class TeamSelection : MonoBehaviour {
     private Scenario prepareFor;
     public List<MemberCard> members;
 
@@ -29,7 +28,7 @@ public sealed class TeamSelection : MonoBehaviour
     }
 
     public void StartActivity() {
-        
+
         if (prepareFor == null) {
             return;
         }

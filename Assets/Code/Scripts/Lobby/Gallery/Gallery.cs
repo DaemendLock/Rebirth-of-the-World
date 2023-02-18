@@ -21,10 +21,10 @@ public class Gallery : MonoBehaviour {
     public List<GalleryCard> guildMembers;
 
     private void OnEnable() {
-        accountData = Lobby.ActiveAccount.data;
-       foreach(UnitPreview unit in accountData.OwnerCharacters) {
-            guildMembers[unit.baseData.unitId].SetUnit(unit) ;
-       }
+        accountData = Lobby.ActiveAccount.Data;
+        foreach (UnitPreview unit in accountData.OwnerCharacters) {
+            guildMembers[unit.baseData.UnitId].SetUnit(unit);
+        }
     }
 
     public void SortWith(int sortingType) {
@@ -40,7 +40,7 @@ public class Gallery : MonoBehaviour {
                 cur = guildMembers.OrderBy((card) => card.Unit.affection).ToList();
                 break;
             default:
-                cur = guildMembers.OrderBy((card) => card.Unit.baseData.unitId).ToList();
+                cur = guildMembers.OrderBy((card) => card.Unit.baseData.UnitId).ToList();
                 break;
         }
         for (int i = cur.Count - 1; i > -1; i--) {
@@ -50,13 +50,13 @@ public class Gallery : MonoBehaviour {
 
     public void FilterWith(int filterType) {
         foreach (GalleryCard card in guildMembers) {
-            card.gameObject.SetActive( EvaluateFilted(card, filterType));
+            card.gameObject.SetActive(EvaluateFilted(card, filterType));
         }
     }
 
     private bool EvaluateFilted(GalleryCard card, int filter) {
-        return filter == (int)GalleryFilter.All || (filter == (int)GalleryFilter.Tank && card.Unit.baseData.role == UNIT_ROLE.TANK) 
-            || (filter == (int)GalleryFilter.Healer && card.Unit.baseData.role == UNIT_ROLE.HEAL)
-            || (filter == (int)GalleryFilter.Dps && card.Unit.baseData.role == UNIT_ROLE.DPS);
+        return filter == (int) GalleryFilter.All || (filter == (int) GalleryFilter.Tank && card.Unit.baseData.Role == UNIT_ROLE.TANK)
+            || (filter == (int) GalleryFilter.Healer && card.Unit.baseData.Role == UNIT_ROLE.HEAL)
+            || (filter == (int) GalleryFilter.Dps && card.Unit.baseData.Role == UNIT_ROLE.DPS);
     }
 }

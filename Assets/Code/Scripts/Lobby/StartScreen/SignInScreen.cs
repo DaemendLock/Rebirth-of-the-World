@@ -1,7 +1,7 @@
-using UnityEngine;
 using Networking;
+using UnityEngine;
 
-public class SignInScreen : MonoBehaviour{
+public class SignInScreen : MonoBehaviour {
 
     [SerializeField] private GameObject loadingScene;
     [SerializeField] private GameObject authWindow;
@@ -12,8 +12,7 @@ public class SignInScreen : MonoBehaviour{
     private int connectAttempts = 0;
     private Account _account;
 
-    void Start()
-    {
+    void Start() {
         connectAttempts = 0;
         if (ServerManager.TryConnect()) {
             RequestAuth();
@@ -47,7 +46,7 @@ public class SignInScreen : MonoBehaviour{
         } catch (System.Exception) { }
     }
 
-    
+
     public void SwitchSigninAndLogin() {
         if (authWindow.activeSelf) {
             authWindow.SetActive(false);
@@ -60,7 +59,7 @@ public class SignInScreen : MonoBehaviour{
 
     public void StartGame() {
         ServerManager.RequestAccountData(_account.UID, AccountsData.DataType.ACCOUNT_CUSTOMIZATION, 0);
-        while (ServerManager.ActiveAccount?.data.Nickname.Length == 0) {
+        while (ServerManager.ActiveAccount?.Data.Nickname.Length == 0) {
 
         }
         Loader.Instance.LoadScene(1);

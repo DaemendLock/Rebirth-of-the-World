@@ -1,6 +1,3 @@
-using Events;
-using System.Collections.Generic;
-
 public abstract class Swing : UnitTargetAbility {
 
     DamageEvent dmgEvent;
@@ -11,9 +8,9 @@ public abstract class Swing : UnitTargetAbility {
     }
 
     public override void OnSpellStart() {
-        dmgEvent.victim = CursorTarget;
-        dmgEvent.damage = Owner.Attack * AbilityDamage * 0.01f;
+        dmgEvent.Victim = CursorTarget;
+        dmgEvent.Damage = Owner.Attack * AbilityDamage * 0.01f;
         RotW.ApplyDamage(dmgEvent);
-        Owner.GiveMana(dmgEvent.damage * 2, 1);
+        Owner.GiveMana(dmgEvent.Damage * 2, 1);
     }
 }

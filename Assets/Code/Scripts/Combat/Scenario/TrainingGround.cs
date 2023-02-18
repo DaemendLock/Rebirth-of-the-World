@@ -8,8 +8,8 @@ public class TrainingGround : Scenario {
 
     public override void OnLoad() {
         _board = Instantiate(_boardPrefab, UI.Instance.transform.parent).GetComponent<DamageMeter>();
-        foreach(Unit unit in RotW.FindUnitsInRadius( Vector3.zero, float.PositiveInfinity)) {
-            if( unit.Team !=  Team.TEAM_ALLY) { continue; }
+        foreach (Unit unit in RotW.FindUnitsInRadius(Vector3.zero, float.PositiveInfinity)) {
+            if (unit.Team != Team.TEAM_ALLY) { continue; }
             _board.AddUnitToTrack(unit);
         }
     }

@@ -11,7 +11,7 @@ public class Register : MonoBehaviour {
     [SerializeField] private TMP_Text failMsg;
 
     public void TryRegister() {
-        if(confirm_password.text != password.text) {
+        if (confirm_password.text != password.text) {
             failMsg.text = confirm_password.text;
             return;
         }

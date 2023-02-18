@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScenarioSelection : MonoBehaviour
-{
+public class ScenarioSelection : MonoBehaviour {
     public List<GameObject> scnarioList = new List<GameObject>();
     private GameObject currentUse;
 
@@ -11,7 +10,7 @@ public class ScenarioSelection : MonoBehaviour
     }
 
     public void OpenScenarioList(int num) {
-        if (num<0||num>= scnarioList.Count) {
+        if (num < 0 || num >= scnarioList.Count) {
             return;
         }
         currentUse.SetActive(false);
@@ -20,6 +19,6 @@ public class ScenarioSelection : MonoBehaviour
     }
 
     public void OpenScenarioByCursor() {
-        OpenScenarioList(6 - (int)(Input.mousePosition.y - transform.position.y - 20)/120);
+        OpenScenarioList(6 - (int) (Input.mousePosition.y - transform.position.y - 20) / 120);
     }
 }

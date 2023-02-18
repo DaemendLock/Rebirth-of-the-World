@@ -19,28 +19,34 @@ public abstract class UnitTargetAbility : TargetableAbility, IUnitTarget {
     public bool GetCursorTargetingNothing() => CursorTarget == null;
 
     public virtual UnitFilterResult CastFilterResultTarget(Unit target) {
-        if (target == null) return UnitFilterResult.UF_FAIL_INVALID_LOCATION;
+        if (target == null)
+            return UnitFilterResult.UF_FAIL_INVALID_LOCATION;
 
-        if (RotW.CheckDistance(target, Owner, CastRadius) == false) return UnitFilterResult.UF_FAIL_INVALID_LOCATION;
-            
-        if (target.Dead && ((int) TargetFlag & (int) UNIT_TARGET_FLAGS.DEAD) == 0) return UnitFilterResult.UF_FAIL_DEAD;
+        if (RotW.CheckDistance(target, Owner, CastRadius) == false)
+            return UnitFilterResult.UF_FAIL_INVALID_LOCATION;
 
-        if (TargetTeam == UNIT_TARGET_TEAM.BOTH) return UnitFilterResult.UF_SUCCESS;
+        if (target.Dead && ((int) TargetFlag & (int) UNIT_TARGET_FLAGS.DEAD) == 0)
+            return UnitFilterResult.UF_FAIL_DEAD;
+
+        if (TargetTeam == UNIT_TARGET_TEAM.BOTH)
+            return UnitFilterResult.UF_SUCCESS;
 
         if (target.Team == Owner.Team) {
-            if (TargetTeam == UNIT_TARGET_TEAM.FRIENDLY) return UnitFilterResult.UF_SUCCESS;
+            if (TargetTeam == UNIT_TARGET_TEAM.FRIENDLY)
+                return UnitFilterResult.UF_SUCCESS;
             return UnitFilterResult.UF_FAIL_FRIENDLY;
         }
 
-        if (TargetTeam != UNIT_TARGET_TEAM.ENEMY) return UnitFilterResult.UF_FAIL_ENEMY;
-        
+        if (TargetTeam != UNIT_TARGET_TEAM.ENEMY)
+            return UnitFilterResult.UF_FAIL_ENEMY;
+
         return UnitFilterResult.UF_SUCCESS;
     }
 
     public override UnitFilterResult StartAbility() {
         UnitFilterResult result;
         _target = Controller.GetCursorTarget();
-        
+
         result = CastFilterResultTarget(_target);
         if (result != UnitFilterResult.UF_SUCCESS) {
             _target = null;

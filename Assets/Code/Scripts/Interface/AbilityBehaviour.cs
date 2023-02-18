@@ -21,7 +21,7 @@ namespace Abilities {
 
     public interface ITargetable {
         float CastRadius { get; }
-        
+
     }
 
     public interface IUnitTarget : ITargetable {
@@ -33,6 +33,6 @@ namespace Abilities {
         bool GetCursorTargetingNothing();
     }
 
-    
+
 
 }

@@ -5,10 +5,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class Loader : MonoBehaviour
-{
+public class Loader : MonoBehaviour {
     public static Loader Instance { get; private set; }
-    
+
     [SerializeField] private Image fillImage;
     [SerializeField] private GameObject loadingScene;
 
@@ -34,7 +33,7 @@ public class Loader : MonoBehaviour
         StartCoroutine(LoadSceneAsync(sceneId));
     }
 
-    public void SetupScene(GameObject terrain, UnitPreset[] allies, UnitPreset[] enemy) { 
+    public void SetupScene(GameObject terrain, UnitPreset[] allies, UnitPreset[] enemy) {
         setup?.SetupGame(terrain, allies, enemy);
     }
 
@@ -64,10 +63,11 @@ public class Loader : MonoBehaviour
     }
 
     private void OnDestroy() {
-        if(this!=Instance) return;
+        if (this != Instance)
+            return;
         Networking.ServerManager.Disonnect();
     }
 
-    
+
 
 }

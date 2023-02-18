@@ -12,7 +12,7 @@ public class SweetPills : NotargetAbility {
 
     public override AbilityBehavior AbilityBehavior => AbilityBehavior.NO_TARGET;
 
-    public override AbilityResource AbilityResource => AbilityResource.RESOURCE_LEFT;
+    public override AbilityResource AbilityResource => AbilityResource.LEFT;
 
     public override float AbilityCost => 100;
 
@@ -22,10 +22,10 @@ public class SweetPills : NotargetAbility {
 
     //ID: 5
     public SweetPills(Unit owner) : base(owner) {
-        
+
     }
 
-    
+
 
     public override void OnSpellStart() {
         Owner.GiveMana(AbilityDamage, 1);
@@ -37,6 +37,8 @@ public class SweetDream : Status {
     }
 
     private float healAmmount;
+
+    public override StatsTable Bonuses => StatsTable.EMPTY_TABLE;
 
     public override void OnCreated() {
 

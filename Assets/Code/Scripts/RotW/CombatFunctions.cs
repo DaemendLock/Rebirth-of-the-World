@@ -1,7 +1,7 @@
+using Data;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Data;
 
 public enum ResourceType {
     SPRITE,
@@ -24,25 +24,33 @@ public struct LateCache {
 public static class RotW {
     //Constants
     public static float DAMAGE_BYPASS_BLOCK = 0.5f;
-    
+
     //Fields
     private static List<LateCache> toLateCache = new List<LateCache>();
     public static bool earlyPrecache = true;
     //Abilities
-    public static Dictionary<ushort, AbilityData> abilityDataList;
-    public static Dictionary<string, ushort> abilitiesId = new Dictionary<string, ushort>();
+    private static Dictionary<ushort, AbilityData> _abilityDataList;
+    private static Dictionary<string, ushort> _abilitiesId = new Dictionary<string, ushort>();
 
-    public static Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
-    public static Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
+    public static Dictionary<string, Sprite> Sprites = new Dictionary<string, Sprite>();
+    public static Dictionary<string, GameObject> Prefabs = new Dictionary<string, GameObject>();
 
     //Units
     public static Dictionary<ushort, UnitData> unitDataList = new Dictionary<ushort, UnitData>();
 
     public static void ApplyDamage(DamageEvent damageEvent) {
-        AttackEventInstance e = new AttackEventInstance(damageEvent.attacker, damageEvent.damage, damageEvent.ability == null ? DamageCategory.DAMAGE_CATEGORY_ATTACK : DamageCategory.DAMAGE_CATEGORY_SPELL, damageEvent.ability, damageEvent.damage, damageEvent.victim, damageEvent.damageFlags);
-        damageEvent.victim.Damage(e);
-        if(e.fail_type != attackfail.MISS)
-        EventManager.SendAttackEvent(e);
+        AttackEventInstance e = new AttackEventInstance(damageEvent.Attacker, damageEvent.Victim, damageEvent.Ability, damageEvent.Damage, damageEvent.Damage, damageEvent.Ability == null ? DamageCategory.ATTACK : DamageCategory.SPELL, damageEvent.DamageFlags);
+        damageEvent.Victim.Damage(e);
+        if (e.FailType != attackfail.MISS && e.FailType == attackfail.DEAD)
+            EventManager.SendAttackEvent(e);
+    }
+
+    public static void ApplyHealing(HealEvent healEvent) {
+        HealEventInstance e = new(healEvent.Healer, healEvent.Target, healEvent.Ability, healEvent.Healing, healEvent.Healing, healEvent.HealingFlags);
+        healEvent.Target.Heal(e);
+        if (e.FailType != attackfail.DEAD) {
+            EventManager.SendHealEvent(e);
+        }
     }
 
     public static void LinkStatus(string name, Type type) {
@@ -56,10 +64,10 @@ public static class RotW {
     public static Unit CreateUnitByName(string unitName, Vector3 location, Team team, bool controlable = false, byte rank = 0, ushort lvl = 1) {
         return CreateUnitByName(unitName, new SpawnLocation(location, Quaternion.Euler(Vector3.zero)), team, controlable, rank, lvl);
     }
-    
-    public static Unit CreateUnitByName(string unitName, SpawnLocation location, Team team, bool controlable = false, byte rank = 0, ushort lvl = 1) {  
+
+    public static Unit CreateUnitByName(string unitName, SpawnLocation location, Team team, bool controlable = false, byte rank = 0, ushort lvl = 1) {
         GameObject prefab;
-        if (!prefabs.TryGetValue(unitName, out prefab)) {
+        if (!Prefabs.TryGetValue(unitName, out prefab)) {
             Debug.LogError("No such UnitType: " + unitName);
             return null;
         }
@@ -95,15 +103,15 @@ public static class RotW {
     }
 
     public static AbilityData GetAbilityDataById(ushort id) {
-        if (!abilityDataList.ContainsKey(id)) {
-            Debug.LogError("Failed to get ability by id: "+id);
+        if (!_abilityDataList.ContainsKey(id)) {
+            Debug.LogError("Failed to get ability by id: " + id);
             return null;
         }
-        return abilityDataList[id];
+        return _abilityDataList[id];
     }
 
     public static ushort GetAbilityIdByName(string name) {
-        return abilitiesId[name]; 
+        return _abilitiesId[name];
     }
 
     public static UnitData GetUnitDataById(ushort id) {
@@ -120,9 +128,9 @@ public static class RotW {
 
     public static void Precache(string name, string resource, ResourceType type) {
         if (type == ResourceType.SPRITE)
-            sprites[name] = Resources.Load<Sprite>(resource);
+            Sprites[name] = Resources.Load<Sprite>(resource);
         else if (type == ResourceType.PREFAB)
-            prefabs[name] = Resources.Load<GameObject>(resource);
+            Prefabs[name] = Resources.Load<GameObject>(resource);
     }
 
     public static void PrecacheLate() {
@@ -133,7 +141,7 @@ public static class RotW {
             Precache(c.name, c.path, c.type);
             toLateCache.RemoveAt(0);
         }
-        
+
         toLateCache.Clear();
     }
 
@@ -150,21 +158,20 @@ public static class RotW {
     }
 
     public static ushort StoreAbilityData(AbilityData data, ushort preferId = 0) {
-        abilityDataList ??= new Dictionary<ushort, AbilityData>();
-        if(abilityDataList.ContainsKey(preferId)) {
-            Debug.LogError("Duplicate ability data id: "+ preferId);
+        _abilityDataList ??= new Dictionary<ushort, AbilityData>();
+        if (_abilityDataList.ContainsKey(preferId)) {
+            Debug.LogError("Duplicate ability data id: " + preferId);
             return preferId;
         }
-        abilityDataList[preferId] = data;
-        abilitiesId[data.GetName()] = preferId;
+        _abilityDataList[preferId] = data;
+        _abilitiesId[data.GetName()] = preferId;
         return preferId;
     }
 
     public static ushort StoreUnitData(UnitData data, ushort preferId = 0) {
-        unitDataList??= new Dictionary<ushort, UnitData>();
+        unitDataList ??= new Dictionary<ushort, UnitData>();
         if (unitDataList.ContainsKey(preferId)) {
-            Debug.LogError("Duplicate unit id: "+preferId);
-            return preferId;
+            throw new Exception("Duplicate unit id: " + preferId);
         }
         unitDataList[preferId] = data;
         //abilitiesId[data.abilityName] = preferId;

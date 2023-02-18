@@ -22,14 +22,12 @@ public abstract class LastFronier : NotargetAbility {
 
 public class LastFronierStatus : Status {
     public LastFronierStatus(Unit owner, Unit caster, Ability ability, Dictionary<string, float> data) : base(owner, caster, ability, data) {
+    
     }
 
-    modifierfunction[] func = { modifierfunction.MODIFIER_PROPERTY_RECEIVE_DAMAGE_PERCENT };
-    public override modifierfunction[] DeclareFunctions() {
-        return func;
-    }
+    public override StatsTable Bonuses => StatsTable.EMPTY_TABLE;
 
-    public override float GetModifierReceiveDamage_Percent(AttackEventInstance e) {
+    public override float GetDamageRecivePercentBonus(AttackEventInstance e) {
         return -50;
     }
 }

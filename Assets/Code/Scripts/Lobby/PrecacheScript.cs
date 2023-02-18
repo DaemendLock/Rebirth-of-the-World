@@ -1,8 +1,7 @@
 using UnityEngine;
 
-public class PrecacheScript : MonoBehaviour
-{
-    
+public class PrecacheScript : MonoBehaviour {
+
 
 
     private class PrecacheObject {

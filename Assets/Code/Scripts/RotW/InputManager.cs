@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,8 +16,8 @@ public class InputManager : MonoBehaviour {
     public KeyCode nextAlly;
 
     private void Start() {
-        if(Instance == null)
-        Instance = this;
+        if (Instance == null)
+            Instance = this;
     }
 
     private void Update() {
@@ -29,7 +28,7 @@ public class InputManager : MonoBehaviour {
             Unit select = null;
             if (Input.anyKeyDown)
                 select = Controller.GetCursorTarget();
-            
+
             if (control != null) {
                 for (int i = 0; i < abilities.Length; i++) {
                     if (Input.GetKeyDown(abilities[i])) {
@@ -53,22 +52,22 @@ public class InputManager : MonoBehaviour {
                 StopMoving();
             }
         }*/
-        
-        
+
+
     }
 
     public void SelectUnit(InputAction.CallbackContext context) {
         if (context.started) {
             Unit select = Controller.GetCursorTarget();
             if (select != null) {
-                
+
             }
         }
     }
 
     public void NextAlly(InputAction.CallbackContext context) {
 
-        
+
         //if (context.started) ChooseNextAlly();
     }
 

@@ -1,7 +1,6 @@
 using AccountsData;
 using Networking;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,22 +13,22 @@ public enum CurrencyType : byte {
 [CreateAssetMenu(fileName = "TestAccount", menuName = "New Test Account", order = 53)]
 sealed public class Account : ScriptableObject {
     public int UID = 0;
-    public AccountData data;
+    public AccountData Data;
 
     private bool serverUpdated = false;
 
     public Account() {
-        data = new AccountData();
+        Data = new AccountData();
     }
 
     public Account(int id) {
-        data = new AccountData();
+        Data = new AccountData();
         UID = id;
     }
 
     public static Account RequestServerAccount() {
         Account account = new Account();
-        
+
         return account;
     }
 
@@ -41,7 +40,7 @@ sealed public class Account : ScriptableObject {
 public class AccountData {
 
     public string Nickname = "";
-    
+
     public ushort iconId = 0;
     public ushort backgroudId = 0;
 
@@ -49,7 +48,7 @@ public class AccountData {
     public byte Lvl;
 
     public Currencies Currencies = new Currencies();
-
+    public Settings Settings = new Settings();
     public List<LobbyQuest> ActiveQuests = new List<LobbyQuest>();
     public bool[] ComplitedQuests = new bool[1];
     public List<ushort> ComplitedScenario = new List<ushort>();
@@ -69,10 +68,6 @@ public class AccountData {
                 break;
         }
     }
-
-    
-    
-
 }
 
 [Serializable]
@@ -81,9 +76,9 @@ public class Currencies {
         [CurrencyType.GOLD] = 99999,
         [CurrencyType.GUILD_TOKENS] = 99999
     };
-
 }
 
+[Serializable]
 class ItemData {
     public readonly ushort id;
     public readonly ushort ammount;

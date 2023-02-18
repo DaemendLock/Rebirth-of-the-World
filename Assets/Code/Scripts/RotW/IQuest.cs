@@ -1,5 +1,3 @@
-using Events;
-using Networking;
 using System;
 using UnityEngine;
 
@@ -72,10 +70,11 @@ public class CastQuest : IQuest {
 
     private void CatchAbility(AbilityEventInstance eventInstance) {
         Debug.Log(eventInstance.Ability.SpellId == spellId);
-        if(eventInstance.Ability.SpellId == spellId) {
+        if (eventInstance.Ability.SpellId == spellId) {
             caster = eventInstance.Ability.Owner;
             OnTrigger(eventInstance.Ability);
-            if(eventInstance.Ability.Castable || eventInstance.Ability.Channelable) StartQuest();
+            if (eventInstance.Ability.Castable || eventInstance.Ability.Channelable)
+                StartQuest();
             EventManager.AbilityCasted -= CatchAbility;
         }
     }
@@ -103,7 +102,7 @@ public class HealQuest : IQuest {
         _target.Healed += OnTrigger;
     }
 
-    public void OnTrigger(AttackEventInstance e) {
+    public void OnTrigger(HealthChangeEventInstance e) {
         if (_target.HealthPercent == 1)
             OnTrigger();
     }
@@ -139,7 +138,7 @@ public class LobbyQuest : IQuest {
     }
 
     public static LobbyQuest GetQuestById(int id) {
-        TextAsset json = Resources.Load("Quests/"+id) as TextAsset;
+        TextAsset json = Resources.Load("Quests/" + id) as TextAsset;
         return JsonUtility.FromJson<LobbyQuest>(json.text);
     }
 

@@ -13,26 +13,38 @@ MonoBehaviour:
   m_Name: TestAccount
   m_EditorClassIdentifier: 
   UID: 0
-  data:
+  Data:
     Nickname: Test Account
     iconId: 0
     backgroudId: 0
     titleId: 0
-    Lvl: 60
+    Lvl: 0
+    Settings:
+      _nameplatesSettings:
+        Height: 200
+        Width: 100
+        UnselectedSizePercent: 100
+        UnselectedTransparencyPercent: 100
+        _interruptibleCastColor: {r: 0.8962264, g: 0.8160135, b: 0, a: 1}
+        _notinterruptibleCastColor: {r: 0, g: 0, b: 0, a: 1}
+        _channelColor: {r: 0, g: 0.8962264, b: 0.69638985, a: 1}
+        _allyHealthbarColor: {r: 0.12454414, g: 1, b: 0, a: 1}
+        _enemyHealthbarColor: {r: 0.89411765, g: 0, b: 0, a: 1}
+        CastbarHeight: 70
+        CastNameTextSize: 0
+        CastRemainTextSize: 0
+        ShowCastingAllyWithSelectedSize: 1
+        ShowCastingEnemyWithSelectedSize: 1
+        ShowCurrentCastName: 0
+        ShowCastIcon: 0
+        ShowCastTimeRemain: 0
+        StackCountTextSize: 0
+        MaxBuffsShowAmount: 0
+        MaxDebuffsShowAmount: 0
+        BuffIconSize: 75
+        DebuffIconSize: 25
+        ShowBuffStackCount: 0
     ActiveQuests: []
     ComplitedQuests: 00
     ComplitedScenario: 
-    OwnerCharacters:
-    - baseData: {fileID: 11400000, guid: 8fd01aadb06c33b4b8779191f09f5ee1, type: 2}
-      icon: {fileID: 21300000, guid: ccccba1452ede90479173ca212efc0e9, type: 3}
-      name: Florence
-      lvl: 79
-      affection: 79
-      role: 2
-      abilities:
-      - {fileID: 11400000, guid: f5b49d568f1940542bf94c98c98dc1ef, type: 2}
-      - {fileID: 11400000, guid: 6a30e566a4fdb654a810d133261f34e0, type: 2}
-      - {fileID: 11400000, guid: 11091d59c9d25b24caa7a13cc623a62c, type: 2}
-      - {fileID: 11400000, guid: 7eeca8d2690b55c40b6d5364bd49827d, type: 2}
-      - {fileID: 11400000, guid: 566f3556381c0884a9b5876643d7a5b8, type: 2}
-      - {fileID: 11400000, guid: 5b843da5fb03bd549ab79fe61c6d511f, type: 2}
+    OwnerCharacters: []

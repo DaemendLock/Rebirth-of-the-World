@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 70b6596d0e344a2418aefe9a7e2d47bb, type: 3}
   m_Name: Florence
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp:Data:UnitTemplate
   role: 2
   unitId: 0
   Attack:

@@ -25,14 +25,20 @@ public class Gear : Item {
 
     [SerializeField] private GearType _gearType;
     [SerializeField] private GearSlot _slot;
-    [SerializeField] private StatsTable _stats;
+    [SerializeField] private List<StatsTable.Stat> _stats;
+
+    private StatsTable _statsTable = new();
 
     public GearType GearType => _gearType;
 
     public GearSlot Slot => _slot;
 
-    public Gear(GearType gearType) : base(Type.GEAR) {
+    public StatsTable StatsTable => _statsTable;
+
+    public Gear(GearType gearType) : base(Category.GEAR) {
         _gearType = gearType;
     }
+
+    //private void Awake() { foreach (StatsTable.Stat stat in _stats) _statsTable.SetStat(stat.Type, stat.Value); }
 
 }

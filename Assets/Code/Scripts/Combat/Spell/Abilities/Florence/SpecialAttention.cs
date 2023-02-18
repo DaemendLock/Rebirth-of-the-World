@@ -5,6 +5,8 @@ public sealed class SpecialAttention : UnitTargetAbility {
 
     private static readonly AbilityData _abilityData = RotW.GetAbilityDataById(3);
 
+    private HealEvent _healEvent;
+
     public override AbilityData AbilityData => _abilityData;
 
     public override float AbilityCooldown => 20;
@@ -13,7 +15,7 @@ public sealed class SpecialAttention : UnitTargetAbility {
 
     public override AbilityBehavior AbilityBehavior => AbilityBehavior.UNIT_TARGET;
 
-    public override AbilityResource AbilityResource => AbilityResource.RESOURCE_LEFT;
+    public override AbilityResource AbilityResource => AbilityResource.LEFT;
 
     public override float AbilityCost => 100;
 
@@ -31,16 +33,20 @@ public sealed class SpecialAttention : UnitTargetAbility {
 
     //ID: 3
     public SpecialAttention(Unit owner) : base(owner) {
+        _healEvent = new HealEvent(null, owner, 0, this, HealingFlags.NONE);
     }
 
-    
+
 
     public override void OnCastFinished(bool succes) {
-        if (!succes ) return;
+        if (!succes)
+            return;
         Owner.SpendMana(20, 1);
-        UnityEngine.Debug.Log(Owner.Spellpower * AbilityDamage * 0.01f * (2 - CursorTarget.HealthPercent));
-        CursorTarget.Heal(Owner.Spellpower * AbilityDamage * 0.01f * ( 2 - CursorTarget.HealthPercent), this);
-        
-        CursorTarget.AddNewStatus(Owner, this, "status_nursing", new Dictionary<string, float>() { ["additional_stacks"] = 5});
+        _healEvent.Target = CursorTarget;
+        _healEvent.Healing = Owner.Spellpower * AbilityDamage * 0.01f * (2 - CursorTarget.HealthPercent);
+        UnityEngine.Debug.Log(Owner.Spellpower * AbilityDamage * 0.01f);
+        RotW.ApplyHealing(_healEvent);
+
+        CursorTarget.AddNewStatus(Owner, this, "status_nursing", new Dictionary<string, float>() { ["additional_stacks"] = 5 });
     }
 }

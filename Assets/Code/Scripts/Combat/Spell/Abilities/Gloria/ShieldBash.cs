@@ -1,4 +1,4 @@
-public  abstract class ShieldBash : UnitTargetAbility {
+public abstract class ShieldBash : UnitTargetAbility {
 
     //ID: 21
     public ShieldBash(Unit owner) : base(owner) {
@@ -8,8 +8,8 @@ public  abstract class ShieldBash : UnitTargetAbility {
     DamageEvent dmgEvent;
 
     public override void OnSpellStart() {
-        dmgEvent.victim = CursorTarget;
-        dmgEvent.damage = Owner.Attack * AbilityDamage * 0.01f;
+        dmgEvent.Victim = CursorTarget;
+        dmgEvent.Damage = Owner.Attack * AbilityDamage * 0.01f;
         RotW.ApplyDamage(dmgEvent);
     }
 }

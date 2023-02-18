@@ -1,10 +1,9 @@
-using TMPro;
-using UnityEngine;
 using Networking;
 using System.Collections;
+using TMPro;
+using UnityEngine;
 
-public class Login : MonoBehaviour
-{
+public class Login : MonoBehaviour {
     [SerializeField] private TMP_InputField _login;
     [SerializeField] private TMP_InputField _password;
     [SerializeField] private TMP_Text _failMsg;
@@ -15,7 +14,7 @@ public class Login : MonoBehaviour
     }
 
     private IEnumerator WaitForAccess(ResponsableRequest request) {
-        while(request.Response == null) {
+        while (request.Response == null) {
             yield return null;
         }
         OnAccountAccessResolved(new AccountAccessResponse(request.Response));

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace UnitOperations {
     public interface IHealable {
-        void Heal(float ammount, Ability ability);
+        void Heal(HealEventInstance e);
         float GetHealRecive();
-        void OnHealRecived(AttackEventInstance e);
+        void OnHealRecived(HealEventInstance e);
     }
 
     public interface IDamagable {
@@ -21,7 +21,7 @@ namespace UnitOperations {
     }
 
     public interface IHealthOwner : IDamagable, IHealable, IKillable {
-        void SetHealth(float health);
+        void SetHealth(float health, Unit inflictor = null, Ability ability = null);
     }
 
     public interface IManaOwner {
@@ -32,21 +32,21 @@ namespace UnitOperations {
     public interface ICaster {
 
         bool Casting { get; }
-        
+
         //bool Channeling { get; }
-        
+
         float CastTimeRemain { get; }
-        
+
         bool Channeling { get; }
 
         Ability CurrentCastAbility { get; }
 
         Ability FindAbilityByName(string abilityName);
-        
+
         Ability GetAbilityByIndex(int index);
 
         void CastAbility(Ability ability);
-        
+
         void Interrupt(bool succes = false);
     }
 
@@ -66,7 +66,7 @@ namespace UnitOperations {
 
 
 
-    
+
 }
 
 namespace Events {

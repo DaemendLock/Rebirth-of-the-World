@@ -20,21 +20,21 @@ public class Lobby : MonoBehaviour {
 
     [Header("Test Account")]
     [SerializeField] private Account _account;
-    public static Account ActiveAccount ;
-    
+    public static Account ActiveAccount;
+
 
     private Stack<GameObject> backList = new Stack<GameObject>();
 
     public void Start() {
         ActiveAccount = _account;
         backList.Push(lobby);
-       
-        if(ServerManager.ActiveAccount != null)
+
+        if (ServerManager.ActiveAccount != null)
             _account = ServerManager.ActiveAccount;
-        nameText.text = _account.data.Nickname;
-        lvlText.text = "Lv." + _account.data.Lvl.ToString();
-        goldAmmountText.text = _account.data.Currencies.currencies[CurrencyType.GOLD].ToString();
-        guildTokenAmmountText.text = _account.data.Currencies.currencies[CurrencyType.GUILD_TOKENS].ToString();
+        nameText.text = _account.Data.Nickname;
+        lvlText.text = "Lv." + _account.Data.Lvl.ToString();
+        goldAmmountText.text = _account.Data.Currencies.currencies[CurrencyType.GOLD].ToString();
+        guildTokenAmmountText.text = _account.Data.Currencies.currencies[CurrencyType.GUILD_TOKENS].ToString();
     }
 
     public void OpenMenu(GameObject menu) {

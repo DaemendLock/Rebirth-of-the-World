@@ -12,7 +12,7 @@ public class RefreshingConcoction : UnitTargetAbility {
 
     public override AbilityBehavior AbilityBehavior => AbilityBehavior.UNIT_TARGET;
 
-    public override AbilityResource AbilityResource => AbilityResource.RESOURCE_RIGHT;
+    public override AbilityResource AbilityResource => AbilityResource.RIGHT;
 
     public override float AbilityCost => 0;
 
@@ -42,23 +42,12 @@ public class RefreshingConcoction : UnitTargetAbility {
         CursorTarget.AddNewStatus(Owner, this, "status_trepidation", new Dictionary<string, float> { ["duration"] = 7 });
     }
 
-    
+
 }
 
 public class Trepidation : Status {
     public Trepidation(Unit owner, Unit caster, Ability ability, Dictionary<string, float> data) : base(owner, caster, ability, data) {
     }
 
-    private readonly modifierfunction[] func = { modifierfunction.MODIFIER_PROPERTY_SPELLPOWER_BONUS_PERCENT, modifierfunction.MODIFIER_PROPERTY_ATTACK_BONUS_PERCENT };
-    public override modifierfunction[] DeclareFunctions() {
-        return func;
-    }
-
-    public override float GetModifierAttack_Bonus_Percent() {
-        return 60;
-    }
-    public override float GetModifierSpellpower_Bonus_Percent() {
-        return 60;
-    }
-
+    public override StatsTable Bonuses => new() { AtkPercent = 60, SpellpowerPercent = 60 };
 }

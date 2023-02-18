@@ -7,7 +7,7 @@ public abstract class Charge : UnitTargetAbility {
     }
 
     public override void OnSpellStart() {
-        Owner.AddNewStatus(CursorTarget, this, "charging", new Dictionary<string, float> { ["duration"] = 3});
+        Owner.AddNewStatus(CursorTarget, this, "charging", new Dictionary<string, float> { ["duration"] = 3 });
     }
 }
 
@@ -15,14 +15,16 @@ public class Charging : Status {
     public Charging(Unit owner, Unit caster, Ability ability, Dictionary<string, float> data) : base(owner, caster, ability, data) {
     }
 
+    public override StatsTable Bonuses => StatsTable.EMPTY_TABLE;
+
     public override void OnCreated() {
-        
+
     }
 
-    
+
 
     public override void OnRemoved() {
-        
+
     }
 
     private void Reach() {

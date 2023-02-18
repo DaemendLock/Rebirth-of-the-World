@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -15,6 +14,7 @@ public class MemberPreview : MonoBehaviour {
     [SerializeField] private ProgressLvl level;
     [SerializeField] private ProgressLvl affection;
     [SerializeField] private List<Image> abilities;
+    [SerializeField] private List<Image> _gear;
     [SerializeField] private Animator showHideGear;
 
 
@@ -26,9 +26,13 @@ public class MemberPreview : MonoBehaviour {
         level.SetValue(unit.lvl);
         affection.SetValue(unit.affection);
         for (int i = 0; i < abilities.Count; i++) {
-            abilities[i].sprite = unit.baseData.abilities[i].icon;
+           abilities[i].sprite = unit.baseData.Abilities[i].icon;
+        }
+        foreach (UnitGear gear in unit.GetGear()) {
+            _gear[(int) gear.Slot].sprite = gear.GearItem != null ? gear.GearItem.Icon : null;
         }
     }
+
 
     private void OnEnable() {
         /*if (insertButton == null) {
@@ -43,14 +47,13 @@ public class MemberPreview : MonoBehaviour {
     }
 
     public void ToggleGear() {
-        showHideGear.SetBool("Show", !showHideGear.GetBool("Show") );
-        
+        showHideGear.SetBool("Show", !showHideGear.GetBool("Show"));
+
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
+    void Update() {
+
     }
 
 
