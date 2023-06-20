@@ -4,7 +4,6 @@ using Remaster.Interfaces;
 using Remaster.Utils;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Remaster.UnitComponents
 {
@@ -21,7 +20,7 @@ namespace Remaster.UnitComponents
         private readonly List<Ability> _autoattack = new List<Ability>(2);
 
         private readonly Dictionary<int, SpellModification> _spellModification = new Dictionary<int, SpellModification>(SPELL_LIST_SIZE);
-        private readonly List<InterruptData> _interrupts = new List<InterruptData>(SCHOOL_COUNT);
+        private readonly InterruptData[] _interrupts = new InterruptData[SCHOOL_COUNT];
 
         private Unit _owner;
 
@@ -133,9 +132,9 @@ namespace Remaster.UnitComponents
                 return;
             }
 
-            for (int i = (int) _casting.School; i > 0; i++)
+            for (int i = 0; i < _interrupts.Length; i++)
             {
-                if ((i & 1) != 0)
+                if ((((int)_casting.School >> i) & 1) != 0)
                 {
                     _interrupts[i] = data;
                 }
