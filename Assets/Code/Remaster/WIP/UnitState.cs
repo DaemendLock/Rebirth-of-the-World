@@ -5,8 +5,6 @@ using Remaster.Items;
 using Remaster.Stats;
 using Remaster.Utils;
 using System;
-using UnityEngine;
-using UnityEngine.UIElements.Experimental;
 
 namespace Remaster.UnitComponents
 {
@@ -196,8 +194,6 @@ namespace Remaster.UnitComponents
 
         public void InformAction(UnitAction action, EventData data)
         {
-            Debug.Log($"{data.Caster.Team} - caster, {data.Target.Team} - targt, {data.Spell.Id} - spell");
-
             _auras.InformAction(action, data);
         }
     }

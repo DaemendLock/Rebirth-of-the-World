@@ -9,7 +9,6 @@ namespace Remaster
     {
         public Spell Spell { get; }
         public Duration Cooldown { get; }
-        public Sprite Icon { get; }
         public float CooldownTime { get; }
         public bool OnCooldown { get; }
         public SchoolType Type { get; }
@@ -24,8 +23,6 @@ namespace Remaster
         {
             Spell = spell;
         }
-
-        public Sprite Icon => throw new NotImplementedException();
 
         public float CooldownTime => Cooldown.Left;
 

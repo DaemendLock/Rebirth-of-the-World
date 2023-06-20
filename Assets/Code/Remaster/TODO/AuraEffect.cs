@@ -1,4 +1,5 @@
-﻿using Remaster.Events;
+﻿using Remaster.Data.Serializer;
+using Remaster.Events;
 using Remaster.Interfaces;
 using Remaster.SpellEffects;
 using Remaster.Stats;
@@ -16,15 +17,29 @@ namespace Remaster.AuraEffects
 
     public class ModCooldown : AuraEffect
     {
-        private readonly Spell _spell;
+        private readonly int _spellId;
         private readonly PercentModifiedValue _value;
         private readonly PercentModifiedValue _removeValue;
 
         public ModCooldown(Spell spell, PercentModifiedValue value)
         {
-            _spell = spell;
+            _spellId = spell.Id;
             _value = value;
             _removeValue = -value;
+        }
+
+        public ModCooldown(int spellId, PercentModifiedValue value)
+        {
+            _spellId = spellId;
+            _value = value;
+            _removeValue = -value;
+        }
+
+        public ModCooldown(BinaryReader source)
+        {
+            _spellId = source.ReadInt32();
+            _value = new PercentModifiedValue(source.ReadSingle(), source.ReadSingle());
+            _removeValue = -_value;
         }
 
         public void ApplyEffect(Status status)
@@ -39,7 +54,10 @@ namespace Remaster.AuraEffects
 
         public void Serialize(BinaryWriter buffer)
         {
-            throw new NotImplementedException();
+            buffer.Write(GetType().Name);
+            buffer.Write(_spellId);
+            buffer.Write(_value.BaseValue);
+            buffer.Write(_value.Percent);
         }
     }
 
@@ -78,52 +96,6 @@ namespace Remaster.AuraEffects
         public void Serialize(BinaryWriter buffer)
         {
             throw new NotImplementedException();
-        }
-    }
-
-    public class ModifySpellEffect : AuraEffect
-    {
-        private int _spellId;
-        private int _effect;
-        private float _value;
-
-        public ModifySpellEffect(Spell spell, int effect, float value)
-        {
-            _spellId = spell.Id;
-            _effect = effect;
-            _value = value;
-        }
-
-        public ModifySpellEffect(int spellId, int effect, float value)
-        {
-            _spellId = spellId;
-            _effect = effect;
-            _value = value;
-        }
-
-        public ModifySpellEffect(BinaryReader source)
-        {
-            _spellId = source.ReadInt32();
-            _effect = source.ReadInt32();
-            _value = source.ReadSingle();
-        }
-
-        public void ApplyEffect(Status status)
-        {
-            status.Caster?.ModifySpellEffect(_spellId, _effect, _value);
-        }
-
-        public void RemoveEffect(Status status)
-        {
-            status.Caster?.ModifySpellEffect(_spellId, _effect, -_value);
-        }
-
-        public void Serialize(BinaryWriter buffer)
-        {
-            buffer.Write(GetType().ToString());
-            buffer.Write(_spellId);
-            buffer.Write(_effect);
-            buffer.Write(_value);
         }
     }
 
