@@ -1,4 +1,5 @@
-using UnityEditor.Experimental.GraphView;
+
+using Combat.SpellOld;
 using UnityEngine;
 
 public enum DamageCategory {
@@ -35,10 +36,10 @@ public struct DamageEvent {
     public Unit Victim;
     public Unit Attacker;
     public float Damage;
-    public Ability Ability;
+    public OldAbility Ability;
     public DamageFlags DamageFlags;
 
-    public DamageEvent(Unit victim, Unit attacker, float damage, Ability ability = null, DamageFlags damageFlags = 0) {
+    public DamageEvent(Unit victim, Unit attacker, float damage, OldAbility ability = null, DamageFlags damageFlags = 0) {
         Victim = victim;
         Attacker = attacker;
         Damage = damage;
@@ -51,10 +52,10 @@ public struct HealEvent {
     public Unit Target;
     public Unit Healer;
     public float Healing;
-    public Ability Ability;
+    public OldAbility Ability;
     public HealingFlags HealingFlags;
 
-    public HealEvent(Unit target, Unit healer, float healing, Ability ability, HealingFlags healingFlags = 0) {
+    public HealEvent(Unit target, Unit healer, float healing, OldAbility ability, HealingFlags healingFlags = 0) {
         Target = target;
         Healer = healer;
         Healing = healing;
@@ -66,12 +67,12 @@ public struct HealEvent {
 public class HealthChangeEventInstance {
     public readonly Unit Inflictor;
     public readonly Unit Target;
-    public readonly Ability Ability;
+    public readonly OldAbility Ability;
     public float Value;
     public readonly float OriginalValue;
     public attackfail FailType;
 
-    public HealthChangeEventInstance(Unit inflicor, Unit target, Ability ability, float value, float originalValue) {
+    public HealthChangeEventInstance(Unit inflicor, Unit target, OldAbility ability, float value, float originalValue) {
         Inflictor = inflicor;
         Target = target;
         Ability = ability;
@@ -85,7 +86,7 @@ public class AttackEventInstance : HealthChangeEventInstance {
     public DamageCategory DamageCategory;
     public DamageFlags DamageFlags;
 
-    public AttackEventInstance(Unit attacker, Unit target, Ability ability, float damage, float originalDamage, DamageCategory damageCategory, DamageFlags damageFlags) : base(attacker, target, ability, damage, originalDamage) {
+    public AttackEventInstance(Unit attacker, Unit target, OldAbility ability, float damage, float originalDamage, DamageCategory damageCategory, DamageFlags damageFlags) : base(attacker, target, ability, damage, originalDamage) {
         DamageCategory = damageCategory;
         DamageFlags = damageFlags;
     }
@@ -94,7 +95,7 @@ public class AttackEventInstance : HealthChangeEventInstance {
 public class HealEventInstance : HealthChangeEventInstance {
     public HealingFlags HealingFlags;
 
-    public HealEventInstance(Unit healer, Unit target, Ability ability, float healing, float originalHealing, HealingFlags healingFlags) : base(healer, target, ability, healing, originalHealing) {
+    public HealEventInstance(Unit healer, Unit target, OldAbility ability, float healing, float originalHealing, HealingFlags healingFlags) : base(healer, target, ability, healing, originalHealing) {
         HealingFlags = healingFlags;
     }
 }
@@ -109,10 +110,10 @@ public class UnitEventInstance {
 }
 
 public class AbilityEventInstance {
-    private Ability _ability;
-    public AbilityEventInstance(Ability ability) {
+    private OldAbility _ability;
+    public AbilityEventInstance(OldAbility ability) {
         _ability = ability;
     }
 
-    public Ability Ability => _ability;
+    public OldAbility Ability => _ability;
 }

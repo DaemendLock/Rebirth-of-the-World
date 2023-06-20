@@ -1,7 +1,10 @@
+using Combat.SpellOld;
+using Combat.Status;
 using Data;
 using System.Collections.Generic;
 
-public class WhiteImp : NotargetAbility {
+public class WhiteImp : NotargetAbility
+{
     public override AbilityData AbilityData => RotW.GetAbilityDataById(4);
 
     public override float AbilityCooldown => 15;
@@ -20,40 +23,50 @@ public class WhiteImp : NotargetAbility {
 
     public override ushort SpellId => 4;
 
-    static WhiteImp() {
+    static WhiteImp()
+    {
         RotW.LinkStatus("status_whitedevil", typeof(Whitedevil));
     }
 
     //ID:4
-    public WhiteImp(Unit owner) : base(owner) {
+    public WhiteImp(Unit owner) : base(owner)
+    {
     }
 
-    public override void OnSpellStart() {
+    public override void OnSpellStart()
+    {
         Owner.SetResource(0, 1);
         Owner.GiveMana(100, AbilityResource.LEFT);
     }
 
-    public override string GetPassiveStatusName() {
+    public override string GetPassiveStatusName()
+    {
         return "status_whitedevil";
     }
 }
 
-public class Whitedevil : Status {
-    public Whitedevil(Unit owner, Unit caster, Ability ability, Dictionary<string, float> data) : base(owner, caster, ability, data) {
+public class Whitedevil : Status
+{
+    public Whitedevil(Unit owner, Unit caster, OldAbility ability, Dictionary<string, float> data) : base(owner, caster, ability, data)
+    {
     }
 
-    public override StatsTable Bonuses => StatsTable.EMPTY_TABLE;
+    public override OldStatsTable Bonuses => OldStatsTable.EMPTY_TABLE;
 
-    public override void OnCreated() {
+    public override void OnCreated()
+    {
         StartIntervalThink(0.5f);
     }
 
-    public override void OnIntervalThink() {
-        if (Parent.GetResourcePercent(1) >= 1) {
+    public override void OnIntervalThink()
+    {
+        if (Parent.GetResourcePercent(1) >= 1)
+        {
             Parent.SpendMana(5, 0);
-        } else
+        }
+        else
+        {
             Parent.GiveMana(5, 0);
+        }
     }
-
-
 }

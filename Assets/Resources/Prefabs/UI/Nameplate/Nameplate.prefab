@@ -199,7 +199,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b137a24fc5d2d9c4e955b22e3dbb15f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _unit: {fileID: 0}
   _buffsBox: {fileID: 3910241079244364521}
   _debuffsBox: {fileID: 2848905134332526095}
   _statusPrefab: {fileID: 7118715964013145233, guid: 1afe49528098417408fd7d10964c0bbc, type: 3}

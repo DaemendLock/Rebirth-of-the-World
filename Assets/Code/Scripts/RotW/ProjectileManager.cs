@@ -1,3 +1,4 @@
+using Combat.SpellOld;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,7 +6,7 @@ namespace Projectiles {
     public abstract class ProjectileID {
         public int id;
         protected string name;
-        protected Ability ability;
+        protected OldAbility ability;
         protected Unit source;
         protected Vector3 location;
         protected Vector3 direction;
@@ -14,7 +15,7 @@ namespace Projectiles {
         protected Dictionary<string, float> data;
         protected GameObject particle;
 
-        public ProjectileID(Vector3 location, float movespeed, float expire, string name, Ability ability, Unit source, Dictionary<string, float> data) {
+        public ProjectileID(Vector3 location, float movespeed, float expire, string name, OldAbility ability, Unit source, Dictionary<string, float> data) {
             this.location = location;
             moveSpeed = movespeed;
             this.expire = expire;
@@ -58,7 +59,7 @@ namespace Projectiles {
         private bool _ignorCheck;
         private float _halfspeed;
         private bool _hit = false;
-        public TrackingProjectile(Vector3 location, Unit target, float movespeed, float expire, bool attack, bool ignorCheck, string name, Ability ability, Unit source, Dictionary<string, float> data) : base(location, movespeed, expire, name, ability, source, data) {
+        public TrackingProjectile(Vector3 location, Unit target, float movespeed, float expire, bool attack, bool ignorCheck, string name, OldAbility ability, Unit source, Dictionary<string, float> data) : base(location, movespeed, expire, name, ability, source, data) {
             _target = target;
             _attack = attack;
             _ignorCheck = ignorCheck;
@@ -87,14 +88,14 @@ namespace Projectiles {
     public class LinearProjectile : ProjectileID {
         private float _distance;
         private float _checkRadius;
-        private UNIT_TARGET_TEAM _team;
+        private UnitTargetTeam _team;
         private bool _hit = false;
 
-        public LinearProjectile(Vector3 location, Vector3 direction, int movespeed, float maxDistance, float checkRadius, float expire, UNIT_TARGET_TEAM team, string particleName, Ability ability, Unit source, Dictionary<string, float> data) : base(location, movespeed, expire, particleName, ability, source, data) {
+        public LinearProjectile(Vector3 location, Vector3 direction, int movespeed, float maxDistance, float checkRadius, float expire, UnitTargetTeam team, string particleName, OldAbility ability, Unit source, Dictionary<string, float> data) : base(location, movespeed, expire, particleName, ability, source, data) {
             this.direction = direction;
-            this._distance = maxDistance;
-            this._checkRadius = checkRadius;
-            this._team = team;
+            _distance = maxDistance;
+            _checkRadius = checkRadius;
+            _team = team;
         }
 
         public override void Hit(Unit unit) {
@@ -110,19 +111,19 @@ namespace Projectiles {
 
         private static List<ProjectileID> allProjectile = new List<ProjectileID>();
 
-        public static void ChangeTrackingProjectileSpeed(Ability ability, int speed) {
+        public static void ChangeTrackingProjectileSpeed(OldAbility ability, int speed) {
 
         }
         public static void CreateLinearProjectile(Vector3 vSpawnOrigin, Vector3 vVelocity, int iMoveSpeed = 0,
                                                     float fDistance = 100, float fRadius = 0, float fExpireTime = 5,
-                                                    UNIT_TARGET_TEAM tTargetTeam = UNIT_TARGET_TEAM.NONE,
-                                                    string sEffectName = null, Ability ability = null, Unit source = null,
+                                                    UnitTargetTeam tTargetTeam = UnitTargetTeam.NONE,
+                                                    string sEffectName = null, OldAbility ability = null, Unit source = null,
                                                     Dictionary<string, float> data = null) {
             allProjectile.Add(new LinearProjectile(vSpawnOrigin, vVelocity, iMoveSpeed, fDistance, fRadius, fExpireTime, tTargetTeam, sEffectName, ability, source, data));
         }
         public static void CreateTrackingProjectile(Vector3 vSpawnOrigin, Unit target, float fMoveSpeed = 0,
                                                     float fExpireTime = 5, bool bIsAttack = false, bool bSuppressTargetCheck = false,
-                                                    string sEffectName = null, Ability ability = null, Unit source = null,
+                                                    string sEffectName = null, OldAbility ability = null, Unit source = null,
                                                     Dictionary<string, float> data = null) {
             allProjectile.Add(new TrackingProjectile(vSpawnOrigin, target, fMoveSpeed, fExpireTime, bIsAttack, bSuppressTargetCheck, sEffectName, ability, source, data));
         }
@@ -138,7 +139,5 @@ namespace Projectiles {
         public static void DestroyProjectile(ProjectileID projectile) {
             //projectile.Destroy();
         }
-
     }
-
 }

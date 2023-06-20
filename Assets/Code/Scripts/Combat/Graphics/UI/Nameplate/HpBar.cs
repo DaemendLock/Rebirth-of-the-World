@@ -37,15 +37,15 @@ public class HpBar : RefreshableUI, IUnitBindable {
     }
 
     private void ChangeTeam(Unit unit, Team prevTeam) {
-        _fillingImage.color = _owner.Team == Team.TEAM_ALLY ? _allyColor : _enemyColor;
-        _backgroundImage.color = _owner.Team == Team.TEAM_ALLY ? _allyBackgroundColor : _enemyBackgroundColor;
+        _fillingImage.color = _owner.Team == Team.ALLY ? _allyColor : _enemyColor;
+        _backgroundImage.color = _owner.Team == Team.ALLY ? _allyBackgroundColor : _enemyBackgroundColor;
     }
 
     public override void UpdateUIData() {
         _allyColor = Lobby.ActiveAccount.Data.Settings.Nameplates.AllyHealthbarColor;
         _enemyColor = Lobby.ActiveAccount.Data.Settings.Nameplates.EnemyHealthbarColor;
-        _fillingImage.color = _owner.Team == Team.TEAM_ALLY ? _allyColor : _enemyColor;
-        _backgroundImage.color = _owner.Team == Team.TEAM_ALLY ? _allyBackgroundColor : _enemyBackgroundColor;
+        _fillingImage.color = _owner.Team == Team.ALLY ? _allyColor : _enemyColor;
+        _backgroundImage.color = _owner.Team == Team.ALLY ? _allyBackgroundColor : _enemyBackgroundColor;
     }
 
     public override void Hide() {

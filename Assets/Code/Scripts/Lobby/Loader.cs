@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -16,7 +15,6 @@ public class Loader : MonoBehaviour {
         if (Instance != null) {
             return;
         }
-        EditorApplication.playModeStateChanged += Disconnect;
         DontDestroyOnLoad(gameObject);
         Instance = this;
     }
@@ -58,9 +56,6 @@ public class Loader : MonoBehaviour {
         setup?.BufferedScenario.Load();
     }
 
-    private void Disconnect(PlayModeStateChange e) {
-        Networking.ServerManager.Disonnect();
-    }
 
     private void OnDestroy() {
         if (this != Instance)

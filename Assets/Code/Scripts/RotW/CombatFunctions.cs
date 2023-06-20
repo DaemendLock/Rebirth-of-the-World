@@ -1,6 +1,11 @@
+using Combat.SpellOld;
+using Combat.Status;
 using Data;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum ResourceType {
@@ -36,7 +41,7 @@ public static class RotW {
     public static Dictionary<string, GameObject> Prefabs = new Dictionary<string, GameObject>();
 
     //Units
-    public static Dictionary<ushort, UnitData> unitDataList = new Dictionary<ushort, UnitData>();
+    public static Dictionary<ushort, OldUnitData> unitDataList = new Dictionary<ushort, OldUnitData>();
 
     public static void ApplyDamage(DamageEvent damageEvent) {
         AttackEventInstance e = new AttackEventInstance(damageEvent.Attacker, damageEvent.Victim, damageEvent.Ability, damageEvent.Damage, damageEvent.Damage, damageEvent.Ability == null ? DamageCategory.ATTACK : DamageCategory.SPELL, damageEvent.DamageFlags);
@@ -61,41 +66,24 @@ public static class RotW {
         return unit1.RingRadius + distnce + unit2.RingRadius >= (unit1.Origin - unit2.Origin).magnitude;
     }
 
-    public static Unit CreateUnitByName(string unitName, Vector3 location, Team team, bool controlable = false, byte rank = 0, ushort lvl = 1) {
-        return CreateUnitByName(unitName, new SpawnLocation(location, Quaternion.Euler(Vector3.zero)), team, controlable, rank, lvl);
-    }
-
-    public static Unit CreateUnitByName(string unitName, SpawnLocation location, Team team, bool controlable = false, byte rank = 0, ushort lvl = 1) {
-        GameObject prefab;
-        if (!Prefabs.TryGetValue(unitName, out prefab)) {
-            Debug.LogError("No such UnitType: " + unitName);
-            return null;
-        }
-        return CreateUnitByName(prefab, location, team, controlable, rank, lvl);
-    }
-
-    public static Unit CreateUnitByName(GameObject prefab, SpawnLocation location, Team team, bool controlable = false, byte rank = 0, ushort lvl = 1) {
-        GameObject newUnit = UnityEngine.Object.Instantiate(prefab, location.Position, location.Direction);
-        newUnit.name = prefab.name;
-        Unit res = newUnit.GetComponent<Unit>();
-
-        res.SetTeam(team);
-
-        if (team == Team.TEAM_ALLY && controlable) {
+    public static Unit CreateUnitByType(UnitFactory.UnitType type, SpawnLocation location, Team team, int serverId, bool controlable = false, byte rank = 0, ushort lvl = 1) {
+        Unit res = new Florence(location.Position, location.Direction, team, (byte) lvl, rank, 0);
+        
+        if (team == Team.ALLY && controlable) {
             Controller.Instance.AddSelectableUnit(res);
             Controller.Instance.aliveAlly++;
         }
         return res;
     }
 
-    public static List<Unit> FindUnitsInRadius(Vector3 location, float radius, Unit cacheUnit = null, UNIT_TARGET_TEAM filter = UNIT_TARGET_TEAM.BOTH, bool includSelf = true) {
+    public static List<Unit> FindUnitsInRadius(Vector3 location, float radius, Unit cacheUnit = null, UnitTargetTeam filter = UnitTargetTeam.BOTH, bool includSelf = true) {
         List<Unit> res = new List<Unit>();
         Collider[] hits = Physics.OverlapSphere(location, radius);
         Unit cur;
         foreach (Collider hit in hits) {
             cur = hit.gameObject.GetComponent<Unit>();
-            if (cur != null && (filter == UNIT_TARGET_TEAM.BOTH || (cacheUnit != null &&
-                (cacheUnit.Team == cur.Team && filter == UNIT_TARGET_TEAM.FRIENDLY && (includSelf || (cacheUnit != cur)) || cacheUnit.Team != cur.Team && filter == UNIT_TARGET_TEAM.NONE)))) {
+            if (cur != null && (filter == UnitTargetTeam.BOTH || (cacheUnit != null &&
+                (cacheUnit.Team == cur.Team && filter == UnitTargetTeam.FRIENDLY && (includSelf || (cacheUnit != cur)) || cacheUnit.Team != cur.Team && filter == UnitTargetTeam.NONE)))) {
                 res.Add(cur);
             }
         }
@@ -114,7 +102,7 @@ public static class RotW {
         return _abilitiesId[name];
     }
 
-    public static UnitData GetUnitDataById(ushort id) {
+    public static OldUnitData GetUnitDataById(ushort id) {
         if (!unitDataList.ContainsKey(id)) {
             Debug.LogError("Failed to get unit by id: " + id);
             return null;
@@ -127,10 +115,14 @@ public static class RotW {
     }
 
     public static void Precache(string name, string resource, ResourceType type) {
-        if (type == ResourceType.SPRITE)
-            Sprites[name] = Resources.Load<Sprite>(resource);
-        else if (type == ResourceType.PREFAB)
-            Prefabs[name] = Resources.Load<GameObject>(resource);
+        switch (type) {
+            case ResourceType.SPRITE:
+                Sprites[name] = Resources.Load<Sprite>(resource);
+                break;
+            case ResourceType.PREFAB:
+                Prefabs[name] = Resources.Load<GameObject>(resource);
+                break;
+        }
     }
 
     public static void PrecacheLate() {
@@ -168,8 +160,8 @@ public static class RotW {
         return preferId;
     }
 
-    public static ushort StoreUnitData(UnitData data, ushort preferId = 0) {
-        unitDataList ??= new Dictionary<ushort, UnitData>();
+    public static ushort StoreUnitData(OldUnitData data, ushort preferId = 0) {
+        unitDataList ??= new Dictionary<ushort, OldUnitData>();
         if (unitDataList.ContainsKey(preferId)) {
             throw new Exception("Duplicate unit id: " + preferId);
         }
@@ -178,5 +170,20 @@ public static class RotW {
         return preferId;
     }
 
+    public static class UnitFactory {
+        public enum UnitType : ushort {
+            FLORENCE = Florence.UNIT_ID,
+            GLORIA = Gloria.UNIT_ID,
+        }
+
+        private static readonly Dictionary<UnitType, Type> unitClasses = new() {
+            [UnitType.FLORENCE] = typeof(Florence),
+            [UnitType.GLORIA] = typeof(Gloria)
+        };
+
+        public static Unit CreateUnit(UnitType type, Vector3 location, Quaternion facing, Team team, ushort lvl, ushort rank, int objectId) {
+            return (Unit) Activator.CreateInstance(unitClasses[type], location, facing, team, lvl, rank, objectId);
+        }
+    }
 }
 

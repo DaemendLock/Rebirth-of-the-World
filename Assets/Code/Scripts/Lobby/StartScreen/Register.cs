@@ -15,15 +15,15 @@ public class Register : MonoBehaviour {
             failMsg.text = confirm_password.text;
             return;
         }
-        ResponsableRequest request = ServerManager.RegisterAccount(login.text, password.text);
-        StartCoroutine(WaitForAccess(request));
+        ServerManager.RegisterAccount(login.text, password.text);
     }
 
-    private IEnumerator WaitForAccess(ResponsableRequest request) {
-        while (request.Response == null) {
-            yield return null;
-        }
-        OnRegisterRequestResolved(new AccountAccessResponse(request.Response));
+    private void OnEnable() {
+        
+    }
+
+    private void OnDisable() {
+        
     }
 
     private void OnRegisterRequestResolved(AccountAccessResponse access) {

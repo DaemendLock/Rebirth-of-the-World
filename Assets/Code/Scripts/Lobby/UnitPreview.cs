@@ -13,7 +13,7 @@ public enum UNIT_ROLE {
 
 [Serializable]
 public class UnitPreview {
-    public UnitData baseData;
+    public OldUnitData baseData;
 
     //LEFT PART 
     [Header("Left part")]
@@ -24,7 +24,7 @@ public class UnitPreview {
         Item item;
         foreach (int i in Gear) {
             if (i > 0 && Item.TryGetById(i, out item) && item.Type == Item.Category.GEAR) {
-                _gear[(int) ((Gear) item).Slot] ??= new UnitGear((Gear) item, ((Gear) item).Slot);
+                _gear[(int) ((OldGear) item).Slot] ??= new UnitGear((OldGear) item, ((OldGear) item).Slot);
             }
         }
         return _gear;
@@ -39,13 +39,13 @@ public class UnitPreview {
     public float affection;
     public UNIT_ROLE role;
     public List<AbilityData> abilities;
-    public StatsTable overallstats;
+    public OldStatsTable overallstats;
 
-    public UnitPreview(UnitData baseData, Sprite icon, Dictionary<GearSlot, Gear> gear, float lvl, float affection) {
+    public UnitPreview(OldUnitData baseData, Sprite icon, Dictionary<OldGearSlot, OldGear> gear, float lvl, float affection) {
         this.baseData = baseData;
         this.icon = icon;
         if (gear != null)
-            foreach (KeyValuePair<GearSlot, Gear> kvp in gear) {
+            foreach (KeyValuePair<OldGearSlot, OldGear> kvp in gear) {
                 _gear[(int) kvp.Key] = new UnitGear(kvp.Value, kvp.Key);
             }
         name = baseData.Name;
@@ -75,13 +75,13 @@ public class UnitTalents {
 }
 
 public class UnitGear {
-    private GearSlot _slot;
-    private Gear _item;
+    private OldGearSlot _slot;
+    private OldGear _item;
 
-    public GearSlot Slot => _slot;
-    public Gear GearItem => _item;
+    public OldGearSlot Slot => _slot;
+    public OldGear GearItem => _item;
 
-    public UnitGear(Gear gear, GearSlot slot) {
+    public UnitGear(OldGear gear, OldGearSlot slot) {
         _item = gear;
         _slot = slot;
     }

@@ -1,5 +1,4 @@
 using Networking;
-using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -9,15 +8,15 @@ public class Login : MonoBehaviour {
     [SerializeField] private TMP_Text _failMsg;
 
     public void TryLogin() {
-        ResponsableRequest request = ServerManager.LoginAttempt(_login.text, _password.text);
-        StartCoroutine(WaitForAccess(request));
+        ServerManager.LoginAttempt(_login.text, _password.text);
     }
 
-    private IEnumerator WaitForAccess(ResponsableRequest request) {
-        while (request.Response == null) {
-            yield return null;
-        }
-        OnAccountAccessResolved(new AccountAccessResponse(request.Response));
+    private void OnEnable() {
+        ServerManager.AccountAccessFigured += OnAccountAccessResolved;
+    }
+
+    private void OnDisable() {
+        ServerManager.AccountAccessFigured -= OnAccountAccessResolved;
     }
 
     private void OnAccountAccessResolved(AccountAccessResponse access) {

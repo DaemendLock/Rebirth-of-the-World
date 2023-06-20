@@ -6,7 +6,7 @@ using UnityEngine;
 public class Gloria : Unit {
     public const ushort UNIT_ID = 2;
 
-    private static readonly UnitData _baseUnit = new(UNIT_ID) {
+    private static readonly OldUnitData _baseUnit = new(UNIT_ID) {
         Role = UNIT_ROLE.TANK,
         Attack = new Stat() { baseValue = 100, gain = new float[1] { 0 } },
         Spellpower = new Stat() { baseValue = 50, gain = new float[1] { 0 } },
@@ -29,7 +29,13 @@ public class Gloria : Unit {
         UnitPrefabName = "Gloria"
     };
 
-    protected override UnitData BaseUnit => _baseUnit;
+    static Gloria() {
+        UnityEngine.Debug.Log("Gloria loaded");
+    }
+    public Gloria(Vector3 location, Quaternion facing, Team team, byte lvl, byte rank, int objectId) : base(location, facing, team, lvl, rank, objectId){
+    }
+
+    protected override OldUnitData BaseUnit => _baseUnit;
 
     protected override void Precache() {
         //RotW.Precache("RefreshingConcoctionIcon", "Sprites/Abilities/Florence/SpellRefreshingConcoction", ResourceType.SPRITE);

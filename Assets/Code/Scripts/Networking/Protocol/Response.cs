@@ -12,22 +12,14 @@ namespace Networking {
         CONNECTION_FAILED = 2
     }
 
-    public enum ResponseType : byte {
-        PING_CLIENT = 0,
-        ACCOUNT_ACCESS_APPROVED = 1,
-        ACCOUNT_DATA = 2,
-        REGISTER_APPROVED = 4,
-        BAD_REQUEST_DATA = 40,
-        CONNECTION_CLOSED = 255,
-
-    }
-
-    public class Response {
+    public class Response : INetworkPayload {
+        private const int RESPONSE_ID_INDEX = 0;
+        private const int TYPE_ID_INDEX = 1;
+        public const int HEADER_SIZE = 2;
 
         private readonly byte _responseId;
-        private readonly ResponseType _type;
+        private readonly DataType _type;
         private readonly byte[] _data;
-        private bool _handled = false;
 
         public Response(Response response) {
             _type = response.Type;
@@ -36,51 +28,55 @@ namespace Networking {
         }
 
         public Response(byte[] data) {
-            _responseId = data[0];
-            _type = (ResponseType) data[1];
-            _data = data;
+            _responseId = data[RESPONSE_ID_INDEX];
+            _type = (DataType) data[TYPE_ID_INDEX];
+            _data = new ArraySegment<byte>(data, HEADER_SIZE, data.Length - HEADER_SIZE).ToArray();
         }
 
         public byte[] Data => _data;
 
-        public ResponseType Type => _type;
+        public DataType Type => _type;
+
+        public byte Id => _responseId;
 
         public byte ResponseId => _responseId;
 
-        public bool IsHandled => _handled;
-
-        public void MarkHandled() {
-            _handled = true;
-        }
     }
 
     public sealed class AccountAccessResponse : Response {
-        private bool success;
-        private int id;
-        public AccountAccessResponse(byte[] data) : base(data) {
-            success = data[2] == 1;
-            id = BitConverter.ToInt32(data, 3);
+        private const int SUCCESS_BYTE_INDEX = 0;
+        private const int UID_START_BYTE = 1;
+
+        private bool _success;
+        private int _uid;
+
+        public AccountAccessResponse(byte[] bytes) : base(bytes) {
+            _success = Data[SUCCESS_BYTE_INDEX] == 1;
+            _uid = BitConverter.ToInt32(Data, UID_START_BYTE);
         }
         public AccountAccessResponse(Response response) : base(response) {
-
-            success = response.Data[2] == 1;
+            _success = response.Data[SUCCESS_BYTE_INDEX] == 1;
+            _uid = BitConverter.ToInt32(response.Data, UID_START_BYTE);
         }
 
-        public bool Success => success;
+        public bool Success => _success;
 
-        public int UID => id;
+        public int UID => _uid;
     }
 
     public sealed class RegisterAccountResponse : Response {
-        private bool success;
+        private const int SUCCESS_BYTE_INDEX = 0;
+
+        private readonly bool _success;
+
         public RegisterAccountResponse(byte[] data) : base(data) {
-            success = Data[2] == 1;
+            _success = Data[SUCCESS_BYTE_INDEX + HEADER_SIZE] == 1;
         }
         public RegisterAccountResponse(Response response) : base(response) {
-            success = Data[2] == 1;
+            _success = Data[SUCCESS_BYTE_INDEX] == 1;
         }
 
-        public bool Success => success;
+        public bool Success => _success;
     }
 
     public sealed class BadResponse : Response {

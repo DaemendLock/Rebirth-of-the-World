@@ -55,19 +55,6 @@ public class AccountData {
     public Dictionary<ushort, int> Inventory = new Dictionary<ushort, int>();
     public List<UnitPreview> OwnerCharacters = new List<UnitPreview>();
 
-    public void HandleData(ResponsableRequest request) {
-        switch ((DataType) request.Data[6]) {
-            case DataType.ACCOUNT_CUSTOMIZATION:
-                switch (request.Data[7]) {
-                    case 0:
-                        byte len = request.Response.Data[2];
-                        Nickname = System.Text.Encoding.Unicode.GetString(new ArraySegment<byte>(request.Response.Data, 3, len).ToArray());
-                        Lvl = request.Response.Data[len + 3];
-                        break;
-                }
-                break;
-        }
-    }
 }
 
 [Serializable]

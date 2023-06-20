@@ -1,16 +1,23 @@
-public abstract class NotargetAbility : Ability {
+namespace Combat.SpellOld
+{
+    public abstract class NotargetAbility : OldAbility
+    {
 
-    public override bool ShowOnTooltip => true;
-    
-    public NotargetAbility(Unit owner) : base(owner) {
-    }
+        public override bool ShowOnTooltip => true;
 
-    public override UnitFilterResult StartAbility() {
-        OnSpellStart();
-        if (Castable == false) {
-            PayManaCost();
-            StartCooldown();
+        public NotargetAbility(Unit owner) : base(owner)
+        {
         }
-        return UnitFilterResult.UF_SUCCESS;
+
+        public override UnitFilterResult StartAbility()
+        {
+            OnSpellStart();
+            if (Castable == false)
+            {
+                PayManaCost();
+                StartCooldown();
+            }
+            return UnitFilterResult.UF_SUCCESS;
+        }
     }
 }

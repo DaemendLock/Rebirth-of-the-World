@@ -1,6 +1,6 @@
+using Combat.SpellOld;
+using Combat.Status;
 using System.Collections.Generic;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 
 public abstract class MasterBlock : NotargetAbility {
 
@@ -24,10 +24,10 @@ public abstract class MasterBlock : NotargetAbility {
 }
 
 public class MasterBlockShieldRegen : Status {
-    public MasterBlockShieldRegen(Unit owner, Unit caster, Ability ability, Dictionary<string, float> data) : base(owner, caster, ability, data) {
+    public MasterBlockShieldRegen(Unit owner, Unit caster, OldAbility ability, Dictionary<string, float> data) : base(owner, caster, ability, data) {
     }
 
-    public override StatsTable Bonuses => StatsTable.EMPTY_TABLE;
+    public override OldStatsTable Bonuses => OldStatsTable.EMPTY_TABLE;
 
     public override void OnCreated() {
         StartIntervalThink(1);
@@ -42,12 +42,12 @@ public class BlockingShield : OvershieldStatus {
 
     private const float DamageConverationPercent = 0.3f;
 
-    public BlockingShield(Unit owner, Unit caster, Ability ability, Dictionary<string, float> data) : base(owner, caster, ability, data, 0, false) {
+    public BlockingShield(Unit owner, Unit caster, OldAbility ability, Dictionary<string, float> data) : base(owner, caster, ability, data, 0, false) {
         owner.RecivedDamage += OnDamage;
         DurabilityUpdated += ManageResource;
     }
 
-    public override StatsTable Bonuses => StatsTable.EMPTY_TABLE;
+    public override OldStatsTable Bonuses => OldStatsTable.EMPTY_TABLE;
 
     public void OnDamage(AttackEventInstance e) {
         Parent.GiveMana(e.OriginalValue * DamageConverationPercent, 0);
@@ -59,6 +59,6 @@ public class BlockingShield : OvershieldStatus {
     
     public override void OnDestroy() {
         Parent.RecivedDamage -= OnDamage;
+        DurabilityUpdated -= ManageResource;
     }
-
 }

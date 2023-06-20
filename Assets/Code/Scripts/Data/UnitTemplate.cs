@@ -41,10 +41,11 @@ namespace Data {
         public GameObject Prefab => _unitPrefab;
 
         private void OnEnable() {
-            new UnitData(this);
+            new OldUnitData(this);
         }
     }
-    public class UnitData {
+
+    public class OldUnitData {
         public UNIT_ROLE Role = UNIT_ROLE.NONE;
         public string Name = "Empity Name";
         public Stat Attack = new() { baseValue = 0, gain = new float[] { 0 } };
@@ -76,19 +77,18 @@ namespace Data {
         private GameObject _unitPrefab;
 
         public Sprite GalleryCard => _galleryCard ??= _galleryCard = RotW.Sprites[GalleryCardName];
-        public GameObject UnitPrefab { 
-            get { 
-                _unitPrefab ??= _unitPrefab = RotW.Prefabs[UnitPrefabName]; 
+        public GameObject UnitPrefab
+        {
+            get
+            {
+                _unitPrefab ??= _unitPrefab = RotW.Prefabs[UnitPrefabName];
                 return _unitPrefab;
-            } 
+            }
         }
 
+        public OldUnitData(ushort unitId) { _unitId = unitId; }
 
-
-
-        public UnitData(ushort unitId) { _unitId = unitId; }
-
-        public UnitData(UnitTemplate data) {
+        public OldUnitData(UnitTemplate data) {
             Role = data.role;
             Name = data.name;
             Attack = data.Attack;
@@ -119,30 +119,31 @@ namespace Data {
             RotW.Prefabs[data.name] = UnitPrefab;
         }
 
-        public StatsTable CalculateUnitStatsByRankAndLevel(byte rank, ushort level) => new () {
-            Atk = Attack.baseValue + level * Attack.gain[rank],
+        public OldStatsTable CalculateUnitStatsByRankAndLevel(byte rank, ushort level) => new () {
+            //Atk = Attack.baseValue + level * Attack.gain[rank],
             AtkPercent = 100,
-            Spellpower = Spellpower.baseValue + level * Spellpower.gain[rank],
+            //Spellpower = Spellpower.baseValue + level * Spellpower.gain[rank],
             SpellpowerPercent = 100,
-            Crit = Crit.baseValue + level * Crit.gain[rank],
+            //Crit = Crit.baseValue + level * Crit.gain[rank],
             CritPercent = 100,
-            Haste = Haste.baseValue + level * Haste.gain[rank],
+            //Haste = Haste.baseValue + level * Haste.gain[rank],
             HastePercent = 100,
-            Versality = Versa.baseValue + level * Versa.gain[rank],
+            //Versality = Versa.baseValue + level * Versa.gain[rank],
             VersalityPercent = 100,
-            MaxHealth = MaxHp.baseValue + level * MaxHp.gain[rank],
+            //MaxHealth = MaxHp.baseValue + level * MaxHp.gain[rank],
+            MaxHealth = 100,
             MaxHealthPercent = 100,
-            Lifesteal = Lifesteal.baseValue + level * Lifesteal.gain[rank],
+            //Lifesteal = Lifesteal.baseValue + level * Lifesteal.gain[rank],
             LifestealPercent = 100,
-            Movespeed = Movespeed.baseValue + level * Movespeed.gain[rank],
+            //Movespeed = Movespeed.baseValue + level * Movespeed.gain[rank],
             MovespeedPercent = 100,
-            AoeResist = AoeResist.baseValue + level * AoeResist.gain[rank],
+            //AoeResist = AoeResist.baseValue + level * AoeResist.gain[rank],
             AoeResistPercent = 100,
-            Block = Block.baseValue + level * Block.gain[rank],
+            //Block = Block.baseValue + level * Block.gain[rank],
             BlockPercent = 100,
-            Evade = Evade.baseValue + level * Evade.gain[rank],
+            //Evade = Evade.baseValue + level * Evade.gain[rank],
             EvadePercent = 100,
-            Parry = Parry.baseValue + level * Parry.gain[rank],
+            //Parry = Parry.baseValue + level * Parry.gain[rank],
             ParryPercent = 100
         };
     }
@@ -164,5 +165,4 @@ namespace Data {
             _color = color;
         }
     }
-
 }

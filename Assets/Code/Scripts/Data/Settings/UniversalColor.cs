@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 #endif
+
 namespace UnityReplacement {
     public class Color {
 #if UNITY_2017_1_OR_NEWER
@@ -24,7 +25,6 @@ namespace UnityReplacement {
             this.g = g;
             this.b = b;
         }
-
 
         public static implicit operator UnityEngine.Color(Color color) => color._representingColor;
 

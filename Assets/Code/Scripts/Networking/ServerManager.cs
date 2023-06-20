@@ -1,66 +1,81 @@
-using AccountsData;
 using System;
+using Unity.VisualScripting;
+using UnityEngine;
 
 namespace Networking {
 
     public class ServerManager {
+        private const string SERVER = "localhost";
+        private const int PORT = 27122;
 
-        public static event Action<Response> ServerMessageRecived;
-        public static event Action<ResponsableRequest> RequestGotResponse;
         public static event Action<AccountAccessResponse> AccountAccessFigured;
+        public static event Action<Unit, float, float> ServerUnitMoveCommand;
 
-        private static Client connection;
+
+        private static Account _account;
+        private static NetworkModule _connection = null;
 
         public static bool TryConnect() {
-            if (connection != null) {
+            if (_connection != null) {
                 return false;
             }
             try {
-                connection = Client.Instantiate(null) as Client;
-                return true;
+                _connection = new(SERVER, PORT);
             } catch (Exception) {
                 return false;
             }
+            _connection.ServerMessageRecived += ResponseResolver.HandleResponse;
+            return true;
         }
 
         public static void Disonnect() {
-            if (connection == null) {
+            if (_connection == null) {
                 return;
             }
-            connection.Close();
-            connection = null;
+            _connection.ServerMessageRecived -= ResponseResolver.HandleResponse;
+            _connection.Close();
+            _connection = null;
         }
 
-        public static ResponsableRequest LoginAttempt(string login, string password) => Client.AttemptAccountLogin(connection, login, password);
+        public static void LoginAttempt(string login, string password) => _connection.SendRequest(Request.MakeAccountAccessRequest( _connection.NextPacketId, DataType.LOGIN_DATA, login, password));
 
-        public static ResponsableRequest RegisterAccount(string login, string password) => Client.AttemptAccountLogin(connection, login, password, true);
+        public static void RegisterAccount(string login, string password) => _connection.SendRequest(Request.MakeAccountAccessRequest(_connection.NextPacketId, DataType.REGISTER_DATA, login, password));
 
-        public static ResponsableRequest RequestAccountData(int UID, DataType type, byte blockNumber) => Client.RequestAccountData(connection, UID, type, blockNumber);
+        //public static void RequestAccountData(int UID, DataType type, byte blockNumber) => _connection.(UID, type, blockNumber);
 
         public static void InfoLogout() {
-            if (connection == null)
+            if (_connection == null)
                 return;
-            Client.InfoLogout(connection);
-        }
-
-        public static void SendToServer(string context) {
-            context += '\0';
-            Client.MakeSingleRequest(connection, context);
-        }
-
-        public static void InformServerResponsed(Response request) {
-            ServerMessageRecived?.Invoke(request);
-        }
-
-        public static void RespondeRequest(ResponsableRequest request) {
-            RequestGotResponse?.Invoke(request);
+            _connection.SendRequest(Request.MakeLogoutRequest());
         }
 
         public static void SendAccountAccessStatus(AccountAccessResponse response) {
             AccountAccessFigured?.Invoke(response);
         }
 
-        public static Account ActiveAccount => connection ? connection.Account : null;
+        public static Account ActiveAccount => _connection != null ? _connection.Account : null;
+
+        private static class ResponseResolver {
+            public static void HandleResponse(Response response) {
+                switch (response.Type) {
+                    case DataType.CONNECTION_CHECK:
+                        _connection.SendRequest(Request.MakePingRequest(_connection.NextPacketId));
+                        break;
+                    case DataType.LOGIN_DATA:
+                        AccountAccessFigured?.Invoke(new AccountAccessResponse(response));
+                        break;
+                    case DataType.DISCONNECT:
+                        _connection.Close();
+                        _connection = null;
+                        break;
+                    default:
+                        break;
+                    
+                }
+            }
+
+            
+        } 
 
     }
 

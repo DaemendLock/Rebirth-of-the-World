@@ -1,3 +1,5 @@
+using Combat.SpellOld;
+using Combat.Status;
 using System.Collections.Generic;
 
 public abstract class Charge : UnitTargetAbility {
@@ -12,10 +14,10 @@ public abstract class Charge : UnitTargetAbility {
 }
 
 public class Charging : Status {
-    public Charging(Unit owner, Unit caster, Ability ability, Dictionary<string, float> data) : base(owner, caster, ability, data) {
+    public Charging(Unit owner, Unit caster, OldAbility ability, Dictionary<string, float> data) : base(owner, caster, ability, data) {
     }
 
-    public override StatsTable Bonuses => StatsTable.EMPTY_TABLE;
+    public override OldStatsTable Bonuses => OldStatsTable.EMPTY_TABLE;
 
     public override void OnCreated() {
 

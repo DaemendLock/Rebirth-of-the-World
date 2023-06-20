@@ -1,7 +1,10 @@
+using Combat.SpellOld;
+using Combat.Status;
 using Data;
 using System.Collections.Generic;
 
-public class NurseCare : NotargetAbility {
+public class NurseCare : NotargetAbility
+{
 
     public override AbilityData AbilityData => RotW.GetAbilityDataById(1);
 
@@ -25,41 +28,50 @@ public class NurseCare : NotargetAbility {
 
     private HealEvent _healEvent;
 
-    static NurseCare() {
+    static NurseCare()
+    {
         RotW.LinkStatus("status_nursing", typeof(Nursing));
     }
 
-    public NurseCare(Unit owner) : base(owner) {
+    public NurseCare(Unit owner) : base(owner)
+    {
         _healEvent = new HealEvent(null, owner, 0, this);
     }
 
     private float timeTotal = 0.5f;
     private float timeLeft = 0;
 
-    public override void OnChannelStart() {
+    public override void OnChannelStart()
+    {
         timeLeft = 0;
     }
 
-    public override void OnChannelThink(float time) {
-        if (time >= timeLeft) {
+    public override void OnChannelThink(float time)
+    {
+        if (time >= timeLeft)
+        {
             Tick();
         }
     }
 
-    private void Tick() {
+    private void Tick()
+    {
         timeLeft += timeTotal;
-        if (Owner.GetResource((int) AbilityResource.RIGHT) < AbilityCost) {
+        if (Owner.GetResource((int) AbilityResource.RIGHT) < AbilityCost)
+        {
             Owner.Interrupt();
             return;
         }
         Owner.SpendMana(AbilityCost, 1);
 
-        List<Unit> allies = RotW.FindUnitsInRadius(Owner.Origin, 40, Owner, UNIT_TARGET_TEAM.FRIENDLY, false);
-        if (allies.Count == 0) {
+        List<Unit> allies = RotW.FindUnitsInRadius(Owner.Origin, 40, Owner, UnitTargetTeam.FRIENDLY, false);
+        if (allies.Count == 0)
+        {
             return;
         }
         Unit low = allies[0];
-        foreach (Unit unit in allies) {
+        foreach (Unit unit in allies)
+        {
             if (unit.HealthPercent < low.HealthPercent)
                 low = unit;
         }
@@ -69,38 +81,40 @@ public class NurseCare : NotargetAbility {
 
         low.AddNewStatus(Owner, this, "status_nursing", new Dictionary<string, float> { ["additional_stacks"] = 1 });
     }
-
 }
 
-public class Nursing : Status {
+public class Nursing : Status
+{
 
     private static readonly int STACK_DAMAGE_REDUCTION = 16;
 
-    public override StatsTable Bonuses => StatsTable.EMPTY_TABLE;
+    public override OldStatsTable Bonuses => OldStatsTable.EMPTY_TABLE;
 
-    public Nursing(Unit owner, Unit caster, Ability ability, Dictionary<string, float> data) : base(owner, caster, ability, data, (long)modifierfunction.MODIFIER_PROPERTY_DAMAGE_RECIVE_PERCENT) {
+    public Nursing(Unit owner, Unit caster, OldAbility ability, Dictionary<string, float> data) : base(owner, caster, ability, data, (long) modifierfunction.MODIFIER_PROPERTY_DAMAGE_RECIVE_PERCENT)
+    {
     }
 
-    public override void OnCreated(Dictionary<string, float> param) {
+    public override void OnCreated(Dictionary<string, float> param)
+    {
         StackCount += param["additional_stacks"];
         if (StackCount > 5)
             StackCount = 5;
     }
 
-    public override void OnRefresh(Dictionary<string, float> param) {
+    public override void OnRefresh(Dictionary<string, float> param)
+    {
         StackCount += param["additional_stacks"];
         if (StackCount > 5)
             StackCount = 5;
     }
 
-    public override float GetDamageRecivePercentBonus(AttackEventInstance e) {
+    public override float GetDamageRecivePercentBonus(AttackEventInstance e)
+    {
         float res = -STACK_DAMAGE_REDUCTION * StackCount;
         StackCount--;
+
         if (StackCount == 0)
             Remove();
         return res;
-
     }
-
-
 }

@@ -14,7 +14,7 @@ public enum WeaponType {
 }
 
 [CreateAssetMenu(fileName = "Unnamed Weapon", menuName = "New Weapon", order = 57)]
-public class Weapon : Gear {
+public class Weapon : OldGear {
 
     [SerializeField] private WeaponType _weaponType;
 

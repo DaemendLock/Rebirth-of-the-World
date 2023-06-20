@@ -26,7 +26,7 @@ public sealed class Controller : MonoBehaviour {
     }
 
     public void SetSelectedUnit(Unit unit) {
-        if (unit.Team == Team.TEAM_ALLY && _controlUnits.Contains(unit)) {
+        if (unit.Team == Team.ALLY && _controlUnits.Contains(unit)) {
             SelectionChanged?.Invoke(_currentSelection, unit);
             _currentSelection = unit;
             _allyIndex = _controlUnits.IndexOf(unit);
@@ -96,7 +96,7 @@ public sealed class Controller : MonoBehaviour {
                 SetSelectedUnit(unit);
                 break;
             case PointerEventData.InputButton.Right:
-                if (unit.Team == Team.TEAM_ENEMY)
+                if (unit.Team == Team.ENEMY)
                     _currentSelection.StartAttack(unit);
                 break;
             default:

@@ -1,24 +1,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Combat.Status;
 
-public class PartyFrame : MonoBehaviour {
+namespace UI.Combat
+{
+    public class PartyFrame : MonoBehaviour
+    {
+        private Unit unit;
+        public UI globalUI;
+        public Slider healhBar;
+        public Slider resourceLeftBar;
+        public Slider resourceRightBar;
+        public GameObject statusBar;
 
-    private Unit unit;
-    public UI globalUI;
-    public Slider healhBar;
-    public Slider resourceLeftBar;
-    public Slider resourceRightBar;
-    public GameObject statusBar;
+        public void SetUnit(Unit unit)
+        {
+            this.unit = unit;
+        }
 
-    public void SetUnit(Unit unit) {
-        this.unit = unit;
+        void Update()
+        {
+            healhBar.value = unit.HealthPercent;
+            List<Status> buff = unit.AllStatuses;
+        }
     }
-
-    void Update() {
-        healhBar.value = unit.HealthPercent;
-        List<Status> buff = unit.AllStatuses;
-    }
-
-
 }

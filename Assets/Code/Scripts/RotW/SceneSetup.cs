@@ -5,7 +5,7 @@ using UnityEngine;
 [Serializable]
 public class UnitPreset {
 
-    [SerializeField] private string _name;
+    [SerializeField] private ushort _type;
     [SerializeField] private SpawnLocation _spawnLocation;
     [SerializeField] private Team _team;
     [SerializeField] private bool _controlable;
@@ -15,13 +15,8 @@ public class UnitPreset {
 
     public UnitPreset(MemberCard unit, SpawnLocation spawnLocation) => Init(unit.Unit, spawnLocation, unit.controlable);
 
-
-    public UnitPreset(string name, Vector3 location, Quaternion rotation, bool controlable = false) {
-        //Init(name, new SpawnLocation(location, rotation), controlable);
-    }
-
     private void Init(UnitPreview unit, SpawnLocation location, bool controlable) {
-        _name = unit.name;
+        //_type = unit.name;
         _spawnLocation = location;
         _controlable = controlable;
         _dataSource = unit;
@@ -29,33 +24,33 @@ public class UnitPreset {
 
 
     public UnitPreset(string name, Vector3 location, Quaternion rotation, Team team, bool controlable = false) {
-        _name = name;
+        //_type = name;
         _spawnLocation = new SpawnLocation(location, rotation);
         _team = team;
         _controlable = controlable;
     }
 
     public UnitPreset(string name, SpawnLocation transform, bool controlable = false) {
-        _name = name;
+        //_type = name;
         _spawnLocation = transform;
         _controlable = controlable;
     }
 
     public UnitPreset(string name, SpawnLocation transform, Team team, bool controlable = false) {
-        _name = name;
+        //_type = name;
         _spawnLocation = transform;
         _team = team;
         _controlable = controlable;
     }
 
     public UnitPreset(string name, Transform transform, bool controlable = false) {
-        _name = name;
+        //_type = name;
         _spawnLocation = new SpawnLocation(transform);
         _controlable = controlable;
     }
 
     public UnitPreset(string name, Transform transform, Team team, bool controlable = false) {
-        _name = name;
+        //_type = name;
         _spawnLocation = new SpawnLocation(transform);
         _team = team;
         _controlable = controlable;
@@ -66,7 +61,7 @@ public class UnitPreset {
     }
 
     public void Summon(Team team) {
-        Unit buf = RotW.CreateUnitByName(_name, _spawnLocation, team, _controlable);
+        Unit buf = RotW.CreateUnitByType(RotW.UnitFactory.UnitType.FLORENCE, _spawnLocation, team, 0, _controlable);
         buf.SetLevelAndAffinity((byte) _dataSource.lvl, (byte) _dataSource.affection);
         buf.EquipWithAll(_dataSource.GetGear());
     }
@@ -86,11 +81,11 @@ public class SceneSetup {
         UnityEngine.Object.Instantiate(terrain);
         if (allies != null)
             foreach (UnitPreset unit in allies) {
-                unit.Summon(Team.TEAM_ALLY);
+                unit.Summon(Team.ALLY);
             }
         if (enemy != null)
             foreach (UnitPreset unit in enemy) {
-                unit.Summon(Team.TEAM_ENEMY);
+                unit.Summon(Team.ENEMY);
             }
     }
 

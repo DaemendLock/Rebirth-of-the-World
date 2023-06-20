@@ -1,3 +1,4 @@
+using Combat.SpellOld;
 using Data;
 using System.Collections.Generic;
 
@@ -25,9 +26,9 @@ public sealed class SpecialAttention : UnitTargetAbility {
 
     public override float ChannelTime => 0;
 
-    public override UNIT_TARGET_FLAGS TargetFlag => UNIT_TARGET_FLAGS.NONE;
+    public override UnitTargetFlag TargetFlag => UnitTargetFlag.NONE;
 
-    public override UNIT_TARGET_TEAM TargetTeam => UNIT_TARGET_TEAM.FRIENDLY;
+    public override UnitTargetTeam TargetTeam => UnitTargetTeam.FRIENDLY;
 
     public override float CastRadius => 40;
 

@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class FlorenceTrial : Scenario {
+public class FlorenceTrial : Scenario
+{
 
     //public Sprite scenarioImage = RotW.sprites["FlorenceScenarioImage"];
 
@@ -32,57 +33,71 @@ public class FlorenceTrial : Scenario {
 
     private Unit _tempUnit;
 
-    public override IQuest NextQuest(int i) {
+    public override IQuest NextQuest(int i)
+    {
 
-        switch (i) {
+        switch (i)
+        {
 
             case 0:
                 return Goals[0];
+
             case 1:
                 return Goals[1];
+
             case 2:
                 Controller.Instance.ChooseNextAlly();
                 Florence = Controller.Instance.SelectedUnit;
                 return Goals[2];
+
             case 3:
-                _tempUnit = RotW.CreateUnitByName("Florence", new Vector3(-15, 0, 5), Team.TEAM_ALLY);
+                //_tempUnit = RotW.CreateUnitByType(RotW.UnitFactory.UnitType.FLORENCE, new Vector3(-15, 0, 5), Team.TEAM_ALLY);
                 _tempUnit.SetHealth(_tempUnit.CurrentHealth * 0.5f);
                 Goals[13] = new HealQuest(_tempUnit);
-                UI.Instance.paused = false;
+                UI.Combat.UI.Instance.paused = false;
                 return Goals[3];
+
             case 4:
-                UI.Instance.paused = true;
+                UI.Combat.UI.Instance.paused = true;
                 return Goals[4];
+
             case 5:
-                UI.Instance.paused = false;
+                UI.Combat.UI.Instance.paused = false;
                 return Goals[5];
+
             case 6:
                 _tempUnit.SetHealth(_tempUnit.CurrentHealth * 0.5f);
-                UI.Instance.paused = false;
+                UI.Combat.UI.Instance.paused = false;
                 return Goals[6];
+
             case 7:
-                UI.Instance.paused = false;
+                UI.Combat.UI.Instance.paused = false;
                 return Goals[7];
+
             case 8:
                 _tempUnit.SetHealth(_tempUnit.CurrentHealth * 0.5f);
-                UI.Instance.paused = false;
+                UI.Combat.UI.Instance.paused = false;
                 return Goals[7];
 
             case 9:
-                UI.Instance.paused = true;
+                UI.Combat.UI.Instance.paused = true;
                 return Goals[8];
+
             case 10:
                 return Goals[9];
+
             case 11:
                 return Goals[10];
+
             case 12:
                 _tempUnit.SetHealth(_tempUnit.CurrentHealth * 0.5f);
-                UI.Instance.paused = false;
+                UI.Combat.UI.Instance.paused = false;
                 return Goals[11];
-            case 13:
 
-                UI.Instance.paused = true;
+            case 13:
+                UI.Combat.UI.Instance.paused = true;
                 return Goals[12];
+
             case 14:
 
                 _tempUnit.SetHealth(1);
@@ -90,14 +105,13 @@ public class FlorenceTrial : Scenario {
                 Florence.SetHealth(Florence.MaxHealth);
                 Florence.SetResource(Florence.GetResourceMax(0), 0);
                 Florence.SetResource(Florence.GetResourceMax(1), 1);
-                UI.Instance.paused = false;
+                UI.Combat.UI.Instance.paused = false;
                 return Goals[13];
+
             default:
                 EndScenario();
                 return null;
 
         }
     }
-
-
 }

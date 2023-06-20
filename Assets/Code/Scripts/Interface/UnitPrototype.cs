@@ -1,3 +1,5 @@
+using Combat.SpellOld;
+using Combat.Status;
 using System;
 using System.Collections.Generic;
 
@@ -21,7 +23,7 @@ namespace UnitOperations {
     }
 
     public interface IHealthOwner : IDamagable, IHealable, IKillable {
-        void SetHealth(float health, Unit inflictor = null, Ability ability = null);
+        void SetHealth(float health, Unit inflictor = null, OldAbility ability = null);
     }
 
     public interface IManaOwner {
@@ -39,19 +41,19 @@ namespace UnitOperations {
 
         bool Channeling { get; }
 
-        Ability CurrentCastAbility { get; }
+        OldAbility CurrentCastAbility { get; }
 
-        Ability FindAbilityByName(string abilityName);
+        OldAbility FindAbilityByName(string abilityName);
 
-        Ability GetAbilityByIndex(int index);
+        OldAbility GetAbilityByIndex(int index);
 
-        void CastAbility(Ability ability);
+        void CastAbility(OldAbility ability);
 
         void Interrupt(bool succes = false);
     }
 
     public interface IStatusOwner {
-        Status AddNewStatus(Unit caster, Ability ability, String name, Dictionary<String, float> data);
+        Status AddNewStatus(Unit caster, OldAbility ability, String name, Dictionary<String, float> data);
 
         List<Status> GetAllStatuses();
 
@@ -63,10 +65,6 @@ namespace UnitOperations {
 
         void RemoveAllStatusesOfName(string name);
     }
-
-
-
-
 }
 
 namespace Events {
@@ -81,8 +79,8 @@ namespace Events {
 
     public struct StartCastEvent {
         public Unit unit { get; }
-        public Ability ability { get; }
-        public StartCastEvent(Unit unit, Ability ability) {
+        public OldAbility ability { get; }
+        public StartCastEvent(Unit unit, OldAbility ability) {
             this.unit = unit;
             this.ability = ability;
         }

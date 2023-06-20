@@ -1,3 +1,5 @@
+using Combat.SpellOld;
+using Combat.Status;
 using Data;
 using System.Collections.Generic;
 
@@ -25,20 +27,18 @@ public class SweetPills : NotargetAbility {
 
     }
 
-
-
     public override void OnSpellStart() {
         Owner.GiveMana(AbilityDamage, 1);
     }
 }
 
 public class SweetDream : Status {
-    public SweetDream(Unit owner, Unit caster, Ability ability, Dictionary<string, float> data) : base(owner, caster, ability, data) {
+    public SweetDream(Unit owner, Unit caster, OldAbility ability, Dictionary<string, float> data) : base(owner, caster, ability, data) {
     }
 
     private float healAmmount;
 
-    public override StatsTable Bonuses => StatsTable.EMPTY_TABLE;
+    public override OldStatsTable Bonuses => OldStatsTable.EMPTY_TABLE;
 
     public override void OnCreated() {
 

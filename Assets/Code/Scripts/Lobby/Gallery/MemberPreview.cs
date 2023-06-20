@@ -17,7 +17,6 @@ public class MemberPreview : MonoBehaviour {
     [SerializeField] private List<Image> _gear;
     [SerializeField] private Animator showHideGear;
 
-
     //[SerializeField] private TextMeshPro insertButton;
 
     public void InsertUnit(UnitPreview unit) {
@@ -32,7 +31,6 @@ public class MemberPreview : MonoBehaviour {
             _gear[(int) gear.Slot].sprite = gear.GearItem != null ? gear.GearItem.Icon : null;
         }
     }
-
 
     private void OnEnable() {
         /*if (insertButton == null) {
@@ -55,6 +53,4 @@ public class MemberPreview : MonoBehaviour {
     void Update() {
 
     }
-
-
 }

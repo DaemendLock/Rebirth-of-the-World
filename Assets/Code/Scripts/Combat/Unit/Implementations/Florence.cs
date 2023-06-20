@@ -1,14 +1,11 @@
-
 using Data;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Florence : Unit {
 
     public const ushort UNIT_ID = 1;
-    public ushort UnitId = UNIT_ID;
 
-    private static readonly UnitData _baseUnit = new(UNIT_ID) {
+    private static readonly OldUnitData _baseUnit = new(UNIT_ID) {
         Role = UNIT_ROLE.HEAL,
         Attack = new Stat() { baseValue = 50, gain = new float[1] { 0 } },
         Spellpower = new Stat() { baseValue = 100, gain = new float[1] { 0 } },
@@ -31,8 +28,10 @@ public class Florence : Unit {
         UnitPrefabName = "Florence"
     };
 
+    public Florence(Vector3 location, Quaternion facing, Team team, byte lvl, byte rank, int objectId) : base(location, facing, team, lvl, rank, objectId) {
+    }
 
-    protected override UnitData BaseUnit => _baseUnit;
+    protected override OldUnitData BaseUnit => _baseUnit;
 
     protected override void Precache() {
         RotW.Precache("RefreshingConcoctionIcon", "Sprites/Abilities/Florence/SpellRefreshingConcoction", ResourceType.SPRITE);
@@ -41,7 +40,6 @@ public class Florence : Unit {
         RotW.Precache("SpecialAttentionIcon", "Sprites/Abilities/Florence/SpellSpecialAttention", ResourceType.SPRITE);
         RotW.Precache("RelifePleasureIcon", "Sprites/Abilities/Florence/SpellRelifePleasure", ResourceType.SPRITE);
     }
-
 
     public override void Init() {
         AddAbility(new RelifePleasure(this));

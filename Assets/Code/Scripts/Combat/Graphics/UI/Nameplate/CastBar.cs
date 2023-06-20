@@ -1,3 +1,4 @@
+using Combat.SpellOld;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +15,7 @@ public class CastBar : RefreshableUI, IUnitBindable {
 
     private Unit _owner;
 
-    private Ability _castAbility;
+    private OldAbility _castAbility;
 
     private void Awake() {
         GetComponent<Nameplate>().SubscribeForOwnerBinding(this);
@@ -52,23 +53,23 @@ public class CastBar : RefreshableUI, IUnitBindable {
     }
 
 
-    private void EnableCastbar(Ability ability) {
+    private void EnableCastbar(OldAbility ability) {
         _progressBar.color = _castColor;
         _progressBar.fillAmount = 1;
         Enable(ability);
     }
 
-    private void EnableChnnel(Ability ability) {
+    private void EnableChnnel(OldAbility ability) {
         _progressBar.color = _channelColor;
         _progressBar.fillAmount = 0;
         Enable(ability);
     }
 
-    private void DisableCastbar(Ability ability, bool succes) {
+    private void DisableCastbar(OldAbility ability, bool succes) {
         Disable();
     }
 
-    private void Enable(Ability ability) {
+    private void Enable(OldAbility ability) {
         _castAbility = ability;
         _castIcon.sprite = ability.AbilityIcon;
         _contentBox.SetActive(true);

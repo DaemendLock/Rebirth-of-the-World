@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp:Data:UnitTemplate
   role: 2
   unitId: 0
+  Name: Florence
   Attack:
     baseValue: 50
     gain:
@@ -24,6 +25,10 @@ MonoBehaviour:
     - 0
   Crit:
     baseValue: 0
+    gain:
+    - 0
+  Haste:
+    baseValue: 10
     gain:
     - 0
   Versa:
@@ -64,6 +69,7 @@ MonoBehaviour:
     baseValue: 0
     gain:
     - 0
+  RindRadius: 0.5
   AttackSpeed: 1.7
   AttackRange: 15
   RangedAttack: 1

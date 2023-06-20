@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEditor.FilePathAttribute;
 
 public class UnitGraphics : MonoBehaviour {
     private Unit _attachedUnit;
@@ -7,8 +6,8 @@ public class UnitGraphics : MonoBehaviour {
 
     private bool _showCastbar;
 
-    private void Start() {
-        
+    private void Awake() {
+        gameObject.SetActive(false);
     }
 
     private void BindToUnit(Unit unit) {
@@ -28,19 +27,26 @@ public class UnitGraphics : MonoBehaviour {
 
     // Update is called once per frame
     private void Update() {
-        if (_attachedUnit.Moving) {
-            gameObject.transform.position = _attachedUnit.Origin;
-            Quaternion rot = Quaternion.LookRotation(_attachedUnit.Destination - _attachedUnit.Origin);
-            float rotAc = 0;
-            float rotationY = Mathf.SmoothDampAngle(transform.eulerAngles.y, rot.eulerAngles.y, ref rotAc, Time.deltaTime);
-            gameObject.transform.position = _attachedUnit.Origin;
-            transform.eulerAngles = new Vector3(0, rotationY, 0);
-        }
+        float time = Time.deltaTime;
+        if (_attachedUnit.Moving) Move(time);
+    }
+
+    private void UnitDied() {
+        transform.Rotate(90, 0, 0);
     }
 
     private void ForceMove(Vector3 location) {
         _approximateLocation = location;
         gameObject.transform.position = location;
+    }
+
+    private void Move(float time) {
+        Quaternion rot = _attachedUnit.Facing;
+        float rotAc = 0;
+        float rotationY = Mathf.SmoothDampAngle(transform.eulerAngles.y, rot.eulerAngles.y, ref rotAc, time);
+        
+        transform.position = _attachedUnit.Origin;
+        transform.eulerAngles = new Vector3(0, rotationY, 0);
     }
 
 

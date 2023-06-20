@@ -40,12 +40,12 @@ public class SignInScreen : MonoBehaviour {
     private void OnAccountAccessed(AccountAccessResponse response) {
         if (!response.Success)
             return;
-        try {
-            _account = new Account(response.UID);
-            startWindow.SetActive(true);
-        } catch (System.Exception) { }
-    }
 
+        startWindow.SetActive(true);
+        Debug.Log("Loginned");
+        _account = new(response.UID);
+
+    }
 
     public void SwitchSigninAndLogin() {
         if (authWindow.activeSelf) {
@@ -58,7 +58,7 @@ public class SignInScreen : MonoBehaviour {
     }
 
     public void StartGame() {
-        ServerManager.RequestAccountData(_account.UID, AccountsData.DataType.ACCOUNT_CUSTOMIZATION, 0);
+        //ServerManager.RequestAccountData(_account.UID, AccountsData.DataType.ACCOUNT_CUSTOMIZATION, 0);
         while (ServerManager.ActiveAccount?.Data.Nickname.Length == 0) {
 
         }

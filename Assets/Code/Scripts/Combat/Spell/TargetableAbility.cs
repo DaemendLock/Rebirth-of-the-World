@@ -1,12 +1,15 @@
-using Abilities;
+namespace Combat.SpellOld
+{
+    public abstract class TargetableAbility : OldAbility, ITargetable
+    {
 
-public abstract class TargetableAbility : Ability, ITargetable {
+        public TargetableAbility(Unit owner) : base(owner)
+        {
 
-    public TargetableAbility(Unit owner) : base(owner) {
+        }
 
+        public abstract float CastRadius { get; }
+
+        public override bool ShowOnTooltip => true;
     }
-
-    public abstract float CastRadius { get; }
-
-    public override bool ShowOnTooltip => true;
 }

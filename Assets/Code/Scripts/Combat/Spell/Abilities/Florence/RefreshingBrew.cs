@@ -1,9 +1,10 @@
-
+using Combat.SpellOld;
+using Combat.Status;
 using Data;
 using System.Collections.Generic;
 
-public class RefreshingConcoction : UnitTargetAbility {
-
+public class RefreshingConcoction : UnitTargetAbility
+{
     public override AbilityData AbilityData => RotW.GetAbilityDataById(0);
 
     public override float AbilityCooldown => 30;
@@ -22,32 +23,35 @@ public class RefreshingConcoction : UnitTargetAbility {
 
     public override float ChannelTime => 0;
 
-    public override UNIT_TARGET_FLAGS TargetFlag => UNIT_TARGET_FLAGS.NONE;
+    public override UnitTargetFlag TargetFlag => UnitTargetFlag.NONE;
 
-    public override UNIT_TARGET_TEAM TargetTeam => UNIT_TARGET_TEAM.FRIENDLY;
+    public override UnitTargetTeam TargetTeam => UnitTargetTeam.FRIENDLY;
 
     public override float CastRadius => 60;
 
-    static RefreshingConcoction() {
+    static RefreshingConcoction()
+    {
         RotW.LinkStatus("status_trepidation", typeof(Trepidation));
     }
 
     //ID: 0
-    public RefreshingConcoction(Unit owner) : base(owner) {
+    public RefreshingConcoction(Unit owner) : base(owner)
+    {
     }
 
-    public override void OnSpellStart() {
+    public override void OnSpellStart()
+    {
         Owner.SetResource(0, 1);
         CursorTarget.SetHealth(CursorTarget.CurrentHealth * (1 - AbilityDamage));
         CursorTarget.AddNewStatus(Owner, this, "status_trepidation", new Dictionary<string, float> { ["duration"] = 7 });
     }
-
-
 }
 
-public class Trepidation : Status {
-    public Trepidation(Unit owner, Unit caster, Ability ability, Dictionary<string, float> data) : base(owner, caster, ability, data) {
+public class Trepidation : Status
+{
+    public Trepidation(Unit owner, Unit caster, OldAbility ability, Dictionary<string, float> data) : base(owner, caster, ability, data)
+    {
     }
 
-    public override StatsTable Bonuses => new() { AtkPercent = 60, SpellpowerPercent = 60 };
+    public override OldStatsTable Bonuses => new() { AtkPercent = 60, SpellpowerPercent = 60 };
 }

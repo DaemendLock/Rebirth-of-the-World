@@ -1,3 +1,4 @@
+using Combat.SpellOld;
 using System;
 using UnityEngine;
 
@@ -11,8 +12,6 @@ public interface IQuest {
     public void OnTrigger();
 }
 
-
-
 public class ReadTipQuest : IQuest {
 
     public string text;
@@ -25,7 +24,7 @@ public class ReadTipQuest : IQuest {
     }
 
     public void StartQuest() {
-        TipPanel tipPanel = UI.Instance.tipPanel;
+        TipPanel tipPanel = UI.Combat.UI.Instance.tipPanel;
         tipPanel.textPanel.text = text;
         tipPanel.gameObject.SetActive(true);
         EventManager.TipClosed += OnTrigger;
@@ -38,7 +37,7 @@ public class CastQuest : IQuest {
     public ushort spellId;
     public Unit caster;
 
-    public CastQuest(Ability ability) {
+    public CastQuest(OldAbility ability) {
         spellId = ability.SpellId;
         caster = ability.Owner;
     }
@@ -54,16 +53,16 @@ public class CastQuest : IQuest {
         EventManager.SendLocalGoalAchivedEvent();
     }
 
-    public void OnTrigger(Ability ability, bool succes) {
+    public void OnTrigger(OldAbility ability, bool succes) {
         if (ability != null && ability.DataID == spellId && ability.Castable == true && succes)
             OnTrigger();
     }
-    public void OnTrigger(Ability ability) {
+    public void OnTrigger(OldAbility ability) {
         if (ability != null && ability.DataID == spellId && ability.Castable == false && ability.Channelable == false)
             OnTrigger();
     }
 
-    public void OnTriggerChannel(Ability ability, bool succes) {
+    public void OnTriggerChannel(OldAbility ability, bool succes) {
         if (ability != null && ability.DataID == spellId)
             OnTrigger();
     }

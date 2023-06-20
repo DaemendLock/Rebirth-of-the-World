@@ -1,3 +1,5 @@
+using Combat.SpellOld;
+
 public abstract class Swing : UnitTargetAbility {
 
     DamageEvent dmgEvent;
