@@ -1,4 +1,5 @@
-﻿using Remaster.AuraEffects;
+﻿using Remaster.Abilities;
+using Remaster.AuraEffects;
 using Remaster.Events;
 using Remaster.Stats;
 using Remaster.Utils;
@@ -6,7 +7,7 @@ using System.IO;
 
 namespace Remaster.Interfaces
 {
-    public interface IUnitAssignable
+    public interface UnitAssignable
     {
         public bool TryAssignTo(Unit unit);
     }
@@ -36,13 +37,11 @@ namespace Remaster.Interfaces
 
     public interface AuraOwner
     {
-        void AddStatus(EventData data);
-
         void ApplyAura(EventData data, AuraEffect effect);
 
-        Status FindStatus(Spell spell, Unit caster);
+        Status FindStatus(Spell spell);
 
-        bool HasStatus(Spell spell, Unit caster);
+        bool HasStatus(Spell spell);
 
         void Dispell(DispellType dispellType);
 
@@ -51,7 +50,7 @@ namespace Remaster.Interfaces
 
     public interface DynamicStatOwner
     {
-        public PercentModifiedValue EvaluateDynamicStat(UnitStat stat);
+        public PercentModifiedValue EvaluateStat(UnitStat stat);
     }
 
     public interface CastResourceOwner

@@ -1,7 +1,7 @@
-﻿using Remaster.CombatSetup;
+﻿using Remaster.Abilities;
+using Remaster.CombatSetup;
 using Remaster.Data;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,7 +33,7 @@ namespace Remaster.Test
 
         private void Update()
         {
-            _slider.value = _unit.CurrentHealth / _unit.GetStat(Stats.UnitStat.MAX_HEALTH);
+            _slider.value = _unit.CurrentHealth / _unit.MaxHealth;
 
             AutoAttack();
 

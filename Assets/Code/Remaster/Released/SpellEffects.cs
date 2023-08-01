@@ -64,7 +64,7 @@ namespace Remaster.SpellEffects
 
             if (caster != null)
             {
-                originalHealing *= (1 + caster.EvaluateDynamicStat(UnitStat.HEALING_DONE).CalculatedValue) * caster.EvaluateVersalityMultiplyer();
+                originalHealing *= (1 + caster.EvaluateStat(UnitStat.HEALING_DONE).CalculatedValue) * caster.EvaluateVersalityMultiplyer();
             }
 
             HealthChangeEventData healing = new HealthChangeEventData(originalHealing, data.Caster, data.Target, data.Spell);
@@ -73,7 +73,7 @@ namespace Remaster.SpellEffects
         }
 
         public float GetValue(float modifyValue) => _value.BaseValue;
-        
+
         public void Serialize(BinaryWriter buffer)
         {
             buffer.Write(GetType().ToString());
@@ -89,7 +89,7 @@ namespace Remaster.SpellEffects
         {
             _value = damage;
         }
-        
+
         public SchoolDamage(BinaryReader source)
         {
             _value = Serializer.Deserialize<ValueSource>(source);
@@ -103,7 +103,7 @@ namespace Remaster.SpellEffects
 
             if (caster != null)
             {
-                originalDamage *= (1 + caster.EvaluateDynamicStat(UnitStat.DAMAGE_DONE).CalculatedValue) * caster.EvaluateVersalityMultiplyer();
+                originalDamage *= (1 + caster.EvaluateStat(UnitStat.DAMAGE_DONE).CalculatedValue) * caster.EvaluateVersalityMultiplyer();
             }
 
             HealthChangeEventData damage = new HealthChangeEventData(originalDamage, data.Caster, data.Target, data.Spell);
@@ -193,20 +193,20 @@ namespace Remaster.SpellEffects
         }
     }
 
-    public class TrigerSpell : SpellEffect
+    public class TriggerSpell : SpellEffect
     {
         private readonly int _spell;
 
-        public TrigerSpell(Spell spell)
+        public TriggerSpell(Spell spell)
         {
             _spell = spell.Id;
         }
 
-        public TrigerSpell(int spellId)
+        public TriggerSpell(int spellId)
         {
             _spell = spellId;
         }
-        public TrigerSpell(BinaryReader source)
+        public TriggerSpell(BinaryReader source)
         {
             _spell = source.ReadInt32();
         }
@@ -230,34 +230,40 @@ namespace Remaster.SpellEffects
     public class ApplyAura : SpellEffect
     {
         private readonly AuraEffect _effect;
+        private readonly int _value;
 
-        public ApplyAura(AuraEffect effect)
+        public ApplyAura(AuraEffect effect, int value = 0)
         {
             _effect = effect;
+            _value = value;
         }
 
         public ApplyAura(BinaryReader source)
         {
             _effect = Serializer.Deserialize<AuraEffect>(source);
+            _value = source.ReadInt32();
         }
 
         public float GetValue(float modifyValue)
         {
-            return modifyValue;
+            return modifyValue + _value;
         }
 
         public void ApplyEffect(EventData data, float modifyValue)
         {
-            if (modifyValue >= 0)
+            if (modifyValue + _value < 0)
             {
-                data.Target.ApplyAura(data, _effect);
+                return;
             }
+
+            data.Target.ApplyAura(data, _effect);
         }
 
         public void Serialize(BinaryWriter buffer)
         {
             buffer.Write(GetType().ToString());
             Serializer.SerializeEffect(_effect, buffer);
+            buffer.Write(_value);
         }
     }
 }

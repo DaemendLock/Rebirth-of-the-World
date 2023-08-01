@@ -1,7 +1,5 @@
-﻿using Remaster.Events;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 namespace Remaster.Combat
 {
@@ -35,11 +33,11 @@ namespace Remaster.Combat
 
             if (spell.TargetTeam != TargetTeam.ENEMY)
             {
-                result = _units.Find((target) => (unit.CanHelp(target)));
+                result = _units.Find((target) => unit.CanHelp(target));
             }
             else
             {
-                result = _units.Find((target) => (unit.CanHurt(target)));
+                result = _units.Find((target) => unit.CanHurt(target));
             }
 
             return result;

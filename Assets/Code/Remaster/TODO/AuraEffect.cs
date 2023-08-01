@@ -1,5 +1,4 @@
-﻿using Remaster.Data.Serializer;
-using Remaster.Events;
+﻿using Remaster.Events;
 using Remaster.Interfaces;
 using Remaster.SpellEffects;
 using Remaster.Stats;
@@ -137,10 +136,10 @@ namespace Remaster.AuraEffects
 
     public class AbsorbDamage : AuraEffect
     {
-        private ValueSource _health;
+        private Utils.ValueSource _health;
         private SchoolType _type;
 
-        public AbsorbDamage(ValueSource health, SchoolType type)
+        public AbsorbDamage(Utils.ValueSource health, SchoolType type)
         {
             _health = health;
             _type = type;
@@ -239,12 +238,5 @@ namespace Remaster.AuraEffects
         public abstract void Serialize(BinaryWriter buffer);
 
         public abstract void Update(Status status, EventData data);
-    }
-
-    public interface DynamicModStat : AuraEffect
-    {
-        public UnitStat Stat { get; }
-
-        public PercentModifiedValue Evaluate(Status status);
     }
 }

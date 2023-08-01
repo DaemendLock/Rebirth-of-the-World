@@ -157,7 +157,7 @@ namespace Remaster.SpellEffects
 
         public float BaseValue { get; }
 
-        public float GetValue(EventData data, float modifyValue) => data.Caster.EvaluateDynamicStat(UnitStat.SPELLPOWER).CalculatedValue * (BaseValue + modifyValue);
+        public float GetValue(EventData data, float modifyValue) => data.Caster.EvaluateStat(UnitStat.SPELLPOWER).CalculatedValue * (BaseValue + modifyValue);
 
         public void Serialize(BinaryWriter buffer)
         {
@@ -179,7 +179,7 @@ namespace Remaster.SpellEffects
 
         public float BaseValue { get; }
 
-        public float GetValue(EventData data, float modifyValue) => data.Caster.GetStat(UnitStat.ATK) * (BaseValue + modifyValue);
+        public float GetValue(EventData data, float modifyValue) => data.Caster.EvaluateStat(UnitStat.ATK).CalculatedValue * (BaseValue + modifyValue);
 
         public void Serialize(BinaryWriter buffer)
         {
