@@ -1,0 +1,17 @@
+﻿using Remaster.View;
+using Remaster.View.PartyFrame;
+using UnityEngine;
+
+namespace Remaster.DynamicUI
+{
+    public class DynamicUIRoot : MonoBehaviour
+    {
+        [SerializeField] private bool _hide;
+
+        [SerializeField] private ActionBar _actionBar;
+        [SerializeField] private PartyFrame _partyFrame;
+
+
+
+    }
+}

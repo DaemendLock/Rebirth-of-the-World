@@ -1,11 +1,6 @@
-﻿using Remaster.Abilities;
-using Remaster.AuraEffects;
-using Remaster.Events;
-using Remaster.Stats;
-using Remaster.Utils;
-using System.IO;
+﻿using System.IO;
 
-namespace Remaster.Interfaces
+namespace Model.Interfaces
 {
     public interface UnitAssignable
     {
@@ -29,6 +24,8 @@ namespace Remaster.Interfaces
         Ability GetAbility(SpellSlot slot);
 
         CommandResult CastAbility(EventData data);
+
+        CommandResult CastSpell(EventData data);
 
         void Interrupt(InterruptData data);
 

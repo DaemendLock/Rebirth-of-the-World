@@ -1,3 +1,4 @@
+using Remaster.Engine;
 using System;
 using UnityEngine;
 
@@ -148,9 +149,6 @@ namespace Remaster.Utils
 
     public static class Time
     {
-        /// <summary>
-        /// The time at the beggining of unity frame
-        /// </summary>
-        public static float time => UnityEngine.Time.time;
+        public static float time => (float) CombatTime.Time / 1000;
     }
 }

@@ -17,7 +17,7 @@ namespace Remaster.Test
 
         private Remaster.Unit _unit;
 
-        private void Start()
+        private void Awake()
         {
             List<Spell> spells = new List<Spell>();
 
@@ -41,7 +41,7 @@ namespace Remaster.Test
             {
                 Spell spell = _unit.GetAbility(SpellSlot.FIRST).Spell;
 
-                Remaster.Unit target = Combat.Combat.Instance.GetTargetFor(_unit, spell);
+                Remaster.Unit target = Engine.Combat.GetTargetFor(_unit, spell);
 
                 _unit.CastAbility(new(_unit, target, spell));
             }
@@ -53,7 +53,7 @@ namespace Remaster.Test
 
             if (ability != null && ability.Cooldown.Expired)
             {
-                Remaster.Unit target = Combat.Combat.Instance.GetTargetFor(_unit, ability.Spell);
+                Remaster.Unit target = Engine.Combat.GetTargetFor(_unit, ability.Spell);
 
                 _unit.CastAbility(new(_unit, target, ability.Spell));
             }
@@ -62,7 +62,7 @@ namespace Remaster.Test
 
             if (ability != null && ability.Cooldown.Expired)
             {
-                Remaster.Unit target = Combat.Combat.Instance.GetTargetFor(_unit, ability.Spell);
+                Remaster.Unit target = Engine.Combat.GetTargetFor(_unit, ability.Spell);
 
                 _unit.CastAbility(new(_unit, target, ability.Spell));
             }

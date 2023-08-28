@@ -1,9 +1,4 @@
-﻿using Remaster.AuraEffects;
-using Remaster.Data.Serializer;
-using Remaster.Events;
-using Remaster.Interfaces;
-using Remaster.Stats;
-using System.IO;
+﻿using System.IO;
 
 namespace Remaster.SpellEffects
 {
@@ -67,7 +62,7 @@ namespace Remaster.SpellEffects
                 originalHealing *= (1 + caster.EvaluateStat(UnitStat.HEALING_DONE).CalculatedValue) * caster.EvaluateVersalityMultiplyer();
             }
 
-            HealthChangeEventData healing = new HealthChangeEventData(originalHealing, data.Caster, data.Target, data.Spell);
+            HealthChangeEventData healing = new HealthChangeEventData(originalHealing, caster, data.Target, data.Spell);
 
             data.Target.Heal(healing);
         }
@@ -213,7 +208,7 @@ namespace Remaster.SpellEffects
 
         public void ApplyEffect(EventData data, float modifyValue)
         {
-            data.Caster.CastAbility(new EventData(data.Caster, data.Target, SpellLib.SpellLib.GetSpell(_spell)));
+            data.Caster.CastSpell(new EventData(data.Caster, data.Target, SpellLib.SpellLib.GetSpell(_spell)));
         }
 
         public float GetValue(float modifyValue)

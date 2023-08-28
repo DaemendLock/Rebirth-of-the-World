@@ -11,7 +11,6 @@ namespace Networking {
         public static event Action<AccountAccessResponse> AccountAccessFigured;
         public static event Action<Unit, float, float> ServerUnitMoveCommand;
 
-
         private static Account _account;
         private static NetworkModule _connection = null;
 

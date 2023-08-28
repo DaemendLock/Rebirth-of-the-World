@@ -16,7 +16,7 @@ namespace Remaster.CombatSetup
             GiveBasicSpells(spellcasting, data);
             GiveTalentSpells(spellcasting, data);
 
-            Combat.Combat.Instance.RegisterUnit(result);
+            Engine.Combat.RegisterUnit(result);
 
             return result;
         }

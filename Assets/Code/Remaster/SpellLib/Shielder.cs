@@ -181,7 +181,7 @@ namespace Remaster.SpellLib.Shielder
             Mechanic.NONE,
             new SpellEffect[]
             {
-                //disable movement
+                //TODO: disable controll
                 new ApplyAura(new ModStat(Stats.UnitStat.DAMAGE_TAKEN, new Constant(-0.9f), true))
                 //count damage to 200% max hp, then trugger spell
                 //create aoe damage aura

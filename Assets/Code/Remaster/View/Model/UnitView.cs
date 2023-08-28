@@ -32,5 +32,20 @@ namespace Remaster.View
         {
 
         }
+
+        private void OnCast()
+        {
+
+        }
+
+        private void OnDeath()
+        {
+
+        }
+
+        private void OnRessurect()
+        {
+
+        }
     }
 }
