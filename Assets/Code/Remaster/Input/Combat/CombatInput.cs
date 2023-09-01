@@ -1,6 +1,8 @@
-﻿using Remaster.Networking;
+﻿using Core.Networking;
+using Core.Combat.Units;
+using Core.Combat.Abilities;
 
-namespace Remaster.Input.Combat
+namespace Core.Input.Combat
 {
     public class CombatInput
     {

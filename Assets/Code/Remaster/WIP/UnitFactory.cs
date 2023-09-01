@@ -1,12 +1,14 @@
-﻿using Remaster.Data;
-using Remaster.UnitComponents;
-using Remaster.Utils;
+﻿using Core.Combat.Abilities;
+using Core.Combat.Units;
+using Core.Combat.Units.Components;
+using Core.Combat.Utils;
+using Core.Data;
 
-namespace Remaster.CombatSetup
+namespace Core.CombatSetup
 {
     public static class UnitFactory
     {
-        public static Unit CreateUnit(UnitData data, Team team, Position position)
+        public static Unit CreateUnit(UnitData data, Team.Team team, Position position)
         {
             Spellcasting spellcasting = new Spellcasting();
             UnitState stats = new UnitState(data.StatsTable, data.Resources, team);

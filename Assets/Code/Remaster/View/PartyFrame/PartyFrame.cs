@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Remaster.View.PartyFrame
+namespace Core.View.PartyFrame
 {
     public class PartyFrame : MonoBehaviour
     {

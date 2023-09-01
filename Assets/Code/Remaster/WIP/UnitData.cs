@@ -1,8 +1,9 @@
-﻿using Remaster.Stats;
-using Remaster.UnitComponents;
+﻿using Core.Stats;
+using Core.Combat.Abilities;
+using Core.Combat.Units.Components;
 using System;
 
-namespace Remaster.Data
+namespace Core.Data
 {
     [Serializable]
     public class UnitData

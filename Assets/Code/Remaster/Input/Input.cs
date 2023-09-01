@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Remaster.Input
+namespace Core.Input
 {
     public static class Input
     {

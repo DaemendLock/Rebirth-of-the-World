@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Remaster.View.PartyFrame
+namespace Core.View.PartyFrame
 {
     public class PartyIcon : MonoBehaviour
     {

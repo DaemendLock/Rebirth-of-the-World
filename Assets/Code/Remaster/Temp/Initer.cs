@@ -1,13 +1,17 @@
-﻿using Remaster.CombatSetup;
-using Remaster.Data;
-using Remaster.Engine;
-using Remaster.View;
+﻿using Core.Combat.Abilities;
+using Core.Combat.Units;
+using Core.Combat.Utils;
+using Core.CombatSetup;
+using Core.Data;
+using Core.Engine;
+using Core.View;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using View;
 
-namespace Remaster.Temp
+namespace Core.Temp
 {
     public class Initer : MonoBehaviour
     {
@@ -35,16 +39,16 @@ namespace Remaster.Temp
 
             foreach (int id in _spells)
             {
-                spells.Add(SpellLib.SpellLib.GetSpell(id));
+                spells.Add(Core.Data.SpellLib.SpellLib.GetSpell(id));
             }
 
             _data.BasicSpells = spells.ToArray();
 
-            _unit = UnitFactory.CreateUnit(_data, Team.NOTEAM, new Utils.Position() { Location = new Vector3(), ViewDirection = new Vector3() });
+            _unit = UnitFactory.CreateUnit(_data, Team.Team.NONE, new Position() { Location = new Vector3(), ViewDirection = new Vector3() });
 
             _bar.SetActiveUnit(_unit);
 
-            _unit.CastAbility(new Events.EventData(_unit, _unit, _unit.GetAbility(SpellSlot.FIRST).Spell));
+            _unit.CastAbility(new EventData(_unit, _unit, _unit.GetAbility(Combat.Abilities.SpellSlot.FIRST).Spell));
 
             foreach (UnitView view in _setupUnits)
             {

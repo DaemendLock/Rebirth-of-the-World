@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Remaster.View
+namespace Core.View
 {
     public static class SpellViewProvider
     {

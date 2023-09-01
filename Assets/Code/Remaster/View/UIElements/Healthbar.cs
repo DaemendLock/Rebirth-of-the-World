@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Remaster.View.UIElements
+namespace Core.View.UIElements
 {
     [RequireComponent(typeof(Slider))]
     public class Healthbar : MonoBehaviour

@@ -1,8 +1,9 @@
-﻿using Remaster.Interfaces;
-using Remaster.UnitComponents;
+﻿using Core.Combat.Units;
+using Core.Combat.Units.Components;
+using Core.Combat.Interfaces;
 using UnityEngine;
 
-namespace Remaster.View
+namespace View
 {
     public class UnitView : MonoBehaviour, UnitAssignable
     {
@@ -11,7 +12,7 @@ namespace Remaster.View
 
         private void Update()
         {
-            _position.EvaluateNextLocation(_unit.GetStat(Stats.UnitStat.SPEED), Time.deltaTime);
+            _position.EvaluateNextLocation(_unit.GetStat(Core.Stats.UnitStat.SPEED), Time.deltaTime);
 
             transform.position =  _position.Position.Location;
             LookInDirection(_position.Position.ViewDirection);

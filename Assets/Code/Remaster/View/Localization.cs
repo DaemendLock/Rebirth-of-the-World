@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Remaster.View
+namespace Core.View
 {
     public static class Localization
     {

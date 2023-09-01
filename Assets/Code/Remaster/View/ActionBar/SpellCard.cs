@@ -1,9 +1,9 @@
-﻿using Remaster.Abilities;
-using Remaster.Data.SpriteLib;
+﻿using Core.Combat.Abilities;
+using Core.Data.SpriteLib;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Remaster.View
+namespace View
 {
     public class SpellCard : MonoBehaviour
     {

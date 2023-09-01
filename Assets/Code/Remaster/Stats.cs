@@ -1,8 +1,8 @@
-﻿using Remaster.Utils;
-using System;
+﻿using System;
 using UnityEngine;
+using Utils;
 
-namespace Remaster.Stats
+namespace Core.Stats
 {
     public enum UnitStat : int
     {

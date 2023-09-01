@@ -1,8 +1,9 @@
-﻿using Remaster.Interfaces;
-using Remaster.View.UIElements;
+﻿using Core.Combat.Units;
+using Core.Combat.Interfaces;
+using Core.View.UIElements;
 using UnityEngine;
 
-namespace Remaster.View
+namespace Core.View
 {
     public class Nameplate : MonoBehaviour, UnitAssignable
     {

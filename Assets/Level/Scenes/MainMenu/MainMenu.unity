@@ -207,7 +207,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1766529322}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Lobby, Assembly-CSharp
         m_MethodName: BackMenu
         m_Mode: 1
@@ -1010,14 +1010,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26a3ab2f01f274047b210071c52b11fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Unit:
-    icon: {fileID: 0}
-    name: 
-    lvl: 0
-    affection: 0
-    role: 0
-    abilities: []
-  image: {fileID: 118712004}
 --- !u!114 &118712007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1062,7 +1054,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1766529322}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Lobby, Assembly-CSharp
         m_MethodName: ViewCharacter
         m_Mode: 2
@@ -1524,11 +1516,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 163082875}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 516ab42272f874843b1f70f323833e75, type: 3}
+  m_Script: {fileID: 11500000, guid: 635c3d10b24ce1642b4c42a6e738718e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questTitle: {fileID: 1967322366}
-  questDesription: {fileID: 392385016}
+  _questTitle: {fileID: 1967322366}
+  _questDesription: {fileID: 392385016}
 --- !u!1 &207924649
 GameObject:
   m_ObjectHideFlags: 0
@@ -4714,7 +4706,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1766529322}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Lobby, Assembly-CSharp
         m_MethodName: Home
         m_Mode: 1
@@ -4911,6 +4903,7 @@ GameObject:
   - component: {fileID: 511210932}
   - component: {fileID: 511210931}
   - component: {fileID: 511210936}
+  - component: {fileID: 511210937}
   m_Layer: 5
   m_Name: GuildFiles
   m_TagString: Untagged
@@ -4967,15 +4960,15 @@ Canvas:
   m_GameObject: {fileID: 511210930}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
-  m_Camera: {fileID: 1766529321}
+  m_RenderMode: 0
+  m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_SortingLayerID: -2125560607
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -5013,6 +5006,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 511210930}
   m_CullTransparentMesh: 1
+--- !u!114 &511210937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 511210930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de6355caeeea14642aca19629e8f5352, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guildMembers: []
 --- !u!1 &535684768
 GameObject:
   m_ObjectHideFlags: 0
@@ -5414,7 +5420,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1766529322}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Lobby, Assembly-CSharp
         m_MethodName: Home
         m_Mode: 1
@@ -6104,7 +6110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 922017bf891caa34d8c9f60c0a68a647, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  memberPicture: {fileID: 631770501}
 --- !u!114 &631770500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6455,8 +6460,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfa4246ec73d8cd499e7977d7c1dc56f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _progress: {fileID: 672716462}
-  _pBar: {fileID: 588663715}
 --- !u!1 &673270848
 GameObject:
   m_ObjectHideFlags: 0
@@ -7848,14 +7851,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26a3ab2f01f274047b210071c52b11fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Unit:
-    icon: {fileID: 0}
-    name: 
-    lvl: 0
-    affection: 0
-    role: 0
-    abilities: []
-  image: {fileID: 809097334}
 --- !u!114 &809097334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7930,7 +7925,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1766529322}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Lobby, Assembly-CSharp
         m_MethodName: ViewCharacter
         m_Mode: 2
@@ -8055,7 +8050,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1766529322}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Lobby, Assembly-CSharp
         m_MethodName: OpenMenu
         m_Mode: 2
@@ -8240,7 +8235,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 1766529321}
+  m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -8720,7 +8715,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1766529322}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Lobby, Assembly-CSharp
         m_MethodName: BackMenu
         m_Mode: 1
@@ -9036,12 +9031,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a7dcda11906df5468b614a3685ea36c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scnarioList:
-  - {fileID: 207924649}
-  - {fileID: 83181623}
-  - {fileID: 1579030172}
-  - {fileID: 1973995500}
-  - {fileID: 2118042852}
 --- !u!1 &923415513
 GameObject:
   m_ObjectHideFlags: 0
@@ -9249,7 +9238,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 922017bf891caa34d8c9f60c0a68a647, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  memberPicture: {fileID: 929670414}
 --- !u!114 &929670413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9565,7 +9553,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 922017bf891caa34d8c9f60c0a68a647, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  memberPicture: {fileID: 959555643}
 --- !u!114 &959555642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10021,7 +10008,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 922017bf891caa34d8c9f60c0a68a647, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  memberPicture: {fileID: 1022054846}
 --- !u!114 &1022054845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10970,6 +10956,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1133128218}
+  - component: {fileID: 1133128219}
   m_Layer: 0
   m_Name: Menus
   m_TagString: Untagged
@@ -10999,6 +10986,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1133128219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133128216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e22c33912850f344afe0dbfad0036d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lobby: {fileID: 1657821962}
+  _sceneSelection: {fileID: 1343733981}
+  _teamSelection: {fileID: 1958639287}
+  _gallery: {fileID: 511210937}
+  _memberPreview: {fileID: 1475014286}
+  lvlText: {fileID: 0}
+  nameText: {fileID: 0}
+  titleText: {fileID: 0}
+  goldAmmountText: {fileID: 0}
+  guildTokenAmmountText: {fileID: 0}
 --- !u!1 &1141602153
 GameObject:
   m_ObjectHideFlags: 0
@@ -11446,7 +11455,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1766529322}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Lobby, Assembly-CSharp
         m_MethodName: BackMenu
         m_Mode: 1
@@ -11776,7 +11785,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 922017bf891caa34d8c9f60c0a68a647, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  memberPicture: {fileID: 1186516748}
 --- !u!1 &1188097439
 GameObject:
   m_ObjectHideFlags: 0
@@ -12037,7 +12045,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1766529322}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Lobby, Assembly-CSharp
         m_MethodName: Home
         m_Mode: 1
@@ -12850,7 +12858,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32ef443b38990d4429f1329d1df92f40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconObejct: {fileID: 1328329034}
 --- !u!1 &1336991885
 GameObject:
   m_ObjectHideFlags: 0
@@ -13124,8 +13131,8 @@ Canvas:
   m_GameObject: {fileID: 1343733981}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
-  m_Camera: {fileID: 1766529321}
+  m_RenderMode: 0
+  m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -13148,12 +13155,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a7dcda11906df5468b614a3685ea36c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scnarioList:
-  - {fileID: 207924649}
-  - {fileID: 83181623}
-  - {fileID: 1579030172}
-  - {fileID: 1973995500}
-  - {fileID: 2118042852}
 --- !u!114 &1343733987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13455,7 +13456,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 922017bf891caa34d8c9f60c0a68a647, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  memberPicture: {fileID: 1351346402}
 --- !u!114 &1351346401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13891,7 +13891,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1766529322}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Lobby, Assembly-CSharp
         m_MethodName: BackMenu
         m_Mode: 1
@@ -14025,7 +14025,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1766529322}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Lobby, Assembly-CSharp
         m_MethodName: BackMenu
         m_Mode: 1
@@ -14235,7 +14235,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1766529322}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Lobby, Assembly-CSharp
         m_MethodName: StartScenario
         m_Mode: 1
@@ -14526,39 +14526,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1475014285}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2de86d87be018674790b66e6f8f749d8, type: 3}
+  m_Script: {fileID: 11500000, guid: a72447c9bb5022e41acd106b663d5aec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   inSelectMode: 0
   _unit:
-    icon: {fileID: 0}
+    Icon: {fileID: 0}
     name: 
     lvl: 0
     affection: 0
     role: 0
-    abilities: []
-  unitName: {fileID: 1158382182}
+  unitName: {fileID: 0}
   role: {fileID: 0}
-  level: {fileID: 672716464}
-  affection: {fileID: 1902415395}
-  abilities:
-  - {fileID: 17985306}
-  - {fileID: 1172883949}
-  - {fileID: 103556301}
-  - {fileID: 1959313877}
-  - {fileID: 599580768}
-  - {fileID: 2065105441}
-  _gear:
-  - {fileID: 1426028080}
-  - {fileID: 1271984132}
-  - {fileID: 604385550}
-  - {fileID: 1959284430}
-  - {fileID: 1141602155}
-  - {fileID: 1593916767}
-  - {fileID: 2103454131}
-  - {fileID: 2016689499}
-  - {fileID: 929096312}
-  showHideGear: {fileID: 2003582789}
+  level: {fileID: 0}
+  affection: {fileID: 0}
+  abilities: []
+  _gear: []
+  showHideGear: {fileID: 0}
 --- !u!222 &1475014287
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14617,7 +14601,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 1766529321}
+  m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -14891,8 +14875,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 080d507fed7db234da1bf5878243e72c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fillImage: {fileID: 757044405}
-  loadingScene: {fileID: 1540524128}
 --- !u!114 &1540524130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15300,8 +15282,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6fc95dd723937a499d814d6e0f33a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guildMembers:
-  - {fileID: 118712006}
 --- !u!1 &1579030172
 GameObject:
   m_ObjectHideFlags: 0
@@ -15402,9 +15382,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1583844688}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 100}
-  m_LocalScale: {x: 0.11663642, y: 0.11663642, z: 0.11663642}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -15413,8 +15393,8 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 990}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
 --- !u!223 &1583844692
 Canvas:
   m_ObjectHideFlags: 0
@@ -15424,8 +15404,8 @@ Canvas:
   m_GameObject: {fileID: 1583844688}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 1766529321}
+  m_RenderMode: 1
+  m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -16139,6 +16119,7 @@ GameObject:
   - component: {fileID: 1657821959}
   - component: {fileID: 1657821958}
   - component: {fileID: 1657821961}
+  - component: {fileID: 1657821962}
   m_Layer: 5
   m_Name: Lobby
   m_TagString: Untagged
@@ -16212,8 +16193,8 @@ Canvas:
   m_GameObject: {fileID: 1657821954}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
-  m_Camera: {fileID: 1766529321}
+  m_RenderMode: 0
+  m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -16271,6 +16252,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1657821962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1657821954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52cb0cbdae3b5284cb3a362472d6eadf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1728503746
 GameObject:
   m_ObjectHideFlags: 0
@@ -16355,7 +16348,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1766529322}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Lobby, Assembly-CSharp
         m_MethodName: Home
         m_Mode: 1
@@ -16488,7 +16481,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1766529322}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Lobby, Assembly-CSharp
         m_MethodName: OpenMenu
         m_Mode: 2
@@ -16819,8 +16812,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1766529319}
-  - component: {fileID: 1766529321}
-  - component: {fileID: 1766529322}
+  - component: {fileID: 1766529320}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: Untagged
@@ -16843,7 +16835,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!20 &1766529321
+--- !u!20 &1766529320
 Camera:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -16886,29 +16878,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &1766529322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1766529318}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ed6185604347b849a038ab5f9610770, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lobby: {fileID: 1657821954}
-  sceneSelection: {fileID: 1343733981}
-  teamSelection: {fileID: 1958639287}
-  gallery: {fileID: 511210930}
-  memberPreview: {fileID: 1475014286}
-  lvlText: {fileID: 711505946}
-  nameText: {fileID: 455280031}
-  titleText: {fileID: 583604446}
-  goldAmmountText: {fileID: 415363908}
-  guildTokenAmmountText: {fileID: 690358998}
-  _account: {fileID: 11400000, guid: 28723e7a8c0967c4e87cf13628361477, type: 2}
 --- !u!1 &1801062639
 GameObject:
   m_ObjectHideFlags: 0
@@ -17602,8 +17571,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfa4246ec73d8cd499e7977d7c1dc56f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _progress: {fileID: 1902415393}
-  _pBar: {fileID: 1972941210}
 --- !u!1 &1907302836
 GameObject:
   m_ObjectHideFlags: 0
@@ -17636,8 +17603,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6fc95dd723937a499d814d6e0f33a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guildMembers:
-  - {fileID: 809097333}
 --- !u!224 &1907302838
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18130,7 +18095,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 1766529321}
+  m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -18179,11 +18144,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1958639282}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee625ae0cbb286841994223ea27d56b2, type: 3}
+  m_Script: {fileID: 11500000, guid: 72adb62105e46c74aa1f1e3017d05154, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  members:
-  - {fileID: 1186516750}
+  members: []
 --- !u!1 &1959284428
 GameObject:
   m_ObjectHideFlags: 0
@@ -19270,7 +19234,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1766529322}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Lobby, Assembly-CSharp
         m_MethodName: Home
         m_Mode: 1
@@ -19689,7 +19653,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1766529322}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Lobby, Assembly-CSharp
         m_MethodName: StartScenario
         m_Mode: 2

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Core.Combat.Auras;
 using UnityEngine;
 
-namespace Remaster.View
+namespace Core.View
 {
     public class StatusView : MonoBehaviour
     {

@@ -1,6 +1,6 @@
-﻿using Remaster.Stats;
+﻿using Core.Stats;
 
-namespace Remaster.Items
+namespace Core.Items
 {
     public enum GearType
     {

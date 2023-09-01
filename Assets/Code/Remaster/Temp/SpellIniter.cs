@@ -1,13 +1,10 @@
-﻿using Remaster.AuraEffects;
-using Remaster.Data.Serializer;
-using Remaster.Data.SpriteLib;
-using Remaster.SpellEffects;
-using Remaster.SpellLib;
+﻿using Core.Combat.Abilities;
+using Core.Data.SpriteLib;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Remaster.Temp
+namespace Core.Temp
 {
     public class SpellIniter : MonoBehaviour
     {
@@ -19,7 +16,7 @@ namespace Remaster.Temp
 
             foreach (Spell data in _spellData)
             {
-                SpellLib.SpellLib.RegisterSpell(data);
+                Core.Data.SpellLib.SpellLib.RegisterSpell(data);
                 SpriteLibrary.LoadSpell(data.Id);
                 Debug.Log(data.Id);
             }
@@ -38,7 +35,7 @@ namespace Remaster.Temp
         private void OnDestroy()
         {
             // Logger.SaveLog(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Log" + DateTime.Now.ToString().Replace(':', '.').Replace(' ', '_') + ".log");
-            Logger.SaveLog(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\RotWLatestLog.log");
+            Utils.Logger.Logger.SaveLog(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\RotWLatestLog.log");
         }
     }
 }
