@@ -5,7 +5,7 @@ namespace Core.Combat.CastingBehaviors
 {
     public sealed class Precast : CastingBehavior
     {
-        public Precast(EventData data, SpellModification modification) : base(data, modification)
+        public Precast(CastEventData data, SpellModification modification) : base(data, modification)
         {
         }
 

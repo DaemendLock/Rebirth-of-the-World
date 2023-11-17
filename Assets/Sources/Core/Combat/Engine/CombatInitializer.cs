@@ -6,8 +6,6 @@ namespace Core.Combat.Engine
 {
     public static class CombatInitializer
     {
-       
-        
         public static void Initialize()
         {
             ConnectToServer();

@@ -5,8 +5,8 @@ namespace Core.Sync
 {
     public static class ModelSync
     {
-        private static Queue<EventData> _castQueue;
-        private static Queue<EventData> _receiveQueue;
+        private static Queue<CastEventData> _castQueue;
+        private static Queue<CastEventData> _receiveQueue;
 
         public static void Synchronize()
         {
@@ -14,7 +14,7 @@ namespace Core.Sync
             {
                 while (_castQueue.Count != 0)
                 {
-                    EventData input = _castQueue.Dequeue();
+                    CastEventData input = _castQueue.Dequeue();
                     input.Caster.CastAbility(input);
                 }
             }

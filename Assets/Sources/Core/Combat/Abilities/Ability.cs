@@ -20,7 +20,7 @@ namespace Core.Combat.Abilities
 
         public SchoolType Type => Spell.School;
 
-        public void Cast(EventData data, SpellModification modification)
+        public void Cast(CastEventData data, SpellModification modification)
         {
             CommandResult result = CanCast(data, modification);
 
@@ -29,14 +29,14 @@ namespace Core.Combat.Abilities
                 return;
             }
 
-            data.Caster?.SpendResource(Spell.Cost);
+            data.Caster?.SpendResource(Spell.Cost + modification.BonusCost);
 
             StartCooldown(modification.CooldownReduction, data.Caster);
             Spell.Cast(data, modification);
             //TODO Logger.Log($"Spell({Spell.Id}) casted: {data.Caster} -> {data.Target}");
         }
 
-        public CommandResult CanCast(EventData data, SpellModification spellModification)
+        public CommandResult CanCast(CastEventData data, SpellModification spellModification)
         {
             if (OnCooldown)
             {
@@ -46,9 +46,9 @@ namespace Core.Combat.Abilities
             return Spell.CanCast(data, spellModification);
         }
 
-        public bool CanPay(EventData data, SpellModification spellModification)
+        public bool CanPay(CastEventData data, SpellModification spellModification)
         {
-            return data.Caster != null && data.Caster.CanPay(Spell.Cost + spellModification.BonusCost) == false;
+            return data.Caster != null && data.Caster.CanPay(Spell.Cost + spellModification.BonusCost);
         }
 
         #region Cooldown

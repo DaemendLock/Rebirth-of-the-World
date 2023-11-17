@@ -8,6 +8,8 @@
 
         public override bool CanInterrupt => false;
 
+        public override bool AllowAutoattack => true;
+
         public override void OnCastBegins()
         {
         }

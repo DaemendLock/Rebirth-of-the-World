@@ -32,7 +32,7 @@ namespace Core.Combat.Utils.ValueSources
 
         public void Serialize(BinaryWriter buffer)
         {
-            buffer.Write(GetType().FullName);
+            buffer.Write((byte)AuraEffectValue.CONSTANT);
             buffer.Write(_value);
         }
     }
@@ -61,7 +61,7 @@ namespace Core.Combat.Utils.ValueSources
 
         public void Serialize(BinaryWriter buffer)
         {
-            buffer.Write(GetType().FullName);
+            buffer.Write((byte) AuraEffectValue.STAT_PROVIDER);
             buffer.Write((int) _stat);
             buffer.Write(_statPercent);
         }
@@ -91,7 +91,7 @@ namespace Core.Combat.Utils.ValueSources
 
         public void Serialize(BinaryWriter buffer)
         {
-            buffer.Write(GetType().FullName);
+            buffer.Write((byte) AuraEffectValue.VALUE_SUM);
             _value1.Serialize(buffer);
             _value2.Serialize(buffer);
         }
@@ -121,7 +121,7 @@ namespace Core.Combat.Utils.ValueSources
 
         public void Serialize(BinaryWriter buffer)
         {
-            buffer.Write(GetType().FullName);
+            buffer.Write((byte) AuraEffectValue.VALUE_MULTIPLY);
             _value1.Serialize(buffer);
             _value2.Serialize(buffer);
         }

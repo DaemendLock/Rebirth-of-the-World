@@ -5,7 +5,16 @@ namespace Core.Combat.Abilities.SpellEffects
 {
     public class Taunt : SpellEffect
     {
-        public void ApplyEffect(EventData data, float modifyValue)
+        public Taunt()
+        {
+
+        }
+
+        public Taunt(BinaryReader source)
+        {
+        }
+
+        public void ApplyEffect(CastEventData data, float modifyValue)
         {
             throw new System.NotImplementedException();
         }

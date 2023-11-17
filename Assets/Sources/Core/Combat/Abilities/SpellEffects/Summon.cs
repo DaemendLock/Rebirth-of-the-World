@@ -5,7 +5,11 @@ namespace Core.Combat.Abilities.SpellEffects
 {
     public class Summon : SpellEffect
     {
-        public void ApplyEffect(EventData data, float modifyValue)
+        public Summon(BinaryReader source)
+        {
+        }
+
+        public void ApplyEffect(CastEventData data, float modifyValue)
         {
             throw new System.NotImplementedException();
         }

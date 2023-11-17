@@ -9,7 +9,7 @@ namespace Core.SpellLib
     {
         public PromisingLight(SpellData data) : base(data) { }
 
-        public override void Cast(EventData data, SpellModification spellModification)
+        public override void Cast(CastEventData data, SpellModification spellModification)
         {
             const byte HealingIndex = 0;
             const byte EnergyConvertionIndex = 1;

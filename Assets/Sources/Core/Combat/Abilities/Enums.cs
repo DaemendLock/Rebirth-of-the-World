@@ -59,6 +59,10 @@ namespace Core.Combat.Abilities
         CANT_BE_PARRIED = 256,
         CANT_BE_BLOCKED = 512,
         STATUS_STACK_COUNT_AFFECTS_BONUSES = 1024,
+        TARGET_DEAD = 2048,
+        DONT_DESTROY_ON_BREAK = 4096,
+        SEPARATED_STATUS = 8192,
+        PROC_SPELL = 16384,
     }
 
     [Flags]
@@ -67,5 +71,6 @@ namespace Core.Combat.Abilities
         NONE,
         ALLY,
         ENEMY,
+        BOTH
     }
 }

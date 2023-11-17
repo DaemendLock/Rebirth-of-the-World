@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:Template name="Spell" src="project://database/Assets/Editor/SpellEditor/Library/SpellCard/Spell.uxml?fileID=9197481963319205126&amp;guid=47a92099360f9c64dbc255cd4b303ae8&amp;type=3#Spell" />
+    <Style src="project://database/Assets/Editor/SpellEditor/Library/SpellLibrary.uss?fileID=7433441132597879392&amp;guid=d24efb68d10b80643afb3be0bf864b17&amp;type=3#SpellLibrary" />
+    <ui:VisualElement name="Body" style="width: 100%; height: 100%; flex-direction: row; background-color: rgb(25, 25, 25); margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 1px; padding-right: 1px; padding-top: 1px; padding-bottom: 1px;">
+        <ui:VisualElement name="SpellLib" class="unity-box" style="height: 100%; flex-grow: 1; align-items: flex-start;">
+            <uie:Toolbar name="Header" class="unity-panel" style="width: 100%; justify-content: space-between;">
+                <ui:VisualElement name="CreateSpell" class="unity-focus" style="margin-right: 5px; margin-left: 5px; width: 32px; align-items: center; flex-shrink: 0; height: 100%;">
+                    <ui:Button text="+" display-tooltip-when-elided="true" style="height: 100%; width: 100%; background-color: rgba(88, 88, 88, 0); border-left-color: rgba(255, 255, 255, 0); border-right-color: rgba(255, 255, 255, 0); border-top-color: rgba(255, 255, 255, 0); border-bottom-color: rgba(255, 255, 255, 0); font-size: 16px; -unity-font-style: bold; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;" />
+                </ui:VisualElement>
+                <uie:ToolbarSearchField focusable="true" style="border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);" />
+            </uie:Toolbar>
+            <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" name="SpellLibrary" focusable="true" vertical-scroller-visibility="AlwaysVisible" class="unity-panel" style="height: 100%; padding-left: 1px; padding-right: 1px; padding-top: 1px; padding-bottom: 1px; margin-left: 1px; margin-right: 1px; margin-top: 1px; margin-bottom: 1px; width: 100%; align-items: flex-start;">
+                <ui:Instance template="Spell" name="Spell" style="width: 100px; height: 140px; align-items: stretch; flex-grow: 0; max-width: none; max-height: none;" />
+            </ui:ScrollView>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,6 +1,7 @@
 ﻿using Core.Combat.Utils;
 using System.IO;
 using Utils.DataTypes;
+using Utils.Serializer;
 
 namespace Core.Combat.Abilities.SpellEffects
 {
@@ -13,18 +14,14 @@ namespace Core.Combat.Abilities.SpellEffects
             _spell = spellId;
         }
 
-        public TriggerSpell(Spell spell)
-        {
-            _spell = spell.Id;
-        }
         public TriggerSpell(BinaryReader source)
         {
             _spell = (SpellId) source.ReadInt32();
         }
 
-        public void ApplyEffect(EventData data, float modifyValue)
+        public void ApplyEffect(CastEventData data, float modifyValue)
         {
-            data.Caster.CastSpell(new EventData(data.Caster, data.Target, SpellLibrary.SpellLib.GetSpell(_spell)));
+            data.Caster.CastSpell(new CastEventData(data.Caster, data.Target, SpellLibrary.SpellLib.GetSpell(_spell)));
         }
 
         public float GetValue(float modifyValue)
@@ -33,7 +30,7 @@ namespace Core.Combat.Abilities.SpellEffects
         }
         public void Serialize(BinaryWriter buffer)
         {
-            buffer.Write(GetType().ToString());
+            buffer.Write((byte) SpellEffectType.TRIGGER_SPELL);
             buffer.Write(_spell);
         }
     }

@@ -50,7 +50,7 @@ namespace View.Lobby.CharacterSheet
         public UnitPreview(/*OldUnitData baseData, Sprite icon, Dictionary<OldGearSlot, OldGear> gear, */float lvl, float affection)
         {
             //this.baseData = baseData;
-            this.Icon = Icon;
+            //this.Icon = Icon;
             /*if (gear != null)
                 foreach (KeyValuePair<OldGearSlot, OldGear> kvp in gear)
                 {

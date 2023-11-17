@@ -1,8 +1,7 @@
-using Core.Combat.Abilities;
 using Core.Combat.Interfaces;
 using Core.Combat.Items.Gear;
-using Core.Combat.Utils;
 using System;
+using System.Runtime.CompilerServices;
 using Utils.DataTypes;
 
 namespace Core.Combat.Units.Components
@@ -13,14 +12,14 @@ namespace Core.Combat.Units.Components
         private float _minValue;
         private float _maxValue;
 
-        public Resource(int maxValue)
+        public Resource(float maxValue)
         {
             _maxValue = maxValue;
             _minValue = 0;
             _value = maxValue;
         }
 
-        public Resource(int minValue, int maxValue)
+        public Resource(float minValue, float maxValue)
         {
             _maxValue = maxValue;
             _minValue = minValue;
@@ -41,9 +40,9 @@ namespace Core.Combat.Units.Components
 
             result.Value += value;
 
-            if (result.Value < 0)
+            if (result.Value < resource.MinValue)
             {
-                result.Value = 0;
+                result.Value = resource.MinValue;
             }
             else if (result.Value > result.MaxValue)
             {
@@ -56,12 +55,11 @@ namespace Core.Combat.Units.Components
         public static Resource operator -(Resource resource, float value)
         {
             Resource result = resource;
-
             result.Value -= value;
 
-            if (result.Value < 0)
+            if (result.Value < result.MinValue)
             {
-                result.Value = 0;
+                result.Value = result.MinValue;
             }
             else if (result.Value > result.MaxValue)
             {
@@ -100,10 +98,36 @@ namespace Core.Combat.Units.Components
         {
             return Math.Abs(resource.Value - value) > 0.001;
         }
+
+        public override string ToString()
+        {
+            return $"Resource:({_value}/{_minValue}-{_maxValue})";
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Resource resource &&
+                   _value == resource._value &&
+                   _minValue == resource._minValue &&
+                   _maxValue == resource._maxValue;
+        }
     }
 
-    public struct CastResources : CastResourceOwner
+    public class CastResources : CastResourceOwner
     {
+        public CastResources(float leftMaxValue, float rightMaxValue, ResourceType leftResourceType, ResourceType rightResourceType)
+        {
+            Left = new Resource(leftMaxValue);
+            Right = new Resource(rightMaxValue);
+            LeftType = leftResourceType;
+            RightType = rightResourceType;
+        }
+
         public Resource Left { get; private set; }
         public ResourceType LeftType { get; private set; }
 
@@ -129,6 +153,7 @@ namespace Core.Combat.Units.Components
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool CanPay(AbilityCost value)
         {
             return Left >= value.Left && Right >= value.Right;
@@ -150,30 +175,33 @@ namespace Core.Combat.Units.Components
 
             return 0;
         }
+
+        internal void Update(float left, float right)
+        {
+            Left += left;
+            Right += right;
+        }
     }
 
     public class PositionComponent
     {
-        public Position Position;
+        public Vector3 Position { get; set; }
 
-        private Vector3 _moveDirection;
+        public Vector3 MoveDirection { get; set; }
 
-        public Vector3 MoveDirection
+        public bool IsMoving { get; set; }
+
+        public float Rotation { get; set; }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Update(float speed)
         {
-            get => _moveDirection;
-            set
+            if (IsMoving == false)
             {
-                _moveDirection = value;
-                //Moving = value.magnitude > 0;
+                return;
             }
-        }
 
-        public bool Moving { get; private set; }
-
-        public void EvaluateNextLocation(float speed, float time)
-        {
-            //TODO
-            //Position.Location += _moveDirection * speed * time;
+            Position += MoveDirection * (speed * Engine.Combat.UpdateTime / 1000);
         }
     }
 

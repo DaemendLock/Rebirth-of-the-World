@@ -1,63 +1,82 @@
-﻿using Core.Combat.Engine;
-using Core.Combat.Units;
+﻿using Assets.Sources.Temp;
+using Assets.Sources.Temp.Template;
+using Core.Combat.Engine;
 using Core.Combat.Utils;
-using Core.Data;
+using Core.SpellLib.Paladin;
+using Core.SpellLibrary;
+using Data.Model;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-using View;
-using View.Combat.UI.ActionBar;
+using View.Combat.UI.Nameplates;
+using View.Combat.Units;
 
 namespace Temp.Testing
 {
     internal class Initer : MonoBehaviour
     {
-        [SerializeField] private int[] _spells;
-
-        private Unit _unit;
         private Thread _update;
+
+        [SerializeField] private Nameplate _nameplatePrefab;
+        [SerializeField] private NameplatesRoot _nameplatesRoot;
+
+        [SerializeField] private List<ModelLoadData> _loadModels;
 
         private void Awake()
         {
+#if DEBUG
+            Combat.DebugMessage += Debug.Log;
+#endif
+            SpellLib.LoadAllData();
+
+            //Paladin
+            new LifegivingLight();
+            new BladeOfFaith();
+            new BladeOfFaithProc();
+            new BladeOfFaithProcSelf();
+            new Consecration();
+            new ConsecrationAllyBuff();
+            new ConsecrationEnemyDamage();
+            Debug.Log(new CandentArmor());
+            Debug.Log(new CandentArmorProc());
+            Debug.Log(new CandentArmorProcPower());
+
             CombatTime.SetStartTime(Environment.TickCount);
 
-            _update = new Thread(new ThreadStart(CombatInitializer.Initialize));
+            _update = new (new ThreadStart(CombatInitializer.Initialize));
             _update.Priority = System.Threading.ThreadPriority.Highest;
             _update.Start();
-        }
+            
+            NameplatesRoot.NameplatePrefab = _nameplatePrefab;
+            InitModelLib();
 
-        //private void Start()
-        //{
-        //    List<Spell> spells = new List<Spell>();
-
-        //    foreach (int id in _spells)
-        //    {
-        //        spells.Add(Core.Data.SpellLib.SpellLib.GetSpell(id));
-        //    }
-
-        //    _data.BasicSpells = spells.ToArray();
-
-        //    _unit = UnitFactory.CreateUnit(_data, Team.Team.NONE, new Position() { Location = new Vector3(), ViewDirection = new Vector3() });
-
-        //    _bar.SetActiveUnit(_unit);
-
-        //    _unit.CastAbility(new EventData(_unit, _unit, _unit.GetAbility(Combat.Abilities.SpellSlot.FIRST).Spell));
-
-        //    foreach (UnitView view in _setupUnits)
-        //    {
-        //        view.TryAssignTo(_unit);
-        //    }
-        //}
-
-        private void Start()
-        {
-
+            Networking.Combat.UseClient(new AutoAcceptClient());
         }
 
         private void OnDestroy()
         {
             Combat.Stop();
-            Combat.Reset();
         }
+
+        private void Update()
+        {
+            Combat.Update(UnityEngine.Time.deltaTime);
+        }
+
+        private void InitModelLib()
+        {
+            foreach (ModelLoadData data in _loadModels)
+            {
+                ModelLibrary.LoadModel(data.Name, data.Model);
+            }
+        }
+    }
+
+    [Serializable]
+    public class ModelLoadData
+    {
+        public string Name;
+        public GameObject Model;
     }
 }

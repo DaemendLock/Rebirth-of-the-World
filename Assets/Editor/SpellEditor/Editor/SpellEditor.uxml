@@ -1,0 +1,35 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <uie:Toolbar name="VisualEditor" style="height: auto; flex-direction: column;">
+        <ui:TextField picking-mode="Ignore" label="Spell name" name="Name" value="Name" text="Name" />
+        <uie:ObjectField label="Icon" name="Icon" type="UnityEngine.Sprite, UnityEngine.CoreModule" />
+    </uie:Toolbar>
+    <uie:Toolbar name="CombatEditor" style="height: auto; flex-direction: row;">
+        <ui:VisualElement name="Left" style="flex-direction: column; width: 100%;">
+            <ui:Label text="Ability cost" display-tooltip-when-elided="true" name="AbilityCostText" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;" />
+            <ui:VisualElement name="AbilityCost" style="flex-direction: row-reverse; justify-content: flex-start; margin-left: 3px; margin-right: 3px; margin-top: 1px; margin-bottom: 1px; align-items: center;">
+                <uie:FloatField value="42,2" name="RightCost" style="width: 30%;" />
+                <uie:FloatField value="42,2" name="LeftCost" style="width: 30%;" />
+            </ui:VisualElement>
+            <uie:EnumFlagsField label="Target Team" value="NONE" include-obsolete-values="false" name="TargetTeam" type="Core.Combat.Abilities.TargetTeam, Core" style="margin-top: 3px; margin-bottom: 3px;" />
+            <uie:FloatField label="Cast Radius" value="0" name="CastRadius" />
+            <uie:FloatField label="Cast Time" value="42,2" name="CastTime" />
+            <uie:FloatField label="Cooldown(sec.)" value="42,2" name="Cooldown" />
+            <uie:FloatField label="GCD" value="1.5" name="GlobalCD" />
+            <uie:EnumField label="Gcd Category" value="NORMAL" type="Core.Combat.Abilities.GcdCategory, Core" name="GcdCategory" />
+            <uie:FloatField label="Duration" value="0" name="Duration" />
+            <uie:EnumField label="Dispell Type" value="NONE" type="Core.Combat.Abilities.DispellType, Core" name="DispellType" />
+            <uie:EnumFlagsField label="School" value="PHYSICAL" type="Core.Combat.Abilities.SchoolType, Core" name="SchoolType" />
+            <uie:EnumField label="Enum" value="NONE" type="Core.Combat.Abilities.Mechanic, Core" style="height: 20px;" />
+            <uie:EnumFlagsField label="Flags" value="NONE" type="Core.Combat.Abilities.SpellFlags, Core" name="Flags" />
+            <ui:TextField picking-mode="Ignore" label="Script" value="Core.Combat.Abilities.Spell" text="Script path" name="Script" />
+            <uie:IntegerField label="Spell Id" value="0" name="Id" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Right" style="width: 100%;" />
+    </uie:Toolbar>
+    <uie:Toolbar name="Header" style="flex-direction: row-reverse; height: 43px; align-items: auto; justify-content: space-between;">
+        <ui:VisualElement name="Buttons" style="flex-direction: row; height: 24px; transform-origin: right bottom; overflow: hidden;">
+            <ui:Button text="Save" display-tooltip-when-elided="true" style="transform-origin: right bottom;" />
+            <ui:Button text="Delete" display-tooltip-when-elided="true" style="transform-origin: right bottom;" />
+        </ui:VisualElement>
+    </uie:Toolbar>
+</ui:UXML>

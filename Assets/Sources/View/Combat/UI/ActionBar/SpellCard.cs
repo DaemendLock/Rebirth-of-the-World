@@ -1,5 +1,6 @@
 ﻿using Core.Combat.Abilities;
 using Core.Data.SpriteLib;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,32 +13,38 @@ namespace View.Combat.UI.ActionBar
         [SerializeField] private Image _cooldown;
         private Ability _ability;
 
-        private void Update()
+        public void UpdateAbility(Ability ability)
+        {
+            if (ability == null)
+            {
+                _abilityIcon.gameObject.SetActive(value: false);
+                _abilityIcon.enabled = false;
+                return;
+            }
+
+            _ability = ability;
+            _abilityIcon.sprite = SpriteLibrary.GetSpellSprite(ability.Spell.Id) ?? SpriteLibrary.LoadSpell(ability.Spell.Id);
+            _cooldown.sprite = _abilityIcon.sprite ?? _background.sprite;
+            _abilityIcon.gameObject.SetActive(true);
+            _abilityIcon.enabled = true;
+        }
+
+        public void UpdateCd(float GCD)
         {
             if (_ability == null)
             {
                 return;
             }
 
-            _cooldown.fillAmount = _ability.Cooldown.FullTime > 0 ? _ability.Cooldown.Left / _ability.Cooldown.FullTime : 0;
-        }
-
-        public void UpdateAbility(Ability ability)
-        {
-
-            if (ability == null)
+            if (_ability.Spell.GcdCategory == GcdCategory.IGNOR)
             {
-                _abilityIcon.sprite = null;
-                _abilityIcon.enabled = false;
-                _cooldown.fillAmount = 0;
-                _ability = ability;
+                _cooldown.fillAmount = _ability.Cooldown.FullTime > 0 ? _ability.Cooldown.Left / _ability.Cooldown.FullTime : 0;
                 return;
             }
 
-            _ability = ability;
-            _abilityIcon.enabled = true;
-            _cooldown.fillAmount = _ability.CooldownTime / _ability.CooldownTime;
-            _abilityIcon.sprite = SpriteLibrary.GetSpellSprite(ability.Spell.Id) ?? SpriteLibrary.LoadSpell(ability.Spell.Id);
+            float activeCooldown = MathF.Max(_ability.CooldownTime, GCD);
+
+            _cooldown.fillAmount = _ability.Cooldown.FullTime > 0 ? activeCooldown / _ability.Cooldown.FullTime : activeCooldown;
         }
     }
 }

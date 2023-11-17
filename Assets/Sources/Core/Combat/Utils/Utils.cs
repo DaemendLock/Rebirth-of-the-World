@@ -1,5 +1,4 @@
-﻿using Core.Combat.Units;
-using Utils.DataTypes;
+﻿using Utils.DataTypes;
 
 namespace Core.Combat.Utils
 {
@@ -12,11 +11,13 @@ namespace Core.Combat.Utils
         PARRY,
         BLOCK,
         ABSORB,
-
+        RESIST,
+        AMPLIFY,
     }
 
     public enum HealthChangeFailType
     {
+        NONE,
         SUCCESS,
         EVADE,
         PARRY,
@@ -30,14 +31,22 @@ namespace Core.Combat.Utils
         ON_COOLDOWN,
         INVALID_TARGET,
         NOT_IN_LOS,
-        NOT_ENOUGHT_RESOURCE
+        NOT_ENOUGHT_RESOURCE,
+        OUT_OF_RANGE
     }
 
-    public readonly struct HealthChangePrecessingData
+    public readonly struct HealthChangeEventModification
     {
-        public readonly Unit Appier;
+        public readonly int Caster;
         public readonly HealthChangeProcessingType Action;
         public readonly float Value;
+
+        public HealthChangeEventModification(int caster, HealthChangeProcessingType action, float value)
+        {
+            Caster = caster;
+            Action = action;
+            Value = value;
+        }
     }
 
     public static class Time
@@ -48,6 +57,6 @@ namespace Core.Combat.Utils
     public struct Position
     {
         public Vector3 Location;
-        public Vector3 ViewDirection;
+        public float Rotation;
     }
 }

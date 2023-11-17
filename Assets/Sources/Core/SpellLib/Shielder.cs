@@ -9,12 +9,11 @@ using Utils.SpellIdGenerator;
 
 namespace Core.SpellLib.Shielder
 {
-    //TODO: Cleave
     public class ShieldStrike : CleaveSpell
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.SHIELDER, Spec.SPEC_1, 1);
 
-        private static SpellData _spellData = new SpellData(_id, "",
+        private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 90),
             TargetTeam.ENEMY,
             3,
@@ -29,7 +28,7 @@ namespace Core.SpellLib.Shielder
             new SpellEffect[]
             {
                 new Dummy(30),
-                new SchoolDamage(new AttackpowerValue(1.2f)),
+                new SchoolDamage(new StatValue(1.2f, UnitStat.ATK)),
                 new ApplyAura(new ModStat(UnitStat.SPEED, new Constant(-0.1f), true)),
                 //periodic damage
             },
@@ -47,7 +46,7 @@ namespace Core.SpellLib.Shielder
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.SHIELDER, Spec.SPEC_1, 2);
 
-        private static SpellData _spellData = new SpellData(_id, "",
+        private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 90),
             TargetTeam.ALLY,
             0,
@@ -75,12 +74,11 @@ namespace Core.SpellLib.Shielder
         }
     }
 
-    //TODO: AoE spell
     public class Shelter : SplashSpell
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.SHIELDER, Spec.SPEC_1, 3);
 
-        private static SpellData _spellData = new SpellData(_id, "",
+        private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 90),
             TargetTeam.ALLY,
             10,
@@ -109,7 +107,7 @@ namespace Core.SpellLib.Shielder
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.SHIELDER, Spec.SPEC_1, 4);
 
-        private static SpellData _spellData = new SpellData(_id, "",
+        private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 90),
             TargetTeam.ALLY,
             10,
@@ -140,7 +138,7 @@ namespace Core.SpellLib.Shielder
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.SHIELDER, Spec.SPEC_1, 5);
 
-        private static SpellData _spellData = new SpellData(_id, "",
+        private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 90),
             TargetTeam.ENEMY,
             5,
@@ -154,7 +152,6 @@ namespace Core.SpellLib.Shielder
             Mechanic.NONE,
             new SpellEffect[]
             {
-                //TODO: Apply overshield
                 
             },
             SpellFlags.NONE,
@@ -170,7 +167,7 @@ namespace Core.SpellLib.Shielder
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.SHIELDER, Spec.SPEC_1, 6);
 
-        private static SpellData _spellData = new SpellData(_id, "",
+        private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 90),
             TargetTeam.ALLY,
             0,
@@ -184,7 +181,7 @@ namespace Core.SpellLib.Shielder
             Mechanic.NONE,
             new SpellEffect[]
             {
-                //TODO: disable controll
+                //disable controll
                 new ApplyAura(new ModStat(UnitStat.DAMAGE_TAKEN, new Constant(-0.9f), true))
                 //count damage to 200% max hp, then trugger spell
                 //create aoe damage aura

@@ -1,13 +1,14 @@
 ﻿using Core.Combat.Units;
 using Core.Combat.Utils;
 using System.IO;
+using Utils.Serializer;
 
 namespace Core.Combat.Abilities.SpellEffects
 {
     public class GiveResource : SpellEffect
     {
-        private float _value;
-        private ResourceType _type;
+        private readonly float _value;
+        private readonly ResourceType _type;
 
         public GiveResource(float value, ResourceType type)
         {
@@ -21,7 +22,7 @@ namespace Core.Combat.Abilities.SpellEffects
             _type = (ResourceType) source.ReadUInt16();
         }
 
-        public void ApplyEffect(EventData data, float modifyValue)
+        public void ApplyEffect(CastEventData data, float modifyValue)
         {
             data.Target.GiveResource(_type, GetValue(modifyValue));
         }
@@ -30,7 +31,7 @@ namespace Core.Combat.Abilities.SpellEffects
 
         public void Serialize(BinaryWriter buffer)
         {
-            buffer.Write(GetType().ToString());
+            buffer.Write((byte) SpellEffectType.GIVE_RESOURCE);
             buffer.Write(_value);
             buffer.Write((ushort) _type);
         }

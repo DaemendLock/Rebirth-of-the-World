@@ -9,13 +9,13 @@ public class SignInScreen : MonoBehaviour
     [SerializeField] private GameObject failedConnectionWindow;
     [SerializeField] private GameObject startWindow;
 
-    private int connectAttempts = 0;
+    //private int connectAttempts = 0;
 
     //private Account _account;
 
     private void Start()
     {
-        connectAttempts = 0;
+        //connectAttempts = 0;
         //if (ServerManager.TryConnect())
         //{
         //    RequestAuth();

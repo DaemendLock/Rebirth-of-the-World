@@ -5,7 +5,11 @@ namespace Core.Combat.Abilities.SpellEffects
 {
     public class Interrupt : SpellEffect
     {
-        public void ApplyEffect(EventData data, float modifyValue)
+        public Interrupt(BinaryReader source)
+        {
+        }
+
+        public void ApplyEffect(CastEventData data, float modifyValue)
         {
             throw new System.NotImplementedException();
         }

@@ -11,7 +11,7 @@ namespace Core.Combat.Abilities.SpellScripts
         {
         }
 
-        public override void Cast(EventData data, SpellModification modification)
+        public override void Cast(CastEventData data, SpellModification modification)
         {
             Unit[] targets = new Unit[0];
             //targets = GetUnitsInRadius(range, team, data.Target.Position)
@@ -20,11 +20,9 @@ namespace Core.Combat.Abilities.SpellScripts
             {
                 for (int i = 0; i < EffectsCount; i++)
                 {
-                    ApplyEffect(i, modification.EffectsModifications[i], new EventData(data.Caster, target, data.Spell, data.TriggerTime));
+                    ApplyEffect(i, modification.EffectsModifications[i], new CastEventData(data.Caster, target, data.Spell, data.TriggerTime));
                 }
             }
-
-            data.Caster?.InformCast(data, CommandResult.SUCCES);
         }
     }
 }

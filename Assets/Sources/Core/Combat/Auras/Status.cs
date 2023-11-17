@@ -3,47 +3,66 @@ using Core.Combat.Auras.AuraEffects;
 using Core.Combat.Interfaces;
 using Core.Combat.Stats;
 using Core.Combat.Units;
+using Core.Combat.Units.Components;
 using Core.Combat.Utils;
+using Core.Combat.Utils.HealthChangeProcessing;
 using System.Collections.Generic;
-using System.Linq;
 using Utils.DataTypes;
-
 namespace Core.Combat.Auras
 {
-    public class Status : DynamicStatOwner
+    public class Status : DynamicStatOwner, Damageable
     {
         public readonly Unit Parent;
         public readonly Spell Spell;
 
+        private readonly List<Unit> _casters;
+        private readonly List<AuraEffect> _effects;
+        private readonly List<ModStat> _stats;
+        private readonly List<DynamicEffect>[] _dynamicEffects;
+
+        private float _periodicEffectDelay;
+        private Spell _periodicSpell;
         private Duration _duration;
-
-        private List<Unit> _casters;
-        private List<AuraEffect> _effects;
-        private List<ModStat> _stats;
-
-        private int _periodicEffectId;
         private Duration _periodicEffectCountdown;
 
-        private Dictionary<UnitAction, List<DynamicEffect>> _dynamicEffects;
+        private DamageAbsorption _absorption;
 
         public Status(Unit parent, Spell spell)
         {
-            _casters = new List<Unit>() { };
-            _effects = new List<AuraEffect>();
-            _dynamicEffects = new Dictionary<UnitAction, List<DynamicEffect>>();
-            _stats = new List<ModStat>();
-
             Parent = parent;
             Spell = spell;
-            _duration = new Duration(spell.Duration);
 
-            //TODO Logger.Log($"{Parent} <- Status({Spell.Id}), {_duration.FullTime} sec.");
+            _casters = new();
+            _effects = new();
+            _dynamicEffects = new List<DynamicEffect>[5];
+
+            _stats = new List<ModStat>();
+
+            if (spell == null)
+            {
+                _duration = new Duration(float.PositiveInfinity);
+            }
+            else
+            {
+                _duration = new Duration(spell.Duration);
+            }
+
+            _periodicEffectCountdown = new Duration(float.PositiveInfinity);
+            _absorption = default;
+
+            //TODO: Logger.Log($"{Parent} <- Status({Spell.Id}), {_duration.FullTime} sec.");
         }
 
-        public int StackCount { get; private set; }
+        public int StackCount { get; private set; } = 1;
 
         public bool Expired => _duration.Expired;
 
+        public float Absorption => _absorption.Capacity;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="effect">NOT an actual status passed to ApplyEffect, just copy</param>
         public void AddEffect(AuraEffect effect)
         {
             effect.ApplyEffect(this);
@@ -60,7 +79,7 @@ namespace Core.Combat.Auras
             return true;
         }
 
-        public void Refresh(EventData data)
+        public void Refresh(CastEventData data)
         {
             _duration += data.Spell.Duration - _duration.Left;
         }
@@ -75,14 +94,45 @@ namespace Core.Combat.Auras
             Parent.RemoveStatus(Spell);
         }
 
-        public void RegisterDynamicEffect(DynamicEffect effect, UnitAction action)
+        public void TakeDamage(DamageEvent @event)
         {
-            if (_dynamicEffects.ContainsKey(action) == false)
+        }
+
+        public float AbsorbDamage(DamageEvent @event, float damageLeft)
+        {
+            if (_absorption.Capacity == 0)
             {
-                _dynamicEffects[action] = new List<DynamicEffect>();
+                return 0;
             }
 
-            _dynamicEffects[action].Add(effect);
+            float result;
+
+            @event.Absorb(_absorption.Capacity, _casters[0].Id);
+
+            if (damageLeft > _absorption.Capacity)
+            {
+                if (Spell.Flags.HasFlag(SpellFlags.DONT_DESTROY_ON_BREAK) == false)
+                {
+                    Remove();
+                }
+
+                result = _absorption.Capacity;
+                _absorption.Capacity = 0;
+                return result;
+            }
+
+            _absorption.Capacity -= damageLeft;
+            return damageLeft;
+        }
+
+        public void RegisterDynamicEffect(DynamicEffect effect, UnitAction action)
+        {
+            if (_dynamicEffects[(int) action] == null)
+            {
+                _dynamicEffects[(int) action] = new List<DynamicEffect>();
+            }
+
+            _dynamicEffects[(int) action].Add(effect);
         }
 
         public void RegisterStatModification(ModStat effect)
@@ -93,6 +143,20 @@ namespace Core.Combat.Auras
             }
         }
 
+        public void RegisterPeriodicEffect(PeriodicallyTriggerSpell effect)
+        {
+            _periodicEffectDelay = effect.Period;
+            _periodicEffectCountdown = new Duration(_periodicEffectDelay * UnitState.EvaluateHasteTimeDivider(GetEffectiveStat(UnitStat.HASTE)));
+            _periodicSpell = SpellLibrary.SpellLib.GetSpell(effect.Spell);
+        }
+
+        public void RemoveStatModification(ModStat effect) => _stats.Remove(effect);
+
+        public void GiveAbsorption(DamageAbsorption effect)
+        {
+            _absorption = effect;
+        }
+
         public void ClearEffects()
         {
             foreach (AuraEffect effect in _effects)
@@ -100,8 +164,14 @@ namespace Core.Combat.Auras
                 effect.RemoveEffect(this);
             }
 
-            _dynamicEffects = null;
-            _stats = null;
+            foreach (List<DynamicEffect> list in _dynamicEffects)
+            {
+                list?.Clear();
+            }
+
+            _stats.Clear();
+            _absorption = new();
+            _periodicEffectCountdown = new Duration(float.PositiveInfinity);
 
             //TODO Logger.Log($"Status({Spell.Id}) effects cleard: {Parent}");
         }
@@ -110,8 +180,13 @@ namespace Core.Combat.Auras
         {
             PercentModifiedValue result = new PercentModifiedValue();
 
-            foreach (ModStat effect in _stats.Where((effect) => effect.Stat == stat))
+            foreach (ModStat effect in _stats)
             {
+                if (effect.Stat != stat)
+                {
+                    continue;
+                }
+
                 if (effect.IsPercent)
                 {
                     result.Percent += effect.Evaluate(this);
@@ -125,14 +200,14 @@ namespace Core.Combat.Auras
             return result;
         }
 
-        public void CallAction(UnitAction action, EventData data)
+        public void CallAction(UnitAction action, CastEventData data)
         {
-            if (_dynamicEffects.ContainsKey(action) == false)
+            if (_dynamicEffects[(int) action] == null)
             {
                 return;
             }
 
-            foreach (DynamicEffect effect in _dynamicEffects[action])
+            foreach (DynamicEffect effect in _dynamicEffects[(int) action])
             {
                 effect.Update(this, data);
             }
@@ -158,6 +233,19 @@ namespace Core.Combat.Auras
             }
 
             return result;
+        }
+
+        public void Update()
+        {
+            if(_periodicSpell == null)
+            {
+                return;
+            }
+
+            if(_periodicEffectCountdown.Expired)
+            {
+                Parent.CastSpell(new(_casters[0], Parent, _periodicSpell));
+            }
         }
     }
 

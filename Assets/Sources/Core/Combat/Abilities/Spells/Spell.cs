@@ -1,4 +1,5 @@
 ﻿using Core.Combat.Abilities.SpellEffects;
+using Core.Combat.Units;
 using Core.Combat.Utils;
 using Utils.DataTypes;
 
@@ -44,17 +45,43 @@ namespace Core.Combat.Abilities
 
         private SpellEffect[] _effects => _data.Effects;
 
-        public virtual void Cast(EventData data, SpellModification modification)
+        public virtual void Cast(CastEventData data, SpellModification modification)
         {
             for (int i = 0; i < EffectsCount; i++)
             {
                 ApplyEffect(i, modification.EffectsModifications[i], data);
             }
-
-            data.Caster?.InformCast(data, CommandResult.SUCCES);
         }
 
-        public virtual CommandResult CanCast(EventData data, SpellModification modification) => CommandResult.SUCCES;
+        public virtual CommandResult CanCast(CastEventData data, SpellModification modification)
+        {
+            Unit caster = data.Caster;
+            Unit target = data.Target;
+
+            if (target == null)
+            {
+                return CommandResult.INVALID_TARGET;
+            }
+
+            float effectiveCastRange = Range * (1 + modification.BonusRange.Percent / 100) + modification.BonusRange.BaseValue;
+
+            if ((caster.Position - target.Position).sqrMagnitude > effectiveCastRange * effectiveCastRange)
+            {
+                return CommandResult.OUT_OF_RANGE;
+            }
+
+            if (TargetTeam == TargetTeam.ALLY && (!caster.CanHelp(target)))
+            {
+                return CommandResult.INVALID_TARGET;
+            }
+
+            if (TargetTeam == TargetTeam.ENEMY && (!caster.CanHurt(target)))
+            {
+                return CommandResult.INVALID_TARGET;
+            }
+
+            return CommandResult.SUCCES;
+        }
 
         public bool IsDriving(Spell spell)
         {
@@ -68,7 +95,7 @@ namespace Core.Combat.Abilities
 
         public float GetEffectValue(int index, float modifyValue) => _effects[index].GetValue(modifyValue);
 
-        public void ApplyEffect(int index, float modifyValue, EventData data) => _effects[index].ApplyEffect(data, modifyValue);
+        public void ApplyEffect(int index, float modifyValue, CastEventData data) => _effects[index].ApplyEffect(data, modifyValue);
 
         public sealed override int GetHashCode()
         {
@@ -79,6 +106,17 @@ namespace Core.Combat.Abilities
         {
             return obj is Spell spell && spell.Id == Id;
         }
+
+        protected static Team.Team GetIgnorTeam(Unit caster, TargetTeam targetTeam) => targetTeam switch
+        {
+            TargetTeam.BOTH => Team.Team.NONE,
+            TargetTeam.ENEMY => caster.Team,
+            TargetTeam.ALLY => (Team.Team) 3 & (~caster.Team),
+            _ => Team.Team.TEAM_1 | Team.Team.TEAM_2,
+        };
+
+        protected static float GetEffectiveRange(float defaultRange, SpellModification modification)
+            => defaultRange * modification.BonusRange.Percent / 100 + modification.BonusRange.BaseValue;
     }
 
     public class SpellModification

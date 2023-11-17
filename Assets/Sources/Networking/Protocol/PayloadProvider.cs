@@ -1,7 +1,9 @@
-﻿namespace Networking.Protocol
+﻿using System.IO;
+
+namespace Networking.Protocol
 {
     public interface PayloadProvider
     {
-        public byte[] GetBytes();
+        public void WriteBytes(Stream target);
     }
 }

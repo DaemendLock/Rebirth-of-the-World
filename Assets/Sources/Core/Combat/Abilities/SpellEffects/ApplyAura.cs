@@ -18,7 +18,7 @@ namespace Core.Combat.Abilities.SpellEffects
 
         public ApplyAura(BinaryReader source)
         {
-            _effect = Serializer.Deserialize<AuraEffect>(source);
+            _effect = SpellSerializer.DeserializeAuraEffect(source);
             _value = source.ReadInt32();
         }
 
@@ -27,7 +27,7 @@ namespace Core.Combat.Abilities.SpellEffects
             return modifyValue + _value;
         }
 
-        public void ApplyEffect(EventData data, float modifyValue)
+        public void ApplyEffect(CastEventData data, float modifyValue)
         {
             if (modifyValue + _value < 0)
             {
@@ -39,8 +39,8 @@ namespace Core.Combat.Abilities.SpellEffects
 
         public void Serialize(BinaryWriter buffer)
         {
-            buffer.Write(GetType().ToString());
-            Serializer.SerializeEffect(_effect, buffer);
+            buffer.Write((byte) SpellEffectType.APPLY_AURA);
+            _effect.Serialize(buffer);
             buffer.Write(_value);
         }
     }

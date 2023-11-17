@@ -11,7 +11,7 @@ namespace Core.Input.Combat
 
         public void Cast(SpellSlot slot)
         {
-            Server.SendCastRequest(SelectedUnit, Target, slot);
+            //Server.SendCastRequest(SelectedUnit, Target, slot);
         }
     }
 }

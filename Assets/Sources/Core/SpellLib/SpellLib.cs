@@ -1,7 +1,8 @@
 ﻿using Core.Combat.Abilities;
-using System;
+using Data.Spells;
 using System.Collections.Generic;
 using Utils.DataTypes;
+using Utils.Serializer;
 
 namespace Core.SpellLibrary
 {
@@ -9,39 +10,42 @@ namespace Core.SpellLibrary
     {
         private static Dictionary<SpellId, Spell> _spells = new Dictionary<SpellId, Spell>();
 
-        public static void RegisterSpell(Spell spell)
-        {
-            if (_spells.ContainsKey(spell.Id))
-            {
-                //TODO: inform spell override
-            }
-
-            _spells[spell.Id] = spell;
-        }
-
         //TODO: Move away
         public static void LoadAllData()
         {
-            throw new NotImplementedException();
+            SpellDataLoader.Load();
 
-            List<SpellData> data = null;
+            SpellId[] ids = SpellDataLoader.GetLoadedIds();
 
-            foreach (SpellData dataItem in data)
+            foreach (SpellId id in ids)
             {
-                Type type = Type.GetType(dataItem.Script) ?? typeof(Spell);
-
-                Activator.CreateInstance(type, dataItem);
+                SpellSerializer.FromSpellData(SpellSerializer.Deserialize(SpellDataLoader.GetCombatSpell(id)));
             }
         }
 
         public static Spell GetSpell(SpellId id)
         {
+            if (_spells.ContainsKey(id) == false)
+            {
+                return null;
+            }
+
             return _spells[id];
         }
 
         public static void ClearAllData()
         {
             _spells.Clear();
+        }
+
+        internal static void RegisterSpell(Spell spell)
+        {
+            if (_spells.ContainsKey(spell.Id))
+            {
+                return;
+            }
+
+            _spells[spell.Id] = spell;
         }
     }
 }

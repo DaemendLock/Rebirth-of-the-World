@@ -7,6 +7,7 @@ using Core.Combat.Items.Gear;
 using Core.Combat.Stats;
 using Core.Combat.Units.Components;
 using Core.Combat.Utils;
+using Core.Combat.Utils.HealthChangeProcessing;
 using System;
 using Utils.DataTypes;
 
@@ -23,9 +24,18 @@ namespace Core.Combat.Units
         OTHER
     }
 
-    public sealed class Unit : AbilityOwner, Core.Combat.Interfaces.AuraOwner, CastResourceOwner, TeamOwner, DynamicStatOwner, Updatable
+    public sealed class Unit : AbilityOwner, Interfaces.AuraOwner, CastResourceOwner, TeamOwner, DynamicStatOwner, Updatable, Damageable, Damager
     {
         public event UnitState.HealthChanged OnHealthChanged;
+        public event UnitState.Damaged OnDamaged;
+        public event UnitState.StatusApplied OnStatusApplied;
+
+        public event Spellcasting.Casted Casted;
+        public event Spellcasting.Attacked Attacked;
+        public event Spellcasting.StartedPrecast StartedPrecast;
+        public event Spellcasting.StopedPrecast StopedCast;
+
+        internal Unit Target;
 
         private readonly Spellcasting _casting;
         private readonly UnitState _unitState;
@@ -41,8 +51,10 @@ namespace Core.Combat.Units
             _unitState = defaultState;
         }
 
+        public int Id => _unitState.EntityId;
+
         #region Status
-        public void ApplyAura(EventData data, AuraEffect effect) => _unitState.ApplyAura(data, effect);
+        public void ApplyAura(CastEventData data, AuraEffect effect) => _unitState.ApplyAura(data, effect);
 
         public void RemoveStatus(Spell spell) => _unitState.RemoveStatus(spell);
 
@@ -58,6 +70,10 @@ namespace Core.Combat.Units
         #endregion
 
         #region Abilities
+        public float GCD => _casting.GCD;
+        public float CastTime => _casting.CastTime;
+        public float FullCastTime => _casting.FullCastTime;
+
         /// <summary>
         /// Create new <see cref="Ability"/> based on given <paramref name="spell"/> or overrides one already exists.
         /// </summary>
@@ -91,9 +107,27 @@ namespace Core.Combat.Units
         /// <summary>
         /// Start casting ability placed in given slot.
         /// </summary>
-        public CommandResult CastAbility(EventData data) => _casting.CastAbility(data);
+        public CommandResult CastAbility(CastEventData data)
+        {
+            CommandResult result = _casting.CastAbility(data);
+            Casted?.Invoke(data.Spell, result);
+            return result;
+        }
 
-        public CommandResult CastSpell(EventData data) => _casting.CastSpell(data);
+        public CommandResult CastSpell(CastEventData data) => _casting.CastSpell(data);
+
+        public void Attack(Spell attack)
+        {
+            CommandResult result = CastSpell(new CastEventData(this, Target, attack));
+
+            if (result != CommandResult.SUCCES)
+            {
+                return;
+            }
+
+            _unitState.InformAction(UnitAction.AUTOATTACK, new CastEventData(this, Target, attack));
+            Attacked?.Invoke(attack, Target);
+        }
 
         /// <summary>
         /// Execute attempt to interrupt current cast or channaling.
@@ -110,15 +144,37 @@ namespace Core.Combat.Units
         #endregion
 
         #region UnitState
+        public bool Alive => _unitState.Alive;
 
         public float CurrentHealth => _unitState.CurrentHealth;
 
         public float MaxHealth => _unitState[UnitStat.MAX_HEALTH].CalculatedValue;
 
+        public Vector3 Position
+        {
+            get => _unitState.Position;
+            set => _unitState.Position = value;
+        }
+
+        public Vector3 MoveDirection
+        {
+            get => _unitState.MoveDirection;
+            set => _unitState.MoveDirection = value;
+        }
+
+        public float Rotation
+        {
+            get => _unitState.Rotation;
+            set => _unitState.Rotation = value;
+        }
+
         public void Heal(HealthChangeEventData data) => _unitState.ApplyHealingEvent(data);
 
-        public void Damage(HealthChangeEventData data) => _unitState.ApplyDamageEvent(data);
+        public void TakeDamage(DamageEvent @event) => _unitState.TakeDamage(@event);
 
+        public void AmplifyDamage(DamageEvent @event) => _unitState.AmplifyDamage(@event);
+
+        public void AbsorbDamage(CastEventData data, float absorption, SchoolType school) => _unitState.AbsorbDamage(data, absorption, school);
         /*
         public void Kill(DeathData data);
 
@@ -133,24 +189,13 @@ namespace Core.Combat.Units
 
         public float GetResourceValue(ResourceType type) => _unitState.GetResourceValue(type);
 
+        public (Resource, Resource) GetResources() => _unitState.GetResources();
+
+        public (ResourceType left, ResourceType right) GetResourceTypes() => _unitState.GetResourceTypes();
+
         public void GiveResource(ResourceType type, float value) => _unitState.GiveResource(type, value);
 
         public void SpendResource(AbilityCost cost) => _unitState.SpendResource(cost);
-
-        public void Teleport(PositionComponent position)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void StartMovement(PositionComponent position)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void StopMovement()
-        {
-            throw new NotImplementedException();
-        }
 
         public void Equip(CombatGear item)
         {
@@ -170,7 +215,7 @@ namespace Core.Combat.Units
             }
         }
 
-        public Core.Team.Team Team => _unitState.Team;
+        public Team.Team Team => _unitState.Team;
 
         public bool CanHurt(TeamOwner teamOwner) => _unitState.CanHurt(teamOwner);
 
@@ -178,9 +223,13 @@ namespace Core.Combat.Units
 
         public float GetStat(UnitStat stat) => _unitState[stat].CalculatedValue;
 
+        public float GetAbsorption() => _unitState.GetAbsorption();
+
         public void ModifyStat(UnitStat stat, PercentModifiedValue value) => _unitState[stat] += value;
 
         public PercentModifiedValue EvaluateStat(UnitStat stat) => _unitState.EvaluateStat(stat);
+
+        public float this[UnitStat stat] => _unitState.EvaluateStat(stat).CalculatedValue;
 
         public float EvaluateHasteTimeDivider() => _unitState.EvaluateHasteTimeDivider();
         public float EvaluateVersalityMultiplyer() => _unitState.EvaluateVersalityMultiplier();
@@ -188,19 +237,17 @@ namespace Core.Combat.Units
         #endregion
 
         #region events
-        public void InformCast(EventData data, CommandResult result)
+        internal void InformCastingBehavior(Spell spell, float duration)
         {
-            if (result != CommandResult.SUCCES)
+            if(duration == float.PositiveInfinity)
             {
+
                 return;
             }
 
-            if (data.Spell.Flags.HasFlag(SpellFlags.AUTOATTACK))
-            {
-                _unitState.InformAction(UnitAction.AUTOATTACK, data);
-                return;
-            }
+            StartedPrecast?.Invoke(spell, duration);   
         }
+
         #endregion
 
         public void Update()

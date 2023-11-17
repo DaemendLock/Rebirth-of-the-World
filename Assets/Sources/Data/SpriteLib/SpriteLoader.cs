@@ -8,7 +8,6 @@ namespace Core.Data.SpriteLib
         public static Sprite LoadSpell(SpellId spellId)
         {
             Sprite result = Resources.Load<Sprite>($"Sprites/Abilities/spell{spellId}");
-            Debug.Log(result);
             return result;
         }
     }

@@ -8,7 +8,6 @@ namespace Core.Combat.Abilities
     public readonly struct SpellData
     {
         public readonly SpellId Id;
-        public readonly string Icon;
 
         public readonly AbilityCost Cost;
         public readonly TargetTeam TargetTeam;
@@ -25,10 +24,9 @@ namespace Core.Combat.Abilities
         public readonly SpellEffect[] Effects;
         public readonly string Script;
 
-        public SpellData(int id, string icon, AbilityCost cost, TargetTeam targetTeam, float range, float castTime, float cooldown, float gcd, GcdCategory gcdCategory, float duration, DispellType dispell, SchoolType school, Mechanic mechanic, SpellEffect[] effects, SpellFlags flags, Type script)
+        public SpellData(int id, AbilityCost cost, TargetTeam targetTeam, float range, float castTime, float cooldown, float gcd, GcdCategory gcdCategory, float duration, DispellType dispell, SchoolType school, Mechanic mechanic, SpellEffect[] effects, SpellFlags flags, Type script)
         {
             Id = (SpellId) id;
-            Icon = icon;
             Cost = cost;
             TargetTeam = targetTeam;
             Range = range;

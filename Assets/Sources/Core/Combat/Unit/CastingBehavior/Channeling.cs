@@ -9,7 +9,7 @@ namespace Core.Combat.CastingBehaviors
         private float _procTime;
         private Castable _ability;
 
-        public Channeling(EventData data, SpellModification modification, float procTime) : base(data, modification)
+        public Channeling(CastEventData data, SpellModification modification, float procTime) : base(data, modification)
         {
             _procTime = procTime;
             _timer = new Duration(_procTime);

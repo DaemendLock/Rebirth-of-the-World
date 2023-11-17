@@ -7,13 +7,16 @@ using Core.Combat.Stats;
 using Core.Combat.Utils;
 using Core.Combat.Utils.HealthChangeProcessing;
 using System;
+using System.Runtime.CompilerServices;
 using Utils.DataTypes;
 
 namespace Core.Combat.Units.Components
 {
-    public class UnitState : CastResourceOwner, TeamOwner, Core.Combat.Interfaces.AuraOwner, DynamicStatOwner
+    public class UnitState : CastResourceOwner, TeamOwner, Core.Combat.Interfaces.AuraOwner, DynamicStatOwner, Damageable, Damager
     {
         public delegate void HealthChanged(float currentHealth, float maxHealth);
+        public delegate void StatusApplied(Status status);
+        public delegate void Damaged(DamageEvent @event);
 
         private const float HasteEffiency = 0.075f;
         private const float CritEffiency = 0.05f;
@@ -24,7 +27,7 @@ namespace Core.Combat.Units.Components
 
         private readonly CastResources _resource;
         private readonly StatsTable _stats;
-        private Core.Team.Team _team;
+        private Team.Team _team;
         private readonly Equipment _equipment;
         private readonly PositionComponent _position;
 
@@ -35,7 +38,7 @@ namespace Core.Combat.Units.Components
             throw new InvalidOperationException();
         }
 
-        public UnitState(StatsTable baseStats, CastResources resources, Core.Team.Team team, int id = 0)
+        public UnitState(StatsTable baseStats, CastResources resources, Position position, Team.Team team, int id)
         {
             _auras = new AuraOwner();
             _alive = true;
@@ -46,21 +49,89 @@ namespace Core.Combat.Units.Components
             _health = new Resource((int) baseStats[UnitStat.MAX_HEALTH].CalculatedValue);
             _health.Value = _health.MaxValue;
 
+            _position = new();
+            _position.Position = position.Location;
+            _position.Rotation = position.Rotation;
+
             EntityId = id;
         }
 
         public int EntityId { get; }
 
+        public Vector3 Position
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => _position.Position;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set => _position.Position = value;
+        }
+
+        internal PositionComponent PositionComponent => _position;
+
+        public Vector3 MoveDirection
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => _position.MoveDirection;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set
+            {
+                if (value.magnitude == 0)
+                {
+                    _position.IsMoving = false;
+                    return;
+                }
+
+                _position.MoveDirection = value;
+                _position.IsMoving = true;
+            }
+        }
+
+        public float Rotation
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return _position.Rotation;
+            }
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set
+            {
+                _position.Rotation = value;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Update()
         {
-            //_resource.Update();
-            //_position.Update();
-
             _auras.Update();
+            _position.Update(EvaluateStat(UnitStat.SPEED).CalculatedValue);
+
+            _resource.Update(GetResourceIncrease(_resource.LeftType, Engine.Combat.UpdateTime), GetResourceIncrease(_resource.RightType, Engine.Combat.UpdateTime));
+        }
+
+        //TODO: move to passive ability???
+        private float GetResourceIncrease(ResourceType type, long time)
+        {
+            switch (type)
+            {
+                case ResourceType.MANA:
+                    return time * Engine.Combat.GetManaRestoreRate() / 1000;
+
+                case ResourceType.ENERGY:
+                    return time * EvaluateHasteTimeDivider() * Engine.Combat.GetEnergyRechargeRate() / 1000;
+
+                case ResourceType.CONCENTRATION:
+                    return time * Engine.Combat.GetConcentrationRestoreRate() / 1000;
+
+                default:
+                    return 0;
+            }
         }
 
         #region _health
         public float CurrentHealth => _health.Value;
+
+        public bool Alive => _alive;
 
         public void ApplyHealingEvent(HealthChangeEventData data)
         {
@@ -71,16 +142,32 @@ namespace Core.Combat.Units.Components
             //TODO Logger.Log($"{this} healed by {healing}({data.Value}).");
         }
 
-        public void ApplyDamageEvent(HealthChangeEventData data)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void TakeDamage(DamageEvent @event)
         {
             if (_alive == false)
             {
                 return;
             }
 
-            float damage = data.Value * (1 + EvaluateStat(UnitStat.DAMAGE_TAKEN).CalculatedValue) / EvaluateVersalityMultiplier();
-            _health -= damage;
+            //@event.Evade(EntityId);
+            //@event.Parry(EntityId);
 
+            if ((@event.Result == HealthChangeFailType.EVADE) || (@event.Result == HealthChangeFailType.PARRY))
+            {
+                return;
+            }
+
+            //@event.Block(EntityId);
+
+            @event.ApplyVerasilityDivider(EvaluateVersalityMultiplier(), EntityId);
+
+            @event.ApplyIncomeReduction(EvaluateStat(UnitStat.DAMAGE_TAKEN), EntityId);
+
+            //_auras.TakeDamage(@event, target);
+            _auras.AbsorpDamage(@event);
+
+            _health -= @event.EvaluateDamage();
             //TODO Logger.Log($"{data.Target} damaged by {damage}({data.Value}).");
 
             if (_health == _health.MinValue)
@@ -89,9 +176,18 @@ namespace Core.Combat.Units.Components
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void AmplifyDamage(DamageEvent @event)
+        {
+            @event.ApplyVerasilityMultiplier(EvaluateVersalityMultiplier(), EntityId);
+
+            @event.ApplyOutcomeAmplification(EvaluateStat(UnitStat.DAMAGE_DONE), EntityId);
+        }
+
         public void Kill(KillEventData data)
         {
             _alive = false;
+            Combat.Engine.Combat.PostDebugMessage(EntityId + " Died");
         }
 
         public void Resurect(ResurrectionData data)
@@ -101,23 +197,11 @@ namespace Core.Combat.Units.Components
             _alive = true;
         }
 
-        private ProccesedHealthChangeEvent EvaluateDamageModification(HealthChangeEventData data)
-        {
-            //Get attack fail modification
-            //Get dynamic versality mod
-            //Get total reduction
-            //Get absorbtion
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void AbsorbDamage(CastEventData data, float absorption, SchoolType school) => _auras.AbsorbDamage(data, absorption, school);
 
-            return default;
-        }
-
-        private ProccesedHealthChangeEvent EvaluateHealingModification(HealthChangeEventData data)
-        {
-            //Get total modification
-            //Get absorbtion
-
-            return default;
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float GetAbsorption() => _auras.GetAbsorption();
         #endregion
 
         #region _resource
@@ -129,18 +213,22 @@ namespace Core.Combat.Units.Components
         #endregion
 
         #region _stats
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float EvaluateHasteTimeDivider(float hasteValue) => (float) Math.Clamp(1 + hasteValue * HasteEffiency * 0.01f, 0.5, 2);
 
-        public float EvaluateHasteTimeDivider() => (float) Math.Clamp(1 + EvaluateStat(UnitStat.HASTE).CalculatedValue * HasteEffiency * 0.01f, 0.5, 2);
+        public float EvaluateHasteTimeDivider() => EvaluateHasteTimeDivider(EvaluateStat(UnitStat.HASTE).CalculatedValue);
 
         public float EvaluateCritChance() => EvaluateStat(UnitStat.CRIT).CalculatedValue * CritEffiency;
 
         public float EvaluateVersalityMultiplier() => 1 + Math.Max(0, EvaluateStat(UnitStat.VERSALITY).CalculatedValue * VersalityEffiency * 0.01f);
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public PercentModifiedValue EvaluateStat(UnitStat stat) => _auras.EvaluateStat(stat) + _stats[stat];
 
         public PercentModifiedValue this[UnitStat stat]
         {
             get => _stats[stat];
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 _stats[stat] = value;
@@ -154,7 +242,7 @@ namespace Core.Combat.Units.Components
         #endregion
 
         #region _team
-        public Core.Team.Team Team => _team;
+        public Team.Team Team => _team;
 
         public bool CanHelp(TeamOwner teamOwner)
         {
@@ -169,7 +257,7 @@ namespace Core.Combat.Units.Components
 
         #region _aura
 
-        public void ApplyAura(EventData data, AuraEffect effect) => _auras.ApplyAura(data, effect);
+        public void ApplyAura(CastEventData data, AuraEffect effect) => _auras.ApplyAura(data, effect);
 
         public void RemoveStatus(Spell spell) => _auras.RemoveStatus(spell);
 
@@ -210,7 +298,7 @@ namespace Core.Combat.Units.Components
             return item;
         }
 
-        public void InformAction(UnitAction action, EventData data)
+        public void InformAction(UnitAction action, CastEventData data)
         {
             _auras.InformAction(action, data);
         }
@@ -219,5 +307,11 @@ namespace Core.Combat.Units.Components
         {
             return EntityId.ToString();
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal (Resource, Resource) GetResources() => (_resource.Left, _resource.Right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal (ResourceType left, ResourceType right) GetResourceTypes() => (_resource.LeftType, _resource.RightType);
     }
 }

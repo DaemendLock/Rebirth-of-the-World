@@ -14,13 +14,13 @@ namespace Core.SpellLib.Warrior
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.WARRIOR, Spec.SPEC_1, 1);
 
-        private static SpellData _spellData = new SpellData(_id, "",
+        private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(30, 0),
             TargetTeam.ENEMY,
             2,
             0,
             0,
-            1.5f,
+            0.5f,
             GcdCategory.NORMAL,
             3,
             DispellType.BLEED,
@@ -28,9 +28,9 @@ namespace Core.SpellLib.Warrior
             Mechanic.NONE,
             new SpellEffect[]
             {
-                new SchoolDamage(new AttackpowerValue(0.3f)),
-                new TriggerSpell((SpellId)2),
-                new ApplyAura(new ModStat(UnitStat.SPEED, new Constant(-0.15f), true))
+                new SchoolDamage(new StatValue(0.3f, UnitStat.ATK)),
+                //new TriggerSpell((SpellId)2),
+                new ApplyAura(new ModStat(UnitStat.SPEED, new Constant(0f), true))
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
             typeof(Spell)
@@ -41,11 +41,40 @@ namespace Core.SpellLib.Warrior
         }
     }
 
+    //public class DirectHit3 : SelfcastSpell
+    //{
+    //    private static readonly int _id = SpellIdCalculator.GenerateId(Class.WARRIOR, Spec.SPEC_1, 5);
+
+    //    private static SpellData _spellData = new SpellData(_id,
+    //        new AbilityCost(0, 0),
+    //        TargetTeam.ALLY,
+    //        10,
+    //        0,
+    //        0,
+    //        1.5f,
+    //        GcdCategory.IGNOR,
+    //        float.PositiveInfinity,
+    //        DispellType.BLEED,
+    //        SchoolType.PHYSICAL,
+    //        Mechanic.NONE,
+    //        new SpellEffect[]
+    //        {
+    //            new ApplyAura(new ModStat(UnitStat.SPEED, new Constant(-60f), true))
+    //        },
+    //        SpellFlags.PASSIVE_SPELL,
+    //        typeof(SelfcastSpell)
+    //        );
+
+    //    public DirectHit3() : base(_spellData)
+    //    {
+    //    }
+    //}
+
     public class СoncentratedDefense : Spell
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.WARRIOR, Spec.SPEC_1, 2);
 
-        private static SpellData _spellData = new SpellData(_id, "",
+        private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 70),
             TargetTeam.ALLY,
             0,
@@ -60,7 +89,7 @@ namespace Core.SpellLib.Warrior
             new SpellEffect[]
             {
                 new ApplyAura(new ModStat(UnitStat.BLOCK, new Constant(0.3f), false)),
-                new ApplyAura(new ModStat(UnitStat.PARRY, new Constant(0.1f), true))
+                new ApplyAura(new ModStat(UnitStat.PARRY, new Constant(0f), true))
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
             typeof(Spell)
@@ -71,11 +100,11 @@ namespace Core.SpellLib.Warrior
         }
     }
 
-    public class Slash : Spell
+    public class Slash : CleaveSpell
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.WARRIOR, Spec.SPEC_1, 3);
 
-        private static SpellData _spellData = new SpellData(_id, "",
+        private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(60, 0),
             TargetTeam.ENEMY,
             3,
@@ -89,11 +118,9 @@ namespace Core.SpellLib.Warrior
             Mechanic.NONE,
             new SpellEffect[]
             {
-                new Dummy(30), //cleave angle from view axis
-                new SchoolDamage(new AttackpowerValue(1.2f)),
-                new TriggerSpell((SpellId)1),
-                new TriggerSpell((SpellId)2),
-                new TriggerSpell((SpellId)4),
+                new Dummy(30),
+                new SchoolDamage(new StatValue(1.2f, UnitStat.ATK)),
+                new GiveResource(0, ResourceType.CONCENTRATION),
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
             typeof(CleaveSpell)
@@ -104,12 +131,11 @@ namespace Core.SpellLib.Warrior
         }
     }
 
-    //TODO: Ignor pain spell
     public class IgnorPain : Spell
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.WARRIOR, Spec.SPEC_1, 4);
 
-        private static SpellData _spellData = new SpellData(_id, "",
+        private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 0),
             TargetTeam.ALLY,
             0,
@@ -117,15 +143,15 @@ namespace Core.SpellLib.Warrior
             50,
             1.5f,
             GcdCategory.NORMAL,
-            10,
+            1000,
             DispellType.NONE,
             SchoolType.PHYSICAL,
             Mechanic.NONE,
             new SpellEffect[]
             {
-                //TODO: Current resource value source, <spell effect modification> value source
-                //new ApplyAura(new AbsorbDamage(new ValueMultiplication())),
-                new ApplyAura(new ModStat(UnitStat.ATK, new Constant(0.15f), true))
+                new AbsorbDamage(new MultiplyValue(new StatValue(0.01f, UnitStat.MAX_HEALTH), new CasterResourceValue(ResourceType.ENERGY)), SchoolType.ANY),
+                new ApplyAura(new ModStat(UnitStat.ATK, new Constant(0), true)),
+                new GiveResource(float.NegativeInfinity, ResourceType.RAGE)
             },
             SpellFlags.NONE,
             typeof(Spell)
@@ -136,11 +162,11 @@ namespace Core.SpellLib.Warrior
         }
     }
 
-    public class WillForVictory : Spell
+    public class WillForVictory : SplashSpell
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.WARRIOR, Spec.SPEC_1, 5);
 
-        private static SpellData _spellData = new SpellData(_id, "",
+        private static SpellData _spellData = new SpellData(_id, 
             new AbilityCost(0, 0),
             TargetTeam.ALLY,
             10,
@@ -155,7 +181,7 @@ namespace Core.SpellLib.Warrior
             new SpellEffect[]
             {
                 new ApplyAura(new ModStat(UnitStat.DAMAGE_TAKEN, new Constant(-0.3f), true)),
-                new GiveResource(100, ResourceType.CONCENTRATION)
+                new GiveResource(0, ResourceType.CONCENTRATION)
             },
             SpellFlags.NONE,
             typeof(SplashSpell)
@@ -170,7 +196,7 @@ namespace Core.SpellLib.Warrior
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.WARRIOR, Spec.SPEC_1, 6);
 
-        private static SpellData _spellData = new SpellData(_id, "",
+        private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 0),
             TargetTeam.ENEMY,
             15,
@@ -199,7 +225,7 @@ namespace Core.SpellLib.Warrior
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.WARRIOR, Spec.SPEC_2, 1);
 
-        private static SpellData _spellData = new SpellData(_id, "",
+        private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(40, 0),
             TargetTeam.ENEMY,
             2,
@@ -213,7 +239,7 @@ namespace Core.SpellLib.Warrior
             Mechanic.NONE,
             new SpellEffect[]
             {
-                new SchoolDamage(new AttackpowerValue(1.3f)),
+                new SchoolDamage(new StatValue(1.3f, UnitStat.ATK)),
                 //TODO: Apply periodic damage
                 new TriggerSpell((SpellId)0)
             },
@@ -230,7 +256,7 @@ namespace Core.SpellLib.Warrior
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.WARRIOR, Spec.SPEC_2, 1);
 
-        private static SpellData _spellData = new SpellData(_id, "",
+        private static SpellData _spellData = new SpellData(_id, 
             new AbilityCost(0, 70),
             TargetTeam.ALLY,
             0,
@@ -257,12 +283,11 @@ namespace Core.SpellLib.Warrior
         }
     }
 
-    //TODO: Cleave
     public class Slash2 : CleaveSpell
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.WARRIOR, Spec.SPEC_2, 3);
 
-        private static SpellData _spellData = new SpellData(_id, "",
+        private static SpellData _spellData = new SpellData(_id, 
             new AbilityCost(0, 50),
             TargetTeam.ENEMY,
             3,
@@ -277,11 +302,10 @@ namespace Core.SpellLib.Warrior
             new SpellEffect[]
             {
                 new Dummy(15),
-                new SchoolDamage(new AttackpowerValue(1.2f)),
-                //TODO
-                new TriggerSpell((SpellId)1),
-                new TriggerSpell((SpellId)2),
-                new TriggerSpell((SpellId)4),
+                new SchoolDamage(new StatValue(1.2f, UnitStat.ATK)),
+                //new TriggerSpell((SpellId)1),
+                //new TriggerSpell((SpellId)2),
+                //new TriggerSpell((SpellId)4),
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
             typeof(CleaveSpell)
@@ -293,14 +317,14 @@ namespace Core.SpellLib.Warrior
     }
 
     //TODO: spend all rage
-    public class BloodyRage : Spell
+    public class BloodyRage : SelfcastSpell
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.WARRIOR, Spec.SPEC_2, 4);
 
-        private static SpellData _spellData = new SpellData(_id, "",
+        private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 0),
-            TargetTeam.ENEMY,
-            3,
+            TargetTeam.ALLY,
+            0,
             0,
             10,
             1.5f,
@@ -311,9 +335,9 @@ namespace Core.SpellLib.Warrior
             Mechanic.NONE,
             new SpellEffect[]
             {
-                //TODO: get rage new ApplyAura(new ModStat(Stats.UnitStat.HASTE, )),
+                //new ApplyAura(new ModStat(new ValueMultiplication(new StatProvider(Stats.UnitStat.HASTE, 0.3f), new )),
             },
-            SpellFlags.HASTE_AFFECTS_COOLDOWN,
+            SpellFlags.HASTE_AFFECTS_COOLDOWN | SpellFlags.SEPARATED_STATUS,
             typeof(Spell)
             );
 
@@ -326,7 +350,7 @@ namespace Core.SpellLib.Warrior
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.WARRIOR, Spec.SPEC_1, 6);
 
-        private static SpellData _spellData = new SpellData(_id, "",
+        private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 0),
             TargetTeam.ENEMY,
             15,

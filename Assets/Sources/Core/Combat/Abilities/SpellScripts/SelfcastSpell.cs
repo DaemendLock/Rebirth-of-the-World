@@ -8,9 +8,14 @@ namespace Core.Combat.Abilities.SpellScripts
         {
         }
 
-        public override void Cast(EventData data, SpellModification modification)
+        public override CommandResult CanCast(CastEventData data, SpellModification modification)
         {
-            data = new EventData(data.Caster, data.Caster, data.Spell);
+            return CommandResult.SUCCES;
+        }
+
+        public override void Cast(CastEventData data, SpellModification modification)
+        {
+            data = new CastEventData(data.Caster, data.Caster, data.Spell);
 
             base.Cast(data, modification);
         }

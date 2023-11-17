@@ -13,21 +13,21 @@ namespace View
 
         private void Update()
         {
-            _position.EvaluateNextLocation(_unit.GetStat(UnitStat.SPEED), Time.deltaTime);
+            //_position.EvaluateNextLocation(_unit.GetStat(UnitStat.SPEED), Time.deltaTime);
 
             //transform.position =  _position.Position.Location;
             //LookInDirection(_position.Position.ViewDirection);
         }
 
-        public bool TryAssignTo(Unit unit)
+        public void AssignTo(Unit unit)
         {
             if (_unit != null)
             {
-                return false;
+                return;
             }
 
             _unit = unit;
-            return true;
+            return;
         }
 
         private void LookInDirection(Vector3 direction)

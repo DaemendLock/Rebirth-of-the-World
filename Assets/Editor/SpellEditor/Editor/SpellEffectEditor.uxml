@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:VisualElement>
+        <uie:EnumField label="Enum" value="Dummy" name="Effect" type="Editor.SpellEditor.Editor.SpellEffectType, Assembly-CSharp-Editor" />
+    </ui:VisualElement>
+    <ui:VisualElement name="PropertyContainer" style="height: auto;">
+        <uie:PropertyField label="aaaa" style="height: 79px;" />
+    </ui:VisualElement>
+</ui:UXML>

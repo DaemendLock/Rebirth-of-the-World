@@ -1,6 +1,7 @@
 ﻿using Core.Combat.Utils;
 using System.IO;
 using Utils.DataTypes;
+using Utils.Serializer;
 
 namespace Core.Combat.Abilities.SpellEffects
 {
@@ -27,7 +28,7 @@ namespace Core.Combat.Abilities.SpellEffects
             _duration = source.ReadSingle();
         }
 
-        public void ApplyEffect(EventData data, float modifyValue)
+        public void ApplyEffect(CastEventData data, float modifyValue)
         {
             data.Caster.FindAbility(SpellLibrary.SpellLib.GetSpell(_spell))?.ReduceCooldown(_duration + modifyValue);
         }
@@ -39,7 +40,7 @@ namespace Core.Combat.Abilities.SpellEffects
 
         public void Serialize(BinaryWriter buffer)
         {
-            buffer.Write(GetType().ToString());
+            buffer.Write((byte) SpellEffectType.REDUCE_COOLDOWN);
             buffer.Write(_spell);
             buffer.Write(_duration);
         }

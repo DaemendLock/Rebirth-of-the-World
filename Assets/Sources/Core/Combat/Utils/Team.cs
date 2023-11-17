@@ -1,5 +1,8 @@
-namespace Core.Team
+using System;
+
+namespace Core.Combat.Team
 {
+    [Flags]
     public enum Team
     {
         NONE,

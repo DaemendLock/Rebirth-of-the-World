@@ -1,5 +1,5 @@
-﻿using Networking.Combat;
-using System;
+﻿using System;
+using Utils.DataTypes;
 
 namespace Threading
 {

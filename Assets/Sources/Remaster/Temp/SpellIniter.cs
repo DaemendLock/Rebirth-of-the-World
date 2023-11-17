@@ -1,5 +1,4 @@
 ﻿using Core.Combat.Abilities;
-using Core.Data.SpriteLib;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,13 +12,6 @@ namespace Core.Temp
         private void Awake()
         {
             InitSpellEffects();
-
-            foreach (Spell data in _spellData)
-            {
-                SpellLibrary.SpellLib.RegisterSpell(data);
-                SpriteLibrary.LoadSpell(data.Id);
-                Debug.Log(data.Id);
-            }
         }
 
         private void InitSpellEffects()
@@ -30,6 +22,7 @@ namespace Core.Temp
             _spellData.Add(new SpellLib.Warrior.IgnorPain());
             _spellData.Add(new SpellLib.Warrior.WillForVictory());
             _spellData.Add(new SpellLib.Warrior.Charge());
+            _spellData.Add(new SpellLib.Shielder.ShieldStrike());
         }
 
         private void OnDestroy()

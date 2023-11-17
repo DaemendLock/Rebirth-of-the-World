@@ -4,13 +4,14 @@ using Core.Combat.Auras.AuraEffects;
 using Core.Combat.Stats;
 using Core.Combat.Units;
 using Core.Combat.Utils;
+using Core.Combat.Utils.HealthChangeProcessing;
 using Utils.DataTypes;
 
 namespace Core.Combat.Interfaces
 {
     public interface UnitAssignable
     {
-        public bool TryAssignTo(Unit unit);
+        public void AssignTo(Unit unit);
     }
 
     public interface AbilityOwner
@@ -29,9 +30,9 @@ namespace Core.Combat.Interfaces
 
         Ability GetAbility(SpellSlot slot);
 
-        CommandResult CastAbility(EventData data);
+        CommandResult CastAbility(CastEventData data);
 
-        CommandResult CastSpell(EventData data);
+        CommandResult CastSpell(CastEventData data);
 
         void Interrupt(InterruptData data);
 
@@ -40,7 +41,7 @@ namespace Core.Combat.Interfaces
 
     public interface AuraOwner
     {
-        void ApplyAura(EventData data, AuraEffect effect);
+        void ApplyAura(CastEventData data, AuraEffect effect);
 
         Status FindStatus(Spell spell);
 
@@ -76,5 +77,15 @@ namespace Core.Combat.Interfaces
         public bool CanHelp(TeamOwner teamOwner);
 
         public bool CanHurt(TeamOwner teamOwner);
+    }
+
+    public interface Damageable
+    {
+        public void TakeDamage(DamageEvent @event);
+    }
+
+    public interface Damager
+    {
+        public void AmplifyDamage(DamageEvent@event);
     }
 }

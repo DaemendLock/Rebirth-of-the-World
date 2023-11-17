@@ -26,6 +26,8 @@ namespace Core.Combat.Stats
     [Serializable]
     public class StatsTable
     {
+        public const int STATS_COUNT = (int) UnitStat.PARRY + 1;
+
         public static readonly StatsTable UNIT_DEFAULT = new StatsTable(new PercentModifiedValue[]
         {
             new PercentModifiedValue(0, 100),
@@ -43,13 +45,14 @@ namespace Core.Combat.Stats
             new PercentModifiedValue(0, 100),
             new PercentModifiedValue(0, 100),
             new PercentModifiedValue(0, 100),
+            new PercentModifiedValue(0, 100),
         });
 
-        private PercentModifiedValue[] _values = new PercentModifiedValue[(int) UnitStat.PARRY];
+        private PercentModifiedValue[] _values = new PercentModifiedValue[STATS_COUNT];
 
         public StatsTable()
         {
-            for (int i = 0; i < _values.Length; i++)
+            for (int i = 0; i < STATS_COUNT; i++)
             {
                 _values[i] = new PercentModifiedValue();
             }
@@ -57,7 +60,7 @@ namespace Core.Combat.Stats
 
         public StatsTable(PercentModifiedValue[] values)
         {
-            for (int i = 0; i < _values.Length; i++)
+            for (int i = 0; i < STATS_COUNT; i++)
             {
                 _values[i] = values[i];
             }
@@ -65,18 +68,24 @@ namespace Core.Combat.Stats
 
         public void Add(StatsTable table)
         {
-            for (UnitStat stat = UnitStat.ATK; stat <= UnitStat.PARRY; stat++)
+            for (int i = 0; i < STATS_COUNT; i++)
             {
-                _values[(int) stat] += table._values[(int) stat];
+                _values[i] += table._values[i];
             }
         }
 
         public void Subtract(StatsTable table)
         {
-            for (UnitStat stat = UnitStat.ATK; stat <= UnitStat.PARRY; stat++)
+            for (int i = 0; i < STATS_COUNT; i++)
             {
-                _values[(int) stat] -= table._values[(int) stat];
+                _values[i] -= table._values[i];
             }
+        }
+
+        public PercentModifiedValue this[int stat]
+        {
+            get => _values[stat];
+            set => _values[stat] = value;
         }
 
         public PercentModifiedValue this[UnitStat stat]

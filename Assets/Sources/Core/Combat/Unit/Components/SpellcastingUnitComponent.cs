@@ -11,23 +11,35 @@ namespace Core.Combat.Units.Components
 {
     public class Spellcasting : AbilityOwner, Updatable
     {
+        public delegate void StartedPrecast(Spell spell, float duration);
+        public delegate void Casted(Spell spell, CommandResult result);
+        public delegate void Attacked(Spell spell, Unit target);
+        public delegate void StopedPrecast();
+
+        public delegate void CastStarted(Spell spell);
+
         private const int SPELL_LIST_SIZE = 16;
-        private const int ACTIONBAR_LIST_SIZE = 6;
-        private const int ITEMBAR_LIST_SIZE = 4;
+        private const int ACTIONBAR_SIZE = 6;
+        private const int ITEMBAR_SIZE = 4;
         private const int SCHOOL_COUNT = 12;
+        private const int AUTOATTACK_COUNT = 2;
 
         private readonly List<Ability> _abilities = new List<Ability>(SPELL_LIST_SIZE);
-        private readonly List<Ability> _actionbar = new List<Ability>(ACTIONBAR_LIST_SIZE);
-        private readonly List<Ability> _itembar = new List<Ability>(ITEMBAR_LIST_SIZE);
-        private readonly List<Ability> _autoattack = new List<Ability>(2);
+        private readonly List<Ability> _actionbar = new List<Ability>(ACTIONBAR_SIZE);
+        private readonly List<Ability> _itembar = new List<Ability>(ITEMBAR_SIZE);
+        private readonly List<Ability> _autoattack = new List<Ability>(AUTOATTACK_COUNT);
 
-        private readonly Dictionary<int, SpellModification> _spellModification = new Dictionary<int, SpellModification>(SPELL_LIST_SIZE);
+        private readonly Dictionary<SpellId, SpellModification> _spellModification = new Dictionary<SpellId, SpellModification>(SPELL_LIST_SIZE);
         private readonly InterruptData[] _interrupts = new InterruptData[SCHOOL_COUNT];
 
         private Unit _owner;
 
         private CastingBehavior _casting = new Idle();
         private Duration _globalCooldown;
+
+        public float GCD => _globalCooldown.Left;
+        public float CastTime => _casting.TimeLeft;
+        public float FullCastTime => _casting.FullTime;
 
         public bool GiveAbility(Spell spell)
         {
@@ -43,7 +55,7 @@ namespace Core.Combat.Units.Components
 
             if (spell.Flags.HasFlag(SpellFlags.PASSIVE_SPELL))
             {
-                CastAbility(new EventData(_owner, _owner, spell));
+                CastSpell(new CastEventData(_owner, _owner, spell));
             }
 
             GetBarForSpell(spell)?.Add(ability);
@@ -79,7 +91,7 @@ namespace Core.Combat.Units.Components
             _ => null,
         };
 
-        public CommandResult CastAbility(EventData data)
+        public CommandResult CastAbility(CastEventData data)
         {
             Ability ability = FindAbility(data.Spell);
 
@@ -101,7 +113,7 @@ namespace Core.Combat.Units.Components
             return CastSpell(data);
         }
 
-        public CommandResult CastSpell(EventData data)
+        public CommandResult CastSpell(CastEventData data)
         {
             Spell spell = data.Spell;
             Unit target = data.Target;
@@ -110,21 +122,17 @@ namespace Core.Combat.Units.Components
 
             target = DecideTarget(target, spell, spellModification);
 
-            if (target == null)
-            {
-                return CommandResult.INVALID_TARGET;
-            }
-
             if ((spell.GcdCategory == GcdCategory.NORMAL) && (_globalCooldown.Expired == false))
             {
                 return CommandResult.ON_COOLDOWN;
             }
 
-            data = new EventData(_owner, target, spell, data.TriggerTime);
+            data = new CastEventData(_owner, target, spell, data.TriggerTime);
             CommandResult result = spell.CanCast(data, spellModification);
 
             if (result != CommandResult.SUCCES)
             {
+                Engine.Combat.PostDebugMessage(result.ToString());
                 return result;
             }
 
@@ -132,7 +140,7 @@ namespace Core.Combat.Units.Components
             return CommandResult.SUCCES;
         }
 
-        public void Channel(EventData data, float triggerInterval)
+        public void Channel(CastEventData data, float triggerInterval)
         {
             _casting = new Channeling(data, GetModificationForSpell(data.Spell.Id), triggerInterval);
         }
@@ -199,11 +207,22 @@ namespace Core.Combat.Units.Components
             {
                 CastingBehavior active = _casting;
                 _casting = new Idle();
-                _casting.OnCastEnd();
+                active.OnCastEnd();
+            }
+
+            if(_casting.AllowAutoattack && _globalCooldown.Expired && _owner.Target != null)
+            {
+                for(int i = 0; i < AUTOATTACK_COUNT; i++)
+                {
+                    if (_autoattack.Count >= i || _autoattack[i].OnCooldown)
+                        return;
+
+                    _owner.Attack(_autoattack[i].Spell);
+                }
             }
         }
 
-        private void StartCast(EventData data, SpellModification modification)
+        private void StartCast(CastEventData data, SpellModification modification)
         {
             if (data.Spell.CastTime + modification.BonusCastTime.CalculatedValue == 0)
             {
@@ -215,7 +234,7 @@ namespace Core.Combat.Units.Components
             else
             {
                 _casting = new Precast(data, modification);
-                _casting.OnCastBegins();
+                _owner.InformCastingBehavior(data.Spell, _casting.FullTime);
             }
 
             StartGcd(data.Spell, data.Caster);
@@ -229,12 +248,12 @@ namespace Core.Combat.Units.Components
                 return _owner;
             }
 
-            if (spell.TargetTeam == TargetTeam.ENEMY && (_owner.CanHurt(_owner) == false))
+            if (spell.TargetTeam == TargetTeam.ENEMY && (_owner.CanHurt(target) == false))
             {
                 return null;
             }
 
-            return _owner;
+            return target;
         }
 
         private bool IsSelfCasting(Spell spell, SpellModification spellModification) => (new PercentModifiedValue(spell.Range, 100) + spellModification.BonusRange).CalculatedValue <= 0;

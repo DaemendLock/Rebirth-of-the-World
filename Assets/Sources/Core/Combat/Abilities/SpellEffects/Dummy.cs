@@ -1,5 +1,6 @@
 ﻿using Core.Combat.Utils;
 using System.IO;
+using Utils.Serializer;
 
 namespace Core.Combat.Abilities.SpellEffects
 {
@@ -19,14 +20,14 @@ namespace Core.Combat.Abilities.SpellEffects
 
         public float GetValue(float modifyValue) => _value + modifyValue;
 
-        public void ApplyEffect(EventData data, float modifyValue)
+        public void ApplyEffect(CastEventData data, float modifyValue)
         {
 
         }
 
         public void Serialize(BinaryWriter buffer)
         {
-            buffer.Write(GetType().ToString());
+            buffer.Write((byte) SpellEffectType.DUMMY);
             buffer.Write(_value);
         }
     }

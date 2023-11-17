@@ -7,7 +7,7 @@ namespace Core.Combat.CastingBehaviors
 {
     public abstract class CastingBehavior
     {
-        private readonly EventData _data;
+        private readonly CastEventData _data;
         private readonly SpellModification _modification;
         private readonly Duration _casttime;
 
@@ -16,7 +16,7 @@ namespace Core.Combat.CastingBehaviors
             _casttime = new Duration(float.PositiveInfinity);
         }
 
-        public CastingBehavior(EventData data, SpellModification modification)
+        public CastingBehavior(CastEventData data, SpellModification modification)
         {
             float casttime = data.Spell.CastTime + modification.BonusCastTime.CalculatedValue;
 
@@ -40,6 +40,8 @@ namespace Core.Combat.CastingBehaviors
         public virtual bool CanInterrupt => !(_data.Spell.Flags.HasFlag(SpellFlags.CANT_INTERRUPT) || _data.Caster.HasImmunity(Mechanic.INTERRUPT));
 
         public virtual bool Finished => _casttime.Expired;
+
+        public virtual bool AllowAutoattack => false;
 
         public bool InterruptWithMovement => throw new NotImplementedException();
 

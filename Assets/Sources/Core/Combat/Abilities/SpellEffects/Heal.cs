@@ -8,7 +8,7 @@ namespace Core.Combat.Abilities.SpellEffects
 {
     public class Heal : SpellEffect
     {
-        private ValueSource _value;
+        private readonly ValueSource _value;
 
         public Heal(ValueSource healing)
         {
@@ -17,10 +17,10 @@ namespace Core.Combat.Abilities.SpellEffects
 
         public Heal(BinaryReader source)
         {
-            _value = Serializer.Deserialize<ValueSource>(source);
+            _value = SpellSerializer.DeserializeSpellValue(source);
         }
 
-        public void ApplyEffect(EventData data, float modifyValue)
+        public void ApplyEffect(CastEventData data, float modifyValue)
         {
             float originalHealing = _value.GetValue(data, modifyValue);
 
@@ -40,7 +40,7 @@ namespace Core.Combat.Abilities.SpellEffects
 
         public void Serialize(BinaryWriter buffer)
         {
-            buffer.Write(GetType().ToString());
+            buffer.Write((byte) SpellEffectType.HEAL);
             Serializer.SerializeEffect(_value, buffer);
         }
     }
