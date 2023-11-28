@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Editor/SpellEditor/SpellCard.uss?fileID=7433441132597879392&amp;guid=a47387a4962ca874696bd1003701cc91&amp;type=3#SpellCard" />
+    <ui:VisualElement name="Spell" focusable="true" class="spellCard" style="width: 100px; height: 140px; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; max-width: none; max-height: none; min-height: auto; min-width: auto;">
+        <ui:VisualElement name="Icon" class="spellicon" style="width: 100%; height: 100%; background-color: rgba(56, 56, 56, 0); background-image: resource(&apos;Sprites/SpellHeal&apos;); margin-bottom: 0; min-width: auto; min-height: auto; flex-shrink: 0; flex-basis: 0; -unity-background-scale-mode: scale-to-fit; transform-origin: top; flex-grow: 1;" />
+        <ui:Label text="(0) Self heal" display-tooltip-when-elided="true" name="SpellName" class="spellName" style="-unity-text-align: middle-center; white-space: normal; width: auto; align-items: stretch; margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px;" />
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,19 @@
+.unity-box {
+    background-color: var(--unity-colors-default-background);
+}
+
+.unity-panel {
+    background-color: var(--unity-colors-tab-background);
+    margin-left: 1px;
+    margin-right: 1px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    padding-left: 1px;
+    padding-right: 1px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+.unity-focus:hover {
+    background-color: var(--unity-colors-button-background-hover);
+}

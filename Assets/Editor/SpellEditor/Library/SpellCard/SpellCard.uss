@@ -1,0 +1,12 @@
+VisualElement.spellCard:focus {
+    background-color: var(--unity-colors-button-background-focus);
+}
+
+VisualElement.spellCard:focus Label.spellName {
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    background-color: var(--unity-colors-highlight-background);
+    color: var(--unity-colors-toolbar_button-text-checked);
+}
