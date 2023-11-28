@@ -92,8 +92,8 @@ namespace Core.Combat.Abilities
             return Spell.Id == spell.Id;
         }
     }
-    
-    public enum SpellSlot
+
+    public enum SpellSlot : byte
     {
         FIRST,
         SECOND,

@@ -14,7 +14,7 @@ namespace View.Combat.UI.Nameplates.Elemets
 
         private void Update()
         {
-            if(_unit == null)
+            if (_unit == null)
             {
                 return;
             }

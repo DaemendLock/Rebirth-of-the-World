@@ -13,55 +13,31 @@ namespace Data.Spells
 
         private static MappedDataLoader _combat = new MappedDataLoader(_PATH_COMBAT);
         private static MappedDataLoader _view = new MappedDataLoader(_PATH_VIEW);
-        private static DataMap<SpellId, SpellDataMap> _spellMap;
+        private static DataLoader<SpellId, TwinDataMap> _spellMap = new DataLoader<SpellId, TwinDataMap>(_PATH);
 
-        public static bool Loaded { get; private set; }
+        public static bool Loaded => _spellMap.Loaded;
 
         public static void Load()
         {
-            if (Loaded)
-            {
-                return;
-            }
-
             _combat.Load();
             _view.Load();
-            _spellMap = new DataMap<SpellId, SpellDataMap>(_PATH);
-            Loaded = true;
+            _spellMap.Load();
         }
 
-        public static void Clear()
-        {
-            if(Loaded == false)
-            {
-                return;
-            }
+        public static void Clear() => _spellMap.Clear();
 
-            _combat.Release();
-            _view.Release();
-            _spellMap?.Release();
-            Loaded = false;
-        }
+        public static void Reload() => _spellMap.Reload();
 
-        public static void Reload()
-        {
-            Clear();
-            Load();
-        }
-
-        public static SpellId[] GetLoadedIds()
-        {
-            return _spellMap.GetKeys();
-        }
+        public static SpellId[] GetLoadedIds() => _spellMap.GetLoadedKeys();
 
         public static byte[] GetSpellView(SpellId spellId)
         {
-            return _view.GetBytes(_spellMap.GetData(spellId).View);
+            return _view.GetBytes(_spellMap.GetData(spellId).First);
         }
 
         public static byte[] GetCombatSpell(SpellId spellId)
         {
-            return _combat.GetBytes(_spellMap.GetData(spellId).CombatSpell);
+            return _combat.GetBytes(_spellMap.GetData(spellId).Second);
         }
 
 #if UNITY_EDITOR

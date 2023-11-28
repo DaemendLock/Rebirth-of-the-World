@@ -1,12 +1,12 @@
 using Core.Combat.Abilities;
 using Core.Combat.Auras.AuraEffects;
 using Core.Combat.Interfaces;
-using Core.Combat.Stats;
 using Core.Combat.Units;
 using Core.Combat.Units.Components;
 using Core.Combat.Utils;
 using Core.Combat.Utils.HealthChangeProcessing;
 using System.Collections.Generic;
+using Utils.DataStructure;
 using Utils.DataTypes;
 namespace Core.Combat.Auras
 {
@@ -147,7 +147,7 @@ namespace Core.Combat.Auras
         {
             _periodicEffectDelay = effect.Period;
             _periodicEffectCountdown = new Duration(_periodicEffectDelay * UnitState.EvaluateHasteTimeDivider(GetEffectiveStat(UnitStat.HASTE)));
-            _periodicSpell = SpellLibrary.SpellLib.GetSpell(effect.Spell);
+            _periodicSpell = Spell.Get(effect.Spell);
         }
 
         public void RemoveStatModification(ModStat effect) => _stats.Remove(effect);
@@ -237,14 +237,16 @@ namespace Core.Combat.Auras
 
         public void Update()
         {
-            if(_periodicSpell == null)
+            if (_periodicSpell == null)
             {
                 return;
             }
 
-            if(_periodicEffectCountdown.Expired)
+            if (_periodicEffectCountdown.Expired)
             {
-                Parent.CastSpell(new(_casters[0], Parent, _periodicSpell));
+                _casters[0].CastSpell(new(_casters[0], Parent, _periodicSpell));
+
+                _periodicEffectCountdown = new Duration(_periodicEffectDelay * UnitState.EvaluateHasteTimeDivider(GetEffectiveStat(UnitStat.HASTE)));
             }
         }
     }

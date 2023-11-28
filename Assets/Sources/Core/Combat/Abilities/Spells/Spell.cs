@@ -1,18 +1,22 @@
 ﻿using Core.Combat.Abilities.SpellEffects;
 using Core.Combat.Units;
 using Core.Combat.Utils;
+using Data.Spells;
+using System.Collections.Generic;
 using Utils.DataTypes;
+using Utils.Serializer;
 
 namespace Core.Combat.Abilities
 {
     public class Spell : Castable
     {
+        private static Dictionary<SpellId, Spell> _loadedSpells = new Dictionary<SpellId, Spell>();
+
         private readonly SpellData _data;
 
         public Spell(SpellData data)
         {
             _data = data;
-            SpellLibrary.SpellLib.RegisterSpell(this);
         }
 
 #if UNITY_EDITOR
@@ -117,6 +121,34 @@ namespace Core.Combat.Abilities
 
         protected static float GetEffectiveRange(float defaultRange, SpellModification modification)
             => defaultRange * modification.BonusRange.Percent / 100 + modification.BonusRange.BaseValue;
+
+        public static Spell Get(SpellId id)
+        {
+            if (_loadedSpells.ContainsKey(id))
+            {
+                return _loadedSpells[id];
+            }
+
+            if(SpellDataLoader.Loaded == false)
+            {
+                SpellDataLoader.Load();
+            }
+
+            Spell result = SpellSerializer.FromSpellData(SpellSerializer.Deserialize(SpellDataLoader.GetCombatSpell(id)));
+            _loadedSpells[id] = result;
+            return result;
+        }
+
+        public static void ReleaseLoadedSpells()
+        {
+            _loadedSpells.Clear();
+        }
+#if DEBUG
+        public static void RegisterSpell(Spell spell)
+        {
+            _loadedSpells[spell.Id] = spell;
+        }
+#endif
     }
 
     public class SpellModification

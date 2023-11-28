@@ -1,10 +1,10 @@
+using Core.Combat.Abilities.SpellEffects;
+using System;
+using System.Reflection;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
-using System;
-using Core.Combat.Abilities.SpellEffects;
-using System.Reflection;
 
 namespace Editor.SpellEditor.Editor
 {
@@ -13,7 +13,7 @@ namespace Editor.SpellEditor.Editor
         private VisualElement _propertiesRoot;
         private EnumField _effect;
 
-        [MenuItem("Window/SpellLibrary/SpellEffectEditor")]
+        [MenuItem("Window/SpellEffectEditor")]
         public static void ShowExample()
         {
             SpellEffectEditor wnd = GetWindow<SpellEffectEditor>();
@@ -65,7 +65,7 @@ namespace Editor.SpellEditor.Editor
 
             foreach (FieldInfo arg in args)
             {
-                
+
             }
         }
 
@@ -74,8 +74,6 @@ namespace Editor.SpellEditor.Editor
             return type.GetFields(BindingFlags.GetField | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
         }
     }
-
-    
 
     public enum SpellEffectType
     {

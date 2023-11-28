@@ -62,69 +62,73 @@
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellEffects\Dummy.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Utils\Serializer\SpellSerializer.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Auras\AuraEffects\ModifySpellEffect.cs" />
-    <Compile Include="Assets\Sources\Core\SpellLib\Warrior.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellEffects\Heal.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellEffects\Interrupt.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Unit\CastingBehavior\Idle.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Unit\Components\UnitState.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Unit\Unit.cs" />
+    <Compile Include="Assets\Sources\Core\Lobby\Chat\Message.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Utils\Team.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Auras\AuraEffects\AuraEffect.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellScripts\SelfcastSpell.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Unit\CastingBehavior\Channeling.cs" />
-    <Compile Include="Assets\Sources\Core\Combat\Items\Gear\CombatGear.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Unit\Components\SpellcastingUnitComponent.cs" />
+    <Compile Include="Assets\Sources\Core\Combat\Gear\Gear.cs" />
+    <Compile Include="Assets\Sources\Core\Lobby\Characters\CharacterData.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellEffects\Summon.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellScripts\CleaveSpell.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellEffects\TriggerSpell.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Unit\Components\UnitComponents.cs" />
+    <Compile Include="Assets\Sources\Core\Combat\Utils\CastEventData.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Utils\Duration.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\Castable.cs" />
+    <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellEffects\ConsumeMark.cs" />
+    <Compile Include="Assets\Sources\Core\Lobby\Chat\Chat.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellEffects\Teleport.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Auras\AuraEffects\ModCooldown.cs" />
-    <Compile Include="Assets\Sources\Core\Combat\Utils\ValueSource.cs" />
+    <Compile Include="Assets\Sources\Core\Combat\Utils\AuraValueSource.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Auras\AuraEffects\ReactionCast.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Engine\CombatInitializer.cs" />
-    <Compile Include="Assets\Sources\Core\SpellLib\Paladin.cs" />
+    <Compile Include="Assets\Sources\Core\Lobby\Encounters\Encounter.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\AbilityBehavior.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\Ability.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellScripts\SplashSpell.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellEffects\Taunt.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Auras\AuraEffects\ModHealthRegen.cs" />
+    <Compile Include="Assets\Sources\Core\Combat\Utils\Serializer\ItemSerializer.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellScripts\AoeSpell.cs" />
-    <Compile Include="Assets\Sources\Core\Combat\Utils\Serializer\UnitCreationData.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Auras\AuraEffects\ProcTriggerSpell.cs" />
+    <Compile Include="Assets\Sources\Core\Lobby\Accounts\AccountsData.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Engine\Combat.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellEffects\ApplyAura.cs" />
-    <Compile Include="Assets\Sources\Core\SpellLib\Shielder.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Auras\Status.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Auras\AuraEffects\ModStat.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellEffects\CreateProjectile.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Auras\DamageAbsorption.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Unit\Components\AuraOwner.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Utils\CombatTime.cs" />
+    <Compile Include="Assets\Sources\Core\Lobby\Characters\Equipment.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Utils\UnitFilter.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellEffects\AbsorbDamage.cs" />
+    <Compile Include="Assets\Sources\Core\ItemLib\ItemLib.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Interfaces.cs" />
+    <Compile Include="Assets\Sources\Core\Lobby\Chat\Channel.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\Spells\Spell.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Utils\HealthChangeProcessing\DamageEvent.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellEffects\ReduceCooldown.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellEffects\Resurrect.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Utils\Utils.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellEffects\SchoolDamage.cs" />
-    <Compile Include="Assets\Sources\Core\SpellLib\SpellLib.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellEffects\SpellEffects.cs" />
-    <Compile Include="Assets\Sources\Core\SpellLib\PromisingLight.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\Enums.cs" />
-    <Compile Include="Assets\Sources\Core\Combat\Stats.cs" />
+    <Compile Include="Assets\Sources\Core\Combat\Engine\ModelUpdate.cs" />
+    <Compile Include="Assets\Sources\Core\Combat\Auras\AuraEffects\PeriodicallyTriggerSpell.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Auras\PeridoicEffect\PerdiocEffect.cs" />
-    <Compile Include="Assets\Sources\Core\Combat\Items\Item.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Unit\CastingBehavior\CastingBehavior.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\Spells\SpellData.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Auras\AuraEffects\Immunity.cs" />
+    <Compile Include="Assets\Sources\Core\Lobby\Accounts\Account.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellEffects\GiveResource.cs" />
-    <Compile Include="Assets\Sources\Core\Combat\Auras\AuraEffects\PeriodicallyTriggerSpell.cs" />
-    <Compile Include="Assets\Sources\Core\Combat\Utils\CastEventData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Core\Core.asmdef" />
@@ -971,10 +975,6 @@
     <ProjectReference Include="Data.csproj">
       <Project>{FE06642D-D97E-6F45-E6BC-17F2C4BC433F}</Project>
       <Name>Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="Syncronization.csproj">
-      <Project>{BF6B13C1-6E9A-A560-AEE5-A6F8C475A540}</Project>
-      <Name>Syncronization</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

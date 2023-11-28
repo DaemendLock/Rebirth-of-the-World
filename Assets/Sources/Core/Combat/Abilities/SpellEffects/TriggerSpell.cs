@@ -21,7 +21,7 @@ namespace Core.Combat.Abilities.SpellEffects
 
         public void ApplyEffect(CastEventData data, float modifyValue)
         {
-            data.Caster.CastSpell(new CastEventData(data.Caster, data.Target, SpellLibrary.SpellLib.GetSpell(_spell)));
+            data.Caster.CastSpell(new CastEventData(data.Caster, data.Target, Spell.Get(_spell)));
         }
 
         public float GetValue(float modifyValue)

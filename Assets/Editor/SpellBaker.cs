@@ -1,7 +1,7 @@
 ﻿using Core.Combat.Abilities;
+using Core.Combat.Gear;
 using Core.SpellLib.Paladin;
 using Core.SpellLib.Warrior;
-using Core.SpellLibrary;
 using Data.DataMapper;
 using Data.Spells;
 using System;
@@ -51,6 +51,11 @@ namespace Assets.Editor
             // > Spec 3
         };
 
+        private static HashSet<Gear> _items = new()
+        {
+
+        };
+
         private static List<SpellId> _ids = new();
         private static List<MappedData> _combat = new();
         private static List<MappedData> _view = new();
@@ -98,14 +103,21 @@ namespace Assets.Editor
         [MenuItem("Assets/Load Spell Library")]
         public static void Load()
         {
-            SpellLib.LoadAllData();
+            SpellDataLoader.Load();
+            SpellId[] ids = SpellDataLoader.GetLoadedIds();
+
+            foreach (SpellId id in ids)
+            {
+                Spell.Get(id);
+            }
+
             SpellDataLoader.Clear();
         }
 
         [MenuItem("Assets/Release loaded data")]
         public static void Release()
         {
-            SpellLib.ClearAllData();
+            Spell.ReleaseLoadedSpells();
             SpellDataLoader.Clear();
         }
     }

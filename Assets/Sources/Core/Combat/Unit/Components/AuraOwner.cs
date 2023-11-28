@@ -2,11 +2,11 @@ using Core.Combat.Abilities;
 using Core.Combat.Auras;
 using Core.Combat.Auras.AuraEffects;
 using Core.Combat.Interfaces;
-using Core.Combat.Stats;
 using Core.Combat.Utils;
 using Core.Combat.Utils.HealthChangeProcessing;
 using System;
 using System.Collections.Generic;
+using Utils.DataStructure;
 using Utils.DataStructures;
 using Utils.DataTypes;
 
@@ -45,7 +45,22 @@ namespace Core.Combat.Units.Components
             MarkUpDelete(spell.Id);
         }
 
+        public void RemoveStatus(SpellId spell)
+        {
+            Status removableStatus = FindStatus(spell);
+
+            if (removableStatus == null)
+            {
+                return;
+            }
+
+            removableStatus.ClearEffects();
+            MarkUpDelete(spell);
+        }
+
         public bool HasStatus(Spell spell) => FindStatus(spell) != null;
+
+        public bool HasStatus(SpellId spell) => FindStatus(spell) != null;
 
         public void Dispell(DispellType type)
         {
@@ -65,6 +80,19 @@ namespace Core.Combat.Units.Components
             foreach (Status status in _statuses)
             {
                 if (status.Spell == spell)
+                {
+                    return status;
+                }
+            }
+
+            return null;
+        }
+
+        public Status FindStatus(SpellId spell)
+        {
+            foreach (Status status in _statuses)
+            {
+                if (status.Spell.Id == spell)
                 {
                     return status;
                 }
@@ -137,7 +165,8 @@ namespace Core.Combat.Units.Components
                     {
                         _statuses[i].ClearEffects();
                         MarkUpDelete(i);
-                    } else
+                    }
+                    else
                     {
                         _statuses[i].Update();
                     }

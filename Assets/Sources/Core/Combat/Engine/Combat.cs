@@ -2,30 +2,25 @@
 using Core.Combat.Units;
 using Core.Combat.Units.Components;
 using Core.Combat.Utils;
-using Syncronization;
 using System;
 using System.Collections.Generic;
+using UnityEngine.PlayerLoop;
 using Utils.DataTypes;
 
 namespace Core.Combat.Engine
 {
     using EntityId = System.Int32;
 
-    public interface Updatable
+    internal interface Updatable
     {
         void Update();
     }
 
     public static class Combat
     {
-        private static readonly List<Updatable> _updates = new();
-        private static readonly Queue<Updatable> _registerQueue = new();
         private static readonly Dictionary<EntityId, Unit> _units = new(64);
 
-        private static bool _running = false;
-        private static long _lastUpdate = 0;
-
-        public static long UpdateTime { get; private set; }
+        public static bool Running { get; private set; } = false;
 
 #if DEBUG
         public static event Action<object> DebugMessage;
@@ -37,16 +32,12 @@ namespace Core.Combat.Engine
 #endif
         public static void Start()
         {
-            if (_running)
+            if (Running)
             {
                 return;
             }
 
-            _running = true;
-            CombatSyncroniaztion.MoveRequested += ctx => MoveUnit(ctx.UnitId, ctx.Position, ctx.MoveDirection, ctx.Rotation);
-            CombatSyncroniaztion.CastRequested += ctx => CastAbility(ctx.UnitId, ctx.TargetId, (SpellSlot) ctx.SpellSlot);
-            CombatSyncroniaztion.TargetRequested += ctx => StartAttack(ctx.Attacker, ctx.Target);
-            CombatSyncroniaztion.CancelRequested += ctx => StopAllActions(ctx.Unit);
+            Running = true;
 
             /*while (_running)
             {
@@ -58,135 +49,43 @@ namespace Core.Combat.Engine
 
         public static void Stop()
         {
-            if (_running == false)
+            if (Running == false)
             {
                 return;
             }
 
-            CombatSyncroniaztion.MoveRequested -= ctx => MoveUnit(ctx.UnitId, ctx.Position, ctx.MoveDirection, ctx.Rotation);
-            CombatSyncroniaztion.CastRequested -= ctx => CastAbility(ctx.UnitId, ctx.TargetId, (SpellSlot) ctx.SpellSlot);
-            CombatSyncroniaztion.TargetRequested -= ctx => StartAttack(ctx.Attacker, ctx.Target);
-            CombatSyncroniaztion.CancelRequested -= ctx => StopAllActions(ctx.Unit);
-
-            _running = false;
+            Running = false;
         }
 
         public static void Reset()
         {
-            _updates.Clear();
+            ModelUpdate.Clear();
             _units.Clear();
 
             CombatTime.Reset();
         }
 
-        public static void Update(float deltaTime)
-        {
-            UpdateTime = (long) (deltaTime * 1000);
-
-            UpdateModel();
-            UpdateUpdateble();
-            RegisterUpdateable();
-
-            _lastUpdate = CombatTime.Time;
-        }
-
         public static void CreateUnit(UnitCreationData data)
         {
-            Unit unit = new(data.Spellcasting, data.UnitState);
+            Spellcasting spellcasting = new Spellcasting();
+
+            Unit unit = new(spellcasting, new UnitState(data.Model.Stats, new CastResources(data.Model.CastResourceData),
+                new Position(data.Model.PositionData), (Team.Team) data.Model.Team, data.Id));
+
+            foreach (SpellId id in data.Model.Spells)
+            {
+                spellcasting.GiveAbility(Spell.Get(id));
+            }
+
+            foreach (int id in data.Model.Gear)
+            {
+                unit.Equip(ItemLibrary.ItemLib.GetItem(id));
+            }
+
             RegisterUnit(unit);
         }
 
-        internal static void RegisterUnit(Unit unit)
-        {
-            if (_units.ContainsKey(unit.Id))
-            {
-                lock (_updates)
-                {
-                    _updates.Remove(unit);
-                }
-            }
-
-            _registerQueue.Enqueue(unit);
-
-            lock (_units)
-            {
-                _units.Add(unit.Id, unit);
-            }
-        }
-
-        public static Vector3 GetUnitPosition(EntityId id)
-        {
-            if (_units.ContainsKey(id) == false)
-            {
-                return Vector3.zero;
-            }
-
-            return _units[id].Position;
-        }
-
-        public static Unit GetUnit(EntityId id)
-        {
-            return _units.GetValueOrDefault(id);
-        }
-
-        //TODO: try move position to array
-        public static List<Unit> FindUnitsInRadius(Vector3 location, float radius, bool includeDead = false, Team.Team excludeTeam = Team.Team.NONE)
-        {
-            //IsAlive IsInSearchTeam
-            List<Unit> result = new();
-
-            foreach (Unit unit in _units.Values)
-            {
-                if ((unit.Position - location).sqrMagnitude > radius * radius)
-                {
-                    continue;
-                }
-
-                if ((includeDead || unit.Alive) && (excludeTeam == Team.Team.NONE || (excludeTeam & unit.Team) != 0))
-                {
-                    result.Add(unit);
-                }
-            }
-
-            return result;
-        }
-
-        public static float GetManaRestoreRate() => 0.1f;
-        public static float GetEnergyRechargeRate() => 15f;
-        public static float GetConcentrationRestoreRate() => 100f;
-
-        private static void UpdateModel()
-        {
-            //ModelSync.Synchronize();
-        }
-
-        private static void UpdateUpdateble()
-        {
-            foreach (Updatable updatable in _updates)
-            {
-                updatable.Update();
-            }
-        }
-
-        private static void RegisterUpdateable()
-        {
-            if (_registerQueue.Count == 0)
-            {
-                return;
-            }
-
-            lock (_registerQueue)
-            {
-                _updates.Capacity = _updates.Count + _registerQueue.Count;
-
-                for (int i = _updates.Count; i < _updates.Capacity; i++)
-                {
-                    _updates.Add(_registerQueue.Dequeue());
-                }
-            }
-        }
-
-        private static void MoveUnit(EntityId unitId, Vector3 position, Vector3 direction, float rotation)
+        public static void MoveUnit(int unitId, Vector3 position, Vector3 moveDirection, float rotation)
         {
             if (_units.ContainsKey(unitId) == false)
             {
@@ -196,11 +95,11 @@ namespace Core.Combat.Engine
             Unit unit = _units[unitId];
 
             unit.Position = position;
-            unit.MoveDirection = direction;
+            unit.MoveDirection = moveDirection;
             unit.Rotation = rotation;
         }
 
-        private static void CastAbility(EntityId unitId, EntityId targetId, SpellSlot slot)
+        public static void CastAbility(EntityId unitId, EntityId targetId, SpellSlot slot)
         {
             Unit caster = _units[unitId];
             Spell spell = caster.GetAbility(slot)?.Spell;
@@ -219,7 +118,7 @@ namespace Core.Combat.Engine
             caster.CastAbility(new CastEventData(caster, target, spell));
         }
 
-        private static void StopAllActions(int unitId)
+        public static void StopAllActions(int unitId)
         {
             Unit unit;
 
@@ -233,7 +132,7 @@ namespace Core.Combat.Engine
             unit.Target = null;
         }
 
-        private static void StartAttack(int unitId, int target)
+        public static void StartAttack(int unitId, int target)
         {
             Unit unit;
 
@@ -243,6 +142,62 @@ namespace Core.Combat.Engine
             }
 
             unit.Target = _units.GetValueOrDefault(target, null);
+        }
+
+        public static Vector3 GetUnitPosition(EntityId id)
+        {
+            if (_units.ContainsKey(id) == false)
+            {
+                return Vector3.zero;
+            }
+
+            return _units[id].Position;
+        }
+
+        public static Unit GetUnit(EntityId id)
+        {
+            return _units.GetValueOrDefault(id);
+        }
+
+        public static float GetManaRestoreRate() => 0.1f;
+        public static float GetEnergyRechargeRate() => 15f;
+        public static float GetConcentrationRestoreRate() => 100f;
+
+        //TODO: try move position to array
+        internal static List<Unit> FindUnitsInRadius(Vector3 location, float radius, bool includeDead = false, Team.Team excludeTeam = Team.Team.NONE)
+        {
+            //IsAlive IsInSearchTeam
+            List<Unit> result = new();
+
+            foreach (Unit unit in _units.Values)
+            {
+                if (((includeDead || unit.Alive) == false) ||
+                    ((excludeTeam != Team.Team.NONE) && (unit.Team == excludeTeam)) ||
+                    ((unit.Position - location).sqrMagnitude > radius * radius))
+                {
+                    continue;
+                }
+
+                result.Add(unit);
+
+            }
+
+            return result;
+        }
+
+        private static void RegisterUnit(Unit unit)
+        {
+            if (_units.ContainsKey(unit.Id))
+            {
+                ModelUpdate.Remove(unit);
+            }
+
+            ModelUpdate.Add(unit);
+
+            lock (_units)
+            {
+                _units.Add(unit.Id, unit);
+            }
         }
     }
 }

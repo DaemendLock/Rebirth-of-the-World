@@ -1,1 +1,82 @@
-{}
+{
+    "name": "LobbyInput",
+    "maps": [
+        {
+            "name": "Lobby",
+            "id": "6b5bb5ae-9ace-46f8-842d-7be5cdc4c523",
+            "actions": [
+                {
+                    "name": "OpenGuildFiles",
+                    "type": "Button",
+                    "id": "edf5e4af-09ef-4260-90cf-64f87c013f66",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "9dd71844-234d-4678-8339-198eae5580fa",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenGuildFiles",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "GuildFiles",
+            "id": "176c6870-23f3-4ea4-b3c7-77ced005f829",
+            "actions": [
+                {
+                    "name": "Back",
+                    "type": "Button",
+                    "id": "09bf299d-a571-42cd-9c16-87d56406dc34",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Home",
+                    "type": "Button",
+                    "id": "74778824-c67b-4d61-b0e6-2e671b10fc2b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5a92403f-95f6-48af-9e66-f0c3562139db",
+                    "path": "<Keyboard>/backquote",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Back",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5be5bf90-344f-4544-afee-9890115610c5",
+                    "path": "<Keyboard>/home",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Home",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

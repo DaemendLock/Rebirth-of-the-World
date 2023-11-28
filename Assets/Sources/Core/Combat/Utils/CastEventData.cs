@@ -1,7 +1,5 @@
 ﻿using Core.Combat.Abilities;
 using Core.Combat.Units;
-using static Core.Combat.Units.Components.Spellcasting;
-using static UnityEngine.GraphicsBuffer;
 
 namespace Core.Combat.Utils
 {
@@ -29,7 +27,6 @@ namespace Core.Combat.Utils
         }
     }
 
-    
     public readonly struct HealthChangeEventData
     {
         public readonly float Value;

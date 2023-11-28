@@ -14,7 +14,7 @@ namespace Core.Combat.Units.Components
         public delegate void StartedPrecast(Spell spell, float duration);
         public delegate void Casted(Spell spell, CommandResult result);
         public delegate void Attacked(Spell spell, Unit target);
-        public delegate void StopedPrecast();
+        public delegate void StoppedPrecast();
 
         public delegate void CastStarted(Spell spell);
 
@@ -40,8 +40,34 @@ namespace Core.Combat.Units.Components
         public float GCD => _globalCooldown.Left;
         public float CastTime => _casting.TimeLeft;
         public float FullCastTime => _casting.FullTime;
+        public Spell CastingSpell => _casting.Spell;
 
-        public bool GiveAbility(Spell spell)
+        internal Ability SetAbilityInSlot(Ability ability, SpellSlot slot)
+        {
+            Ability result = GetAbility(slot);
+
+            switch ((byte) slot)
+            {
+                case <= (byte) SpellSlot.SIXTH:
+                    _actionbar[(int) slot] = ability;
+                    break;
+
+                case <= (byte) SpellSlot.ITEM_2:
+                    _itembar[(int) slot - (int) SpellSlot.ITEM_1] = ability;
+                    break;
+
+                case <= (byte) SpellSlot.ATTACK_OFF_HAND:
+                    _autoattack[(int) slot - (int) SpellSlot.ATTACK_MAIN] = ability;
+                    break;
+
+                default:
+                    return null;
+            }
+
+            return result;
+        }
+
+        internal bool GiveAbility(Spell spell)
         {
             if (FindAbility(spell) != null)
             {
@@ -63,7 +89,7 @@ namespace Core.Combat.Units.Components
             return true;
         }
 
-        public bool RemoveAbility(Spell spell)
+        internal bool RemoveAbility(Spell spell)
         {
             bool ownSpell = _abilities.RemoveAll((ability) => ability.IsDriving(spell)) > 0;
 
@@ -72,14 +98,21 @@ namespace Core.Combat.Units.Components
                 return false;
             }
 
-            GetBarForSpell(spell)?.RemoveAll((ability) => ability.IsDriving(spell));
+            if (spell.Flags.HasFlag(SpellFlags.PASSIVE_SPELL))
+            {
+                _owner.RemoveStatus(spell);
+            }
+            else
+            {
+                GetBarForSpell(spell)?.RemoveAll((ability) => ability.IsDriving(spell));
+            }
 
             return true;
         }
 
         public bool HasAbility(Spell spell) => _abilities.Exists((ability) => ability.SpellEquals(spell));
 
-        public Ability FindAbility(Spell spell) => _abilities.Find((ability) => ability.IsDriving(spell));
+        internal Ability FindAbility(Spell spell) => _abilities.Find((ability) => ability.IsDriving(spell));
 
         public Ability GetAbility(SpellSlot slot) => slot switch
         {
@@ -113,12 +146,18 @@ namespace Core.Combat.Units.Components
             return CastSpell(data);
         }
 
-        public CommandResult CastSpell(CastEventData data)
+        internal CommandResult CastSpell(CastEventData data)
         {
             Spell spell = data.Spell;
             Unit target = data.Target;
 
             SpellModification spellModification = GetModificationForSpell(spell.Id);
+
+            if (data.Spell.Flags.HasFlag(SpellFlags.PROC_SPELL))
+            {
+                data.Spell.Cast(data, spellModification);
+                return CommandResult.SUCCES;
+            }
 
             target = DecideTarget(target, spell, spellModification);
 
@@ -127,12 +166,17 @@ namespace Core.Combat.Units.Components
                 return CommandResult.ON_COOLDOWN;
             }
 
-            data = new CastEventData(_owner, target, spell, data.TriggerTime);
+            /*
+            if (spell.Flags.HasFlag(SpellFlags.CAN_CAST_WHILE_MOVING) || (_owner.MoveDirection != Vector3.zero))
+            {
+                return CommandResult.MOVING;
+            }*/
+
+            data = new CastEventData(data.Caster, target, spell, data.TriggerTime);
             CommandResult result = spell.CanCast(data, spellModification);
 
             if (result != CommandResult.SUCCES)
             {
-                Engine.Combat.PostDebugMessage(result.ToString());
                 return result;
             }
 
@@ -208,14 +252,17 @@ namespace Core.Combat.Units.Components
                 CastingBehavior active = _casting;
                 _casting = new Idle();
                 active.OnCastEnd();
+                _owner.InformCastingStopped();
             }
 
-            if(_casting.AllowAutoattack && _globalCooldown.Expired && _owner.Target != null)
+            if (_casting.AllowAutoattack && _owner.Target != null)
             {
-                for(int i = 0; i < AUTOATTACK_COUNT; i++)
+                for (int i = 0; i < AUTOATTACK_COUNT; i++)
                 {
                     if (_autoattack.Count >= i || _autoattack[i].OnCooldown)
+                    {
                         return;
+                    }
 
                     _owner.Attack(_autoattack[i].Spell);
                 }
@@ -224,6 +271,11 @@ namespace Core.Combat.Units.Components
 
         private void StartCast(CastEventData data, SpellModification modification)
         {
+            if (_casting.AllowAutoattack && (data.Spell.Flags.HasFlag(SpellFlags.CAN_CAST_WHILE_CASTING) == false))
+            {
+                _owner.Interrupt(new(true, new SpellId(), 0));
+            }
+
             if (data.Spell.CastTime + modification.BonusCastTime.CalculatedValue == 0)
             {
                 Castable ability = FindAbility(data.Spell);
@@ -281,7 +333,7 @@ namespace Core.Combat.Units.Components
 
             if (_spellModification.ContainsKey(spellId) == false)
             {
-                result = new SpellModification(SpellLibrary.SpellLib.GetSpell(spellId));
+                result = new SpellModification(Spell.Get(spellId));
                 _spellModification[spellId] = result;
             }
             else

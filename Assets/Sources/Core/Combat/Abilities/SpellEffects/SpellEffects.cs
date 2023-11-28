@@ -1,7 +1,7 @@
-using Core.Combat.Stats;
 using Core.Combat.Units;
 using Core.Combat.Utils;
 using System.IO;
+using Utils.DataStructure;
 using Utils.Interfaces;
 using Utils.Serializer;
 
@@ -14,14 +14,14 @@ namespace Core.Combat.Abilities.SpellEffects
         public void ApplyEffect(CastEventData data, float modifyValue);
     }
 
-    public interface ValueSource : SerializableInterface
+    public interface SpellValueSource : SerializableInterface
     {
         float BaseValue { get; }
 
         float GetValue(CastEventData data, float modifyValue);
     }
 
-    public class FixedValue : ValueSource
+    public class FixedValue : SpellValueSource
     {
         public FixedValue(float value)
         {
@@ -44,7 +44,7 @@ namespace Core.Combat.Abilities.SpellEffects
         }
     }
 
-    public readonly struct StatValue : ValueSource
+    public readonly struct StatValue : SpellValueSource
     {
         private readonly UnitStat _stat;
 
@@ -72,7 +72,7 @@ namespace Core.Combat.Abilities.SpellEffects
         }
     }
 
-    public readonly struct CasterResourceValue : ValueSource
+    public readonly struct CasterResourceValue : SpellValueSource
     {
         public CasterResourceValue(ResourceType resource)
         {
@@ -95,12 +95,12 @@ namespace Core.Combat.Abilities.SpellEffects
         }
     }
 
-    public readonly struct MultiplyValue : ValueSource
+    public readonly struct MultiplyValue : SpellValueSource
     {
-        private readonly ValueSource _value1;
-        private readonly ValueSource _value2;
+        private readonly SpellValueSource _value1;
+        private readonly SpellValueSource _value2;
 
-        public MultiplyValue(ValueSource value1, ValueSource value2)
+        public MultiplyValue(SpellValueSource value1, SpellValueSource value2)
         {
             _value1 = value1;
             _value2 = value2;

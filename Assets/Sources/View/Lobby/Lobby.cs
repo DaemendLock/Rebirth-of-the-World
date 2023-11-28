@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using View.Lobby.CharacterSheet;
-using View.Lobby.Gallery;
+using View.Lobby.General.Charaters;
 using View.Lobby.Utils;
 
 namespace View.Lobby
@@ -9,30 +8,42 @@ namespace View.Lobby
     public class Lobby : MonoBehaviour
     {
         [SerializeField] private MainMenu.MainMenu _lobby;
-        [SerializeField] private GameObject _sceneSelection;
-        [SerializeField] private TeamSelection _teamSelection;
+        [SerializeField] private ScenarionSelection.ScenarioSelection _sceneSelection;
+        [SerializeField] private TeamSetup.TeamSetup _teamSelection;
         [SerializeField] private Gallery.Gallery _gallery;
-        [SerializeField] private MemberPreview _memberPreview;
-
-        [Header("Test Account")]
-        //[SerializeField] private Account _account;
-        //public static Account ActiveAccount;
+        [SerializeField] private CharacterSheet.CharacterSheet _characterSheet;
 
         private Stack<MenuElement> _backList = new Stack<MenuElement>();
 
+        public static Lobby Instance { get; private set; }
+
         public void Start()
         {
-            /*
-            ActiveAccount = _account;
-            backList.Push(_lobby);
+            if (Instance != null)
+            {
+                enabled = false;
+                return;
+            }
 
-            if (ServerManager.ActiveAccount != null)
-                _account = ServerManager.ActiveAccount;
-            nameText.text = _account.Data.Nickname;
-            lvlText.text = "Lv." + _account.Data.Lvl.ToString();
-            goldAmmountText.text = _account.Data.Currencies.currencies[CurrencyType.GOLD].ToString();
-            guildTokenAmmountText.text = _account.Data.Currencies.currencies[CurrencyType.GUILD_TOKENS].ToString();
-            */
+            Instance = this;
+
+            _backList.Push(_lobby);
+
+            _lobby.gameObject.SetActive(true);
+            _sceneSelection.gameObject.SetActive(false);
+            _teamSelection.gameObject.SetActive(false);
+            _gallery.gameObject.SetActive(false);
+            _characterSheet.gameObject.SetActive(false);
+        }
+
+        private void OnEnable()
+        {
+            CharactersList.CharacterRegistered += _gallery.CreateCharacterFile;
+        }
+
+        private void OnDisable()
+        {
+            CharactersList.CharacterRegistered -= _gallery.CreateCharacterFile;
         }
 
         public void OpenMenu(MenuElement menu)
@@ -42,7 +53,7 @@ namespace View.Lobby
             menu.SetActive(true);
         }
 
-        public void BackMenu()
+        public void GoBack()
         {
             if (_backList.Count == 1)
             {
@@ -66,7 +77,7 @@ namespace View.Lobby
             //Scenario scenario = new FlorenceTrial();
             OpenMenu(_teamSelection);
             //_teamSelection.PrepareFor = scenario;
-            _teamSelection.SetupSelection();
+            //_teamSelection.SetupSelection();
         }
 
         public void ExitGame()
@@ -74,15 +85,10 @@ namespace View.Lobby
             Application.Quit();
         }
 
-        public void ViewCharacter(GalleryCard card)
+        public void ViewCharacter(Character data)
         {
-            //Preview(card.Unit);
-        }
-
-        public void Preview(UnitPreview unit)
-        {
-            _memberPreview.InsertUnit(unit);
-            OpenMenu(_memberPreview);
+            _characterSheet.InsertCharacter(data);
+            OpenMenu(_characterSheet);
         }
     }
 }

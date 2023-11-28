@@ -6,10 +6,10 @@ namespace Core.Combat.Abilities.SpellEffects
 {
     public class AbsorbDamage : SpellEffect
     {
-        private readonly ValueSource _value;
+        private readonly SpellValueSource _value;
         private readonly SchoolType _schoolType;
 
-        public AbsorbDamage(ValueSource value, SchoolType type)
+        public AbsorbDamage(SpellValueSource value, SchoolType type)
         {
             _value = value;
             _schoolType = type;
@@ -32,7 +32,7 @@ namespace Core.Combat.Abilities.SpellEffects
         {
             buffer.Write((byte) SpellEffectType.ABSORB_DAMAGE);
             _value.Serialize(buffer);
-            buffer.Write((ushort)_schoolType);
+            buffer.Write((ushort) _schoolType);
         }
     }
 }

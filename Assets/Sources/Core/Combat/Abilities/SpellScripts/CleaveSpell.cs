@@ -1,6 +1,5 @@
 ﻿using Core.Combat.Units;
 using Core.Combat.Utils;
-using System;
 using System.Collections.Generic;
 using Utils.DataTypes;
 
@@ -44,7 +43,7 @@ namespace Core.Combat.Abilities.SpellScripts
             }
 
             Vector3 casterPosition = caster.Position;
-            Vector3 casterViewAngle = new (caster.Rotation);
+            Vector3 casterViewAngle = new(caster.Rotation);
 
             foreach (Unit target in targets)
             {

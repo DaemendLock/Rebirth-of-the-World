@@ -58,16 +58,12 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Syncronization\Core\Interfaces.cs" />
-    <Compile Include="Assets\Sources\Syncronization\Core\Syncronizer.cs" />
-    <Compile Include="Assets\Sources\Syncronization\Core\CoreEventProvider.cs" />
-    <Compile Include="Assets\Sources\Syncronization\Core\Combat\CombatEvents.cs" />
-    <Compile Include="Assets\Sources\Syncronization\Core\Handler.cs" />
-    <Compile Include="Assets\Sources\Syncronization\Syncronizer.cs" />
-    <Compile Include="Assets\Sources\Syncronization\CombatSyncroniaztion.cs" />
+    <Compile Include="Assets\Sources\Adapters\Syncronizer.cs" />
+    <Compile Include="Assets\Sources\Adapters\ServerCommandsAdapter.cs" />
+    <Compile Include="Assets\Sources\Adapters\SelectionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Sources\Syncronization\Syncronization.asmdef" />
+    <None Include="Assets\Sources\Adapters\Syncronization.asmdef" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="netstandard">
@@ -563,6 +559,14 @@
     <ProjectReference Include="Utils.csproj">
       <Project>{22BCBCA0-BEA9-49AA-795D-AA87499EF392}</Project>
       <Name>Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="Core.csproj">
+      <Project>{21ADB8CB-C5DC-2033-2022-125F682C28E8}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="View.csproj">
+      <Project>{80574631-8376-59B8-BA26-FA6C7DFD8250}</Project>
+      <Name>View</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

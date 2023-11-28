@@ -30,7 +30,7 @@ namespace Core.Combat.Abilities.SpellEffects
 
         public void ApplyEffect(CastEventData data, float modifyValue)
         {
-            data.Caster.FindAbility(SpellLibrary.SpellLib.GetSpell(_spell))?.ReduceCooldown(_duration + modifyValue);
+            data.Caster.FindAbility(Spell.Get(_spell))?.ReduceCooldown(_duration + modifyValue);
         }
 
         public float GetValue(float modifyValue)

@@ -1,16 +1,16 @@
-﻿using Core.Combat.Stats;
-using Core.Combat.Units;
+﻿using Core.Combat.Units;
 using Core.Combat.Utils;
 using System.IO;
+using Utils.DataStructure;
 using Utils.Serializer;
 
 namespace Core.Combat.Abilities.SpellEffects
 {
     public class Heal : SpellEffect
     {
-        private readonly ValueSource _value;
+        private readonly SpellValueSource _value;
 
-        public Heal(ValueSource healing)
+        public Heal(SpellValueSource healing)
         {
             _value = healing;
         }

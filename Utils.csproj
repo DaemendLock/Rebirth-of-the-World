@@ -59,7 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Sources\Utils\Logger\Logger.cs" />
-    <Compile Include="Assets\Sources\Utils\DataTypes\InputData.cs" />
     <Compile Include="Assets\Sources\Utils\Syncronization\NetworkSyncronizer.cs" />
     <Compile Include="Assets\Sources\Utils\SpellIdCalculator.cs" />
     <Compile Include="Assets\Sources\Utils\ThrowHepler\Exceptions\FileNotLoadedException.cs" />
@@ -69,12 +68,14 @@
     <Compile Include="Assets\Sources\Utils\ThrowHepler\Exceptions\FileLoaderException.cs" />
     <Compile Include="Assets\Sources\Utils\Interfaces.cs" />
     <Compile Include="Assets\Sources\Utils\DataTypes\AbilityCost.cs" />
+    <Compile Include="Assets\Sources\Utils\DataTypes\UnitCreationData.cs" />
     <Compile Include="Assets\Sources\Utils\DataTypes\PercentModifiedValue.cs" />
     <Compile Include="Assets\Sources\Utils\DataTypes\SpellId.cs" />
     <Compile Include="Assets\Sources\Utils\Logger\LoggerData.cs" />
+    <Compile Include="Assets\Sources\Utils\DataStructure\Stats.cs" />
     <Compile Include="Assets\Sources\Utils\ThrowHepler\ThrowHepler.cs" />
+    <Compile Include="Assets\Sources\Utils\DataTypes\ItemId.cs" />
     <Compile Include="Assets\Sources\Utils\DataStructure\ArrayQueue.cs" />
-    <Compile Include="Assets\Sources\Utils\Serializer\InputSerializer.cs" />
     <Compile Include="Assets\Sources\Utils\Serializer\Serializer.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -16,7 +16,7 @@ namespace View.Combat.UI.ActionBar
                 return;
             }
 
-            foreach(SpellCard card in _spellCards)
+            foreach (SpellCard card in _spellCards)
             {
                 card.UpdateCd(_unit.GCD);
             }
@@ -26,12 +26,13 @@ namespace View.Combat.UI.ActionBar
         {
             _unit = unit;
 
-            if(_unit != null)
-
-            for (int i = 0; i < _spellCards.Length;i++)
+            if (_unit != null)
             {
-                _spellCards[i].UpdateAbility(unit.GetAbility((Core.Combat.Abilities.SpellSlot) i));
-                _spellCards[i].UpdateCd(_unit.GCD);
+                for (int i = 0; i < _spellCards.Length; i++)
+                {
+                    _spellCards[i].UpdateAbility(unit.GetAbility((Core.Combat.Abilities.SpellSlot) i));
+                    _spellCards[i].UpdateCd(_unit.GCD);
+                }
             }
         }
     }

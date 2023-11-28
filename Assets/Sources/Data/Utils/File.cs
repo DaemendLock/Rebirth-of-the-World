@@ -29,7 +29,7 @@ namespace Data.Utils
         {
             Dispose();
         }
-       
+
         public bool HasNext => _source.Position < _source.Length;
 
         public void SetCursorPosition(long position)
@@ -42,12 +42,12 @@ namespace Data.Utils
             return _stream.ReadBytes((int) count);
         }
 
-        public T ReadStruct<T>() where T : struct 
+        public T ReadStruct<T>() where T : struct
         {
             byte[] bytes = ReadBytes(Marshal.SizeOf<T>());
 
             GCHandle memory = GCHandle.Alloc(bytes, GCHandleType.Pinned);
-            T result = (T) Marshal.PtrToStructure<T>(memory.AddrOfPinnedObject());
+            T result = Marshal.PtrToStructure<T>(memory.AddrOfPinnedObject());
             memory.Free();
 
             return result;

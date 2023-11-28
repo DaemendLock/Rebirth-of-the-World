@@ -19,7 +19,7 @@ namespace View.Combat.Units.Animations
 
         public void PlayAttackAnimation()
         {
-            
+
         }
     }
 }

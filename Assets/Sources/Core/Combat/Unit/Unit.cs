@@ -3,12 +3,11 @@ using Core.Combat.Auras;
 using Core.Combat.Auras.AuraEffects;
 using Core.Combat.Engine;
 using Core.Combat.Interfaces;
-using Core.Combat.Items.Gear;
-using Core.Combat.Stats;
 using Core.Combat.Units.Components;
 using Core.Combat.Utils;
 using Core.Combat.Utils.HealthChangeProcessing;
 using System;
+using Utils.DataStructure;
 using Utils.DataTypes;
 
 namespace Core.Combat.Units
@@ -33,7 +32,7 @@ namespace Core.Combat.Units
         public event Spellcasting.Casted Casted;
         public event Spellcasting.Attacked Attacked;
         public event Spellcasting.StartedPrecast StartedPrecast;
-        public event Spellcasting.StopedPrecast StopedCast;
+        public event Spellcasting.StoppedPrecast StoppedCast;
 
         internal Unit Target;
 
@@ -54,17 +53,11 @@ namespace Core.Combat.Units
         public int Id => _unitState.EntityId;
 
         #region Status
-        public void ApplyAura(CastEventData data, AuraEffect effect) => _unitState.ApplyAura(data, effect);
-
-        public void RemoveStatus(Spell spell) => _unitState.RemoveStatus(spell);
-
         public Status FindStatus(Spell spell) => _unitState.FindStatus(spell);
 
         public bool HasStatus(Spell spell) => _unitState.HasStatus(spell);
 
-        public void Dispell(DispellType dispellType) => _unitState.Dispell(dispellType);
-
-        public void Purge(DispellType dispellType) => _unitState.Dispell(dispellType);
+        public bool HasStatus(SpellId spell) => _unitState.HasStatus(spell);
 
         public bool HasImmunity(Mechanic mechanic) => _unitState.HasImmunity(mechanic);
         #endregion
@@ -73,27 +66,6 @@ namespace Core.Combat.Units
         public float GCD => _casting.GCD;
         public float CastTime => _casting.CastTime;
         public float FullCastTime => _casting.FullCastTime;
-
-        /// <summary>
-        /// Create new <see cref="Ability"/> based on given <paramref name="spell"/> or overrides one already exists.
-        /// </summary>
-        public bool GiveAbility(Spell spell) => _casting.GiveAbility(spell);
-
-        /// <summary>
-        /// Remove <see cref="Ability"/> driven by given <paramref name="spell"/>.
-        /// </summary>
-        public bool RemoveAbility(Spell spell) => _casting.RemoveAbility(spell);
-
-        /// <summary>
-        /// Find first <see cref="Ability"/> driven by given spell.
-        /// </summary>
-        /// 
-        /// <returns>
-        /// OR <see cref="Ability"/> driven by spell<br/>
-        /// OR it's replacement<br/>
-        /// OR null if spell not found.
-        /// </returns>
-        public Ability FindAbility(Spell spell) => _casting.FindAbility(spell);
 
         /// <summary>
         /// Get ability in specified <paramref name="slot"/>.
@@ -109,38 +81,10 @@ namespace Core.Combat.Units
         /// </summary>
         public CommandResult CastAbility(CastEventData data)
         {
-            CommandResult result = _casting.CastAbility(data);
-            Casted?.Invoke(data.Spell, result);
-            return result;
+            return _casting.CastAbility(data);
+            /*Casted?.Invoke(data.Spell, result);
+            return result;*/
         }
-
-        public CommandResult CastSpell(CastEventData data) => _casting.CastSpell(data);
-
-        public void Attack(Spell attack)
-        {
-            CommandResult result = CastSpell(new CastEventData(this, Target, attack));
-
-            if (result != CommandResult.SUCCES)
-            {
-                return;
-            }
-
-            _unitState.InformAction(UnitAction.AUTOATTACK, new CastEventData(this, Target, attack));
-            Attacked?.Invoke(attack, Target);
-        }
-
-        /// <summary>
-        /// Execute attempt to interrupt current cast or channaling.
-        /// </summary>
-        /// 
-        /// <param name="data">
-        /// Interrupt source data.
-        /// </param>
-        public void Interrupt(InterruptData data) => _casting.Interrupt(data);
-
-        public void OverrideAbility(Spell repalce, Spell with) => _casting.OverrideAbility(repalce, with);
-
-        public void ModifySpellEffect(SpellId spellId, int effect, float modifyValue) => _casting.ModifySpellEffect(spellId, effect, modifyValue);
         #endregion
 
         #region UnitState
@@ -153,28 +97,28 @@ namespace Core.Combat.Units
         public Vector3 Position
         {
             get => _unitState.Position;
-            set => _unitState.Position = value;
+            internal set => _unitState.Position = value;
         }
 
         public Vector3 MoveDirection
         {
             get => _unitState.MoveDirection;
-            set => _unitState.MoveDirection = value;
+            internal set
+            {
+                _unitState.MoveDirection = value;
+
+                if (value != Vector3.zero && _casting.CastingSpell != null && !_casting.CastingSpell.Flags.HasFlag(SpellFlags.CAN_CAST_WHILE_MOVING))
+                {
+                    Interrupt(new InterruptData(true, new SpellId(), 0));
+                }
+            }
         }
 
         public float Rotation
         {
             get => _unitState.Rotation;
-            set => _unitState.Rotation = value;
+            internal set => _unitState.Rotation = value;
         }
-
-        public void Heal(HealthChangeEventData data) => _unitState.ApplyHealingEvent(data);
-
-        public void TakeDamage(DamageEvent @event) => _unitState.TakeDamage(@event);
-
-        public void AmplifyDamage(DamageEvent @event) => _unitState.AmplifyDamage(@event);
-
-        public void AbsorbDamage(CastEventData data, float absorption, SchoolType school) => _unitState.AbsorbDamage(data, absorption, school);
         /*
         public void Kill(DeathData data);
 
@@ -192,28 +136,6 @@ namespace Core.Combat.Units
         public (Resource, Resource) GetResources() => _unitState.GetResources();
 
         public (ResourceType left, ResourceType right) GetResourceTypes() => _unitState.GetResourceTypes();
-
-        public void GiveResource(ResourceType type, float value) => _unitState.GiveResource(type, value);
-
-        public void SpendResource(AbilityCost cost) => _unitState.SpendResource(cost);
-
-        public void Equip(CombatGear item)
-        {
-            if (_unitState.TryEquip(item))
-            {
-                GiveAbility(SpellLibrary.SpellLib.GetSpell(item.SpellId));
-            }
-        }
-
-        public void Unequip(GearSlot slot)
-        {
-            CombatGear item = _unitState.Unequip(slot);
-
-            if (item != null)
-            {
-                RemoveAbility(SpellLibrary.SpellLib.GetSpell(item.SpellId));
-            }
-        }
 
         public Team.Team Team => _unitState.Team;
 
@@ -234,22 +156,118 @@ namespace Core.Combat.Units
         public float EvaluateHasteTimeDivider() => _unitState.EvaluateHasteTimeDivider();
         public float EvaluateVersalityMultiplyer() => _unitState.EvaluateVersalityMultiplier();
         public float EvaluateCritChance() => _unitState.EvaluateCritChance();
+
+        public void TakeDamage(DamageEvent @event) => _unitState.TakeDamage(@event);
+
+        public void AmplifyDamage(DamageEvent @event) => _unitState.AmplifyDamage(@event);
         #endregion
 
-        #region events
-        internal void InformCastingBehavior(Spell spell, float duration)
-        {
-            if(duration == float.PositiveInfinity)
-            {
+        #region internal
+        internal void ApplyAura(CastEventData data, AuraEffect effect) => _unitState.ApplyAura(data, effect);
 
+        internal void RemoveStatus(Spell spell) => _unitState.RemoveStatus(spell);
+
+        internal void RemoveStatus(SpellId spell) => _unitState.RemoveStatus(spell);
+
+        internal void Dispell(DispellType dispellType) => _unitState.Dispell(dispellType);
+
+        internal void Purge(DispellType dispellType) => _unitState.Purge(dispellType);
+
+        /// <summary>
+        /// Create new <see cref="Ability"/> based on given <paramref name="spell"/> or overrides one already exists.
+        /// </summary>
+        internal bool GiveAbility(Spell spell) => _casting.GiveAbility(spell);
+
+        /// <summary>
+        /// Remove <see cref="Ability"/> driven by given <paramref name="spell"/>.
+        /// </summary>
+        internal bool RemoveAbility(Spell spell) => _casting.RemoveAbility(spell);
+
+        /// <summary>
+        /// Find first <see cref="Ability"/> driven by given spell.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// OR <see cref="Ability"/> driven by spell<br/>
+        /// OR it's replacement<br/>
+        /// OR null if spell not found.
+        /// </returns>
+        internal Ability FindAbility(Spell spell) => _casting.FindAbility(spell); internal CommandResult CastSpell(CastEventData data) => _casting.CastSpell(data);
+
+        internal void Attack(Spell attack)
+        {
+            CommandResult result = CastSpell(new CastEventData(this, Target, attack));
+
+            if (result != CommandResult.SUCCES)
+            {
                 return;
             }
 
-            StartedPrecast?.Invoke(spell, duration);   
+            _unitState.InformAction(UnitAction.AUTOATTACK, new CastEventData(this, Target, attack));
+            Attacked?.Invoke(attack, Target);
         }
 
-        #endregion
+        /// <summary>
+        /// Execute attempt to interrupt current cast or channaling.
+        /// </summary>
+        /// 
+        /// <param name="data">
+        /// Interrupt source data.
+        /// </param>
+        internal void Interrupt(InterruptData data)
+        {
+            _casting.Interrupt(data);
 
+            if (_casting.FullCastTime == float.PositiveInfinity)
+            { StoppedCast?.Invoke(); }
+        }
+
+        internal void OverrideAbility(Spell repalce, Spell with) => _casting.OverrideAbility(repalce, with);
+
+        internal void ModifySpellEffect(SpellId spellId, int effect, float modifyValue) => _casting.ModifySpellEffect(spellId, effect, modifyValue);
+
+        internal void GiveResource(ResourceType type, float value) => _unitState.GiveResource(type, value);
+
+        internal void SpendResource(AbilityCost cost) => _unitState.SpendResource(cost);
+
+        internal void Equip(Gear.Gear item)
+        {
+            _unitState.Equip(item);
+
+            if (item.HasSpell)
+            {
+                GiveAbility(Spell.Get(item.Spell));
+            }
+        }
+
+        internal void Unequip(Gear.Gear item)
+        {
+            if (_unitState.Unequip(item) && item.HasSpell)
+            {
+                RemoveAbility(Spell.Get(item.Spell));
+            }
+        }
+
+        internal void Heal(HealthChangeEventData data) => _unitState.ApplyHealingEvent(data);
+
+        internal void AbsorbDamage(CastEventData data, float absorption, SchoolType school) => _unitState.AbsorbDamage(data, absorption, school);
+
+        internal void InformCastingBehavior(Spell spell, float duration)
+        {
+            if (duration == float.PositiveInfinity || duration == 0)
+            {
+                StoppedCast?.Invoke();
+                return;
+            }
+
+            StartedPrecast?.Invoke(spell, duration);
+        }
+
+        internal void InformCastingStopped()
+        {
+            StoppedCast?.Invoke();
+        }
+        #endregion
         public void Update()
         {
             _casting.Update();

@@ -47,10 +47,14 @@ namespace Core.Combat.Utils.HealthChangeProcessing
             _incomeReduction += value;
 
             if (value.BaseValue != 0)
+            {
                 RecordAction(new(caster, HealthChangeProcessingType.CONSTANT_MODIFICATION, value.BaseValue));
+            }
 
             if (value.Percent != 0)
+            {
                 RecordAction(new(caster, HealthChangeProcessingType.PERCENT_MODIFICATION, value.Percent));
+            }
         }
 
         public void ApplyOutcomeAmplification(PercentModifiedValue value, int caster)
@@ -58,10 +62,14 @@ namespace Core.Combat.Utils.HealthChangeProcessing
             _outcomeAmplification += value;
 
             if (value.BaseValue != 0)
+            {
                 RecordAction(new(caster, HealthChangeProcessingType.CONSTANT_MODIFICATION, value.BaseValue));
+            }
 
             if (value.Percent != 0)
+            {
                 RecordAction(new(caster, HealthChangeProcessingType.PERCENT_MODIFICATION, value.Percent));
+            }
         }
 
         public void ApplyVerasilityMultiplier(float value, int caster)
@@ -124,7 +132,7 @@ namespace Core.Combat.Utils.HealthChangeProcessing
                 return 0;
             }
 
-            float result = ((_source.Value +  _outcomeAmplification.BaseValue)
+            float result = ((_source.Value + _outcomeAmplification.BaseValue)
                     * _outcomeAmplification.Percent * _versalityAmplification / 100
                     - _incomeReduction.BaseValue) * 100 / _incomeReduction.Percent;
 

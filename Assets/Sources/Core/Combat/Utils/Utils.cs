@@ -32,7 +32,8 @@ namespace Core.Combat.Utils
         INVALID_TARGET,
         NOT_IN_LOS,
         NOT_ENOUGHT_RESOURCE,
-        OUT_OF_RANGE
+        OUT_OF_RANGE,
+        MOVING
     }
 
     public readonly struct HealthChangeEventModification
@@ -58,5 +59,11 @@ namespace Core.Combat.Utils
     {
         public Vector3 Location;
         public float Rotation;
+
+        public Position(UnitCreationData.PositionData data)
+        {
+            Location = data.Location;
+            Rotation = data.Rotation;
+        }
     }
 }

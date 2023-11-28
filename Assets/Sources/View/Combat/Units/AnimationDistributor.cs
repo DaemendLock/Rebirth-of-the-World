@@ -1,5 +1,4 @@
 using Core.Combat.Abilities;
-using Utils.DataTypes;
 
 namespace View.Combat.Units
 {
@@ -11,7 +10,7 @@ namespace View.Combat.Units
         }
 
         public static void CastSpell(int unitId, SpellSlot slot)
-        { 
+        {
 
         }
     }

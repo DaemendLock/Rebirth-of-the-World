@@ -36,7 +36,7 @@ namespace Utils.DataStructure
         {
             Queue<T> result = _readFirst ^ reverse ? _firstQueue : _secondQueue;
 
-            if(result.Count > 0)
+            if (result.Count > 0)
             {
                 return result;
             }

@@ -6,22 +6,38 @@ namespace View.Combat.UI.Nameplates
 {
     public class NameplatesRoot : MonoBehaviour
     {
-        private static NameplatesRoot _instance;
+        private static Queue<int> _creationQueue = new Queue<int>();
 
         [SerializeField] private UnityEngine.Camera _camera;
-        public static Nameplate NameplatePrefab;
+        [SerializeField] private Nameplate _nameplatePrefab;
 
         private List<Nameplate> _nameplates = new List<Nameplate>();
 
+        public static NameplatesRoot Instance { get; private set; }
+
         private void Start()
         {
-            if (_instance != null)
+            if (Instance != null)
             {
                 gameObject.SetActive(false);
                 return;
             }
 
-            _instance = this;
+            Instance = this;
+
+            while (_creationQueue.Count > 0)
+            {
+                CreateNameplate(_creationQueue.Dequeue());
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+                _creationQueue.Clear();
+            }
         }
 
         private void LateUpdate()
@@ -29,14 +45,37 @@ namespace View.Combat.UI.Nameplates
             foreach (Nameplate nameplate in _nameplates)
             {
                 if (nameplate.enabled)
+                {
                     nameplate.UpdatePostiotn(_camera);
+                }
+            }
+        }
+
+        public void ShowSelelction(int unitId)
+        {
+            foreach (Nameplate nameplate in _nameplates)
+            {
+                nameplate.SetSellected(unitId == nameplate.AssignedId);
+            }
+        }
+        public void ShowTarget(int unitId)
+        {
+            foreach (Nameplate nameplate in _nameplates)
+            {
+                //nameplate.SetSellected(unitId == nameplate.AssignedId);
             }
         }
 
         public static Nameplate CreateNameplate(int id)
         {
-            Nameplate result = Instantiate(NameplatePrefab, _instance.transform);
-            _instance._nameplates.Add(result);
+            if (Instance == null)
+            {
+                _creationQueue.Enqueue(id);
+                return null;
+            }
+
+            Nameplate result = Instantiate(Instance._nameplatePrefab, Instance.transform);
+            Instance._nameplates.Add(result);
             result.AssignTo(id);
             return result;
         }

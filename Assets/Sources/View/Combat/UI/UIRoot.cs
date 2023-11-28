@@ -1,6 +1,6 @@
 ﻿using Core.Combat.Units;
-using Input;
 using UnityEngine;
+using View.Combat.Camera;
 using View.Combat.UI.Elements;
 using View.Combat.UI.Nameplates.Elemets;
 
@@ -12,58 +12,66 @@ namespace View.Combat.UI
         [SerializeField] private ResourceBar.ResourceBar _resourceBar;
         [SerializeField] private HealthBar _healthBar;
         [SerializeField] private CastBar _castBar;
+        [SerializeField] private CameraController _cameraController;
+
+        private Unit _selection;
+        private Unit _target;
 
         public static UIRoot Instance { get; private set; }
 
-        public Unit Selection { get; private set; }
+        public float CameraDistance
+        {
+            get => _cameraController.CameraDistance;
+            set => _cameraController.SetDistance(value);
+        }
+
+        public Quaternion CameraRotation
+        {
+            set => _cameraController.CameraRotation = value;
+        }
 
         private void Start()
         {
-            if(Instance != null)
+            if (Instance != null)
             {
-                enabled = false;
+                gameObject.SetActive(false);
+                return;
             }
 
             Instance = this;
         }
 
-
-        private void OnEnable()
+        private void OnDestroy()
         {
-            SellectionInfo.SelectionChanged += DisplayUnit;
-        }
-
-        private void OnDisable()
-        {
-            SellectionInfo.SelectionChanged -= DisplayUnit;
-        }
-
-        private void Update()
-        {
-            if (Selection == null)
-                return;
-
-            if(_castBar.enabled)
+            if (Instance == this)
             {
-                //_castBar.SetValue();
+                Instance = null;
             }
         }
 
-        private void DisplayUnit(int id)
+        public void DisplayUnit(int id)
         {
-            Selection = Core.Combat.Engine.Combat.GetUnit(id);
+            _selection = Core.Combat.Engine.Combat.GetUnit(id);
 
-            if (Selection == null)
+            if (_selection == null)
             {
                 return;
             }
 
-            _actionBar.AssignTo(Selection);
-            _healthBar.AssignTo(Selection);
-            _resourceBar.AssignTo(Selection);
-            _castBar.AssignTo(Selection);
+            _actionBar.AssignTo(_selection);
+            _healthBar.AssignTo(_selection);
+            _resourceBar.AssignTo(_selection);
+            _castBar.AssignTo(_selection);
+            _cameraController.FollowTarget(_selection);
+        }
+        public void DisplayTarget(int id)
+        {
+            _target = Core.Combat.Engine.Combat.GetUnit(id);
 
-            //Selection.GetCastTime();
+            if (_target == null)
+            {
+                return;
+            }
         }
     }
 }

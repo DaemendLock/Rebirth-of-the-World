@@ -1,19 +1,18 @@
-﻿using Networking;
-using System;
+﻿using Core.Lobby.Characters;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Sources.Temp
 {
     internal class LobbyIniter : MonoBehaviour
     {
+        public static List<CharacterData> Characters = new();
+        public static List<GameObject> Models = new();
+
         private void Start()
         {
-            Networking.Networking.Connect("localhost", 27122);
-            
+            //Networking.Networking.Connect("localhost", 27122);
+
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿//using Networking.Utils;
-
-using System.Threading;
-
-namespace Core.Combat.Engine
+﻿namespace Core.Combat.Engine
 {
     public static class CombatInitializer
     {

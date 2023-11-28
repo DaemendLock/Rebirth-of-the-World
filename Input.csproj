@@ -58,12 +58,11 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Input\TargetSellectionHandler.cs" />
-    <Compile Include="Assets\Sources\Input\MovementInputHandler.cs" />
-    <Compile Include="Assets\Sources\Input\SellectionInfo.cs" />
-    <Compile Include="Assets\Sources\Input\CancelInputHandler.cs" />
-    <Compile Include="Assets\Sources\Input\CombatInput.cs" />
-    <Compile Include="Assets\Sources\Input\CastInputHandler.cs" />
+    <Compile Include="Assets\Sources\Input\Combat\CancelInputHandler.cs" />
+    <Compile Include="Assets\Sources\Input\Combat\CastInputHandler.cs" />
+    <Compile Include="Assets\Sources\Input\Combat\TargetSellectionHandler.cs" />
+    <Compile Include="Assets\Sources\Input\Combat\CombatInput.cs" />
+    <Compile Include="Assets\Sources\Input\Combat\MovementInputHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Input\Input.asmdef" />
@@ -907,6 +906,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Utils.csproj">
+      <Project>{22BCBCA0-BEA9-49AA-795D-AA87499EF392}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="Data.csproj">
+      <Project>{FE06642D-D97E-6F45-E6BC-17F2C4BC433F}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
     <ProjectReference Include="Core.csproj">
       <Project>{21ADB8CB-C5DC-2033-2022-125F682C28E8}</Project>
       <Name>Core</Name>
@@ -915,13 +922,9 @@
       <Project>{3082574D-E4B3-DEC2-D6DC-19377C421C11}</Project>
       <Name>Networking</Name>
     </ProjectReference>
-    <ProjectReference Include="Data.csproj">
-      <Project>{FE06642D-D97E-6F45-E6BC-17F2C4BC433F}</Project>
-      <Name>Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="Utils.csproj">
-      <Project>{22BCBCA0-BEA9-49AA-795D-AA87499EF392}</Project>
-      <Name>Utils</Name>
+    <ProjectReference Include="Adapters.csproj">
+      <Project>{2299BFAC-A606-E4F3-37F3-DCBBDC1703C4}</Project>
+      <Name>Adapters</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -5,7 +5,8 @@ namespace Utils.SpellIdGenerator
     public enum ClassType
     {
         WEAPON,
-        MAGIC
+        MAGIC,
+        ITEM
     }
 
     public enum ArmorType
@@ -54,6 +55,11 @@ namespace Utils.SpellIdGenerator
         public static SpellId GenerateId(Class @class, Spec spec, int ability)
         {
             return (SpellId) ((ability << 8) | ((int) @class << 2) | ((int) spec));
+        }
+
+        public static SpellId GenerateItemId(int ability)
+        {
+            return (SpellId) ((ability << 8) | ((int) ClassType.ITEM << 6));
         }
     }
 }

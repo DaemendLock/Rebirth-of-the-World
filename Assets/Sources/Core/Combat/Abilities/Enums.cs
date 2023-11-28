@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Combat.Abilities
 {
@@ -63,6 +59,8 @@ namespace Core.Combat.Abilities
         DONT_DESTROY_ON_BREAK = 4096,
         SEPARATED_STATUS = 8192,
         PROC_SPELL = 16384,
+        CAN_CAST_WHILE_CASTING = 32768,
+
     }
 
     [Flags]

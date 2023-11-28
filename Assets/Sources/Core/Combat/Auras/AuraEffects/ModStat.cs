@@ -1,6 +1,6 @@
-﻿using Core.Combat.Stats;
-using Core.Combat.Utils.ValueSources;
+﻿using Core.Combat.Utils.ValueSources;
 using System.IO;
+using Utils.DataStructure;
 using Utils.Serializer;
 
 namespace Core.Combat.Auras.AuraEffects
@@ -8,10 +8,10 @@ namespace Core.Combat.Auras.AuraEffects
     public class ModStat : AuraEffect
     {
         private readonly UnitStat _stat;
-        private readonly ValueSource _value;
+        private readonly AuraValueSource _value;
         private readonly bool _isPercent;
 
-        public ModStat(UnitStat stat, ValueSource value, bool percent)
+        public ModStat(UnitStat stat, AuraValueSource value, bool percent)
         {
             _stat = stat;
             _value = value;

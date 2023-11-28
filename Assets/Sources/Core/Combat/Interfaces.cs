@@ -1,10 +1,9 @@
 ﻿using Core.Combat.Abilities;
 using Core.Combat.Auras;
-using Core.Combat.Auras.AuraEffects;
-using Core.Combat.Stats;
 using Core.Combat.Units;
 using Core.Combat.Utils;
 using Core.Combat.Utils.HealthChangeProcessing;
+using Utils.DataStructure;
 using Utils.DataTypes;
 
 namespace Core.Combat.Interfaces
@@ -20,36 +19,18 @@ namespace Core.Combat.Interfaces
         /// Create new <see cref="Ability"/> based on given <paramref name="spell"/>.
         /// </summary>
         /// <returns>True when added new ability;<br/>False when spell exists.</returns>
-        bool GiveAbility(Spell spell);
-
         bool HasAbility(Spell spell);
-
-        bool RemoveAbility(Spell spell);
-
-        Ability FindAbility(Spell spell);
 
         Ability GetAbility(SpellSlot slot);
 
-        CommandResult CastAbility(CastEventData data);
-
-        CommandResult CastSpell(CastEventData data);
-
-        void Interrupt(InterruptData data);
-
-        void OverrideAbility(Spell repalce, Spell with);
+        public CommandResult CastAbility(CastEventData data);
     }
 
     public interface AuraOwner
     {
-        void ApplyAura(CastEventData data, AuraEffect effect);
-
         Status FindStatus(Spell spell);
 
         bool HasStatus(Spell spell);
-
-        void Dispell(DispellType dispellType);
-
-        void Purge(DispellType dispellType);
     }
 
     public interface DynamicStatOwner
@@ -59,10 +40,6 @@ namespace Core.Combat.Interfaces
 
     public interface CastResourceOwner
     {
-        public void SpendResource(AbilityCost value);
-
-        public void GiveResource(ResourceType type, float value);
-
         public bool CanPay(AbilityCost value);
 
         public bool HasResource(ResourceType type);
@@ -81,11 +58,11 @@ namespace Core.Combat.Interfaces
 
     public interface Damageable
     {
-        public void TakeDamage(DamageEvent @event);
+        void TakeDamage(DamageEvent @event);
     }
 
     public interface Damager
     {
-        public void AmplifyDamage(DamageEvent@event);
+        public void AmplifyDamage(DamageEvent @event);
     }
 }

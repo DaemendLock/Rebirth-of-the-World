@@ -1,7 +1,3 @@
-using Core.Combat.Abilities;
-using Editor.SpellEditor.Library.SpellCard;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -12,7 +8,7 @@ namespace Editor.SpellEditor.Windows
 {
     public static class SpellLibrary
     {
-        
+
     }
 
     public class SpellLibraryWindow : EditorWindow
@@ -20,7 +16,7 @@ namespace Editor.SpellEditor.Windows
         private static readonly string _path = "Assets/Editor/SpellEditor/Library/SpellLibrary.uxml";
 
         private static VisualTreeAsset _library;
-        private ToolbarSearchField _searchField ;
+        private ToolbarSearchField _searchField;
         private VisualElement _createButton;
 
         [MenuItem("Window/Spell Library/Library")]
@@ -62,7 +58,7 @@ namespace Editor.SpellEditor.Windows
 
         private void ShowSpells()
         {
-            
+
         }
 
         private void CreateSpellCard(SpellId id)
@@ -72,7 +68,7 @@ namespace Editor.SpellEditor.Windows
 
         private void FilterBySearch(ChangeEvent<string> @event)
         {
-            
+
         }
     }
 }

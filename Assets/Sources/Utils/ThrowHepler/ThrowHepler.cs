@@ -6,7 +6,7 @@ namespace Utils.ThrowHepler
     {
         public static void CheckForNull(object @object)
         {
-            if(@object == null)
+            if (@object == null)
             {
                 throw new ArgumentException("Object is null");
             }

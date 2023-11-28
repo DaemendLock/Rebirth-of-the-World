@@ -17,15 +17,15 @@ namespace Temp
 
         private void Awake()
         {
-            if(_useRTSControl)
+            if (_useRTSControl)
             {
 
             }
-            
+
             _input = new();
-            _castHandler = new (_input);
-            _movementHandler = new (_input);
-            _sellectionHandler = new (_input);
+            _castHandler = new(_input);
+            _movementHandler = new(_input);
+            _sellectionHandler = new(_input);
         }
 
         private void OnEnable()

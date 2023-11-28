@@ -1,6 +1,5 @@
-﻿using Networking.Utils;
-using Syncronization;
-using Utils.DataTypes;
+﻿using Adapters;
+using Networking.Utils;
 
 namespace Networking
 {
@@ -18,23 +17,7 @@ namespace Networking
             return false;
         }
 
-        public static void Send(MoveCommand data)
-        {
-            CombatSyncroniaztion.PutMoveCommand(data);
-            _client.SendRequest(data.GetBytes());
-        }
-
-        public static void Send(CastCommand data)
-        {
-            _client.SendRequest(data.GetBytes());
-        }
-
-        public static void Send(TargetCommand data)
-        {
-            _client.SendRequest(data.GetBytes());
-        }
-
-        public static void Send(StopCommand data)
+        public static void Send(InputData data)
         {
             _client.SendRequest(data.GetBytes());
         }

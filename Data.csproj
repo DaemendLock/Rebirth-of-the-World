@@ -61,19 +61,28 @@
     <Compile Include="Assets\Sources\Data\DataMapper\DataMap.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\DataMapper.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\PartyIconProvider.cs" />
+    <Compile Include="Assets\Sources\Data\Models\Model.cs" />
+    <Compile Include="Assets\Sources\Data\RuntimeData\IgnoredUsers.cs" />
     <Compile Include="Assets\Sources\Data\Spells\SpellDataLoader.cs" />
-    <Compile Include="Assets\Sources\Data\Model\ModelLibrary.cs" />
-    <Compile Include="Assets\Sources\Data\SpriteLib\SpriteLoader.cs" />
+    <Compile Include="Assets\Sources\Data\Libraries\ModelLibrary.cs" />
+    <Compile Include="Assets\Sources\Data\Localization\Localization.cs" />
+    <Compile Include="Assets\Sources\Data\Sprites\SpriteLoader.cs" />
     <Compile Include="Assets\Sources\Data\Utils\ThrowHelper\ThrowHelper.cs" />
     <Compile Include="Assets\Sources\Data\Utils\ThrowHelper\Exceptions\FileLoadedException.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\DynamicUIRoot.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\MappedDataLoader.cs" />
+    <Compile Include="Assets\Sources\Data\DataMapper\TwinDataMap.cs" />
+    <Compile Include="Assets\Sources\Data\DataMapper\DataLoader.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\PartyFrameProvider.cs" />
-    <Compile Include="Assets\Sources\Data\SpriteLib\SpriteLibrary.cs" />
+    <Compile Include="Assets\Sources\Data\Libraries\SpriteLibrary.cs" />
     <Compile Include="Assets\Sources\Data\Utils\File.cs" />
+    <Compile Include="Assets\Sources\Data\Libraries\GenericLibrary.cs" />
+    <Compile Include="Assets\Sources\Data\Items\ItemDataLoader.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\ActionBarProvider.cs" />
+    <Compile Include="Assets\Sources\Data\Items\ItemDataMap.cs" />
     <Compile Include="Assets\Sources\Data\Utils\FileReader.cs" />
-    <Compile Include="Assets\Sources\Data\Spells\SpellDataMap.cs" />
+    <Compile Include="Assets\Sources\Data\Characters\CharacterRole.cs" />
+    <Compile Include="Assets\Sources\Data\Characters\ProgressValue.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\MappedData.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\Format\ActionBarFormat.cs" />
     <Compile Include="Assets\Sources\Data\Utils\ThrowHelper\Exceptions\FileNotLoadedException.cs" />
@@ -921,6 +930,7 @@
       <Name>Utils</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

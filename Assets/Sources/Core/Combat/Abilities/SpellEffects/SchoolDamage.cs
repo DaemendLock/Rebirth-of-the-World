@@ -1,17 +1,17 @@
-﻿using Core.Combat.Stats;
-using Core.Combat.Units;
+﻿using Core.Combat.Units;
 using Core.Combat.Utils;
 using Core.Combat.Utils.HealthChangeProcessing;
 using System.IO;
+using Utils.DataStructure;
 using Utils.Serializer;
 
 namespace Core.Combat.Abilities.SpellEffects
 {
     public class SchoolDamage : SpellEffect
     {
-        private readonly ValueSource _value;
+        private readonly SpellValueSource _value;
 
-        public SchoolDamage(ValueSource damage)
+        public SchoolDamage(SpellValueSource damage)
         {
             _value = damage;
         }

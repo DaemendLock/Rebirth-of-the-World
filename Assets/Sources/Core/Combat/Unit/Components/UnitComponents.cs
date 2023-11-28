@@ -1,6 +1,8 @@
+using Core.Combat.Engine;
+using Core.Combat.Gear;
 using Core.Combat.Interfaces;
-using Core.Combat.Items.Gear;
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Utils.DataTypes;
 
@@ -128,6 +130,10 @@ namespace Core.Combat.Units.Components
             RightType = rightResourceType;
         }
 
+        public CastResources(UnitCreationData.CastResourceData data) : this(data.LeftResourceMaxValue, data.RightResourceMaxValue,
+            (ResourceType) data.LeftResourceType, (ResourceType) data.RightResourceType)
+        { }
+
         public Resource Left { get; private set; }
         public ResourceType LeftType { get; private set; }
 
@@ -201,54 +207,22 @@ namespace Core.Combat.Units.Components
                 return;
             }
 
-            Position += MoveDirection * (speed * Engine.Combat.UpdateTime / 1000);
+            Position += MoveDirection * (speed * ModelUpdate.UpdateTime / 1000);
         }
     }
 
     public class Equipment
     {
-        private CombatGear[] _gear = new CombatGear[(int) GearSlot.CONSUMABLE_2 + 1];
+        private readonly List<Gear.Gear> _gear = new List<Gear.Gear>((int) Slot.CONSUMABLE_2 + 1);
 
-        public bool CanEquip(CombatGear gear)
+        public void Equip(Gear.Gear item)
         {
-            if (_gear[(int) gear.Slot] != null)
-            {
-                return false;
-            }
-
-            if (gear.RestrictOffhand && _gear[(int) GearSlot.OFF_HAND] != null)
-            {
-                return false;
-            }
-
-            if (gear.Slot == GearSlot.OFF_HAND && _gear[(int) GearSlot.MAIN_HAND] != null && _gear[(int) GearSlot.MAIN_HAND].RestrictOffhand)
-            {
-                return false;
-            }
-
-            return true;
+            _gear.Add(item);
         }
 
-        public void Equip(CombatGear gear)
+        public bool Unequip(Gear.Gear item)
         {
-            if (CanEquip(gear) == false)
-            {
-                throw new InvalidOperationException("Can't equip " + gear);
-            }
-
-            _gear[(int) gear.Slot] = gear;
-        }
-
-        public CombatGear GetItemInSlot(GearSlot slot)
-        {
-            return _gear[(int) slot];
-        }
-
-        public CombatGear Unequip(GearSlot slot)
-        {
-            CombatGear result = _gear[(int) slot];
-            _gear[(int) slot] = null;
-            return result;
+            return _gear.Remove(item);
         }
     }
 }

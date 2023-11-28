@@ -1,22 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using Data.Model;
+using System.Collections.Generic;
 using UnityEngine;
+using Utils.DataTypes;
+using View.Combat.Units.Models;
+using View.Combat.Units.Spells;
+using CUnit = Core.Combat.Units.Unit;
 
 namespace View.Combat.Units
 {
     public class Unit : MonoBehaviour
     {
-        //[SerializeField] private Model.Model _model;
-
-        //[SerializeField] private AnimationController _animator;
-        //[SerializeField] private Nameplate _nameplate;
         private static Dictionary<int, Unit> _units = new();
 
-        //private Vector3 _moveDirection;
-        //private bool _isMoving;
+        private CUnit _assignedUnit;
+        private int _id;
 
-        private Core.Combat.Units.Unit _assignedUnit;
-
-        public int Id { get; private set; }
+        private SpellIconsSet _icons;
 
         private void Update()
         {
@@ -25,7 +24,7 @@ namespace View.Combat.Units
 
             Utils.DataTypes.Vector3 rotation = new(_assignedUnit.Rotation);
 
-            transform.forward = new Vector3(rotation.x, rotation.y, rotation.z);
+            transform.forward = new UnityEngine.Vector3(rotation.x, rotation.y, rotation.z);
         }
 
         private void OnDestroy()
@@ -35,10 +34,10 @@ namespace View.Combat.Units
                 return;
             }
 
-            _units.Remove(Id);
+            _units.Remove(_id);
         }
 
-        public void Init(int id, GameObject model   )
+        public void Init(int id, UnitCreationData.ViewData data)
         {
             if (_assignedUnit != null)
             {
@@ -46,49 +45,33 @@ namespace View.Combat.Units
             }
 
             _assignedUnit = Core.Combat.Engine.Combat.GetUnit(id);
-            Id = id;
+            _id = id;
 
-            gameObject.SetActive(true);
-
-            Instantiate(model, transform);
+            UseModel(ModelLibrary.Get(data.ModelId));
+            UseSpellIcons(data.SpellIcons);
 
             _units[id] = this;
-        }
-
-        public void ChangeModel(string model)
-        {
-
-        }
-
-        public void PlayAnimation(Animations.Animation animation)
-        {
-            //animation.Apply(_animator);
-        }
-
-        public void StopAllActions()
-        {
-            //_isMoving = false;
-        }
-
-        public void FaceInDirection(Vector3 direction)
-        {
-
-        }
-
-        public void LookAt(Vector3 point)
-        {
-
-        }
-
-        public void MoveInDirection(Vector3 direction)
-        {
-            //_isMoving = true;
-            //_moveDirection = direction.normalized;
+            gameObject.SetActive(true);
         }
 
         public static Unit GetUnit(int id)
         {
             return _units.GetValueOrDefault(id, null);
+        }
+
+        private void UseModel(Model model)
+        {
+            Instantiate(model.GetDefaultModel(), transform);
+        }
+
+        private void UseSpellIcons(SpellIconsSet icons)
+        {
+            _icons = icons;
+        }
+
+        private void UseVoiceover()
+        {
+
         }
     }
 }

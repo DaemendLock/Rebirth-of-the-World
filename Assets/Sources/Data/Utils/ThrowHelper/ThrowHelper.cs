@@ -1,7 +1,4 @@
-﻿using Data.Utils;
-using System;
-using System.Collections.Generic;
-using Utils.ThrowHepler.Exceptions;
+﻿using Utils.ThrowHepler.Exceptions;
 
 namespace Data.Utils.ThrowHepler
 {

@@ -1,6 +1,6 @@
-﻿using Input;
-using Input.Combat;
+﻿using Core.Combat.Units;
 using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace View.Combat.Camera
@@ -16,53 +16,46 @@ namespace View.Combat.Camera
         [SerializeField] private float _maxCameraDistance = 10;
         [SerializeField] private float _cameraDistanceSensativity;
 
-        [SerializeField] private Transform _targetPostion;
-        
+        private Unit _followTarget;
+
         private UnityEngine.Camera _camera;
 
-        public static Quaternion CameraRotation { get; private set; }
+        public Quaternion CameraRotation
+        {
+            get => transform.rotation;
+            set => transform.rotation = value;
+        }
+
+        public float CameraDistance
+        {
+            get { return _cameraDistance; }
+        }
 
         private void Start()
         {
             _camera = GetComponent<UnityEngine.Camera>();
-            SellectionInfo.SelectionChanged += FollowTarget;
-
-            if(SellectionInfo.ContolledUnitId != -1)
-            {
-                FollowTarget(SellectionInfo.ContolledUnitId);
-            }
-        }
-
-        private void OnEnable()
-        {
-            MovementInputHandler.CameraRotationChanged += Rotate;
-            MovementInputHandler.CameraDistanceChanged += Distant;
-        }
-
-        private void OnDisable()
-        {
-            MovementInputHandler.CameraRotationChanged -= Rotate;
         }
 
         private void LateUpdate()
         {
-            transform.position = _targetPostion.position - transform.forward * _cameraDistance + _cameraHeight * Vector3.up;
+            if (_followTarget == null)
+            {
+                return;
+            }
+
+            Vector3 position = new Vector3(_followTarget.Position.x, _followTarget.Position.y, _followTarget.Position.z);
+            transform.position = position - transform.forward * _cameraDistance + _cameraHeight * Vector3.up;
         }
 
-        private void Rotate(Vector2 rotation)
+        public void FollowTarget(Unit target)
         {
-            CameraRotation = Quaternion.Euler(new(-rotation.y, rotation.x));
-            transform.rotation = CameraRotation;
+            _followTarget = target;
         }
 
-        private void Distant(float delta)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void SetDistance(float delta)
         {
             _cameraDistance = Math.Clamp(_cameraDistance + delta * _cameraDistanceSensativity, _minCameraDistance, _maxCameraDistance);
-        }
-
-        private void FollowTarget(int unitId)
-        {
-            _targetPostion = Units.Unit.GetUnit(unitId).transform;
         }
     }
 }

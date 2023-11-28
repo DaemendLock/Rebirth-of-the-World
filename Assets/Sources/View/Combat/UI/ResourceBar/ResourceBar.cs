@@ -36,7 +36,7 @@ namespace View.Combat.UI.ResourceBar
 
         private void Update()
         {
-            if(_unit == null)
+            if (_unit == null)
             {
                 return;
             }

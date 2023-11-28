@@ -1,18 +1,18 @@
 ﻿using Core.Combat.Abilities;
 using Core.Combat.Auras;
 using Core.Combat.Auras.AuraEffects;
+using Core.Combat.Engine;
 using Core.Combat.Interfaces;
-using Core.Combat.Items.Gear;
-using Core.Combat.Stats;
 using Core.Combat.Utils;
 using Core.Combat.Utils.HealthChangeProcessing;
 using System;
 using System.Runtime.CompilerServices;
+using Utils.DataStructure;
 using Utils.DataTypes;
 
 namespace Core.Combat.Units.Components
 {
-    public class UnitState : CastResourceOwner, TeamOwner, Core.Combat.Interfaces.AuraOwner, DynamicStatOwner, Damageable, Damager
+    public class UnitState : CastResourceOwner, TeamOwner, Interfaces.AuraOwner, DynamicStatOwner, Damageable, Damager
     {
         public delegate void HealthChanged(float currentHealth, float maxHealth);
         public delegate void StatusApplied(Status status);
@@ -106,7 +106,7 @@ namespace Core.Combat.Units.Components
             _auras.Update();
             _position.Update(EvaluateStat(UnitStat.SPEED).CalculatedValue);
 
-            _resource.Update(GetResourceIncrease(_resource.LeftType, Engine.Combat.UpdateTime), GetResourceIncrease(_resource.RightType, Engine.Combat.UpdateTime));
+            _resource.Update(GetResourceIncrease(_resource.LeftType, ModelUpdate.UpdateTime), GetResourceIncrease(_resource.RightType, ModelUpdate.UpdateTime));
         }
 
         //TODO: move to passive ability???
@@ -256,14 +256,17 @@ namespace Core.Combat.Units.Components
         #endregion
 
         #region _aura
-
         public void ApplyAura(CastEventData data, AuraEffect effect) => _auras.ApplyAura(data, effect);
 
         public void RemoveStatus(Spell spell) => _auras.RemoveStatus(spell);
 
+        public void RemoveStatus(SpellId spell) => _auras.RemoveStatus(spell);
+
         public Status FindStatus(Spell spell) => _auras.FindStatus(spell);
 
         public bool HasStatus(Spell spell) => _auras.HasStatus(spell);
+
+        public bool HasStatus(SpellId spell) => _auras.HasStatus(spell);
 
         public void Dispell(DispellType dispellType) => _auras.Dispell(dispellType);
 
@@ -272,30 +275,17 @@ namespace Core.Combat.Units.Components
         public bool HasImmunity(Mechanic mechanic) => _auras.ImmunityValue(mechanic) > 0;
         #endregion
 
-        public bool TryEquip(CombatGear item)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Equip(Gear.Gear item)
         {
-            if (_equipment.CanEquip(item) == false)
-            {
-                return false;
-            }
-
             _equipment.Equip(item);
             _stats.Add(item.Stats);
-
-            return true;
         }
 
-        public CombatGear Unequip(GearSlot slot)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Unequip(Gear.Gear item)
         {
-            CombatGear item = _equipment.Unequip(slot);
-
-            if (item == null)
-            {
-                return null;
-            }
-
-            _stats.Subtract(item.Stats);
-            return item;
+            return _equipment.Unequip(item);
         }
 
         public void InformAction(UnitAction action, CastEventData data)
