@@ -1,5 +1,4 @@
 ﻿using Assets.Sources.Temp.Template;
-using Data.Model;
 using System;
 using Temp.Testing;
 using UnityEditor.SearchService;

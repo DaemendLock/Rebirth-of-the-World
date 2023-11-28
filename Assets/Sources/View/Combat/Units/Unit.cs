@@ -1,8 +1,7 @@
-﻿using Data.Model;
+﻿using Data.Models;
 using System.Collections.Generic;
 using UnityEngine;
 using Utils.DataTypes;
-using View.Combat.Units.Models;
 using View.Combat.Units.Spells;
 using CUnit = Core.Combat.Units.Unit;
 
@@ -48,7 +47,7 @@ namespace View.Combat.Units
             _id = id;
 
             UseModel(ModelLibrary.Get(data.ModelId));
-            UseSpellIcons(data.SpellIcons);
+            //UseSpellIcons(data.SpellIcons);
 
             _units[id] = this;
             gameObject.SetActive(true);

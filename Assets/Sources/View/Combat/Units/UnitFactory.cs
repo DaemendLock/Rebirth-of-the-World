@@ -1,5 +1,4 @@
-﻿using Data.Model;
-using UnityEngine;
+﻿using UnityEngine;
 using Utils.DataTypes;
 using View.Combat.UI.Nameplates;
 
