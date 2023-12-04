@@ -12,7 +12,7 @@ namespace Data.DataMapper
 
         private bool _disposed = false;
 
-        public unsafe DataMap(string path)
+        public DataMap(string path)
         {
             using File source = new(path);
 
@@ -55,5 +55,10 @@ namespace Data.DataMapper
         }
 
         internal Key[] GetKeys() => _map.Keys.ToArray();
+
+        internal bool HasKey(Key key)
+        {
+            return _map.ContainsKey(key);
+        }
     }
 }

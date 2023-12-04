@@ -28,8 +28,6 @@ namespace Temp.Template
 
         [SerializeField] private Team _team;
 
-        [SerializeField] private List<int> _gear = new();
-
         [SerializeField] private byte _modelType;
 
         private void Start()
@@ -69,16 +67,12 @@ namespace Temp.Template
 
                 buffer.WriteByte((byte) _team); //Team
 
-                buffer.WriteByte((byte) _gear.Count); //Gear
-                foreach (int id in _spellIds)
-                {
-                    buffer.Write(BitConverter.GetBytes(id), 0, sizeof(int));
-                }
+                Debug.Log(buffer.Length);
+                //View
+                buffer.WriteByte(0);
+                buffer.Write(BitConverter.GetBytes(0));
 
                 buffer.Write(BitConverter.GetBytes(_id), 0, sizeof(int)); //Id
-
-                buffer.WriteByte(0);
-
                 ServerCommandsAdapter.HandleCommand(buffer.ToArray());
             }
         }

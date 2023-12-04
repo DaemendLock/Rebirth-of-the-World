@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a8fe877ea9fa4548a84f4ee77b70d48, type: 3}
+  m_Name: Florence
+  m_EditorClassIdentifier: 
+  _id: 0
+  _name: Florence
+  _veiwSets:
+  - _model: {fileID: 919132149155446097, guid: 2128a043998096a4aa871fd2d5b1515b, type: 3}
+    _characterCard: {fileID: 21300000, guid: ccccba1452ede90479173ca212efc0e9, type: 3}
+    _spellIcons:
+    - {fileID: 21300000, guid: 7dec78c2d9fce9648839094b430a425a, type: 3}
+    - {fileID: 21300000, guid: d5466db6da35bae419bfe5d7c0ef04c4, type: 3}
+    - {fileID: 21300000, guid: 2c83b5a094e5f1641bafd5889e4ad7e5, type: 3}
+    - {fileID: 21300000, guid: 3aed9963dc3956142be94cbafdbe603e, type: 3}
+    - {fileID: 21300000, guid: eb5696c3715672e4bb3d09631ce20963, type: 3}
+    - {fileID: 21300000, guid: 7f40ba71bb344cb42bbd881494a4b151, type: 3}
+    _voiceover: {fileID: 0}
+  _stats:
+    _default:
+      _values:
+      - BaseValue: 10
+        Percent: 100
+      - BaseValue: 10
+        Percent: 100
+      - BaseValue: 0
+        Percent: 100
+      - BaseValue: 0
+        Percent: 100
+      - BaseValue: 0
+        Percent: 100
+      - BaseValue: 0
+        Percent: 100
+      - BaseValue: 4
+        Percent: 100
+      - BaseValue: 0
+        Percent: 100
+      - BaseValue: 1000
+        Percent: 100
+      - BaseValue: 0
+        Percent: 100
+      - BaseValue: 0
+        Percent: 100
+      - BaseValue: 0
+        Percent: 100
+      - BaseValue: 0
+        Percent: 100
+      - BaseValue: 0
+        Percent: 100
+      - BaseValue: 0
+        Percent: 100
+      - BaseValue: 0
+        Percent: 100
+    _growth:
+      _values:
+      - BaseValue: 0
+        Percent: 0
+      - BaseValue: 0
+        Percent: 0
+      - BaseValue: 0
+        Percent: 0
+      - BaseValue: 0
+        Percent: 0
+      - BaseValue: 0
+        Percent: 0
+      - BaseValue: 0
+        Percent: 0
+      - BaseValue: 0
+        Percent: 0
+      - BaseValue: 0
+        Percent: 0
+      - BaseValue: 0
+        Percent: 0
+      - BaseValue: 0
+        Percent: 0
+      - BaseValue: 0
+        Percent: 0
+      - BaseValue: 0
+        Percent: 0
+      - BaseValue: 0
+        Percent: 0
+      - BaseValue: 0
+        Percent: 0
+      - BaseValue: 0
+        Percent: 0
+      - BaseValue: 0
+        Percent: 0
+  _roles: 02000000
+  _allowedWeapon: 

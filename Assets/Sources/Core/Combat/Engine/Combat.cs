@@ -11,25 +11,12 @@ namespace Core.Combat.Engine
 {
     using EntityId = System.Int32;
 
-    internal interface Updatable
-    {
-        void Update();
-    }
-
     public static class Combat
     {
         private static readonly Dictionary<EntityId, Unit> _units = new(64);
 
         public static bool Running { get; private set; } = false;
 
-#if DEBUG
-        public static event Action<object> DebugMessage;
-
-        internal static void PostDebugMessage(string message)
-        {
-            DebugMessage?.Invoke(message);
-        }
-#endif
         public static void Start()
         {
             if (Running)
@@ -65,21 +52,16 @@ namespace Core.Combat.Engine
             CombatTime.Reset();
         }
 
-        public static void CreateUnit(UnitCreationData data)
+        public static void CreateUnit(int unitId, UnitCreationData.ModelData data)
         {
             Spellcasting spellcasting = new Spellcasting();
 
-            Unit unit = new(spellcasting, new UnitState(data.Model.Stats, new CastResources(data.Model.CastResourceData),
-                new Position(data.Model.PositionData), (Team.Team) data.Model.Team, data.Id));
+            Unit unit = new(spellcasting, new UnitState(data.Stats, new CastResources(data.CastResourceData),
+                new Position(data.PositionData), (Team.Team) data.Team, unitId));
 
-            foreach (SpellId id in data.Model.Spells)
+            foreach (SpellId id in data.Spells)
             {
                 spellcasting.GiveAbility(Spell.Get(id));
-            }
-
-            foreach (int id in data.Model.Gear)
-            {
-                unit.Equip(ItemLibrary.ItemLib.GetItem(id));
             }
 
             RegisterUnit(unit);
@@ -187,11 +169,6 @@ namespace Core.Combat.Engine
 
         private static void RegisterUnit(Unit unit)
         {
-            if (_units.ContainsKey(unit.Id))
-            {
-                ModelUpdate.Remove(unit);
-            }
-
             ModelUpdate.Add(unit);
 
             lock (_units)

@@ -52,9 +52,9 @@ namespace Adapters.Lobby
     {
         public readonly int CharacterId;
         public readonly int AccountId;
-        public readonly CharacterData Data;
+        public readonly CharacterState Data;
 
-        public UpdateCharacterDataCommand(int characterId, int accountId, CharacterData data)
+        public UpdateCharacterDataCommand(int characterId, int accountId, CharacterState data)
         {
             CharacterId = characterId;
             AccountId = accountId;

@@ -1,7 +1,5 @@
-﻿using Core.Data.SpriteLib;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using Utils.DataTypes;
 
 namespace View.Lobby.CharacterSheet.Widgets
 {
@@ -9,9 +7,16 @@ namespace View.Lobby.CharacterSheet.Widgets
     {
         [SerializeField] private Image _icon;
 
-        public void ShowSpell(SpellId spell)
+        public void ShowSpell(Sprite icon)
         {
-            _icon.sprite = SpriteLibrary.GetSpellSprite(spell);
+            if(icon == null)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
+
+            _icon.sprite = icon;
+            gameObject.SetActive(true);
         }
     }
 }

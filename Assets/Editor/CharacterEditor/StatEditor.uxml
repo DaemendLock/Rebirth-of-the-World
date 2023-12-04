@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True" class="StatEditor">
+    <Style src="project://database/Assets/Editor/CharacterEditor/Stat.uss?fileID=7433441132597879392&amp;guid=05f03a8b915d1ea47892b2075b22a0c3&amp;type=3#Stat" />
+    <ui:Label name="StatName" style="-unity-text-align: middle-center;" />
+    <uie:FloatField value="42,2" name="LevelPercentValue" style="width: 25px;" />
+    <ui:Label text="/" display-tooltip-when-elided="true" style="-unity-text-align: middle-left;" />
+    <uie:FloatField value="42,2" name="LevelBaseValue" style="width: 25px;" />
+    <ui:Label text="+" display-tooltip-when-elided="true" style="-unity-text-align: middle-center; width: 20px;" />
+    <uie:FloatField value="42,2" name="DefaultPercentValue" style="width: 25px;" />
+    <ui:Label text="/" display-tooltip-when-elided="true" style="-unity-text-align: middle-left;" />
+    <uie:FloatField value="42,2" name="DefaultBaseValue" style="width: 25px;" />
+</ui:UXML>

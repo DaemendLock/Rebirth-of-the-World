@@ -1,0 +1,43 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="StatEditor" src="project://database/Assets/Editor/CharacterEditor/StatEditor.uxml?fileID=9197481963319205126&amp;guid=3f2fa6dcd2e59e24383cccdab8ac003b&amp;type=3#StatEditor" />
+    <ui:Instance template="StatEditor" name="ATK">
+        <AttributeOverrides element-name="StatName" text="ATK" />
+    </ui:Instance>
+    <ui:Instance template="StatEditor" name="SPELLPOWER">
+        <AttributeOverrides element-name="StatName" text="SPELLPOWER" />
+    </ui:Instance>
+    <ui:Instance template="StatEditor" name="HASTE">
+        <AttributeOverrides element-name="StatName" text="HASTE" />
+    </ui:Instance>
+    <ui:Instance template="StatEditor" name="CRIT">
+        <AttributeOverrides element-name="StatName" text="CRIT" />
+    </ui:Instance>
+    <ui:Instance template="StatEditor" name="VERSALITY">
+        <AttributeOverrides element-name="StatName" text="VERSALITY" />
+    </ui:Instance>
+    <ui:Instance template="StatEditor" name="LIFESTEAL">
+        <AttributeOverrides element-name="StatName" text="LIFESTEAL" />
+    </ui:Instance>
+    <ui:Instance template="StatEditor" name="SPEED">
+        <AttributeOverrides element-name="StatName" text="SPEED" />
+    </ui:Instance>
+    <ui:Instance template="StatEditor" name="AOERESIST">
+        <AttributeOverrides element-name="StatName" text="AOERESIST" />
+    </ui:Instance>
+    <ui:Instance template="StatEditor" name="MAX_HEALTH">
+        <AttributeOverrides element-name="StatName" text="MAX_HEALTH" />
+    </ui:Instance>
+    <ui:Instance template="StatEditor" name="DAMAGE_DONE" />
+    <ui:Instance template="StatEditor" name="DAMAGE_TAKEN" />
+    <ui:Instance template="StatEditor" name="HEALING_DONE" />
+    <ui:Instance template="StatEditor" name="HEALING_TAKEN" />
+    <ui:Instance template="StatEditor" name="BLOCK">
+        <AttributeOverrides element-name="StatName" text="BLOCK" />
+    </ui:Instance>
+    <ui:Instance template="StatEditor" name="EVADE">
+        <AttributeOverrides element-name="StatName" text="EVADE" />
+    </ui:Instance>
+    <ui:Instance template="StatEditor" name="PARRY">
+        <AttributeOverrides element-name="StatName" text="PARRY" />
+    </ui:Instance>
+</ui:UXML>

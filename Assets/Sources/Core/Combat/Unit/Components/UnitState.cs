@@ -28,7 +28,6 @@ namespace Core.Combat.Units.Components
         private readonly CastResources _resource;
         private readonly StatsTable _stats;
         private Team.Team _team;
-        private readonly Equipment _equipment;
         private readonly PositionComponent _position;
 
         private readonly AuraOwner _auras;
@@ -187,7 +186,6 @@ namespace Core.Combat.Units.Components
         public void Kill(KillEventData data)
         {
             _alive = false;
-            Combat.Engine.Combat.PostDebugMessage(EntityId + " Died");
         }
 
         public void Resurect(ResurrectionData data)
@@ -274,19 +272,6 @@ namespace Core.Combat.Units.Components
 
         public bool HasImmunity(Mechanic mechanic) => _auras.ImmunityValue(mechanic) > 0;
         #endregion
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Equip(Gear.Gear item)
-        {
-            _equipment.Equip(item);
-            _stats.Add(item.Stats);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Unequip(Gear.Gear item)
-        {
-            return _equipment.Unequip(item);
-        }
 
         public void InformAction(UnitAction action, CastEventData data)
         {

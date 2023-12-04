@@ -5,6 +5,7 @@ using Core.Combat.Interfaces;
 using Core.Combat.Utils;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Utils.DataTypes;
 
 namespace Core.Combat.Units.Components
@@ -255,13 +256,13 @@ namespace Core.Combat.Units.Components
                 _owner.InformCastingStopped();
             }
 
-            if (_casting.AllowAutoattack && _owner.Target != null)
+            if (_casting.AllowAutoattack && _owner.CanHurt(_owner.Target))
             {
                 for (int i = 0; i < AUTOATTACK_COUNT; i++)
                 {
-                    if (_autoattack.Count >= i || _autoattack[i].OnCooldown)
+                    if (i >= _autoattack.Count || _autoattack[i].OnCooldown)
                     {
-                        return;
+                        continue;
                     }
 
                     _owner.Attack(_autoattack[i].Spell);

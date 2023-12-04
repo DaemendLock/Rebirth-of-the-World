@@ -1,9 +1,9 @@
-﻿using Data.Localization;
+﻿using Core.Lobby.Characters;
+using Data.Characters;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using View.Lobby.General.Charaters;
 
 namespace View.Lobby.Gallery.Widgets
 {
@@ -13,18 +13,22 @@ namespace View.Lobby.Gallery.Widgets
         [SerializeField] private TMP_Text _characterName;
 
         private Character _character;
+        private CharacterState _data;
 
-        public void Init(Character character)
+        public int CharacterId => _character.Id;
+
+        public void Init(Character character, CharacterState data)
         {
             _character = character;
 
-            //_characterImage.sprite = _character.Picture;
-            _characterName.text = Localization.GetValue(_character.NameToken);
+            _characterName.text = _character.LocalizedName;
+            _characterImage.sprite = _character.GetCharacterCard(0);
+            _data = data;
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            Lobby.Instance?.ViewCharacter(_character);
+            Lobby.Instance?.ViewCharacter(_character, _data);
         }
     }
 }

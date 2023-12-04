@@ -6,14 +6,6 @@ using UnityEngine.UIElements;
 
 namespace Editor.SpellEditor
 {
-    [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/SpellTemplate", order = 1)]
-    public class SpellTemplate : ScriptableObject
-    {
-        public string SpellName;
-        public Sprite Icon;
-        public SpellData Data;
-    }
-
     [CustomPropertyDrawer(typeof(SpellEffect), true)]
     public class SpellEffect_Inspector : UnityEditor.PropertyDrawer
     {

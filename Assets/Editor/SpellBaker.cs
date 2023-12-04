@@ -1,10 +1,9 @@
 ﻿using Core.Combat.Abilities;
-using Core.Combat.Gear;
-using Core.SpellLib.Paladin;
 using Core.SpellLib.Warrior;
 using Data.DataMapper;
 using Data.Spells;
-using System;
+using SpellLib.Paladin;
+using SpellLib.Weapons;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -17,18 +16,19 @@ namespace Assets.Editor
 #if UNITY_EDITOR
     public static class SpellBaker
     {
-        private static readonly string _PATH = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\spells.datamap";
-        private static readonly string _PATH_COMBAT = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\combatspells.data";
-        private static readonly string _PATH_VIEW = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\viewspells.data";
+        private static readonly string _PATH = Application.streamingAssetsPath + $"{System.IO.Path.DirectorySeparatorChar}Spells{System.IO.Path.DirectorySeparatorChar}spells.datamap";
+        private static readonly string _PATH_COMBAT = Application.streamingAssetsPath + $"{System.IO.Path.DirectorySeparatorChar}Spells{System.IO.Path.DirectorySeparatorChar}combatspells.data";
 
         private static HashSet<Spell> _target = new()
         {
+            //Weapons
+            new DefaultSwordAttack(),
+
             //Warrior
             // > Spec 1
             new DirectHit(),
             new СoncentratedDefense(),
             new IgnorPain(),
-
             // > Spec 2
 
             // > Spec 3
@@ -51,20 +51,13 @@ namespace Assets.Editor
             // > Spec 3
         };
 
-        private static HashSet<Gear> _items = new()
-        {
-
-        };
-
         private static List<SpellId> _ids = new();
         private static List<MappedData> _combat = new();
-        private static List<MappedData> _view = new();
 
         [MenuItem("Assets/Bake Spells")]
         public static void Bake()
         {
             _ids.Clear();
-            _view.Clear();
             _combat.Clear();
 
             int position = 0;
@@ -78,21 +71,17 @@ namespace Assets.Editor
                     MappedData data = new MappedData(position, bytes.Length);
                     _ids.Add(spellTarget.Id);
                     _combat.Add(data);
-                    _view.Add(new(0, 0));
 
                     position += bytes.Length;
                     combat.Write(bytes, 0, bytes.Length);
                 }
             }
 
-            using BinaryWriter view = new BinaryWriter(File.OpenWrite(_PATH_VIEW));
             using BinaryWriter id = new BinaryWriter(File.OpenWrite(_PATH));
 
             for (int i = 0; i < _ids.Count; i++)
             {
                 id.Write(_ids[i]);
-                id.Write(_view[i].Position);
-                id.Write(_view[i].Size);
                 id.Write(_combat[i].Position);
                 id.Write(_combat[i].Size);
             }

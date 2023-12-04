@@ -1,5 +1,7 @@
-﻿using Core.Lobby.Characters;
+﻿using Core.Lobby.Accounts.Inventory;
+using Core.Lobby.Characters;
 using System.Collections.Generic;
+using Utils.DataTypes;
 
 namespace Core.Lobby.Accounts
 {
@@ -7,7 +9,13 @@ namespace Core.Lobby.Accounts
     {
         public readonly int Id;
 
-        public readonly Dictionary<int, CharacterData> _charactersData = new();
+        public readonly Dictionary<ItemId, int> _inventory = new();
+        public readonly Dictionary<int, CharacterState> _charactersData = new();
+
+        public Account(int id)
+        {
+            Id = id;
+        }
         // characters[]
         // string name
         // int titleId

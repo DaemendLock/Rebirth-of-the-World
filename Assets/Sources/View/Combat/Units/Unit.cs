@@ -1,8 +1,7 @@
-﻿using Data.Models;
+﻿using Data.Characters;
 using System.Collections.Generic;
 using UnityEngine;
-using Utils.DataTypes;
-using View.Combat.Units.Spells;
+using static Utils.DataTypes.UnitCreationData;
 using CUnit = Core.Combat.Units.Unit;
 
 namespace View.Combat.Units
@@ -13,8 +12,7 @@ namespace View.Combat.Units
 
         private CUnit _assignedUnit;
         private int _id;
-
-        private SpellIconsSet _icons;
+        private ViewData _viewData;
 
         private void Update()
         {
@@ -23,7 +21,7 @@ namespace View.Combat.Units
 
             Utils.DataTypes.Vector3 rotation = new(_assignedUnit.Rotation);
 
-            transform.forward = new UnityEngine.Vector3(rotation.x, rotation.y, rotation.z);
+            transform.forward = new Vector3(rotation.x, rotation.y, rotation.z);
         }
 
         private void OnDestroy()
@@ -36,7 +34,7 @@ namespace View.Combat.Units
             _units.Remove(_id);
         }
 
-        public void Init(int id, UnitCreationData.ViewData data)
+        public void Init(int id, ViewData data)
         {
             if (_assignedUnit != null)
             {
@@ -45,8 +43,9 @@ namespace View.Combat.Units
 
             _assignedUnit = Core.Combat.Engine.Combat.GetUnit(id);
             _id = id;
+            _viewData = data;
 
-            UseModel(ModelLibrary.Get(data.ModelId));
+            UseModel(Character.Get(data.CharacterId).GetModel(data.CharacterViewSet));
             //UseSpellIcons(data.SpellIcons);
 
             _units[id] = this;
@@ -58,19 +57,9 @@ namespace View.Combat.Units
             return _units.GetValueOrDefault(id, null);
         }
 
-        private void UseModel(Model model)
+        private void UseModel(GameObject model)
         {
-            Instantiate(model.GetDefaultModel(), transform);
-        }
-
-        private void UseSpellIcons(SpellIconsSet icons)
-        {
-            _icons = icons;
-        }
-
-        private void UseVoiceover()
-        {
-
+            Instantiate(model, transform);
         }
     }
 }

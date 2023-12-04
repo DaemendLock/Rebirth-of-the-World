@@ -8,7 +8,7 @@ using Utils.DataStructure;
 using Utils.DataTypes;
 using Utils.SpellIdGenerator;
 
-namespace Core.SpellLib.Paladin
+namespace SpellLib.Paladin
 {
     public class LifegivingLight : Spell
     {
@@ -58,7 +58,7 @@ namespace Core.SpellLib.Paladin
             Mechanic.NONE,
             new SpellEffect[]
             {
-                new ApplyAura(new ReactionCast(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 7), Combat.Auras.UnitAction.AUTOATTACK))
+                new ApplyAura(new ReactionCast(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 7), Core.Combat.Auras.UnitAction.AUTOATTACK))
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
             typeof(SelfcastSpell)

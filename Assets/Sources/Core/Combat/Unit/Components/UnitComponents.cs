@@ -1,8 +1,6 @@
 using Core.Combat.Engine;
-using Core.Combat.Gear;
 using Core.Combat.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Utils.DataTypes;
 
@@ -208,21 +206,6 @@ namespace Core.Combat.Units.Components
             }
 
             Position += MoveDirection * (speed * ModelUpdate.UpdateTime / 1000);
-        }
-    }
-
-    public class Equipment
-    {
-        private readonly List<Gear.Gear> _gear = new List<Gear.Gear>((int) Slot.CONSUMABLE_2 + 1);
-
-        public void Equip(Gear.Gear item)
-        {
-            _gear.Add(item);
-        }
-
-        public bool Unequip(Gear.Gear item)
-        {
-            return _gear.Remove(item);
         }
     }
 }

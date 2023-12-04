@@ -3,11 +3,13 @@ using System.Collections.Generic;
 
 namespace Core.Lobby.Accounts
 {
-    public class AccountsData
+    public static class AccountsData
     {
-        private readonly Dictionary<int, Account> _accounts;
+        public static readonly Dictionary<int, Account> _accounts = new();
 
-        public CharacterData GetCharacterData(int characterId, int accountId)
+        public static int ActiveAccount { get; set; } = -1;
+
+        public static CharacterState GetCharacterData(int characterId, int accountId)
         {
             if (_accounts.ContainsKey(accountId) == false)
             {
@@ -15,8 +17,8 @@ namespace Core.Lobby.Accounts
             }
 
             Account account = _accounts[accountId];
-
-            return null;
+            
+            return account._charactersData[characterId];
         }
     }
 }

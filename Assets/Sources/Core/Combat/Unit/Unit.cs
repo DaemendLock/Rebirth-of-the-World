@@ -230,24 +230,6 @@ namespace Core.Combat.Units
 
         internal void SpendResource(AbilityCost cost) => _unitState.SpendResource(cost);
 
-        internal void Equip(Gear.Gear item)
-        {
-            _unitState.Equip(item);
-
-            if (item.HasSpell)
-            {
-                GiveAbility(Spell.Get(item.Spell));
-            }
-        }
-
-        internal void Unequip(Gear.Gear item)
-        {
-            if (_unitState.Unequip(item) && item.HasSpell)
-            {
-                RemoveAbility(Spell.Get(item.Spell));
-            }
-        }
-
         internal void Heal(HealthChangeEventData data) => _unitState.ApplyHealingEvent(data);
 
         internal void AbsorbDamage(CastEventData data, float absorption, SchoolType school) => _unitState.AbsorbDamage(data, absorption, school);

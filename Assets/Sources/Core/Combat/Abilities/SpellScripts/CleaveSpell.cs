@@ -49,7 +49,6 @@ namespace Core.Combat.Abilities.SpellScripts
             {
                 if (Vector3.Angle(target.Position - casterPosition, casterViewAngle) > angle)
                 {
-                    Engine.Combat.PostDebugMessage(Vector3.Angle(target.Position - casterPosition, casterViewAngle).ToString());
                     continue;
                 }
 

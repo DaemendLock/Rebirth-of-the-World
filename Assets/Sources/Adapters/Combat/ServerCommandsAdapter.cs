@@ -29,7 +29,16 @@ namespace Adapters.Combat
                 case (byte) ServerCommand.CreateUnit:
                     HandleUnitCreationRequest(data);
                     return;
+
+                case (byte) ServerCommand.StartCombat:
+                    HandleStartCombatRequest(data);
+                    return;
             }
+        }
+
+        private static void HandleStartCombatRequest(byte[] data)
+        {
+            Core.Combat.Engine.Combat.Start();
         }
 
         private static void HandleMoveRequest(byte[] data)
@@ -62,7 +71,7 @@ namespace Adapters.Combat
         {
             UnitCreationData udata = UnitCreationData.Parse(data, 1);
 
-            Core.Combat.Engine.Combat.CreateUnit(udata);
+            Core.Combat.Engine.Combat.CreateUnit(udata.Id, udata.Model);
             UnitFactory.CreateUnit(udata);
             SelectionInfo.RegisterControllUnit(udata.Id, udata.ControlGroup);
         }

@@ -1,6 +1,10 @@
+using Core.Lobby.Characters;
+using Core.Lobby.Encounters;
+using Data.Characters;
 using System.Collections.Generic;
 using UnityEngine;
-using View.Lobby.General.Charaters;
+using View.Lobby.CharacterSheet;
+using View.Lobby.TeamSetup.Widgets;
 using View.Lobby.Utils;
 
 namespace View.Lobby
@@ -16,6 +20,12 @@ namespace View.Lobby
         private Stack<MenuElement> _backList = new Stack<MenuElement>();
 
         public static Lobby Instance { get; private set; }
+
+        public ViewMode CharacterSheetMode
+        {
+            get => _characterSheet.ViewMode;
+            set => _characterSheet.ViewMode = value;
+        }
 
         public void Start()
         {
@@ -34,16 +44,6 @@ namespace View.Lobby
             _teamSelection.gameObject.SetActive(false);
             _gallery.gameObject.SetActive(false);
             _characterSheet.gameObject.SetActive(false);
-        }
-
-        private void OnEnable()
-        {
-            CharactersList.CharacterRegistered += _gallery.CreateCharacterFile;
-        }
-
-        private void OnDisable()
-        {
-            CharactersList.CharacterRegistered -= _gallery.CreateCharacterFile;
         }
 
         public void OpenMenu(MenuElement menu)
@@ -72,12 +72,10 @@ namespace View.Lobby
             _lobby.SetActive(true);
         }
 
-        public void StartScenario()
+        public void StartScenario(Encounter encounter)
         {
-            //Scenario scenario = new FlorenceTrial();
-            OpenMenu(_teamSelection);
-            //_teamSelection.PrepareFor = scenario;
-            //_teamSelection.SetupSelection();
+            _teamSelection.SetUp(encounter);
+            //OpenMenu(_teamSelection);
         }
 
         public void ExitGame()
@@ -85,10 +83,17 @@ namespace View.Lobby
             Application.Quit();
         }
 
-        public void ViewCharacter(Character data)
+        public void ViewCharacter(Character character, CharacterState data)
         {
-            _characterSheet.InsertCharacter(data);
+            _characterSheet.InsertCharacter(character, data);
             OpenMenu(_characterSheet);
+        }
+
+        public void OpenCharacterSelection(CharacterSlotWidget target)
+        {
+            OpenMenu(_gallery);
+            _characterSheet.ViewMode = ViewMode.Select;
+            _characterSheet.SelectionTarget = target;
         }
     }
 }

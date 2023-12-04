@@ -19,6 +19,7 @@ namespace Core.Combat.Abilities
     {
         NONE = 0,
         INTERRUPT,
+        ATTACK,
     }
 
     [Flags]

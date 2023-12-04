@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 using Utils.DataTypes;
 
 namespace Utils.DataStructure
@@ -48,7 +49,7 @@ namespace Utils.DataStructure
             new PercentModifiedValue(0, 100),
         });
 
-        private PercentModifiedValue[] _values = new PercentModifiedValue[STATS_COUNT];
+        [SerializeField] private PercentModifiedValue[] _values = new PercentModifiedValue[STATS_COUNT];
 
         public StatsTable()
         {
@@ -92,6 +93,18 @@ namespace Utils.DataStructure
         {
             get => _values[(int) stat];
             set => _values[(int) stat] = value;
+        }
+        
+        public static StatsTable operator +(StatsTable value1, StatsTable value2)
+        {
+            PercentModifiedValue[] values = new PercentModifiedValue[STATS_COUNT];
+
+            for(int i = 0; i < STATS_COUNT;i++)
+            {
+                values[i] = value1[i] + value2[i];
+            }
+
+            return new StatsTable(values);
         }
     }
 }

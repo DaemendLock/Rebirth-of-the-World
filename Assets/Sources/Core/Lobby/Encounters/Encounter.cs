@@ -1,8 +1,21 @@
-﻿namespace Core.Lobby.Encounters
+﻿using System;
+using UnityEngine;
+
+namespace Core.Lobby.Encounters
 {
+    [Serializable]
     public class Encounter
     {
-        public string Name { get; }
-        public int PlayerCount { get; }
+        [SerializeField] private string _name;
+        [SerializeField] private int _playerCount;
+
+        public Encounter(string name, int playerCount)
+        {
+            _name = name;
+            _playerCount = playerCount;
+        }
+
+        public string Name => _name;
+        public int PlayerCount => _playerCount;
     }
 }
