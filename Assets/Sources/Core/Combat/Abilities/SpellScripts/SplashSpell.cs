@@ -18,7 +18,7 @@ namespace Core.Combat.Abilities.SpellScripts
             Unit caster = data.Caster;
             Team.Team ignorTeam = GetIgnorTeam(caster, TargetTeam);
 
-            List<Unit> targets = Engine.Combat.FindUnitsInRadius(caster.Position, effectiveCastRange, Flags.HasFlag(SpellFlags.TARGET_DEAD) == false, Team.Team.NONE);
+            List<Unit> targets = Engine.Combat.FindUnitsInRadius(caster.Position, effectiveCastRange, Flags.HasFlag(SpellFlags.TARGET_DEAD), ignorTeam);
 
             foreach (Unit target in targets)
             {

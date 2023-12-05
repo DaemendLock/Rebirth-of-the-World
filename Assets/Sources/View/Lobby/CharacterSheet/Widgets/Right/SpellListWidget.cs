@@ -8,7 +8,7 @@ namespace View.Lobby.CharacterSheet.Widgets
 
         private void Start()
         {
-            foreach(SpellPreviewWidget slot in _spells)
+            foreach (SpellPreviewWidget slot in _spells)
             {
                 slot.ShowSpell(null);
             }

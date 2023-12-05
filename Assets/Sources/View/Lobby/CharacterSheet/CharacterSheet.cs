@@ -36,7 +36,7 @@ namespace View.Lobby.CharacterSheet
 
         private void OnEnable()
         {
-            if(ViewMode != ViewMode.Select)
+            if (ViewMode != ViewMode.Select)
             {
                 _selectButton.gameObject.SetActive(false);
                 return;

@@ -14,7 +14,7 @@ namespace View.Lobby.CharacterSheet.Widgets
 
         public void ShowUnit(Character unit, CharacterState data)
         {
-            _unitName.text = unit.LocalizedName;    
+            _unitName.text = unit.LocalizedName;
             _level.Value = data.Level;
         }
     }

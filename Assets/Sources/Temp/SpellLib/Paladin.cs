@@ -2,7 +2,6 @@
 using Core.Combat.Abilities.SpellEffects;
 using Core.Combat.Abilities.SpellScripts;
 using Core.Combat.Auras.AuraEffects;
-using Core.Combat.Units;
 using Core.Combat.Utils.ValueSources;
 using Utils.DataStructure;
 using Utils.DataTypes;
@@ -90,7 +89,7 @@ namespace SpellLib.Paladin
                 new SchoolDamage(new StatValue(1, UnitStat.SPELLPOWER)),
                 new TriggerSpell(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 8))
             },
-            SpellFlags.CANT_BE_EVAIDED | SpellFlags.CANT_BE_PARRIED | SpellFlags.CANT_BE_BLOCKED,
+            SpellFlags.CANT_BE_EVAIDED | SpellFlags.CANT_BE_PARRIED | SpellFlags.CANT_BE_BLOCKED | SpellFlags.PROC_SPELL,
             typeof(Spell)
             );
 
@@ -119,7 +118,7 @@ namespace SpellLib.Paladin
             {
                 new GiveResource(1, ResourceType.LIGHT_POWER)
             },
-            SpellFlags.HASTE_AFFECTS_COOLDOWN,
+            SpellFlags.PROC_SPELL,
             typeof(SelfcastSpell)
             );
 
@@ -205,13 +204,43 @@ namespace SpellLib.Paladin
             Mechanic.NONE,
             new SpellEffect[]
             {
-                new SchoolDamage(new StatValue(1, UnitStat.SPELLPOWER))
+                new SchoolDamage(new StatValue(1, UnitStat.SPELLPOWER)),
+                new TriggerSpell(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 11))
             },
             SpellFlags.PROC_SPELL,
             typeof(SplashSpell)
             );
 
         public ConsecrationEnemyDamage() : base(_spellData)
+        {
+        }
+    }
+
+    public class ConsecrationEnemyHit : SelfcastSpell
+    {
+        private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 11);
+
+        private static SpellData _spellData = new SpellData(_id,
+            new AbilityCost(0, 0),
+            TargetTeam.ALLY,
+            0,
+            0,
+            0,
+            0f,
+            GcdCategory.IGNOR,
+            0,
+            DispellType.NONE,
+            SchoolType.FIRE,
+            Mechanic.NONE,
+            new SpellEffect[]
+            {
+                new GiveResource(10, ResourceType.LIGHT_POWER)
+            },
+            SpellFlags.HASTE_AFFECTS_COOLDOWN,
+            typeof(SelfcastSpell)
+            );
+
+        public ConsecrationEnemyHit() : base(_spellData)
         {
         }
     }
@@ -234,7 +263,7 @@ namespace SpellLib.Paladin
             Mechanic.NONE,
             new SpellEffect[]
             {
-                new ApplyAura(new PeriodicallyTriggerSpell(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 11), 1f))
+                new ApplyAura(new PeriodicallyTriggerSpell(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 12), 1f))
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
             typeof(SelfcastSpell)
@@ -247,7 +276,7 @@ namespace SpellLib.Paladin
 
     public class CandentArmorProc : SplashSpell
     {
-        private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 11);
+        private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 12);
 
         private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 0),
@@ -264,7 +293,7 @@ namespace SpellLib.Paladin
             new SpellEffect[]
             {
                 new SchoolDamage(new StatValue(0.3f, UnitStat.SPELLPOWER)),
-                new TriggerSpell(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 12))
+                new TriggerSpell(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 13))
             },
             SpellFlags.PROC_SPELL,
             typeof(SplashSpell)
@@ -277,12 +306,12 @@ namespace SpellLib.Paladin
 
     public class CandentArmorProcPower : SelfcastSpell
     {
-        private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 12);
+        private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 13);
 
         private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 0),
             TargetTeam.ALLY,
-            5,
+            0,
             0,
             0,
             0f,

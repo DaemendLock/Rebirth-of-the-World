@@ -27,7 +27,7 @@ namespace Core.Combat.Abilities.SpellScripts
 
             float effectiveCastRange = GetEffectiveRange(Range, modification);
 
-            List<Unit> targets = Engine.Combat.FindUnitsInRadius(caster.Position, effectiveCastRange, (Flags & SpellFlags.TARGET_DEAD) != 0, ignorTeam);
+            List<Unit> targets = Engine.Combat.FindUnitsInRadius(caster.Position, effectiveCastRange, Flags.HasFlag(SpellFlags.TARGET_DEAD), ignorTeam);
 
             if (angle >= 180)
             {

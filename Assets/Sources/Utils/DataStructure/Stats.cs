@@ -94,12 +94,12 @@ namespace Utils.DataStructure
             get => _values[(int) stat];
             set => _values[(int) stat] = value;
         }
-        
+
         public static StatsTable operator +(StatsTable value1, StatsTable value2)
         {
             PercentModifiedValue[] values = new PercentModifiedValue[STATS_COUNT];
 
-            for(int i = 0; i < STATS_COUNT;i++)
+            for (int i = 0; i < STATS_COUNT; i++)
             {
                 values[i] = value1[i] + value2[i];
             }

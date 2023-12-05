@@ -1,6 +1,5 @@
 ﻿using Adapters.Combat;
 using Core.Combat.Team;
-using Core.Combat.Units;
 using System;
 using System.Collections.Generic;
 using System.IO;

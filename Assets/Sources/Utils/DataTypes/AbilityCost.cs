@@ -5,7 +5,7 @@ namespace Utils.DataTypes
     [Serializable]
     public readonly struct AbilityCost
     {
-        public readonly static AbilityCost None = new AbilityCost(0f, 0f);
+        public static readonly AbilityCost None = new AbilityCost(0f, 0f);
 
         public readonly float Left;
         public readonly float Right;

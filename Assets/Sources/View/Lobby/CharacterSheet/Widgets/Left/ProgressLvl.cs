@@ -15,7 +15,7 @@ namespace View.Lobby.CharacterSheet
             set
             {
                 _progress.text = $"Lv. {value.Level}/{value.MaxLevel}";
-                _progressBar.fillAmount = (float)value.CurrentProgress / value.MaxProgression;
+                _progressBar.fillAmount = (float) value.CurrentProgress / value.MaxProgression;
             }
         }
     }

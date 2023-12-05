@@ -50,10 +50,10 @@ namespace Utils.DataTypes
         {
             public readonly float LeftResourceMaxValue;
             public readonly float RightResourceMaxValue;
-            public readonly ushort LeftResourceType;
-            public readonly ushort RightResourceType;
+            public readonly ResourceType LeftResourceType;
+            public readonly ResourceType RightResourceType;
 
-            public CastResourceData(float leftResource, float rightResource, ushort leftType, ushort rightType)
+            public CastResourceData(float leftResource, float rightResource, ResourceType leftType, ResourceType rightType)
             {
                 LeftResourceMaxValue = leftResource;
                 RightResourceMaxValue = rightResource;
@@ -165,7 +165,7 @@ namespace Utils.DataTypes
             ushort rightType = BitConverter.ToUInt16(source, index + sizeof(ushort));
             index += sizeof(ushort) * 2;
 
-            return new(leftResource, rightResource, leftType, rightType);
+            return new(leftResource, rightResource, (ResourceType) leftType, (ResourceType) rightType);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

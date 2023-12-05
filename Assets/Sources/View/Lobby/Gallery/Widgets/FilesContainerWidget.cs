@@ -1,6 +1,4 @@
-﻿using Data.Characters;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace View.Lobby.Gallery.Widgets

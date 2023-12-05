@@ -36,12 +36,16 @@ namespace Assets.Editor
             // Paladin
             // > Spec 1
             new LifegivingLight(),
-            new BladeOfFaith(),
-            new BladeOfFaithProc(),
-            new BladeOfFaithProcSelf(),
-            new Consecration(),
-            new ConsecrationAllyBuff(),
-            new ConsecrationEnemyDamage(),
+             new BladeOfFaith(),
+             new BladeOfFaithProc(),
+             new BladeOfFaithProcSelf(),
+             new Consecration(),
+             new ConsecrationAllyBuff(),
+             new ConsecrationEnemyDamage(),
+             new ConsecrationEnemyHit(),
+             new CandentArmor(),
+             new CandentArmorProc(),
+             new CandentArmorProcPower(),
             // > Spec 2
             // > Spec 3
 

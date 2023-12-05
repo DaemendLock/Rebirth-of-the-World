@@ -1,6 +1,4 @@
-﻿using Core.Combat.Auras.AuraEffects;
-using Data.Items;
-using UnityEditor.Graphs;
+﻿using Data.Items;
 using Utils.DataStructure;
 
 namespace Core.Lobby.Characters
@@ -35,7 +33,7 @@ namespace Core.Lobby.Characters
 
             foreach (Gear gear in _equipment)
             {
-                if(gear == null)
+                if (gear == null)
                 {
                     continue;
                 }

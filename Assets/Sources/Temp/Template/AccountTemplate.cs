@@ -1,6 +1,4 @@
 ﻿using Core.Lobby.Accounts;
-using Core.Lobby.Accounts.Inventory;
-using Data.Items;
 using System.Collections.Generic;
 using UnityEngine;
 using Utils.DataTypes;

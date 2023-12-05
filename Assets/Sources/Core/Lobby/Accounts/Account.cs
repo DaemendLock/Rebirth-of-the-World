@@ -1,5 +1,4 @@
-﻿using Core.Lobby.Accounts.Inventory;
-using Core.Lobby.Characters;
+﻿using Core.Lobby.Characters;
 using System.Collections.Generic;
 using Utils.DataTypes;
 

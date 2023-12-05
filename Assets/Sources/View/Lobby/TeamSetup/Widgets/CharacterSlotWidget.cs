@@ -31,7 +31,7 @@ namespace View.Lobby.TeamSetup.Widgets
 
         public void OnPointerClick(PointerEventData eventData)
         {
-           if(AllowEdit)
+            if (AllowEdit)
             {
                 Lobby.Instance?.OpenCharacterSelection(this);
                 return;
@@ -55,7 +55,8 @@ namespace View.Lobby.TeamSetup.Widgets
             _data.Spells.CopyTo(spellIds, 0);
             gearSpells.CopyTo(spellIds, _data.Spells.Length);
 
-            UnitCreationData.ModelData mdata = new UnitCreationData.ModelData(spellIds, stats, new UnitCreationData.PositionData(), new UnitCreationData.CastResourceData(), 0);
+            UnitCreationData.ModelData mdata = new UnitCreationData.ModelData(spellIds, stats, new UnitCreationData.PositionData(), _character.CastResources,
+                (byte) (index % 2));
             UnitCreationData.ViewData vdata = new UnitCreationData.ViewData(_character.Id, _data.ViewSet);
             UnitCreationData udata = new UnitCreationData(index, mdata, vdata);
 

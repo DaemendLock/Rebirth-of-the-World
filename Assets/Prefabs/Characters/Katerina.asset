@@ -94,5 +94,12 @@ MonoBehaviour:
         Percent: 0
       - BaseValue: 0
         Percent: 0
+  _castResourceData:
+    _leftResource:
+      _type: 4
+      _maxValue: 100
+    _rightResource:
+      _type: 3
+      _maxValue: 100
   _roles: 01000000
   _allowedWeapon: 

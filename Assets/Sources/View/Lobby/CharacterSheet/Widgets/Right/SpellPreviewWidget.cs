@@ -9,7 +9,7 @@ namespace View.Lobby.CharacterSheet.Widgets
 
         public void ShowSpell(Sprite icon)
         {
-            if(icon == null)
+            if (icon == null)
             {
                 gameObject.SetActive(false);
                 return;

@@ -1,5 +1,4 @@
 ﻿using Adapters.Combat;
-using Assets.Sources.Temp.Template;
 using Core.Lobby.Encounters;
 using System.Threading.Tasks;
 using UnityEngine;

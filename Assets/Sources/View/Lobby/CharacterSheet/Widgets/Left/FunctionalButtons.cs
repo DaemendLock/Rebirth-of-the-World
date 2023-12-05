@@ -18,7 +18,7 @@ namespace View.Lobby.CharacterSheet.Widgets
         {
             _pinButton.Clicked -= _ => PinCharacter();
         }
-        
+
         private void PinCharacter()
         {
 

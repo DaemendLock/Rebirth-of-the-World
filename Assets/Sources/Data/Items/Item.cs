@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Utils.DataTypes;
-using static UnityEditorInternal.ReorderableList;
 
 namespace Data.Items
 {
@@ -57,7 +56,7 @@ namespace Data.Items
         {
             Item item = Get(id);
 
-            if(item?.Type != ItemType.Gear)
+            if (item?.Type != ItemType.Gear)
             {
                 return null;
             }

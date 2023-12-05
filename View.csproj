@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Assets\Sources\View\Lobby\CharacterSheet\Widgets\Left\GearWidget.cs" />
     <Compile Include="Assets\Sources\View\Lobby\CharacterSheet\CharacterSheet.cs" />
+    <Compile Include="Assets\Sources\View\Lobby\TeamSetup\Widgets\CharacterSlotsContainer.cs" />
     <Compile Include="Assets\Sources\View\Lobby\General\MenuOptionWidget.cs" />
     <Compile Include="Assets\Sources\View\Lobby\CharacterSheet\Widgets\Right\AffectionWidget.cs" />
     <Compile Include="Assets\Sources\View\Lobby\ScenarionSelection\ScenarioSelection.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Assets\Sources\View\Combat\UI\Nameplates\NameplatesRoot.cs" />
     <Compile Include="Assets\Sources\View\General\SceneLoader.cs" />
     <Compile Include="Assets\Sources\View\Lobby\General\ItemsContainer.cs" />
+    <Compile Include="Assets\Sources\View\Lobby\TeamSetup\Widgets\CharacterSlotWidget.cs" />
     <Compile Include="Assets\Sources\View\Lobby\Inventory\Inventory.cs" />
     <Compile Include="Assets\Sources\View\Lobby\Gallery\Widgets\FilesContainerWidget.cs" />
     <Compile Include="Assets\Sources\View\Lobby\Lobby.cs" />
@@ -122,8 +124,6 @@
     <Compile Include="Assets\Sources\View\Combat\UI\Nameplates\Nameplate.cs" />
     <Compile Include="Assets\Sources\View\Lobby\Utils\SpriteProvider.cs" />
     <Compile Include="Assets\Sources\View\Combat\UI\ActionBar\SpellCard.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\TeamSetup\Widgets\CharacterSlotWidget.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\TeamSetup\Widgets\CharacterSlotsContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\View\View.asmdef" />

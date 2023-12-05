@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Utils.DataStructure;
+using Utils.DataTypes;
 
 namespace Data.Characters
 {
@@ -17,6 +18,7 @@ namespace Data.Characters
         [SerializeField] private string _name;
         [SerializeField] private ViewSet[] _veiwSets;
         [SerializeField] private CharacterStats _stats;
+        [SerializeField] private CastResourceData _castResourceData;
         [SerializeField] private CharacterRole[] _roles;
         [SerializeField] private List<WeaponType> _allowedWeapon;
 
@@ -35,8 +37,8 @@ namespace Data.Characters
         public Sprite[] GetSpellIcons(int activeViewSet) => _veiwSets[activeViewSet].GetSpellIcons();
 
         public void OnLoad()
-        {   
-            if(_characters.ContainsKey(Id))
+        {
+            if (_characters.ContainsKey(Id))
             {
                 Debug.LogWarning($"Character{_id} overwritten.");
             }
@@ -55,5 +57,7 @@ namespace Data.Characters
         }
 
         public bool CanHandle(WeaponType type) => _allowedWeapon.Contains(type);
+
+        public UnitCreationData.CastResourceData CastResources => new UnitCreationData.CastResourceData(_castResourceData.Left.Resource.MaxValue, _castResourceData.Right.Resource.MaxValue, _castResourceData.Left.Type, _castResourceData.Right.Type);
     }
 }

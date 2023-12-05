@@ -1,7 +1,7 @@
-﻿using Core.Combat.Units;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils.DataTypes;
 
 namespace View.Combat.UI.Elements
 {

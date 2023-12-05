@@ -16,7 +16,7 @@ namespace View.Lobby.Inventory
         {
             Account account = AccountsData._accounts[AccountsData.ActiveAccount];
 
-            foreach(KeyValuePair<ItemId, int> item in account._inventory)
+            foreach (KeyValuePair<ItemId, int> item in account._inventory)
             {
                 ItemWidget widget = Instantiate(_itemPrefab, _itemsContainer.transform);
                 widget.ShowItem(item.Key);

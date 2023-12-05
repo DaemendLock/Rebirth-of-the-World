@@ -12,17 +12,6 @@ using Utils.DataTypes;
 
 namespace Core.Combat.Units
 {
-    public enum ResourceType : ushort
-    {
-        NONE,
-        MANA,
-        CONCENTRATION,
-        ENERGY,
-        RAGE,
-        LIGHT_POWER,
-        OTHER
-    }
-
     public sealed class Unit : AbilityOwner, Interfaces.AuraOwner, CastResourceOwner, TeamOwner, DynamicStatOwner, Updatable, Damageable, Damager
     {
         public event UnitState.HealthChanged OnHealthChanged;

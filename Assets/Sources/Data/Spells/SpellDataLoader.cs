@@ -17,7 +17,9 @@ namespace Data.Spells
         public static void Load()
         {
             if (Loaded)
+            {
                 return;
+            }
 
             _combat.Load();
             _spellMap.Load();
@@ -31,11 +33,11 @@ namespace Data.Spells
 
         public static void Reload()
         {
-            if(Loaded == false)
+            if (Loaded == false)
             {
                 return;
             }
-            
+
             _spellMap.Reload();
         }
 

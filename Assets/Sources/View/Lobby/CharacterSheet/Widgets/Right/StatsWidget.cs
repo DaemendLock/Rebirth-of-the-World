@@ -17,7 +17,7 @@ namespace View.Lobby.CharacterSheet.Widgets
 
         private void Awake()
         {
-            for(int i =0; i < StatsTable.STATS_COUNT; i++)
+            for (int i = 0; i < StatsTable.STATS_COUNT; i++)
             {
                 StatValueWidget widget = Instantiate(_statValuePrefab, transform);
                 _values.Add(widget);

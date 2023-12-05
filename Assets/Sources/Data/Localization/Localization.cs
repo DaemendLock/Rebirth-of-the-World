@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Utils.DataStructure;
 using Utils.DataTypes;
 
@@ -18,7 +17,6 @@ namespace Data.Localization
         }
 
         public static string GetLocalizedSpellName(SpellId id) => GetValue($"Spell{id}");
-        
 
         public static string GetLocalizedSpellDescription(SpellId id) => GetValue($"Spell{id}_Description");
 

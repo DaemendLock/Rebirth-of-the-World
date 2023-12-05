@@ -30,9 +30,9 @@ namespace Core.Lobby.Characters
         {
             StatsTable result = new StatsTable();
 
-            foreach(ItemId item in Gear)
+            foreach (ItemId item in Gear)
             {
-                if(item == -1)
+                if (item == -1)
                 {
                     continue;
                 }

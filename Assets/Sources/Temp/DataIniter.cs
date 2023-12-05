@@ -1,5 +1,4 @@
 ﻿using Core.Combat.Abilities;
-using Data.Characters;
 using Data.Spells;
 using Data.Utils;
 using SpellLib.Paladin;
@@ -34,6 +33,7 @@ namespace Assets.Sources.Temp
             Spell.RegisterSpell(new Consecration());
             Spell.RegisterSpell(new ConsecrationAllyBuff());
             Spell.RegisterSpell(new ConsecrationEnemyDamage());
+            Spell.RegisterSpell(new ConsecrationEnemyHit());
             Spell.RegisterSpell(new CandentArmor());
             Spell.RegisterSpell(new CandentArmorProc());
             Spell.RegisterSpell(new CandentArmorProcPower());

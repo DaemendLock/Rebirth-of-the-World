@@ -2,7 +2,6 @@ using Core.Lobby.Accounts;
 using Data.Characters;
 using UnityEngine;
 using View.Lobby.Gallery.Widgets;
-using View.Lobby.TeamSetup.Widgets;
 using View.Lobby.Utils;
 
 public enum GallerySorting : int
@@ -29,8 +28,7 @@ namespace View.Lobby.Gallery
         //private AccountData accountData;
         [SerializeField] private FilesContainerWidget _filesContainer;
         [SerializeField] private CharacterCardWidget _prefab;
-
-        int _lastCardIndex = 0;
+        private int _lastCardIndex = 0;
 
         private void OnEnable()
         {
@@ -44,7 +42,7 @@ namespace View.Lobby.Gallery
 
             foreach (int id in ids)
             {
-                if(_filesContainer.ContainsCard(id))
+                if (_filesContainer.ContainsCard(id))
                 {
                     continue;
                 }

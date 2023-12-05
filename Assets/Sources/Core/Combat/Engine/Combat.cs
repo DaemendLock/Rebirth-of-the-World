@@ -2,9 +2,8 @@
 using Core.Combat.Units;
 using Core.Combat.Units.Components;
 using Core.Combat.Utils;
-using System;
 using System.Collections.Generic;
-using UnityEngine.PlayerLoop;
+using System.Runtime.CompilerServices;
 using Utils.DataTypes;
 
 namespace Core.Combat.Engine
@@ -153,9 +152,7 @@ namespace Core.Combat.Engine
 
             foreach (Unit unit in _units.Values)
             {
-                if (((includeDead || unit.Alive) == false) ||
-                    ((excludeTeam != Team.Team.NONE) && (unit.Team == excludeTeam)) ||
-                    ((unit.Position - location).sqrMagnitude > radius * radius))
+                if (UnitMatchFilters(unit, location, radius, includeDead, excludeTeam) == false)
                 {
                     continue;
                 }
@@ -175,6 +172,16 @@ namespace Core.Combat.Engine
             {
                 _units.Add(unit.Id, unit);
             }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool UnitMatchFilters(Unit unit, Vector3 location, float radius, bool includeDead, Team.Team excludeTeam)
+        {
+            bool matchAlive = (includeDead || unit.Alive);
+            bool matchTeam = (excludeTeam == Team.Team.NONE) || (unit.Team != excludeTeam);
+            bool matchRadius = (unit.Position - location).sqrMagnitude <= radius * radius;
+
+            return matchAlive && matchTeam && matchRadius;
         }
     }
 }

@@ -87,6 +87,7 @@
     <Compile Include="Assets\Sources\Data\Items\Item.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\Format\ActionBarFormat.cs" />
     <Compile Include="Assets\Sources\Data\Utils\ThrowHelper\Exceptions\FileNotLoadedException.cs" />
+    <Compile Include="Assets\Sources\Data\Characters\CastResourceData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Data\Data.asmdef" />

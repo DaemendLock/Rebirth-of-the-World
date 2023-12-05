@@ -120,7 +120,7 @@ namespace Core.Combat.Abilities
         };
 
         protected static float GetEffectiveRange(float defaultRange, SpellModification modification)
-            => defaultRange * modification.BonusRange.Percent / 100 + modification.BonusRange.BaseValue;
+            => defaultRange * (100 + modification.BonusRange.Percent) / 100 + modification.BonusRange.BaseValue;
 
         public static Spell Get(SpellId id)
         {
@@ -129,7 +129,7 @@ namespace Core.Combat.Abilities
                 return _loadedSpells[id];
             }
 
-            if(SpellDataLoader.Loaded == false)
+            if (SpellDataLoader.Loaded == false)
             {
                 SpellDataLoader.Load();
             }

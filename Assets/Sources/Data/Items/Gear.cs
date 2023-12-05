@@ -31,6 +31,6 @@ namespace Data.Items
 
         public bool HasSpell => _hasSpell;
 
-        public SpellId SpellId => (SpellId) _spellId; 
+        public SpellId SpellId => (SpellId) _spellId;
     }
 }

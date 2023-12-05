@@ -17,7 +17,7 @@ namespace Core.Lobby.Accounts
             }
 
             Account account = _accounts[accountId];
-            
+
             return account._charactersData[characterId];
         }
     }

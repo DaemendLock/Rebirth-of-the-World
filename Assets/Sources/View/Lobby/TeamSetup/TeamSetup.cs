@@ -30,7 +30,7 @@ namespace View.Lobby.TeamSetup
 
         public void SetUp(Encounter encounter)
         {
-            _encounter= encounter;
+            _encounter = encounter;
 
             _characterSlots.Capacity = _encounter.PlayerCount;
         }

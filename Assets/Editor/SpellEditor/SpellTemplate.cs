@@ -1,5 +1,4 @@
-﻿using Core.Combat.Abilities;
-using Core.Combat.Abilities.SpellEffects;
+﻿using Core.Combat.Abilities.SpellEffects;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;

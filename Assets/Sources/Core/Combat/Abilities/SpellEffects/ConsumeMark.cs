@@ -1,6 +1,4 @@
-﻿using Core.Combat.Abilities.SpellEffects;
-using Core.Combat.Auras.AuraEffects;
-using Core.Combat.Utils;
+﻿using Core.Combat.Utils;
 using System.IO;
 using Utils.DataTypes;
 using Utils.Serializer;
@@ -31,7 +29,7 @@ namespace Core.Combat.Abilities.SpellEffects
 
         public void ApplyEffect(CastEventData data, float modifyValue)
         {
-            if(data.Target.HasStatus(_markId) == false)
+            if (data.Target.HasStatus(_markId) == false)
             {
                 return;
             }
