@@ -67,7 +67,7 @@
     <Compile Include="Assets\Sources\Core\Combat\Unit\CastingBehavior\Idle.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Unit\Components\UnitState.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Unit\Unit.cs" />
-    <Compile Include="Assets\Sources\Core\Lobby\Characters\CharacterState.cs" />
+    <Compile Include="Assets\Sources\Core\Lobby\Accounts\AccountsDataProvider.cs" />
     <Compile Include="Assets\Sources\Core\Lobby\Chat\Message.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Utils\Team.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Auras\AuraEffects\AuraEffect.cs" />
@@ -97,7 +97,7 @@
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellScripts\AoeSpell.cs" />
     <Compile Include="Assets\Sources\Core\Lobby\Accounts\Inventory\InventoryItem.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Auras\AuraEffects\ProcTriggerSpell.cs" />
-    <Compile Include="Assets\Sources\Core\Lobby\Accounts\AccountsData.cs" />
+    <Compile Include="Assets\Sources\Core\Lobby\Accounts\AccountData.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Engine\Combat.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellEffects\ApplyAura.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Auras\Status.cs" />
@@ -125,8 +125,10 @@
     <Compile Include="Assets\Sources\Core\Combat\Unit\CastingBehavior\CastingBehavior.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\Spells\SpellData.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Auras\AuraEffects\Immunity.cs" />
-    <Compile Include="Assets\Sources\Core\Lobby\Accounts\Account.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellEffects\GiveResource.cs" />
+    <Compile Include="Assets\Sources\Core\Lobby\Accounts\AccountsData.cs" />
+    <Compile Include="Assets\Sources\Core\Lobby\Characters\CharacterState.cs" />
+    <Compile Include="Assets\Sources\Core\Lobby\Accounts\Account.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Core\Core.asmdef" />

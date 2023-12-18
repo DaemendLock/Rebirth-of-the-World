@@ -64,11 +64,13 @@
     <Compile Include="Assets\Sources\Data\Spells\SpellDataLoader.cs" />
     <Compile Include="Assets\Sources\Data\Localization\Localization.cs" />
     <Compile Include="Assets\Sources\Data\Characters\CharacterStats.cs" />
+    <Compile Include="Assets\Sources\Data\Characters\CastResourceData.cs" />
     <Compile Include="Assets\Sources\Data\Utils\ThrowHelper\ThrowHelper.cs" />
     <Compile Include="Assets\Sources\Data\Utils\ThrowHelper\Exceptions\FileLoadedException.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\DynamicUIRoot.cs" />
     <Compile Include="Assets\Sources\Data\Items\Weapon.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\MappedDataLoader.cs" />
+    <Compile Include="Assets\Sources\Data\Characters\CharacterState.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\TwinDataMap.cs" />
     <Compile Include="Assets\Sources\Data\Characters\ViewSet.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\DataLoader.cs" />
@@ -86,8 +88,8 @@
     <Compile Include="Assets\Sources\Data\DataMapper\MappedData.cs" />
     <Compile Include="Assets\Sources\Data\Items\Item.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\Format\ActionBarFormat.cs" />
+    <Compile Include="Assets\Sources\Data\Entities\Npc.cs" />
     <Compile Include="Assets\Sources\Data\Utils\ThrowHelper\Exceptions\FileNotLoadedException.cs" />
-    <Compile Include="Assets\Sources\Data\Characters\CastResourceData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Data\Data.asmdef" />
