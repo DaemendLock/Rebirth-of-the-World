@@ -18,7 +18,7 @@ namespace SpellLib.Paladin
             TargetTeam.ALLY,
             0,
             0,
-            10,
+            7,
             1.5f,
             GcdCategory.NORMAL,
             10,
@@ -27,7 +27,7 @@ namespace SpellLib.Paladin
             Mechanic.NONE,
             new SpellEffect[]
             {
-                new Heal(new MultiplyValue(new StatValue(1, UnitStat.SPELLPOWER), new CasterResourceValue(ResourceType.LIGHT_POWER))),
+                new Heal(new MultiplyValue(new StatValue(0.5f, UnitStat.SPELLPOWER), new CasterResourceValue(ResourceType.LIGHT_POWER))),
                 new GiveResource(float.NegativeInfinity, ResourceType.LIGHT_POWER)
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
@@ -105,7 +105,7 @@ namespace SpellLib.Paladin
         private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 0),
             TargetTeam.ALLY,
-            0,
+            float.PositiveInfinity,
             0,
             0,
             0f,
@@ -193,7 +193,7 @@ namespace SpellLib.Paladin
         private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 0),
             TargetTeam.ENEMY,
-            50,
+            5,
             0,
             0,
             0f,
@@ -254,7 +254,7 @@ namespace SpellLib.Paladin
             TargetTeam.ALLY,
             0,
             0,
-            0,
+            25,
             1f,
             GcdCategory.NORMAL,
             10,
@@ -281,7 +281,7 @@ namespace SpellLib.Paladin
         private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 0),
             TargetTeam.ENEMY,
-            50,
+            5,
             0,
             0,
             0f,
@@ -292,7 +292,7 @@ namespace SpellLib.Paladin
             Mechanic.NONE,
             new SpellEffect[]
             {
-                new SchoolDamage(new StatValue(0.3f, UnitStat.SPELLPOWER)),
+                new SchoolDamage(new StatValue(0.5f, UnitStat.SPELLPOWER)),
                 new TriggerSpell(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 13))
             },
             SpellFlags.PROC_SPELL,
@@ -322,7 +322,7 @@ namespace SpellLib.Paladin
             Mechanic.NONE,
             new SpellEffect[]
             {
-                new GiveResource(1, ResourceType.LIGHT_POWER)
+                new GiveResource(3, ResourceType.LIGHT_POWER)
             },
             SpellFlags.PROC_SPELL,
             typeof(SelfcastSpell)

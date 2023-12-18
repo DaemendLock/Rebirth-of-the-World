@@ -1,4 +1,5 @@
 ﻿using Core.Lobby.Encounters;
+using Data.Characters;
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,7 +12,7 @@ namespace View.Lobby.TeamSetup
 {
     public class TeamSetup : MenuElement
     {
-        public static event Action<UnitCreationData[]> Start;
+        public static event Action<CharacterState[], Encounter> Start;
 
         private Encounter _encounter;
 
@@ -37,7 +38,7 @@ namespace View.Lobby.TeamSetup
 
         private void StartCombat(PointerEventData data)
         {
-            Start?.Invoke(_characterSlots.GetUnitsCreationData());
+            Start?.Invoke(_characterSlots.GetSelection(), _encounter);
         }
     }
 }

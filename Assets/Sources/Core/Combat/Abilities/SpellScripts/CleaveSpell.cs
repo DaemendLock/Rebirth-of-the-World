@@ -23,11 +23,11 @@ namespace Core.Combat.Abilities.SpellScripts
             float angle = GetEffectValue(CLEAVE_EFFECT_INDEX, modification.EffectsModifications[CLEAVE_EFFECT_INDEX]);
 
             Unit caster = data.Caster;
-            Team.Team ignorTeam = GetIgnorTeam(caster, TargetTeam);
+            Team.Team ignorTeam = GetSearchTeam(caster, TargetTeam);
 
             float effectiveCastRange = GetEffectiveRange(Range, modification);
 
-            List<Unit> targets = Engine.Combat.FindUnitsInRadius(caster.Position, effectiveCastRange, Flags.HasFlag(SpellFlags.TARGET_DEAD), ignorTeam);
+            List<Unit> targets = Engine.Combat.FindUnitsInRadius(caster.Position, effectiveCastRange, ignorTeam, Flags.HasFlag(SpellFlags.TARGET_DEAD));
 
             if (angle >= 180)
             {

@@ -14,7 +14,7 @@ namespace View.Lobby.Inventory
 
         private void Start()
         {
-            Account account = AccountsData._accounts[AccountsData.ActiveAccount];
+            AccountData account = AccountsDataProvider._accounts[AccountsDataProvider.ActiveAccount];
 
             foreach (KeyValuePair<ItemId, int> item in account._inventory)
             {

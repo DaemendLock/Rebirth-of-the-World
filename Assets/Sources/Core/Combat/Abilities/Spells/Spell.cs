@@ -1,4 +1,5 @@
 ﻿using Core.Combat.Abilities.SpellEffects;
+using Core.Combat.Team;
 using Core.Combat.Units;
 using Core.Combat.Utils;
 using Data.Spells;
@@ -111,12 +112,12 @@ namespace Core.Combat.Abilities
             return obj is Spell spell && spell.Id == Id;
         }
 
-        protected static Team.Team GetIgnorTeam(Unit caster, TargetTeam targetTeam) => targetTeam switch
+        protected static Team.Team GetSearchTeam(Unit caster, TargetTeam targetTeam) => targetTeam switch
         {
-            TargetTeam.BOTH => Team.Team.NONE,
-            TargetTeam.ENEMY => caster.Team,
-            TargetTeam.ALLY => (Team.Team) 3 & (~caster.Team),
-            _ => Team.Team.TEAM_1 | Team.Team.TEAM_2,
+            TargetTeam.BOTH => Team.Team.TEAM_1 | Team.Team.TEAM_2,
+            TargetTeam.ENEMY => (Team.Team.TEAM_1 | Team.Team.TEAM_2) ^ caster.Team,
+            TargetTeam.ALLY => caster.Team,
+            _ => Team.Team.NONE,
         };
 
         protected static float GetEffectiveRange(float defaultRange, SpellModification modification)

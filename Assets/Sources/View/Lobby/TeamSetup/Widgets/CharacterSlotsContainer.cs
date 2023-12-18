@@ -1,4 +1,5 @@
 ﻿using Core.Lobby.Characters;
+using Data.Characters;
 using System.Collections.Generic;
 using UnityEngine;
 using Utils.DataTypes;
@@ -34,13 +35,13 @@ namespace View.Lobby.TeamSetup.Widgets
             return 0;
         }
 
-        internal UnitCreationData[] GetUnitsCreationData()
+        internal CharacterState[] GetSelection()
         {
-            UnitCreationData[] result = new UnitCreationData[Capacity];
+            CharacterState[] result = new CharacterState[Capacity];
 
             for (int i = 0; i < Capacity; i++)
             {
-                result[i] = _slots[i].GetCharacterData(i);
+                result[i] = _slots[i].CharacterState;
             }
 
             return result;

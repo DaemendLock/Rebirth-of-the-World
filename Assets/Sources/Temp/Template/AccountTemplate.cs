@@ -1,4 +1,6 @@
 ﻿using Core.Lobby.Accounts;
+using Data.Characters;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Utils.DataTypes;
@@ -12,26 +14,43 @@ namespace Assets.Sources.Temp.Template
         public List<CharacterDataTemplate> Characters = new();
         public List<InventoryItemTemplate> Inventory = new();
 
-        private void Start()
+        private void OnEnable()
         {
-            if (AccountsData.ActiveAccount == -1)
+            AccountsDataProvider.ActiveAccount = accountId;
+            AccountsDataProvider.AccountDataRequested += ProvideAccountData;
+        }
+
+        private void OnDisable()
+        {
+            AccountsDataProvider.AccountDataRequested -= ProvideAccountData;
+        }
+
+        private void ProvideAccountData(AccountDataRequest request)
+        {
+            if(request.AccountId != accountId)
             {
-                AccountsData.ActiveAccount = accountId;
+                return;
             }
 
-            Account account = new Account(accountId);
-
-            AccountsData._accounts[accountId] = account;
-
-            foreach (CharacterDataTemplate template in Characters)
+            switch (request.DataType)
             {
-                account._charactersData[template.charId] = template.GetCharacterData();
-            }
+                case AccountDataType.CharacterState:
+                    CharacterState state = Find(BitConverter.ToInt32(request.Data)) ?? null;
 
-            foreach (InventoryItemTemplate template in Inventory)
-            {
-                account._inventory[(ItemId) template.ItemId] = template.Count;
+                    if(state == null)
+                    {
+                        return;
+                    }
+
+                    byte[] data = state.GetBytes();
+                    AccountsDataProvider.CacheAccountData(new AccountDataRequest(request.DataType, request.AccountId, data));
+                    return;
             }
+        }
+
+        private CharacterState Find(int charId)
+        {
+            return Characters.Find((character) => character.CharId == charId)?.GetCharacterData();
         }
     }
 }

@@ -145,20 +145,18 @@ namespace Core.Combat.Engine
         public static float GetConcentrationRestoreRate() => 100f;
 
         //TODO: try move position to array
-        internal static List<Unit> FindUnitsInRadius(Vector3 location, float radius, bool includeDead = false, Team.Team excludeTeam = Team.Team.NONE)
+        internal static List<Unit> FindUnitsInRadius(Vector3 location, float radius, Team.Team team = Team.Team.NONE, bool includeDead = false)
         {
-            //IsAlive IsInSearchTeam
             List<Unit> result = new();
 
             foreach (Unit unit in _units.Values)
             {
-                if (UnitMatchFilters(unit, location, radius, includeDead, excludeTeam) == false)
+                if (UnitMatchFilters(unit, location, radius, includeDead, team) == false)
                 {
                     continue;
                 }
 
                 result.Add(unit);
-
             }
 
             return result;
@@ -175,10 +173,10 @@ namespace Core.Combat.Engine
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool UnitMatchFilters(Unit unit, Vector3 location, float radius, bool includeDead, Team.Team excludeTeam)
+        private static bool UnitMatchFilters(Unit unit, Vector3 location, float radius, bool includeDead, Team.Team team)
         {
-            bool matchAlive = (includeDead || unit.Alive);
-            bool matchTeam = (excludeTeam == Team.Team.NONE) || (unit.Team != excludeTeam);
+            bool matchAlive = includeDead || unit.Alive;
+            bool matchTeam = (team & unit.Team) != 0;
             bool matchRadius = (unit.Position - location).sqrMagnitude <= radius * radius;
 
             return matchAlive && matchTeam && matchRadius;

@@ -887,6 +887,10 @@
       <Project>{22BCBCA0-BEA9-49AA-795D-AA87499EF392}</Project>
       <Name>Utils</Name>
     </ProjectReference>
+    <ProjectReference Include="Data.csproj">
+      <Project>{FE06642D-D97E-6F45-E6BC-17F2C4BC433F}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
     <ProjectReference Include="Core.csproj">
       <Project>{21ADB8CB-C5DC-2033-2022-125F682C28E8}</Project>
       <Name>Core</Name>

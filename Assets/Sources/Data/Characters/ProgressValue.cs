@@ -1,4 +1,7 @@
-﻿namespace Data.Characters.Lobby
+﻿using System;
+using System.IO;
+
+namespace Data.Characters.Lobby
 {
     public readonly struct ProgressValue
     {
@@ -13,6 +16,27 @@
             MaxLevel = maxLevel;
             CurrentProgress = currentProgress;
             MaxProgression = maxProgression;
+        }
+
+        public static ProgressValue Parse(BinaryReader source)
+        {
+            byte level = source.ReadByte();
+            byte maxLevel = source.ReadByte();
+            uint progress = source.ReadUInt32();
+            uint maxProgress = source.ReadUInt32();
+
+            return new(level, maxLevel, progress, maxProgress);
+        }
+
+        public byte[] GetBytes()
+        {
+            byte[] bytes = new byte[10];
+            bytes[0] = Level;
+            bytes[1] = MaxLevel;
+            BitConverter.GetBytes(CurrentProgress).CopyTo(bytes, 2);
+            BitConverter.GetBytes(MaxProgression).CopyTo(bytes, 6);
+
+            return bytes;
         }
     }
 }

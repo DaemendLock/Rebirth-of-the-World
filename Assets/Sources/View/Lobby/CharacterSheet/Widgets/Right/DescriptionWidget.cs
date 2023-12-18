@@ -1,5 +1,4 @@
-﻿using Core.Lobby.Characters;
-using Data.Characters;
+﻿using Data.Characters;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

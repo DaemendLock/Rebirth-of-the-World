@@ -1,7 +1,6 @@
 ﻿using Core.Combat.Abilities;
 using Data.Spells;
 using Data.Utils;
-using SpellLib.Paladin;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Utils.DataTypes;
@@ -26,17 +25,6 @@ namespace Assets.Sources.Temp
         private static void LoadSpellLib()
         {
             //Paladin
-            Spell.RegisterSpell(new LifegivingLight());
-            Spell.RegisterSpell(new BladeOfFaith());
-            Spell.RegisterSpell(new BladeOfFaithProc());
-            Spell.RegisterSpell(new BladeOfFaithProcSelf());
-            Spell.RegisterSpell(new Consecration());
-            Spell.RegisterSpell(new ConsecrationAllyBuff());
-            Spell.RegisterSpell(new ConsecrationEnemyDamage());
-            Spell.RegisterSpell(new ConsecrationEnemyHit());
-            Spell.RegisterSpell(new CandentArmor());
-            Spell.RegisterSpell(new CandentArmorProc());
-            Spell.RegisterSpell(new CandentArmorProcPower());
 
             SpellDataLoader.Load();
 

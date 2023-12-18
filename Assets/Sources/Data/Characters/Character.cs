@@ -1,4 +1,5 @@
 ﻿using Core.Lobby.Characters;
+using Data.Entities;
 using Data.Items;
 using Data.Utils;
 using System.Collections.Generic;
@@ -16,25 +17,26 @@ namespace Data.Characters
 
         [SerializeField] private int _id;
         [SerializeField] private string _name;
-        [SerializeField] private ViewSet[] _veiwSets;
-        [SerializeField] private CharacterStats _stats;
-        [SerializeField] private CastResourceData _castResourceData;
+        [SerializeField] private Npc _npc;
         [SerializeField] private CharacterRole[] _roles;
         [SerializeField] private List<WeaponType> _allowedWeapon;
 
         public int Id => _id;
+        public string LocalizedName => Localization.Localization.GetValue(_name);
 
-        public Sprite GetCharacterCard(int activeViewSet) => _veiwSets[activeViewSet].CharacterCard;
+        public bool CanHandle(WeaponType type) => _allowedWeapon.Contains(type);
 
-        public StatsTable GetStatsTable(int level) => _stats.GetStatsForLevel(level);
+        public UnitCreationData.CastResourceData CastResources => _npc.CastResources;
 
         public CharacterRole GetCharacterRole(int activeSpec) => _roles[activeSpec];
 
-        public string LocalizedName => Localization.Localization.GetValue(_name);
+        public Sprite GetCharacterCard(int activeViewSet) => _npc.GetCharacterCard(activeViewSet);
 
-        public GameObject GetModel(int activeViewSet) => _veiwSets[activeViewSet].Model;
+        public StatsTable GetStatsTable(int level) => _npc.GetStatsTable(level);
 
-        public Sprite[] GetSpellIcons(int activeViewSet) => _veiwSets[activeViewSet].GetSpellIcons();
+        public GameObject GetModel(int activeViewSet) => _npc.GetModel(activeViewSet);
+
+        public Sprite[] GetSpellIcons(int activeViewSet) => _npc.GetSpellIcons(activeViewSet);
 
         public void OnLoad()
         {
@@ -46,6 +48,8 @@ namespace Data.Characters
             _characters[_id] = this;
         }
 
+        public UnitCreationData GetUnitCreationData(int index, byte team, CharacterState state) => _npc.GetUnitCreationData(index, team, state);
+
         public static Character Get(int id)
         {
             return _characters[id];
@@ -55,9 +59,5 @@ namespace Data.Characters
         {
             return _characters.Keys.ToArray();
         }
-
-        public bool CanHandle(WeaponType type) => _allowedWeapon.Contains(type);
-
-        public UnitCreationData.CastResourceData CastResources => new UnitCreationData.CastResourceData(_castResourceData.Left.Resource.MaxValue, _castResourceData.Right.Resource.MaxValue, _castResourceData.Left.Type, _castResourceData.Right.Type);
     }
 }

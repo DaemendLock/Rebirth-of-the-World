@@ -1,4 +1,5 @@
 ﻿using Core.Lobby.Characters;
+using Data.Characters;
 using System;
 using System.IO;
 using System.Text;

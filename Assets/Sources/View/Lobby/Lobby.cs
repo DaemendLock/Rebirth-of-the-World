@@ -1,4 +1,3 @@
-using Core.Lobby.Characters;
 using Core.Lobby.Encounters;
 using Data.Characters;
 using System.Collections.Generic;
@@ -75,7 +74,7 @@ namespace View.Lobby
         public void StartScenario(Encounter encounter)
         {
             _teamSelection.SetUp(encounter);
-            //OpenMenu(_teamSelection);
+            OpenMenu(_teamSelection);
         }
 
         public void ExitGame()

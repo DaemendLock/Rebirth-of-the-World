@@ -1,5 +1,4 @@
-﻿using Core.Lobby.Characters;
-using Data.Characters;
+﻿using Data.Characters;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -22,7 +21,7 @@ namespace View.Lobby.Gallery.Widgets
             _character = character;
 
             _characterName.text = _character.LocalizedName;
-            _characterImage.sprite = _character.GetCharacterCard(0);
+            _characterImage.sprite = _character.GetCharacterCard(data.ViewSet);
             _data = data;
         }
 

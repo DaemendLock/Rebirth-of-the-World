@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Data.Characters
 {
     [Serializable]
-    internal class ViewSet
+    public class ViewSet
     {
         [SerializeField] private GameObject _model;
         [SerializeField] private Sprite _characterCard;

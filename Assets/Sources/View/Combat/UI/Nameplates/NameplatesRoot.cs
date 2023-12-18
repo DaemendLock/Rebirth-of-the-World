@@ -55,14 +55,14 @@ namespace View.Combat.UI.Nameplates
         {
             foreach (Nameplate nameplate in _nameplates)
             {
-                nameplate.SetSellected(unitId == nameplate.AssignedId);
+                nameplate.InformSelectionChanged(unitId);
             }
         }
         public void ShowTarget(int unitId)
         {
             foreach (Nameplate nameplate in _nameplates)
             {
-                //nameplate.SetSellected(unitId == nameplate.AssignedId);
+                nameplate.SetTargeted(unitId == nameplate.AssignedId); 
             }
         }
 

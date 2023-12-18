@@ -1,4 +1,4 @@
-﻿using Core.Lobby.Characters;
+﻿using Data.Characters;
 using UnityEngine;
 using View.Lobby.General;
 
@@ -16,7 +16,6 @@ namespace View.Lobby.CharacterSheet.Widgets.Left
 
         public void ShowEquip(CharacterState data, bool allowEdit)
         {
-            _headSlot.ShowItem(data.Gear[0]);
             _allowEdit = allowEdit;
         }
     }

@@ -22,6 +22,8 @@ namespace View.Combat.UI.Elements
 
         public float Value { set => _filler.fillAmount = value / MaxValue; }
 
+        public Color Color { get => _filler.color; set => _filler.color = value; }
+
         public void SetResourceType(ResourceType resource)
         {
             _filler.color = _resourceColors[(int) resource];

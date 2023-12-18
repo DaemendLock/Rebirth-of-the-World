@@ -5,7 +5,6 @@ using Utils.DataTypes;
 
 namespace Core.Combat.Units.Components
 {
-
     public class CastResources : CastResourceOwner
     {
         public CastResources(float leftMaxValue, float rightMaxValue, ResourceType leftResourceType, ResourceType rightResourceType)

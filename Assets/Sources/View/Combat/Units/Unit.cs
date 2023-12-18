@@ -1,6 +1,8 @@
-﻿using Data.Characters;
+﻿using Core.Combat.Abilities;
+using Data.Characters;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils.DataStructure;
 using static Utils.DataTypes.UnitCreationData;
 using CUnit = Core.Combat.Units.Unit;
 
@@ -12,7 +14,9 @@ namespace View.Combat.Units
 
         private CUnit _assignedUnit;
         private int _id;
-        private ViewData _viewData;
+        private Sprite[] _spellIcons;
+
+        [SerializeField] private Animator _animator;
 
         private void Update()
         {
@@ -22,6 +26,8 @@ namespace View.Combat.Units
             Utils.DataTypes.Vector3 rotation = new(_assignedUnit.Rotation);
 
             transform.forward = new Vector3(rotation.x, rotation.y, rotation.z);
+
+            _animator.SetFloat("Movespeed", _assignedUnit.IsMoving ? _assignedUnit.GetStat(UnitStat.SPEED) : 0);
         }
 
         private void OnDestroy()
@@ -43,7 +49,7 @@ namespace View.Combat.Units
 
             _assignedUnit = Core.Combat.Engine.Combat.GetUnit(id);
             _id = id;
-            _viewData = data;
+            _spellIcons = Character.Get(data.CharacterId).GetSpellIcons(data.CharacterViewSet);
 
             UseModel(Character.Get(data.CharacterId).GetModel(data.CharacterViewSet));
             //UseSpellIcons(data.SpellIcons);
@@ -59,7 +65,9 @@ namespace View.Combat.Units
 
         private void UseModel(GameObject model)
         {
-            Instantiate(model, transform);
+            _animator = Instantiate(model, transform).GetComponent<Animator>();
         }
+
+        public Sprite GetAbilityIcon(SpellSlot slot) => _spellIcons[(int) slot];
     }
 }

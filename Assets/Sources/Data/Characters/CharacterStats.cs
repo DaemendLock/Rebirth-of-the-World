@@ -7,7 +7,7 @@ namespace Data.Characters
     [Serializable]
     public class CharacterStats
     {
-        [SerializeField] private StatsTable _default = StatsTable.UNIT_DEFAULT;
+        [SerializeField] private StatsTable _default;
         [SerializeField] private StatsTable _growth;
 
         public StatsTable GetStatsForLevel(int level)

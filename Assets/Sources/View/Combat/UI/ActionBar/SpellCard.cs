@@ -12,7 +12,7 @@ namespace View.Combat.UI.ActionBar
         [SerializeField] private Image _cooldown;
         private Ability _ability;
 
-        public void UpdateAbility(Ability ability)
+        public void SetAbility(Ability ability)
         {
             if (ability == null)
             {
@@ -44,6 +44,11 @@ namespace View.Combat.UI.ActionBar
             float activeCooldown = MathF.Max(_ability.CooldownTime, GCD);
 
             _cooldown.fillAmount = _ability.Cooldown.FullTime > 0 ? activeCooldown / _ability.Cooldown.FullTime : activeCooldown;
+        }
+
+        public void SetIcon(Sprite icon)
+        {
+            _abilityIcon.sprite = icon;
         }
     }
 }

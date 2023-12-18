@@ -38,8 +38,6 @@ namespace View.Lobby.General
         {
             _item = Item.Get(id);
 
-            Debug.Log(_item);
-
             if (_item != null)
             {
                 _icon.sprite = _item.Icon;

@@ -1,4 +1,5 @@
 using Core.Lobby.Accounts;
+using Core.Lobby.Characters;
 using Data.Characters;
 using UnityEngine;
 using View.Lobby.Gallery.Widgets;
@@ -28,7 +29,6 @@ namespace View.Lobby.Gallery
         //private AccountData accountData;
         [SerializeField] private FilesContainerWidget _filesContainer;
         [SerializeField] private CharacterCardWidget _prefab;
-        private int _lastCardIndex = 0;
 
         private void OnEnable()
         {
@@ -54,7 +54,9 @@ namespace View.Lobby.Gallery
         private void CreateCharacterFile(Character character)
         {
             CharacterCardWidget card = Object.Instantiate(_prefab, _filesContainer.transform);
-            card.Init(character, AccountsData.GetCharacterData(character.Id, AccountsData.ActiveAccount));
+            
+            card.Init(character, AccountsDataProvider.GetCharacterData(character.Id, AccountsDataProvider.ActiveAccount));
+
             _filesContainer.AddCard(card);
         }
     }

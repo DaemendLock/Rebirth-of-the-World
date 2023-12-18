@@ -98,6 +98,8 @@ namespace Core.Combat.Units.Components
                 _position.Rotation = value;
             }
         }
+        
+        public bool IsMoving => _position.IsMoving;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Update()

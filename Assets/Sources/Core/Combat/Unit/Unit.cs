@@ -108,6 +108,8 @@ namespace Core.Combat.Units
             get => _unitState.Rotation;
             internal set => _unitState.Rotation = value;
         }
+
+        public bool IsMoving => _unitState.IsMoving;
         /*
         public void Kill(DeathData data);
 

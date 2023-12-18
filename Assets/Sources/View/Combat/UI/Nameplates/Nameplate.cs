@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using View.Combat.UI.Elements;
 using View.Combat.UI.Nameplates.Elemets;
 using View.Combat.UI.ResourceBar;
@@ -7,9 +8,13 @@ namespace View.Combat.Units
 {
     public class Nameplate : MonoBehaviour
     {
+        [SerializeField] private SelectionFrame _selectionFrame;
         [SerializeField] private HealthBar _healthBar;
         [SerializeField] private ResourceBar _resources;
         [SerializeField] private Bar _castbar;
+
+        [SerializeField] private Color _friendlyColor;
+        [SerializeField] private Color _enemyColor;
 
         private Core.Combat.Units.Unit _valueSource;
 
@@ -23,6 +28,14 @@ namespace View.Combat.Units
             }
 
             _valueSource = Core.Combat.Engine.Combat.GetUnit(id);
+
+            if(_valueSource == null)
+            {
+                return;
+            }
+
+            _healthBar.AssignTo(_valueSource);
+            //_resources.AssignTo(_valueSource);
         }
 
         public void UpdatePostiotn(UnityEngine.Camera camera)
@@ -31,9 +44,36 @@ namespace View.Combat.Units
             transform.position = camera.WorldToScreenPoint(new Vector3(position.x, position.y, position.z) + Vector3.up * 2);
         }
 
-        public void SetSellected(bool selelcted)
+        public void InformSelectionChanged(int selelctedId)
         {
+            Core.Combat.Units.Unit selection = Core.Combat.Engine.Combat.GetUnit(selelctedId);
 
+            if (selection == null)
+            {
+                return;
+            }
+
+            if (_valueSource.Team != selection.Team)
+            {
+                _healthBar.SetColor(_enemyColor);
+                return;
+            }
+
+            _healthBar.SetColor(_friendlyColor);
+        }
+
+        public void SetTargeted(bool targeted)
+        {
+            if (targeted)
+            {
+                transform.SetAsLastSibling();
+                //transform.localScale = new Vector3(_selectionFrame.FrameScale, _selectionFrame.FrameScale, _selectionFrame.FrameScale);
+                //_selectionFrame.Selected = true;
+                return;
+            }
+
+            //transform.localScale = new Vector3(1, 1, 1);
+            //_selectionFrame.Selected = false;
         }
     }
 }

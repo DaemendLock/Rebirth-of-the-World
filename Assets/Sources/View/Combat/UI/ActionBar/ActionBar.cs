@@ -30,7 +30,8 @@ namespace View.Combat.UI.ActionBar
             {
                 for (int i = 0; i < _spellCards.Length; i++)
                 {
-                    _spellCards[i].UpdateAbility(unit.GetAbility((Core.Combat.Abilities.SpellSlot) i));
+                    _spellCards[i].SetAbility(unit.GetAbility((Core.Combat.Abilities.SpellSlot) i));
+                    _spellCards[i].SetIcon(Units.Unit.GetUnit(unit.Id).GetAbilityIcon((Core.Combat.Abilities.SpellSlot) i));
                     _spellCards[i].UpdateCd(_unit.GCD);
                 }
             }

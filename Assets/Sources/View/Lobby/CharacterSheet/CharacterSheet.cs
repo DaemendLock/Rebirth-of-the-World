@@ -1,4 +1,3 @@
-using Core.Lobby.Characters;
 using Data.Characters;
 using UnityEngine;
 using UnityEngine.EventSystems;
