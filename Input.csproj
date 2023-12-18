@@ -59,11 +59,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Sources\Input\Combat\CancelInputHandler.cs" />
+    <Compile Include="Assets\Sources\Input\CombatInput.cs" />
     <Compile Include="Assets\Sources\Input\Combat\CastInputHandler.cs" />
     <Compile Include="Assets\Sources\Input\Combat\TargetSellectionHandler.cs" />
     <Compile Include="Assets\Sources\Input\Combat\CombatInput.cs" />
     <Compile Include="Assets\Sources\Input\Combat\MovementInputHandler.cs" />
-    <Compile Include="Assets\Sources\Input\CombatInput.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Input\Input.asmdef" />
