@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a8fe877ea9fa4548a84f4ee77b70d48, type: 3}
+  m_Name: Florence
+  m_EditorClassIdentifier: 
+  _id: 0
+  _name: Florence
+  _npc: {fileID: 11400000, guid: 84093bf4dc058c54abc1926d4fb9d694, type: 2}
+  _roles: 02000000
+  _allowedWeapon: 
