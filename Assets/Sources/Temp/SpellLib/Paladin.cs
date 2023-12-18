@@ -2,13 +2,12 @@
 using Core.Combat.Abilities.SpellEffects;
 using Core.Combat.Abilities.SpellScripts;
 using Core.Combat.Auras.AuraEffects;
-using Core.Combat.Units;
 using Core.Combat.Utils.ValueSources;
 using Utils.DataStructure;
 using Utils.DataTypes;
 using Utils.SpellIdGenerator;
 
-namespace Core.SpellLib.Paladin
+namespace SpellLib.Paladin
 {
     public class LifegivingLight : Spell
     {
@@ -19,7 +18,7 @@ namespace Core.SpellLib.Paladin
             TargetTeam.ALLY,
             0,
             0,
-            10,
+            7,
             1.5f,
             GcdCategory.NORMAL,
             10,
@@ -28,7 +27,7 @@ namespace Core.SpellLib.Paladin
             Mechanic.NONE,
             new SpellEffect[]
             {
-                new Heal(new MultiplyValue(new StatValue(1, UnitStat.SPELLPOWER), new CasterResourceValue(ResourceType.LIGHT_POWER))),
+                new Heal(new MultiplyValue(new StatValue(0.5f, UnitStat.SPELLPOWER), new CasterResourceValue(ResourceType.LIGHT_POWER))),
                 new GiveResource(float.NegativeInfinity, ResourceType.LIGHT_POWER)
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
@@ -58,7 +57,7 @@ namespace Core.SpellLib.Paladin
             Mechanic.NONE,
             new SpellEffect[]
             {
-                new ApplyAura(new ReactionCast(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 7), Combat.Auras.UnitAction.AUTOATTACK))
+                new ApplyAura(new ReactionCast(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 7), Core.Combat.Auras.UnitAction.AUTOATTACK))
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
             typeof(SelfcastSpell)
@@ -90,7 +89,7 @@ namespace Core.SpellLib.Paladin
                 new SchoolDamage(new StatValue(1, UnitStat.SPELLPOWER)),
                 new TriggerSpell(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 8))
             },
-            SpellFlags.CANT_BE_EVAIDED | SpellFlags.CANT_BE_PARRIED | SpellFlags.CANT_BE_BLOCKED,
+            SpellFlags.CANT_BE_EVAIDED | SpellFlags.CANT_BE_PARRIED | SpellFlags.CANT_BE_BLOCKED | SpellFlags.PROC_SPELL,
             typeof(Spell)
             );
 
@@ -106,7 +105,7 @@ namespace Core.SpellLib.Paladin
         private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 0),
             TargetTeam.ALLY,
-            0,
+            float.PositiveInfinity,
             0,
             0,
             0f,
@@ -119,7 +118,7 @@ namespace Core.SpellLib.Paladin
             {
                 new GiveResource(1, ResourceType.LIGHT_POWER)
             },
-            SpellFlags.HASTE_AFFECTS_COOLDOWN,
+            SpellFlags.PROC_SPELL,
             typeof(SelfcastSpell)
             );
 
@@ -194,7 +193,7 @@ namespace Core.SpellLib.Paladin
         private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 0),
             TargetTeam.ENEMY,
-            50,
+            5,
             0,
             0,
             0f,
@@ -205,13 +204,43 @@ namespace Core.SpellLib.Paladin
             Mechanic.NONE,
             new SpellEffect[]
             {
-                new SchoolDamage(new StatValue(1, UnitStat.SPELLPOWER))
+                new SchoolDamage(new StatValue(1, UnitStat.SPELLPOWER)),
+                new TriggerSpell(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 11))
             },
             SpellFlags.PROC_SPELL,
             typeof(SplashSpell)
             );
 
         public ConsecrationEnemyDamage() : base(_spellData)
+        {
+        }
+    }
+
+    public class ConsecrationEnemyHit : SelfcastSpell
+    {
+        private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 11);
+
+        private static SpellData _spellData = new SpellData(_id,
+            new AbilityCost(0, 0),
+            TargetTeam.ALLY,
+            0,
+            0,
+            0,
+            0f,
+            GcdCategory.IGNOR,
+            0,
+            DispellType.NONE,
+            SchoolType.FIRE,
+            Mechanic.NONE,
+            new SpellEffect[]
+            {
+                new GiveResource(10, ResourceType.LIGHT_POWER)
+            },
+            SpellFlags.HASTE_AFFECTS_COOLDOWN,
+            typeof(SelfcastSpell)
+            );
+
+        public ConsecrationEnemyHit() : base(_spellData)
         {
         }
     }
@@ -225,7 +254,7 @@ namespace Core.SpellLib.Paladin
             TargetTeam.ALLY,
             0,
             0,
-            0,
+            25,
             1f,
             GcdCategory.NORMAL,
             10,
@@ -234,7 +263,7 @@ namespace Core.SpellLib.Paladin
             Mechanic.NONE,
             new SpellEffect[]
             {
-                new ApplyAura(new PeriodicallyTriggerSpell(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 11), 1f))
+                new ApplyAura(new PeriodicallyTriggerSpell(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 12), 1f))
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
             typeof(SelfcastSpell)
@@ -247,12 +276,12 @@ namespace Core.SpellLib.Paladin
 
     public class CandentArmorProc : SplashSpell
     {
-        private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 11);
+        private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 12);
 
         private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 0),
             TargetTeam.ENEMY,
-            50,
+            5,
             0,
             0,
             0f,
@@ -263,8 +292,8 @@ namespace Core.SpellLib.Paladin
             Mechanic.NONE,
             new SpellEffect[]
             {
-                new SchoolDamage(new StatValue(0.3f, UnitStat.SPELLPOWER)),
-                new TriggerSpell(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 12))
+                new SchoolDamage(new StatValue(0.5f, UnitStat.SPELLPOWER)),
+                new TriggerSpell(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 13))
             },
             SpellFlags.PROC_SPELL,
             typeof(SplashSpell)
@@ -277,12 +306,12 @@ namespace Core.SpellLib.Paladin
 
     public class CandentArmorProcPower : SelfcastSpell
     {
-        private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 12);
+        private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 13);
 
         private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 0),
             TargetTeam.ALLY,
-            5,
+            0,
             0,
             0,
             0f,
@@ -293,7 +322,7 @@ namespace Core.SpellLib.Paladin
             Mechanic.NONE,
             new SpellEffect[]
             {
-                new GiveResource(1, ResourceType.LIGHT_POWER)
+                new GiveResource(3, ResourceType.LIGHT_POWER)
             },
             SpellFlags.PROC_SPELL,
             typeof(SelfcastSpell)

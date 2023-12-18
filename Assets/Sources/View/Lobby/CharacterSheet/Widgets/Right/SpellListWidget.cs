@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using Utils.DataTypes;
 
 namespace View.Lobby.CharacterSheet.Widgets
 {
@@ -7,13 +6,19 @@ namespace View.Lobby.CharacterSheet.Widgets
     {
         [SerializeField] private SpellPreviewWidget[] _spells;
 
-        public void ShowSpells(SpellId[] spells)
+        private void Start()
         {
-            int length = Mathf.Min(spells.Length, _spells.Length);
-
-            for (int i = 0; i < length; i++)
+            foreach (SpellPreviewWidget slot in _spells)
             {
-                _spells[i].ShowSpell(spells[i]);
+                slot.ShowSpell(null);
+            }
+        }
+
+        public void ShowSpells(Sprite[] spellIcons)
+        {
+            for (int i = 0; i < _spells.Length; i++)
+            {
+                _spells[i].ShowSpell(spellIcons.Length >= i ? spellIcons[i] : null);
             }
         }
     }

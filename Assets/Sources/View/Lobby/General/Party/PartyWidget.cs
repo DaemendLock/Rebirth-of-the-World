@@ -9,14 +9,14 @@ namespace View.Lobby.General.Party
         private PartyMemberWidget _prefab;
         private List<PartyMemberWidget> _members;
 
-        public void AddPlayer(Account player)
+        public void AddPlayer(int accountId)
         {
             PartyMemberWidget member = Instantiate(_prefab, transform);
             _members.Add(member);
-            member.Init(player);
+            member.Init(accountId);
         }
 
-        public void RemovePlayer(Account player)
+        public void RemovePlayer(int accountId)
         {
 
         }

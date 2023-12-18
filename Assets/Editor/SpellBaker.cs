@@ -1,4 +1,4 @@
-﻿using Core.Combat.Abilities;
+using Core.Combat.Abilities;
 using Core.SpellLib.Warrior;
 using Data.DataMapper;
 using Data.Spells;

@@ -6,6 +6,7 @@
         Move,
         Stop,
         Target,
-        CreateUnit
+        CreateUnit,
+        StartCombat
     }
 }

@@ -1,6 +1,6 @@
-﻿using Core.Combat.Units;
-using Core.Combat.Utils;
+﻿using Core.Combat.Utils;
 using System.IO;
+using Utils.DataTypes;
 using Utils.Serializer;
 
 namespace Core.Combat.Abilities.SpellEffects

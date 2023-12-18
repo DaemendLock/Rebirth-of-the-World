@@ -1,7 +1,7 @@
-﻿using Core.Combat.Units;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils.DataTypes;
 
 namespace View.Combat.UI.Elements
 {
@@ -21,6 +21,8 @@ namespace View.Combat.UI.Elements
         }
 
         public float Value { set => _filler.fillAmount = value / MaxValue; }
+
+        public Color Color { get => _filler.color; set => _filler.color = value; }
 
         public void SetResourceType(ResourceType resource)
         {

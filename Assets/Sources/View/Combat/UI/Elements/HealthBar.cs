@@ -29,5 +29,10 @@ namespace View.Combat.UI.Nameplates.Elemets
         {
             _unit = unit;
         }
+
+        public void SetColor(Color color)
+        {
+            _health.Color = color;
+        }
     }
 }

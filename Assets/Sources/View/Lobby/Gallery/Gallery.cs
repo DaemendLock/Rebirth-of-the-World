@@ -1,6 +1,8 @@
+using Core.Lobby.Accounts;
+using Core.Lobby.Characters;
+using Data.Characters;
 using UnityEngine;
 using View.Lobby.Gallery.Widgets;
-using View.Lobby.General.Charaters;
 using View.Lobby.Utils;
 
 public enum GallerySorting : int
@@ -28,54 +30,34 @@ namespace View.Lobby.Gallery
         [SerializeField] private FilesContainerWidget _filesContainer;
         [SerializeField] private CharacterCardWidget _prefab;
 
-        //public void SortWith(int sortingType)
-        //{
-        //    List<GalleryCard> cur;
-
-        //    switch (sortingType)
-        //    {
-        //        case 1:
-        //            cur = _guildMembers.OrderBy((card) => card.Unit.name).ToList();
-        //            break;
-
-        //        case 2:
-        //            cur = _guildMembers.OrderBy((card) => card.Unit.lvl).ToList();
-        //            break;
-
-        //        case 3:
-        //            cur = _guildMembers.OrderBy((card) => card.Unit.affection).ToList();
-        //            break;
-
-        //        default:
-        //            cur = null; // guildMembers.OrderBy((card) => card.Unit.baseData.UnitId).ToList();
-        //            break;
-        //    }
-
-        //    for (int i = cur.Count - 1; i > -1; i--)
-        //    {
-        //        cur[i].gameObject.transform.SetAsFirstSibling();
-        //    }
-        //}
-
-        //public void FilterWith(int filterType)
-        //{
-        //    foreach (GalleryCard card in _guildMembers)
-        //    {
-        //        card.gameObject.SetActive(EvaluateFilted(card, filterType));
-        //    }
-        //}
-
-        //private bool EvaluateFilted(GalleryCard card, int filter)
-        //{
-        //    //return filter == (int) GalleryFilter.All || (filter == (int) GalleryFilter.Tank && card.Unit.baseData.Role == UNIT_ROLE.TANK)
-        //    //    || (filter == (int) GalleryFilter.Healer && card.Unit.baseData.Role == UNIT_ROLE.HEAL)
-        //    //    || (filter == (int) GalleryFilter.Dps && card.Unit.baseData.Role == UNIT_ROLE.DPS);
-        //    return false;
-        //}
-
-        public void CreateCharacterFile(Character character)
+        private void OnEnable()
         {
-            Object.Instantiate(_prefab, _filesContainer.transform).Init(character);
+            Lobby.Instance.CharacterSheetMode = CharacterSheet.ViewMode.Edit;
+            UpdateCards();
+        }
+
+        private void UpdateCards()
+        {
+            int[] ids = Character.GetLoadedCharactersId();
+
+            foreach (int id in ids)
+            {
+                if (_filesContainer.ContainsCard(id))
+                {
+                    continue;
+                }
+
+                CreateCharacterFile(Character.Get(id));
+            }
+        }
+
+        private void CreateCharacterFile(Character character)
+        {
+            CharacterCardWidget card = Object.Instantiate(_prefab, _filesContainer.transform);
+            
+            card.Init(character, AccountsDataProvider.GetCharacterData(character.Id, AccountsDataProvider.ActiveAccount));
+
+            _filesContainer.AddCard(card);
         }
     }
 }

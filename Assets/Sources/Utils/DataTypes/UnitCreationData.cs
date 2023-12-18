@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using UnityEngine;
 using Utils.DataStructure;
 
 namespace Utils.DataTypes
@@ -23,16 +24,13 @@ namespace Utils.DataTypes
 
             public readonly byte Team;
 
-            public readonly int[] Gear;
-
-            public ModelData(SpellId[] spells, StatsTable stats, PositionData positionData, CastResourceData castResourceData, byte team, int[] gear)
+            public ModelData(SpellId[] spells, StatsTable stats, PositionData positionData, CastResourceData castResourceData, byte team)
             {
                 Spells = spells;
                 Stats = stats;
                 PositionData = positionData;
                 CastResourceData = castResourceData;
                 Team = team;
-                Gear = gear;
             }
         }
 
@@ -52,10 +50,10 @@ namespace Utils.DataTypes
         {
             public readonly float LeftResourceMaxValue;
             public readonly float RightResourceMaxValue;
-            public readonly ushort LeftResourceType;
-            public readonly ushort RightResourceType;
+            public readonly ResourceType LeftResourceType;
+            public readonly ResourceType RightResourceType;
 
-            public CastResourceData(float leftResource, float rightResource, ushort leftType, ushort rightType)
+            public CastResourceData(float leftResource, float rightResource, ResourceType leftType, ResourceType rightType)
             {
                 LeftResourceMaxValue = leftResource;
                 RightResourceMaxValue = rightResource;
@@ -66,12 +64,14 @@ namespace Utils.DataTypes
 
         public readonly struct ViewData
         {
-            // character id
-            // skill sprites set
-            
-            public readonly int ModelId;
-            public readonly int SpellViewSetId;
-            public readonly int VoiceoverSetId;
+            public readonly int CharacterId;
+            public readonly int CharacterViewSet;
+
+            public ViewData(int characterId, int characterViewSet)
+            {
+                CharacterId = characterId;
+                CharacterViewSet = characterViewSet;
+            }
         }
 
 #if DEBUG
@@ -89,11 +89,12 @@ namespace Utils.DataTypes
         public static UnitCreationData Parse(byte[] data, int start)
         {
             ModelData modelData = ParseModelData(data, ref start);
-
+            Debug.Log(start);
+            ViewData viewData = ParseViewData(data, ref start);
             int id = BitConverter.ToInt32(data, start);
             start += sizeof(int);
 
-            return new(id, modelData, default);
+            return new(id, modelData, viewData);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -104,11 +105,20 @@ namespace Utils.DataTypes
             CastResourceData resources = ParseCastResources(source, ref index);
             PositionData position = ParsePosition(source, ref index);
             byte team = source[index++];
-            int[] gear = ParseGear(source, ref index);
 
-            ModelData result = new(spells, stats, position, resources, team, gear);
+            ModelData result = new(spells, stats, position, resources, team);
 
             return result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ViewData ParseViewData(byte[] source, ref int index)
+        {
+            int characterId = BitConverter.ToInt32(source, index);
+            byte viewSet = source[index + sizeof(int)];
+            index += sizeof(int) + 1;
+
+            return new(characterId, viewSet);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -121,22 +131,6 @@ namespace Utils.DataTypes
             for (int i = 0; i < spellCount; i++)
             {
                 result[i] = (SpellId) BitConverter.ToInt32(source, index);
-                index += sizeof(int);
-            }
-
-            return result;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static int[] ParseGear(byte[] source, ref int index)
-        {
-            int spellCount = source[index++];
-
-            int[] result = new int[spellCount];
-
-            for (int i = 0; i < spellCount; i++)
-            {
-                result[i] = BitConverter.ToInt32(source, index);
                 index += sizeof(int);
             }
 
@@ -171,7 +165,7 @@ namespace Utils.DataTypes
             ushort rightType = BitConverter.ToUInt16(source, index + sizeof(ushort));
             index += sizeof(ushort) * 2;
 
-            return new(leftResource, rightResource, leftType, rightType);
+            return new(leftResource, rightResource, (ResourceType) leftType, (ResourceType) rightType);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

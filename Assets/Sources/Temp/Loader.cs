@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -22,25 +22,25 @@ public class Loader : MonoBehaviour
         _instance = this;
     }
 
-    public static void LoadScene(int sceneId)
+    public static Task LoadScene(int sceneId)
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneId);
 
         if (_instance == null)
         {
-            return;
+            return Task.CompletedTask;
         }
 
-        _instance.gameObject.SetActive(true);
-        _instance.StartCoroutine(_instance.ShowProgress(operation));
+        return Task.Run(() => _instance.ShowProgress(operation));
     }
 
-    private IEnumerator ShowProgress(AsyncOperation operation)
+    private void ShowProgress(AsyncOperation operation)
     {
+        _instance.gameObject.SetActive(true);
+
         while (operation.isDone == false)
         {
             _fillImage.fillAmount = Mathf.Clamp01(operation.progress / 0.9f);
-            yield return null;
         }
 
         gameObject.SetActive(false);

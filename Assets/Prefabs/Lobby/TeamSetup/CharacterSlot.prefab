@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7827c3dbba1a8e04ba63dabcb1f1d737, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowEdit: 1
   _image: {fileID: 9148631998859666782}
   _name: {fileID: 9148631999190734662}
 --- !u!1 &9148631999190734656
@@ -158,9 +159,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '
-
-'
+  m_text: <Name>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}

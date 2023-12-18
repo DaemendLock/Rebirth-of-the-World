@@ -2,23 +2,28 @@
 
 namespace Core.Combat.Engine
 {
+    internal interface Updatable
+    {
+        void Update();
+    }
+
     public static class ModelUpdate
     {
         private static readonly List<Updatable> _updates = new();
         private static readonly Queue<Updatable> _registerQueue = new();
 
         public static long UpdateTime { get; private set; }
+        private static long _lastUpdate;
 
         public static void Update(float deltaTime)
         {
-            if (Combat.Running)
+            if (Combat.Running == false)
             {
                 return;
             }
 
             UpdateTime = (long) (deltaTime * 1000);
 
-            UpdateModel();
             UpdateUpdateble();
             RegisterUpdateable();
         }
@@ -42,11 +47,6 @@ namespace Core.Combat.Engine
             _updates.Clear();
         }
 
-        private static void UpdateModel()
-        {
-            //ModelSync.Synchronize();
-        }
-
         private static void UpdateUpdateble()
         {
             foreach (Updatable updatable in _updates)
@@ -57,7 +57,12 @@ namespace Core.Combat.Engine
 
         private static void RegisterUpdateable()
         {
-            lock(_updates)
+            if (_registerQueue.Count == 0)
+            {
+                return;
+            }
+
+            lock (_updates)
             {
                 _updates.Add(_registerQueue.Dequeue());
             }

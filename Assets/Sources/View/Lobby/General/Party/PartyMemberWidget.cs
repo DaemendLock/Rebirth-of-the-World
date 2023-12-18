@@ -8,13 +8,14 @@ namespace View.Lobby.General.Party
     {
         [SerializeField] private Image _profileIcon;
 
-        private Account _player;
+        //private AccountData _player;
 
-        public int AccountId => _player.Id;
+        public int AccountId { get; private set; }
 
-        public void Init(Account player)
+        public void Init(int id)
         {
-            _player = player;
+            AccountId = id;
+            //_player = AccountsDataProvider.Get;
 
         }
     }

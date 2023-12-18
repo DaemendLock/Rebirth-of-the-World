@@ -23,5 +23,8 @@ namespace Utils.DataTypes
 
         public static PercentModifiedValue operator -(PercentModifiedValue value) => new PercentModifiedValue(-value.BaseValue, -value.Percent);
         public static PercentModifiedValue operator -(PercentModifiedValue value1, PercentModifiedValue value2) => new PercentModifiedValue(value1.BaseValue - value2.BaseValue, value1.Percent - value2.Percent);
+
+        public static PercentModifiedValue operator *(PercentModifiedValue value1, float value2) =>
+            new(value1.BaseValue * value2, value1.Percent * value2);
     }
 }

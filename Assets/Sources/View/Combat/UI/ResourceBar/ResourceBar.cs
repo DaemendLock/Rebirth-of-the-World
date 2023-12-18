@@ -1,8 +1,8 @@
 ﻿using Core.Combat.Interfaces;
 using Core.Combat.Units;
-using Core.Combat.Units.Components;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using Utils.DataTypes;
 using View.Combat.UI.Elements;
 
 namespace View.Combat.UI.ResourceBar

@@ -1,6 +1,7 @@
 ﻿using Core.Combat.Abilities;
 using Core.Combat.Utils;
 using System.IO;
+using UnityEngine;
 using Utils.DataTypes;
 using Utils.Serializer;
 
@@ -29,8 +30,8 @@ namespace Core.Combat.Auras.AuraEffects
 
         public override void Update(Status status, CastEventData data)
         {
-            status.Parent.CastAbility(new CastEventData(data.Caster, data.Target, Spell.Get((SpellId) _spell)));
-            throw new System.Exception(_spell.ToString());
+            status.Parent.CastSpell(new CastEventData(data.Caster, data.Target, Spell.Get((SpellId) _spell)));
+            Debug.Log("Readction cast - " + Action);
         }
     }
 }

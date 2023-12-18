@@ -2,19 +2,13 @@
 using Core.Combat.Units;
 using Core.Combat.Units.Components;
 using Core.Combat.Utils;
-using System;
 using System.Collections.Generic;
-using UnityEngine.PlayerLoop;
+using System.Runtime.CompilerServices;
 using Utils.DataTypes;
 
 namespace Core.Combat.Engine
 {
     using EntityId = System.Int32;
-
-    internal interface Updatable
-    {
-        void Update();
-    }
 
     public static class Combat
     {
@@ -22,14 +16,6 @@ namespace Core.Combat.Engine
 
         public static bool Running { get; private set; } = false;
 
-#if DEBUG
-        public static event Action<object> DebugMessage;
-
-        internal static void PostDebugMessage(string message)
-        {
-            DebugMessage?.Invoke(message);
-        }
-#endif
         public static void Start()
         {
             if (Running)
@@ -65,21 +51,16 @@ namespace Core.Combat.Engine
             CombatTime.Reset();
         }
 
-        public static void CreateUnit(UnitCreationData data)
+        public static void CreateUnit(int unitId, UnitCreationData.ModelData data)
         {
             Spellcasting spellcasting = new Spellcasting();
 
-            Unit unit = new(spellcasting, new UnitState(data.Model.Stats, new CastResources(data.Model.CastResourceData),
-                new Position(data.Model.PositionData), (Team.Team) data.Model.Team, data.Id));
+            Unit unit = new(spellcasting, new UnitState(data.Stats, new CastResources(data.CastResourceData),
+                new Position(data.PositionData), (Team.Team) data.Team, unitId));
 
-            foreach (SpellId id in data.Model.Spells)
+            foreach (SpellId id in data.Spells)
             {
                 spellcasting.GiveAbility(Spell.Get(id));
-            }
-
-            foreach (int id in data.Model.Gear)
-            {
-                unit.Equip(ItemLibrary.ItemLib.GetItem(id));
             }
 
             RegisterUnit(unit);
@@ -164,22 +145,18 @@ namespace Core.Combat.Engine
         public static float GetConcentrationRestoreRate() => 100f;
 
         //TODO: try move position to array
-        internal static List<Unit> FindUnitsInRadius(Vector3 location, float radius, bool includeDead = false, Team.Team excludeTeam = Team.Team.NONE)
+        internal static List<Unit> FindUnitsInRadius(Vector3 location, float radius, Team.Team team = Team.Team.NONE, bool includeDead = false)
         {
-            //IsAlive IsInSearchTeam
             List<Unit> result = new();
 
             foreach (Unit unit in _units.Values)
             {
-                if (((includeDead || unit.Alive) == false) ||
-                    ((excludeTeam != Team.Team.NONE) && (unit.Team == excludeTeam)) ||
-                    ((unit.Position - location).sqrMagnitude > radius * radius))
+                if (UnitMatchFilters(unit, location, radius, includeDead, team) == false)
                 {
                     continue;
                 }
 
                 result.Add(unit);
-
             }
 
             return result;
@@ -187,17 +164,22 @@ namespace Core.Combat.Engine
 
         private static void RegisterUnit(Unit unit)
         {
-            if (_units.ContainsKey(unit.Id))
-            {
-                ModelUpdate.Remove(unit);
-            }
-
             ModelUpdate.Add(unit);
 
             lock (_units)
             {
                 _units.Add(unit.Id, unit);
             }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool UnitMatchFilters(Unit unit, Vector3 location, float radius, bool includeDead, Team.Team team)
+        {
+            bool matchAlive = includeDead || unit.Alive;
+            bool matchTeam = (team & unit.Team) != 0;
+            bool matchRadius = (unit.Position - location).sqrMagnitude <= radius * radius;
+
+            return matchAlive && matchTeam && matchRadius;
         }
     }
 }

@@ -12,17 +12,6 @@ using Utils.DataTypes;
 
 namespace Core.Combat.Units
 {
-    public enum ResourceType : ushort
-    {
-        NONE,
-        MANA,
-        CONCENTRATION,
-        ENERGY,
-        RAGE,
-        LIGHT_POWER,
-        OTHER
-    }
-
     public sealed class Unit : AbilityOwner, Interfaces.AuraOwner, CastResourceOwner, TeamOwner, DynamicStatOwner, Updatable, Damageable, Damager
     {
         public event UnitState.HealthChanged OnHealthChanged;
@@ -119,6 +108,8 @@ namespace Core.Combat.Units
             get => _unitState.Rotation;
             internal set => _unitState.Rotation = value;
         }
+
+        public bool IsMoving => _unitState.IsMoving;
         /*
         public void Kill(DeathData data);
 
@@ -229,24 +220,6 @@ namespace Core.Combat.Units
         internal void GiveResource(ResourceType type, float value) => _unitState.GiveResource(type, value);
 
         internal void SpendResource(AbilityCost cost) => _unitState.SpendResource(cost);
-
-        internal void Equip(Gear.Gear item)
-        {
-            _unitState.Equip(item);
-
-            if (item.HasSpell)
-            {
-                GiveAbility(Spell.Get(item.Spell));
-            }
-        }
-
-        internal void Unequip(Gear.Gear item)
-        {
-            if (_unitState.Unequip(item) && item.HasSpell)
-            {
-                RemoveAbility(Spell.Get(item.Spell));
-            }
-        }
 
         internal void Heal(HealthChangeEventData data) => _unitState.ApplyHealingEvent(data);
 

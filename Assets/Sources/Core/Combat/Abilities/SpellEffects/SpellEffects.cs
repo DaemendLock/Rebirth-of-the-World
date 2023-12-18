@@ -1,7 +1,7 @@
-using Core.Combat.Units;
 using Core.Combat.Utils;
 using System.IO;
 using Utils.DataStructure;
+using Utils.DataTypes;
 using Utils.Interfaces;
 using Utils.Serializer;
 
@@ -48,9 +48,9 @@ namespace Core.Combat.Abilities.SpellEffects
     {
         private readonly UnitStat _stat;
 
-        public StatValue(float spellpowerMultiplier, UnitStat stat)
+        public StatValue(float statMultiplier, UnitStat stat)
         {
-            BaseValue = spellpowerMultiplier;
+            BaseValue = statMultiplier;
             _stat = stat;
         }
 

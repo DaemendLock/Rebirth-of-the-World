@@ -1,5 +1,4 @@
 ﻿using Core.Combat.Abilities;
-using Core.Data.SpriteLib;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +12,7 @@ namespace View.Combat.UI.ActionBar
         [SerializeField] private Image _cooldown;
         private Ability _ability;
 
-        public void UpdateAbility(Ability ability)
+        public void SetAbility(Ability ability)
         {
             if (ability == null)
             {
@@ -23,7 +22,7 @@ namespace View.Combat.UI.ActionBar
             }
 
             _ability = ability;
-            _abilityIcon.sprite = SpriteLibrary.GetSpellSprite(ability.Spell.Id);
+            //_abilityIcon.sprite = SpriteLibrary.GetSpellSprite(ability.Spell.Id);
             _cooldown.sprite = _abilityIcon.sprite ?? _background.sprite;
             _abilityIcon.gameObject.SetActive(true);
             _abilityIcon.enabled = true;
@@ -45,6 +44,11 @@ namespace View.Combat.UI.ActionBar
             float activeCooldown = MathF.Max(_ability.CooldownTime, GCD);
 
             _cooldown.fillAmount = _ability.Cooldown.FullTime > 0 ? activeCooldown / _ability.Cooldown.FullTime : activeCooldown;
+        }
+
+        public void SetIcon(Sprite icon)
+        {
+            _abilityIcon.sprite = icon;
         }
     }
 }

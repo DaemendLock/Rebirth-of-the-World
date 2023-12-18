@@ -1,4 +1,4 @@
-﻿namespace Assets.Editor.CharacterEditor
+namespace Assets.Editor.CharacterEditor
 {
     //    [CustomPropertyDrawer(typeof(CharacterStats))]
     //    internal class StatsEditor : PropertyDrawer

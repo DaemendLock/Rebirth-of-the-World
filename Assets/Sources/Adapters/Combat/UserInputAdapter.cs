@@ -34,8 +34,8 @@ namespace Adapters.Combat
 
         public static void HandleTargetChange()
         {
-            UIRoot.Instance?.DisplayTarget(SelectionInfo.SelectionId);
-            NameplatesRoot.Instance?.ShowTarget(SelectionInfo.SelectionId);
+            UIRoot.Instance?.DisplayTarget(SelectionInfo.TargetId);
+            NameplatesRoot.Instance?.ShowTarget(SelectionInfo.TargetId);
         }
     }
 }

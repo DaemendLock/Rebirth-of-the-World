@@ -1,6 +1,7 @@
 ﻿using Core.Combat.Units;
 using Core.Combat.Utils;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Core.Combat.Abilities.SpellScripts
 {
@@ -16,9 +17,11 @@ namespace Core.Combat.Abilities.SpellScripts
         {
             float effectiveCastRange = GetEffectiveRange(Range, modification);
             Unit caster = data.Caster;
-            Team.Team ignorTeam = GetIgnorTeam(caster, TargetTeam);
+            Team.Team team = GetSearchTeam(caster, TargetTeam);
 
-            List<Unit> targets = Engine.Combat.FindUnitsInRadius(caster.Position, effectiveCastRange, Flags.HasFlag(SpellFlags.TARGET_DEAD) == false, Team.Team.NONE);
+            List<Unit> targets = Engine.Combat.FindUnitsInRadius(caster.Position, effectiveCastRange, team, Flags.HasFlag(SpellFlags.TARGET_DEAD));
+
+            Debug.Log(targets.Count);
 
             foreach (Unit target in targets)
             {

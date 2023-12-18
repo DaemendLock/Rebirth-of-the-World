@@ -1,8 +1,7 @@
-﻿using Data.Localization;
+﻿using Data.Characters;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using View.Lobby.General.Charaters;
 
 namespace View.Lobby.CharacterSheet.Widgets
 {
@@ -11,13 +10,11 @@ namespace View.Lobby.CharacterSheet.Widgets
         [SerializeField] private TMP_Text _unitName;
         [SerializeField] private Image _role;
         [SerializeField] private ProgressLvl _level;
-        [SerializeField] private ProgressLvl _affection;
 
-        public void ShowUnit(Character unit)
+        public void ShowUnit(Character unit, CharacterState data)
         {
-            _unitName.name = Localization.GetValue(unit.NameToken);
-            //_level.Value = unit.Level;
-            //_affection.Value = unit.Affection;
+            _unitName.text = unit.LocalizedName;
+            _level.Value = data.Level;
         }
     }
 }
