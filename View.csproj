@@ -124,7 +124,6 @@
     <Compile Include="Assets\Sources\View\Combat\UI\Nameplates\Nameplate.cs" />
     <Compile Include="Assets\Sources\View\Lobby\Utils\SpriteProvider.cs" />
     <Compile Include="Assets\Sources\View\Combat\UI\ActionBar\SpellCard.cs" />
-    <Compile Include="Assets\Sources\View\Combat\UI\ActionBar\SpellSlot\SpellSlot.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\View\View.asmdef" />

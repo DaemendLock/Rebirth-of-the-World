@@ -126,9 +126,6 @@
     <Compile Include="Assets\Sources\Core\Combat\Abilities\Spells\SpellData.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Auras\AuraEffects\Immunity.cs" />
     <Compile Include="Assets\Sources\Core\Combat\Abilities\SpellEffects\GiveResource.cs" />
-    <Compile Include="Assets\Sources\Core\Lobby\Accounts\AccountsData.cs" />
-    <Compile Include="Assets\Sources\Core\Lobby\Characters\CharacterState.cs" />
-    <Compile Include="Assets\Sources\Core\Lobby\Accounts\Account.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Core\Core.asmdef" />
