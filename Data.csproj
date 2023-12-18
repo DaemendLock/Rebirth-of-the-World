@@ -61,30 +61,34 @@
     <Compile Include="Assets\Sources\Data\DataMapper\DataMap.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\DataMapper.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\PartyIconProvider.cs" />
-    <Compile Include="Assets\Sources\Data\RuntimeData\IgnoredUsers.cs" />
     <Compile Include="Assets\Sources\Data\Spells\SpellDataLoader.cs" />
-    <Compile Include="Assets\Sources\Data\Libraries\ModelLibrary.cs" />
     <Compile Include="Assets\Sources\Data\Localization\Localization.cs" />
-    <Compile Include="Assets\Sources\Data\Sprites\SpriteLoader.cs" />
+    <Compile Include="Assets\Sources\Data\Characters\CharacterStats.cs" />
+    <Compile Include="Assets\Sources\Data\Characters\CastResourceData.cs" />
     <Compile Include="Assets\Sources\Data\Utils\ThrowHelper\ThrowHelper.cs" />
     <Compile Include="Assets\Sources\Data\Utils\ThrowHelper\Exceptions\FileLoadedException.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\DynamicUIRoot.cs" />
+    <Compile Include="Assets\Sources\Data\Items\Weapon.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\MappedDataLoader.cs" />
+    <Compile Include="Assets\Sources\Data\Characters\CharacterState.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\TwinDataMap.cs" />
+    <Compile Include="Assets\Sources\Data\Characters\ViewSet.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\DataLoader.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\PartyFrameProvider.cs" />
-    <Compile Include="Assets\Sources\Data\Libraries\SpriteLibrary.cs" />
     <Compile Include="Assets\Sources\Data\Utils\File.cs" />
     <Compile Include="Assets\Sources\Data\Libraries\GenericLibrary.cs" />
-    <Compile Include="Assets\Sources\Data\Items\ItemDataLoader.cs" />
-    <Compile Include="Assets\Sources\Data\Models\Model.cs" />
+    <Compile Include="Assets\Sources\Data\Utils\Loadable.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\ActionBarProvider.cs" />
-    <Compile Include="Assets\Sources\Data\Items\ItemDataMap.cs" />
+    <Compile Include="Assets\Sources\Data\Sounds\SoundPack.cs" />
     <Compile Include="Assets\Sources\Data\Utils\FileReader.cs" />
+    <Compile Include="Assets\Sources\Data\Characters\Character.cs" />
     <Compile Include="Assets\Sources\Data\Characters\CharacterRole.cs" />
+    <Compile Include="Assets\Sources\Data\Items\Gear.cs" />
     <Compile Include="Assets\Sources\Data\Characters\ProgressValue.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\MappedData.cs" />
+    <Compile Include="Assets\Sources\Data\Items\Item.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\Format\ActionBarFormat.cs" />
+    <Compile Include="Assets\Sources\Data\Entities\Npc.cs" />
     <Compile Include="Assets\Sources\Data\Utils\ThrowHelper\Exceptions\FileNotLoadedException.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -215,10 +219,6 @@
       <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.ScreenCaptureModule">
-      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.ScreenCaptureModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="UnityEngine.SharedInternalsModule">
       <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.SharedInternalsModule.dll</HintPath>
       <Private>False</Private>
@@ -267,10 +267,6 @@
       <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.TextRenderingModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.TilemapModule">
-      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.TilemapModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="UnityEngine.UIModule">
       <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.UIModule.dll</HintPath>
       <Private>False</Private>
@@ -289,10 +285,6 @@
     </Reference>
     <Reference Include="UnityEngine.UmbraModule">
       <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.UmbraModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.UnityAnalyticsModule">
-      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityAnalyticsModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UnityAnalyticsCommonModule">
@@ -339,20 +331,8 @@
       <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.VRModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.VehiclesModule">
-      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.VehiclesModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.VideoModule">
-      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.VideoModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="UnityEngine.VirtualTexturingModule">
       <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.VirtualTexturingModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.WindModule">
-      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.WindModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.XRModule">
