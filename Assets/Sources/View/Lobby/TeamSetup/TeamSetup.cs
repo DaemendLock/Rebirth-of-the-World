@@ -3,7 +3,6 @@ using Data.Characters;
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Utils.DataTypes;
 using View.Lobby.General;
 using View.Lobby.TeamSetup.Widgets;
 using View.Lobby.Utils;

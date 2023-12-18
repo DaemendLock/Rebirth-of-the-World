@@ -3,8 +3,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using Utils.DataStructure;
-using Utils.DataTypes;
 using View.Lobby.CharacterSheet;
 
 namespace View.Lobby.TeamSetup.Widgets
