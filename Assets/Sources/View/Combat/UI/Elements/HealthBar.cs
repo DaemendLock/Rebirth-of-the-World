@@ -3,7 +3,7 @@ using Core.Combat.Units;
 using UnityEngine;
 using View.Combat.UI.Elements;
 
-namespace View.Combat.UI.Nameplates.Elemets
+namespace View.Combat.UI.Elemets
 {
     public class HealthBar : MonoBehaviour, UnitAssignable
     {
@@ -11,6 +11,16 @@ namespace View.Combat.UI.Nameplates.Elemets
         [SerializeField] private Bar _absorption;
 
         private Unit _unit;
+
+        private void Start()
+        {
+            gameObject.SetActive(false);
+        }
+
+        public Color Color {
+            get =>_health.Color;
+            set => _health.Color = value;
+        }
 
         private void Update()
         {
@@ -27,12 +37,19 @@ namespace View.Combat.UI.Nameplates.Elemets
 
         public void AssignTo(Unit unit)
         {
-            _unit = unit;
-        }
+            if(unit== null)
+            {
+                gameObject.SetActive(false);
+                _unit = null;
+                return;
+            }
 
-        public void SetColor(Color color)
-        {
-            _health.Color = color;
+            if(_unit == null)
+            {
+                gameObject.SetActive(true);
+            }
+
+            _unit = unit;
         }
     }
 }

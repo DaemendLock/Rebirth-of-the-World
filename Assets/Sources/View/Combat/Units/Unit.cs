@@ -1,5 +1,6 @@
 ﻿using Core.Combat.Abilities;
 using Data.Characters;
+using Data.Entities;
 using System.Collections.Generic;
 using UnityEngine;
 using Utils.DataStructure;
@@ -16,7 +17,7 @@ namespace View.Combat.Units
         private int _id;
         private Sprite[] _spellIcons;
 
-        [SerializeField] private Animator _animator;
+        private Animator _animator;
 
         private void Update()
         {
@@ -46,12 +47,14 @@ namespace View.Combat.Units
             {
                 return;
             }
+             
+            Character character = Character.Get(data.CharacterId);
 
             _assignedUnit = Core.Combat.Engine.Combat.GetUnit(id);
             _id = id;
-            _spellIcons = Character.Get(data.CharacterId).GetSpellIcons(data.CharacterViewSet);
+            _spellIcons = character.GetSpellIcons();
 
-            UseModel(Character.Get(data.CharacterId).GetModel(data.CharacterViewSet));
+            UseModel(character.GetModel());
             //UseSpellIcons(data.SpellIcons);
 
             _units[id] = this;
@@ -63,9 +66,11 @@ namespace View.Combat.Units
             return _units.GetValueOrDefault(id, null);
         }
 
-        private void UseModel(GameObject model)
+        private void UseModel(NpcModel model)
         {
-            _animator = Instantiate(model, transform).GetComponent<Animator>();
+            model = Instantiate(model, transform);
+
+            _animator = model.GetComponent<Animator>();
         }
 
         public Sprite GetAbilityIcon(SpellSlot slot) => _spellIcons[(int) slot];

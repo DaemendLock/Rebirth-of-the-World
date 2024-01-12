@@ -1,4 +1,5 @@
 ﻿using Core.Lobby.Accounts;
+using Data.Items;
 using System.Collections.Generic;
 using UnityEngine;
 using Utils.DataTypes;
@@ -19,7 +20,7 @@ namespace View.Lobby.Inventory
             foreach (KeyValuePair<ItemId, int> item in account._inventory)
             {
                 ItemWidget widget = Instantiate(_itemPrefab, _itemsContainer.transform);
-                widget.ShowItem(item.Key);
+                widget.ShowItem(Item.Get(item.Key));
             }
         }
     }

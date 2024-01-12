@@ -59,8 +59,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Sources\Input\Combat\CancelInputHandler.cs" />
+    <Compile Include="Assets\Sources\Input\Lobby\StartScenarioButton.cs" />
     <Compile Include="Assets\Sources\Input\CombatInput.cs" />
     <Compile Include="Assets\Sources\Input\Combat\CastInputHandler.cs" />
+    <Compile Include="Assets\Sources\Input\Lobby\OpenScenarioButton.cs" />
     <Compile Include="Assets\Sources\Input\Combat\TargetSellectionHandler.cs" />
     <Compile Include="Assets\Sources\Input\Combat\MovementInputHandler.cs" />
   </ItemGroup>
@@ -893,6 +895,10 @@
     <ProjectReference Include="Core.csproj">
       <Project>{21ADB8CB-C5DC-2033-2022-125F682C28E8}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="View.csproj">
+      <Project>{80574631-8376-59B8-BA26-FA6C7DFD8250}</Project>
+      <Name>View</Name>
     </ProjectReference>
     <ProjectReference Include="Networking.csproj">
       <Project>{3082574D-E4B3-DEC2-D6DC-19377C421C11}</Project>

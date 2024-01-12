@@ -104,6 +104,7 @@
     <Compile Include="Assets\Sources\View\Combat\UI\Elements\SelectionFrame.cs" />
     <Compile Include="Assets\Sources\View\Lobby\MainMenu\Taskboard.cs" />
     <Compile Include="Assets\Sources\View\Combat\UI\Elements\CastBar.cs" />
+    <Compile Include="Assets\Sources\View\General\Loader.cs" />
     <Compile Include="Assets\Sources\View\Lobby\Gallery\Gallery.cs" />
     <Compile Include="Assets\Sources\View\Lobby\General\Party\PartyMemberWidget.cs" />
     <Compile Include="Assets\Sources\View\Lobby\TeamSetup\TeamSetup.cs" />
@@ -124,6 +125,9 @@
     <Compile Include="Assets\Sources\View\Combat\UI\Nameplates\Nameplate.cs" />
     <Compile Include="Assets\Sources\View\Lobby\Utils\SpriteProvider.cs" />
     <Compile Include="Assets\Sources\View\Combat\UI\ActionBar\SpellCard.cs" />
+    <Compile Include="Assets\Sources\View\Combat\UI\Panels\UnitPanel.cs" />
+    <Compile Include="Assets\Sources\View\Combat\UI\Panels\TargetPanel.cs" />
+    <Compile Include="Assets\Sources\View\Combat\UI\Elements\FillDirection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\View\View.asmdef" />

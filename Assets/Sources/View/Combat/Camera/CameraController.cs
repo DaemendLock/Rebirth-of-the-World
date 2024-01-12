@@ -1,4 +1,5 @@
-﻿using Core.Combat.Units;
+﻿using Core.Combat.Interfaces;
+using Core.Combat.Units;
 using System;
 using System.Runtime.CompilerServices;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine;
 namespace View.Combat.Camera
 {
     [RequireComponent(typeof(UnityEngine.Camera))]
-    public class CameraController : MonoBehaviour
+    public class CameraController : MonoBehaviour, UnitAssignable
     {
         [SerializeField] private float _cameraSensativity;
         [SerializeField] private float _cameraDistance;
@@ -47,7 +48,7 @@ namespace View.Combat.Camera
             transform.position = position - transform.forward * _cameraDistance + _cameraHeight * Vector3.up;
         }
 
-        public void FollowTarget(Unit target)
+        public void AssignTo(Unit target)
         {
             _followTarget = target;
         }

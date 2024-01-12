@@ -45,6 +45,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 13504ac3eb2d6d5469e7e08d08c4d1a7, type: 2}
   - {fileID: 11400000, guid: f332dcc50fa16934f88163e9c58472e1, type: 2}
   - {fileID: 11400000, guid: 168eff9b7d348fd46b1ff9f9ccf3a419, type: 2}
+  - {fileID: 11400000, guid: eba088dbc2513eb468506ad25db66059, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -88,6 +89,7 @@ MonoBehaviour:
     - default
     - character
     - items
+    - npc
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: f375fbc7a004f0e468d4cb70aa422ce6, type: 2}

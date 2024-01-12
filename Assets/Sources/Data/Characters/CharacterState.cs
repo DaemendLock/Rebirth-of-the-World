@@ -54,6 +54,16 @@ namespace Data.Characters
             return new SpellId[0];
         }
 
+        public Item GetGearInSlot(int slot)
+        {
+            if(slot < 0 || slot >= Gear.Length)
+            {
+                return null;
+            }
+
+            return Item.Get(Gear[slot]);
+        }
+
         public static CharacterState Parse(byte[] data)
         {
             int characterId;

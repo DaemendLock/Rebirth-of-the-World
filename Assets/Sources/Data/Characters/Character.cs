@@ -4,6 +4,7 @@ using Data.Items;
 using Data.Utils;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Animations;
 using UnityEngine;
 using Utils.DataStructure;
 using Utils.DataTypes;
@@ -30,13 +31,15 @@ namespace Data.Characters
 
         public CharacterRole GetCharacterRole(int activeSpec) => _roles[activeSpec];
 
-        public Sprite GetCharacterCard(int activeViewSet) => _npc.GetCharacterCard(activeViewSet);
+        public Sprite GetCharacterCard() => _npc.GetCharacterCard();
 
         public StatsTable GetStatsTable(int level) => _npc.GetStatsTable(level);
 
-        public GameObject GetModel(int activeViewSet) => _npc.GetModel(activeViewSet);
+        public NpcModel GetModel() => _npc.GetModel();
 
-        public Sprite[] GetSpellIcons(int activeViewSet) => _npc.GetSpellIcons(activeViewSet);
+        public Sprite[] GetSpellIcons() => _npc.GetSpellIcons();
+
+        public AnimatorController GetAnimatorController() => _npc.GetAnimatorController();
 
         public void OnLoad()
         {
@@ -48,7 +51,7 @@ namespace Data.Characters
             _characters[_id] = this;
         }
 
-        public UnitCreationData GetUnitCreationData(int index, byte team, CharacterState state) => _npc.GetUnitCreationData(index, team, state);
+        public UnitCreationData GetUnitCreationData(int index, byte team, CharacterState state, byte contolGroup) => _npc.GetUnitCreationData(index, team, state, contolGroup);
 
         public static Character Get(int id)
         {

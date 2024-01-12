@@ -53,7 +53,7 @@ namespace Adapters.Lobby
 
         private static void StartCombat(byte[] data)
         {
-            StartCombatData cdata = StartCombatData.Parse(data, 1);
+            StartCombatCommand cdata = StartCombatCommand.Parse(data, 1);
 
             SceneLoader.Combat.Load();
         }

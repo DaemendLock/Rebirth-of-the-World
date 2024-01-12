@@ -34,19 +34,19 @@ namespace View.Lobby.General
             //TODO: Hide tool tip
         }
 
-        public void ShowItem(ItemId id)
+        public void ShowItem(Item item)
         {
-            _item = Item.Get(id);
+            _item = item;
 
-            if (_item != null)
+            if (_item == null)
             {
-                _icon.sprite = _item.Icon;
-                _icon.color = Color.white;
+                _icon.sprite = null;
+                _icon.color = new(0, 0, 0, 0);
                 return;
             }
 
-            _icon.sprite = null;
-            _icon.color = new(0, 0, 0, 0);
+            _icon.sprite = _item.Icon;
+            _icon.color = Color.white;
         }
     }
 }

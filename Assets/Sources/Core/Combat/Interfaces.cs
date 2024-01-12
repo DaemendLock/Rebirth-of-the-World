@@ -1,7 +1,6 @@
 ﻿using Core.Combat.Abilities;
 using Core.Combat.Auras;
 using Core.Combat.Units;
-using Core.Combat.Utils;
 using Core.Combat.Utils.HealthChangeProcessing;
 using Utils.DataStructure;
 using Utils.DataTypes;
@@ -11,19 +10,6 @@ namespace Core.Combat.Interfaces
     public interface UnitAssignable
     {
         public void AssignTo(Unit unit);
-    }
-
-    public interface AbilityOwner
-    {
-        /// <summary>
-        /// Create new <see cref="Ability"/> based on given <paramref name="spell"/>.
-        /// </summary>
-        /// <returns>True when added new ability;<br/>False when spell exists.</returns>
-        bool HasAbility(Spell spell);
-
-        Ability GetAbility(SpellSlot slot);
-
-        public CommandResult CastAbility(CastEventData data);
     }
 
     public interface AuraOwner

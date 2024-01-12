@@ -45,6 +45,7 @@ namespace Data.Items
             }
 
             _items[(ItemId) _id] = this;
+            Debug.Log(_id);
         }
 
         public static Item Get(ItemId id)

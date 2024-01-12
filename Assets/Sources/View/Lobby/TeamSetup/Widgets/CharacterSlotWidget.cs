@@ -24,7 +24,7 @@ namespace View.Lobby.TeamSetup.Widgets
             _character = character;
             _data = data;
 
-            _image.sprite = character.GetCharacterCard(data.ViewSet);
+            _image.sprite = character.GetCharacterCard();
             _name.text = character.LocalizedName;
         }
 

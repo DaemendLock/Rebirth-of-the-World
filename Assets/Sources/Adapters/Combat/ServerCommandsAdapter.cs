@@ -1,4 +1,5 @@
 ﻿using Core.Combat.Abilities;
+using Utils.DataStructure;
 using Utils.DataTypes;
 using View.Combat.Units;
 
@@ -8,72 +9,74 @@ namespace Adapters.Combat
     {
         public static void HandleCommand(byte[] data)
         {
-            switch (data[0])
+            ByteReader reader = new ByteReader(data);
+
+            switch ((ServerCommand) reader.ReadByte())
             {
-                case (byte) ServerCommand.Cast:
-                    HandleCastRequest(data);
+                case ServerCommand.Cast:
+                    HandleCastRequest(reader);
                     return;
 
-                case (byte) ServerCommand.Move:
-                    HandleMoveRequest(data);
+                case ServerCommand.Move:
+                    HandleMoveRequest(reader);
                     return;
 
-                case (byte) ServerCommand.Target:
-                    HandleTargetRequest(data);
+                case ServerCommand.Target:
+                    HandleTargetRequest(reader);
                     return;
 
-                case (byte) ServerCommand.Stop:
-                    HandleCandelRequest(data);
+                case ServerCommand.Stop:
+                    HandleCandelRequest(reader);
                     return;
 
-                case (byte) ServerCommand.CreateUnit:
-                    HandleUnitCreationRequest(data);
+                case ServerCommand.CreateUnit:
+                    HandleUnitCreationRequest(reader);
                     return;
 
-                case (byte) ServerCommand.StartCombat:
-                    HandleStartCombatRequest(data);
+                case ServerCommand.StartCombat:
+                    HandleStartCombatRequest(reader);
                     return;
             }
         }
 
-        private static void HandleStartCombatRequest(byte[] data)
+        private static void HandleStartCombatRequest(ByteReader source)
         {
             Core.Combat.Engine.Combat.Start();
         }
 
-        private static void HandleMoveRequest(byte[] data)
+        private static void HandleMoveRequest(ByteReader source)
         {
-            MoveData mdata = MoveData.Parse(data, 1);
+            MoveData mdata = MoveData.Parse(source);
 
             Core.Combat.Engine.Combat.MoveUnit(mdata.UnitId, mdata.Position, mdata.MoveDirection, mdata.Rotation);
         }
 
-        private static void HandleCastRequest(byte[] data)
+        private static void HandleCastRequest(ByteReader source)
         {
-            CastData action = CastData.Parse(data, 1);
+            CastData action = CastData.Parse(source);
 
             Core.Combat.Engine.Combat.CastAbility(action.UnitId, action.TargetId, (SpellSlot) action.SpellSlot);
         }
 
-        private static void HandleTargetRequest(byte[] data)
+        private static void HandleTargetRequest(ByteReader source)
         {
-            TargetData action = TargetData.Parse(data, 1);
+            TargetData action = TargetData.Parse(source);
             Core.Combat.Engine.Combat.StartAttack(action.Attacker, action.Target);
         }
 
-        private static void HandleCandelRequest(byte[] data)
+        private static void HandleCandelRequest(ByteReader source)
         {
-            StopData action = StopData.Parse(data, 1);
+            StopData action = StopData.Parse(source);
             Core.Combat.Engine.Combat.StopAllActions(action.Unit);
         }
 
-        private static void HandleUnitCreationRequest(byte[] data)
+        private static void HandleUnitCreationRequest(ByteReader source)
         {
-            UnitCreationData udata = UnitCreationData.Parse(data, 1);
+            UnitCreationData udata = UnitCreationData.Parse(source);
 
             Core.Combat.Engine.Combat.CreateUnit(udata.Id, udata.Model);
             UnitFactory.CreateUnit(udata);
-            SelectionInfo.RegisterControllUnit(udata.Id, udata.ControlGroup);
+            SelectionInfo.RegisterControlUnit(udata.Id, udata.ControlGroup);
         }
     }
 }

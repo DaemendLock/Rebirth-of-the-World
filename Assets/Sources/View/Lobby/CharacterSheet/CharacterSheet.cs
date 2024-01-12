@@ -62,7 +62,7 @@ namespace View.Lobby.CharacterSheet
             _description.ShowUnit(unit, data);
 
             _affection.Value = data.Affection;
-            _spells.ShowSpells(unit.GetSpellIcons(data.ViewSet));
+            _spells.ShowSpells(unit.GetSpellIcons());
             _stats.ShowStats(unit.GetStatsTable(data.Level.Level), data.GetGearStats());
         }
 

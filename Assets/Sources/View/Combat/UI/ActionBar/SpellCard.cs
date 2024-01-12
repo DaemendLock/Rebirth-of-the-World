@@ -22,7 +22,6 @@ namespace View.Combat.UI.ActionBar
             }
 
             _ability = ability;
-            //_abilityIcon.sprite = SpriteLibrary.GetSpellSprite(ability.Spell.Id);
             _cooldown.sprite = _abilityIcon.sprite ?? _background.sprite;
             _abilityIcon.gameObject.SetActive(true);
             _abilityIcon.enabled = true;
@@ -49,6 +48,7 @@ namespace View.Combat.UI.ActionBar
         public void SetIcon(Sprite icon)
         {
             _abilityIcon.sprite = icon;
+            _cooldown.sprite = icon;
         }
     }
 }

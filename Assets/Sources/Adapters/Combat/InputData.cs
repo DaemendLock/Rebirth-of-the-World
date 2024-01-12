@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Utils.DataStructure;
 using Utils.DataTypes;
 
 namespace Adapters.Combat
@@ -46,12 +47,12 @@ namespace Adapters.Combat
             return result;
         }
 
-        public static MoveData Parse(byte[] data, int start)
+        public static MoveData Parse(ByteReader source)
         {
-            int id = BitConverter.ToInt32(data, start);
-            Vector3 location = Vector3.Parse(data, start + sizeof(int));
-            Vector3 moveDirection = Vector3.Parse(data, start + sizeof(int) + sizeof(float) * 3);
-            float rotation = BitConverter.ToSingle(data, start + sizeof(int) + sizeof(float) * 6);
+            int id = source.ReadInt();
+            Vector3 location = Vector3.Parse(source);
+            Vector3 moveDirection = Vector3.Parse(source);
+            float rotation = source.ReadFloat();
 
             return new(id, location, moveDirection, rotation);
         }
@@ -70,10 +71,10 @@ namespace Adapters.Combat
             Target = target;
         }
 
-        public static TargetData Parse(byte[] data, int start)
+        public static TargetData Parse(ByteReader reader)
         {
-            return new(BitConverter.ToInt32(data, start),
-                BitConverter.ToInt32(data, start + sizeof(int)));
+            return new(reader.ReadInt(),
+                reader.ReadInt());
         }
 
         public byte[] GetBytes()
@@ -109,11 +110,10 @@ namespace Adapters.Combat
             SpellSlot = spellSlot;
         }
 
-        public static CastData Parse(byte[] data, int start)
+        public static CastData Parse(ByteReader source)
         {
-            return new(BitConverter.ToInt32(data, start),
-                BitConverter.ToInt32(data, start + sizeof(int)),
-                data[start + sizeof(int) * 2]);
+            return new(source.ReadInt(),
+                source.ReadInt(), source.ReadByte());
         }
 
         public byte[] GetBytes()
@@ -145,9 +145,9 @@ namespace Adapters.Combat
             Unit = unit;
         }
 
-        public static StopData Parse(byte[] data, int start)
+        public static StopData Parse(ByteReader source)
         {
-            return new(BitConverter.ToInt32(data, start));
+            return new (source.ReadInt());
         }
 
         public byte[] GetBytes()

@@ -21,8 +21,6 @@ namespace Core.Combat.Abilities.SpellScripts
 
             List<Unit> targets = Engine.Combat.FindUnitsInRadius(caster.Position, effectiveCastRange, team, Flags.HasFlag(SpellFlags.TARGET_DEAD));
 
-            Debug.Log(targets.Count);
-
             foreach (Unit target in targets)
             {
                 for (int i = 0; i < EffectsCount; i++)

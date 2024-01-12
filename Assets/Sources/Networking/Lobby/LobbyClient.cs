@@ -1,6 +1,6 @@
 ﻿using System.Net.Sockets;
 
-namespace Networking.Lobby
+namespace Networking.Lobbys
 {
     public class LobbyClient
     {

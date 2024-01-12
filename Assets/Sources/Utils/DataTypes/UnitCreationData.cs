@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using UnityEngine;
+﻿using System.Runtime.CompilerServices;
 using Utils.DataStructure;
 
 namespace Utils.DataTypes
@@ -11,7 +9,7 @@ namespace Utils.DataTypes
         public readonly ModelData Model;
         public readonly ViewData Veiw;
 
-        public readonly byte ControlGroup = 0;
+        public readonly byte ControlGroup;
         //TODO: Model
         //TODO: Gear 
         public readonly struct ModelData
@@ -79,32 +77,33 @@ namespace Utils.DataTypes
 #else
         private
 #endif
-        UnitCreationData(int id, ModelData modelData, ViewData veiwData)
+        UnitCreationData(int id, ModelData modelData, ViewData veiwData, byte contolGroup)
         {
             Id = id;
             Model = modelData;
             Veiw = veiwData;
+            ControlGroup = contolGroup;
         }
 
-        public static UnitCreationData Parse(byte[] data, int start)
+        public static UnitCreationData Parse(ByteReader source)
         {
-            ModelData modelData = ParseModelData(data, ref start);
-            Debug.Log(start);
-            ViewData viewData = ParseViewData(data, ref start);
-            int id = BitConverter.ToInt32(data, start);
-            start += sizeof(int);
+            ModelData modelData = ParseModelData(source);
 
-            return new(id, modelData, viewData);
+            ViewData viewData = ParseViewData(source);
+            byte group = source.ReadByte();
+            int id = source.ReadInt();
+
+            return new(id, modelData, viewData, group);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static ModelData ParseModelData(byte[] source, ref int index)
+        private static ModelData ParseModelData(ByteReader source)
         {
-            SpellId[] spells = ParseSpells(source, ref index);
-            StatsTable stats = ParseStatsTable(source, ref index);
-            CastResourceData resources = ParseCastResources(source, ref index);
-            PositionData position = ParsePosition(source, ref index);
-            byte team = source[index++];
+            SpellId[] spells = ParseSpells(source);
+            StatsTable stats = ParseStatsTable(source);
+            CastResourceData resources = ParseCastResources(source);
+            PositionData position = ParsePosition(source);
+            byte team = source.ReadByte();
 
             ModelData result = new(spells, stats, position, resources, team);
 
@@ -112,74 +111,64 @@ namespace Utils.DataTypes
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static ViewData ParseViewData(byte[] source, ref int index)
+        private static ViewData ParseViewData(ByteReader source)
         {
-            int characterId = BitConverter.ToInt32(source, index);
-            byte viewSet = source[index + sizeof(int)];
-            index += sizeof(int) + 1;
+            int characterId = source.ReadInt();
+            byte viewSet = source.ReadByte();
 
             return new(characterId, viewSet);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static SpellId[] ParseSpells(byte[] source, ref int index)
+        private static SpellId[] ParseSpells(ByteReader source)
         {
-            int spellCount = source[index++];
+            int spellCount = source.ReadByte();
 
             SpellId[] result = new SpellId[spellCount];
 
             for (int i = 0; i < spellCount; i++)
             {
-                result[i] = (SpellId) BitConverter.ToInt32(source, index);
-                index += sizeof(int);
+                result[i] = (SpellId) source.ReadInt();
             }
 
             return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static StatsTable ParseStatsTable(byte[] source, ref int index)
+        private static StatsTable ParseStatsTable(ByteReader source)
         {
             StatsTable result = new StatsTable();
 
             for (int i = 0; i < StatsTable.STATS_COUNT; i++)
             {
-                float value = BitConverter.ToSingle(source, index);
-                float percent = BitConverter.ToSingle(source, index + sizeof(float));
+                float value = source.ReadFloat();
+                float percent = source.ReadFloat();
 
                 result[i] = new PercentModifiedValue(value, percent);
-                index += sizeof(float) * 2;
             }
 
             return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static CastResourceData ParseCastResources(byte[] source, ref int index)
+        private static CastResourceData ParseCastResources(ByteReader source)
         {
-            float leftResource = BitConverter.ToSingle(source, index);
-            float rightResource = BitConverter.ToSingle(source, index + sizeof(float));
-            index += sizeof(float) * 2;
+            float leftResource = source.ReadFloat();
+            float rightResource = source.ReadFloat();
 
-            ushort leftType = BitConverter.ToUInt16(source, index);
-            ushort rightType = BitConverter.ToUInt16(source, index + sizeof(ushort));
-            index += sizeof(ushort) * 2;
+            ushort leftType = source.ReadUShort();
+            ushort rightType = source.ReadUShort();
 
             return new(leftResource, rightResource, (ResourceType) leftType, (ResourceType) rightType);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static PositionData ParsePosition(byte[] source, ref int index)
+        private static PositionData ParsePosition(ByteReader source)
         {
-            float positionX = BitConverter.ToSingle(source, index);
-            float positionY = BitConverter.ToSingle(source, index += sizeof(float));
-            float positionZ = BitConverter.ToSingle(source, index += sizeof(float));
+            Vector3 position = Vector3.Parse(source);
+            float rotation = source.ReadFloat();
 
-            float rotation = BitConverter.ToSingle(source, index += sizeof(float));
-
-            index += sizeof(float);
-
-            return new(new(positionX, positionY, positionZ), rotation);
+            return new(position, rotation);
         }
     }
 }

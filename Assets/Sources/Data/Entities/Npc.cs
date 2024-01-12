@@ -1,7 +1,7 @@
 ﻿using Data.Characters;
-using System.Xml.Linq;
+using Data.Entities.Stats;
+using UnityEditor.Animations;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 using Utils.DataStructure;
 using Utils.DataTypes;
 
@@ -12,19 +12,22 @@ namespace Data.Entities
     {
         [SerializeField] private CharacterStats _stats;
         [SerializeField] private CastResourceData _castResourceData;
-        [SerializeField] private ViewSet[] _veiwSets;
+
+        [SerializeField] private ViewSet _defaultViewSet;
 
         public UnitCreationData.CastResourceData CastResources => new UnitCreationData.CastResourceData(_castResourceData.Left.Resource.MaxValue, _castResourceData.Right.Resource.MaxValue, _castResourceData.Left.Type, _castResourceData.Right.Type);
 
-        public Sprite GetCharacterCard(int activeViewSet) => _veiwSets[activeViewSet].CharacterCard;
+        public Sprite GetCharacterCard() => _defaultViewSet.CharacterCard;
 
         public StatsTable GetStatsTable(int level) => _stats.GetStatsForLevel(level);
 
-        public GameObject GetModel(int activeViewSet) => _veiwSets[activeViewSet].Model;
+        public NpcModel GetModel() => _defaultViewSet.Model;
 
-        public Sprite[] GetSpellIcons(int activeViewSet) => _veiwSets[activeViewSet].GetSpellIcons();
+        public Sprite[] GetSpellIcons() => _defaultViewSet.GetSpellIcons();
 
-        public UnitCreationData GetUnitCreationData(int combatIndex, int team, CharacterState data)
+        public AnimatorController GetAnimatorController() => _defaultViewSet.Animations.Controller;
+
+        public UnitCreationData GetUnitCreationData(int combatIndex, int team, CharacterState data, byte contolGroup)
         {
             StatsTable stats = GetStatsTable(data.Level.Level) + data.GetGearStats();
 
@@ -36,7 +39,7 @@ namespace Data.Entities
             UnitCreationData.ModelData mdata = new UnitCreationData.ModelData(spellIds, stats, new UnitCreationData.PositionData(), CastResources,
                 (byte) (team));
             UnitCreationData.ViewData vdata = new UnitCreationData.ViewData(data.CharacterId, data.ViewSet);
-            UnitCreationData udata = new UnitCreationData(combatIndex, mdata, vdata);
+            UnitCreationData udata = new UnitCreationData(combatIndex, mdata, vdata, contolGroup);
 
             return udata;
         }

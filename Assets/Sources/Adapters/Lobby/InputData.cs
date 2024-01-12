@@ -3,6 +3,7 @@ using Data.Characters;
 using System;
 using System.IO;
 using System.Text;
+using Utils.DataTypes;
 
 namespace Adapters.Lobby
 {
@@ -88,14 +89,23 @@ namespace Adapters.Lobby
         }
     }
 
-    public readonly struct StartCombatData
+    public readonly struct StartCombatCommand
     {
         // controlGroup
-        // CreateUnitData[] units
+        private readonly UnitCreationData[] _units;
 
-        internal static StartCombatData Parse(byte[] data, int start)
+        public StartCombatCommand(UnitCreationData[] units)
         {
-            return new StartCombatData();
+            _units = units;
+        }
+
+        internal static StartCombatCommand Parse(byte[] data, int start)
+        {
+            UnitCreationData[] units = new UnitCreationData[data[start]];
+            
+
+
+            return new StartCombatCommand();
         }
     }
 }

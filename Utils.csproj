@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Assets\Sources\Utils\Logger\Logger.cs" />
     <Compile Include="Assets\Sources\Utils\Syncronization\NetworkSyncronizer.cs" />
+    <Compile Include="Assets\Sources\Utils\DataStructure\ByteReader.cs" />
     <Compile Include="Assets\Sources\Utils\SpellIdCalculator.cs" />
     <Compile Include="Assets\Sources\Utils\ThrowHepler\Exceptions\FileNotLoadedException.cs" />
     <Compile Include="Assets\Sources\Utils\DataTypes\Vector3.cs" />

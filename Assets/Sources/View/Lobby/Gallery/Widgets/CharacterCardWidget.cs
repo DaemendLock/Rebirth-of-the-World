@@ -21,7 +21,7 @@ namespace View.Lobby.Gallery.Widgets
             _character = character;
 
             _characterName.text = _character.LocalizedName;
-            _characterImage.sprite = _character.GetCharacterCard(data.ViewSet);
+            _characterImage.sprite = _character.GetCharacterCard();
             _data = data;
         }
 

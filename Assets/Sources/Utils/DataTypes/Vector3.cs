@@ -5,6 +5,7 @@
 
 using System;
 using System.Runtime.CompilerServices;
+using Utils.DataStructure;
 
 namespace Utils.DataTypes
 {
@@ -752,11 +753,11 @@ namespace Utils.DataTypes
             return $"{x}, {y}, {z}";
         }
 
-        public static Vector3 Parse(byte[] source, int start)
+        public static Vector3 Parse(ByteReader source)
         {
-            float xComponent = BitConverter.ToSingle(source, start);
-            float yComponent = BitConverter.ToSingle(source, start + sizeof(float));
-            float zComponent = BitConverter.ToSingle(source, start + sizeof(float) * 2);
+            float xComponent = source.ReadFloat();
+            float yComponent = source.ReadFloat();
+            float zComponent = source.ReadFloat();
 
             return new Vector3(xComponent, yComponent, zComponent);
         }

@@ -1,16 +1,19 @@
 ﻿using Adapters.Combat;
+using Core.Combat.Engine;
 using Core.Lobby.Encounters;
 using Data.Characters;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using Utils.DataTypes;
 using View.Combat.Units;
+using View.General;
 using View.Lobby.TeamSetup;
 
 namespace Assets.Sources.Temp
 {
     internal class AutoStartButton : MonoBehaviour
-    { 
+    {
         private void OnEnable()
         {
             TeamSetup.Start += StartCombat;
@@ -28,28 +31,33 @@ namespace Assets.Sources.Temp
             await Loader.LoadScene(1);
             await Task.Delay(1000);
 
-            UnitCreationData[] units = new UnitCreationData[eventData.Length + encounter.EncounterUnits.Length];
+            List<UnitCreationData> units = new();
 
-            for (int i = 0; i < encounter.EncounterUnits.Length; i++)
+            for (int i = 0; i < encounter.EncounterGroups.Length; i++)
             {
-                units[i] = encounter.EncounterUnits[i].GetUnitCreationData(i);
+                foreach (Encounter.EncounterNpc unit in encounter.EncounterGroups[i].NPCs)
+                {
+                    units.Add(unit.GetUnitCreationData(units.Count, (byte) (i + encounter.PlayerCount)));
+                }
             }
+
+            int prevLen = units.Count;
 
             for (int i = 0; i < eventData.Length; i++)
             {
-                units[i + encounter.EncounterUnits.Length] = Character.Get(eventData[i].CharacterId).GetUnitCreationData(i + encounter.EncounterUnits.Length, 0, eventData[i]);
+                units.Add(Character.Get(eventData[i].CharacterId).GetUnitCreationData(i + prevLen, 0, eventData[i], 0));
             }
 
             LoadChractersToCombat(units);
         }
 
-        private void LoadChractersToCombat(UnitCreationData[] data)
+        private void LoadChractersToCombat(IEnumerable<UnitCreationData> data)
         {
             foreach (UnitCreationData udata in data)
             {
-                Core.Combat.Engine.Combat.CreateUnit(udata.Id, udata.Model);
+                Combat.CreateUnit(udata.Id, udata.Model);
                 UnitFactory.CreateUnit(udata);
-                SelectionInfo.RegisterControllUnit(udata.Id, udata.ControlGroup);
+                SelectionInfo.RegisterControlUnit(udata.Id, udata.ControlGroup);
             }
         }
     }

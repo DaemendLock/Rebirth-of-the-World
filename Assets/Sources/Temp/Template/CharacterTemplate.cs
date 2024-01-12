@@ -1,5 +1,6 @@
 ﻿using Data.Characters;
 using Data.Characters.Lobby;
+using Data.Items;
 using System;
 using UnityEngine;
 using Utils.DataTypes;
@@ -49,19 +50,34 @@ namespace Assets.Sources.Temp.Template
     [Serializable]
     internal class EquipTemplate
     {
-        [SerializeField] private int _headId = -1;
-        [SerializeField] private int _bodyId = -1;
-        [SerializeField] private int _legsId = -1;
-        [SerializeField] private int _weaponLeftId = -1;
-        [SerializeField] private int _weaponRightId = -1;
-        [SerializeField] private int _ring1Id = -1;
-        [SerializeField] private int _ring2Id = -1;
-        [SerializeField] private int _consume1Id = -1;
-        [SerializeField] private int _consume2Id = -1;
+        [SerializeField] private Head _head;
+        [SerializeField] private Body _body;
+        [SerializeField] private Legs _legs;
+        [SerializeField] private Weapon _weaponLeft;
+        [SerializeField] private Weapon _weaponRight;
+        [SerializeField] private Ring _ring1;
+        [SerializeField] private Ring _ring2;
+        [SerializeField] private Item _active1;
+        [SerializeField] private Item _active2;
 
         public ItemId[] ToItemIdArray()
         {
-            return new ItemId[] { (ItemId) _headId, (ItemId) _bodyId, (ItemId) _legsId, (ItemId) _weaponLeftId, (ItemId) _weaponRightId, (ItemId) _ring1Id, (ItemId) _ring2Id, (ItemId) _consume1Id, (ItemId) _consume2Id };
+            Item[] array = new Item[] {_head, _body, _legs, _weaponRight, _weaponLeft, _ring1, _ring2, _active1, _active2 };
+
+            ItemId[] array2 = new ItemId[array.Length];
+
+            for(int i = 0;i < array.Length;i++)
+            {
+                if (array[i] == null)
+                {
+                    array2[i] = (ItemId) (-1);
+                    continue;
+                }
+
+                array2[i] = array[i].Id;
+            }
+
+            return array2;
         }
     }
 

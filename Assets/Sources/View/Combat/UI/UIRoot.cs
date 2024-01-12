@@ -1,8 +1,8 @@
-﻿using Core.Combat.Units;
+﻿using Core.Combat.Interfaces;
+using Core.Combat.Units;
 using UnityEngine;
 using View.Combat.Camera;
-using View.Combat.UI.Elements;
-using View.Combat.UI.Nameplates.Elemets;
+using View.Combat.UI.Panels;
 
 namespace View.Combat.UI
 {
@@ -10,8 +10,8 @@ namespace View.Combat.UI
     {
         [SerializeField] private ActionBar.ActionBar _actionBar;
         [SerializeField] private ResourceBar.ResourceBar _resourceBar;
-        [SerializeField] private HealthBar _healthBar;
-        [SerializeField] private CastBar _castBar;
+        [SerializeField] private UnitPanel _unitPanel;
+        [SerializeField] private TargetPanel _targetPanel;
         [SerializeField] private CameraController _cameraController;
 
         private Unit _selection;
@@ -59,19 +59,15 @@ namespace View.Combat.UI
             }
 
             _actionBar.AssignTo(_selection);
-            _healthBar.AssignTo(_selection);
+            _unitPanel.AssignTo(_selection);
             _resourceBar.AssignTo(_selection);
-            _castBar.AssignTo(_selection);
-            _cameraController.FollowTarget(_selection);
+            _cameraController.AssignTo(_selection);
         }
         public void DisplayTarget(int id)
         {
             _target = Core.Combat.Engine.Combat.GetUnit(id);
 
-            if (_target == null)
-            {
-                return;
-            }
+            _targetPanel.AssignTo(_target);
         }
     }
 }

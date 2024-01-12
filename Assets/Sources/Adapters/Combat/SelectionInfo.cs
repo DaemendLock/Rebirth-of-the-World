@@ -66,7 +66,7 @@ namespace Adapters.Combat
             SelectionId = _units[_controlIndex].Id;
         }
 
-        public static void RegisterControllUnit(int id, byte controlGroup)
+        public static void RegisterControlUnit(int id, byte controlGroup)
         {
             _units.Add(new(id, controlGroup));
 

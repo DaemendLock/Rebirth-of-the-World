@@ -1,7 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
 using View.Combat.UI.Elements;
-using View.Combat.UI.Nameplates.Elemets;
+using View.Combat.UI.Elemets;
 using View.Combat.UI.ResourceBar;
 
 namespace View.Combat.Units
@@ -35,7 +34,6 @@ namespace View.Combat.Units
             }
 
             _healthBar.AssignTo(_valueSource);
-            //_resources.AssignTo(_valueSource);
         }
 
         public void UpdatePostiotn(UnityEngine.Camera camera)
@@ -55,11 +53,11 @@ namespace View.Combat.Units
 
             if (_valueSource.Team != selection.Team)
             {
-                _healthBar.SetColor(_enemyColor);
+                _healthBar.Color = _enemyColor;
                 return;
             }
 
-            _healthBar.SetColor(_friendlyColor);
+            _healthBar.Color = _friendlyColor;
         }
 
         public void SetTargeted(bool targeted)

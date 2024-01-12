@@ -1,5 +1,5 @@
 ﻿using Networking.General;
-using Networking.Lobby;
+using Networking.Lobbys;
 
 namespace Networking
 {

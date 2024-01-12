@@ -1,6 +1,6 @@
-﻿namespace Networking.Assets.Sources.Networking
+﻿namespace Networking
 {
-    internal class Lobby
+    public static class Lobby
     {
     }
 }
