@@ -1,3 +1,4 @@
+
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True" class="StatEditor">
     <Style src="project://database/Assets/Editor/CharacterEditor/Stat.uss?fileID=7433441132597879392&amp;guid=05f03a8b915d1ea47892b2075b22a0c3&amp;type=3#Stat" />
     <ui:Label name="StatName" style="-unity-text-align: middle-center;" />

@@ -1,0 +1,103 @@
+trackSelection = true
+fetchPreview = true
+defaultFlags = 0
+keepOpen = false
+queryFolder = "Assets"
+onBoardingDoNotAskAgain = true
+showPackageIndexes = false
+showStatusBar = false
+scopes = {
+	"last_search.DA949528" = "build  sett"
+	"OpenInspectorPreview.DA949528" = "0"
+	"currentGroup.DA949528" = "all"
+	"last_search.2138236A" = ".asmdef"
+	"OpenInspectorPreview.2138236A" = "0"
+	"currentGroup.2138236A" = "asset"
+}
+providers = {
+	adb = {
+		active = false
+		priority = 2500
+		defaultAction = null
+	}
+	asset = {
+		active = true
+		priority = 25
+		defaultAction = null
+	}
+	store = {
+		active = true
+		priority = 100
+		defaultAction = null
+	}
+	find = {
+		active = true
+		priority = 25
+		defaultAction = null
+	}
+	log = {
+		active = false
+		priority = 210
+		defaultAction = null
+	}
+	packages = {
+		active = true
+		priority = 90
+		defaultAction = null
+	}
+	performance = {
+		active = false
+		priority = 100
+		defaultAction = null
+	}
+	scene = {
+		active = true
+		priority = 50
+		defaultAction = null
+	}
+	menu = {
+		active = true
+		priority = 80
+		defaultAction = null
+	}
+	settings = {
+		active = true
+		priority = 100
+		defaultAction = null
+	}
+	help = {
+		active = true
+		priority = -1
+		defaultAction = null
+	}
+	calculator = {
+		active = true
+		priority = 10
+		defaultAction = null
+	}
+	static_methods = {
+		active = true
+		priority = 85
+		defaultAction = null
+	}
+}
+objectSelectors = {
+}
+recentSearches = [
+	"na"
+]
+searchItemFavorites = [
+	"GlobalObjectId_V1-1-56f9f1a8f61c8a2408ed99359b9cdc4e-5897886265953266890-0"
+	"GlobalObjectId_V1-1-a8c79256c5741bc49a05d214c2fa4560-5897886265953266890-0"
+	"GlobalObjectId_V1-1-dc648cff1d582ea4b9db2b08fb83e46a-5897886265953266890-0"
+	"GlobalObjectId_V1-1-152cf6227a8e30946a78eb29d62fd1b0-5897886265953266890-0"
+	"GlobalObjectId_V1-1-024af43623cd1464c97435c1f75e97b5-5897886265953266890-0"
+]
+savedSearchesSortOrder = 0
+showSavedSearchPanel = false
+expandedQueries = [
+]
+queryBuilder = false
+ignoredProperties = "id;name;classname;imagecontentshash"
+helperWidgetCurrentArea = "all"
+disabledIndexers = ""
