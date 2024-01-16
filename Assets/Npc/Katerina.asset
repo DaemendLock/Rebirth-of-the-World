@@ -15,7 +15,7 @@ MonoBehaviour:
   _stats:
     _default:
       _values:
-      - BaseValue: 5000
+      - BaseValue: 50
         Percent: 100
       - BaseValue: 50
         Percent: 100

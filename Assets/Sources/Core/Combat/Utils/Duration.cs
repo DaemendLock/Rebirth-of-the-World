@@ -36,5 +36,7 @@
         {
             return duration.Extend(-value);
         }
+
+        public static explicit operator Duration(int value) => new Duration(value);
     }
 }

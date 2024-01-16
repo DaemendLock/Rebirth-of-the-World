@@ -1,11 +1,9 @@
-using Core.Combat.Engine;
-using Core.Combat.Interfaces;
 using System.Runtime.CompilerServices;
 using Utils.DataTypes;
 
 namespace Core.Combat.Units.Components
 {
-    public class CastResources : CastResourceOwner
+    public class CastResources
     {
         public CastResources(float leftMaxValue, float rightMaxValue, ResourceType leftResourceType, ResourceType rightResourceType)
         {
@@ -71,28 +69,6 @@ namespace Core.Combat.Units.Components
         {
             Left += left;
             Right += right;
-        }
-    }
-
-    public class PositionComponent
-    {
-        public Vector3 Position { get; set; }
-
-        public Vector3 MoveDirection { get; set; }
-
-        public bool IsMoving { get; set; }
-
-        public float Rotation { get; set; }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Update(float speed)
-        {
-            if (IsMoving == false)
-            {
-                return;
-            }
-
-            Position += MoveDirection * (speed * ModelUpdate.UpdateTime / 1000);
         }
     }
 }

@@ -12,32 +12,26 @@ using Utils.DataTypes;
 
 namespace Core.Combat.Units.Components
 {
-    public class UnitState : CastResourceOwner, TeamOwner, Interfaces.AuraOwner, DynamicStatOwner, Damageable, Damager
+    public class UnitState : TeamOwner, Interfaces.AuraOwner, DynamicStatOwner, Damageable, Damager
     {
-        public delegate void HealthChanged(float currentHealth, float maxHealth);
-        public delegate void StatusApplied(Status status);
-        public delegate void Damaged(DamageEvent @event);
-
         private const float HasteEffiency = 0.075f;
         private const float CritEffiency = 0.05f;
         private const float VersalityEffiency = 0.2f;
 
-        private Resource _health;
-        private bool _alive;
-
+        private readonly AuraOwner _auras;
         private readonly CastResources _resource;
         private readonly StatsTable _stats;
-        private Team.Team _team;
-        private readonly PositionComponent _position;
 
-        private readonly AuraOwner _auras;
+        private Resource _health;
+        private bool _alive;
+        private Team.Team _team;
 
         private UnitState()
         {
             throw new InvalidOperationException();
         }
 
-        public UnitState(StatsTable baseStats, CastResources resources, Position position, Team.Team team, int id)
+        public UnitState(StatsTable baseStats, CastResources resources, Team.Team team, int id)
         {
             _auras = new AuraOwner();
             _alive = true;
@@ -48,65 +42,15 @@ namespace Core.Combat.Units.Components
             _health = new Resource((int) baseStats[UnitStat.MAX_HEALTH].CalculatedValue);
             _health.Value = _health.MaxValue;
 
-            _position = new();
-            _position.Position = position.Location;
-            _position.Rotation = position.Rotation;
-
             EntityId = id;
         }
 
         public int EntityId { get; }
 
-        public Vector3 Position
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => _position.Position;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set => _position.Position = value;
-        }
-
-        internal PositionComponent PositionComponent => _position;
-
-        public Vector3 MoveDirection
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => _position.MoveDirection;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set
-            {
-                if (value.magnitude == 0)
-                {
-                    _position.IsMoving = false;
-                    return;
-                }
-
-                _position.MoveDirection = value;
-                _position.IsMoving = true;
-            }
-        }
-
-        public float Rotation
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                return _position.Rotation;
-            }
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set
-            {
-                _position.Rotation = value;
-            }
-        }
-        
-        public bool IsMoving => _position.IsMoving;
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Update()
         {
             _auras.Update();
-            _position.Update(EvaluateStat(UnitStat.SPEED).CalculatedValue);
-
             _resource.Update(GetResourceIncrease(_resource.LeftType, ModelUpdate.UpdateTime), GetResourceIncrease(_resource.RightType, ModelUpdate.UpdateTime));
         }
 

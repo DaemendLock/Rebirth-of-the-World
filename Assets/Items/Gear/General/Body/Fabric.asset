@@ -12,21 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: Fabric
   m_EditorClassIdentifier: Data:Data.Items:Body
-  _icon: {fileID: 0}
-  _id: 0
+  _icon: {fileID: 21300000, guid: 7dec78c2d9fce9648839094b430a425a, type: 3}
+  _id: 9
   _hasSpell: 0
   _spellId: 0
   _stats:
     _values:
-    - BaseValue: 0
+    - BaseValue: 100
+      Percent: 0
+    - BaseValue: 100
+      Percent: 0
+    - BaseValue: 100
       Percent: 0
     - BaseValue: 0
       Percent: 0
-    - BaseValue: 0
-      Percent: 0
-    - BaseValue: 0
-      Percent: 0
-    - BaseValue: 0
+    - BaseValue: 100
       Percent: 0
     - BaseValue: 0
       Percent: 0

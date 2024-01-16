@@ -92,7 +92,8 @@ namespace Core.Combat.Auras
 
         public void Remove()
         {
-            Parent.RemoveStatus(Spell);
+            ClearEffects();
+            _duration = new Duration(0);
         }
 
         public void TakeDamage(DamageEvent @event)

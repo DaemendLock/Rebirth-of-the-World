@@ -2617,10 +2617,10 @@ MonoBehaviour:
       _head: {fileID: 0}
       _body: {fileID: 0}
       _legs: {fileID: 0}
-      _weaponLeft: {fileID: 11400000, guid: 6eb38b0a8bca74c419121774ac1fe799, type: 2}
+      _weaponLeft: {fileID: 11400000, guid: 29e42ae281e06a94392d1c1fe3507189, type: 2}
       _weaponRight: {fileID: 11400000, guid: 29e42ae281e06a94392d1c1fe3507189, type: 2}
-      _ring1: {fileID: 0}
-      _ring2: {fileID: 0}
+      _ring1: {fileID: 11400000, guid: cf29e642464221c4183eea0b67315b36, type: 2}
+      _ring2: {fileID: 11400000, guid: 1cf38c401818e5742ba107130c58157d, type: 2}
       _active1: {fileID: 0}
       _active2: {fileID: 0}
   - CharId: 1
@@ -2634,9 +2634,9 @@ MonoBehaviour:
       _body: {fileID: 0}
       _legs: {fileID: 0}
       _weaponLeft: {fileID: 11400000, guid: 29e42ae281e06a94392d1c1fe3507189, type: 2}
-      _weaponRight: {fileID: 11400000, guid: 6eb38b0a8bca74c419121774ac1fe799, type: 2}
-      _ring1: {fileID: 0}
-      _ring2: {fileID: 0}
+      _weaponRight: {fileID: 11400000, guid: 29e42ae281e06a94392d1c1fe3507189, type: 2}
+      _ring1: {fileID: 11400000, guid: 7e08137cc5334034196cda98b0c15619, type: 2}
+      _ring2: {fileID: 11400000, guid: a05993ca276c5924a946bbec9571ffd5, type: 2}
       _active1: {fileID: 0}
       _active2: {fileID: 0}
   Inventory:
@@ -16280,6 +16280,7 @@ GameObject:
   - component: {fileID: 1593916766}
   - component: {fileID: 1593916768}
   - component: {fileID: 1593916767}
+  - component: {fileID: 1593916769}
   m_Layer: 5
   m_Name: Ring1
   m_TagString: Untagged
@@ -16345,6 +16346,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1593916765}
   m_CullTransparentMesh: 1
+--- !u!114 &1593916769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593916765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331925fe96576e7408bc0ee730c81936, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 1593916767}
 --- !u!1 &1600828969
 GameObject:
   m_ObjectHideFlags: 0
@@ -23594,6 +23608,8 @@ MonoBehaviour:
   _legsSlot: {fileID: 604385552}
   _leftHandSlot: {fileID: 1959284432}
   _rightHandSlot: {fileID: 1141602157}
+  _ring1Slot: {fileID: 1593916769}
+  _ring2Slot: {fileID: 2103454133}
 --- !u!1 &2103454129
 GameObject:
   m_ObjectHideFlags: 0
@@ -23605,6 +23621,7 @@ GameObject:
   - component: {fileID: 2103454130}
   - component: {fileID: 2103454132}
   - component: {fileID: 2103454131}
+  - component: {fileID: 2103454133}
   m_Layer: 5
   m_Name: Ring2
   m_TagString: Untagged
@@ -23670,6 +23687,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2103454129}
   m_CullTransparentMesh: 1
+--- !u!114 &2103454133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103454129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331925fe96576e7408bc0ee730c81936, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 2103454131}
 --- !u!1 &2118042852
 GameObject:
   m_ObjectHideFlags: 0

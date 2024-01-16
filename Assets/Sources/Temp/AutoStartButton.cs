@@ -55,7 +55,7 @@ namespace Assets.Sources.Temp
         {
             foreach (UnitCreationData udata in data)
             {
-                Combat.CreateUnit(udata.Id, udata.Model);
+                Units.CreateUnit(udata.Id, udata.Model);
                 UnitFactory.CreateUnit(udata);
                 SelectionInfo.RegisterControlUnit(udata.Id, udata.ControlGroup);
             }

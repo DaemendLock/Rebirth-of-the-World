@@ -18,7 +18,15 @@ MonoBehaviour:
   _spellId: 0
   _stats:
     _values:
+    - BaseValue: 100
+      Percent: 0
     - BaseValue: 0
+      Percent: 0
+    - BaseValue: 0
+      Percent: 0
+    - BaseValue: 100
+      Percent: 0
+    - BaseValue: 100
       Percent: 0
     - BaseValue: 0
       Percent: 0
@@ -26,15 +34,7 @@ MonoBehaviour:
       Percent: 0
     - BaseValue: 0
       Percent: 0
-    - BaseValue: 0
-      Percent: 0
-    - BaseValue: 0
-      Percent: 0
-    - BaseValue: 0
-      Percent: 0
-    - BaseValue: 0
-      Percent: 0
-    - BaseValue: 0
+    - BaseValue: 500
       Percent: 0
     - BaseValue: 0
       Percent: 0

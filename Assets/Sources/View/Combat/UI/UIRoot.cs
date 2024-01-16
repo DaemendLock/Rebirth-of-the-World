@@ -51,7 +51,7 @@ namespace View.Combat.UI
 
         public void DisplayUnit(int id)
         {
-            _selection = Core.Combat.Engine.Combat.GetUnit(id);
+            _selection = Core.Combat.Engine.Units.GetUnit(id);
 
             if (_selection == null)
             {
@@ -65,7 +65,7 @@ namespace View.Combat.UI
         }
         public void DisplayTarget(int id)
         {
-            _target = Core.Combat.Engine.Combat.GetUnit(id);
+            _target = Core.Combat.Engine.Units.GetUnit(id);
 
             _targetPanel.AssignTo(_target);
         }

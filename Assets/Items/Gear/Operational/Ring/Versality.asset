@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 27c078881aa248541af5d642a661e822, type: 3}
   m_Name: Versality
   m_EditorClassIdentifier: Data:Data.Items:Ring
   _icon: {fileID: 21300000, guid: 362be372b89710f4d8b018e0f62dcf0d, type: 3}
@@ -50,3 +50,4 @@ MonoBehaviour:
       Percent: 0
     - BaseValue: 0
       Percent: 0
+  _class: 0

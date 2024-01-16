@@ -13,6 +13,9 @@ namespace View.Lobby.CharacterSheet.Widgets.Left
         [SerializeField] private ItemWidget _leftHandSlot;
         [SerializeField] private ItemWidget _rightHandSlot;
 
+        [SerializeField] private ItemWidget _ring1Slot;
+        [SerializeField] private ItemWidget _ring2Slot;
+
         private bool _allowEdit = true;
 
         public void ShowEquip(CharacterState data, bool allowEdit)
@@ -24,6 +27,9 @@ namespace View.Lobby.CharacterSheet.Widgets.Left
             _legsSlot.ShowItem(data.GetGearInSlot((int) GearSlot.Legs));
             _rightHandSlot.ShowItem(data.GetGearInSlot((int) GearSlot.MainHand));
             _leftHandSlot.ShowItem(data.GetGearInSlot((int) GearSlot.OffHand));
+
+            _ring1Slot.ShowItem(data.GetGearInSlot((int) GearSlot.Ring1));
+            _ring2Slot.ShowItem(data.GetGearInSlot((int) GearSlot.Ring2));
         }
     }
 }

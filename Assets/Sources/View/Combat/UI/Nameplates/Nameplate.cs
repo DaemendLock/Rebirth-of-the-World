@@ -26,7 +26,7 @@ namespace View.Combat.Units
                 return;
             }
 
-            _valueSource = Core.Combat.Engine.Combat.GetUnit(id);
+            _valueSource = Core.Combat.Engine.Units.GetUnit(id);
 
             if(_valueSource == null)
             {
@@ -44,7 +44,7 @@ namespace View.Combat.Units
 
         public void InformSelectionChanged(int selelctedId)
         {
-            Core.Combat.Units.Unit selection = Core.Combat.Engine.Combat.GetUnit(selelctedId);
+            Core.Combat.Units.Unit selection = Core.Combat.Engine.Units.GetUnit(selelctedId);
 
             if (selection == null)
             {

@@ -80,7 +80,7 @@ namespace Input.Combat
         {
             const float DegreeToRadiansDivier = 180 / MathF.PI;
 
-            Utils.DataTypes.Vector3 currentPosition = Core.Combat.Engine.Combat.GetUnitPosition(SelectionInfo.SelectionId);
+            Utils.DataTypes.Vector3 currentPosition = Core.Combat.Engine.Units.GetPosition(SelectionInfo.SelectionId).Location;
 
             float xWorldDirection = _moveDirection.x * MathF.Cos(_cameraRotation.x / DegreeToRadiansDivier) + _moveDirection.y * MathF.Sin(_cameraRotation.x / DegreeToRadiansDivier);
             float yWorldDirection = -_moveDirection.x * MathF.Sin(_cameraRotation.x / DegreeToRadiansDivier) + _moveDirection.y * MathF.Cos(_cameraRotation.x / DegreeToRadiansDivier);
@@ -88,7 +88,7 @@ namespace Input.Combat
             MoveData data = new(SelectionInfo.SelectionId, currentPosition, new(xWorldDirection, 0, yWorldDirection), _cameraRotation.x);
 
             Networking.Combat.Send(data);
-            Core.Combat.Engine.Combat.MoveUnit(data.UnitId, data.Position, data.MoveDirection, data.Rotation);
+            Core.Combat.Engine.Units.MoveUnit(data.UnitId, data.Position, data.MoveDirection, data.Rotation);
         }
 
         private void SetCursorLocked(bool @lock)

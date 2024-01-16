@@ -28,7 +28,7 @@ namespace View.Combat.Units
 
             transform.forward = new Vector3(rotation.x, rotation.y, rotation.z);
 
-            _animator.SetFloat("Movespeed", _assignedUnit.IsMoving ? _assignedUnit.GetStat(UnitStat.SPEED) : 0);
+            //_animator.SetFloat("Movespeed", _assignedUnit.IsMoving ? _assignedUnit.GetStat(UnitStat.SPEED) : 0);
         }
 
         private void OnDestroy()
@@ -50,7 +50,7 @@ namespace View.Combat.Units
              
             Character character = Character.Get(data.CharacterId);
 
-            _assignedUnit = Core.Combat.Engine.Combat.GetUnit(id);
+            _assignedUnit = Core.Combat.Engine.Units.GetUnit(id);
             _id = id;
             _spellIcons = character.GetSpellIcons();
 

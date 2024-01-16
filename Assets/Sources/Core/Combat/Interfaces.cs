@@ -24,15 +24,6 @@ namespace Core.Combat.Interfaces
         public PercentModifiedValue EvaluateStat(UnitStat stat);
     }
 
-    public interface CastResourceOwner
-    {
-        public bool CanPay(AbilityCost value);
-
-        public bool HasResource(ResourceType type);
-
-        public float GetResourceValue(ResourceType type);
-    }
-
     public interface TeamOwner
     {
         public Team.Team Team { get; }

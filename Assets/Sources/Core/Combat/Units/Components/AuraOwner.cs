@@ -54,8 +54,7 @@ namespace Core.Combat.Units.Components
                 return;
             }
 
-            removableStatus.ClearEffects();
-            MarkUpDelete(spell);
+            removableStatus.Remove();
         }
 
         public bool HasStatus(Spell spell) => FindStatus(spell) != null;
@@ -196,15 +195,6 @@ namespace Core.Combat.Units.Components
 
         private Status AddStatus(Unit target, Spell spell)
         {
-            Status result = new Status(target, spell);
-            _statuses.Add(result);
-
-            return result;
-        }
-
-        private Status AddStatus(Unit target, Spell spell, out int index)
-        {
-            index = _statuses.Count;
             Status result = new Status(target, spell);
             _statuses.Add(result);
 

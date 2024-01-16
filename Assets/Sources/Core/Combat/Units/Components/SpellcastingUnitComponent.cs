@@ -268,7 +268,7 @@ namespace Core.Combat.Units.Components
                         continue;
                     }
 
-                    _owner.Attack(_autoattack[i].Spell);
+                    _owner.Attack(_autoattack[i].Spell, _owner.Target);
                 }
             }
         }

@@ -1,6 +1,7 @@
 ﻿using Data.Characters.Lobby;
 using Data.Items;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Utils.DataStructure;
 using Utils.DataTypes;
@@ -51,7 +52,24 @@ namespace Data.Characters
 
         public SpellId[] GetGearSpells()
         {
-            return new SpellId[0];
+            List<SpellId> result = new List<SpellId>();
+
+            foreach (ItemId item in Gear)
+            {
+                if (item == -1)
+                {
+                    continue;
+                }
+
+                Gear gear = Item.GetGear(item);
+
+                if((gear != null) && gear.HasSpell)
+                {
+                    result.Add(gear.SpellId);
+                }
+            }
+
+            return result.ToArray();
         }
 
         public Item GetGearInSlot(int slot)

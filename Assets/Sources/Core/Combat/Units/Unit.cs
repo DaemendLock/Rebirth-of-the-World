@@ -7,19 +7,14 @@ using Core.Combat.Units.Components;
 using Core.Combat.Utils;
 using Core.Combat.Utils.HealthChangeProcessing;
 using System;
+using System.Runtime.CompilerServices;
 using Utils.DataStructure;
 using Utils.DataTypes;
 
 namespace Core.Combat.Units
 {
-    public sealed class Unit : Interfaces.AuraOwner, CastResourceOwner, TeamOwner, DynamicStatOwner, Updatable, Damageable, Damager
+    public sealed class Unit : Interfaces.AuraOwner, TeamOwner, DynamicStatOwner, Updatable, Damageable, Damager
     {
-        public event UnitState.HealthChanged OnHealthChanged;
-        public event UnitState.Damaged OnDamaged;
-        public event UnitState.StatusApplied OnStatusApplied;
-
-        public event Spellcasting.Casted Casted;
-        public event Spellcasting.Attacked Attacked;
         public event Spellcasting.StartedPrecast StartedPrecast;
         public event Spellcasting.StoppedPrecast StoppedCast;
 
@@ -27,7 +22,8 @@ namespace Core.Combat.Units
 
         private readonly Spellcasting _casting;
         private readonly UnitState _unitState;
-
+        private readonly PositionComponent _position;
+        
         public Unit(Spellcasting spellcasting, UnitState defaultState)
         {
             if (spellcasting.TryAssignTo(this) == false)
@@ -37,6 +33,7 @@ namespace Core.Combat.Units
 
             _casting = spellcasting;
             _unitState = defaultState;
+            _position = new PositionComponent();
         }
 
         public int Id => _unitState.EntityId;
@@ -85,31 +82,40 @@ namespace Core.Combat.Units
 
         public Vector3 Position
         {
-            get => _unitState.Position;
-            internal set => _unitState.Position = value;
-        }
-
-        public Vector3 MoveDirection
-        {
-            get => _unitState.MoveDirection;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => Engine.Units.GetPosition(Id).Location;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal set
             {
-                _unitState.MoveDirection = value;
-
-                if (value != Vector3.zero && _casting.CastingSpell != null && !_casting.CastingSpell.Flags.HasFlag(SpellFlags.CAN_CAST_WHILE_MOVING))
-                {
-                    Interrupt(new InterruptData(true, new SpellId(), 0));
-                }
+                Position position = Engine.Units.GetPosition(Id);
+                position.Location = value;
+                Engine.Units.SetPosition(Id, position);
             }
         }
 
         public float Rotation
         {
-            get => _unitState.Rotation;
-            internal set => _unitState.Rotation = value;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => Engine.Units.GetPosition(Id).Rotation;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal set
+            {
+                Position position = Engine.Units.GetPosition(Id);
+                position.Rotation = value;
+                Engine.Units.SetPosition(Id, position);
+            }
         }
 
-        public bool IsMoving => _unitState.IsMoving;
+        public Vector3 MoveDirection
+        {
+            get => _position.MoveDirection;
+            internal set
+            {
+                _position.MoveDirection = value;
+            }
+        }
+
+        public bool IsMoving => _position.IsMoving;
         /*
         public void Kill(DeathData data);
 
@@ -185,9 +191,9 @@ namespace Core.Combat.Units
         /// </returns>
         internal Ability FindAbility(Spell spell) => _casting.FindAbility(spell); internal CommandResult CastSpell(CastEventData data) => _casting.CastSpell(data);
 
-        internal void Attack(Spell attack)
+        internal void Attack(Spell attack, Unit target)
         {
-            CommandResult result = CastSpell(new CastEventData(this, Target, attack));
+            CommandResult result = CastSpell(new CastEventData(this, target, attack));
 
             if (result != CommandResult.SUCCES)
             {
@@ -195,7 +201,6 @@ namespace Core.Combat.Units
             }
 
             _unitState.InformAction(UnitAction.AUTOATTACK, new CastEventData(this, Target, attack));
-            Attacked?.Invoke(attack, Target);
         }
 
         /// <summary>
@@ -244,6 +249,7 @@ namespace Core.Combat.Units
         public void Update()
         {
             _casting.Update();
+            Position = _position.GetNextPosition(Position, GetStat(UnitStat.SPEED));
             _unitState.Update();
         }
 

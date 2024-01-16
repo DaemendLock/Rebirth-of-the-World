@@ -81,6 +81,7 @@
     <Compile Include="Assets\Sources\View\General\Scene.cs" />
     <Compile Include="Assets\Sources\View\Lobby\ScenarionSelection\MemberCard.cs" />
     <Compile Include="Assets\Sources\View\Combat\UI\Nameplates\NameplatesRoot.cs" />
+    <Compile Include="Assets\Sources\View\Combat\UI\Panels\UnitPanel.cs" />
     <Compile Include="Assets\Sources\View\General\SceneLoader.cs" />
     <Compile Include="Assets\Sources\View\Lobby\General\ItemsContainer.cs" />
     <Compile Include="Assets\Sources\View\Lobby\TeamSetup\Widgets\CharacterSlotWidget.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Assets\Sources\View\Combat\UI\UIRoot.cs" />
     <Compile Include="Assets\Sources\View\Combat\Units\Animations\AnimationController.cs" />
     <Compile Include="Assets\Sources\View\Combat\Units\Animations\Animation.cs" />
+    <Compile Include="Assets\Sources\View\Combat\UI\Elements\FillDirection.cs" />
     <Compile Include="Assets\Sources\View\Lobby\General\BackButton.cs" />
     <Compile Include="Assets\Sources\View\Combat\UI\Elements\SelectionFrame.cs" />
     <Compile Include="Assets\Sources\View\Lobby\MainMenu\Taskboard.cs" />
@@ -123,11 +125,9 @@
     <Compile Include="Assets\Sources\View\Combat\Units\AnimationDistributor.cs" />
     <Compile Include="Assets\Sources\View\Lobby\StartScreen\Login.cs" />
     <Compile Include="Assets\Sources\View\Combat\UI\Nameplates\Nameplate.cs" />
+    <Compile Include="Assets\Sources\View\Combat\UI\Panels\TargetPanel.cs" />
     <Compile Include="Assets\Sources\View\Lobby\Utils\SpriteProvider.cs" />
     <Compile Include="Assets\Sources\View\Combat\UI\ActionBar\SpellCard.cs" />
-    <Compile Include="Assets\Sources\View\Combat\UI\Panels\UnitPanel.cs" />
-    <Compile Include="Assets\Sources\View\Combat\UI\Panels\TargetPanel.cs" />
-    <Compile Include="Assets\Sources\View\Combat\UI\Elements\FillDirection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\View\View.asmdef" />

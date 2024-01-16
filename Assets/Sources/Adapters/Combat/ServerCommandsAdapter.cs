@@ -48,33 +48,33 @@ namespace Adapters.Combat
         {
             MoveData mdata = MoveData.Parse(source);
 
-            Core.Combat.Engine.Combat.MoveUnit(mdata.UnitId, mdata.Position, mdata.MoveDirection, mdata.Rotation);
+            Core.Combat.Engine.Units.MoveUnit(mdata.UnitId, mdata.Position, mdata.MoveDirection, mdata.Rotation);
         }
 
         private static void HandleCastRequest(ByteReader source)
         {
             CastData action = CastData.Parse(source);
 
-            Core.Combat.Engine.Combat.CastAbility(action.UnitId, action.TargetId, (SpellSlot) action.SpellSlot);
+            Core.Combat.Engine.Units.CastAbility(action.UnitId, action.TargetId, (SpellSlot) action.SpellSlot);
         }
 
         private static void HandleTargetRequest(ByteReader source)
         {
             TargetData action = TargetData.Parse(source);
-            Core.Combat.Engine.Combat.StartAttack(action.Attacker, action.Target);
+            Core.Combat.Engine.Units.StartAttack(action.Attacker, action.Target);
         }
 
         private static void HandleCandelRequest(ByteReader source)
         {
             StopData action = StopData.Parse(source);
-            Core.Combat.Engine.Combat.StopAllActions(action.Unit);
+            Core.Combat.Engine.Units.StopAllActions(action.Unit);
         }
 
         private static void HandleUnitCreationRequest(ByteReader source)
         {
             UnitCreationData udata = UnitCreationData.Parse(source);
 
-            Core.Combat.Engine.Combat.CreateUnit(udata.Id, udata.Model);
+            Core.Combat.Engine.Units.CreateUnit(udata.Id, udata.Model);
             UnitFactory.CreateUnit(udata);
             SelectionInfo.RegisterControlUnit(udata.Id, udata.ControlGroup);
         }

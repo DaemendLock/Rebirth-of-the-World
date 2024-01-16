@@ -1,11 +1,8 @@
 ﻿using Core.Combat.Abilities;
-using Core.Combat.Engine;
-using Core.Combat.Team;
 using Core.Combat.Units;
 using Core.Combat.Units.Components;
 using Core.Combat.Utils;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using Utils.DataTypes;
 
@@ -13,27 +10,58 @@ namespace Core.Combat.Engine
 {
     using EntityId = System.Int32;
 
-    internal static class Units
+    public static class Units
     {
         private static readonly List<Unit> _units = new(64);
-        private static readonly List<Position> _positions= new List<Position>(64);
+        private static readonly List<Position> _positions = new List<Position>(64);
 
-        private static Queue<EntityId> _avaibleSlots= new Queue<EntityId>();
+        private static Queue<EntityId> _avaibleSlots = new Queue<EntityId>();
 
-        #region Createion/Deletion
-        public static void CreateUnit(int unitId, UnitCreationData.ModelData data)
+        #region Creation/Deletion
+        public static EntityId GetAvaibleId()
+        {
+            if (_avaibleSlots.Count == 0)
+            {
+                return _units.Count;
+            }
+
+            return _avaibleSlots.Peek();
+        }
+
+        public static Unit GetUnit(EntityId id)
+        {
+            if (id < 0 || id >= _units.Count)
+                return null;
+
+            return _units[id];
+        }
+
+        public static void CreateUnit(EntityId id, UnitCreationData.ModelData data)
         {
             Spellcasting spellcasting = new Spellcasting();
 
             Unit unit = new(spellcasting, new UnitState(data.Stats, new CastResources(data.CastResourceData),
-                new Position(data.PositionData), (Team.Team) data.Team, unitId));
+                (Team.Team) data.Team, id));
 
-            foreach (SpellId id in data.Spells)
+            foreach (SpellId spell in data.Spells)
             {
-                spellcasting.GiveAbility(Spell.Get(id));
+                spellcasting.GiveAbility(Spell.Get(spell));
             }
 
-            RegisterUnit(unit);
+            RegisterUnit(unit, id);
+            _positions[id] = new(data.PositionData);
+        }
+
+        public static void Clear()
+        {
+            _units.Clear();
+            _positions.Clear();
+            _avaibleSlots.Clear();
+        }
+        
+        public static void RemoveUnit(EntityId id)
+        {
+            
         }
         #endregion
 
@@ -42,9 +70,9 @@ namespace Core.Combat.Engine
         {
             List<Unit> result = new();
 
-            for (EntityId i = 0; i < _units.Count;i++)
+            for (EntityId i = 0; i < _units.Count; i++)
             {
-                if(UnitInRadius(i, location, radius) == false)
+                if (UnitInRadius(i, location, radius) == false)
                 {
                     continue;
                 }
@@ -70,15 +98,117 @@ namespace Core.Combat.Engine
             return _positions[index];
         }
         #endregion
-        
-        private static void RegisterUnit(Unit unit)
-        {
-            ModelUpdate.Add(unit);
 
-            lock (_units)
+        #region Commands
+
+        public static void MoveUnit(int unitId, Vector3 position, Vector3 moveDirection, float rotation)
+        {
+            Unit unit = GetUnit(unitId);
+
+            if (unit == null)
             {
-                _units.Add(unit);
+                return;
             }
+
+            unit.Position = position;
+            unit.MoveDirection = moveDirection;
+            unit.Rotation = rotation;
+        }
+
+        public static void CastAbility(EntityId unitId, EntityId targetId, SpellSlot slot)
+        {
+            Unit caster = GetUnit(unitId);
+
+            if(caster==null)
+            {
+                return;
+            }
+
+            Spell spell = caster.GetAbility(slot)?.Spell;
+
+            if (spell == null)
+            {
+                return;
+            }
+
+            Unit target = null;
+
+            if (targetId != -1)
+            {
+                target = GetUnit(targetId);
+            }
+
+            caster.CastAbility(new CastEventData(caster, target, spell));
+        }
+
+        public static void StopAllActions(EntityId unitId)
+        {
+            Unit unit = GetUnit(unitId);
+
+            if (unit == null)
+            {
+                return;
+            }
+
+            unit.MoveDirection = Vector3.zero;
+            unit.Interrupt(new InterruptData(true, null, 0));
+            unit.Target = null;
+        }
+
+        public static void StartAttack(EntityId unitId, EntityId target)
+        {
+            Unit unit = GetUnit(unitId);
+
+            if (unit == null)
+            {
+                return;
+            }
+
+            unit.Target = GetUnit(target);
+        }
+        #endregion
+
+        private static void RegisterUnit(Unit unit, EntityId id)
+        {
+            if (id >= _units.Count)
+            {
+                lock (_units)
+                {
+                    while (_units.Count < id - 1)
+                    {
+                        _units.Add(default);
+                        _positions.Add(default);
+                        _avaibleSlots.Enqueue(_units.Count - 1);
+                    }
+
+                    _units.Add(unit);
+                    _positions.Add(new Position());
+                }
+
+                ModelUpdate.Add(unit);
+                return;
+            }
+
+            if (_units[id] != null)
+            {
+                ModelUpdate.Remove(_units[id]);
+                ModelUpdate.Add(unit);
+                _units[id] = unit;
+                return;
+            }
+
+            lock (_avaibleSlots)
+            {
+                for(int i = 0; (i < _avaibleSlots.Count) && (_avaibleSlots.Peek() != id); i++)
+                {
+                    _avaibleSlots.Enqueue(_avaibleSlots.Dequeue());
+                }
+
+                _avaibleSlots.Dequeue();
+            }
+
+            ModelUpdate.Add(unit);
+            _units[id] = unit;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
