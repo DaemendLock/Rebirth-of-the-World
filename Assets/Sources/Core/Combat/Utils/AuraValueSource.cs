@@ -1,4 +1,4 @@
-﻿using Core.Combat.Auras;
+﻿using Core.Combat.Statuses;
 using System.IO;
 using Utils.DataStructure;
 using Utils.Interfaces;

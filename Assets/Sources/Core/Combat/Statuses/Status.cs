@@ -1,5 +1,5 @@
 using Core.Combat.Abilities;
-using Core.Combat.Auras.AuraEffects;
+using Core.Combat.Statuses.AuraEffects;
 using Core.Combat.Interfaces;
 using Core.Combat.Units;
 using Core.Combat.Units.Components;
@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using Utils.DataStructure;
 using Utils.DataTypes;
 
-namespace Core.Combat.Auras
+namespace Core.Combat.Statuses
 {
     public class Status : DynamicStatOwner, Damageable
     {

@@ -1,6 +1,6 @@
 ﻿using Core.Combat.Abilities;
 using Core.Combat.Abilities.SpellEffects;
-using Core.Combat.Auras.AuraEffects;
+using Core.Combat.Statuses.AuraEffects;
 using Core.Combat.Utils.ValueSources;
 using System;
 using System.IO;

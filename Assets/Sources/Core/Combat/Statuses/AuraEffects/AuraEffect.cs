@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using Utils.Interfaces;
 
-namespace Core.Combat.Auras.AuraEffects
+namespace Core.Combat.Statuses.AuraEffects
 {
     public interface AuraEffect : SerializableInterface
     {

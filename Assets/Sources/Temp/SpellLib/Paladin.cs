@@ -1,7 +1,7 @@
 ﻿using Core.Combat.Abilities;
 using Core.Combat.Abilities.SpellEffects;
 using Core.Combat.Abilities.SpellScripts;
-using Core.Combat.Auras.AuraEffects;
+using Core.Combat.Statuses.AuraEffects;
 using Core.Combat.Utils.ValueSources;
 using Utils.DataStructure;
 using Utils.DataTypes;
@@ -57,7 +57,7 @@ namespace SpellLib.Paladin
             Mechanic.NONE,
             new SpellEffect[]
             {
-                new ApplyAura(new ReactionCast(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 7), Core.Combat.Auras.UnitAction.AUTOATTACK))
+                new ApplyAura(new ReactionCast(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 7), Core.Combat.Statuses.UnitAction.AUTOATTACK))
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
             typeof(SelfcastSpell)

@@ -1,5 +1,5 @@
 ﻿using Core.Combat.Abilities;
-using Core.Combat.Auras;
+using Core.Combat.Statuses;
 using Core.Combat.Units;
 using Core.Combat.Utils.HealthChangeProcessing;
 using Utils.DataStructure;

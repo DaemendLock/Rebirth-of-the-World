@@ -3,7 +3,7 @@ using System.IO;
 using Utils.DataStructure;
 using Utils.Serializer;
 
-namespace Core.Combat.Auras.AuraEffects
+namespace Core.Combat.Statuses.AuraEffects
 {
     public class ModStat : AuraEffect
     {

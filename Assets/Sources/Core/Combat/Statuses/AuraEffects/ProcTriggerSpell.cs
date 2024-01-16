@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Core.Combat.Auras.AuraEffects
+namespace Core.Combat.Statuses.AuraEffects
 {
     public class ProcTriggerSpell : AuraEffect
     {

@@ -1,7 +1,7 @@
 ﻿using Core.Combat.Abilities;
 using Core.Combat.Abilities.SpellEffects;
 using Core.Combat.Abilities.SpellScripts;
-using Core.Combat.Auras.AuraEffects;
+using Core.Combat.Statuses.AuraEffects;
 using Core.Combat.Utils.ValueSources;
 using Utils.DataStructure;
 using Utils.DataTypes;

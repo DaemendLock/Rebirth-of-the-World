@@ -2,7 +2,7 @@
 using Utils.DataTypes;
 using Utils.Serializer;
 
-namespace Core.Combat.Auras.AuraEffects
+namespace Core.Combat.Statuses.AuraEffects
 {
     public class PeriodicallyTriggerSpell : AuraEffect
     {

@@ -1,6 +1,6 @@
 ﻿using Core.Combat.Abilities;
 
-namespace Core.Combat.Auras
+namespace Core.Combat.Statuses
 {
     public struct DamageAbsorption
     {

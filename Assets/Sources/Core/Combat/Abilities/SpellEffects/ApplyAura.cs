@@ -1,4 +1,4 @@
-﻿using Core.Combat.Auras.AuraEffects;
+﻿using Core.Combat.Statuses.AuraEffects;
 using Core.Combat.Utils;
 using System.IO;
 using Utils.Serializer;

@@ -1,6 +1,6 @@
 using Core.Combat.Abilities;
-using Core.Combat.Auras;
-using Core.Combat.Auras.AuraEffects;
+using Core.Combat.Statuses;
+using Core.Combat.Statuses.AuraEffects;
 using Core.Combat.Interfaces;
 using Core.Combat.Utils;
 using Core.Combat.Utils.HealthChangeProcessing;
