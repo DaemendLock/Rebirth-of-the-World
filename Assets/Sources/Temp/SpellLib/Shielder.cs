@@ -1,7 +1,9 @@
 ﻿using Core.Combat.Abilities;
 using Core.Combat.Abilities.SpellEffects;
 using Core.Combat.Abilities.SpellScripts;
+using Core.Combat.Statuses;
 using Core.Combat.Statuses.AuraEffects;
+using Core.Combat.Utils.Serialization;
 using Core.Combat.Utils.ValueSources;
 using Utils.DataStructure;
 using Utils.DataTypes;
@@ -15,16 +17,14 @@ namespace Core.SpellLib.Shielder
 
         private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 90),
-            TargetTeam.ENEMY,
+            TargetTeam.Enemy,
             3,
             0,
             10,
             1.5f,
-            GcdCategory.NORMAL,
-            5,
-            DispellType.NONE,
-            SchoolType.PHYSICAL,
-            Mechanic.NONE,
+            GcdCategory.Normal,
+            SchoolType.Physical,
+            Mechanic.None,
             new SpellEffect[]
             {
                 new Dummy(30),
@@ -33,7 +33,7 @@ namespace Core.SpellLib.Shielder
                 //periodic damage
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
-            typeof(CleaveSpell)
+            SpellType.Cleave
             );
 
         public ShieldStrike() : base(_spellData)
@@ -48,16 +48,14 @@ namespace Core.SpellLib.Shielder
 
         private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 90),
-            TargetTeam.ALLY,
+            TargetTeam.Ally,
             0,
             0,
             0,
             1.5f,
-            GcdCategory.NORMAL,
-            5,
-            DispellType.NONE,
-            SchoolType.PHYSICAL,
-            Mechanic.NONE,
+            GcdCategory.Normal,
+            SchoolType.Physical,
+            Mechanic.None,
             new SpellEffect[]
             {
                 //charge
@@ -66,7 +64,7 @@ namespace Core.SpellLib.Shielder
                 new ApplyAura(new ModifySpellEffect(SpellIdCalculator.GenerateId(Class.SHIELDER, Spec.SPEC_1, 1), 1, 1))
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
-            typeof(SelfcastSpell)
+            SpellType.Selfcast
             );
 
         public Breakthrough() : base(_spellData)
@@ -80,22 +78,20 @@ namespace Core.SpellLib.Shielder
 
         private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 90),
-            TargetTeam.ALLY,
+            TargetTeam.Ally,
             10,
             0,
             20,
             1.5f,
-            GcdCategory.NORMAL,
-            5,
-            DispellType.NONE,
-            SchoolType.PHYSICAL,
-            Mechanic.NONE,
+            GcdCategory.Normal,
+            SchoolType.Physical,
+            Mechanic.None,
             new SpellEffect[]
             {
                 new ApplyAura(new ModStat(UnitStat.DAMAGE_TAKEN, new Constant(-0.2f), true)),
             },
             SpellFlags.NONE,
-            typeof(SplashSpell)
+            SpellType.Splash
             );
 
         public Shelter() : base(_spellData)
@@ -109,24 +105,24 @@ namespace Core.SpellLib.Shielder
 
         private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 90),
-            TargetTeam.ALLY,
+            TargetTeam.Ally,
             10,
             0,
             30,
             1.5f,
-            GcdCategory.NORMAL,
-            5,
-            DispellType.NONE,
-            SchoolType.PHYSICAL,
-            Mechanic.NONE,
+            //<duration>,
+            //DispellType,
+            GcdCategory.Normal,
+            SchoolType.Physical,
+            Mechanic.None,
             new SpellEffect[]
             {
-                //TODO: Apply overshield
+                //TODO: Apply overshield new ApplyAura(new Overshield(UnitStat.ATK, new Constant(0.1f), true)),
                 new ApplyAura(new ModStat(UnitStat.ATK, new Constant(0.1f), true)),
                 new ApplyAura(new ModStat(UnitStat.HEALING_TAKEN, new Constant(0.1f), true)),
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
-            typeof(Spell)
+            SpellType.Default
             );
 
         public SacrificialProtection() : base(_spellData)
@@ -140,22 +136,20 @@ namespace Core.SpellLib.Shielder
 
         private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 90),
-            TargetTeam.ENEMY,
+            TargetTeam.Enemy,
             5,
             0,
             15,
             1.5f,
-            GcdCategory.NORMAL,
-            5,
-            DispellType.MAGIC,
-            SchoolType.PHYSICAL,
-            Mechanic.NONE,
+            GcdCategory.Normal,
+            SchoolType.Physical,
+            Mechanic.None,
             new SpellEffect[]
             {
 
             },
             SpellFlags.NONE,
-            typeof(SplashSpell)
+            SpellType.Splash
             );
 
         public AnchoringHowl() : base(_spellData)
@@ -169,16 +163,14 @@ namespace Core.SpellLib.Shielder
 
         private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 90),
-            TargetTeam.ALLY,
+            TargetTeam.Ally,
             0,
             0,
             180,
             1.5f,
-            GcdCategory.NORMAL,
-            15,
-            DispellType.MAGIC,
-            SchoolType.PHYSICAL,
-            Mechanic.NONE,
+            GcdCategory.Normal,
+            SchoolType.Physical,
+            Mechanic.None,
             new SpellEffect[]
             {
                 //disable controll
@@ -187,7 +179,7 @@ namespace Core.SpellLib.Shielder
                 //create aoe damage aura
             },
             SpellFlags.NONE,
-            typeof(SelfcastSpell)
+            SpellType.Selfcast
             );
 
         public SkinOfStone() : base(_spellData)

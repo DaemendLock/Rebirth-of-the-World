@@ -1,5 +1,6 @@
 ﻿using Core.Combat.Abilities;
 using Core.Combat.Abilities.SpellEffects;
+using Core.Combat.Utils.Serialization;
 using Utils.DataStructure;
 using Utils.DataTypes;
 using Utils.SpellIdGenerator;
@@ -12,22 +13,20 @@ namespace SpellLib.Weapons
 
         private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(0, 0),
-            TargetTeam.ENEMY,
+            TargetTeam.Enemy,
             2,
             0,
             1,
             0,
-            GcdCategory.IGNOR,
-            0,
-            DispellType.NONE,
-            SchoolType.PHYSICAL,
-            Mechanic.ATTACK,
+            GcdCategory.Ignor,
+            SchoolType.Physical,
+            Mechanic.Attack,
             new SpellEffect[]
             {
                 new SchoolDamage(new StatValue(1, UnitStat.ATK))
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN | SpellFlags.AUTOATTACK,
-            typeof(Spell)
+            SpellType.Default
             );
 
         public DefaultSwordAttack() : base(_spellData)

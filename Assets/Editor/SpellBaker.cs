@@ -1,4 +1,5 @@
 using Core.Combat.Abilities;
+using Core.Combat.Utils.Serialization;
 using Core.SpellLib.Warrior;
 using Data.DataMapper;
 using Data.Spells;
@@ -9,7 +10,6 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 using Utils.DataTypes;
-using Utils.Serializer;
 
 namespace Assets.Editor
 {

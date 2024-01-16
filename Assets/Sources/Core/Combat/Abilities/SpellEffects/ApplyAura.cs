@@ -1,7 +1,7 @@
 ﻿using Core.Combat.Statuses.AuraEffects;
 using Core.Combat.Utils;
+using Core.Combat.Utils.Serialization;
 using System.IO;
-using Utils.Serializer;
 
 namespace Core.Combat.Abilities.SpellEffects
 {
@@ -18,7 +18,7 @@ namespace Core.Combat.Abilities.SpellEffects
 
         public ApplyAura(BinaryReader source)
         {
-            _effect = SpellSerializer.DeserializeAuraEffect(source);
+            _effect = AuraSerializer.DeserializeAuraEffect(source);
             _value = source.ReadInt32();
         }
 

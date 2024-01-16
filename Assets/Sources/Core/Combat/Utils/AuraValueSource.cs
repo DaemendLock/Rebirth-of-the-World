@@ -1,8 +1,8 @@
 ﻿using Core.Combat.Statuses;
+using Core.Combat.Utils.Serialization;
 using System.IO;
 using Utils.DataStructure;
 using Utils.Interfaces;
-using Utils.Serializer;
 
 namespace Core.Combat.Utils.ValueSources
 {
@@ -80,8 +80,8 @@ namespace Core.Combat.Utils.ValueSources
 
         public ValueSum(BinaryReader source)
         {
-            _value1 = Serializer.Deserialize<AuraValueSource>(source);
-            _value2 = Serializer.Deserialize<AuraValueSource>(source);
+            _value1 = AuraSerializer.DeserializeAuraValue(source);
+            _value2 = AuraSerializer.DeserializeAuraValue(source);
         }
 
         public float Evaluate(Status status)
@@ -110,8 +110,8 @@ namespace Core.Combat.Utils.ValueSources
 
         public ValueMultiplication(BinaryReader source)
         {
-            _value1 = Serializer.Deserialize<AuraValueSource>(source);
-            _value2 = Serializer.Deserialize<AuraValueSource>(source);
+            _value1 = AuraSerializer.DeserializeAuraValue(source);
+            _value2 = AuraSerializer.DeserializeAuraValue(source);
         }
 
         public float Evaluate(Status status)

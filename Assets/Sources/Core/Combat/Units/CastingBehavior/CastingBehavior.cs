@@ -37,7 +37,7 @@ namespace Core.Combat.CastingBehaviors
 
         public SchoolType School => _data.Spell.School;
 
-        public virtual bool CanInterrupt => !(_data.Spell.Flags.HasFlag(SpellFlags.CANT_INTERRUPT) || _data.Caster.HasImmunity(Mechanic.INTERRUPT));
+        public virtual bool CanInterrupt => !(_data.Spell.Flags.HasFlag(SpellFlags.CANT_INTERRUPT) || _data.Caster.HasImmunity(Mechanic.Interrupt));
 
         public virtual bool Finished => _casttime.Expired;
 

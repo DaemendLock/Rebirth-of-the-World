@@ -1,7 +1,7 @@
-﻿using Core.Combat.Utils.ValueSources;
+﻿using Core.Combat.Utils.Serialization;
+using Core.Combat.Utils.ValueSources;
 using System.IO;
 using Utils.DataStructure;
-using Utils.Serializer;
 
 namespace Core.Combat.Statuses.AuraEffects
 {
@@ -24,7 +24,7 @@ namespace Core.Combat.Statuses.AuraEffects
         public ModStat(BinaryReader source)
         {
             _stat = (UnitStat) source.ReadInt32();
-            _value = SpellSerializer.DeserializeAuraValue(source);
+            _value = AuraSerializer.DeserializeAuraValue(source);
             _isPercent = source.ReadBoolean();
         }
 

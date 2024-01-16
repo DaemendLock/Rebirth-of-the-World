@@ -45,7 +45,7 @@ namespace Core.Combat.Statuses
             }
             else
             {
-                _duration = new Duration(spell.Duration);
+                //_duration = new Duration(spell.Duration);
             }
 
             _periodicEffectCountdown = new Duration(float.PositiveInfinity);
@@ -82,7 +82,7 @@ namespace Core.Combat.Statuses
 
         public void Refresh(CastEventData data)
         {
-            _duration += data.Spell.Duration - _duration.Left;
+            //_duration += data.Spell.Duration - _duration.Left;
         }
 
         public void SetDuration(float duration)

@@ -1,9 +1,9 @@
 ﻿using Core.Combat.Abilities;
 using Core.Combat.Utils;
+using Core.Combat.Utils.Serialization;
 using System.IO;
 using UnityEngine;
 using Utils.DataTypes;
-using Utils.Serializer;
 
 namespace Core.Combat.Statuses.AuraEffects
 {

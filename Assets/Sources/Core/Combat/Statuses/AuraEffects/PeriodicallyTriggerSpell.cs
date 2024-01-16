@@ -1,6 +1,6 @@
-﻿using System.IO;
+﻿using Core.Combat.Utils.Serialization;
+using System.IO;
 using Utils.DataTypes;
-using Utils.Serializer;
 
 namespace Core.Combat.Statuses.AuraEffects
 {

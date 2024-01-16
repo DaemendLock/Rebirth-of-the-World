@@ -1,6 +1,5 @@
 using Core.Combat.Abilities;
 using Core.Combat.Statuses;
-using Core.Combat.Statuses.AuraEffects;
 using Core.Combat.Interfaces;
 using Core.Combat.Utils;
 using Core.Combat.Utils.HealthChangeProcessing;
@@ -9,6 +8,7 @@ using System.Collections.Generic;
 using Utils.DataStructure;
 using Utils.DataStructures;
 using Utils.DataTypes;
+using Core.Combat.Statuses.Auras;
 
 namespace Core.Combat.Units.Components
 {
@@ -19,20 +19,20 @@ namespace Core.Combat.Units.Components
         private Dictionary<Mechanic, int> _immunes = new Dictionary<Mechanic, int>();
         private ArrayQueue<int> _delete = new(16);
 
-        public void ApplyAura(CastEventData data, AuraEffect effect)
+        public void ApplyAura(CastEventData data, Aura aura)
         {
-            Status status = FindStatus(data.Spell);
+            Status status = FindStatus(aura);
 
-            if (data.Spell.Flags.HasFlag(SpellFlags.SEPARATED_STATUS) || status == null)
+            if (aura.Flags.HasFlag(AuraFlags.SeparateStatuses) || status == null)
             {
-                status = AddStatus(data.Target, data.Spell);
+                status = AddStatus(data.Target, aura);
             }
 
             status.TryApplyCaster(data.Caster);
-            status.AddEffect(effect);
+            //status.AddEffect(effect);
         }
 
-        public void RemoveStatus(Spell spell)
+        public void RemoveStatus(Aura spell)
         {
             Status removableStatus = FindStatus(spell);
 
@@ -57,7 +57,7 @@ namespace Core.Combat.Units.Components
             removableStatus.Remove();
         }
 
-        public bool HasStatus(Spell spell) => FindStatus(spell) != null;
+        public bool HasStatus(Aura aura) => FindStatus(aura) != null;
 
         public bool HasStatus(SpellId spell) => FindStatus(spell) != null;
 
@@ -74,10 +74,11 @@ namespace Core.Combat.Units.Components
             throw new NotImplementedException();
         }
 
-        public Status FindStatus(Spell spell)
+        public Status FindStatus(Aura aura)
         {
             foreach (Status status in _statuses)
             {
+                throw new NotImplementedException();
                 if (status.Spell == spell)
                 {
                     return status;
@@ -137,6 +138,7 @@ namespace Core.Combat.Units.Components
 
         public void AbsorbDamage(CastEventData data, float absorption, SchoolType school)
         {
+            throw new NotImplementedException();
             Status status = FindStatus(data.Spell) ?? AddStatus(data.Target, data.Spell);
             status.TryApplyCaster(data.Caster);
             status.GiveAbsorption(new(absorption, school));
@@ -193,11 +195,11 @@ namespace Core.Combat.Units.Components
             return _immunes[mechanic];
         }
 
-        private Status AddStatus(Unit target, Spell spell)
+        private Status AddStatus(Unit target, Aura aura)
         {
-            Status result = new Status(target, spell);
-            _statuses.Add(result);
-
+            //Status result = new Status(target, spell);
+            //_statuses.Add(result);
+            throw new NotImplementedException();
             return result;
         }
 

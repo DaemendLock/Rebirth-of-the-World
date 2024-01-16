@@ -2,6 +2,7 @@
 using Core.Combat.Abilities.SpellEffects;
 using Core.Combat.Abilities.SpellScripts;
 using Core.Combat.Statuses.AuraEffects;
+using Core.Combat.Utils.Serialization;
 using Core.Combat.Utils.ValueSources;
 using Utils.DataStructure;
 using Utils.DataTypes;
@@ -15,22 +16,20 @@ namespace Assets.Sources.Temp.SpellLib
 
         private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(10, 0),
-            TargetTeam.ALLY,
+            TargetTeam.Ally,
             0,
             0,
             0,
             1f,
-            GcdCategory.NORMAL,
-            10,
-            DispellType.NONE,
-            SchoolType.DARKNESS,
-            Mechanic.NONE,
+            GcdCategory.Normal,
+            SchoolType.Darkness,
+            Mechanic.None,
             new SpellEffect[]
             {
                 new TriggerSpell(SpellIdCalculator.GenerateId(Class.DARK_KNIGHT, Spec.SPEC_1, 7))
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
-            typeof(SelfcastSpell)
+            SpellType.Selfcast
             );
 
         public ShadowSlash() : base(_spellData)
@@ -44,22 +43,20 @@ namespace Assets.Sources.Temp.SpellLib
 
         private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(10, 0),
-            TargetTeam.ALLY,
+            TargetTeam.Ally,
             0,
             0,
             8,
             0,
-            GcdCategory.NORMAL,
-            10,
-            DispellType.NONE,
-            SchoolType.DARKNESS,
-            Mechanic.NONE,
+            GcdCategory.Normal,
+            SchoolType.Darkness,
+            Mechanic.None,
             new SpellEffect[]
             {
                 new TriggerSpell(SpellIdCalculator.GenerateId(Class.DARK_KNIGHT, Spec.SPEC_1, 7))
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
-            typeof(SelfcastSpell)
+            SpellType.Selfcast
             );
 
         public ShadowExplostion() : base(_spellData)
@@ -73,22 +70,20 @@ namespace Assets.Sources.Temp.SpellLib
 
         private static SpellData _spellData = new SpellData(_id,
             new AbilityCost(10, 0),
-            TargetTeam.ALLY,
+            TargetTeam.Ally,
             0,
             0,
             20,
             0,
-            GcdCategory.NORMAL,
-            4,
-            DispellType.NONE,
-            SchoolType.CHAOS,
-            Mechanic.NONE,
+            GcdCategory.Normal,
+            SchoolType.Chaos,
+            Mechanic.None,
             new SpellEffect[]
             {
                 new ApplyAura(new ModStat(UnitStat.HASTE, new Constant(30), true))
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
-            typeof(SelfcastSpell)
+            SpellType.Selfcast
             );
 
         public Elegy() : base(_spellData)

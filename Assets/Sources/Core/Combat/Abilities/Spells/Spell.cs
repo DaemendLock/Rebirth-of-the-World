@@ -1,10 +1,10 @@
 ﻿using Core.Combat.Abilities.SpellEffects;
 using Core.Combat.Units;
 using Core.Combat.Utils;
+using Core.Combat.Utils.Serialization;
 using Data.Spells;
 using System.Collections.Generic;
 using Utils.DataTypes;
-using Utils.Serializer;
 
 namespace Core.Combat.Abilities
 {
@@ -32,8 +32,6 @@ namespace Core.Combat.Abilities
         public float Range => _data.Range;
 
         public float Cooldown => _data.Cooldown;
-
-        public float Duration => _data.Duration;
 
         public float CastTime => _data.CastTime;
 
@@ -74,12 +72,12 @@ namespace Core.Combat.Abilities
                 return CommandResult.OUT_OF_RANGE;
             }
 
-            if (TargetTeam == TargetTeam.ALLY && (!caster.CanHelp(target)))
+            if (TargetTeam == TargetTeam.Ally && (!caster.CanHelp(target)))
             {
                 return CommandResult.INVALID_TARGET;
             }
 
-            if (TargetTeam == TargetTeam.ENEMY && (!caster.CanHurt(target)))
+            if (TargetTeam == TargetTeam.Enemy && (!caster.CanHurt(target)))
             {
                 return CommandResult.INVALID_TARGET;
             }
@@ -113,9 +111,9 @@ namespace Core.Combat.Abilities
 
         protected static Team.Team GetSearchTeam(Unit caster, TargetTeam targetTeam) => targetTeam switch
         {
-            TargetTeam.BOTH => Team.Team.TEAM_1 | Team.Team.TEAM_2,
-            TargetTeam.ENEMY => (Team.Team.TEAM_1 | Team.Team.TEAM_2) ^ caster.Team,
-            TargetTeam.ALLY => caster.Team,
+            TargetTeam.Both => Team.Team.TEAM_1 | Team.Team.TEAM_2,
+            TargetTeam.Enemy => (Team.Team.TEAM_1 | Team.Team.TEAM_2) ^ caster.Team,
+            TargetTeam.Ally => caster.Team,
             _ => Team.Team.NONE,
         };
 

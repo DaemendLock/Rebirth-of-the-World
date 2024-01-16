@@ -160,7 +160,7 @@ namespace Core.Combat.Units.Components
 
             target = DecideTarget(target, spell, spellModification);
 
-            if ((spell.GcdCategory == GcdCategory.NORMAL) && (_globalCooldown.Expired == false))
+            if ((spell.GcdCategory == GcdCategory.Normal) && (_globalCooldown.Expired == false))
             {
                 return CommandResult.ON_COOLDOWN;
             }
@@ -298,13 +298,13 @@ namespace Core.Combat.Units.Components
 
         private Unit DecideTarget(Unit target, Spell spell, SpellModification modification)
         {
-            if (_owner != null && spell.TargetTeam == TargetTeam.ALLY && (_owner.CanHelp(target) == false ||
+            if (_owner != null && spell.TargetTeam == TargetTeam.Ally && (_owner.CanHelp(target) == false ||
                 IsSelfCasting(spell, modification)))
             {
                 return _owner;
             }
 
-            if (spell.TargetTeam == TargetTeam.ENEMY && (_owner.CanHurt(target) == false))
+            if (spell.TargetTeam == TargetTeam.Enemy && (_owner.CanHurt(target) == false))
             {
                 return null;
             }
@@ -316,7 +316,7 @@ namespace Core.Combat.Units.Components
 
         private void StartGcd(Spell spell, Unit caster)
         {
-            if (spell.GcdCategory != GcdCategory.NORMAL)
+            if (spell.GcdCategory != GcdCategory.Normal)
             {
                 return;
             }

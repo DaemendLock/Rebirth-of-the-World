@@ -34,7 +34,7 @@ namespace View.Combat.UI.ActionBar
                 return;
             }
 
-            if (_ability.Spell.GcdCategory == GcdCategory.IGNOR)
+            if (_ability.Spell.GcdCategory == GcdCategory.Ignor)
             {
                 _cooldown.fillAmount = _ability.Cooldown.FullTime > 0 ? _ability.Cooldown.Left / _ability.Cooldown.FullTime : 0;
                 return;

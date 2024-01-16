@@ -1,14 +1,21 @@
 ﻿using Core.Combat.Abilities;
 using Core.Combat.Abilities.SpellEffects;
-using Core.Combat.Statuses.AuraEffects;
-using Core.Combat.Utils.ValueSources;
-using System;
+using Core.Combat.Abilities.SpellScripts;
 using System.IO;
 using System.Runtime.Serialization;
 using Utils.DataTypes;
 
-namespace Utils.Serializer
+namespace Core.Combat.Utils.Serialization
 {
+    public enum SpellType : byte
+    {
+        Default,
+        Aoe,
+        Cleave,
+        Splash,
+        Selfcast
+    }
+
     internal enum SpellEffectType : byte
     {
         DUMMY,
@@ -35,26 +42,6 @@ namespace Utils.Serializer
         MULTIPLY,
     }
 
-    internal enum AuraEffectType
-    {
-        IMMMUNITY,
-        MODIFY_COOLDOWN,
-        MODIFY_HEALTH_REGEN,
-        MODIFY_STAT,
-        PERIODICALLY_TRIGGER_SPELL,
-        PROC_TRIGGER_SPELL,
-        REACTION_CAST,
-        MODIFY_SPELL_EFFECT
-    }
-
-    internal enum AuraEffectValue
-    {
-        CONSTANT,
-        STAT_PROVIDER,
-        VALUE_SUM,
-        VALUE_MULTIPLY
-    }
-
     public static class SpellSerializer
     {
         public static byte[] Serialize(SpellData data)
@@ -72,12 +59,10 @@ namespace Utils.Serializer
                 buffer.Write(data.Cooldown);
                 buffer.Write(data.GCD);
                 buffer.Write((byte) data.GcdCategory);
-                buffer.Write(data.Duration);
                 buffer.Write((ushort) data.School);
                 buffer.Write((int) data.Mechanic);
-                buffer.Write((int) data.DispellType);
                 buffer.Write((long) data.Flags);
-                buffer.Write(data.Script);
+                buffer.Write((byte) data.Script);
 
                 SerializeSpellEffects(buffer, data.Effects);
             }
@@ -103,12 +88,10 @@ namespace Utils.Serializer
             float gcd;
             GcdCategory gcdCategory;
 
-            float duration;
             SchoolType school;
             Mechanic mechanic;
-            DispellType dispellType;
             SpellFlags flags;
-            Type script;
+            SpellType script;
             SpellEffect[] effects;
 
             MemoryStream memoryStream = new MemoryStream(data);
@@ -124,55 +107,26 @@ namespace Utils.Serializer
                 cooldown = binaryReader.ReadSingle();
                 gcd = binaryReader.ReadSingle();
                 gcdCategory = (GcdCategory) binaryReader.ReadByte();
-                duration = binaryReader.ReadSingle();
                 school = (SchoolType) binaryReader.ReadUInt16();
                 mechanic = (Mechanic) binaryReader.ReadInt32();
-                dispellType = (DispellType) binaryReader.ReadInt32();
                 flags = (SpellFlags) binaryReader.ReadInt64();
-                script = Type.GetType(binaryReader.ReadString()) ?? typeof(Spell);
+                script = (SpellType) binaryReader.ReadByte();
                 effects = DeserializeSpellEffects(binaryReader);
             }
 
             memoryStream.Dispose();
 
-            return new SpellData(id, new AbilityCost(leftCost, rightCost), team, range, castTime, cooldown, gcd, gcdCategory, duration, dispellType, school, mechanic, effects, flags, script);
+            return new SpellData(id, new AbilityCost(leftCost, rightCost), team, range, castTime, cooldown, gcd, gcdCategory, school, mechanic, effects, flags, script);
         }
 
-        internal static Spell FromSpellData(SpellData data)
+        internal static Spell FromSpellData(SpellData data) => data.Script switch
         {
-            Type type = Type.GetType(data.Script) ?? throw new SerializationException("Can't read type.");
-            return (Spell) Activator.CreateInstance(type, data) ?? throw new SerializationException("Unknow error occured...");
-        }
-
-        internal static SpellValueSource DeserializeSpellValue(BinaryReader readed) => (SpellEffectValue) readed.ReadByte() switch
-        {
-            SpellEffectValue.FIXED_VALUE => new FixedValue(readed),
-            SpellEffectValue.CASTER_STAT => new StatValue(readed),
-            SpellEffectValue.CASTER_RESOURCE => new CasterResourceValue(readed),
-            SpellEffectValue.MULTIPLY => new MultiplyValue(readed),
-            _ => throw new SerializationException("Unknown spell value type."),
-        };
-
-        internal static AuraEffect DeserializeAuraEffect(BinaryReader readed) => (AuraEffectType) readed.ReadByte() switch
-        {
-            AuraEffectType.IMMMUNITY => new Immunity(readed),
-            AuraEffectType.MODIFY_COOLDOWN => new ModCooldown(readed),
-            AuraEffectType.MODIFY_HEALTH_REGEN => new ModHealthRegen(readed),
-            AuraEffectType.MODIFY_STAT => new ModStat(readed),
-            AuraEffectType.PERIODICALLY_TRIGGER_SPELL => new PeriodicallyTriggerSpell(readed),
-            AuraEffectType.PROC_TRIGGER_SPELL => new ProcTriggerSpell(readed),
-            AuraEffectType.REACTION_CAST => new ReactionCast(readed),
-            AuraEffectType.MODIFY_SPELL_EFFECT => new ModifySpellEffect(readed),
-            _ => throw new SerializationException("Unknown spell value type."),
-        };
-
-        internal static Core.Combat.Utils.ValueSources.AuraValueSource DeserializeAuraValue(BinaryReader readed) => (AuraEffectValue) readed.ReadByte() switch
-        {
-            AuraEffectValue.CONSTANT => new Constant(readed),
-            AuraEffectValue.STAT_PROVIDER => new StatProvider(readed),
-            AuraEffectValue.VALUE_SUM => new ValueSum(readed),
-            AuraEffectValue.VALUE_MULTIPLY => new ValueMultiplication(readed),
-            _ => throw new SerializationException("Unknown spell value type."),
+            SpellType.Default => new Spell(data),
+            SpellType.Splash => new SplashSpell(data),
+            SpellType.Aoe => new AoeSpell(data),
+            SpellType.Selfcast => new SelfcastSpell(data),
+            SpellType.Cleave => new CleaveSpell(data),
+            _ => throw new SerializationException("Unknow spell type."),
         };
 
         private static void SerializeSpellEffects(BinaryWriter buffer, SpellEffect[] effects)
@@ -196,6 +150,15 @@ namespace Utils.Serializer
 
             return spellEffects;
         }
+
+        internal static SpellValueSource DeserializeSpellValue(BinaryReader readed) => (SpellEffectValue) readed.ReadByte() switch
+        {
+            SpellEffectValue.FIXED_VALUE => new FixedValue(readed),
+            SpellEffectValue.CASTER_STAT => new StatValue(readed),
+            SpellEffectValue.CASTER_RESOURCE => new CasterResourceValue(readed),
+            SpellEffectValue.MULTIPLY => new MultiplyValue(readed),
+            _ => throw new SerializationException("Unknown spell value type."),
+        };
 
         public static SpellEffect DeserilizeSpellEffect(BinaryReader readed) => (SpellEffectType) readed.ReadByte() switch
         {

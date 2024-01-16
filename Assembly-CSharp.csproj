@@ -59,7 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Sources\Temp\SpellLib\Warrior.cs" />
-    <Compile Include="Assets\Sources\Temp\Loader.cs" />
     <Compile Include="Assets\Sources\Temp\SpellLib\Weapons.cs" />
     <Compile Include="Assets\Sources\Temp\DataIniter.cs" />
     <Compile Include="Assets\Sources\Temp\CombatIniter.cs" />
@@ -981,6 +980,10 @@
     <ProjectReference Include="Data.csproj">
       <Project>{FE06642D-D97E-6F45-E6BC-17F2C4BC433F}</Project>
       <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="Server.csproj">
+      <Project>{F241A318-ED9E-43D5-F1C7-3F43DAA22DCF}</Project>
+      <Name>Server</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

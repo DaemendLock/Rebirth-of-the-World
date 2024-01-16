@@ -1,4 +1,5 @@
 ﻿using Core.Combat.Abilities.SpellEffects;
+using Core.Combat.Utils.Serialization;
 using System;
 using Utils.DataTypes;
 
@@ -16,15 +17,13 @@ namespace Core.Combat.Abilities
         public readonly float Cooldown;
         public readonly float GCD;
         public readonly GcdCategory GcdCategory;
-        public readonly float Duration;
         public readonly SchoolType School;
         public readonly Mechanic Mechanic;
-        public readonly DispellType DispellType;
         public readonly SpellFlags Flags;
         public readonly SpellEffect[] Effects;
-        public readonly string Script;
+        public readonly SpellType Script;
 
-        public SpellData(int id, AbilityCost cost, TargetTeam targetTeam, float range, float castTime, float cooldown, float gcd, GcdCategory gcdCategory, float duration, DispellType dispell, SchoolType school, Mechanic mechanic, SpellEffect[] effects, SpellFlags flags, Type script)
+        public SpellData(int id, AbilityCost cost, TargetTeam targetTeam, float range, float castTime, float cooldown, float gcd, GcdCategory gcdCategory, SchoolType school, Mechanic mechanic, SpellEffect[] effects, SpellFlags flags, SpellType script)
         {
             Id = (SpellId) id;
             Cost = cost;
@@ -34,13 +33,11 @@ namespace Core.Combat.Abilities
             Cooldown = cooldown;
             GCD = gcd;
             GcdCategory = gcdCategory;
-            Duration = duration;
             School = school;
             Mechanic = mechanic;
-            DispellType = dispell;
             Effects = effects;
             Flags = flags;
-            Script = script.ToString();
+            Script = script;
         }
     }
 }

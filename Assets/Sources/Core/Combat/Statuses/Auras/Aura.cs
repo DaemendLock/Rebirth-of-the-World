@@ -9,7 +9,12 @@ namespace Core.Combat.Statuses.Auras
     {
         private static readonly Dictionary<SpellId, Aura> _auras = new Dictionary<SpellId, Aura>();
 
-        private int _effectiveFlags;
+        public int Id;
+        public float Duration;
+        public DispellType Type;
+        public AuraFlags Flags;
+        public int MaxStackCount;
+        //public var Script;
 
         private readonly AuraEffect[] _effects;
 

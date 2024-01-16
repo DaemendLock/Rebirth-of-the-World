@@ -1,6 +1,6 @@
 ﻿using Core.Combat.Utils;
+using Core.Combat.Utils.Serialization;
 using System.IO;
-using Utils.Serializer;
 
 namespace Core.Combat.Abilities.SpellEffects
 {
@@ -25,7 +25,7 @@ namespace Core.Combat.Abilities.SpellEffects
 
         public void ApplyEffect(CastEventData data, float modifyValue)
         {
-            data.Caster.AbsorbDamage(data, _value.GetValue(data, modifyValue), SchoolType.ANY);
+            data.Caster.AbsorbDamage(data, _value.GetValue(data, modifyValue), SchoolType.Any);
         }
 
         public void Serialize(BinaryWriter buffer)

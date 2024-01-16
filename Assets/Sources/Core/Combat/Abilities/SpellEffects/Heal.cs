@@ -1,5 +1,6 @@
 ﻿using Core.Combat.Units;
 using Core.Combat.Utils;
+using Core.Combat.Utils.Serialization;
 using System.IO;
 using Utils.DataStructure;
 using Utils.Serializer;
