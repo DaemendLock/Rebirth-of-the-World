@@ -44,7 +44,7 @@ namespace Core.Combat.Statuses.AuraEffects
 
         public void Serialize(BinaryWriter buffer)
         {
-            buffer.Write((byte) AuraEffectType.MODIFY_SPELL_EFFECT);
+            buffer.Write((byte) AuraEffectType.ModifySpellEffect);
             buffer.Write(_spellId);
             buffer.Write(_effect);
             buffer.Write(_value);

@@ -1,7 +1,10 @@
 ﻿using Core.Combat.Abilities;
+using Core.Combat.Abilities.ActionRecords;
+using Core.Combat.Engine.Services;
 using Core.Combat.Units;
-using Core.Combat.Units.Components;
+using Core.Combat.Units.Creation;
 using Core.Combat.Utils;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Utils.DataTypes;
@@ -14,8 +17,11 @@ namespace Core.Combat.Engine
     {
         private static readonly List<Unit> _units = new(64);
         private static readonly List<Position> _positions = new List<Position>(64);
+        //private static readonly List<Resource> _resources = new (64);
 
-        private static Queue<EntityId> _avaibleSlots = new Queue<EntityId>();
+        private static readonly Queue<EntityId> _avaibleSlots = new Queue<EntityId>();
+
+        private static UnitFactory _unitFactory = new();
 
         #region Creation/Deletion
         public static EntityId GetAvaibleId()
@@ -28,27 +34,21 @@ namespace Core.Combat.Engine
             return _avaibleSlots.Peek();
         }
 
-        public static Unit GetUnit(EntityId id)
+        public static Unit GetUnitById(EntityId id)
         {
             if (id < 0 || id >= _units.Count)
+            {
                 return null;
+            }
 
             return _units[id];
         }
 
         public static void CreateUnit(EntityId id, UnitCreationData.ModelData data)
         {
-            Spellcasting spellcasting = new Spellcasting();
-
-            Unit unit = new(spellcasting, new UnitState(data.Stats, new CastResources(data.CastResourceData),
-                (Team.Team) data.Team, id));
-
-            foreach (SpellId spell in data.Spells)
-            {
-                spellcasting.GiveAbility(Spell.Get(spell));
-            }
-
+            Unit unit = _unitFactory.Create(id, data);
             RegisterUnit(unit, id);
+
             _positions[id] = new(data.PositionData);
         }
 
@@ -58,15 +58,15 @@ namespace Core.Combat.Engine
             _positions.Clear();
             _avaibleSlots.Clear();
         }
-        
+
         public static void RemoveUnit(EntityId id)
         {
-            
+
         }
         #endregion
 
         #region Positions
-        internal static List<Unit> FindUnitsInRadius(Vector3 location, float radius, Team.Team team = Team.Team.NONE, bool includeDead = false)
+        public static List<Unit> FindUnitsInRadius(Vector3 location, float radius, Team.Team team = Team.Team.NONE, bool includeDead = false)
         {
             List<Unit> result = new();
 
@@ -100,50 +100,48 @@ namespace Core.Combat.Engine
         #endregion
 
         #region Commands
-
-        public static void MoveUnit(int unitId, Vector3 position, Vector3 moveDirection, float rotation)
+        public static void MoveUnit(int unitId, Position position, Vector3 moveDirection)
         {
-            Unit unit = GetUnit(unitId);
+            Unit unit = GetUnitById(unitId);
 
             if (unit == null)
             {
                 return;
             }
 
-            unit.Position = position;
+            _positions[unitId] = position;
             unit.MoveDirection = moveDirection;
-            unit.Rotation = rotation;
         }
 
-        public static void CastAbility(EntityId unitId, EntityId targetId, SpellSlot slot)
+        public static IActionRecordContainer Cast(CastInputData data)
         {
-            Unit caster = GetUnit(unitId);
-
-            if(caster==null)
+            if (data.Caster == null)
             {
-                return;
+                throw new ArgumentNullException(nameof(data.Caster));
             }
 
-            Spell spell = caster.GetAbility(slot)?.Spell;
+            Ability spell = data.Caster.GetAbility(data.SpellSlot);
 
             if (spell == null)
             {
-                return;
+                throw new InvalidOperationException("Can't cast from empty slot.");
             }
 
-            Unit target = null;
+            CastService castService = new(data.Target, data.Target, spell);
 
-            if (targetId != -1)
+            if (castService.Check() != CommandResult.SUCCES)
             {
-                target = GetUnit(targetId);
+                throw new InvalidOperationException(nameof(data));
             }
 
-            caster.CastAbility(new CastEventData(caster, target, spell));
+            return castService.Cast();
         }
+
+        // public static void Cast(Unit unit, SpellSlot slot) => castService.Cast(new CastData());
 
         public static void StopAllActions(EntityId unitId)
         {
-            Unit unit = GetUnit(unitId);
+            Unit unit = GetUnitById(unitId);
 
             if (unit == null)
             {
@@ -157,14 +155,14 @@ namespace Core.Combat.Engine
 
         public static void StartAttack(EntityId unitId, EntityId target)
         {
-            Unit unit = GetUnit(unitId);
+            Unit unit = GetUnitById(unitId);
 
             if (unit == null)
             {
                 return;
             }
 
-            unit.Target = GetUnit(target);
+            unit.Target = GetUnitById(target);
         }
         #endregion
 
@@ -199,7 +197,7 @@ namespace Core.Combat.Engine
 
             lock (_avaibleSlots)
             {
-                for(int i = 0; (i < _avaibleSlots.Count) && (_avaibleSlots.Peek() != id); i++)
+                for (int i = 0; (i < _avaibleSlots.Count) && (_avaibleSlots.Peek() != id); i++)
                 {
                     _avaibleSlots.Enqueue(_avaibleSlots.Dequeue());
                 }

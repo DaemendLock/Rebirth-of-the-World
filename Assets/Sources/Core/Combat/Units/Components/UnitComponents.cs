@@ -5,7 +5,7 @@ namespace Core.Combat.Units.Components
 {
     public class CastResources
     {
-        public CastResources(float leftMaxValue, float rightMaxValue, ResourceType leftResourceType, ResourceType rightResourceType)
+        internal CastResources(float leftMaxValue, float rightMaxValue, ResourceType leftResourceType, ResourceType rightResourceType)
         {
             Left = new Resource(leftMaxValue);
             Right = new Resource(rightMaxValue);
@@ -29,17 +29,33 @@ namespace Core.Combat.Units.Components
             Right -= cost.Right;
         }
 
-        public void GiveResource(ResourceType type, float value)
+        public float GiveResource(ResourceType type, float value)
         {
             if (LeftType == type)
             {
+                if (Left.MaxValue - Left.Value < value)
+                {
+                    value = Left.MaxValue - Left.Value;
+                }
+
                 Left += value;
             }
-
+            else
             if (RightType == type)
             {
+                if (Right.MaxValue - Right.Value < value)
+                {
+                    value = Right.MaxValue - Right.Value;
+                }
+
                 Right += value;
             }
+            else
+            {
+                return 0;
+            }
+
+            return value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

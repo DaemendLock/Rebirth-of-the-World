@@ -63,7 +63,7 @@ namespace Data.Characters
 
                 Gear gear = Item.GetGear(item);
 
-                if((gear != null) && gear.HasSpell)
+                if ((gear != null) && gear.HasSpell)
                 {
                     result.Add(gear.SpellId);
                 }
@@ -74,7 +74,7 @@ namespace Data.Characters
 
         public Item GetGearInSlot(int slot)
         {
-            if(slot < 0 || slot >= Gear.Length)
+            if (slot < 0 || slot >= Gear.Length)
             {
                 return null;
             }

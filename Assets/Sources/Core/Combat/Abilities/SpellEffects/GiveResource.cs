@@ -1,6 +1,8 @@
-﻿using Core.Combat.Utils;
+﻿using Core.Combat.Abilities.ActionRecords;
+using Core.Combat.Units;
 using Core.Combat.Utils.Serialization;
 using System.IO;
+using Utils.DataStructure;
 using Utils.DataTypes;
 
 namespace Core.Combat.Abilities.SpellEffects
@@ -16,15 +18,10 @@ namespace Core.Combat.Abilities.SpellEffects
             _type = type;
         }
 
-        public GiveResource(BinaryReader source)
+        public GiveResource(ByteReader source)
         {
-            _value = source.ReadSingle();
-            _type = (ResourceType) source.ReadUInt16();
-        }
-
-        public void ApplyEffect(CastEventData data, float modifyValue)
-        {
-            data.Target.GiveResource(_type, GetValue(modifyValue));
+            _value = source.ReadFloat();
+            _type = (ResourceType) source.ReadUShort();
         }
 
         public float GetValue(float modifyValue) => _value + modifyValue;
@@ -35,5 +32,8 @@ namespace Core.Combat.Abilities.SpellEffects
             buffer.Write(_value);
             buffer.Write((ushort) _type);
         }
+
+        public ActionRecord ApplyEffect(Unit caster, Unit target, float value) => new ModifyResourceRecord(target.Id, _type, target.GiveResource(_type, value));
+
     }
 }

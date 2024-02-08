@@ -1,28 +1,35 @@
-﻿using Core.Combat.Units;
+﻿using Core.Combat.Abilities.ActionRecords;
+using Core.Combat.Units;
 using Core.Combat.Utils;
+using System.Collections.Generic;
 
 namespace Core.Combat.Abilities.SpellScripts
 {
     public class AoeSpell : Spell
     {
-        private const byte AOE_RADIUS_INDEX = 0;
-
         public AoeSpell(SpellData data) : base(data)
         {
         }
 
-        public override void Cast(CastEventData data, SpellModification modification)
-        {
-            Unit[] targets = new Unit[0];
-            //targets = GetUnitsInRadius(range, team, data.Target.Position)
+        public override CommandResult CanCast(Unit data, SpellValueProvider values) => CommandResult.SUCCES;
 
-            foreach (Unit target in targets)
+        public override CastActionRecord Cast(Unit caster, Unit target, SpellValueProvider values)
+        {
+            CastActionRecord record = new(caster, target, Id);
+
+            float effectiveCastRange = values.Range;
+            Team.Team team = GetSearchTeam(caster, TargetTeam);
+            List<Unit> targets = Engine.Units.FindUnitsInRadius(caster.Position, effectiveCastRange, team, Flags.HasFlag(SpellFlags.TARGET_DEAD));
+
+            foreach (Unit applicationTarget in targets)
             {
                 for (int i = 0; i < EffectsCount; i++)
                 {
-                    ApplyEffect(i, modification.EffectsModifications[i], new CastEventData(data.Caster, target, data.Spell, data.TriggerTime));
+                    record.AddAction(ApplyEffect(i, values.EffectBonus(i), caster, applicationTarget));
                 }
             }
+
+            return record;
         }
     }
 }

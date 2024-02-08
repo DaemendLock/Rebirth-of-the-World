@@ -1,6 +1,9 @@
-﻿using Core.Combat.Units;
+﻿using Core.Combat.Abilities.ActionRecords;
+using Core.Combat.Units;
 using Core.Combat.Utils;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using UnityEngine.Playables;
 using Utils.DataTypes;
 
 namespace Core.Combat.Abilities.SpellScripts
@@ -13,39 +16,38 @@ namespace Core.Combat.Abilities.SpellScripts
         {
         }
 
-        public override CommandResult CanCast(CastEventData data, SpellModification modification)
+        public override CommandResult CanCast(Unit data, SpellValueProvider values)
         {
             return CommandResult.SUCCES;
         }
 
-        public override void Cast(CastEventData data, SpellModification modification)
+        public override CastActionRecord Cast(Unit caster, Unit target, SpellValueProvider values)
         {
-            float angle = GetEffectValue(CLEAVE_EFFECT_INDEX, modification.EffectsModifications[CLEAVE_EFFECT_INDEX]);
+            CastActionRecord record = new(caster, target, Id);
 
-            Unit caster = data.Caster;
+            float effectiveCastRange = values.Range;
+            float angle = GetEffectValue(CLEAVE_EFFECT_INDEX, values.EffectBonus(CLEAVE_EFFECT_INDEX));
+
             Team.Team ignorTeam = GetSearchTeam(caster, TargetTeam);
-
-            float effectiveCastRange = GetEffectiveRange(Range, modification);
-
             List<Unit> targets = Engine.Units.FindUnitsInRadius(caster.Position, effectiveCastRange, ignorTeam, Flags.HasFlag(SpellFlags.TARGET_DEAD));
 
             if (angle >= 180)
             {
-                foreach (Unit target in targets)
+                foreach (Unit applicationTarget in targets)
                 {
                     for (int i = 1; i < EffectsCount; i++)
                     {
-                        ApplyEffect(i, modification.EffectsModifications[i], new CastEventData(data.Caster, target, data.Spell));
+                        record.AddAction(ApplyEffect(i, values.EffectBonus(i), caster, applicationTarget));
                     }
                 }
 
-                return;
+                return record;
             }
 
             Vector3 casterPosition = caster.Position;
             Vector3 casterViewAngle = new(caster.Rotation);
 
-            foreach (Unit target in targets)
+            foreach (Unit applicationTarget in targets)
             {
                 if (Vector3.Angle(target.Position - casterPosition, casterViewAngle) > angle)
                 {
@@ -54,9 +56,11 @@ namespace Core.Combat.Abilities.SpellScripts
 
                 for (int i = 1; i < EffectsCount; i++)
                 {
-                    ApplyEffect(i, modification.EffectsModifications[i], new CastEventData(data.Caster, target, data.Spell));
+                    record.AddAction(ApplyEffect(i, values.EffectBonus(i), caster, applicationTarget));
                 }
             }
+
+            return record;
         }
     }
 }

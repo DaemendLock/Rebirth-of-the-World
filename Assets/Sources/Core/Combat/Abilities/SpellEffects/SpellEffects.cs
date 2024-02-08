@@ -1,3 +1,5 @@
+using Core.Combat.Abilities.ActionRecords;
+using Core.Combat.Units;
 using Core.Combat.Utils;
 using Core.Combat.Utils.Serialization;
 using System.IO;
@@ -7,18 +9,36 @@ using Utils.Interfaces;
 
 namespace Core.Combat.Abilities.SpellEffects
 {
+    public class SpellEffectValueProvider
+    {
+        private float _effectModification;
+
+        public SpellEffectValueProvider(Unit caster, SpellId source, float effectModification)
+        {
+            _effectModification = effectModification;
+            Caster = caster;
+            Source = source;
+        }
+
+        public Unit Caster { get; }
+
+        public SpellId Source { get; }
+
+        public float GetValue(SpellEffect effect) => effect.GetValue(_effectModification);
+    }
+
     public interface SpellEffect : SerializableInterface
     {
-        public float GetValue(float modifyValue);
+        float GetValue(float modifyValue);
 
-        public void ApplyEffect(CastEventData data, float modifyValue);
+        ActionRecord ApplyEffect(Unit caster, Unit target, float modification);
     }
 
     public interface SpellValueSource : SerializableInterface
     {
         float BaseValue { get; }
 
-        float GetValue(CastEventData data, float modifyValue);
+        float GetValue(CastInputData data, float modifyValue);
     }
 
     public class FixedValue : SpellValueSource
@@ -28,14 +48,14 @@ namespace Core.Combat.Abilities.SpellEffects
             BaseValue = value;
         }
 
-        public FixedValue(BinaryReader source)
+        public FixedValue(ByteReader source)
         {
-            BaseValue = source.ReadSingle();
+            BaseValue = source.ReadFloat();
         }
 
         public float BaseValue { get; }
 
-        public float GetValue(CastEventData data, float modifyValue) => BaseValue + modifyValue;
+        public float GetValue(CastInputData data, float modifyValue) => BaseValue + modifyValue;
 
         public void Serialize(BinaryWriter buffer)
         {
@@ -54,15 +74,15 @@ namespace Core.Combat.Abilities.SpellEffects
             _stat = stat;
         }
 
-        public StatValue(BinaryReader source)
+        public StatValue(ByteReader source)
         {
-            BaseValue = source.ReadSingle();
-            _stat = (UnitStat) source.ReadInt32();
+            BaseValue = source.ReadFloat();
+            _stat = (UnitStat) source.ReadInt();
         }
 
         public float BaseValue { get; }
 
-        public float GetValue(CastEventData data, float modifyValue) => data.Caster.EvaluateStat(_stat).CalculatedValue * (BaseValue + modifyValue);
+        public float GetValue(CastInputData data, float modifyValue) => data.Caster.EvaluateStat(_stat).CalculatedValue * (BaseValue + modifyValue);
 
         public void Serialize(BinaryWriter buffer)
         {
@@ -79,14 +99,14 @@ namespace Core.Combat.Abilities.SpellEffects
             BaseValue = (ushort) resource;
         }
 
-        public CasterResourceValue(BinaryReader source)
+        public CasterResourceValue(ByteReader source)
         {
-            BaseValue = source.ReadSingle();
+            BaseValue = source.ReadFloat();
         }
 
         public float BaseValue { get; }
 
-        public float GetValue(CastEventData data, float modifyValue) => data.Caster.GetResourceValue((ResourceType) (BaseValue + modifyValue));
+        public float GetValue(CastInputData data, float modifyValue) => data.Caster.GetResourceValue((ResourceType) (BaseValue + modifyValue));
 
         public void Serialize(BinaryWriter buffer)
         {
@@ -106,7 +126,7 @@ namespace Core.Combat.Abilities.SpellEffects
             _value2 = value2;
         }
 
-        public MultiplyValue(BinaryReader source)
+        public MultiplyValue(ByteReader source)
         {
             _value1 = SpellSerializer.DeserializeSpellValue(source);
             _value2 = SpellSerializer.DeserializeSpellValue(source);
@@ -114,7 +134,7 @@ namespace Core.Combat.Abilities.SpellEffects
 
         public float BaseValue => _value1.BaseValue * _value2.BaseValue;
 
-        public float GetValue(CastEventData data, float modifyValue)
+        public float GetValue(CastInputData data, float modifyValue)
         {
             return _value1.GetValue(data, modifyValue) * _value2.GetValue(data, 0);
         }

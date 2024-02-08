@@ -11,7 +11,7 @@ namespace Assets.Sources.Temp
 
         public override void SendRequest(byte[] data)
         {
-            Adapters.Combat.ServerCommandsAdapter.HandleCommand(data);
+            
         }
     }
 }

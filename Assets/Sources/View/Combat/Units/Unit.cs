@@ -3,7 +3,6 @@ using Data.Characters;
 using Data.Entities;
 using System.Collections.Generic;
 using UnityEngine;
-using Utils.DataStructure;
 using static Utils.DataTypes.UnitCreationData;
 using CUnit = Core.Combat.Units.Unit;
 
@@ -47,10 +46,10 @@ namespace View.Combat.Units
             {
                 return;
             }
-             
+
             Character character = Character.Get(data.CharacterId);
 
-            _assignedUnit = Core.Combat.Engine.Units.GetUnit(id);
+            _assignedUnit = Core.Combat.Engine.Units.GetUnitById(id);
             _id = id;
             _spellIcons = character.GetSpellIcons();
 

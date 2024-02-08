@@ -1,64 +1,19 @@
 ﻿using Core.Combat.Abilities;
-using Core.Combat.Units;
+using Core.Combat.Engine;
 using Core.Combat.Utils;
-using System;
+using Utils.DataStructure.StateMachine;
 
-namespace Core.Combat.CastingBehaviors
+namespace Core.Combat.Units.CastingBehaviors
 {
-    public abstract class CastingBehavior
+    internal interface CastingBehavior : IState, Updatable
     {
-        private readonly CastEventData _data;
-        private readonly SpellModification _modification;
-        private readonly Duration _casttime;
+        public Duration Duration { get; }
+        public Spell Spell { get; }
 
-        public CastingBehavior()
-        {
-            _casttime = new Duration(float.PositiveInfinity);
-        }
+        public bool CanInterrupt { get; }
 
-        public CastingBehavior(CastEventData data, SpellModification modification)
-        {
-            float casttime = data.Spell.CastTime + modification.BonusCastTime.CalculatedValue;
+        public bool Finished { get; }
 
-            if (data.Caster != null)
-            {
-                casttime /= data.Caster.EvaluateHasteTimeDivider();
-            }
-
-            _data = data;
-            _casttime = new Duration(casttime);
-            _modification = modification;
-        }
-
-        public float TimeLeft => _casttime.Left;
-        public float FullTime => _casttime.FullTime;
-        public Unit Caster => _data.Caster;
-        public Spell Spell => _data.Spell;
-
-        public SchoolType School => _data.Spell.School;
-
-        public virtual bool CanInterrupt => !(_data.Spell.Flags.HasFlag(SpellFlags.CANT_INTERRUPT) || _data.Caster.HasImmunity(Mechanic.Interrupt));
-
-        public virtual bool Finished => _casttime.Expired;
-
-        public virtual bool AllowAutoattack => false;
-
-        public bool InterruptWithMovement => throw new NotImplementedException();
-
-        public abstract void OnCastBegins();
-        public abstract void OnUpdate();
-        public abstract void OnCastEnd();
-
-        protected void ProcSpell()
-        {
-            Castable ability = _data.Caster.FindAbility(_data.Spell);
-            ability ??= _data.Spell;
-            ability.Cast(_data, _modification);
-        }
-
-        protected void ProcSpell(Castable ability)
-        {
-            ability.Cast(_data, _modification);
-        }
+        public bool AllowAutoattack { get; }
     }
 }

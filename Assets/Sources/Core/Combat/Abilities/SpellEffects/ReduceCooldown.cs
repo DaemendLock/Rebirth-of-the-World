@@ -1,6 +1,8 @@
-﻿using Core.Combat.Utils;
+﻿using Core.Combat.Abilities.ActionRecords;
+using Core.Combat.Units;
 using Core.Combat.Utils.Serialization;
 using System.IO;
+using Utils.DataStructure;
 using Utils.DataTypes;
 
 namespace Core.Combat.Abilities.SpellEffects
@@ -22,15 +24,15 @@ namespace Core.Combat.Abilities.SpellEffects
             _duration = duration;
         }
 
-        public ReduceCooldown(BinaryReader source)
+        public ReduceCooldown(ByteReader source)
         {
-            _spell = (SpellId) source.ReadInt32();
-            _duration = source.ReadSingle();
+            _spell = (SpellId) source.ReadInt();
+            _duration = source.ReadFloat();
         }
 
-        public void ApplyEffect(CastEventData data, float modifyValue)
+        public ActionRecord ApplyEffect(Unit caster, Unit target, float modification)
         {
-            data.Caster.FindAbility(Spell.Get(_spell))?.ReduceCooldown(_duration + modifyValue);
+            throw new System.NotImplementedException();
         }
 
         public float GetValue(float modifyValue)

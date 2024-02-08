@@ -1,5 +1,4 @@
 using Core.Lobby.Accounts;
-using Core.Lobby.Characters;
 using Data.Characters;
 using UnityEngine;
 using View.Lobby.Gallery.Widgets;
@@ -54,7 +53,7 @@ namespace View.Lobby.Gallery
         private void CreateCharacterFile(Character character)
         {
             CharacterCardWidget card = Object.Instantiate(_prefab, _filesContainer.transform);
-            
+
             card.Init(character, AccountsDataProvider.GetCharacterData(character.Id, AccountsDataProvider.ActiveAccount));
 
             _filesContainer.AddCard(card);

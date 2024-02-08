@@ -1,4 +1,9 @@
-﻿namespace Core.Combat.CastingBehaviors
+﻿using Core.Combat.Abilities;
+using Core.Combat.Abilities.ActionRecords;
+using Core.Combat.Units.CastingBehaviors;
+using Core.Combat.Utils;
+
+namespace Core.Combat.CastingBehaviors
 {
     public class Idle : CastingBehavior
     {
@@ -6,19 +11,29 @@
         {
         }
 
-        public override bool CanInterrupt => false;
+        public bool CanInterrupt => false;
 
-        public override bool AllowAutoattack => true;
+        public bool Finished => false;
 
-        public override void OnCastBegins()
+        public bool AllowAutoattack => true;
+
+        public Duration Duration => new Duration(float.PositiveInfinity);
+
+        public Spell Spell => null;
+
+        public void OnExit()
         {
         }
 
-        public override void OnCastEnd()
+        public void OnEnter()
         {
         }
 
-        public override void OnUpdate()
+        public void Update()
+        {
+        }
+
+        public void Update(IActionRecordContainer container)
         {
         }
     }

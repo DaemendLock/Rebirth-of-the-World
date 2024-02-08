@@ -41,19 +41,11 @@ namespace Editor.SpellEditor.Windows
             _searchField.RegisterValueChangedCallback(FilterBySearch);
             _createButton = rootVisualElement.Q<VisualElement>("CreateSpell");
             //_createButton.RegisterCallback<ClickEvent>();
-
-            LoadSpells();
         }
 
         private void OnDisable()
         {
             _searchField.RegisterValueChangedCallback(FilterBySearch);
-        }
-
-        private void LoadSpells()
-        {
-            Data.Spells.SpellDataLoader.Load();
-
         }
 
         private void ShowSpells()

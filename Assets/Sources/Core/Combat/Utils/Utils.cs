@@ -60,10 +60,14 @@ namespace Core.Combat.Utils
         public Vector3 Location;
         public float Rotation;
 
-        public Position(UnitCreationData.PositionData data)
+        public Position(UnitCreationData.PositionData data) : this(data.Location, data.Rotation)
         {
-            Location = data.Location;
-            Rotation = data.Rotation;
+        }
+
+        public Position(Vector3 location, float rotation)
+        {
+            Location = location;
+            Rotation = rotation;
         }
     }
 }

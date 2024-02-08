@@ -1,5 +1,6 @@
 ﻿using Core.Combat.Abilities;
 using Core.Combat.Abilities.SpellEffects;
+using Core.Combat.Abilities.SpellScripts;
 using Core.Combat.Utils.Serialization;
 using Utils.DataStructure;
 using Utils.DataTypes;
@@ -7,7 +8,7 @@ using Utils.SpellIdGenerator;
 
 namespace SpellLib.Weapons
 {
-    public class DefaultSwordAttack : Spell
+    public class DefaultSwordAttack : TargetSpell
     {
         private static readonly int _id = SpellIdCalculator.GenerateGearSpellId(new(0));
 
@@ -26,7 +27,7 @@ namespace SpellLib.Weapons
                 new SchoolDamage(new StatValue(1, UnitStat.ATK))
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN | SpellFlags.AUTOATTACK,
-            SpellType.Default
+            SpellType.Target
             );
 
         public DefaultSwordAttack() : base(_spellData)

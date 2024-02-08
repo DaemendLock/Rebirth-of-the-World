@@ -49,7 +49,7 @@ namespace Core.Lobby.Encounters
             {
                 StatsTable stats = _npc.GetStatsTable(0);
 
-                UnitCreationData.ModelData mdata = new UnitCreationData.ModelData(new SpellId[0], stats, new (new(_location.x, _location.y, _location.z), _rotation), _npc.CastResources,
+                UnitCreationData.ModelData mdata = new UnitCreationData.ModelData(new SpellId[0], stats, new(new(_location.x, _location.y, _location.z), _rotation), _npc.CastResources,
                     _team);
                 UnitCreationData.ViewData vdata = new UnitCreationData.ViewData(_state.CharacterId, _state.ViewSet);
                 UnitCreationData udata = new UnitCreationData(index, mdata, vdata, contolGroup);

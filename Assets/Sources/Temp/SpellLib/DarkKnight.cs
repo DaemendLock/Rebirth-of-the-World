@@ -1,10 +1,7 @@
 ﻿using Core.Combat.Abilities;
 using Core.Combat.Abilities.SpellEffects;
 using Core.Combat.Abilities.SpellScripts;
-using Core.Combat.Statuses.AuraEffects;
 using Core.Combat.Utils.Serialization;
-using Core.Combat.Utils.ValueSources;
-using Utils.DataStructure;
 using Utils.DataTypes;
 using Utils.SpellIdGenerator;
 
@@ -37,7 +34,7 @@ namespace Assets.Sources.Temp.SpellLib
         }
     }
 
-    public class ShadowExplostion : AoeSpell
+    public class ShadowExplostion : SelfcastSpell
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.DARK_KNIGHT, Spec.SPEC_1, 2);
 
@@ -80,7 +77,7 @@ namespace Assets.Sources.Temp.SpellLib
             Mechanic.None,
             new SpellEffect[]
             {
-                new ApplyAura(new ModStat(UnitStat.HASTE, new Constant(30), true))
+                //new ApplyAura(new ModStat(UnitStat.HASTE, new Constant(30), true))
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
             SpellType.Selfcast

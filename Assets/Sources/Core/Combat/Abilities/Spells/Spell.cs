@@ -1,4 +1,4 @@
-﻿using Core.Combat.Abilities.SpellEffects;
+﻿using Core.Combat.Abilities.ActionRecords;
 using Core.Combat.Units;
 using Core.Combat.Utils;
 using Core.Combat.Utils.Serialization;
@@ -8,7 +8,7 @@ using Utils.DataTypes;
 
 namespace Core.Combat.Abilities
 {
-    public class Spell : Castable
+    public abstract class Spell : Castable
     {
         private static Dictionary<SpellId, Spell> _loadedSpells = new Dictionary<SpellId, Spell>();
 
@@ -43,47 +43,13 @@ namespace Core.Combat.Abilities
 
         public SpellFlags Flags => _data.Flags;
 
-        public int EffectsCount => _effects.Length;
+        public int EffectsCount => _data.Effects.Length;
 
-        private SpellEffect[] _effects => _data.Effects;
+        //Server cast(data) -> Send(data) -> Client cast(data from server)
 
-        public virtual void Cast(CastEventData data, SpellModification modification)
-        {
-            for (int i = 0; i < EffectsCount; i++)
-            {
-                ApplyEffect(i, modification.EffectsModifications[i], data);
-            }
-        }
+        public abstract CastActionRecord Cast(Unit caster, Unit target, SpellValueProvider values);
 
-        public virtual CommandResult CanCast(CastEventData data, SpellModification modification)
-        {
-            Unit caster = data.Caster;
-            Unit target = data.Target;
-
-            if (target == null)
-            {
-                return CommandResult.INVALID_TARGET;
-            }
-
-            float effectiveCastRange = Range * (1 + modification.BonusRange.Percent / 100) + modification.BonusRange.BaseValue;
-
-            if ((caster.Position - target.Position).sqrMagnitude > effectiveCastRange * effectiveCastRange)
-            {
-                return CommandResult.OUT_OF_RANGE;
-            }
-
-            if (TargetTeam == TargetTeam.Ally && (!caster.CanHelp(target)))
-            {
-                return CommandResult.INVALID_TARGET;
-            }
-
-            if (TargetTeam == TargetTeam.Enemy && (!caster.CanHurt(target)))
-            {
-                return CommandResult.INVALID_TARGET;
-            }
-
-            return CommandResult.SUCCES;
-        }
+        public abstract CommandResult CanCast(Unit data, SpellValueProvider values);
 
         public bool IsDriving(Spell spell)
         {
@@ -95,9 +61,11 @@ namespace Core.Combat.Abilities
             return false;
         }
 
-        public float GetEffectValue(int index, float modifyValue) => _effects[index].GetValue(modifyValue);
+        public float GetEffectValue(int index, float modifyValue) => _data.Effects[index].GetValue(modifyValue);
 
-        public void ApplyEffect(int index, float modifyValue, CastEventData data) => _effects[index].ApplyEffect(data, modifyValue);
+        public ActionRecord ApplyEffect(int index, float modification, Unit caster, Unit target) => _data.Effects[index].ApplyEffect(caster, target, modification);
+
+        public float GetModifiedCastTime(PercentModifiedValue modification) => (new PercentModifiedValue(CastTime, 100) + modification).CalculatedValue;
 
         public sealed override int GetHashCode()
         {
@@ -109,27 +77,11 @@ namespace Core.Combat.Abilities
             return obj is Spell spell && spell.Id == Id;
         }
 
-        protected static Team.Team GetSearchTeam(Unit caster, TargetTeam targetTeam) => targetTeam switch
-        {
-            TargetTeam.Both => Team.Team.TEAM_1 | Team.Team.TEAM_2,
-            TargetTeam.Enemy => (Team.Team.TEAM_1 | Team.Team.TEAM_2) ^ caster.Team,
-            TargetTeam.Ally => caster.Team,
-            _ => Team.Team.NONE,
-        };
-
-        protected static float GetEffectiveRange(float defaultRange, SpellModification modification)
-            => defaultRange * (100 + modification.BonusRange.Percent) / 100 + modification.BonusRange.BaseValue;
-
         public static Spell Get(SpellId id)
         {
             if (_loadedSpells.ContainsKey(id))
             {
                 return _loadedSpells[id];
-            }
-
-            if (SpellDataLoader.Loaded == false)
-            {
-                SpellDataLoader.Load();
             }
 
             Spell result = SpellSerializer.FromSpellData(SpellSerializer.Deserialize(SpellDataLoader.GetCombatSpell(id)));
@@ -147,20 +99,15 @@ namespace Core.Combat.Abilities
             _loadedSpells[spell.Id] = spell;
         }
 #endif
-    }
-
-    public class SpellModification
-    {
-        public AbilityCost BonusCost;
-        public PercentModifiedValue BonusRange;
-        public PercentModifiedValue BonusCastTime;
-        public PercentModifiedValue CooldownReduction;
-        public PercentModifiedValue BonusDuration;
-        public readonly float[] EffectsModifications;
-
-        public SpellModification(Spell spell)
+        protected static Team.Team GetSearchTeam(Unit caster, TargetTeam targetTeam) => targetTeam switch
         {
-            EffectsModifications = new float[spell.EffectsCount];
-        }
+            TargetTeam.Both => Team.Team.TEAM_1 | Team.Team.TEAM_2,
+            TargetTeam.Enemy => (Team.Team.TEAM_1 | Team.Team.TEAM_2) ^ caster.Team,
+            TargetTeam.Ally => caster.Team,
+            _ => Team.Team.NONE,
+        };
+
+        protected static float GetEffectiveRange(float defaultRange, SpellModification modification)
+            => defaultRange * (100 + modification.BonusRange.Percent) / 100 + modification.BonusRange.BaseValue;
     }
 }

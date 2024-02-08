@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Utils.DataTypes;
 using View.General;
 
 namespace Input.Lobby

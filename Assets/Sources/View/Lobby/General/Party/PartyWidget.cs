@@ -1,5 +1,4 @@
-﻿using Core.Lobby.Accounts;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace View.Lobby.General.Party

@@ -15,14 +15,14 @@ namespace View.Combat.UI.Panels
 
         public void AssignTo(Unit unit)
         {
-            if(unit == null)
+            if (unit == null)
             {
                 _assignedUnit = null;
                 gameObject.SetActive(false);
                 return;
             }
-            
-            if(_assignedUnit == null)
+
+            if (_assignedUnit == null)
             {
                 gameObject.SetActive(true);
             }

@@ -43,6 +43,8 @@ namespace Data.DataMapper
             Load();
         }
 
+        public bool HasKey(Key key) => _dataMap.HasKey(key);
+
         public Key[] GetLoadedKeys() => _dataMap.GetKeys();
 
         public Value GetData(Key key) => _dataMap.GetData(key);

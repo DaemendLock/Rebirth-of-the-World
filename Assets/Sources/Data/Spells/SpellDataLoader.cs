@@ -1,4 +1,6 @@
-﻿using Data.DataMapper;
+﻿using Data.Assets.Sources.Data.Spells;
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using Utils.DataTypes;
 
@@ -6,46 +8,14 @@ namespace Data.Spells
 {
     public static class SpellDataLoader
     {
-        private static readonly string _PATH = Application.streamingAssetsPath + $"{System.IO.Path.DirectorySeparatorChar}Spells{System.IO.Path.DirectorySeparatorChar}spells.datamap";
-        private static readonly string _PATH_COMBAT = Application.streamingAssetsPath + $"{System.IO.Path.DirectorySeparatorChar}Spells{System.IO.Path.DirectorySeparatorChar}combatspells.data";
+        private static readonly string _PATH_LIB = Application.streamingAssetsPath + $"{Path.DirectorySeparatorChar}Spells{Path.DirectorySeparatorChar}";
 
-        private static MappedDataLoader _combat = new MappedDataLoader(_PATH_COMBAT);
-        private static DataLoader<SpellId, MappedData> _spellMap = new DataLoader<SpellId, MappedData>(_PATH);
+        private static ISpellDataProvider _data = new MultiFileSpellDataProvider(new List<ISpellDataProvider>() { new SpellLibFile(_PATH_LIB + "spelllib1.spelllib"), new SpellLibFile(_PATH_LIB + "spelllib2.spelllib") });
 
-        public static bool Loaded => _spellMap.Loaded;
+        public static void Release() => _data.Dispose();
 
-        public static void Load()
-        {
-            if (Loaded)
-            {
-                return;
-            }
+        public static bool CanLoadSpell(SpellId id) => _data.HasSpell(id);
 
-            _combat.Load();
-            _spellMap.Load();
-        }
-
-        public static void Clear()
-        {
-            _spellMap.Clear();
-            _combat.Release();
-        }
-
-        public static void Reload()
-        {
-            if (Loaded == false)
-            {
-                return;
-            }
-
-            _spellMap.Reload();
-        }
-
-        public static SpellId[] GetLoadedIds() => _spellMap.GetLoadedKeys();
-
-        public static byte[] GetCombatSpell(SpellId spellId)
-        {
-            return _combat.GetBytes(_spellMap.GetData(spellId));
-        }
+        public static byte[] GetCombatSpell(SpellId spellId) => _data.GetBytes(spellId);
     }
 }

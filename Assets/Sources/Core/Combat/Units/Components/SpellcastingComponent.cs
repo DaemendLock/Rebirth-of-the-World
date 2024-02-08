@@ -1,6 +1,8 @@
 using Core.Combat.Abilities;
+using Core.Combat.Abilities.ActionRecords;
 using Core.Combat.CastingBehaviors;
 using Core.Combat.Engine;
+using Core.Combat.Units.CastingBehaviors;
 using Core.Combat.Utils;
 using System;
 using System.Collections.Generic;
@@ -10,13 +12,6 @@ namespace Core.Combat.Units.Components
 {
     public class Spellcasting : Updatable
     {
-        public delegate void StartedPrecast(Spell spell, float duration);
-        public delegate void Casted(Spell spell, CommandResult result);
-        public delegate void Attacked(Spell spell, Unit target);
-        public delegate void StoppedPrecast();
-
-        public delegate void CastStarted(Spell spell);
-
         private const int SPELL_LIST_SIZE = 16;
         private const int ACTIONBAR_SIZE = 6;
         private const int ITEMBAR_SIZE = 4;
@@ -33,13 +28,13 @@ namespace Core.Combat.Units.Components
 
         private Unit _owner;
 
-        private CastingBehavior _casting = new Idle();
+        private CastStateMachine _casting = new();
         private Duration _globalCooldown;
 
         public float GCD => _globalCooldown.Left;
-        public float CastTime => _casting.TimeLeft;
-        public float FullCastTime => _casting.FullTime;
-        public Spell CastingSpell => _casting.Spell;
+        public float CastTime => _casting.CurrentState.Duration.Left;
+        public float FullCastTime => _casting.CurrentState.Duration.FullTime;
+        public Spell CastingSpell => _casting.CurrentState.Spell;
 
         internal Ability SetAbilityInSlot(Ability ability, SpellSlot slot)
         {
@@ -80,7 +75,7 @@ namespace Core.Combat.Units.Components
 
             if (spell.Flags.HasFlag(SpellFlags.PASSIVE_SPELL))
             {
-                CastSpell(new CastEventData(_owner, _owner, spell));
+                spell.Cast(_owner, _owner, GetSpellValues(spell.Id));
             }
 
             GetBarForSpell(spell)?.Add(ability);
@@ -99,7 +94,7 @@ namespace Core.Combat.Units.Components
 
             if (spell.Flags.HasFlag(SpellFlags.PASSIVE_SPELL))
             {
-                _owner.RemoveStatus(spell);
+                _owner.RemoveStatus(spell.Id);
             }
             else
             {
@@ -123,87 +118,89 @@ namespace Core.Combat.Units.Components
             _ => null,
         };
 
-        internal CommandResult CastAbility(CastEventData data)
+        internal SpellValueProvider GetSpellValues(SpellId spell) => new(Spell.Get(spell), _spellModification.GetValueOrDefault(spell, new(Spell.Get(spell))));
+
+        //internal CommandResult CastAbility(Ability ability, CastData data)
+        //{
+        //    if (ability == null)
+        //    {
+        //        throw new ArgumentNullException(nameof(ability));
+        //    }
+
+        //    if (ability.OnCooldown)
+        //    {
+        //        return CommandResult.ON_COOLDOWN;
+        //    }
+
+        //    if (ability.CanPay(data.EventData, GetModificationForSpell(ability.Spell.Id)) == false)
+        //    {
+        //        return CommandResult.NOT_ENOUGHT_RESOURCE;
+        //    }
+
+        //    return CastSpell(ability.Spell, data);
+        //}
+
+        internal PrecastActionRecord StartCast(Ability ability, Unit target, float time)
         {
-            Ability ability = FindAbility(data.Spell);
+            Precast precast = new Precast(new(ability, _owner, target), time);
+            _casting.ChangeState(precast);
 
-            if (ability == null)
-            {
-                return CommandResult.INVALID_TARGET;
-            }
-
-            if (ability.OnCooldown)
-            {
-                return CommandResult.ON_COOLDOWN;
-            }
-
-            if (ability.CanPay(data, GetModificationForSpell(ability.Spell.Id)) == false)
-            {
-                return CommandResult.NOT_ENOUGHT_RESOURCE;
-            }
-
-            return CastSpell(data);
+            return new PrecastActionRecord(_owner.Id, target.Id, ability.Spell.Id, time);
         }
 
-        internal CommandResult CastSpell(CastEventData data)
-        {
-            Spell spell = data.Spell;
-            Unit target = data.Target;
+        //internal CommandResult CastSpell(Spell spell, CastData data)
+        //{
+        //    Unit target = data.EventData.Target;
 
-            SpellModification spellModification = GetModificationForSpell(spell.Id);
+        //    SpellModification spellModification = GetModificationForSpell(spell.Id);
 
-            if (data.Spell.Flags.HasFlag(SpellFlags.PROC_SPELL))
-            {
-                data.Spell.Cast(data, spellModification);
-                return CommandResult.SUCCES;
-            }
+        //    if (spell.Flags.HasFlag(SpellFlags.PROC_SPELL))
+        //    {
+        //        spell.Cast(data);
+        //        return CommandResult.SUCCES;
+        //    }
 
-            target = DecideTarget(target, spell, spellModification);
+        //    target = DecideTarget(target, spell, spellModification);
 
-            if ((spell.GcdCategory == GcdCategory.Normal) && (_globalCooldown.Expired == false))
-            {
-                return CommandResult.ON_COOLDOWN;
-            }
+        //    if ((spell.GcdCategory == GcdCategory.Normal) && (_globalCooldown.Expired == false))
+        //    {
+        //        return CommandResult.ON_COOLDOWN;
+        //    }
 
-            /*
-            if (spell.Flags.HasFlag(SpellFlags.CAN_CAST_WHILE_MOVING) || (_owner.MoveDirection != Vector3.zero))
-            {
-                return CommandResult.MOVING;
-            }*/
+        //    /*
+        //    if (spell.Flags.HasFlag(SpellFlags.CAN_CAST_WHILE_MOVING) || (_owner.MoveDirection != Vector3.zero))
+        //    {
+        //        return CommandResult.MOVING;
+        //    }*/
 
-            data = new CastEventData(data.Caster, target, spell, data.TriggerTime);
-            CommandResult result = spell.CanCast(data, spellModification);
+        //    data = new CastEventData(data.Caster, target, spell);
+        //    CommandResult result = spell.CanCast(data, spellModification);
 
-            if (result != CommandResult.SUCCES)
-            {
-                return result;
-            }
+        //    if (result != CommandResult.SUCCES)
+        //    {
+        //        return result;
+        //    }
 
-            StartCast(data, spellModification);
-            return CommandResult.SUCCES;
-        }
-
-        public void Channel(CastEventData data, float triggerInterval)
-        {
-            _casting = new Channeling(data, GetModificationForSpell(data.Spell.Id), triggerInterval);
-        }
+        //    StartCast(data, spellModification);
+        //    return CommandResult.SUCCES;
+        //}
 
         public void Interrupt(InterruptData data)
         {
             if (data.Succes)
             {
-                _casting = new Idle();
+                _casting.ChangeState(new Idle());
                 return;
             }
 
-            if (_casting.CanInterrupt == false)
+            if (_casting.CurrentState.CanInterrupt == false)
             {
                 return;
             }
 
             for (int i = 0; i < _interrupts.Length; i++)
             {
-                if ((((int) _casting.School >> i) & 1) != 0)
+                if ((((int) _casting.CurrentState.Spell.School >> i) & 1) != 0)
                 {
                     _interrupts[i] = data;
                 }
@@ -242,24 +239,22 @@ namespace Core.Combat.Units.Components
             return true;
         }
 
-        public void Update()
+        public void Update(IActionRecordContainer container)
         {
-            if(_owner.Alive == false)
+            if (_owner.Alive == false)
             {
                 return;
             }
 
-            _casting.OnUpdate();
+            _casting.CurrentState.Update(container);
 
-            if (_casting.Finished)
+            if (_casting.CurrentState.Finished)
             {
-                CastingBehavior active = _casting;
-                _casting = new Idle();
-                active.OnCastEnd();
-                _owner.InformCastingStopped();
+                //TODO: container.AddAction(StopCastAction());
+                _casting.ChangeState(new Idle());
             }
 
-            if (_casting.AllowAutoattack && _owner.CanHurt(_owner.Target))
+            if (_casting.CurrentState.AllowAutoattack && _owner.CanHurt(_owner.Target))
             {
                 for (int i = 0; i < AUTOATTACK_COUNT; i++)
                 {
@@ -271,29 +266,6 @@ namespace Core.Combat.Units.Components
                     _owner.Attack(_autoattack[i].Spell, _owner.Target);
                 }
             }
-        }
-
-        private void StartCast(CastEventData data, SpellModification modification)
-        {
-            if (_casting.AllowAutoattack && (data.Spell.Flags.HasFlag(SpellFlags.CAN_CAST_WHILE_CASTING) == false))
-            {
-                _owner.Interrupt(new(true, new SpellId(), 0));
-            }
-
-            if (data.Spell.CastTime + modification.BonusCastTime.CalculatedValue == 0)
-            {
-                Castable ability = FindAbility(data.Spell);
-                ability ??= data.Spell;
-
-                ability.Cast(data, modification);
-            }
-            else
-            {
-                _casting = new Precast(data, modification);
-                _owner.InformCastingBehavior(data.Spell, _casting.FullTime);
-            }
-
-            StartGcd(data.Spell, data.Caster);
         }
 
         private Unit DecideTarget(Unit target, Spell spell, SpellModification modification)

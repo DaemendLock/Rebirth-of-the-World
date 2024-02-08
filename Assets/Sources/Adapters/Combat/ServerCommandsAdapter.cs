@@ -1,4 +1,5 @@
 ﻿using Core.Combat.Abilities;
+using Core.Combat.Engine;
 using Utils.DataStructure;
 using Utils.DataTypes;
 using View.Combat.Units;
@@ -36,6 +37,15 @@ namespace Adapters.Combat
                 case ServerCommand.StartCombat:
                     HandleStartCombatRequest(reader);
                     return;
+
+                case ServerCommand.Kill:
+                    return;
+
+                case ServerCommand.Resurrect:
+                    return;
+
+                case ServerCommand.TakeDamage:
+                    return;
             }
         }
 
@@ -46,37 +56,60 @@ namespace Adapters.Combat
 
         private static void HandleMoveRequest(ByteReader source)
         {
-            MoveData mdata = MoveData.Parse(source);
+            MoveData moveData = MoveData.Parse(source);
 
-            Core.Combat.Engine.Units.MoveUnit(mdata.UnitId, mdata.Position, mdata.MoveDirection, mdata.Rotation);
+            Units.MoveUnit(moveData.UnitId, moveData.Position, moveData.MoveDirection);
         }
 
         private static void HandleCastRequest(ByteReader source)
         {
             CastData action = CastData.Parse(source);
+            //CastAction action = 
+            Units.Cast(new (Units.GetUnitById(action.UnitId), Units.GetUnitById(action.TargetId), (SpellSlot)action.SpellSlot));
 
-            Core.Combat.Engine.Units.CastAbility(action.UnitId, action.TargetId, (SpellSlot) action.SpellSlot);
+            //Clients.Send(_packetFactory.Create(action));
+
+            //SchoolDamage.ApplyEffect(CastData data)->
+            // {
+            //      damageData = new DamageData()
+            //      data.RecordNewDamage(damageData);
+            //      Units.ApplyDamage(damageData);
+            // }
+            //Core.Combat.Engine----->
+            //Units.DealDamage(damageData);
+            //{
+            //    DamageTaken?.Invoke(processedDamageData);
+            //}
+
+            //---------------
+
+            //CastData data = CastData.Parse(source);
+            //View.HandleCast(data);
+
+            //View.Handle(action);
+            //View.Combat.Units.Unit.GetUnit(action.Caster).CastAbility(action);
         }
 
         private static void HandleTargetRequest(ByteReader source)
         {
             TargetData action = TargetData.Parse(source);
-            Core.Combat.Engine.Units.StartAttack(action.Attacker, action.Target);
+            Units.StartAttack(action.Attacker, action.Target);
         }
 
         private static void HandleCandelRequest(ByteReader source)
         {
             StopData action = StopData.Parse(source);
-            Core.Combat.Engine.Units.StopAllActions(action.Unit);
+            Units.StopAllActions(action.Unit);
         }
 
         private static void HandleUnitCreationRequest(ByteReader source)
         {
             UnitCreationData udata = UnitCreationData.Parse(source);
 
-            Core.Combat.Engine.Units.CreateUnit(udata.Id, udata.Model);
+            Units.CreateUnit(udata.Id, udata.Model);
             UnitFactory.CreateUnit(udata);
             SelectionInfo.RegisterControlUnit(udata.Id, udata.ControlGroup);
+
         }
     }
 }

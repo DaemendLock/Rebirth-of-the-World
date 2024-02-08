@@ -1,3 +1,4 @@
+using Core.Combat.Abilities.ActionRecords;
 using Core.Combat.Units;
 using Core.Combat.Utils;
 using Utils.DataTypes;
@@ -20,33 +21,24 @@ namespace Core.Combat.Abilities
 
         public SchoolType Type => Spell.School;
 
-        public void Cast(CastEventData data, SpellModification modification)
+        public CastActionRecord Cast(Unit caster, Unit target, SpellValueProvider values)
         {
-            CommandResult result = CanCast(data, modification);
-
-            if (result != CommandResult.SUCCES)
-            {
-                return;
-            }
-
-            data.Caster?.SpendResource(Spell.Cost + modification.BonusCost);
-
-            StartCooldown(modification.CooldownReduction, data.Caster);
-            Spell.Cast(data, modification);
-            //TODO Logger.Log($"Spell({Spell.Id}) casted: {data.Caster} -> {data.Target}");
+            caster?.SpendResource(values.Cost);
+            StartCooldown(values.Cooldown, caster);
+            return Spell.Cast(caster, target, values);
         }
 
-        public CommandResult CanCast(CastEventData data, SpellModification spellModification)
+        public CommandResult CanCast(Unit data, SpellValueProvider values)
         {
             if (OnCooldown)
             {
                 return CommandResult.ON_COOLDOWN;
             }
 
-            return Spell.CanCast(data, spellModification);
+            return Spell.CanCast(data, values);
         }
 
-        public bool CanPay(CastEventData data, SpellModification spellModification)
+        public bool CanPay(CastInputData data, SpellModification spellModification)
         {
             return data.Caster != null && data.Caster.CanPay(Spell.Cost + spellModification.BonusCost);
         }
@@ -62,18 +54,9 @@ namespace Core.Combat.Abilities
             Cooldown = new Duration(time);
         }
 
-        public void StartCooldown(PercentModifiedValue modification, Unit caster)
+        public void StartCooldown(float cooldown, Unit caster)
         {
-            PercentModifiedValue cooldown = new PercentModifiedValue(Spell.Cooldown, 100) + modification;
-
-            if (caster == null || (Spell.Flags & SpellFlags.HASTE_AFFECTS_COOLDOWN) == 0)
-            {
-                Cooldown = new Duration(cooldown.CalculatedValue);
-            }
-            else
-            {
-                Cooldown = new Duration(cooldown.CalculatedValue / caster.EvaluateHasteTimeDivider());
-            }
+            Cooldown = new Duration(StatBonusEvaluator.EvaluateAbilityCooldown(cooldown, caster, Spell.Flags.HasFlag(SpellFlags.HASTE_AFFECTS_COOLDOWN)));
         }
 
         public void ReduceCooldown(float time)

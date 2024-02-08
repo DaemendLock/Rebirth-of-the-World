@@ -7,6 +7,9 @@
         Stop,
         Target,
         CreateUnit,
-        StartCombat
+        StartCombat,
+        Kill,
+        Resurrect,
+        TakeDamage
     }
 }

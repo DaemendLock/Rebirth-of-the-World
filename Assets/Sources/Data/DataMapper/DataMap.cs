@@ -22,6 +22,22 @@ namespace Data.DataMapper
             }
         }
 
+        public DataMap(File source)
+        {
+            while (source.HasNext)
+            {
+                _map.Add(source.ReadStruct<Key>(), source.ReadStruct<Value>());
+            }
+        }
+
+        public DataMap(File source, long count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                _map.Add(source.ReadStruct<Key>(), source.ReadStruct<Value>());
+            }
+        }
+
         ~DataMap()
         {
             Dispose();

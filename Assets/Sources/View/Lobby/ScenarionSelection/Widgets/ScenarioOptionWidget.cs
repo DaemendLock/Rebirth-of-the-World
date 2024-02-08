@@ -1,7 +1,6 @@
 ﻿using Core.Lobby.Encounters;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace View.Lobby.ScenarionSelection.Widgets

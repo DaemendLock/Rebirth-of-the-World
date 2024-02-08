@@ -23,15 +23,15 @@ namespace Core.Combat.Statuses.AuraEffects
 
         public override void Serialize(BinaryWriter buffer)
         {
-            buffer.Write((byte) AuraEffectType.REACTION_CAST);
+            buffer.Write((byte) AuraEffectType.OnEventCast);
             buffer.Write((int) Action);
             buffer.Write(_spell);
         }
 
-        public override void Update(Status status, CastEventData data)
+        public override void Update(Status status, CastInputData data)
         {
-            status.Parent.CastSpell(new CastEventData(data.Caster, data.Target, Spell.Get((SpellId) _spell)));
-            Debug.Log("Readction cast - " + Action);
+            //status.Parent.CastSpell(new CastEventData(data.Caster, data.Target, Spell.Get((SpellId) _spell)));
+
         }
     }
 }

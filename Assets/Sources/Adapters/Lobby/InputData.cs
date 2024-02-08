@@ -1,5 +1,4 @@
-﻿using Core.Lobby.Characters;
-using Data.Characters;
+﻿using Data.Characters;
 using System;
 using System.IO;
 using System.Text;
@@ -102,8 +101,6 @@ namespace Adapters.Lobby
         internal static StartCombatCommand Parse(byte[] data, int start)
         {
             UnitCreationData[] units = new UnitCreationData[data[start]];
-            
-
 
             return new StartCombatCommand();
         }

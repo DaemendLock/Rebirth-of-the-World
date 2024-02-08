@@ -3,7 +3,6 @@ using Data.Characters;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Utils.DataTypes;
 
 namespace Assets.Sources.Temp.Template
 {
@@ -27,7 +26,7 @@ namespace Assets.Sources.Temp.Template
 
         private void ProvideAccountData(AccountDataRequest request)
         {
-            if(request.AccountId != accountId)
+            if (request.AccountId != accountId)
             {
                 return;
             }
@@ -37,7 +36,7 @@ namespace Assets.Sources.Temp.Template
                 case AccountDataType.CharacterState:
                     CharacterState state = Find(BitConverter.ToInt32(request.Data)) ?? null;
 
-                    if(state == null)
+                    if (state == null)
                     {
                         return;
                     }

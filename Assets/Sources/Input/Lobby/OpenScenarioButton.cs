@@ -21,7 +21,6 @@ namespace Input.Lobby
         {
             //TODO:: Networking.Lobby.SendStartScenario
 
-
             View.Lobby.Lobby.Instance?.StartScenario(_encounter);
         }
     }

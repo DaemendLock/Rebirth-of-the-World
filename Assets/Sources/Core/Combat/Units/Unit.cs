@@ -1,8 +1,9 @@
 using Core.Combat.Abilities;
-using Core.Combat.Statuses;
-using Core.Combat.Statuses.AuraEffects;
+using Core.Combat.Abilities.ActionRecords;
 using Core.Combat.Engine;
 using Core.Combat.Interfaces;
+using Core.Combat.Statuses;
+using Core.Combat.Statuses.Auras;
 using Core.Combat.Units.Components;
 using Core.Combat.Utils;
 using Core.Combat.Utils.HealthChangeProcessing;
@@ -13,18 +14,13 @@ using Utils.DataTypes;
 
 namespace Core.Combat.Units
 {
-    public sealed class Unit : Interfaces.AuraOwner, TeamOwner, DynamicStatOwner, Updatable, Damageable, Damager
+    public sealed class Unit : TeamOwner, StatsOwner, Updatable
     {
-        public event Spellcasting.StartedPrecast StartedPrecast;
-        public event Spellcasting.StoppedPrecast StoppedCast;
-
-        internal Unit Target;
-
         private readonly Spellcasting _casting;
         private readonly UnitState _unitState;
         private readonly PositionComponent _position;
-        
-        public Unit(Spellcasting spellcasting, UnitState defaultState)
+
+        internal Unit(Spellcasting spellcasting, UnitState defaultState)
         {
             if (spellcasting.TryAssignTo(this) == false)
             {
@@ -36,12 +32,14 @@ namespace Core.Combat.Units
             _position = new PositionComponent();
         }
 
+        internal Unit Target { get; set; }
+
         public int Id => _unitState.EntityId;
 
         #region Status
-        public Status FindStatus(Spell spell) => _unitState.FindStatus(spell);
+        public Status FindStatus(Aura aura) => _unitState.FindStatus(aura);
 
-        public bool HasStatus(Spell spell) => _unitState.HasStatus(spell);
+        public bool HasStatus(Aura aura) => _unitState.HasStatus(aura);
 
         public bool HasStatus(SpellId spell) => _unitState.HasStatus(spell);
 
@@ -62,15 +60,9 @@ namespace Core.Combat.Units
 
         public bool HasAbility(Spell spell) => _casting.HasAbility(spell);
 
-        /// <summary>
-        /// Start casting ability placed in given slot.
-        /// </summary>
-        internal CommandResult CastAbility(CastEventData data)
-        {
-            return _casting.CastAbility(data);
-            /*Casted?.Invoke(data.Spell, result);
-            return result;*/
-        }
+        internal PrecastActionRecord StartCast(Ability ability, Unit target, float time) => _casting.StartCast(ability, target, time);
+
+        internal SpellValueProvider GetSpellValues(SpellId spell) => _casting.GetSpellValues(spell);
         #endregion
 
         #region UnitState
@@ -130,7 +122,7 @@ namespace Core.Combat.Units
 
         public float GetResourceValue(ResourceType type) => _unitState.GetResourceValue(type);
 
-        public (Resource, Resource) GetResources() => _unitState.GetResources();
+        public (Resource left, Resource right) GetResources() => _unitState.GetResources();
 
         public (ResourceType left, ResourceType right) GetResourceTypes() => _unitState.GetResourceTypes();
 
@@ -144,7 +136,9 @@ namespace Core.Combat.Units
 
         public float GetAbsorption() => _unitState.GetAbsorption();
 
-        public void ModifyStat(UnitStat stat, PercentModifiedValue value) => _unitState[stat] += value;
+        internal void ModifyStat(UnitStat stat, PercentModifiedValue value) => _unitState[stat] += value;
+
+        public int EvaluateStatValue(UnitStat stat) => _unitState.EvaluateStatValue(stat);
 
         public PercentModifiedValue EvaluateStat(UnitStat stat) => _unitState.EvaluateStat(stat);
 
@@ -154,21 +148,26 @@ namespace Core.Combat.Units
         public float EvaluateVersalityMultiplyer() => _unitState.EvaluateVersalityMultiplier();
         public float EvaluateCritChance() => _unitState.EvaluateCritChance();
 
-        public void TakeDamage(DamageEvent @event) => _unitState.TakeDamage(@event);
+        internal void TakeDamage(DamageEvent @event) => _unitState.TakeDamage(@event);
 
-        public void AmplifyDamage(DamageEvent @event) => _unitState.AmplifyDamage(@event);
+        internal void AmplifyDamage(DamageEvent @event) => _unitState.AmplifyDamage(@event);
         #endregion
 
         #region internal
-        internal void ApplyAura(CastEventData data, AuraEffect effect) => _unitState.ApplyAura(data, effect);
+        internal void ApplyAura(CastInputData data, Aura effect) => _unitState.ApplyAura(data, effect);
 
-        internal void RemoveStatus(Spell spell) => _unitState.RemoveStatus(spell);
+        internal void RemoveStatus(Aura aura) => _unitState.RemoveStatus(aura);
 
         internal void RemoveStatus(SpellId spell) => _unitState.RemoveStatus(spell);
 
         internal void Dispell(DispellType dispellType) => _unitState.Dispell(dispellType);
 
         internal void Purge(DispellType dispellType) => _unitState.Purge(dispellType);
+
+        /// <summary>
+        /// Create new <see cref="Ability"/> based on given <paramref name="spellId"/> or overrides one already exists.
+        /// </summary>
+        internal bool GiveAbility(SpellId spellId) => _casting.GiveAbility(Spell.Get(spellId));
 
         /// <summary>
         /// Create new <see cref="Ability"/> based on given <paramref name="spell"/> or overrides one already exists.
@@ -189,18 +188,18 @@ namespace Core.Combat.Units
         /// OR it's replacement<br/>
         /// OR null if spell not found.
         /// </returns>
-        internal Ability FindAbility(Spell spell) => _casting.FindAbility(spell); internal CommandResult CastSpell(CastEventData data) => _casting.CastSpell(data);
+        internal Ability FindAbility(Spell spell) => _casting.FindAbility(spell);
+
+        //internal CommandResult CastSpell(CastEventData data) => _casting.CastSpell(data);
 
         internal void Attack(Spell attack, Unit target)
         {
-            CommandResult result = CastSpell(new CastEventData(this, target, attack));
+            //CommandResult result = CastSpell(new CastEventData(this, target, attack));
 
-            if (result != CommandResult.SUCCES)
-            {
-                return;
-            }
-
-            _unitState.InformAction(UnitAction.AUTOATTACK, new CastEventData(this, Target, attack));
+            //if (result != CommandResult.SUCCES)
+            //{
+            //    return;
+            //}
         }
 
         /// <summary>
@@ -215,42 +214,26 @@ namespace Core.Combat.Units
             _casting.Interrupt(data);
 
             if (_casting.FullCastTime == float.PositiveInfinity)
-            { StoppedCast?.Invoke(); }
+            { }
         }
 
         internal void OverrideAbility(Spell repalce, Spell with) => _casting.OverrideAbility(repalce, with);
 
         internal void ModifySpellEffect(SpellId spellId, int effect, float modifyValue) => _casting.ModifySpellEffect(spellId, effect, modifyValue);
 
-        internal void GiveResource(ResourceType type, float value) => _unitState.GiveResource(type, value);
+        internal float GiveResource(ResourceType type, float value) => _unitState.GiveResource(type, value);
 
         internal void SpendResource(AbilityCost cost) => _unitState.SpendResource(cost);
 
         internal void Heal(HealthChangeEventData data) => _unitState.ApplyHealingEvent(data);
 
-        internal void AbsorbDamage(CastEventData data, float absorption, SchoolType school) => _unitState.AbsorbDamage(data, absorption, school);
-
-        internal void InformCastingBehavior(Spell spell, float duration)
-        {
-            if (duration == float.PositiveInfinity || duration == 0)
-            {
-                StoppedCast?.Invoke();
-                return;
-            }
-
-            StartedPrecast?.Invoke(spell, duration);
-        }
-
-        internal void InformCastingStopped()
-        {
-            StoppedCast?.Invoke();
-        }
+        //internal void AbsorbDamage(CastEventData data, float absorption, SchoolType school) => _unitState.AbsorbDamage(data, absorption, school);
         #endregion
-        public void Update()
+        public void Update(IActionRecordContainer container)
         {
-            _casting.Update();
+            _casting.Update(container);
             Position = _position.GetNextPosition(Position, GetStat(UnitStat.SPEED));
-            _unitState.Update();
+            _unitState.Update(container);
         }
 
         public override string ToString()

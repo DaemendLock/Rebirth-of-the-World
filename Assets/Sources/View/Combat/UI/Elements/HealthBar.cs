@@ -17,8 +17,9 @@ namespace View.Combat.UI.Elemets
             gameObject.SetActive(false);
         }
 
-        public Color Color {
-            get =>_health.Color;
+        public Color Color
+        {
+            get => _health.Color;
             set => _health.Color = value;
         }
 
@@ -37,14 +38,14 @@ namespace View.Combat.UI.Elemets
 
         public void AssignTo(Unit unit)
         {
-            if(unit== null)
+            if (unit == null)
             {
                 gameObject.SetActive(false);
                 _unit = null;
                 return;
             }
 
-            if(_unit == null)
+            if (_unit == null)
             {
                 gameObject.SetActive(true);
             }

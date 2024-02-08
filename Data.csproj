@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <!-- Generated file, do not modify, your changes will be overwritten (use AssetPostprocessor.OnGeneratedCSProject) -->
   <PropertyGroup>
@@ -76,8 +76,10 @@
     <Compile Include="Assets\Sources\Data\Characters\CharacterState.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\TwinDataMap.cs" />
     <Compile Include="Assets\Sources\Data\Entities\ViewSet.cs" />
+    <Compile Include="Assets\Sources\Data\Spells\SpellDataProvider\ISpellDataProvider.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\DataLoader.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\PartyFrameProvider.cs" />
+    <Compile Include="Assets\Sources\Data\Spells\SpellDataProvider\MappedSingleFileSpellDataProvider.cs" />
     <Compile Include="Assets\Sources\Data\Utils\File.cs" />
     <Compile Include="Assets\Sources\Data\Libraries\GenericLibrary.cs" />
     <Compile Include="Assets\Sources\Data\Utils\Loadable.cs" />
@@ -89,12 +91,14 @@
     <Compile Include="Assets\Sources\Data\Characters\CharacterRole.cs" />
     <Compile Include="Assets\Sources\Data\Items\Gear\Gear.cs" />
     <Compile Include="Assets\Sources\Data\Characters\ProgressValue.cs" />
+    <Compile Include="Assets\Sources\Data\Spells\SpellDataProvider\MultiFileSpellDataProvider.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\MappedData.cs" />
     <Compile Include="Assets\Sources\Data\Entities\NpcModels\Hardpoint.cs" />
     <Compile Include="Assets\Sources\Data\Items\Item.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\Format\ActionBarFormat.cs" />
     <Compile Include="Assets\Sources\Data\Entities\Npc.cs" />
     <Compile Include="Assets\Sources\Data\Utils\ThrowHelper\Exceptions\FileNotLoadedException.cs" />
+    <Compile Include="Assets\Sources\Data\Spells\SpellDataProvider\SpellLibFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Data\Data.asmdef" />

@@ -1,10 +1,7 @@
 ﻿using Core.Combat.Abilities;
 using Core.Combat.Abilities.SpellEffects;
 using Core.Combat.Abilities.SpellScripts;
-using Core.Combat.Statuses;
-using Core.Combat.Statuses.AuraEffects;
 using Core.Combat.Utils.Serialization;
-using Core.Combat.Utils.ValueSources;
 using Utils.DataStructure;
 using Utils.DataTypes;
 using Utils.SpellIdGenerator;
@@ -29,7 +26,7 @@ namespace Core.SpellLib.Shielder
             {
                 new Dummy(30),
                 new SchoolDamage(new StatValue(1.2f, UnitStat.ATK)),
-                new ApplyAura(new ModStat(UnitStat.SPEED, new Constant(-0.1f), true)),
+                //new ApplyAura(new ModStat(UnitStat.SPEED, new Constant(-0.1f), true)),
                 //periodic damage
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
@@ -61,7 +58,7 @@ namespace Core.SpellLib.Shielder
                 //charge
                 new ReduceCooldown(SpellIdCalculator.GenerateId(Class.SHIELDER, Spec.SPEC_1, 1), float.PositiveInfinity),
                 //give overshield
-                new ApplyAura(new ModifySpellEffect(SpellIdCalculator.GenerateId(Class.SHIELDER, Spec.SPEC_1, 1), 1, 1))
+                //new ApplyAura(new ModifySpellEffect(SpellIdCalculator.GenerateId(Class.SHIELDER, Spec.SPEC_1, 1), 1, 1))
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
             SpellType.Selfcast
@@ -72,7 +69,7 @@ namespace Core.SpellLib.Shielder
         }
     }
 
-    public class Shelter : SplashSpell
+    public class Shelter : AoeSpell
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.SHIELDER, Spec.SPEC_1, 3);
 
@@ -88,10 +85,10 @@ namespace Core.SpellLib.Shielder
             Mechanic.None,
             new SpellEffect[]
             {
-                new ApplyAura(new ModStat(UnitStat.DAMAGE_TAKEN, new Constant(-0.2f), true)),
+               // new ApplyAura(new ModStat(UnitStat.DAMAGE_TAKEN, new Constant(-0.2f), true)),
             },
             SpellFlags.NONE,
-            SpellType.Splash
+            SpellType.AoE
             );
 
         public Shelter() : base(_spellData)
@@ -99,7 +96,7 @@ namespace Core.SpellLib.Shielder
         }
     }
 
-    public class SacrificialProtection : Spell
+    public class SacrificialProtection : TargetSpell
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.SHIELDER, Spec.SPEC_1, 4);
 
@@ -118,11 +115,11 @@ namespace Core.SpellLib.Shielder
             new SpellEffect[]
             {
                 //TODO: Apply overshield new ApplyAura(new Overshield(UnitStat.ATK, new Constant(0.1f), true)),
-                new ApplyAura(new ModStat(UnitStat.ATK, new Constant(0.1f), true)),
-                new ApplyAura(new ModStat(UnitStat.HEALING_TAKEN, new Constant(0.1f), true)),
+                //new ApplyAura(new ModStat(UnitStat.ATK, new Constant(0.1f), true)),
+                //new ApplyAura(new ModStat(UnitStat.HEALING_TAKEN, new Constant(0.1f), true)),
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
-            SpellType.Default
+            SpellType.Target
             );
 
         public SacrificialProtection() : base(_spellData)
@@ -130,7 +127,7 @@ namespace Core.SpellLib.Shielder
         }
     }
 
-    public class AnchoringHowl : SplashSpell
+    public class AnchoringHowl : AoeSpell
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.SHIELDER, Spec.SPEC_1, 5);
 
@@ -149,7 +146,7 @@ namespace Core.SpellLib.Shielder
 
             },
             SpellFlags.NONE,
-            SpellType.Splash
+            SpellType.AoE
             );
 
         public AnchoringHowl() : base(_spellData)
@@ -174,7 +171,7 @@ namespace Core.SpellLib.Shielder
             new SpellEffect[]
             {
                 //disable controll
-                new ApplyAura(new ModStat(UnitStat.DAMAGE_TAKEN, new Constant(-0.9f), true))
+                //new ApplyAura(new ModStat(UnitStat.DAMAGE_TAKEN, new Constant(-0.9f), true))
                 //count damage to 200% max hp, then trugger spell
                 //create aoe damage aura
             },

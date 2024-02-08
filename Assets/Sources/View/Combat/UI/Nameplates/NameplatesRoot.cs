@@ -62,7 +62,7 @@ namespace View.Combat.UI.Nameplates
         {
             foreach (Nameplate nameplate in _nameplates)
             {
-                nameplate.SetTargeted(unitId == nameplate.AssignedId); 
+                nameplate.SetTargeted(unitId == nameplate.AssignedId);
             }
         }
 

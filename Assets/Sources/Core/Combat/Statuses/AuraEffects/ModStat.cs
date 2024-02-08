@@ -45,7 +45,7 @@ namespace Core.Combat.Statuses.AuraEffects
 
         public void Serialize(BinaryWriter buffer)
         {
-            buffer.Write((byte) AuraEffectType.MODIFY_STAT);
+            buffer.Write((byte) AuraEffectType.ModifyStat);
             buffer.Write((int) _stat);
             _value.Serialize(buffer);
             buffer.Write(_isPercent);

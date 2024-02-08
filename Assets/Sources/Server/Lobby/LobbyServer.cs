@@ -16,7 +16,7 @@ namespace Server.Lobby
 
         public static void Start()
         {
-            if(_server != null )
+            if (_server != null)
             {
                 return;
             }
@@ -31,7 +31,7 @@ namespace Server.Lobby
 
         public static void Stop()
         {
-            if(_server== null )
+            if (_server == null)
             {
                 return;
             }

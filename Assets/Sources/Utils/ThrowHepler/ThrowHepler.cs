@@ -4,11 +4,14 @@ namespace Utils.ThrowHepler
 {
     public static partial class ThrowHepler
     {
-        public static void CheckForNull(object @object)
+        public static void ArgumentNullException(params object[] args)
         {
-            if (@object == null)
+            foreach (object arg in args)
             {
-                throw new ArgumentException("Object is null");
+                if (arg == null)
+                {
+                    throw new ArgumentNullException();
+                }
             }
         }
     }

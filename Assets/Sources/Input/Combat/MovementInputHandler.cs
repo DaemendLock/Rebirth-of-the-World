@@ -88,7 +88,7 @@ namespace Input.Combat
             MoveData data = new(SelectionInfo.SelectionId, currentPosition, new(xWorldDirection, 0, yWorldDirection), _cameraRotation.x);
 
             Networking.Combat.Send(data);
-            Core.Combat.Engine.Units.MoveUnit(data.UnitId, data.Position, data.MoveDirection, data.Rotation);
+            Core.Combat.Engine.Units.MoveUnit(data.UnitId, data.Position, data.MoveDirection);
         }
 
         private void SetCursorLocked(bool @lock)

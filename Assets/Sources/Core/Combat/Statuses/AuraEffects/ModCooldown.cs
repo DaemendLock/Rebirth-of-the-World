@@ -45,7 +45,7 @@ namespace Core.Combat.Statuses.AuraEffects
 
         public void Serialize(BinaryWriter buffer)
         {
-            buffer.Write((byte) AuraEffectType.MODIFY_COOLDOWN);
+            buffer.Write((byte) AuraEffectType.ModifyCooldown);
             buffer.Write(_spellId);
             buffer.Write(_value.BaseValue);
             buffer.Write(_value.Percent);

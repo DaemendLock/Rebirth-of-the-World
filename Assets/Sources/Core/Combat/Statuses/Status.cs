@@ -1,8 +1,7 @@
 using Core.Combat.Abilities;
 using Core.Combat.Statuses.AuraEffects;
-using Core.Combat.Interfaces;
+using Core.Combat.Statuses.Auras;
 using Core.Combat.Units;
-using Core.Combat.Units.Components;
 using Core.Combat.Utils;
 using Core.Combat.Utils.HealthChangeProcessing;
 using System.Collections.Generic;
@@ -11,10 +10,10 @@ using Utils.DataTypes;
 
 namespace Core.Combat.Statuses
 {
-    public class Status : DynamicStatOwner, Damageable
+    public class Status
     {
         public readonly Unit Parent;
-        public readonly Spell Spell;
+        public readonly Aura Aura;
 
         private readonly List<Unit> _casters;
         private readonly List<AuraEffect> _effects;
@@ -28,10 +27,10 @@ namespace Core.Combat.Statuses
 
         private DamageAbsorption _absorption;
 
-        public Status(Unit parent, Spell spell)
+        internal Status(Unit parent, Aura aura)
         {
             Parent = parent;
-            Spell = spell;
+            Aura = aura;
 
             _casters = new();
             _effects = new();
@@ -39,14 +38,7 @@ namespace Core.Combat.Statuses
 
             _stats = new List<ModStat>();
 
-            if (spell == null)
-            {
-                _duration = new Duration(float.PositiveInfinity);
-            }
-            else
-            {
-                //_duration = new Duration(spell.Duration);
-            }
+            _duration = new Duration(aura.Duration);
 
             _periodicEffectCountdown = new Duration(float.PositiveInfinity);
             _absorption = default;
@@ -63,7 +55,6 @@ namespace Core.Combat.Statuses
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="effect">NOT an actual status passed to ApplyEffect, just copy</param>
         public void AddEffect(AuraEffect effect)
         {
             effect.ApplyEffect(this);
@@ -80,7 +71,7 @@ namespace Core.Combat.Statuses
             return true;
         }
 
-        public void Refresh(CastEventData data)
+        public void Refresh(CastInputData data)
         {
             //_duration += data.Spell.Duration - _duration.Left;
         }
@@ -113,7 +104,7 @@ namespace Core.Combat.Statuses
 
             if (damageLeft > _absorption.Capacity)
             {
-                if (Spell.Flags.HasFlag(SpellFlags.DONT_DESTROY_ON_BREAK) == false)
+                if (Aura.Flags.HasFlag(AuraFlags.DontDestroyOnBreak) == false)
                 {
                     Remove();
                 }
@@ -148,7 +139,7 @@ namespace Core.Combat.Statuses
         public void RegisterPeriodicEffect(PeriodicallyTriggerSpell effect)
         {
             _periodicEffectDelay = effect.Period;
-            _periodicEffectCountdown = new Duration(_periodicEffectDelay * UnitState.EvaluateHasteTimeDivider(GetEffectiveStat(UnitStat.HASTE)));
+            //TODO _periodicEffectCountdown = new Duration(_periodicEffectDelay * UnitState.EvaluateHasteTimeDivider(GetEffectiveStat(UnitStat.HASTE)));
             _periodicSpell = Spell.Get(effect.Spell);
         }
 
@@ -202,7 +193,7 @@ namespace Core.Combat.Statuses
             return result;
         }
 
-        public void CallAction(UnitAction action, CastEventData data)
+        public void CallAction(UnitAction action, CastInputData data)
         {
             if (_dynamicEffects[(int) action] == null)
             {
@@ -246,9 +237,9 @@ namespace Core.Combat.Statuses
 
             if (_periodicEffectCountdown.Expired)
             {
-                _casters[0].CastSpell(new(_casters[0], Parent, _periodicSpell));
+                //TODO: _casters[0].CastSpell(new(_casters[0], Parent, _periodicSpell));
 
-                _periodicEffectCountdown = new Duration(_periodicEffectDelay * UnitState.EvaluateHasteTimeDivider(GetEffectiveStat(UnitStat.HASTE)));
+                //TODO _periodicEffectCountdown = new Duration(_periodicEffectDelay * UnitState.EvaluateHasteTimeDivider(GetEffectiveStat(UnitStat.HASTE)));
             }
         }
     }

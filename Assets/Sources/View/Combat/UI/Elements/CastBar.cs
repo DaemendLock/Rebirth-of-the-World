@@ -23,9 +23,6 @@ namespace View.Combat.UI.Elements
             {
                 return;
             }
-
-            _unit.StartedPrecast -= ShowCast;
-            _unit.StoppedCast -= HideCast;
         }
 
         private void Update()
@@ -64,9 +61,6 @@ namespace View.Combat.UI.Elements
             {
                 return;
             }
-
-            _unit.StartedPrecast += ShowCast;
-            _unit.StoppedCast += HideCast;
         }
     }
 }

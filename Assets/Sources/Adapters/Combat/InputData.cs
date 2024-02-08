@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Combat.Utils;
+using System;
 using System.IO;
 using Utils.DataStructure;
 using Utils.DataTypes;
@@ -10,16 +11,14 @@ namespace Adapters.Combat
         private const int DATA_SIZE = 30;
 
         public readonly int UnitId;
-        public readonly Vector3 Position;
+        public readonly Position Position;
         public readonly Vector3 MoveDirection;
-        public readonly float Rotation;
 
         public MoveData(int id, Vector3 position, Vector3 moveDirection, float rotation)
         {
             UnitId = id;
-            Position = position;
+            Position = new Position(position, rotation);
             MoveDirection = moveDirection;
-            Rotation = rotation;
         }
 
         public byte[] GetBytes()
@@ -31,15 +30,17 @@ namespace Adapters.Combat
                 target.WriteByte((byte) ServerCommand.Move);
                 target.Write(BitConverter.GetBytes(UnitId));
 
-                target.Write(BitConverter.GetBytes(Position.x));
-                target.Write(BitConverter.GetBytes(Position.y));
-                target.Write(BitConverter.GetBytes(Position.z));
+                Vector3 position = Position.Location;
+
+                target.Write(BitConverter.GetBytes(position.x));
+                target.Write(BitConverter.GetBytes(position.y));
+                target.Write(BitConverter.GetBytes(position.z));
+
+                target.Write(BitConverter.GetBytes(Position.Rotation));
 
                 target.Write(BitConverter.GetBytes(MoveDirection.x));
                 target.Write(BitConverter.GetBytes(MoveDirection.y));
                 target.Write(BitConverter.GetBytes(MoveDirection.z));
-
-                target.Write(BitConverter.GetBytes(Rotation));
 
                 result = target.ToArray();
             }
@@ -50,9 +51,11 @@ namespace Adapters.Combat
         public static MoveData Parse(ByteReader source)
         {
             int id = source.ReadInt();
+
             Vector3 location = Vector3.Parse(source);
-            Vector3 moveDirection = Vector3.Parse(source);
             float rotation = source.ReadFloat();
+
+            Vector3 moveDirection = Vector3.Parse(source);
 
             return new(id, location, moveDirection, rotation);
         }
@@ -110,11 +113,8 @@ namespace Adapters.Combat
             SpellSlot = spellSlot;
         }
 
-        public static CastData Parse(ByteReader source)
-        {
-            return new(source.ReadInt(),
-                source.ReadInt(), source.ReadByte());
-        }
+        public static CastData Parse(ByteReader source) =>
+            new(source.ReadInt(), source.ReadInt(), source.ReadByte());
 
         public byte[] GetBytes()
         {
@@ -147,7 +147,7 @@ namespace Adapters.Combat
 
         public static StopData Parse(ByteReader source)
         {
-            return new (source.ReadInt());
+            return new(source.ReadInt());
         }
 
         public byte[] GetBytes()

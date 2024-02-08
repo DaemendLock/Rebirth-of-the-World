@@ -1,9 +1,7 @@
-﻿using Core.Combat.Abilities;
-using Data.Spells;
-using Data.Utils;
+﻿using Data.Utils;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using Utils.DataTypes;
+using Utils.ThrowHepler;
 
 namespace Assets.Sources.Temp
 {
@@ -14,6 +12,8 @@ namespace Assets.Sources.Temp
 
         private void Start()
         {
+            ThrowHepler.ArgumentNullException(_itemLabel, _charactersLabel);
+
             LoadSpellLib();
             LoadCharacters();
             LoadItems();
@@ -24,16 +24,6 @@ namespace Assets.Sources.Temp
 
         private static void LoadSpellLib()
         {
-            //Paladin
-
-            SpellDataLoader.Load();
-
-            SpellId[] ids = SpellDataLoader.GetLoadedIds();
-
-            foreach (SpellId id in ids)
-            {
-                Spell.Get(id);
-            }
         }
 
         private void LoadCharacters()

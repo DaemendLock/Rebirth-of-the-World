@@ -62,11 +62,11 @@ namespace Assets.Sources.Temp.Template
 
         public ItemId[] ToItemIdArray()
         {
-            Item[] array = new Item[] {_head, _body, _legs, _weaponRight, _weaponLeft, _ring1, _ring2, _active1, _active2 };
+            Item[] array = new Item[] { _head, _body, _legs, _weaponRight, _weaponLeft, _ring1, _ring2, _active1, _active2 };
 
             ItemId[] array2 = new ItemId[array.Length];
 
-            for(int i = 0;i < array.Length;i++)
+            for (int i = 0; i < array.Length; i++)
             {
                 if (array[i] == null)
                 {

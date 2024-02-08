@@ -1,25 +1,27 @@
-﻿using Core.Combat.Statuses.AuraEffects;
-using Core.Combat.Utils;
+﻿using Core.Combat.Abilities.ActionRecords;
+using Core.Combat.Units;
 using Core.Combat.Utils.Serialization;
 using System.IO;
+using Utils.DataStructure;
+using Utils.DataTypes;
 
 namespace Core.Combat.Abilities.SpellEffects
 {
     public class ApplyAura : SpellEffect
     {
-        private readonly AuraEffect _effect;
+        private readonly SpellId _effectId;
         private readonly int _value;
 
-        public ApplyAura(AuraEffect effect, int value = 0)
+        public ApplyAura(SpellId effectId, int value = 0)
         {
-            _effect = effect;
+            _effectId = effectId;
             _value = value;
         }
 
-        public ApplyAura(BinaryReader source)
+        public ApplyAura(ByteReader source)
         {
-            _effect = AuraSerializer.DeserializeAuraEffect(source);
-            _value = source.ReadInt32();
+            _effectId = (SpellId) source.ReadInt();
+            _value = source.ReadInt();
         }
 
         public float GetValue(float modifyValue)
@@ -27,21 +29,16 @@ namespace Core.Combat.Abilities.SpellEffects
             return modifyValue + _value;
         }
 
-        public void ApplyEffect(CastEventData data, float modifyValue)
-        {
-            if (modifyValue + _value < 0)
-            {
-                return;
-            }
-
-            data.Target.ApplyAura(data, _effect);
-        }
-
         public void Serialize(BinaryWriter buffer)
         {
             buffer.Write((byte) SpellEffectType.APPLY_AURA);
-            _effect.Serialize(buffer);
+            buffer.Write(_effectId);
             buffer.Write(_value);
+        }
+
+        public ActionRecord ApplyEffect(Unit caster, Unit target, float modification)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

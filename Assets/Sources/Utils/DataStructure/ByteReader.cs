@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Utils.DataStructure
 {
@@ -11,15 +7,18 @@ namespace Utils.DataStructure
         private readonly byte[] _data;
         private int _offset;
 
-        public ByteReader(byte[] data)
-        {
-            _data = data;
-        }
+        public ByteReader(byte[] data) : this(data, 0) { }
 
         public ByteReader(byte[] data, int offset)
         {
             _data = data;
             _offset = offset;
+        }
+
+        public long ReadLong()
+        {
+            _offset += sizeof(long);
+            return BitConverter.ToInt64(_data, _offset - sizeof(long));
         }
 
         public int ReadInt()
@@ -30,8 +29,8 @@ namespace Utils.DataStructure
 
         public ushort ReadUShort()
         {
-            _offset+= sizeof(ushort);
-            return BitConverter.ToUInt16(_data, _offset);
+            _offset += sizeof(ushort);
+            return BitConverter.ToUInt16(_data, _offset - sizeof(ushort));
         }
 
         public float ReadFloat()

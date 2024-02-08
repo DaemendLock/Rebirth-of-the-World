@@ -1,5 +1,7 @@
-﻿using Core.Combat.Utils;
+﻿using Core.Combat.Abilities.ActionRecords;
+using Core.Combat.Units;
 using System.IO;
+using Utils.DataStructure;
 
 namespace Core.Combat.Abilities.SpellEffects
 {
@@ -10,11 +12,11 @@ namespace Core.Combat.Abilities.SpellEffects
 
         }
 
-        public Taunt(BinaryReader source)
+        public Taunt(ByteReader source)
         {
         }
 
-        public void ApplyEffect(CastEventData data, float modifyValue)
+        public ActionRecord ApplyEffect(Unit caster, Unit target, float modification)
         {
             throw new System.NotImplementedException();
         }

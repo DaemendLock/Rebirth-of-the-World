@@ -1,5 +1,5 @@
-﻿using Core.Combat.Units;
-using Core.Combat.Utils;
+﻿using Core.Combat.Abilities.ActionRecords;
+using Core.Combat.Units;
 using Core.Combat.Utils.Serialization;
 using System.IO;
 using Utils.DataStructure;
@@ -16,25 +16,30 @@ namespace Core.Combat.Abilities.SpellEffects
             _value = healing;
         }
 
-        public Heal(BinaryReader source)
+        public Heal(ByteReader source)
         {
             _value = SpellSerializer.DeserializeSpellValue(source);
         }
 
-        public void ApplyEffect(CastEventData data, float modifyValue)
+        //public ActionRecord ApplyEffect(CastInputData data, float modifyValue)
+        //{
+        //    float originalHealing = _value.GetValue(data, modifyValue);
+
+        //    Unit caster = data.Caster;
+
+        //    if (caster != null)
+        //    {
+        //        originalHealing *= (1 + caster.EvaluateStat(UnitStat.HEALING_DONE).CalculatedValue) * caster.EvaluateVersalityMultiplyer();
+        //    }
+
+        //    HealthChangeEventData healing = new HealthChangeEventData(originalHealing, caster, data.Target, data.Spell);
+
+        //    data.Target.Heal(healing);
+        //}
+
+        public ActionRecord ApplyEffect(Unit caster, Unit target, float modification)
         {
-            float originalHealing = _value.GetValue(data, modifyValue);
-
-            Unit caster = data.Caster;
-
-            if (caster != null)
-            {
-                originalHealing *= (1 + caster.EvaluateStat(UnitStat.HEALING_DONE).CalculatedValue) * caster.EvaluateVersalityMultiplyer();
-            }
-
-            HealthChangeEventData healing = new HealthChangeEventData(originalHealing, caster, data.Target, data.Spell);
-
-            data.Target.Heal(healing);
+            throw new System.NotImplementedException();
         }
 
         public float GetValue(float modifyValue) => _value.BaseValue;

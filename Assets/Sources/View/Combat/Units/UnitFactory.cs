@@ -6,7 +6,7 @@ namespace View.Combat.Units
 {
     public static class UnitFactory
     {
-        public static void CreateUnit(UnitCreationData data)
+        public static Unit CreateUnit(UnitCreationData data)
         {
             int id = data.Id;
 
@@ -15,6 +15,8 @@ namespace View.Combat.Units
             Unit result = unit.AddComponent<Unit>();
             result.Init(id, data.Veiw);
             NameplatesRoot.CreateNameplate(id);
+
+            return result;
         }
     }
 }

@@ -1,11 +1,13 @@
-﻿using Core.Combat.Utils;
+﻿using Core.Combat.Abilities.ActionRecords;
+using Core.Combat.Units;
 using Core.Combat.Utils.Serialization;
 using System.IO;
+using Utils.DataStructure;
 using Utils.DataTypes;
 
 namespace Core.Combat.Abilities.SpellEffects
 {
-    public class ConsumeMark
+    public class ConsumeMark : SpellEffect
     {
         private readonly SpellId _markId;
         private readonly SpellEffect _triggerEffect;
@@ -16,9 +18,9 @@ namespace Core.Combat.Abilities.SpellEffects
             _triggerEffect = effect;
         }
 
-        public ConsumeMark(BinaryReader source)
+        public ConsumeMark(ByteReader source)
         {
-            _markId = (SpellId) source.ReadInt32();
+            _markId = (SpellId) source.ReadInt();
             _triggerEffect = SpellSerializer.DeserilizeSpellEffect(source);
         }
 
@@ -27,22 +29,23 @@ namespace Core.Combat.Abilities.SpellEffects
             return modifyValue + _triggerEffect.GetValue(modifyValue);
         }
 
-        public void ApplyEffect(CastEventData data, float modifyValue)
-        {
-            if (data.Target.HasStatus(_markId) == false)
-            {
-                return;
-            }
-
-            _triggerEffect.ApplyEffect(data, modifyValue);
-            data.Target.RemoveStatus(_markId);
-        }
-
         public void Serialize(BinaryWriter buffer)
         {
             buffer.Write((byte) SpellEffectType.CONSUME_MARK);
             buffer.Write(_markId);
             _triggerEffect.Serialize(buffer);
+        }
+
+        public ActionRecord ApplyEffect(Unit caster, Unit target, float modification)
+        {
+            if (target.HasStatus(_markId) == false)
+            {
+                return new DummyActionRecord();
+            }
+
+            ActionRecord result = _triggerEffect.ApplyEffect(caster, target, modification);
+            target.RemoveStatus(_markId);
+            return result;
         }
     }
 }

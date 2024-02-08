@@ -1,32 +1,70 @@
-﻿using Core.Combat.Units;
+﻿using Core.Combat.Abilities.ActionRecords;
+using Core.Combat.Units;
 using Core.Combat.Utils;
-using System.Collections.Generic;
 
 namespace Core.Combat.Abilities.SpellScripts
 {
     public class SplashSpell : Spell
     {
+        private const byte AOE_RADIUS_INDEX = 0;
+
         public SplashSpell(SpellData data) : base(data)
         {
         }
 
-        public override CommandResult CanCast(CastEventData data, SpellModification modification) => CommandResult.SUCCES;
+        //public override void Cast(CastInputData data)
+        //{
+        //    Unit[] targets = new Unit[0];
+        //    //targets = GetUnitsInRadius(range, team, data.Target.Position)
 
-        public override void Cast(CastEventData data, SpellModification modification)
+        //    foreach (Unit target in targets)
+        //    {
+        //        for (int i = 0; i < EffectsCount; i++)
+        //        {
+        //            ApplyEffect(i, modification.EffectsModifications[i], new CastEventData(data.Caster, target, data.Spell, data.TriggerTime));
+        //        }
+        //    }
+        //}
+
+        //public override CommandResult CanCast(CastInputData data, SpellModification modification)
+        //{
+        //    Unit caster = data.Caster;
+        //    Unit target = data.Target;
+
+        //    if (target == null)
+        //    {
+        //        return CommandResult.INVALID_TARGET;
+        //    }
+
+        //    float effectiveCastRange = Range * (1 + modification.BonusRange.Percent / 100) + modification.BonusRange.BaseValue;
+
+        //    if ((caster.Position - target.Position).sqrMagnitude > effectiveCastRange * effectiveCastRange)
+        //    {
+        //        return CommandResult.OUT_OF_RANGE;
+        //    }
+
+        //    if (TargetTeam == TargetTeam.Ally && (!caster.CanHelp(target)))
+        //    {
+        //        return CommandResult.INVALID_TARGET;
+        //    }
+
+        //    if (TargetTeam == TargetTeam.Enemy && (!caster.CanHurt(target)))
+        //    {
+        //        return CommandResult.INVALID_TARGET;
+        //    }
+
+        //    return CommandResult.SUCCES;
+        //}
+
+        public override CastActionRecord Cast(Unit caster, Unit target, SpellValueProvider values)
         {
-            float effectiveCastRange = GetEffectiveRange(Range, modification);
-            Unit caster = data.Caster;
-            Team.Team team = GetSearchTeam(caster, TargetTeam);
+            throw new System.NotImplementedException();
+        }
 
-            List<Unit> targets = Engine.Units.FindUnitsInRadius(caster.Position, effectiveCastRange, team, Flags.HasFlag(SpellFlags.TARGET_DEAD));
-
-            foreach (Unit target in targets)
-            {
-                for (int i = 0; i < EffectsCount; i++)
-                {
-                    ApplyEffect(i, modification.EffectsModifications[i], new CastEventData(caster, target, data.Spell));
-                }
-            }
+        public override CommandResult CanCast(Unit data, SpellValueProvider values)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
+

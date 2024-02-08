@@ -1,5 +1,4 @@
-﻿using Core.Combat.Interfaces;
-using Core.Combat.Units;
+﻿using Core.Combat.Units;
 using UnityEngine;
 using View.Combat.Camera;
 using View.Combat.UI.Panels;
@@ -51,7 +50,7 @@ namespace View.Combat.UI
 
         public void DisplayUnit(int id)
         {
-            _selection = Core.Combat.Engine.Units.GetUnit(id);
+            _selection = Core.Combat.Engine.Units.GetUnitById(id);
 
             if (_selection == null)
             {
@@ -65,7 +64,7 @@ namespace View.Combat.UI
         }
         public void DisplayTarget(int id)
         {
-            _target = Core.Combat.Engine.Units.GetUnit(id);
+            _target = Core.Combat.Engine.Units.GetUnitById(id);
 
             _targetPanel.AssignTo(_target);
         }

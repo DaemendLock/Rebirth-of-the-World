@@ -1,6 +1,8 @@
-﻿using Core.Combat.Utils;
+﻿using Core.Combat.Abilities.ActionRecords;
+using Core.Combat.Units;
 using Core.Combat.Utils.Serialization;
 using System.IO;
+using Utils.DataStructure;
 
 namespace Core.Combat.Abilities.SpellEffects
 {
@@ -13,17 +15,14 @@ namespace Core.Combat.Abilities.SpellEffects
             _value = value;
         }
 
-        public Dummy(BinaryReader source)
+        public Dummy(ByteReader source)
         {
-            _value = source.ReadSingle();
+            _value = source.ReadFloat();
         }
+
+        public ActionRecord ApplyEffect(Unit caster, Unit target, float modification) => new DummyActionRecord();
 
         public float GetValue(float modifyValue) => _value + modifyValue;
-
-        public void ApplyEffect(CastEventData data, float modifyValue)
-        {
-
-        }
 
         public void Serialize(BinaryWriter buffer)
         {

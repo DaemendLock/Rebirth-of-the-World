@@ -2,7 +2,6 @@
 using Data.Characters;
 using System.Collections.Generic;
 using UnityEngine;
-using Utils.DataTypes;
 
 namespace View.Lobby.TeamSetup.Widgets
 {

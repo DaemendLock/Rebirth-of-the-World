@@ -9,7 +9,7 @@ namespace Core.Combat.Statuses.Auras
     {
         private static readonly Dictionary<SpellId, Aura> _auras = new Dictionary<SpellId, Aura>();
 
-        public int Id;
+        public SpellId Id;
         public float Duration;
         public DispellType Type;
         public AuraFlags Flags;

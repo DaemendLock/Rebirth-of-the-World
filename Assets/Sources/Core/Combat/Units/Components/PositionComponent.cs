@@ -3,7 +3,7 @@ using Utils.DataTypes;
 
 namespace Core.Combat.Units.Components
 {
-    public class PositionComponent
+    internal class PositionComponent
     {
         public Vector3 MoveDirection { get; set; } = Vector3.zero;
 

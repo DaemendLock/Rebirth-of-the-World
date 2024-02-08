@@ -3,14 +3,15 @@ using Core.Combat.Abilities.SpellEffects;
 using Core.Combat.Abilities.SpellScripts;
 using System.IO;
 using System.Runtime.Serialization;
+using Utils.DataStructure;
 using Utils.DataTypes;
 
 namespace Core.Combat.Utils.Serialization
 {
     public enum SpellType : byte
     {
-        Default,
-        Aoe,
+        Target,
+        AoE,
         Cleave,
         Splash,
         Selfcast
@@ -75,8 +76,6 @@ namespace Core.Combat.Utils.Serialization
 
         public static SpellData Deserialize(byte[] data)
         {
-            int id;
-
             float leftCost;
             float rightCost;
 
@@ -94,36 +93,31 @@ namespace Core.Combat.Utils.Serialization
             SpellType script;
             SpellEffect[] effects;
 
-            MemoryStream memoryStream = new MemoryStream(data);
+            ByteReader source = new ByteReader(data);
 
-            using (BinaryReader binaryReader = new BinaryReader(memoryStream))
-            {
-                id = binaryReader.ReadInt32();
-                leftCost = binaryReader.ReadSingle();
-                rightCost = binaryReader.ReadSingle();
-                team = (TargetTeam) binaryReader.ReadByte();
-                range = binaryReader.ReadSingle();
-                castTime = binaryReader.ReadSingle();
-                cooldown = binaryReader.ReadSingle();
-                gcd = binaryReader.ReadSingle();
-                gcdCategory = (GcdCategory) binaryReader.ReadByte();
-                school = (SchoolType) binaryReader.ReadUInt16();
-                mechanic = (Mechanic) binaryReader.ReadInt32();
-                flags = (SpellFlags) binaryReader.ReadInt64();
-                script = (SpellType) binaryReader.ReadByte();
-                effects = DeserializeSpellEffects(binaryReader);
-            }
-
-            memoryStream.Dispose();
+            int id = source.ReadInt();
+            leftCost = source.ReadFloat();
+            rightCost = source.ReadFloat();
+            team = (TargetTeam) source.ReadByte();
+            range = source.ReadFloat();
+            castTime = source.ReadFloat();
+            cooldown = source.ReadFloat();
+            gcd = source.ReadFloat();
+            gcdCategory = (GcdCategory) source.ReadByte();
+            school = (SchoolType) source.ReadUShort();
+            mechanic = (Mechanic) source.ReadInt();
+            flags = (SpellFlags) source.ReadLong();
+            script = (SpellType) source.ReadByte();
+            effects = DeserializeSpellEffects(source);
 
             return new SpellData(id, new AbilityCost(leftCost, rightCost), team, range, castTime, cooldown, gcd, gcdCategory, school, mechanic, effects, flags, script);
         }
 
         internal static Spell FromSpellData(SpellData data) => data.Script switch
         {
-            SpellType.Default => new Spell(data),
+            SpellType.Target => new TargetSpell(data),
+            SpellType.AoE => new AoeSpell(data),
             SpellType.Splash => new SplashSpell(data),
-            SpellType.Aoe => new AoeSpell(data),
             SpellType.Selfcast => new SelfcastSpell(data),
             SpellType.Cleave => new CleaveSpell(data),
             _ => throw new SerializationException("Unknow spell type."),
@@ -139,28 +133,28 @@ namespace Core.Combat.Utils.Serialization
             }
         }
 
-        private static SpellEffect[] DeserializeSpellEffects(BinaryReader readed)
+        private static SpellEffect[] DeserializeSpellEffects(ByteReader source)
         {
-            SpellEffect[] spellEffects = new SpellEffect[readed.ReadInt32()];
+            SpellEffect[] spellEffects = new SpellEffect[source.ReadInt()];
 
             for (int i = 0; i < spellEffects.Length; i++)
             {
-                spellEffects[i] = DeserilizeSpellEffect(readed);
+                spellEffects[i] = DeserilizeSpellEffect(source);
             }
 
             return spellEffects;
         }
 
-        internal static SpellValueSource DeserializeSpellValue(BinaryReader readed) => (SpellEffectValue) readed.ReadByte() switch
+        internal static SpellValueSource DeserializeSpellValue(ByteReader source) => (SpellEffectValue) source.ReadByte() switch
         {
-            SpellEffectValue.FIXED_VALUE => new FixedValue(readed),
-            SpellEffectValue.CASTER_STAT => new StatValue(readed),
-            SpellEffectValue.CASTER_RESOURCE => new CasterResourceValue(readed),
-            SpellEffectValue.MULTIPLY => new MultiplyValue(readed),
+            SpellEffectValue.FIXED_VALUE => new FixedValue(source),
+            SpellEffectValue.CASTER_STAT => new StatValue(source),
+            SpellEffectValue.CASTER_RESOURCE => new CasterResourceValue(source),
+            SpellEffectValue.MULTIPLY => new MultiplyValue(source),
             _ => throw new SerializationException("Unknown spell value type."),
         };
 
-        public static SpellEffect DeserilizeSpellEffect(BinaryReader readed) => (SpellEffectType) readed.ReadByte() switch
+        public static SpellEffect DeserilizeSpellEffect(ByteReader readed) => (SpellEffectType) readed.ReadByte() switch
         {
             SpellEffectType.DUMMY => new Dummy(readed),
             SpellEffectType.ABSORB_DAMAGE => new AbsorbDamage(readed),

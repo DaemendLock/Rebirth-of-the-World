@@ -53,11 +53,11 @@ namespace Assets.Sources.Temp
 
         private void LoadChractersToCombat(IEnumerable<UnitCreationData> data)
         {
-            foreach (UnitCreationData udata in data)
+            foreach (UnitCreationData unitCreationData in data)
             {
-                Units.CreateUnit(udata.Id, udata.Model);
-                UnitFactory.CreateUnit(udata);
-                SelectionInfo.RegisterControlUnit(udata.Id, udata.ControlGroup);
+                Units.CreateUnit(unitCreationData.Id, unitCreationData.Model);
+                UnitFactory.CreateUnit(unitCreationData);
+                SelectionInfo.RegisterControlUnit(unitCreationData.Id, unitCreationData.ControlGroup);
             }
         }
     }

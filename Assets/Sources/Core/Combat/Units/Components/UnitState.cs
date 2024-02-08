@@ -1,8 +1,9 @@
 ﻿using Core.Combat.Abilities;
-using Core.Combat.Statuses;
-using Core.Combat.Statuses.AuraEffects;
+using Core.Combat.Abilities.ActionRecords;
 using Core.Combat.Engine;
 using Core.Combat.Interfaces;
+using Core.Combat.Statuses;
+using Core.Combat.Statuses.Auras;
 using Core.Combat.Utils;
 using Core.Combat.Utils.HealthChangeProcessing;
 using System;
@@ -12,9 +13,8 @@ using Utils.DataTypes;
 
 namespace Core.Combat.Units.Components
 {
-    public class UnitState : TeamOwner, Interfaces.AuraOwner, DynamicStatOwner, Damageable, Damager
+    public class UnitState : TeamOwner, StatsOwner
     {
-        private const float HasteEffiency = 0.075f;
         private const float CritEffiency = 0.05f;
         private const float VersalityEffiency = 0.2f;
 
@@ -48,30 +48,20 @@ namespace Core.Combat.Units.Components
         public int EntityId { get; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Update()
+        public void Update(IActionRecordContainer container)
         {
-            _auras.Update();
+            _auras.Update(container);
             _resource.Update(GetResourceIncrease(_resource.LeftType, ModelUpdate.UpdateTime), GetResourceIncrease(_resource.RightType, ModelUpdate.UpdateTime));
         }
 
         //TODO: move to passive ability???
-        private float GetResourceIncrease(ResourceType type, long time)
+        private float GetResourceIncrease(ResourceType type, long time) => type switch
         {
-            switch (type)
-            {
-                case ResourceType.MANA:
-                    return time * Engine.Combat.GetManaRestoreRate() / 1000;
-
-                case ResourceType.ENERGY:
-                    return time * EvaluateHasteTimeDivider() * Engine.Combat.GetEnergyRechargeRate() / 1000;
-
-                case ResourceType.CONCENTRATION:
-                    return time * Engine.Combat.GetConcentrationRestoreRate() / 1000;
-
-                default:
-                    return 0;
-            }
-        }
+            ResourceType.MANA => time * Engine.Combat.GetManaRestoreRate() / 1000,
+            ResourceType.ENERGY => time * EvaluateHasteTimeDivider() * Engine.Combat.GetEnergyRechargeRate() / 1000,
+            ResourceType.CONCENTRATION => time * Engine.Combat.GetConcentrationRestoreRate() / 1000,
+            _ => 0,
+        };
 
         #region _health
         public float CurrentHealth => _health.Value;
@@ -141,7 +131,7 @@ namespace Core.Combat.Units.Components
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void AbsorbDamage(CastEventData data, float absorption, SchoolType school) => _auras.AbsorbDamage(data, absorption, school);
+        public void AbsorbDamage(CastInputData data, float absorption, SchoolType school) => _auras.AbsorbDamage(data, absorption, school);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float GetAbsorption() => _auras.GetAbsorption();
@@ -151,19 +141,18 @@ namespace Core.Combat.Units.Components
         public bool CanPay(AbilityCost cost) => _resource.CanPay(cost);
         public bool HasResource(ResourceType type) => _resource.HasResource(type);
         public float GetResourceValue(ResourceType type) => _resource.GetResourceValue(type);
-        public void GiveResource(ResourceType type, float value) => _resource.GiveResource(type, value);
+        public float GiveResource(ResourceType type, float value) => _resource.GiveResource(type, value);
         public void SpendResource(AbilityCost cost) => _resource.SpendResource(cost);
         #endregion
 
         #region _stats
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float EvaluateHasteTimeDivider(float hasteValue) => (float) Math.Clamp(1 + hasteValue * HasteEffiency * 0.01f, 0.5, 2);
-
-        public float EvaluateHasteTimeDivider() => EvaluateHasteTimeDivider(EvaluateStat(UnitStat.HASTE).CalculatedValue);
+        public float EvaluateHasteTimeDivider() => StatBonusEvaluator.EvaluateHasteTimeDivider(EvaluateStat(UnitStat.HASTE).CalculatedValue);
 
         public float EvaluateCritChance() => EvaluateStat(UnitStat.CRIT).CalculatedValue * CritEffiency;
 
         public float EvaluateVersalityMultiplier() => 1 + Math.Max(0, EvaluateStat(UnitStat.VERSALITY).CalculatedValue * VersalityEffiency * 0.01f);
+
+        public int EvaluateStatValue(UnitStat stat) => (int) EvaluateStat(stat).CalculatedValue;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public PercentModifiedValue EvaluateStat(UnitStat stat) => _auras.EvaluateStat(stat) + _stats[stat];
@@ -199,15 +188,15 @@ namespace Core.Combat.Units.Components
         #endregion
 
         #region _aura
-        public void ApplyAura(CastEventData data, AuraEffect effect) => _auras.ApplyAura(data, effect);
+        public void ApplyAura(CastInputData data, Aura aura) => _auras.ApplyAura(data, aura);
 
-        public void RemoveStatus(Spell spell) => _auras.RemoveStatus(spell);
+        public void RemoveStatus(Aura aura) => _auras.RemoveStatus(aura);
 
         public void RemoveStatus(SpellId spell) => _auras.RemoveStatus(spell);
 
-        public Status FindStatus(Spell spell) => _auras.FindStatus(spell);
+        public Status FindStatus(Aura aura) => _auras.FindStatus(aura);
 
-        public bool HasStatus(Spell spell) => _auras.HasStatus(spell);
+        public bool HasStatus(Aura aura) => _auras.HasStatus(aura);
 
         public bool HasStatus(SpellId spell) => _auras.HasStatus(spell);
 
@@ -218,7 +207,7 @@ namespace Core.Combat.Units.Components
         public bool HasImmunity(Mechanic mechanic) => _auras.ImmunityValue(mechanic) > 0;
         #endregion
 
-        public void InformAction(UnitAction action, CastEventData data)
+        public void InformAction(UnitAction action, CastInputData data)
         {
             _auras.InformAction(action, data);
         }

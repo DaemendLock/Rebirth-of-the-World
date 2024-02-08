@@ -3,27 +3,17 @@ using Core.Combat.Units;
 
 namespace Core.Combat.Utils
 {
-    public readonly struct CastEventData
+    public readonly struct CastInputData
     {
         public readonly Unit Caster;
         public readonly Unit Target;
-        public readonly Spell Spell;
-        public readonly long TriggerTime;
+        public readonly SpellSlot SpellSlot;
 
-        public CastEventData(Unit caster, Unit target, Spell spell)
+        public CastInputData(Unit caster, Unit target, SpellSlot slot)
         {
             Target = target;
             Caster = caster;
-            Spell = spell;
-            TriggerTime = CombatTime.Time;
-        }
-
-        public CastEventData(Unit caster, Unit target, Spell spell, long time)
-        {
-            Target = target;
-            Caster = caster;
-            Spell = spell;
-            TriggerTime = time;
+            SpellSlot = slot;
         }
     }
 

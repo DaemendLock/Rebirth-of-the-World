@@ -1,10 +1,12 @@
-﻿using Core.Combat.Utils;
-
+﻿using Core.Combat.Abilities.ActionRecords;
+using Core.Combat.Units;
+using Core.Combat.Utils;
 namespace Core.Combat.Abilities
 {
     public interface Castable
     {
-        void Cast(CastEventData data, SpellModification modification);
-        CommandResult CanCast(CastEventData data, SpellModification modification);
+        CastActionRecord Cast(Unit caster, Unit target, SpellValueProvider values);
+
+        CommandResult CanCast(Unit data, SpellValueProvider values);
     }
 }

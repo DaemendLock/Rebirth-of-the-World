@@ -1,6 +1,5 @@
 ﻿using Data.Characters;
 using System.Collections.Generic;
-using UnityEngine;
 using Utils.DataTypes;
 
 namespace Core.Lobby.Accounts
@@ -19,7 +18,7 @@ namespace Core.Lobby.Accounts
 
         public bool TryGetCharacterState(int id, out CharacterState result)
         {
-            if(_charactersData.ContainsKey(id) == false)
+            if (_charactersData.ContainsKey(id) == false)
             {
                 result = default;
                 return false;
@@ -31,13 +30,14 @@ namespace Core.Lobby.Accounts
 
         public void SaveData(AccountDataRequest data)
         {
-            switch(data.DataType)
+            switch (data.DataType)
             {
                 case AccountDataType.CharacterState:
                     SaveCharacterState(data.Data);
                     return;
 
-                    default: break;
+                default:
+                    break;
             }
         }
 

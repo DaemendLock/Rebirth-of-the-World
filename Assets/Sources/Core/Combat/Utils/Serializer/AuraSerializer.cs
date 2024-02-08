@@ -1,24 +1,22 @@
-﻿using Core.Combat.Abilities;
-using Core.Combat.Statuses.AuraEffects;
+﻿using Core.Combat.Statuses.AuraEffects;
 using Core.Combat.Statuses.Auras;
 using Core.Combat.Utils.ValueSources;
 using System;
 using System.IO;
 using System.Runtime.Serialization;
-using Utils.DataTypes;
 
 namespace Core.Combat.Utils.Serialization
 {
     internal enum AuraEffectType
     {
-        IMMMUNITY,
-        MODIFY_COOLDOWN,
-        MODIFY_HEALTH_REGEN,
-        MODIFY_STAT,
+        Immunity,
+        ModifyCooldown,
+        ModifyHealthRegen,
+        ModifyStat,
         PERIODICALLY_TRIGGER_SPELL,
         PROC_TRIGGER_SPELL,
-        REACTION_CAST,
-        MODIFY_SPELL_EFFECT
+        OnEventCast,
+        ModifySpellEffect
     }
 
     internal enum AuraEffectValue
@@ -31,25 +29,12 @@ namespace Core.Combat.Utils.Serialization
 
     public class AuraSerializer
     {
-        public static byte[] Serialize(SpellData data)
+        public static byte[] Serialize(AuraData data)
         {
             MemoryStream memoryStream = new MemoryStream();
 
             using (BinaryWriter buffer = new BinaryWriter(memoryStream))
             {
-                buffer.Write(data.Id);
-                buffer.Write(data.Cost.Left);
-                buffer.Write(data.Cost.Right);
-                buffer.Write((byte) data.TargetTeam);
-                buffer.Write(data.Range);
-                buffer.Write(data.CastTime);
-                buffer.Write(data.Cooldown);
-                buffer.Write(data.GCD);
-                buffer.Write((byte) data.GcdCategory);
-                buffer.Write((ushort) data.School);
-                buffer.Write((int) data.Mechanic);
-                buffer.Write((long) data.Flags);
-                buffer.Write((byte) data.Script);
 
                 //SerializeSpellEffects(buffer, data.Effects);
             }
@@ -90,14 +75,14 @@ namespace Core.Combat.Utils.Serialization
 
         internal static AuraEffect DeserializeAuraEffect(BinaryReader readed) => (AuraEffectType) readed.ReadByte() switch
         {
-            AuraEffectType.IMMMUNITY => new Immunity(readed),
-            AuraEffectType.MODIFY_COOLDOWN => new ModCooldown(readed),
-            AuraEffectType.MODIFY_HEALTH_REGEN => new ModHealthRegen(readed),
-            AuraEffectType.MODIFY_STAT => new ModStat(readed),
+            AuraEffectType.Immunity => new Immunity(readed),
+            AuraEffectType.ModifyCooldown => new ModCooldown(readed),
+            AuraEffectType.ModifyHealthRegen => new ModHealthRegen(readed),
+            AuraEffectType.ModifyStat => new ModStat(readed),
             AuraEffectType.PERIODICALLY_TRIGGER_SPELL => new PeriodicallyTriggerSpell(readed),
             AuraEffectType.PROC_TRIGGER_SPELL => new ProcTriggerSpell(readed),
-            AuraEffectType.REACTION_CAST => new ReactionCast(readed),
-            AuraEffectType.MODIFY_SPELL_EFFECT => new ModifySpellEffect(readed),
+            AuraEffectType.OnEventCast => new ReactionCast(readed),
+            AuraEffectType.ModifySpellEffect => new ModifySpellEffect(readed),
             _ => throw new SerializationException("Unknown aura effect type."),
         };
 

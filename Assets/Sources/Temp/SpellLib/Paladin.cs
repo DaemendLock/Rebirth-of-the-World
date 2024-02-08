@@ -1,16 +1,14 @@
 ﻿using Core.Combat.Abilities;
 using Core.Combat.Abilities.SpellEffects;
 using Core.Combat.Abilities.SpellScripts;
-using Core.Combat.Statuses.AuraEffects;
 using Core.Combat.Utils.Serialization;
-using Core.Combat.Utils.ValueSources;
 using Utils.DataStructure;
 using Utils.DataTypes;
 using Utils.SpellIdGenerator;
 
 namespace SpellLib.Paladin
 {
-    public class LifegivingLight : Spell
+    public class LifegivingLight : TargetSpell
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 1);
 
@@ -30,7 +28,7 @@ namespace SpellLib.Paladin
                 new GiveResource(float.NegativeInfinity, ResourceType.LIGHT_POWER)
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
-            SpellType.Default
+            SpellType.Target
             );
 
         public LifegivingLight() : base(_spellData)
@@ -54,7 +52,7 @@ namespace SpellLib.Paladin
             Mechanic.None,
             new SpellEffect[]
             {
-                new ApplyAura(new ReactionCast(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 7), Core.Combat.Statuses.UnitAction.AUTOATTACK))
+                //new ApplyAura(new ReactionCast(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 7), Core.Combat.Statuses.UnitAction.AUTOATTACK))
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
             SpellType.Selfcast
@@ -65,7 +63,7 @@ namespace SpellLib.Paladin
         }
     }
 
-    public class BladeOfFaithProc : Spell
+    public class BladeOfFaithProc : TargetSpell
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 7);
 
@@ -85,7 +83,7 @@ namespace SpellLib.Paladin
                 new TriggerSpell(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 8))
             },
             SpellFlags.CANT_BE_EVAIDED | SpellFlags.CANT_BE_PARRIED | SpellFlags.CANT_BE_BLOCKED | SpellFlags.PROC_SPELL,
-            SpellType.Default
+            SpellType.Target
             );
 
         public BladeOfFaithProc() : base(_spellData)
@@ -137,7 +135,7 @@ namespace SpellLib.Paladin
             new SpellEffect[]
             {
                 new TriggerSpell(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 9)),
-                new TriggerSpell(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 10))
+                new TriggerSpell(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 10)),
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
             SpellType.Selfcast
@@ -148,7 +146,7 @@ namespace SpellLib.Paladin
         }
     }
 
-    public class ConsecrationAllyBuff : SplashSpell
+    public class ConsecrationAllyBuff : AoeSpell
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 9);
 
@@ -164,7 +162,7 @@ namespace SpellLib.Paladin
             Mechanic.None,
             new SpellEffect[]
             {
-                new ApplyAura(new ModStat(UnitStat.SPEED, new Constant(1), false))
+               // new ApplyAura(new ModStat(UnitStat.SPEED, new Constant(1), false))
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN | SpellFlags.PROC_SPELL,
             SpellType.Splash
@@ -175,7 +173,7 @@ namespace SpellLib.Paladin
         }
     }
 
-    public class ConsecrationEnemyDamage : SplashSpell
+    public class ConsecrationEnemyDamage : AoeSpell
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 10);
 
@@ -246,7 +244,7 @@ namespace SpellLib.Paladin
             Mechanic.None,
             new SpellEffect[]
             {
-                new ApplyAura(new PeriodicallyTriggerSpell(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 12), 1f))
+              //  new ApplyAura(new PeriodicallyTriggerSpell(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 12), 1f))
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN,
             SpellType.Selfcast
@@ -257,7 +255,7 @@ namespace SpellLib.Paladin
         }
     }
 
-    public class CandentArmorProc : SplashSpell
+    public class CandentArmorProc : AoeSpell
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 12);
 

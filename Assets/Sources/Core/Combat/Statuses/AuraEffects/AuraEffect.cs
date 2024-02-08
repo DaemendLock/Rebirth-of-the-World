@@ -87,6 +87,6 @@ namespace Core.Combat.Statuses.AuraEffects
 
         public abstract void Serialize(BinaryWriter buffer);
 
-        public abstract void Update(Status status, CastEventData data);
+        public abstract void Update(Status status, CastInputData data);
     }
 }

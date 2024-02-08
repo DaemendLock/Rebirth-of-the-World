@@ -1,4 +1,6 @@
-﻿using Core.Combat.Utils;
+﻿using Core.Combat.Abilities.ActionRecords;
+using Core.Combat.Units;
+using Core.Combat.Utils;
 
 namespace Core.Combat.Abilities.SpellScripts
 {
@@ -8,13 +10,18 @@ namespace Core.Combat.Abilities.SpellScripts
         {
         }
 
-        public override CommandResult CanCast(CastEventData data, SpellModification modification) => CommandResult.SUCCES;
+        public override CommandResult CanCast(Unit data, SpellValueProvider values) => CommandResult.SUCCES;
 
-        public override void Cast(CastEventData data, SpellModification modification)
+        public override CastActionRecord Cast(Unit caster, Unit target, SpellValueProvider values)
         {
-            data = new CastEventData(data.Caster, data.Caster, data.Spell);
+            CastActionRecord record = new(caster, target, Id);
 
-            base.Cast(data, modification);
+            for (int i = 0; i < EffectsCount; i++)
+            {
+                record.AddAction(ApplyEffect(i, values.EffectBonus(i), caster, caster));
+            }
+
+            return record;
         }
     }
 }

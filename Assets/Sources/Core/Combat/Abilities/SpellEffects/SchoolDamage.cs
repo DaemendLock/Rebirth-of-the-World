@@ -1,6 +1,5 @@
-﻿using Core.Combat.Units;
-using Core.Combat.Utils;
-using Core.Combat.Utils.HealthChangeProcessing;
+﻿using Core.Combat.Abilities.ActionRecords;
+using Core.Combat.Units;
 using Core.Combat.Utils.Serialization;
 using System.IO;
 using Utils.DataStructure;
@@ -8,6 +7,7 @@ using Utils.Serializer;
 
 namespace Core.Combat.Abilities.SpellEffects
 {
+
     public class SchoolDamage : SpellEffect
     {
         private readonly SpellValueSource _value;
@@ -17,28 +17,35 @@ namespace Core.Combat.Abilities.SpellEffects
             _value = damage;
         }
 
-        public SchoolDamage(BinaryReader source)
+        public SchoolDamage(ByteReader source)
         {
             _value = SpellSerializer.DeserializeSpellValue(source);
         }
 
-        public void ApplyEffect(CastEventData data, float modifyValue)
+        //public ActionRecord ApplyEffect(Unit target, SpellEffectValueProvider values)
+        //{
+        //    float originalDamage = values.GetValue(this);
+
+        //    Unit caster = values.Caster;
+
+        //    if (caster != null)
+        //    {
+        //        originalDamage *= (1 + caster.EvaluateStat(UnitStat.DAMAGE_DONE).CalculatedValue) * caster.EvaluateVersalityMultiplyer();
+        //    }
+
+        //    HealthChangeEventData damage = new HealthChangeEventData(originalDamage, data.Caster, data.Target, data.Spell);
+
+        //    DamageEvent @event = new DamageEvent(damage);
+
+        //    caster.AmplifyDamage(@event);
+        //    target.TakeDamage(@event);
+
+        //    return new DamageActionRecord(target.Id, values.Source);
+        //}
+
+        public ActionRecord ApplyEffect(Unit caster, Unit target, float modification)
         {
-            float originalDamage = _value.GetValue(data, modifyValue);
-
-            Unit caster = data.Caster;
-
-            if (caster != null)
-            {
-                originalDamage *= (1 + caster.EvaluateStat(UnitStat.DAMAGE_DONE).CalculatedValue) * caster.EvaluateVersalityMultiplyer();
-            }
-
-            HealthChangeEventData damage = new HealthChangeEventData(originalDamage, data.Caster, data.Target, data.Spell);
-
-            DamageEvent @event = new DamageEvent(damage);
-
-            caster.AmplifyDamage(@event);
-            data.Target.TakeDamage(@event);
+            throw new System.NotImplementedException();
         }
 
         public float GetValue(float modifyValue) => _value.BaseValue;

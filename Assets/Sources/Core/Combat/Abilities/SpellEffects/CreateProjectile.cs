@@ -1,5 +1,6 @@
-﻿using Core.Combat.Units.Components;
-using Core.Combat.Utils;
+﻿using Core.Combat.Abilities.ActionRecords;
+using Core.Combat.Units;
+using Core.Combat.Units.Components;
 using System.IO;
 using Utils.DataTypes;
 
@@ -12,7 +13,7 @@ namespace Core.Combat.Abilities.SpellEffects
 
         private readonly float _speed;
 
-        public void ApplyEffect(CastEventData data, float modifyValue)
+        public ActionRecord ApplyEffect(Unit caster, Unit target, float modification)
         {
             throw new System.NotImplementedException();
         }

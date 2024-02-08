@@ -65,6 +65,7 @@
     <Compile Include="Assets\Editor\SpellBaker.cs" />
     <Compile Include="Assets\Editor\SpellEditor\Editor\SpellEditor.cs" />
     <Compile Include="Assets\Editor\SpellEditor\SpellTemplate.cs" />
+    <Compile Include="Assets\Editor\AuraBaker.cs" />
     <Compile Include="Assets\Editor\SpellEditor\Library\SpellLibrary.cs" />
   </ItemGroup>
   <ItemGroup>
