@@ -2,6 +2,7 @@
 using Core.Combat.Abilities.SpellEffects;
 using Core.Combat.Abilities.SpellScripts;
 using Core.Combat.Utils.Serialization;
+
 using Utils.DataTypes;
 using Utils.SpellIdGenerator;
 
@@ -11,7 +12,7 @@ namespace Assets.Sources.Temp.SpellLib
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.DARK_KNIGHT, Spec.SPEC_1, 1);
 
-        private static SpellData _spellData = new SpellData(_id,
+        private static readonly SpellData _spellData = new(_id,
             new AbilityCost(10, 0),
             TargetTeam.Ally,
             0,
@@ -38,7 +39,7 @@ namespace Assets.Sources.Temp.SpellLib
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.DARK_KNIGHT, Spec.SPEC_1, 2);
 
-        private static SpellData _spellData = new SpellData(_id,
+        private static readonly SpellData _spellData = new(_id,
             new AbilityCost(10, 0),
             TargetTeam.Ally,
             0,
@@ -65,7 +66,7 @@ namespace Assets.Sources.Temp.SpellLib
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.DARK_KNIGHT, Spec.SPEC_1, 4);
 
-        private static SpellData _spellData = new SpellData(_id,
+        private static readonly SpellData _spellData = new(_id,
             new AbilityCost(10, 0),
             TargetTeam.Ally,
             0,

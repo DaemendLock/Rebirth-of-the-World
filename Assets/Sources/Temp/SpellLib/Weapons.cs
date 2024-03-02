@@ -2,6 +2,7 @@
 using Core.Combat.Abilities.SpellEffects;
 using Core.Combat.Abilities.SpellScripts;
 using Core.Combat.Utils.Serialization;
+
 using Utils.DataStructure;
 using Utils.DataTypes;
 using Utils.SpellIdGenerator;
@@ -12,7 +13,7 @@ namespace SpellLib.Weapons
     {
         private static readonly int _id = SpellIdCalculator.GenerateGearSpellId(new(0));
 
-        private static SpellData _spellData = new SpellData(_id,
+        private static readonly SpellData _spellData = new(_id,
             new AbilityCost(0, 0),
             TargetTeam.Enemy,
             2,

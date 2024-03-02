@@ -1,7 +1,9 @@
-﻿using Data.Characters;
-using Data.Entities.Stats;
+﻿using UnityEngine;
 using UnityEditor.Animations;
-using UnityEngine;
+
+using Data.Characters;
+using Data.Entities.Stats;
+
 using Utils.DataStructure;
 using Utils.DataTypes;
 
@@ -12,20 +14,21 @@ namespace Data.Entities
     {
         [SerializeField] private CharacterStats _stats;
         [SerializeField] private CastResourceData _castResourceData;
+        [SerializeField] private int[] _spells;
+        [SerializeField] private ViewSet[] _viewSets = new ViewSet[1];
 
-        [SerializeField] private ViewSet _defaultViewSet;
+        public UnitCreationData.CastResourceData CastResources =>
+            new UnitCreationData.CastResourceData(_castResourceData.Left.Resource.MaxValue, _castResourceData.Right.Resource.MaxValue, _castResourceData.Left.Type, _castResourceData.Right.Type);
 
-        public UnitCreationData.CastResourceData CastResources => new UnitCreationData.CastResourceData(_castResourceData.Left.Resource.MaxValue, _castResourceData.Right.Resource.MaxValue, _castResourceData.Left.Type, _castResourceData.Right.Type);
-
-        public Sprite GetCharacterCard() => _defaultViewSet.CharacterCard;
+        public Sprite GetCharacterCard(int activeViewSet) => _viewSets[activeViewSet].CardSprite;
 
         public StatsTable GetStatsTable(int level) => _stats.GetStatsForLevel(level);
 
-        public NpcModel GetModel() => _defaultViewSet.Model;
+        public NpcModel GetModel(int activeViewSet) => _viewSets[activeViewSet].Model;
 
-        public Sprite[] GetSpellIcons() => _defaultViewSet.GetSpellIcons();
+        public Sprite GetSpellIcon(int activeViewSet, SpellId spellId) => _viewSets[activeViewSet].GetSpellIcon(spellId);
 
-        public AnimatorController GetAnimatorController() => _defaultViewSet.Animations.Controller;
+        public AnimatorController GetAnimatorController(int activeViewSet) => _viewSets[activeViewSet].Animations.Controller;
 
         public UnitCreationData GetUnitCreationData(int combatIndex, int team, CharacterState data, byte contolGroup)
         {

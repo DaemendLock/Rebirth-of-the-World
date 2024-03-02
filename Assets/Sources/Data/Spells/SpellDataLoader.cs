@@ -10,7 +10,7 @@ namespace Data.Spells
     {
         private static readonly string _PATH_LIB = Application.streamingAssetsPath + $"{Path.DirectorySeparatorChar}Spells{Path.DirectorySeparatorChar}";
 
-        private static ISpellDataProvider _data = new MultiFileSpellDataProvider(new List<ISpellDataProvider>() { new SpellLibFile(_PATH_LIB + "spelllib1.spelllib"), new SpellLibFile(_PATH_LIB + "spelllib2.spelllib") });
+        private static ISpellDataProvider _data = new MultiFileSpellDataProvider(new List<ISpellDataProvider>() { new SpellLibFile(_PATH_LIB + "general.spelllib")});
 
         public static void Release() => _data.Dispose();
 

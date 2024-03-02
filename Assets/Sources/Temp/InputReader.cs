@@ -1,5 +1,8 @@
-﻿using Input;
-using Input.Combat;
+﻿using Client.Combat.Input.Handlers;
+using Client.Combat.Input.Selection;
+
+using Input;
+
 using UnityEngine;
 
 namespace Temp
@@ -8,12 +11,12 @@ namespace Temp
     {
         [SerializeField] private bool _useRTSControl = false;
 
-        public static int SelectedUnit = 0;
-
         private CombatInput _input;
         private CastInputHandler _castHandler;
         private MovementInputHandler _movementHandler;
-        private TargetSellectionHandler _sellectionHandler;
+        private TargetSelectionHandler _selectionHandler;
+
+        private SelectionInfo _selection;
 
         private void Awake()
         {
@@ -22,24 +25,26 @@ namespace Temp
 
             }
 
+            _selection = new SelectionInfo();
+
             _input = new();
-            _castHandler = new(_input);
+            _castHandler = new(_input, _selection);
             _movementHandler = new(_input);
-            _sellectionHandler = new(_input);
+            _selectionHandler = new(_input);
         }
 
         private void OnEnable()
         {
             _castHandler.Enable();
             _movementHandler.Enable();
-            _sellectionHandler.Enable();
+            _selectionHandler.Enable();
         }
 
         private void OnDisable()
         {
             _castHandler.Disable();
             _movementHandler.Disable();
-            _sellectionHandler.Disable();
+            _selectionHandler.Disable();
         }
     }
 }

@@ -2,6 +2,7 @@
 using Core.Combat.Abilities.SpellEffects;
 using Core.Combat.Abilities.SpellScripts;
 using Core.Combat.Utils.Serialization;
+
 using Utils.DataStructure;
 using Utils.DataTypes;
 using Utils.SpellIdGenerator;
@@ -12,7 +13,7 @@ namespace SpellLib.Paladin
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 1);
 
-        private static SpellData _spellData = new SpellData(_id,
+        private static readonly SpellData _spellData = new(_id,
             new AbilityCost(10, 0),
             TargetTeam.Ally,
             0,
@@ -40,7 +41,7 @@ namespace SpellLib.Paladin
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 2);
 
-        private static SpellData _spellData = new SpellData(_id,
+        private static readonly SpellData _spellData = new(_id,
             new AbilityCost(10, 0),
             TargetTeam.Ally,
             0,
@@ -67,7 +68,7 @@ namespace SpellLib.Paladin
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 7);
 
-        private static SpellData _spellData = new SpellData(_id,
+        private static readonly SpellData _spellData = new(_id,
             new AbilityCost(0, 0),
             TargetTeam.Enemy,
             float.PositiveInfinity,
@@ -95,7 +96,7 @@ namespace SpellLib.Paladin
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 8);
 
-        private static SpellData _spellData = new SpellData(_id,
+        private static readonly SpellData _spellData = new(_id,
             new AbilityCost(0, 0),
             TargetTeam.Ally,
             float.PositiveInfinity,
@@ -122,7 +123,7 @@ namespace SpellLib.Paladin
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 3);
 
-        private static SpellData _spellData = new SpellData(_id,
+        private static readonly SpellData _spellData = new(_id,
             new AbilityCost(100, 0),
             TargetTeam.Ally,
             0,
@@ -150,7 +151,7 @@ namespace SpellLib.Paladin
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 9);
 
-        private static SpellData _spellData = new SpellData(_id,
+        private static readonly SpellData _spellData = new(_id,
             new AbilityCost(0, 0),
             TargetTeam.Ally,
             5,
@@ -165,7 +166,7 @@ namespace SpellLib.Paladin
                // new ApplyAura(new ModStat(UnitStat.SPEED, new Constant(1), false))
             },
             SpellFlags.HASTE_AFFECTS_COOLDOWN | SpellFlags.PROC_SPELL,
-            SpellType.Splash
+            SpellType.AoE
             );
 
         public ConsecrationAllyBuff() : base(_spellData)
@@ -177,7 +178,7 @@ namespace SpellLib.Paladin
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 10);
 
-        private static SpellData _spellData = new SpellData(_id,
+        private static readonly SpellData _spellData = new(_id,
             new AbilityCost(0, 0),
             TargetTeam.Enemy,
             5,
@@ -193,7 +194,7 @@ namespace SpellLib.Paladin
                 new TriggerSpell(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 11))
             },
             SpellFlags.PROC_SPELL,
-            SpellType.Splash
+            SpellType.AoE
             );
 
         public ConsecrationEnemyDamage() : base(_spellData)
@@ -205,7 +206,7 @@ namespace SpellLib.Paladin
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 11);
 
-        private static SpellData _spellData = new SpellData(_id,
+        private static readonly SpellData _spellData = new(_id,
             new AbilityCost(0, 0),
             TargetTeam.Ally,
             0,
@@ -232,7 +233,7 @@ namespace SpellLib.Paladin
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 4);
 
-        private static SpellData _spellData = new SpellData(_id,
+        private static readonly SpellData _spellData = new(_id,
             new AbilityCost(100, 0),
             TargetTeam.Ally,
             0,
@@ -259,7 +260,7 @@ namespace SpellLib.Paladin
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 12);
 
-        private static SpellData _spellData = new SpellData(_id,
+        private static readonly SpellData _spellData = new(_id,
             new AbilityCost(0, 0),
             TargetTeam.Enemy,
             5,
@@ -275,7 +276,7 @@ namespace SpellLib.Paladin
                 new TriggerSpell(SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 13))
             },
             SpellFlags.PROC_SPELL,
-            SpellType.Splash
+            SpellType.AoE
             );
 
         public CandentArmorProc() : base(_spellData)
@@ -287,7 +288,7 @@ namespace SpellLib.Paladin
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.PALADIN, Spec.SPEC_1, 13);
 
-        private static SpellData _spellData = new SpellData(_id,
+        private static readonly SpellData _spellData = new(_id,
             new AbilityCost(0, 0),
             TargetTeam.Ally,
             0,

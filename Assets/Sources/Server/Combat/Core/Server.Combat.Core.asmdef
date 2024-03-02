@@ -1,0 +1,17 @@
+{
+    "name": "Server.Combat.Core",
+    "rootNamespace": "Server.Combat.Core",
+    "references": [
+        "GUID:56f9f1a8f61c8a2408ed99359b9cdc4e",
+        "GUID:152cf6227a8e30946a78eb29d62fd1b0"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

@@ -88,16 +88,13 @@ MonoBehaviour:
     _rightResource:
       _type: 5
       _maxValue: 100
-  _defaultViewSet:
-    _model: {fileID: 540421794388492228, guid: 94a0e139570a6844ea23909004e85623, type: 3}
-    _npcCard: {fileID: 21300000, guid: bf1ec474afbdd17478f0f1eb97e29c35, type: 3}
+  _spells: 00000000
+  _viewSets:
+  - _model: {fileID: 540421794388492228, guid: 94a0e139570a6844ea23909004e85623, type: 3}
+    _card: {fileID: 21300000, guid: bf1ec474afbdd17478f0f1eb97e29c35, type: 3}
     _spellIcons:
-    - {fileID: 21300000, guid: 7dec78c2d9fce9648839094b430a425a, type: 3}
-    - {fileID: 21300000, guid: d5466db6da35bae419bfe5d7c0ef04c4, type: 3}
-    - {fileID: 21300000, guid: 42b2b37038f1b9a49999e496b9deef9e, type: 3}
-    - {fileID: 21300000, guid: 3aed9963dc3956142be94cbafdbe603e, type: 3}
-    - {fileID: 21300000, guid: adec7d7fac6ed894bb257aaf86bd4484, type: 3}
-    - {fileID: 21300000, guid: 78d00ea7f66ce134f8d7655141ba554d, type: 3}
+    - _spellId: 272
+      _icon: {fileID: 21300000, guid: 7dec78c2d9fce9648839094b430a425a, type: 3}
     _voiceover: {fileID: 0}
     _animationPack:
       _controller: {fileID: 0}

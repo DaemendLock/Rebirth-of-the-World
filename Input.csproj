@@ -58,16 +58,10 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Input\Combat\CancelInputHandler.cs" />
-    <Compile Include="Assets\Sources\Input\Lobby\StartScenarioButton.cs" />
-    <Compile Include="Assets\Sources\Input\CombatInput.cs" />
-    <Compile Include="Assets\Sources\Input\Combat\CastInputHandler.cs" />
-    <Compile Include="Assets\Sources\Input\Lobby\OpenScenarioButton.cs" />
-    <Compile Include="Assets\Sources\Input\Combat\TargetSellectionHandler.cs" />
-    <Compile Include="Assets\Sources\Input\Combat\MovementInputHandler.cs" />
+    <Compile Include="Assets\Sources\Client\Input\CombatInput.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Sources\Input\Input.asmdef" />
+    <None Include="Assets\Sources\Client\Input\Input.asmdef" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -907,6 +901,10 @@
     <ProjectReference Include="Adapters.csproj">
       <Project>{2299BFAC-A606-E4F3-37F3-DCBBDC1703C4}</Project>
       <Name>Adapters</Name>
+    </ProjectReference>
+    <ProjectReference Include="Server_Core_Combat.csproj">
+      <Project>{387A37BE-D27F-F44E-ABE5-1295F7D3A04B}</Project>
+      <Name>Server_Core_Combat</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

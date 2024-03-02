@@ -90,7 +90,6 @@
     <Compile Include="Assets\Sources\Data\Characters\Character.cs" />
     <Compile Include="Assets\Sources\Data\Characters\CharacterRole.cs" />
     <Compile Include="Assets\Sources\Data\Items\Gear\Gear.cs" />
-    <Compile Include="Assets\Sources\Data\Characters\ProgressValue.cs" />
     <Compile Include="Assets\Sources\Data\Spells\SpellDataProvider\MultiFileSpellDataProvider.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\MappedData.cs" />
     <Compile Include="Assets\Sources\Data\Entities\NpcModels\Hardpoint.cs" />

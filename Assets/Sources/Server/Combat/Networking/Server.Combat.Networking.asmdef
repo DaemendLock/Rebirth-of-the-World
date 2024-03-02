@@ -1,0 +1,17 @@
+{
+    "name": "Server.Combat.Networking",
+    "rootNamespace": "Server.Combat.Networking",
+    "references": [
+        "GUID:2cc8e6a46e719c84b9606d03354c023f",
+        "GUID:152cf6227a8e30946a78eb29d62fd1b0"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

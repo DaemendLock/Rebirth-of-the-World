@@ -5,7 +5,7 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using Utils.DataStructure;
+using Utils.ByteHelper;
 
 namespace Utils.DataTypes
 {
@@ -15,19 +15,10 @@ namespace Utils.DataTypes
 
         public const float kEpsilonNormalSqrt = 1E-15f;
 
-        //
-        // Сводка:
-        //     X component of the vector.
         public float x;
 
-        //
-        // Сводка:
-        //     Y component of the vector.
         public float y;
 
-        //
-        // Сводка:
-        //     Z component of the vector.
         public float z;
 
         private static readonly Vector3 zeroVector = new Vector3(0f, 0f, 0f);
@@ -83,9 +74,6 @@ namespace Utils.DataTypes
             }
         }
 
-        //
-        // Сводка:
-        //     Returns this vector with a magnitude of 1 (Read Only).
         public Vector3 normalized
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -95,9 +83,6 @@ namespace Utils.DataTypes
             }
         }
 
-        //
-        // Сводка:
-        //     Returns the length of this vector (Read Only).
         public float magnitude
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -107,9 +92,6 @@ namespace Utils.DataTypes
             }
         }
 
-        //
-        // Сводка:
-        //     Returns the squared length of this vector (Read Only).
         public float sqrMagnitude
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -119,9 +101,6 @@ namespace Utils.DataTypes
             }
         }
 
-        //
-        // Сводка:
-        //     Shorthand for writing Vector3(0, 0, 0).
         public static Vector3 zero
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -131,9 +110,6 @@ namespace Utils.DataTypes
             }
         }
 
-        //
-        // Сводка:
-        //     Shorthand for writing Vector3(1, 1, 1).
         public static Vector3 one
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -143,9 +119,6 @@ namespace Utils.DataTypes
             }
         }
 
-        //
-        // Сводка:
-        //     Shorthand for writing Vector3(0, 0, 1).
         public static Vector3 forward
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -155,9 +128,6 @@ namespace Utils.DataTypes
             }
         }
 
-        //
-        // Сводка:
-        //     Shorthand for writing Vector3(0, 0, -1).
         public static Vector3 back
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -167,9 +137,6 @@ namespace Utils.DataTypes
             }
         }
 
-        //
-        // Сводка:
-        //     Shorthand for writing Vector3(0, 1, 0).
         public static Vector3 up
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -179,9 +146,6 @@ namespace Utils.DataTypes
             }
         }
 
-        //
-        // Сводка:
-        //     Shorthand for writing Vector3(0, -1, 0).
         public static Vector3 down
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -191,9 +155,6 @@ namespace Utils.DataTypes
             }
         }
 
-        //
-        // Сводка:
-        //     Shorthand for writing Vector3(-1, 0, 0).
         public static Vector3 left
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -203,9 +164,6 @@ namespace Utils.DataTypes
             }
         }
 
-        //
-        // Сводка:
-        //     Shorthand for writing Vector3(1, 0, 0).
         public static Vector3 right
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -215,10 +173,6 @@ namespace Utils.DataTypes
             }
         }
 
-        //
-        // Сводка:
-        //     Shorthand for writing Vector3(float.PositiveInfinity, float.PositiveInfinity,
-        //     float.PositiveInfinity).
         public static Vector3 positiveInfinity
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -228,10 +182,6 @@ namespace Utils.DataTypes
             }
         }
 
-        //
-        // Сводка:
-        //     Shorthand for writing Vector3(float.NegativeInfinity, float.NegativeInfinity,
-        //     float.NegativeInfinity).
         public static Vector3 negativeInfinity
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -241,22 +191,6 @@ namespace Utils.DataTypes
             }
         }
 
-        //
-        // Сводка:
-        //     Linearly interpolates between two points.
-        //
-        // Параметры:
-        //   a:
-        //     Start value, returned when t = 0.
-        //
-        //   b:
-        //     End value, returned when t = 1.
-        //
-        //   t:
-        //     Value used to interpolate between a and b.
-        //
-        // Возврат:
-        //     Interpolated value, equals to a + (b - a) * t.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Lerp(Vector3 a, Vector3 b, float t)
         {
@@ -264,39 +198,12 @@ namespace Utils.DataTypes
             return new Vector3(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t, a.z + (b.z - a.z) * t);
         }
 
-        //
-        // Сводка:
-        //     Linearly interpolates between two vectors.
-        //
-        // Параметры:
-        //   a:
-        //
-        //   b:
-        //
-        //   t:
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 LerpUnclamped(Vector3 a, Vector3 b, float t)
         {
             return new Vector3(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t, a.z + (b.z - a.z) * t);
         }
 
-        //
-        // Сводка:
-        //     Calculate a position between the points specified by current and target, moving
-        //     no farther than the distance specified by maxDistanceDelta.
-        //
-        // Параметры:
-        //   current:
-        //     The position to move from.
-        //
-        //   target:
-        //     The position to move towards.
-        //
-        //   maxDistanceDelta:
-        //     Distance to move current per call.
-        //
-        // Возврат:
-        //     The new position.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 MoveTowards(Vector3 current, Vector3 target, float maxDistanceDelta)
         {
@@ -313,16 +220,6 @@ namespace Utils.DataTypes
             return new Vector3(current.x + num / num5 * maxDistanceDelta, current.y + num2 / num5 * maxDistanceDelta, current.z + num3 / num5 * maxDistanceDelta);
         }
 
-        //
-        // Сводка:
-        //     Creates a new vector with given x, y, z components.
-        //
-        // Параметры:
-        //   x:
-        //
-        //   y:
-        //
-        //   z:
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3(float x, float y, float z)
         {
@@ -331,14 +228,6 @@ namespace Utils.DataTypes
             this.z = z;
         }
 
-        //
-        // Сводка:
-        //     Creates a new vector with given x, y components and sets z to zero.
-        //
-        // Параметры:
-        //   x:
-        //
-        //   y:
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3(float x, float y)
         {
@@ -347,9 +236,6 @@ namespace Utils.DataTypes
             z = 0f;
         }
 
-        //
-        // Сводка:
-        //     Creates a new vector with given roation(in degree) and sets y to zero
         public Vector3(float rotation) : this()
         {
             rotation = rotation * MathF.PI / 180;
@@ -358,16 +244,15 @@ namespace Utils.DataTypes
             z = MathF.Cos(rotation);
         }
 
-        //
-        // Сводка:
-        //     Set x, y and z components of an existing Vector3.
-        //
-        // Параметры:
-        //   newX:
-        //
-        //   newY:
-        //
-        //   newZ:
+        //#if UNITY_2017_1_OR_NEWER
+        //        public Vector3(UnityEngine.Vector3 value)
+        //        {
+        //            x = value.x;
+        //            y = value.y;
+        //            z = value.z;
+        //        }
+        //#endif
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Set(float newX, float newY, float newZ)
         {
@@ -376,26 +261,12 @@ namespace Utils.DataTypes
             z = newZ;
         }
 
-        //
-        // Сводка:
-        //     Multiplies two vectors component-wise.
-        //
-        // Параметры:
-        //   a:
-        //
-        //   b:
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Scale(Vector3 a, Vector3 b)
         {
             return new Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
         }
 
-        //
-        // Сводка:
-        //     Multiplies every component of this vector by the same component of scale.
-        //
-        // Параметры:
-        //   scale:
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Scale(Vector3 scale)
         {
@@ -404,14 +275,6 @@ namespace Utils.DataTypes
             z *= scale.z;
         }
 
-        //
-        // Сводка:
-        //     Cross Product of two vectors.
-        //
-        // Параметры:
-        //   lhs:
-        //
-        //   rhs:
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Cross(Vector3 lhs, Vector3 rhs)
         {
@@ -424,12 +287,6 @@ namespace Utils.DataTypes
             return x.GetHashCode() ^ (y.GetHashCode() << 2) ^ (z.GetHashCode() >> 2);
         }
 
-        //
-        // Сводка:
-        //     Returns true if the given vector is exactly equal to this vector.
-        //
-        // Параметры:
-        //   other:
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override bool Equals(object other)
         {
@@ -447,14 +304,6 @@ namespace Utils.DataTypes
             return x == other.x && y == other.y && z == other.z;
         }
 
-        //
-        // Сводка:
-        //     Reflects a vector off the plane defined by a normal.
-        //
-        // Параметры:
-        //   inDirection:
-        //
-        //   inNormal:
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Reflect(Vector3 inDirection, Vector3 inNormal)
         {
@@ -462,12 +311,6 @@ namespace Utils.DataTypes
             return new Vector3(num * inNormal.x + inDirection.x, num * inNormal.y + inDirection.y, num * inNormal.z + inDirection.z);
         }
 
-        //
-        // Сводка:
-        //     Makes this vector have a magnitude of 1.
-        //
-        // Параметры:
-        //   value:
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Normalize(Vector3 value)
         {
@@ -494,28 +337,12 @@ namespace Utils.DataTypes
             }
         }
 
-        //
-        // Сводка:
-        //     Dot Product of two vectors.
-        //
-        // Параметры:
-        //   lhs:
-        //
-        //   rhs:
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Dot(Vector3 lhs, Vector3 rhs)
         {
             return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
         }
 
-        //
-        // Сводка:
-        //     Projects a vector onto another vector.
-        //
-        // Параметры:
-        //   vector:
-        //
-        //   onNormal:
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Project(Vector3 vector, Vector3 onNormal)
         {
@@ -529,19 +356,6 @@ namespace Utils.DataTypes
             return new Vector3(onNormal.x * num2 / num, onNormal.y * num2 / num, onNormal.z * num2 / num);
         }
 
-        //
-        // Сводка:
-        //     Projects a vector onto a plane defined by a normal orthogonal to the plane.
-        //
-        // Параметры:
-        //   planeNormal:
-        //     The direction from the vector towards the plane.
-        //
-        //   vector:
-        //     The location of the vector above the plane.
-        //
-        // Возврат:
-        //     The location of the vector on the plane.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 ProjectOnPlane(Vector3 vector, Vector3 planeNormal)
         {
@@ -555,19 +369,6 @@ namespace Utils.DataTypes
             return new Vector3(vector.x - planeNormal.x * num2 / num, vector.y - planeNormal.y * num2 / num, vector.z - planeNormal.z * num2 / num);
         }
 
-        //
-        // Сводка:
-        //     Calculates the angle between vectors from and.
-        //
-        // Параметры:
-        //   from:
-        //     The vector from which the angular difference is measured.
-        //
-        //   to:
-        //     The vector to which the angular difference is measured.
-        //
-        // Возврат:
-        //     The angle in degrees between the two vectors.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Angle(Vector3 from, Vector3 to)
         {
@@ -581,22 +382,6 @@ namespace Utils.DataTypes
             return (float) Math.Acos(num2) * 57.29578f;
         }
 
-        //
-        // Сводка:
-        //     Calculates the signed angle between vectors from and to in relation to axis.
-        //
-        // Параметры:
-        //   from:
-        //     The vector from which the angular difference is measured.
-        //
-        //   to:
-        //     The vector to which the angular difference is measured.
-        //
-        //   axis:
-        //     A vector around which the other vectors are rotated.
-        //
-        // Возврат:
-        //     Returns the signed angle between from and to in degrees.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float SignedAngle(Vector3 from, Vector3 to, Vector3 axis)
         {
@@ -608,14 +393,6 @@ namespace Utils.DataTypes
             return num * num5;
         }
 
-        //
-        // Сводка:
-        //     Returns the distance between a and b.
-        //
-        // Параметры:
-        //   a:
-        //
-        //   b:
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Distance(Vector3 a, Vector3 b)
         {
@@ -625,14 +402,6 @@ namespace Utils.DataTypes
             return (float) Math.Sqrt(num * num + num2 * num2 + num3 * num3);
         }
 
-        //
-        // Сводка:
-        //     Returns a copy of vector with its magnitude clamped to maxLength.
-        //
-        // Параметры:
-        //   vector:
-        //
-        //   maxLength:
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 ClampMagnitude(Vector3 vector, float maxLength)
         {
@@ -661,28 +430,12 @@ namespace Utils.DataTypes
             return vector.x * vector.x + vector.y * vector.y + vector.z * vector.z;
         }
 
-        //
-        // Сводка:
-        //     Returns a vector that is made from the smallest components of two vectors.
-        //
-        // Параметры:
-        //   lhs:
-        //
-        //   rhs:
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Min(Vector3 lhs, Vector3 rhs)
         {
             return new Vector3(Math.Min(lhs.x, rhs.x), Math.Min(lhs.y, rhs.y), Math.Min(lhs.z, rhs.z));
         }
 
-        //
-        // Сводка:
-        //     Returns a vector that is made from the largest components of two vectors.
-        //
-        // Параметры:
-        //   lhs:
-        //
-        //   rhs:
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Max(Vector3 lhs, Vector3 rhs)
         {
@@ -720,6 +473,12 @@ namespace Utils.DataTypes
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 operator *(Vector3 a, Vector3 b)
+        {
+            return new Vector3(a.y * b.z - a.z - b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 operator /(Vector3 a, float d)
         {
             return new Vector3(a.x / d, a.y / d, a.z / d);
@@ -741,13 +500,6 @@ namespace Utils.DataTypes
             return !(lhs == rhs);
         }
 
-        //
-        // Сводка:
-        //     Returns a formatted string for this vector.
-        //
-        // Параметры:
-        //   format:
-        //     A numeric format string.
         public override string ToString()
         {
             return $"{x}, {y}, {z}";

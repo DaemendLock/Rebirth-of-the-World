@@ -2,6 +2,7 @@
 using Core.Combat.Abilities.SpellEffects;
 using Core.Combat.Abilities.SpellScripts;
 using Core.Combat.Utils.Serialization;
+
 using Utils.DataStructure;
 using Utils.DataTypes;
 using Utils.SpellIdGenerator;
@@ -12,7 +13,7 @@ namespace Core.SpellLib.Shielder
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.SHIELDER, Spec.SPEC_1, 1);
 
-        private static SpellData _spellData = new SpellData(_id,
+        private static readonly SpellData _spellData = new(_id,
             new AbilityCost(0, 90),
             TargetTeam.Enemy,
             3,
@@ -43,7 +44,7 @@ namespace Core.SpellLib.Shielder
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.SHIELDER, Spec.SPEC_1, 2);
 
-        private static SpellData _spellData = new SpellData(_id,
+        private static readonly SpellData _spellData = new(_id,
             new AbilityCost(0, 90),
             TargetTeam.Ally,
             0,
@@ -56,7 +57,7 @@ namespace Core.SpellLib.Shielder
             new SpellEffect[]
             {
                 //charge
-                new ReduceCooldown(SpellIdCalculator.GenerateId(Class.SHIELDER, Spec.SPEC_1, 1), float.PositiveInfinity),
+                new ReduceCooldown(SpellIdCalculator.GenerateId(Class.SHIELDER, Spec.SPEC_1, 1), long.MaxValue),
                 //give overshield
                 //new ApplyAura(new ModifySpellEffect(SpellIdCalculator.GenerateId(Class.SHIELDER, Spec.SPEC_1, 1), 1, 1))
             },
@@ -73,7 +74,7 @@ namespace Core.SpellLib.Shielder
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.SHIELDER, Spec.SPEC_1, 3);
 
-        private static SpellData _spellData = new SpellData(_id,
+        private static readonly SpellData _spellData = new(_id,
             new AbilityCost(0, 90),
             TargetTeam.Ally,
             10,
@@ -100,7 +101,7 @@ namespace Core.SpellLib.Shielder
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.SHIELDER, Spec.SPEC_1, 4);
 
-        private static SpellData _spellData = new SpellData(_id,
+        private static readonly SpellData _spellData = new(_id,
             new AbilityCost(0, 90),
             TargetTeam.Ally,
             10,
@@ -131,7 +132,7 @@ namespace Core.SpellLib.Shielder
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.SHIELDER, Spec.SPEC_1, 5);
 
-        private static SpellData _spellData = new SpellData(_id,
+        private static readonly SpellData _spellData = new(_id,
             new AbilityCost(0, 90),
             TargetTeam.Enemy,
             5,
@@ -158,7 +159,7 @@ namespace Core.SpellLib.Shielder
     {
         private static readonly int _id = SpellIdCalculator.GenerateId(Class.SHIELDER, Spec.SPEC_1, 6);
 
-        private static SpellData _spellData = new SpellData(_id,
+        private static readonly SpellData _spellData = new(_id,
             new AbilityCost(0, 90),
             TargetTeam.Ally,
             0,

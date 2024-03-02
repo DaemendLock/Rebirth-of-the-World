@@ -6,11 +6,11 @@ namespace Utils.ThrowHepler
     {
         public static void ArgumentNullException(params object[] args)
         {
-            foreach (object arg in args)
+            for (int i = 0; i < args.Length;i++)
             {
-                if (arg == null)
+                if (args[i] == null)
                 {
-                    throw new ArgumentNullException();
+                    throw new ArgumentNullException("", $"Given parameter at index {i} can't be null.");
                 }
             }
         }

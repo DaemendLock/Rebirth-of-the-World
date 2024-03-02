@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <!-- Generated file, do not modify, your changes will be overwritten (use AssetPostprocessor.OnGeneratedCSProject) -->
   <PropertyGroup>
@@ -58,76 +58,7 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\View\Lobby\CharacterSheet\Widgets\Left\GearWidget.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\CharacterSheet\CharacterSheet.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\TeamSetup\Widgets\CharacterSlotsContainer.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\General\MenuOptionWidget.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\CharacterSheet\Widgets\Right\AffectionWidget.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\ScenarionSelection\ScenarioSelection.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\ScenarionSelection\TeamSelection.cs" />
-    <Compile Include="Assets\Sources\View\General\ItemWidget.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\CharacterSheet\Widgets\Right\SpellPreviewWidget.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\CharacterSheet\Widgets\Right\AffectionLevelWidget.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\General\Button.cs" />
-    <Compile Include="Assets\Sources\View\Combat\Units\UnitFactory.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\Utils\StaticSprite.cs" />
-    <Compile Include="Assets\Sources\View\Combat\UI\Elements\Bar.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\MainMenu\Widgets\ChatMessage.cs" />
-    <Compile Include="Assets\Sources\View\Combat\Units\EntityPool.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\Utils\MenuElement.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\General\HomeButton.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\General\Party\PartyWidget.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\CharacterSheet\Widgets\Right\SpellListWidget.cs" />
-    <Compile Include="Assets\Sources\View\General\Scene.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\ScenarionSelection\MemberCard.cs" />
-    <Compile Include="Assets\Sources\View\Combat\UI\Nameplates\NameplatesRoot.cs" />
-    <Compile Include="Assets\Sources\View\Combat\UI\Panels\UnitPanel.cs" />
-    <Compile Include="Assets\Sources\View\General\SceneLoader.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\General\ItemsContainer.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\TeamSetup\Widgets\CharacterSlotWidget.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\Inventory\Inventory.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\Gallery\Widgets\FilesContainerWidget.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\Lobby.cs" />
-    <Compile Include="Assets\Sources\View\Combat\UI\ResourceBar\ResourceBar.cs" />
-    <Compile Include="Assets\Sources\View\Combat\Units\Spells\SpellIconsSet.cs" />
-    <Compile Include="Assets\Sources\View\Combat\Units\Animations\AnimationType.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\StartScreen\Register.cs" />
-    <Compile Include="Assets\Sources\View\Combat\UI\ActionBar\ActionBar.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\CharacterSheet\Widgets\Right\DescriptionWidget.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\Gallery\Widgets\SubmenuWidget.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\CharacterSheet\Widgets\Left\ProgressLvl.cs" />
-    <Compile Include="Assets\Sources\View\Combat\Camera\CameraController.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\CharacterSheet\Widgets\Right\AffectionProgressWidget.cs" />
-    <Compile Include="Assets\Sources\View\Combat\UI\UIRoot.cs" />
-    <Compile Include="Assets\Sources\View\Combat\Units\Animations\AnimationController.cs" />
-    <Compile Include="Assets\Sources\View\Combat\Units\Animations\Animation.cs" />
-    <Compile Include="Assets\Sources\View\Combat\UI\Elements\FillDirection.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\General\BackButton.cs" />
-    <Compile Include="Assets\Sources\View\Combat\UI\Elements\SelectionFrame.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\MainMenu\Taskboard.cs" />
-    <Compile Include="Assets\Sources\View\Combat\UI\Elements\CastBar.cs" />
     <Compile Include="Assets\Sources\View\General\Loader.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\Gallery\Gallery.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\General\Party\PartyMemberWidget.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\TeamSetup\TeamSetup.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\MainMenu\Widgets\ChatWidget.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\ScenarionSelection\Widgets\ModeSelection.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\CharacterSheet\Widgets\Right\StatsWidget.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\MainMenu\Widgets\ProfileWidget.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\ScenarionSelection\Widgets\ScenarioOptionWidget.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\CharacterSheet\Widgets\Right\StatValueWidget.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\MainMenu\MainMenu.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\MainMenu\Widgets\ResourceBoardWidget.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\CharacterSheet\Widgets\Left\FunctionalButtons.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\Gallery\Widgets\CharacterCardWidget.cs" />
-    <Compile Include="Assets\Sources\View\Combat\Units\Unit.cs" />
-    <Compile Include="Assets\Sources\View\Combat\UI\Elements\HealthBar.cs" />
-    <Compile Include="Assets\Sources\View\Combat\Units\AnimationDistributor.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\StartScreen\Login.cs" />
-    <Compile Include="Assets\Sources\View\Combat\UI\Nameplates\Nameplate.cs" />
-    <Compile Include="Assets\Sources\View\Combat\UI\Panels\TargetPanel.cs" />
-    <Compile Include="Assets\Sources\View\Lobby\Utils\SpriteProvider.cs" />
-    <Compile Include="Assets\Sources\View\Combat\UI\ActionBar\SpellCard.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\View\View.asmdef" />
@@ -955,9 +886,9 @@
       <Project>{FE06642D-D97E-6F45-E6BC-17F2C4BC433F}</Project>
       <Name>Data</Name>
     </ProjectReference>
-    <ProjectReference Include="Core.csproj">
-      <Project>{21ADB8CB-C5DC-2033-2022-125F682C28E8}</Project>
-      <Name>Core</Name>
+    <ProjectReference Include="Client.Combat.View.csproj">
+      <Project>{13BD4701-EBC8-5505-1099-9606D112B13A}</Project>
+      <Name>Client.Combat.View</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

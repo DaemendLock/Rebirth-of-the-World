@@ -1,0 +1,17 @@
+{
+    "name": "Client.Lobby.Networking",
+    "rootNamespace": "Client.Lobby.Networking",
+    "references": [
+        "GUID:152cf6227a8e30946a78eb29d62fd1b0",
+        "GUID:07f78242193eb6249a5818785c5f8e09"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

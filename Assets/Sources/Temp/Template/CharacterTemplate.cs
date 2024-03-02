@@ -1,8 +1,10 @@
 ﻿using Data.Characters;
-using Data.Characters.Lobby;
 using Data.Items;
+
 using System;
+
 using UnityEngine;
+
 using Utils.DataTypes;
 
 namespace Assets.Sources.Temp.Template
@@ -30,7 +32,7 @@ namespace Assets.Sources.Temp.Template
             }
 
             return new CharacterState(CharId, ActiveSkin, ActiveSpec,
-                new ProgressValue((byte) _level.x, (byte) _level.y, (uint) _level.z, (uint) _level.w),
+                 new ProgressValue((byte) _level.x, (byte) _level.y, (uint) _level.z, (uint) _level.w),
                  new ProgressValue((byte) _affection.x, (byte) _affection.y, (uint) _affection.z, (uint) _affection.w), ids, Gear.ToItemIdArray());
         }
     }

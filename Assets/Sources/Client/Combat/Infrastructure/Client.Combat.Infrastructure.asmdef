@@ -1,0 +1,18 @@
+{
+    "name": "Client.Combat.Infrastructure",
+    "rootNamespace": "Client.Combat.Infrastructure",
+    "references": [
+        "GUID:8c4a6112810d04844aa62845c57a969f",
+        "GUID:9f6408e695e5c284d8108cb7a698864c",
+        "GUID:152cf6227a8e30946a78eb29d62fd1b0"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

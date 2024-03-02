@@ -88,16 +88,9 @@ MonoBehaviour:
     _rightResource:
       _type: 3
       _maxValue: 100
-  _defaultViewSet:
-    _model: {fileID: 8799199711517888436, guid: 6cda288090bb8124096a07965f32be36, type: 3}
-    _npcCard: {fileID: 21300000, guid: ccccba1452ede90479173ca212efc0e9, type: 3}
-    _spellIcons:
-    - {fileID: 21300000, guid: 7dec78c2d9fce9648839094b430a425a, type: 3}
-    - {fileID: 21300000, guid: 80afa35d4d5f1a24998cd02caccbc838, type: 3}
-    - {fileID: 21300000, guid: 7f40ba71bb344cb42bbd881494a4b151, type: 3}
-    - {fileID: 21300000, guid: eb5696c3715672e4bb3d09631ce20963, type: 3}
-    - {fileID: 21300000, guid: 350c9929662227046a8932da0b862015, type: 3}
-    - {fileID: 21300000, guid: a500334894dad44479a4e9826d9379bf, type: 3}
+  _viewSets:
+  - _model: {fileID: 8799199711517888436, guid: 6cda288090bb8124096a07965f32be36, type: 3}
+    _card: {fileID: 21300000, guid: ccccba1452ede90479173ca212efc0e9, type: 3}
     _voiceover: {fileID: 0}
     _animationPack:
       _controller: {fileID: 0}

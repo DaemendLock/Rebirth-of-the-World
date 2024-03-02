@@ -59,19 +59,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Sources\Temp\SpellLib\Warrior.cs" />
+    <Compile Include="Assets\Sources\Temp\Template\Accounts\AccountsDataProvider.cs" />
     <Compile Include="Assets\Sources\Temp\SpellLib\Weapons.cs" />
+    <Compile Include="Assets\Sources\Temp\Networking\Utils\Client.cs" />
+    <Compile Include="Assets\Sources\Client\Combat\Input\Handlers\CancelInputHandler.cs" />
     <Compile Include="Assets\Sources\Temp\DataIniter.cs" />
+    <Compile Include="Assets\Sources\Temp\ConnectionIniter.cs" />
+    <Compile Include="Assets\Sources\Client\Combat\Input\Selection\SelectionInfo.cs" />
+    <Compile Include="Assets\Sources\Temp\Networking\Combat.cs" />
     <Compile Include="Assets\Sources\Temp\CombatIniter.cs" />
-    <Compile Include="Assets\Sources\Temp\AutoStartButton.cs" />
+    <Compile Include="Assets\Sources\Temp\LobbyIniter.cs" />
     <Compile Include="Assets\Sources\Temp\Template\CharacterTemplate.cs" />
     <Compile Include="Assets\Sources\Temp\SpellLib\Paladin.cs" />
     <Compile Include="Assets\Sources\Temp\InputReader.cs" />
+    <Compile Include="Assets\Sources\Temp\API\Core.cs" />
+    <Compile Include="Assets\Sources\Temp\Template\Accounts\AccountData.cs" />
     <Compile Include="Assets\Sources\Temp\SpellLib\Shielder.cs" />
+    <Compile Include="Assets\Sources\Client\Combat\Input\CombatInput.cs" />
     <Compile Include="Assets\Sources\Temp\SpellLib\DarkKnight.cs" />
+    <Compile Include="Assets\Sources\Client\Combat\Input\Handlers\CastInputHandler.cs" />
     <Compile Include="Assets\Sources\Temp\Template\EnemyTemplate.cs" />
+    <Compile Include="Assets\Sources\Client\Combat\Input\Handlers\TargetSelectionHandler.cs" />
     <Compile Include="Assets\Sources\Temp\SpellLib\Gear.cs" />
     <Compile Include="Assets\Sources\Temp\Template\AccountTemplate.cs" />
     <Compile Include="Assets\Sources\Temp\AutoAcceptClient.cs" />
+    <Compile Include="Assets\Sources\Client\Combat\Input\Handlers\MovementInputHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -907,10 +919,6 @@
       <HintPath>Library\ScriptAssemblies\Unity.Addressables.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.Timeline.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.Timeline">
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
       <Private>False</Private>
@@ -919,24 +927,12 @@
       <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.ScriptableBuildPipeline">
-      <HintPath>Library\ScriptAssemblies\Unity.ScriptableBuildPipeline.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.2D.Sprite.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.Addressables.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Addressables.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.ResourceManager">
       <HintPath>Library\ScriptAssemblies\Unity.ResourceManager.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.ScriptableBuildPipeline.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.ScriptableBuildPipeline.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.UI">
@@ -951,39 +947,71 @@
       <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.Timeline.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.ScriptableBuildPipeline">
+      <HintPath>Library\ScriptAssemblies\Unity.ScriptableBuildPipeline.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Addressables.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Addressables.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.ScriptableBuildPipeline.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.ScriptableBuildPipeline.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Utils.csproj">
-      <Project>{22BCBCA0-BEA9-49AA-795D-AA87499EF392}</Project>
-      <Name>Utils</Name>
+    <ProjectReference Include="Server.Combat.Networking.csproj">
+      <Project>{3185C0B5-E5AD-ACF3-73DD-24562776EE87}</Project>
+      <Name>Server.Combat.Networking</Name>
     </ProjectReference>
-    <ProjectReference Include="Networking.csproj">
-      <Project>{3082574D-E4B3-DEC2-D6DC-19377C421C11}</Project>
-      <Name>Networking</Name>
+    <ProjectReference Include="Client.Combat.Infrastructure.csproj">
+      <Project>{6B18187E-2B02-8D11-F215-4F9557B873F5}</Project>
+      <Name>Client.Combat.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="Input.csproj">
-      <Project>{292F1B7A-1C8F-F59E-1C1D-A698643DE0D7}</Project>
-      <Name>Input</Name>
+    <ProjectReference Include="Server.Combat.Core.csproj">
+      <Project>{87320BA5-BC00-19C8-3A63-1E347F1D78B0}</Project>
+      <Name>Server.Combat.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="Core.csproj">
-      <Project>{21ADB8CB-C5DC-2033-2022-125F682C28E8}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="Adapters.csproj">
-      <Project>{2299BFAC-A606-E4F3-37F3-DCBBDC1703C4}</Project>
-      <Name>Adapters</Name>
-    </ProjectReference>
-    <ProjectReference Include="View.csproj">
-      <Project>{80574631-8376-59B8-BA26-FA6C7DFD8250}</Project>
-      <Name>View</Name>
+    <ProjectReference Include="Client.Lobby.Infrastructure.csproj">
+      <Project>{EE664ABD-5128-5BB0-7F4E-3DC171B5D176}</Project>
+      <Name>Client.Lobby.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="Data.csproj">
       <Project>{FE06642D-D97E-6F45-E6BC-17F2C4BC433F}</Project>
       <Name>Data</Name>
     </ProjectReference>
-    <ProjectReference Include="Server.csproj">
-      <Project>{F241A318-ED9E-43D5-F1C7-3F43DAA22DCF}</Project>
-      <Name>Server</Name>
+    <ProjectReference Include="Client.Lobby.Core.csproj">
+      <Project>{70C854B4-7257-8333-639B-9F70BB1B4452}</Project>
+      <Name>Client.Lobby.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="Utils.csproj">
+      <Project>{22BCBCA0-BEA9-49AA-795D-AA87499EF392}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="Client.Combat.View.csproj">
+      <Project>{13BD4701-EBC8-5505-1099-9606D112B13A}</Project>
+      <Name>Client.Combat.View</Name>
+    </ProjectReference>
+    <ProjectReference Include="Client.Lobby.View.csproj">
+      <Project>{0FB53602-701E-EB37-662F-100283CC02BE}</Project>
+      <Name>Client.Lobby.View</Name>
+    </ProjectReference>
+    <ProjectReference Include="Client.Combat.Core.csproj">
+      <Project>{73894EC8-99D1-B29F-D14C-C462FFE7B549}</Project>
+      <Name>Client.Combat.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="Server.Lobby.Networking.csproj">
+      <Project>{9F100C5F-7699-6180-2594-F85F3A403F1E}</Project>
+      <Name>Server.Lobby.Networking</Name>
+    </ProjectReference>
+    <ProjectReference Include="Client.Lobby.Networking.csproj">
+      <Project>{19E0A3A1-2D73-75BD-AF2E-8433DD98DD74}</Project>
+      <Name>Client.Lobby.Networking</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

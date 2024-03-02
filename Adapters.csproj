@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <!-- Generated file, do not modify, your changes will be overwritten (use AssetPostprocessor.OnGeneratedCSProject) -->
   <PropertyGroup>
@@ -58,15 +58,7 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Adapters\Lobby\InputData.cs" />
-    <Compile Include="Assets\Sources\Adapters\Combat\ServerCommand.cs" />
-    <Compile Include="Assets\Sources\Adapters\Combat\ServerCommandsAdapter.cs" />
-    <Compile Include="Assets\Sources\Adapters\InputData.cs" />
-    <Compile Include="Assets\Sources\Adapters\Syncronizer.cs" />
     <Compile Include="Assets\Sources\Adapters\Lobby\ServerCommand.cs" />
-    <Compile Include="Assets\Sources\Adapters\Combat\InputData.cs" />
-    <Compile Include="Assets\Sources\Adapters\Combat\SelectionInfo.cs" />
-    <Compile Include="Assets\Sources\Adapters\Combat\UserInputAdapter.cs" />
     <Compile Include="Assets\Sources\Adapters\Lobby\ServerCommandsAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -891,13 +883,17 @@
       <Project>{FE06642D-D97E-6F45-E6BC-17F2C4BC433F}</Project>
       <Name>Data</Name>
     </ProjectReference>
-    <ProjectReference Include="Core.csproj">
-      <Project>{21ADB8CB-C5DC-2033-2022-125F682C28E8}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
     <ProjectReference Include="View.csproj">
       <Project>{80574631-8376-59B8-BA26-FA6C7DFD8250}</Project>
       <Name>View</Name>
+    </ProjectReference>
+    <ProjectReference Include="Server_Combat_Core.csproj">
+      <Project>{2956B903-F4F9-3EB0-5217-2800C3DF7F14}</Project>
+      <Name>Server_Combat_Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="Client_Combat_View.csproj">
+      <Project>{394035CD-4D46-AE5F-1BAA-C35F0EF98D75}</Project>
+      <Name>Client_Combat_View</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

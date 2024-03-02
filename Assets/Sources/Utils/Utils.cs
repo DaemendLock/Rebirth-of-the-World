@@ -3,7 +3,6 @@ using Utils.Interfaces;
 
 namespace Utils
 {
-
     public readonly struct DynamicValue<T> : Value<T>
     {
         private readonly Func<T> _func;

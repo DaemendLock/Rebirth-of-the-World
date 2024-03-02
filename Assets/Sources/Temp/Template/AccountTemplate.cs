@@ -1,13 +1,15 @@
-﻿using Core.Lobby.Accounts;
-using Data.Characters;
+﻿using Data.Characters;
+
 using System;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 namespace Assets.Sources.Temp.Template
 {
     internal class AccountTemplate : MonoBehaviour
     {
+        //TODO: refactor
         public int accountId;
 
         public List<CharacterDataTemplate> Characters = new();
@@ -19,10 +21,7 @@ namespace Assets.Sources.Temp.Template
             AccountsDataProvider.AccountDataRequested += ProvideAccountData;
         }
 
-        private void OnDisable()
-        {
-            AccountsDataProvider.AccountDataRequested -= ProvideAccountData;
-        }
+        private void OnDisable() => AccountsDataProvider.AccountDataRequested -= ProvideAccountData;
 
         private void ProvideAccountData(AccountDataRequest request)
         {
@@ -47,9 +46,6 @@ namespace Assets.Sources.Temp.Template
             }
         }
 
-        private CharacterState Find(int charId)
-        {
-            return Characters.Find((character) => character.CharId == charId)?.GetCharacterData();
-        }
+        private CharacterState Find(int charId) => Characters.Find((character) => character.CharId == charId)?.GetCharacterData();
     }
 }

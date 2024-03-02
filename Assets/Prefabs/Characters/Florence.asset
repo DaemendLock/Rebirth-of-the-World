@@ -17,3 +17,5 @@ MonoBehaviour:
   _npc: {fileID: 11400000, guid: 84093bf4dc058c54abc1926d4fb9d694, type: 2}
   _roles: 02000000
   _allowedWeapon: 
+  _specializations:
+  - Spells: 

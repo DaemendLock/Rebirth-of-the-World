@@ -59,14 +59,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Sources\Utils\Logger\Logger.cs" />
-    <Compile Include="Assets\Sources\Utils\Syncronization\NetworkSyncronizer.cs" />
-    <Compile Include="Assets\Sources\Utils\DataStructure\ByteReader.cs" />
+    <Compile Include="Assets\Sources\Utils\Patterns\Factory\Factory.cs" />
+    <Compile Include="Assets\Sources\Utils\ByteHelper\ByteReader.cs" />
+    <Compile Include="Assets\Sources\Utils\DataStructure\ObjectPool.cs" />
     <Compile Include="Assets\Sources\Utils\DataStructure\StateMachine.cs" />
+    <Compile Include="Assets\Sources\Utils\Patterns\Adapters\Adapter.cs" />
     <Compile Include="Assets\Sources\Utils\SpellIdCalculator.cs" />
     <Compile Include="Assets\Sources\Utils\ThrowHepler\Exceptions\FileNotLoadedException.cs" />
     <Compile Include="Assets\Sources\Utils\DataTypes\Vector3.cs" />
     <Compile Include="Assets\Sources\Utils\DataTypes\ResourceType.cs" />
     <Compile Include="Assets\Sources\Utils\DataStructure\TwinReadWriteQueue.cs" />
+    <Compile Include="Assets\Sources\Utils\DataStructure\EntityList.cs" />
+    <Compile Include="Assets\Sources\Utils\DataTypes\ActionType.cs" />
+    <Compile Include="Assets\Sources\Utils\DataTypes\ProgressValue.cs" />
     <Compile Include="Assets\Sources\Utils\Utils.cs" />
     <Compile Include="Assets\Sources\Utils\ThrowHepler\Exceptions\FileLoaderException.cs" />
     <Compile Include="Assets\Sources\Utils\Interfaces.cs" />
@@ -80,6 +85,7 @@
     <Compile Include="Assets\Sources\Utils\ThrowHepler\ThrowHepler.cs" />
     <Compile Include="Assets\Sources\Utils\DataTypes\ItemId.cs" />
     <Compile Include="Assets\Sources\Utils\DataStructure\ArrayQueue.cs" />
+    <Compile Include="Assets\Sources\Utils\ByteHelper\WriteBuffer.cs" />
     <Compile Include="Assets\Sources\Utils\Serializer\Serializer.cs" />
   </ItemGroup>
   <ItemGroup>

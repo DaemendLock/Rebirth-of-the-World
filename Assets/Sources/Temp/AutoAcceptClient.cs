@@ -1,17 +1,12 @@
-﻿using Networking.Utils;
-
-namespace Assets.Sources.Temp
+﻿namespace Assets.Sources.Temp
 {
-    public class AutoAcceptClient : Client
+    public class AutoAcceptClient : Networking.Utils.Client
     {
         public override void Dispose()
         {
             //throw new NotImplementedException();
         }
 
-        public override void SendRequest(byte[] data)
-        {
-            
-        }
+        public override void SendRequest(byte[] data) => Server.Combat.CombatServer.Handle(data);
     }
 }

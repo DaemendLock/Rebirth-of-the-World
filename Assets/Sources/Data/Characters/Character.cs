@@ -1,13 +1,12 @@
 ﻿using Core.Lobby.Characters;
+using Data.Animations;
 using Data.Entities;
 using Data.Items;
+using Data.Sounds;
 using Data.Utils;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor.Animations;
 using UnityEngine;
-using Utils.DataStructure;
-using Utils.DataTypes;
 
 namespace Data.Characters
 {
@@ -21,29 +20,19 @@ namespace Data.Characters
         [SerializeField] private Npc _npc;
         [SerializeField] private CharacterRole[] _roles;
         [SerializeField] private List<WeaponType> _allowedWeapon;
+        [SerializeField] private List<Specialization> _specializations;
 
-        public int Id => _id;
-        public string LocalizedName => Localization.Localization.GetValue(_name);
+        public static Dictionary<int, Character>.ValueCollection Values => _characters.Values;
 
-        public bool CanHandle(WeaponType type) => _allowedWeapon.Contains(type);
-
-        public UnitCreationData.CastResourceData CastResources => _npc.CastResources;
-
-        public CharacterRole GetCharacterRole(int activeSpec) => _roles[activeSpec];
-
-        public Sprite GetCharacterCard() => _npc.GetCharacterCard();
-
-        public StatsTable GetStatsTable(int level) => _npc.GetStatsTable(level);
-
-        public NpcModel GetModel() => _npc.GetModel();
-
-        public Sprite[] GetSpellIcons() => _npc.GetSpellIcons();
-
-        public AnimatorController GetAnimatorController() => _npc.GetAnimatorController();
+        public int Id { get => _id; }
+        public string Name { get => _name; set => _name = value; }
+        public Npc Npc { get => _npc; set => _npc = value; }
+        public CharacterRole[] Roles { get => _roles; set => _roles = value; }
+        public List<WeaponType> AllowedWeapon { get => _allowedWeapon; set => _allowedWeapon = value; }
 
         public void OnLoad()
         {
-            if (_characters.ContainsKey(Id))
+            if (_characters.ContainsKey(_id))
             {
                 Debug.LogWarning($"Character{_id} overwritten.");
             }
@@ -51,16 +40,19 @@ namespace Data.Characters
             _characters[_id] = this;
         }
 
-        public UnitCreationData GetUnitCreationData(int index, byte team, CharacterState state, byte contolGroup) => _npc.GetUnitCreationData(index, team, state, contolGroup);
+        public Sprite GetCardSprite(int viewSet) => _npc.GetCharacterCard(viewSet);
+
+        public int[] GetSpells(int activeSpec) => _specializations[activeSpec].Spells;
 
         public static Character Get(int id)
         {
             return _characters[id];
         }
+    }
 
-        public static int[] GetLoadedCharactersId()
-        {
-            return _characters.Keys.ToArray();
-        }
+    [Serializable]
+    public class Specialization
+    {
+        public int[] Spells;
     }
 }

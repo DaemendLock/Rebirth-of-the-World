@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using Utils.ByteHelper;
 using Utils.DataStructure;
 
 namespace Utils.DataTypes
