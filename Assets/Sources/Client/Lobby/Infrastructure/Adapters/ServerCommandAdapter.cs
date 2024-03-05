@@ -1,6 +1,11 @@
+using System.Text;
+
 using Client.Lobby.Core.Chat;
 using Client.Lobby.Infrastructure.Controllers;
 using Client.Lobby.Infrastructure.Controllers.Accounts;
+
+using UnityEngine;
+
 using Utils.ByteHelper;
 using Utils.DataTypes;
 using Utils.Patterns.Adapters;
@@ -48,12 +53,24 @@ namespace Client.Lobby.Infrastructure.Adapters
         public ServerCommand Adapt(byte[] value)
         {
             ByteReader source = new(value);
-            throw new System.NotImplementedException();
+            return new PrintMessageCommand(source.ReadString(Encoding.Unicode));
         }
 
         //private ServerCommand PasreCharacterData(ByteReader source)
         //{
 
         //}
+
+        private class PrintMessageCommand : ServerCommand
+        {
+            private string _message;
+
+            public PrintMessageCommand(string message)
+            {
+                _message = message;
+            }
+
+            public void Perform() => Debug.Log(_message);
+        }
     }
 }

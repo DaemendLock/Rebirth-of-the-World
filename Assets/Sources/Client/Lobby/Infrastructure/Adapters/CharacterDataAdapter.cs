@@ -5,7 +5,6 @@ using Client.Lobby.Core.Characters;
 
 using Data.Localization;
 using Utils.Patterns.Adapters;
-using Utils.DataTypes;
 
 namespace Client.Lobby.Infrastructure.Adapters
 {

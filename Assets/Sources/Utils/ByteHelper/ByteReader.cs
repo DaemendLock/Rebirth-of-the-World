@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace Utils.ByteHelper
 {
@@ -45,6 +46,14 @@ namespace Utils.ByteHelper
         {
             _offset += sizeof(byte);
             return _data[_offset - sizeof(byte)];
+        }
+
+        public string ReadString(Encoding encoding)
+        {
+            ushort length = ReadUShort();
+            string result = encoding.GetString(_data, _offset, length);
+            _offset += encoding.GetByteCount(result);
+            return result;
         }
     }
 }

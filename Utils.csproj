@@ -62,6 +62,7 @@
     <Compile Include="Assets\Sources\Utils\Patterns\Factory\Factory.cs" />
     <Compile Include="Assets\Sources\Utils\ByteHelper\ByteReader.cs" />
     <Compile Include="Assets\Sources\Utils\DataStructure\ObjectPool.cs" />
+    <Compile Include="Assets\Sources\Utils\ByteHelper\SocketReader.cs" />
     <Compile Include="Assets\Sources\Utils\DataStructure\StateMachine.cs" />
     <Compile Include="Assets\Sources\Utils\Patterns\Adapters\Adapter.cs" />
     <Compile Include="Assets\Sources\Utils\SpellIdCalculator.cs" />

@@ -17,6 +17,7 @@ using Client.Lobby.View.Gallery.Widgets;
 using Client.Lobby.View.MainMenu;
 using Client.Lobby.View.MainMenu.Widgets;
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -48,6 +49,11 @@ namespace Temp.Testing
         private FactoryCache _factories;
         private ControllersCache _controllers;
 
+        private void OnDestroy()
+        {
+
+        }
+
         private async void Start()
         {
             _assetProvider = GetComponent<AssetProvider>();
@@ -67,8 +73,26 @@ namespace Temp.Testing
             _controllers = CallFactories();
 
             _lobbyClient = new LobbyClient(_serverCommandAdapter);
-            _lobbyClient.Connect();
+            Task task = _lobbyClient.Connect();
+            StartCoroutine(ClientWork());
             RequestInitialData();
+        }
+
+        private IEnumerator ClientWork()
+        {
+            while (enabled)
+            {
+                HandleAll();
+                yield return null;
+            }
+        }
+
+        private void HandleAll()
+        {
+            while (_lobbyClient.HasMessages)
+            {
+                _lobbyClient.HandleNext().Perform();
+            }
         }
 
         private async Task LoadLocalData()
