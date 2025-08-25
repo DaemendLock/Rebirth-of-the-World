@@ -1,6 +1,6 @@
 ﻿using Data.DataMapper;
 
-namespace Data.Spells
+namespace Data.Skills
 {
     internal readonly struct TwinDataMap
     {

@@ -58,11 +58,14 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Client\Combat\Core\Utils\Duration.cs" />
+    <Compile Include="Assets\Sources\Client\Combat\Core\Camera.cs" />
+    <Compile Include="Assets\Sources\Client\Combat\Core\Units\UnitPosition.cs" />
     <Compile Include="Assets\Sources\Client\Combat\Core\Units\Unit.cs" />
     <Compile Include="Assets\Sources\Client\Combat\Core\Abilities\Ability.cs" />
     <Compile Include="Assets\Sources\Client\Combat\Core\Units\Components\Health.cs" />
+    <Compile Include="Assets\Sources\Client\Combat\Core\IUpdatableModel.cs" />
     <Compile Include="Assets\Sources\Client\Combat\Core\Units\Components\SpellCasting.cs" />
+    <Compile Include="Assets\Sources\Client\Combat\Core\Utils\FloatDuration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Client\Combat\Core\Client.Combat.Core.asmdef" />
@@ -878,13 +881,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Utils.csproj">
-      <Project>{22BCBCA0-BEA9-49AA-795D-AA87499EF392}</Project>
-      <Name>Utils</Name>
+    <ProjectReference Include="UtilsUnity.csproj">
+      <Project>{9D45B644-9BEB-4ED5-3CB3-9698FAF5C4AD}</Project>
+      <Name>UtilsUnity</Name>
     </ProjectReference>
     <ProjectReference Include="Data.csproj">
       <Project>{FE06642D-D97E-6F45-E6BC-17F2C4BC433F}</Project>
       <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="Server.Combat.Core.csproj">
+      <Project>{87320BA5-BC00-19C8-3A63-1E347F1D78B0}</Project>
+      <Name>Server.Combat.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

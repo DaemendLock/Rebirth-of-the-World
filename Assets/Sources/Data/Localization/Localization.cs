@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using Utils.DataStructure;
+
 using Utils.DataTypes;
 
 namespace Data.Localization
 {
     public static class Localization
     {
-        private static Dictionary<string, string> _dict = new Dictionary<string, string>()
+        private static Dictionary<string, string> _dict = new()
         {
 
         };
@@ -20,9 +20,9 @@ namespace Data.Localization
 
         public static string GetLocalizedSpellDescription(SpellId id) => GetValue($"Spell{id}_Description");
 
-        public static string GetStatName(UnitStat stat)
+        public static string GetStatName(int statId)
         {
-            return GetValue(stat.ToString());
+            return GetValue(statId.ToString());
         }
     }
 }

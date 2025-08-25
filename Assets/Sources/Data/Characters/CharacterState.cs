@@ -1,7 +1,10 @@
 ﻿using Data.Items;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
+
+using Utils.ByteHelper;
 using Utils.DataStructure;
 using Utils.DataTypes;
 
@@ -32,22 +35,22 @@ namespace Data.Characters
         public ProgressValue Level { get; private set; }
         public ProgressValue Affection { get; private set; }
 
-        public StatsTable GetGearStats()
-        {
-            StatsTable result = new StatsTable();
+        //public StatsTable GetGearStats()
+        //{
+        //    StatsTable result = new StatsTable();
 
-            foreach (ItemId item in Gear)
-            {
-                if (item == -1)
-                {
-                    continue;
-                }
+        //    foreach (ItemId item in Gear)
+        //    {
+        //        if (item == -1)
+        //        {
+        //            continue;
+        //        }
 
-                result += Item.GetGear(item).Stats;
-            }
+        //        result += Item.GetGear(item).Stats;
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
         public SpellId[] GetGearSpells()
         {
@@ -94,33 +97,28 @@ namespace Data.Characters
             SpellId[] spells;
             ItemId[] gear;
 
-            MemoryStream stream = new(data);
+            ByteReader source = new(data);
 
-            using (BinaryReader source = new(stream))
+            characterId = source.ReadInt();
+            viewSet = source.ReadInt();
+            activeSpec = source.ReadInt();
+
+            level = ProgressValue.Parse(source);
+            affection = ProgressValue.Parse(source);
+
+            spells = new SpellId[source.ReadByte()];
+
+            for (int i = 0; i < spells.Length; i++)
             {
-                characterId = source.ReadInt32();
-                viewSet = source.ReadInt32();
-                activeSpec = source.ReadInt32();
-
-                level = ProgressValue.Parse(source);
-                affection = ProgressValue.Parse(source);
-
-                spells = new SpellId[source.ReadByte()];
-
-                for (int i = 0; i < spells.Length; i++)
-                {
-                    spells[i] = (SpellId) source.ReadInt32();
-                }
-
-                gear = new ItemId[source.ReadByte()];
-
-                for (int i = 0; i < gear.Length; i++)
-                {
-                    gear[i] = (ItemId) source.ReadInt32();
-                }
+                spells[i] = (SpellId) source.ReadInt();
             }
 
-            stream.Dispose();
+            gear = new ItemId[source.ReadByte()];
+
+            for (int i = 0; i < gear.Length; i++)
+            {
+                gear[i] = (ItemId) source.ReadInt();
+            }
 
             return new CharacterState(characterId, viewSet, activeSpec, level, affection, spells, gear);
         }

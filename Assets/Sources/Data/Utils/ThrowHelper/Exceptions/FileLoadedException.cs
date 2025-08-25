@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Utils.ThrowHepler.Exceptions
+namespace UtilsUnity.ThrowHepler.Exceptions
 {
     public class FileLoadedException : Exception
     {

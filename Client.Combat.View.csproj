@@ -58,29 +58,17 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Client\Combat\View\Units\UnitFactory.cs" />
-    <Compile Include="Assets\Sources\Client\Combat\View\UI\Elements\Bar.cs" />
-    <Compile Include="Assets\Sources\Client\Combat\View\UI\Nameplates\NameplatesRoot.cs" />
-    <Compile Include="Assets\Sources\Client\Combat\View\UI\Panels\UnitPanel.cs" />
-    <Compile Include="Assets\Sources\Client\Combat\View\UI\ResourceBar\ResourceBar.cs" />
-    <Compile Include="Assets\Sources\Client\Combat\View\Units\Spells\SpellIconsSet.cs" />
-    <Compile Include="Assets\Sources\Client\Combat\View\Units\Animations\AnimationType.cs" />
-    <Compile Include="Assets\Sources\Client\Combat\View\UI\ActionBar\ActionBar.cs" />
-    <Compile Include="Assets\Sources\Client\Combat\View\Camera\CameraController.cs" />
-    <Compile Include="Assets\Sources\Client\Combat\View\UI\UIRoot.cs" />
-    <Compile Include="Assets\Sources\Client\Combat\View\Units\Animations\AnimationController.cs" />
-    <Compile Include="Assets\Sources\Client\Combat\View\Units\Animations\Animation.cs" />
-    <Compile Include="Assets\Sources\Client\Combat\View\UI\Elements\FillDirection.cs" />
-    <Compile Include="Assets\Sources\Client\Combat\View\UI\Elements\SelectionFrame.cs" />
-    <Compile Include="Assets\Sources\Client\Combat\View\UI\Elements\CastBar.cs" />
-    <Compile Include="Assets\Sources\Client\Combat\View\Units\Unit.cs" />
-    <Compile Include="Assets\Sources\Client\Combat\View\UI\Elements\HealthBar.cs" />
-    <Compile Include="Assets\Sources\Client\Combat\View\Units\AnimationDistributor.cs" />
-    <Compile Include="Assets\Sources\Client\Combat\View\UI\Nameplates\Nameplate.cs" />
-    <Compile Include="Assets\Sources\Client\Combat\View\UI\ActionBar\SpellCard.cs" />
+    <Compile Include="Assets\Sources\Client\Combat\Presentation\BindableViewComponent.cs" />
+    <Compile Include="Assets\Sources\Client\Combat\Presentation\SpellAnimation.cs" />
+    <Compile Include="Assets\Sources\Client\Combat\Presentation\Units\Components\IKillableView.cs" />
+    <Compile Include="Assets\Sources\Client\Combat\Presentation\ICameraView.cs" />
+    <Compile Include="Assets\Sources\Client\Combat\Presentation\Units\Components\IHealthOwnerView.cs" />
+    <Compile Include="Assets\Sources\Client\Combat\Presentation\Units\Components\IMovableView.cs" />
+    <Compile Include="Assets\Sources\Client\Combat\Presentation\Units\IUnitView.cs" />
+    <Compile Include="Assets\Sources\Client\Combat\Presentation\Units\Components\ICasterView.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Sources\Client\Combat\View\Client.Combat.View.asmdef" />
+    <None Include="Assets\Sources\Client\Combat\Presentation\Client.Combat.View.asmdef" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -393,6 +381,10 @@
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Zenject-usage">
+      <HintPath>Assets\Plugins\Zenject\Source\Usage\Zenject-usage.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">
@@ -893,17 +885,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Client.Combat.Core.csproj">
-      <Project>{73894EC8-99D1-B29F-D14C-C462FFE7B549}</Project>
-      <Name>Client.Combat.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="Utils.csproj">
-      <Project>{22BCBCA0-BEA9-49AA-795D-AA87499EF392}</Project>
-      <Name>Utils</Name>
+    <ProjectReference Include="UtilsUnity.csproj">
+      <Project>{9D45B644-9BEB-4ED5-3CB3-9698FAF5C4AD}</Project>
+      <Name>UtilsUnity</Name>
     </ProjectReference>
     <ProjectReference Include="Data.csproj">
       <Project>{FE06642D-D97E-6F45-E6BC-17F2C4BC433F}</Project>
       <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="Server.Combat.Domain.csproj">
+      <Project>{E867AD47-9B15-6A9E-A8E5-034727EA005B}</Project>
+      <Name>Server.Combat.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="DaeHitbox.csproj">
+      <Project>{F1B1C6F6-7B6F-D02E-D6C5-D8D36CD92BD7}</Project>
+      <Name>DaeHitbox</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

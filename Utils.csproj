@@ -58,7 +58,8 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Utils\Logger\Logger.cs" />
+    <Compile Include="Assets\Sources\Utils\ByteHelper\ByteWriter.cs" />
+    <Compile Include="Assets\Sources\Utils\Patterns\View\IBindableView.cs" />
     <Compile Include="Assets\Sources\Utils\Patterns\Factory\Factory.cs" />
     <Compile Include="Assets\Sources\Utils\ByteHelper\ByteReader.cs" />
     <Compile Include="Assets\Sources\Utils\DataStructure\ObjectPool.cs" />
@@ -68,26 +69,24 @@
     <Compile Include="Assets\Sources\Utils\SpellIdCalculator.cs" />
     <Compile Include="Assets\Sources\Utils\ThrowHepler\Exceptions\FileNotLoadedException.cs" />
     <Compile Include="Assets\Sources\Utils\DataTypes\Vector3.cs" />
+    <Compile Include="Assets\Sources\Utils\Patterns\DataProviders\AsyncDataProvider.cs" />
     <Compile Include="Assets\Sources\Utils\DataTypes\ResourceType.cs" />
     <Compile Include="Assets\Sources\Utils\DataStructure\TwinReadWriteQueue.cs" />
     <Compile Include="Assets\Sources\Utils\DataStructure\EntityList.cs" />
     <Compile Include="Assets\Sources\Utils\DataTypes\ActionType.cs" />
     <Compile Include="Assets\Sources\Utils\DataTypes\ProgressValue.cs" />
-    <Compile Include="Assets\Sources\Utils\Utils.cs" />
+    <Compile Include="Assets\Sources\Utils\Networking\SocketClient.cs" />
     <Compile Include="Assets\Sources\Utils\ThrowHepler\Exceptions\FileLoaderException.cs" />
-    <Compile Include="Assets\Sources\Utils\Interfaces.cs" />
-    <Compile Include="Assets\Sources\Utils\DataTypes\AbilityCost.cs" />
     <Compile Include="Assets\Sources\Utils\DataTypes\UnitCreationData.cs" />
     <Compile Include="Assets\Sources\Utils\DataTypes\PercentModifiedValue.cs" />
     <Compile Include="Assets\Sources\Utils\DataTypes\SpellId.cs" />
-    <Compile Include="Assets\Sources\Utils\Logger\LoggerData.cs" />
     <Compile Include="Assets\Sources\Utils\DataStructure\Stats.cs" />
+    <Compile Include="Assets\Sources\Utils\Networking\IClient.cs" />
     <Compile Include="Assets\Sources\Utils\DataTypes\Resource.cs" />
+    <Compile Include="Assets\Sources\Utils\Networking\Request.cs" />
     <Compile Include="Assets\Sources\Utils\ThrowHepler\ThrowHepler.cs" />
     <Compile Include="Assets\Sources\Utils\DataTypes\ItemId.cs" />
     <Compile Include="Assets\Sources\Utils\DataStructure\ArrayQueue.cs" />
-    <Compile Include="Assets\Sources\Utils\ByteHelper\WriteBuffer.cs" />
-    <Compile Include="Assets\Sources\Utils\Serializer\Serializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Utils\Utils.asmdef" />
@@ -403,6 +402,18 @@
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Server.Combat.Core">
+      <HintPath>Assets\Editor\Server.Combat.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Server.Combat.CoreContext">
+      <HintPath>Assets\Editor\Server.Combat.CoreContext.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Utils">
+      <HintPath>Assets\Editor\Utils.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">

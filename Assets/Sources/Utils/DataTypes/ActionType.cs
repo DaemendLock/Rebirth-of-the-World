@@ -8,7 +8,7 @@
         RemoveAura,
         Kill,
         Resurrect,
-        Precast,
+        StartCast,
         StopCast,
         ModifyResource,
         Cast,

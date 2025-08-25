@@ -1,12 +1,7 @@
-﻿using System.IO;
+﻿using Utils.ByteHelper;
 
 namespace Utils.Interfaces
 {
-    public interface SerializableInterface
-    {
-        void Serialize(BinaryWriter buffer);
-    }
-
     public interface Value<T>
     {
         T Evaluate();

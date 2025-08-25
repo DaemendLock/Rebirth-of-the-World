@@ -1,0 +1,18 @@
+{
+    "name": "Combat.Server.Domain.Entities",
+    "rootNamespace": "",
+    "references": [
+        "GUID:3d2982040ca4e784394d7af3eab4614b",
+        "GUID:183c83d7bd836a44c95975655413768f",
+        "GUID:7fa263559a2285442ac79762376237ec"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

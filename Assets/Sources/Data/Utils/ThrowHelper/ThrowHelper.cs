@@ -1,5 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
-using Utils.ThrowHepler.Exceptions;
+using UtilsUnity.ThrowHepler.Exceptions;
 
 namespace Data.Utils.ThrowHepler
 {

@@ -58,21 +58,20 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Client\Lobby\Core\Accounts\AccountContainer.cs" />
-    <Compile Include="Assets\Sources\Client\Lobby\Core\Characters\Character.cs" />
-    <Compile Include="Assets\Sources\Client\Lobby\Core\Inventory\Inventory.cs" />
-    <Compile Include="Assets\Sources\Client\Lobby\Core\Common\LoadableModel.cs" />
-    <Compile Include="Assets\Sources\Client\Lobby\Core\DataReader\LoadingModel.cs" />
-    <Compile Include="Assets\Sources\Client\Lobby\Core\Characters\CharacterGallery.cs" />
-    <Compile Include="Assets\Sources\Client\Lobby\Core\Common\UpdateableView.cs" />
-    <Compile Include="Assets\Sources\Client\Lobby\Core\Accounts\Account.cs" />
-    <Compile Include="Assets\Sources\Client\Lobby\Core\Items\Item.cs" />
-    <Compile Include="Assets\Sources\Client\Lobby\Core\Chat\Chat.cs" />
-    <Compile Include="Assets\Sources\Client\Lobby\Core\Encounters\Encounter.cs" />
-    <Compile Include="Assets\Sources\Client\Lobby\Core\CharacterSellection\CharacterSlot.cs" />
+    <Compile Include="Assets\Sources\Client\Lobby\Domain\Accounts\AccountContainer.cs" />
+    <Compile Include="Assets\Sources\Client\Lobby\Domain\Characters\Character.cs" />
+    <Compile Include="Assets\Sources\Client\Lobby\Domain\Inventory\Inventory.cs" />
+    <Compile Include="Assets\Sources\Client\Lobby\Domain\DataReader\LoadingModel.cs" />
+    <Compile Include="Assets\Sources\Client\Lobby\Domain\Characters\CharacterGallery.cs" />
+    <Compile Include="Assets\Sources\Client\Lobby\Domain\Common\UpdateableView.cs" />
+    <Compile Include="Assets\Sources\Client\Lobby\Domain\Accounts\Account.cs" />
+    <Compile Include="Assets\Sources\Client\Lobby\Domain\Items\Item.cs" />
+    <Compile Include="Assets\Sources\Client\Lobby\Domain\Chat\Chat.cs" />
+    <Compile Include="Assets\Sources\Client\Lobby\Domain\Encounters\Encounter.cs" />
+    <Compile Include="Assets\Sources\Client\Lobby\Domain\CharacterSellection\CharacterSlot.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Sources\Client\Lobby\Core\Client.Lobby.Core.asmdef" />
+    <None Include="Assets\Sources\Client\Lobby\Domain\Client.Lobby.Core.asmdef" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -885,9 +884,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Utils.csproj">
-      <Project>{22BCBCA0-BEA9-49AA-795D-AA87499EF392}</Project>
-      <Name>Utils</Name>
+    <ProjectReference Include="UtilsUnity.csproj">
+      <Project>{9D45B644-9BEB-4ED5-3CB3-9698FAF5C4AD}</Project>
+      <Name>UtilsUnity</Name>
     </ProjectReference>
     <ProjectReference Include="Data.csproj">
       <Project>{FE06642D-D97E-6F45-E6BC-17F2C4BC433F}</Project>

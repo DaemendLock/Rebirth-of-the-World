@@ -1,59 +1,63 @@
 ﻿using System;
+using System.Buffers.Binary;
 using System.Text;
 
 namespace Utils.ByteHelper
 {
     public class ByteReader
     {
-        private readonly byte[] _data;
-        private int _offset;
+        private readonly byte[] _source;
+        private int _position;
 
-        public ByteReader(byte[] data) : this(data, 0) { }
+        private static Encoding _encoding = Encoding.Unicode;
 
-        public ByteReader(byte[] data, int offset)
+        public ByteReader(byte[] source) : this(source, 0) { }
+
+        public ByteReader(byte[] source, int offset)
         {
-            _data = data;
-            _offset = offset;
+            _source = source;
+            _position = offset;
         }
 
-        public bool HasNext => _offset < _data.Length;
+        public bool HasNext => _position < _source.Length;
 
-        public long ReadLong()
-        {
-            _offset += sizeof(long);
-            return BitConverter.ToInt64(_data, _offset - sizeof(long));
-        }
+        public long ReadLong() => BinaryPrimitives.ReadInt64BigEndian(GetMemory(sizeof(long)));
 
-        public int ReadInt()
-        {
-            _offset += sizeof(int);
-            return BitConverter.ToInt32(_data, _offset - sizeof(int));
-        }
+        public ulong ReadULong() => BinaryPrimitives.ReadUInt64BigEndian(GetMemory(sizeof(ulong)));
 
-        public ushort ReadUShort()
-        {
-            _offset += sizeof(ushort);
-            return BitConverter.ToUInt16(_data, _offset - sizeof(ushort));
-        }
+        public int ReadInt() => BinaryPrimitives.ReadInt32BigEndian(GetMemory(sizeof(int)));
+
+        public uint ReadUInt() => BinaryPrimitives.ReadUInt32BigEndian(GetMemory(sizeof(uint)));
+
+        public ushort ReadUShort() => BinaryPrimitives.ReadUInt16BigEndian(GetMemory(sizeof(ushort)));
 
         public float ReadFloat()
         {
-            _offset += sizeof(float);
-            return BitConverter.ToSingle(_data, _offset - sizeof(float));
+#if NET7_0_OR_GREATER
+            return BinaryPrimitives.ReadSingleBigEndian(GetMemory(sizeof(float)));
+#else
+            if (BitConverter.IsLittleEndian)
+            {
+                (_source[_position], _source[_position + sizeof(float) - 1]) = (_source[_position + sizeof(float) - 1], _source[_position]);
+                (_source[_position + 1], _source[_position + sizeof(float) - 2]) = (_source[_position + sizeof(float) - 2], _source[_position + 1]);
+            }
+
+            return BitConverter.ToSingle(GetMemory(sizeof(float)));
+#endif
         }
 
-        public byte ReadByte()
-        {
-            _offset += sizeof(byte);
-            return _data[_offset - sizeof(byte)];
-        }
+        public byte ReadByte() => _source[_position++];
 
-        public string ReadString(Encoding encoding)
+        public string ReadString() => _encoding.GetString(GetMemory(ReadUShort()));
+
+        public string ReadZeroTerminatedString(int size) => _encoding.GetString(GetMemory(size)).TrimEnd((char) 0);
+
+        public void Skip(int count) => _position += count;
+
+        public Span<byte> GetMemory(int count)
         {
-            ushort length = ReadUShort();
-            string result = encoding.GetString(_data, _offset, length);
-            _offset += encoding.GetByteCount(result);
-            return result;
+            _position += count;
+            return new(_source, _position - count, count);
         }
     }
 }

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Utils.ThrowHepler.Exceptions;
+using UtilsUnity.ThrowHepler.Exceptions;
 
 namespace Data.DataMapper
 {

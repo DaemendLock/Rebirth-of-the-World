@@ -9,7 +9,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>Server.Combat.Core</RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{87320BA5-BC00-19C8-3A63-1E347F1D78B0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -58,89 +58,369 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Server\Combat\Core\Units\CastingBehavior\Precast.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\SpellEffects\Dummy.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Utils\Serializer\SpellSerializer.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Utils\Lookup\LookupService.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Statuses\Auras\AuraEffects\ModifySpellEffect.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\SpellEffects\Heal.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\SpellEffects\Interrupt.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Units\CastingBehavior\Idle.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Units\Components\UnitState.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Units\Unit.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Engine\Services\CastService.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Statuses\Auras\Aura.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\Spells\SpellModification.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Utils\Team.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Statuses\Auras\AuraEffects\AuraEffect.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\SpellScripts\SelfcastSpell.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Engine\Services\UpdateService.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Units\Components\SpellcastingComponent.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\SpellEffects\Summon.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\SpellScripts\CleaveSpell.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\SpellEffects\TriggerSpell.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Units\Components\UnitComponents.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Utils\CastInputData.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Utils\Duration.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\Castable.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\ActionRecords\ActionRecord.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\ActionRecords\PrecastActionRecord.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\SpellEffects\ConsumeMark.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\SpellEffects\Teleport.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\SpellScripts\TargetSpell.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Statuses\Auras\AuraEffects\ModCooldown.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Utils\AuraValueSource.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Statuses\Auras\AuraEffects\ReactionCast.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Statuses\Enums.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\AbilityBehavior.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\Ability.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\SpellEffects\Taunt.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Statuses\Auras\AuraEffects\ModHealthRegen.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\SpellScripts\AoESpell.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\ActionRecords\ActionRecordContainer.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Statuses\Auras\AuraEffects\ProcTriggerSpell.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Engine\Combat.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\SpellEffects\ApplyAura.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Statuses\Status.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Statuses\Auras\AuraEffects\ModStat.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\SpellEffects\CreateProjectile.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Statuses\DamageAbsorption.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Units\Components\AuraOwner.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\SpellEffects\AbsorbDamage.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Statuses\Auras\AuraData.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Units\Interfaces.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\Spells\Spell.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Utils\HealthChangeProcessing\HealthChangeEvent.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\SpellEffects\ReduceCooldown.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\SpellEffects\Resurrect.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Utils\Utils.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Utils\StatsEvaluator.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Units\Components\PositionComponent.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Engine\Events\CastAction.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\SpellEffects\SchoolDamage.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\SpellEffects\SpellEffects.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\Enums.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Units\Creation\UnitFactory.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Engine\ModelUpdate.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Engine\Projectiles.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Statuses\Auras\AuraEffects\PeriodicallyTriggerSpell.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Units\CastingBehavior\CastStateMachine.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Units\CastingBehavior\CastingBehavior.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\Spells\SpellData.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Utils\MovementControllers\MovementController.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Engine\Units.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Statuses\Auras\AuraEffects\Immunity.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Statuses\Auras\AuraReactions\AuraReaction.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\ActionRecords\CastActionRecord.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Utils\Serializer\AuraSerializer.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Projectiles\Projectile.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\SpellEffects\GiveResource.cs" />
-    <Compile Include="Assets\Sources\Server\Combat\Core\Abilities\SpellScripts\SplashSpell.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\DTO\DamageData.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Units\Components\IResourcesOwner.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\DTO\HealingData.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\DTO\ReviveData.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Units\Components\IBehaviourOwner.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Common\IUpdatable.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Projectiles\IProjectile.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Units\Components\IPositionOwner.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Statuses\StatusEffects\IStatusEffect.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Skills\SpellEffects\ISpellEffectValue.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Skills\ResourceValue.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Attributes\Attributes.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Units\Components\ICaster.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Units\IUnit.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Statuses\IStatusReaction.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Statuses\IStatusPeriodicEffect.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Skills\ISkillHandler.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Skills\IResourcePrice.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Events\IEvent.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Units\IUnitState.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Skills\SpellEffects\IGenericSpellEffect.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Units\Components\IAttributesOwner.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Common\Duration.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\ICombat.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Common\Position.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Units\Components\ITeamOwner.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Statuses\Auras\Aura.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\DTO\KillData.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Attributes\ISpellModificationOwner.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Skills\SpellFlags.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Units\Components\IKillable.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Skills\ISkill.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Units\Components\IBonusOwner.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Units\Components\ISpellOwner.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Skills\SpellEffects\EffectApplicationData.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Units\Components\IStatusOwner.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Projectiles\IProjectileHandler.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Statuses\IStatus.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Events\DamageEvent.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\DTO\DamageInfo.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Units\Components\IHealthOwner.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Units\Actions\IAction.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Statuses\IStatusBonus.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Statuses\Enums.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Common\Time.cs" />
+    <Compile Include="Assets\Sources\Server\Combat\Domain\Events\HealthChangeEvent.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Sources\Server\Combat\Core\Server.Combat.Core.asmdef" />
+    <None Include="Assets\Sources\Server\Combat\Domain\Server.Combat.Core.asmdef" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="UnityEngine">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AIModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.AIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.ARModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.ARModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AccessibilityModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.AccessibilityModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AndroidJNIModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.AndroidJNIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.AnimationModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AssetBundleModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.AssetBundleModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.AudioModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.ClothModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClothModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.ClusterInputModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClusterInputModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.ClusterRendererModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClusterRendererModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CrashReportingModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.CrashReportingModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.DSPGraphModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.DSPGraphModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.DirectorModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.DirectorModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.GIModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.GIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.GameCenterModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.GameCenterModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.GridModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.GridModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.HotReloadModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.HotReloadModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.ImageConversionModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.InputModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.InputModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.InputLegacyModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.JSONSerializeModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.JSONSerializeModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.LocalizationModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.LocalizationModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.ParticleSystemModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.ParticleSystemModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.PerformanceReportingModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.PerformanceReportingModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.PhysicsModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.Physics2DModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.Physics2DModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.ProfilerModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.ProfilerModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.SharedInternalsModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.SharedInternalsModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.SpriteMaskModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.SpriteMaskModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.SpriteShapeModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.SpriteShapeModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.StreamingModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.StreamingModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.SubstanceModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.SubstanceModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.SubsystemsModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.SubsystemsModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TLSModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.TLSModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TerrainModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.TerrainModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TerrainPhysicsModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.TerrainPhysicsModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextCoreFontEngineModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.TextCoreFontEngineModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextCoreTextEngineModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.TextCoreTextEngineModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.UIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UIElementsModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.UIElementsModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UIElementsNativeModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.UIElementsNativeModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UNETModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.UNETModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UmbraModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.UmbraModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UnityAnalyticsCommonModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityAnalyticsCommonModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UnityConnectModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityConnectModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UnityCurlModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityCurlModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UnityTestProtocolModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityTestProtocolModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestAudioModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestTextureModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestWWWModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.VFXModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.VFXModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.VRModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.VRModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.VirtualTexturingModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.VirtualTexturingModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.XRModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.XRModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEditor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.CoreModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEditor.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.DeviceSimulatorModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEditor.DeviceSimulatorModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.DiagnosticsModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEditor.DiagnosticsModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.GraphViewModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEditor.GraphViewModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.PackageManagerUIModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEditor.PackageManagerUIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.QuickSearchModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEditor.QuickSearchModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.SceneTemplateModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEditor.SceneTemplateModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.TextCoreFontEngineModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEditor.TextCoreFontEngineModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.TextCoreTextEngineModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEditor.TextCoreTextEngineModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.UIBuilderModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEditor.UIBuilderModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.UIElementsModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEditor.UIElementsModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.UIElementsSamplesModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEditor.UIElementsSamplesModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.UIServiceModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEditor.UIServiceModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.UnityConnectModule">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.Graphs">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+      <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="netstandard">
       <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\NetStandard\ref\2.1.0\netstandard.dll</HintPath>
       <Private>False</Private>
@@ -629,15 +909,19 @@
       <HintPath>C:\Program Files\Unity 2021.3.17f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Data.csproj">
-      <Project>{FE06642D-D97E-6F45-E6BC-17F2C4BC433F}</Project>
-      <Name>Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="Utils.csproj">
-      <Project>{22BCBCA0-BEA9-49AA-795D-AA87499EF392}</Project>
-      <Name>Utils</Name>
+    <ProjectReference Include="UtilsUnity.csproj">
+      <Project>{9D45B644-9BEB-4ED5-3CB3-9698FAF5C4AD}</Project>
+      <Name>UtilsUnity</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,0 +1,5 @@
+Defines interfaces required for ObjectModel in domain
+Depends:
+- Domain: ObjectModel
+- Domain: HitboxModel
+- Utils

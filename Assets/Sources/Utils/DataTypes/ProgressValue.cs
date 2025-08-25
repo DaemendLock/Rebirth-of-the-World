@@ -1,5 +1,7 @@
 ﻿using System;
-using System.IO;
+using System.Buffers.Binary;
+
+using Utils.ByteHelper;
 
 namespace Utils.DataTypes
 {
@@ -18,12 +20,12 @@ namespace Utils.DataTypes
             MaxProgression = maxProgression;
         }
 
-        public static ProgressValue Parse(BinaryReader source)
+        public static ProgressValue Parse(ByteReader source)
         {
             byte level = source.ReadByte();
             byte maxLevel = source.ReadByte();
-            uint progress = source.ReadUInt32();
-            uint maxProgress = source.ReadUInt32();
+            uint progress = source.ReadUInt();
+            uint maxProgress = source.ReadUInt();
 
             return new(level, maxLevel, progress, maxProgress);
         }
@@ -33,8 +35,8 @@ namespace Utils.DataTypes
             byte[] bytes = new byte[10];
             bytes[0] = Level;
             bytes[1] = MaxLevel;
-            BitConverter.GetBytes(CurrentProgress).CopyTo(bytes, 2);
-            BitConverter.GetBytes(MaxProgression).CopyTo(bytes, 6);
+            BinaryPrimitives.WriteUInt32BigEndian(new(bytes, 2, sizeof(int)), CurrentProgress);
+            BinaryPrimitives.WriteUInt32BigEndian(new(bytes, 6, sizeof(int)), MaxProgression);
 
             return bytes;
         }

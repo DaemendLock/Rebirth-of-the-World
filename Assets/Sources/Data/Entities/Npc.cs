@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using UnityEditor.Animations;
 
-using Data.Characters;
 using Data.Entities.Stats;
 
-using Utils.DataStructure;
 using Utils.DataTypes;
 
 namespace Data.Entities
@@ -17,12 +15,12 @@ namespace Data.Entities
         [SerializeField] private int[] _spells;
         [SerializeField] private ViewSet[] _viewSets = new ViewSet[1];
 
-        public UnitCreationData.CastResourceData CastResources =>
-            new UnitCreationData.CastResourceData(_castResourceData.Left.Resource.MaxValue, _castResourceData.Right.Resource.MaxValue, _castResourceData.Left.Type, _castResourceData.Right.Type);
+        //public UnitCreationData.CastResourceData CastResources =>
+        //    new UnitCreationData.CastResourceData(_castResourceData.Left.Resource.MaxValue, _castResourceData.Right.Resource.MaxValue, _castResourceData.Left.Type, _castResourceData.Right.Type);
 
         public Sprite GetCharacterCard(int activeViewSet) => _viewSets[activeViewSet].CardSprite;
 
-        public StatsTable GetStatsTable(int level) => _stats.GetStatsForLevel(level);
+        //public StatsTable GetStatsTable(int level) => _stats.GetStatsForLevel(level);
 
         public NpcModel GetModel(int activeViewSet) => _viewSets[activeViewSet].Model;
 
@@ -30,21 +28,21 @@ namespace Data.Entities
 
         public AnimatorController GetAnimatorController(int activeViewSet) => _viewSets[activeViewSet].Animations.Controller;
 
-        public UnitCreationData GetUnitCreationData(int combatIndex, int team, CharacterState data, byte contolGroup)
-        {
-            StatsTable stats = GetStatsTable(data.Level.Level) + data.GetGearStats();
+        //public UnitCreationData GetUnitCreationData(int combatIndex, int team, CharacterState data, byte contolGroup)
+        //{
+        //    StatsTable stats = GetStatsTable(data.Level.Level) + data.GetGearStats();
 
-            SpellId[] gearSpells = data.GetGearSpells();
-            SpellId[] spellIds = new SpellId[data.Spells.Length + gearSpells.Length];
-            data.Spells.CopyTo(spellIds, 0);
-            gearSpells.CopyTo(spellIds, data.Spells.Length);
+        //    SpellId[] gearSpells = data.GetGearSpells();
+        //    SpellId[] spellIds = new SpellId[data.Spells.Length + gearSpells.Length];
+        //    data.Spells.CopyTo(spellIds, 0);
+        //    gearSpells.CopyTo(spellIds, data.Spells.Length);
 
-            UnitCreationData.ModelData mdata = new UnitCreationData.ModelData(spellIds, stats, new UnitCreationData.PositionData(), CastResources,
-                (byte) (team));
-            UnitCreationData.ViewData vdata = new UnitCreationData.ViewData(data.CharacterId, data.ViewSet);
-            UnitCreationData udata = new UnitCreationData(combatIndex, mdata, vdata, contolGroup);
+        //    UnitCreationData.ModelData mdata = new(spellIds, stats, new UnitCreationData.PositionData(), CastResources,
+        //         (byte) (team));
+        //    UnitCreationData.ViewData vdata = new(data.CharacterId, data.ViewSet);
+        //    UnitCreationData udata = new(combatIndex, mdata, vdata, contolGroup);
 
-            return udata;
-        }
+        //    return udata;
+        //}
     }
 }

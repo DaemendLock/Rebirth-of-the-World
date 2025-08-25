@@ -1,81 +1,95 @@
-﻿using Assets.Sources.Temp;
-using Assets.Sources.Temp.Template;
-
-using Client.Lobby.Core.Accounts;
-using Client.Lobby.Core.Characters;
-using Client.Lobby.Core.Chat;
-using Client.Lobby.Infrastructure.Adapters;
-using Client.Lobby.Infrastructure.Controllers;
-using Client.Lobby.Infrastructure.Controllers.Accounts;
-using Client.Lobby.Infrastructure.Factories;
-using Client.Lobby.Infrastructure.Input;
-using Client.Lobby.Infrastructure.Providers;
-using Client.Lobby.Networking;
-using Client.Lobby.View.CharacterSheet;
-using Client.Lobby.View.Gallery;
-using Client.Lobby.View.Gallery.Widgets;
-using Client.Lobby.View.MainMenu;
-using Client.Lobby.View.MainMenu.Widgets;
-
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Threading.Tasks;
+using System.Net;
+using System.Net.Sockets;
 
 using UnityEngine;
 
-using Utils.Patterns.Adapters;
+using Assets.Sources.Temp;
+
+using Client.Lobby.Infrastructure.Adapters;
+using Client.Lobby.Infrastructure.Controllers;
+using Client.Lobby.Infrastructure.Factories;
+using Client.Lobby.Infrastructure.Providers;
+using Client.Lobby.Infrastructure.Networking;
+using Client.Lobby.Infrastructure.Networking.Requests;
+using Client.Lobby.Infrastructure.Networking.Protocol;
+
+using Client.Lobby.View.Gallery;
+using Client.Lobby.View.MainMenu.Widgets;
+
+using Client.Lobby.Domain.Accounts;
+
+using UtilsUnity.Networking;
 using Utils.Patterns.Factory;
+using Utils.Patterns.Adapters;
+using Utils.ByteHelper;
 
 namespace Temp.Testing
 {
-    [RequireComponent(typeof(AssetProvider), typeof(DataIniter))]
     internal class LobbyIniter : MonoBehaviour
     {
-        [SerializeField] private ChatWidget _chatWidget;
-        [SerializeField] private MainMenu _mainMenu;
-        [SerializeField] private Gallery _gallery;
-        [SerializeField] private CharacterSheet _characterSheet;
+        [SerializeField] private Client.Lobby.View.Lobby _lobby;
+        [SerializeField] private int _activeAccount;
 
-        private AssetProvider _assetProvider;
-        private DataIniter _dataIniter;
-        private LobbyClient _lobbyClient;
-        private readonly LobbyInput _input;
-        private InputStateMachine _inputStateMachine;
+        [SerializeField] private AssetProvider _assetProvider;
+        [SerializeField] private DataIniter _dataIniter;
 
-        private AccountsController _accountsController;
-        private ServerCommandAdapter _serverCommandAdapter;
-        private Client.Lobby.Infrastructure.Providers.DefaultCharactersProvider _charactersProvider;
+        [SerializeField] private string _ip;
+        [SerializeField] private int _port;
 
-        private FactoryCache _factories;
-        private ControllersCache _controllers;
-
-        private void OnDestroy()
-        {
-
-        }
+        private SocketClient _client;
+        private Protocol _protocol;
 
         private async void Start()
         {
-            _assetProvider = GetComponent<AssetProvider>();
-            _dataIniter = GetComponent<DataIniter>();
+            var val = await _dataIniter.LoadCharacters();
+            CharactersProvider defaultCharacters = new DefaultCharactersProvider(val, new DefaultCharacterDataAdapter());
 
-            Client.Lobby.View.Lobby lobby = new(_mainMenu, _gallery, _characterSheet);
+            ControllersCache cache = CallFactories(CreateFactories(defaultCharacters));
 
-            _inputStateMachine = new();
+            ConnectToServer(cache);
 
-            //_inputStateMachine.ChangeState<MainMenuInputState>();
+            RequestInitialData(cache);
+        }
 
-            _accountsController = new();
+        private void OnDestroy()
+        {
+            _client.Disconnect();
+        }
 
-            await LoadLocalData();
+        private FactoryCache CreateFactories(CharactersProvider defaultCharacters)
+        {
+            ChatMessageFactory chatMessageFactory = new(_assetProvider);
+            CharacterCardFactory characterCardFActory = new(_assetProvider);
+            ChatControllerFactory chatFactory = new(chatMessageFactory);
+            GalleryControllerFactory galleryFactory = new(characterCardFActory, defaultCharacters);
+            AccountsControllerFactory accountController = new();
+            AccountsFactoryFactory accountFactoryFactory = new();
 
-            _factories = CreateFactories();
-            _controllers = CallFactories();
+            return new(chatFactory, galleryFactory, accountController, accountFactoryFactory);
+        }
 
-            _lobbyClient = new LobbyClient(_serverCommandAdapter);
-            Task task = _lobbyClient.Connect();
+        private ControllersCache CallFactories(FactoryCache factories)
+        {
+            _client = new SocketClient(new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp), new IPEndPoint(IPAddress.Parse(_ip), _port));
+
+            ChatController chatController = factories.ChatFactory.Create(_lobby.MainMenu.ChatWidget);
+            GalleryController galleryController = factories.GalleryFactory.Create(_lobby.Gallery);
+            ActiveAccountController activeAccoutnController = new(_lobby.MainMenu.ProfileWidget, galleryController, _activeAccount);
+            AccountsController accountsController = factories.AccountControllerFactory.Create(factories.AccountsFactoryFactory.Create(_client));
+
+            return new(chatController, galleryController, activeAccoutnController, accountsController);
+        }
+
+        private void ConnectToServer(ControllersCache cache)
+        {
+            Adapter<ServerCommand, byte[]> serverCommandAdapter = new ServerCommandAdapter(cache.AccountsController, cache.ChatController, cache.GalleryController, cache.ActiveAccountController, new CharacterFactory(_client));
+
+            _protocol = new LobbyProtocol(serverCommandAdapter);
+
+            _client.Connect();
             StartCoroutine(ClientWork());
-            RequestInitialData();
         }
 
         private IEnumerator ClientWork()
@@ -89,91 +103,52 @@ namespace Temp.Testing
 
         private void HandleAll()
         {
-            while (_lobbyClient.HasMessages)
+            while (_client.HasMessages)
             {
-                _lobbyClient.HandleNext().Perform();
+                ServerMessage message = _client.NextMessage();
+                _protocol.Handle(message).Perform();
             }
         }
 
-        private async Task LoadLocalData()
+        private async void RequestInitialData(ControllersCache cache)
         {
-            Account account = _accountsController.GetAccount(AccountsDataProvider.ActiveAccount);
+            _client.SendRequest(new AccountDataRequest(_activeAccount, AccountDataType.Level | AccountDataType.Name | AccountDataType.CharacterData, (int) (CharacterDataParams.AllCharcters | CharacterDataParams.ShortData)));
 
-            Adapter<Character, Data.Characters.Character> adapter = new CharacterDataAdapter(account);
-
-            DefaultCharactersProvider dataDefaultCharactersProvider = new(_dataIniter, adapter);
-            await dataDefaultCharactersProvider.Load();
-            _charactersProvider = dataDefaultCharactersProvider;
+            Account account = cache.AccountsController.GetAccount(_activeAccount);
+            await Task.Delay(1000);
+            cache.ActiveAccountController.SetActiveAccount(account);
         }
-
-        private FactoryCache CreateFactories()
-        {
-            Account account = _accountsController.GetAccount(AccountsDataProvider.ActiveAccount);
-
-            Factory<CharacterCardWidget> characterCardFactory = new CharacterCardFactory(_assetProvider);
-            Factory<MessageView, Message> messageFactory = new ChatMessageFactory(_assetProvider);
-            Factory<ChatController, ChatWidget> chatFactory = new ChatControllerFactory(messageFactory);
-            Factory<GalleryController, Gallery> galleryFactory = new GalleryControllerFactory(characterCardFactory, _charactersProvider.GetCharacters(), account);
-
-            return new FactoryCache(chatFactory, galleryFactory);
-        }
-
-        private ControllersCache CallFactories()
-        {
-            ChatController chatController = _factories.ChatFactory.Create(_chatWidget);
-            GalleryController galleryController = _factories.GalleryFactory.Create(_gallery);
-
-            _serverCommandAdapter = new(_accountsController, chatController, galleryController);
-
-            return new(chatController, galleryController);
-        }
-
-        private class GetInitialDataRequest : Request
-        {
-            public byte[] GetBytes() => new byte[0];
-        }
-
-        private void RequestInitialData() => _lobbyClient.SendRequest(new GetInitialDataRequest());
 
         private readonly struct FactoryCache
         {
             public readonly Factory<ChatController, ChatWidget> ChatFactory;
             public readonly Factory<GalleryController, Gallery> GalleryFactory;
+            public readonly Factory<AccountsController, Factory<Account, int>> AccountControllerFactory;
+            public readonly Factory<Factory<Account, int>, SocketClient> AccountsFactoryFactory;
 
-            public FactoryCache(Factory<ChatController, ChatWidget> chatFactory, Factory<GalleryController, Gallery> galleryFactory)
+            public FactoryCache(Factory<ChatController, ChatWidget> chatFactory, Factory<GalleryController, Gallery> galleryFactory, Factory<AccountsController, Factory<Account, int>> accountControllerFactory, Factory<Factory<Account, int>, SocketClient> accountsFactoryFactory)
             {
                 ChatFactory = chatFactory;
                 GalleryFactory = galleryFactory;
+                AccountControllerFactory = accountControllerFactory;
+                AccountsFactoryFactory = accountsFactoryFactory;
             }
         }
 
         private readonly struct ControllersCache
         {
-            public readonly ChatController _chatController;
+            public readonly ChatController ChatController;
             public readonly GalleryController GalleryController;
+            public readonly ActiveAccountController ActiveAccountController;
+            public readonly AccountsController AccountsController;
 
-            public ControllersCache(ChatController chatController, GalleryController galleryController)
+            public ControllersCache(ChatController chatController, GalleryController galleryController, ActiveAccountController activeAccountController, AccountsController accountsController)
             {
-                _chatController = chatController;
+                ChatController = chatController;
                 GalleryController = galleryController;
+                ActiveAccountController = activeAccountController;
+                AccountsController = accountsController;
             }
         }
-    }
-
-    internal class DefaultCharactersProvider : Client.Lobby.Infrastructure.Providers.DefaultCharactersProvider
-    {
-        private readonly DataIniter _dataIniter;
-        private List<Character> _loadedCharacters;
-        private readonly Adapter<Character, Data.Characters.Character> _adapter;
-
-        public DefaultCharactersProvider(DataIniter dataIniter, Adapter<Character, Data.Characters.Character> adapter)
-        {
-            _dataIniter = dataIniter;
-            _adapter = adapter;
-        }
-
-        public List<Character> GetCharacters() => _loadedCharacters;
-
-        public async Task Load() => _loadedCharacters = await _dataIniter.LoadCharacters(_adapter);
     }
 }

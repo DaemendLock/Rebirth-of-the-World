@@ -343,7 +343,7 @@ MonoBehaviour:
   _selectionFrame: {fileID: 7969908015279529846}
   _healthBar: {fileID: 5410404701743546743}
   _resources: {fileID: 1148083105015593341}
-  _castbar: {fileID: 2949269697305757928}
+  _castbar: {fileID: 1148083104120641572}
   _friendlyColor: {r: 0.22352943, g: 0.86666673, b: 0.40000004, a: 1}
   _enemyColor: {r: 0.9056604, g: 0.18369527, b: 0.18369527, a: 1}
 --- !u!222 &2332564932567470243
@@ -401,7 +401,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1148083105015593314
 RectTransform:
   m_ObjectHideFlags: 0

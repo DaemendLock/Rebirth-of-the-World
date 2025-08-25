@@ -5,7 +5,7 @@ namespace Utils.Patterns.Factory
         T Create();
     }
 
-    public interface Factory<out TResult, in TData> 
+    public interface Factory<out TResult, in TData>
     {
         TResult Create(TData data);
     }

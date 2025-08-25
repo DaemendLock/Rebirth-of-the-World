@@ -1,6 +1,6 @@
 {
-    "name": "Utils",
-    "rootNamespace": "Utils",
+    "name": "UtilsUnity",
+    "rootNamespace": "UtilsUnity",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

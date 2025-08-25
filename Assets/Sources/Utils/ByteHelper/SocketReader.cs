@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -20,7 +20,7 @@ namespace Utils.ByteHelper
 
     public class SocketReader
     {
-        public event Action<ServerMessage> Received;
+        public event Action<ServerMessage> Recived;
 
         private const int DefaultBufferSize = 512;
         private const int DefaultMessageQueueSize = 256;
@@ -63,9 +63,28 @@ namespace Utils.ByteHelper
         {
             while (IsActive)
             {
-                ServerMessage nextMessage = ReadNextMessage();
-                _messages.Enqueue(nextMessage);
-                Received?.Invoke(nextMessage);
+                ServerMessage nextMessage;
+
+                try
+                {
+                    nextMessage = ReadNextMessage();
+                }
+                catch (SocketException)
+                {
+                    continue;
+                }
+
+                if (nextMessage.Data == null)
+                {
+                    continue;
+                }
+
+                lock (_messages)
+                {
+                    _messages.Enqueue(nextMessage);
+                }
+
+                Task.Run(() => Recived?.Invoke(nextMessage));
             }
         }
 
@@ -87,6 +106,13 @@ namespace Utils.ByteHelper
         private void ReciveNext(ref int cursor, ref byte[] bytes)
         {
             int messageSize = _source.Receive(_buffer);
+
+            if (messageSize == 0)
+            {
+                IsActive = false;
+                return;
+            }
+
             Array.Resize(ref bytes, cursor + messageSize);
             CopyTo(_buffer, bytes, cursor, messageSize);
             cursor += messageSize;

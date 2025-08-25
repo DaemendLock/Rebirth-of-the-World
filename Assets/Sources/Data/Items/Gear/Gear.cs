@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 using Utils.DataStructure;
 using Utils.DataTypes;
 
@@ -18,7 +19,7 @@ namespace Data.Items
     {
         [SerializeField] private bool _hasSpell;
         [SerializeField] private int _spellId;
-        [SerializeField] private StatsTable _stats;
+        //[SerializeField] private StatsTable _stats;
 
         public Gear(GearType type) : base(ItemType.Gear)
         {
@@ -27,7 +28,7 @@ namespace Data.Items
 
         public GearType GearType { get; }
 
-        public StatsTable Stats => _stats;
+        //public StatsTable Stats => _stats;
 
         public bool HasSpell => _hasSpell;
 

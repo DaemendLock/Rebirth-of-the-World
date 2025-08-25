@@ -1,9 +1,21 @@
 ﻿using System;
 using UnityEngine;
+
 using Utils.DataTypes;
 
 namespace Data.Entities.Stats
 {
+    public enum ResourceType : ushort
+    {
+        NONE,
+        MANA,
+        CONCENTRATION,
+        ENERGY,
+        RAGE,
+        LIGHT_POWER,
+        OTHER
+    }
+
     [Serializable]
     public class CastResourceData
     {

@@ -1,3 +1,0 @@
-﻿namespace Core.SpellLib.Warrior
-{
-}

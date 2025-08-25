@@ -1,8 +1,4 @@
-﻿using Client.Lobby.Core.Characters;
-
-using Data.Utils;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,8 +6,12 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-using Utils.Patterns.Adapters;
+using Data.Utils;
+using Data.Characters;
 using Utils.ThrowHepler;
+using Server.Combat.Domain.Skills;
+using System.Linq;
+using System.Reflection;
 
 namespace Assets.Sources.Temp
 {
@@ -24,22 +24,20 @@ namespace Assets.Sources.Temp
 
         private readonly List<AsyncOperationHandle> _handlers = new();
 
-        private void Start() => ThrowHepler.ArgumentNullException(_itemLabel, _charactersLabel);
-
-        public async Task<List<Character>> LoadCharacters(Adapter<Character, Data.Characters.Character> adapter)
+        private void Start()
         {
-            List<Character> result = new();
+            ThrowHepler.ArgumentNullException(_itemLabel, _charactersLabel);
+            LoadCharacters();
+        }
 
-            AsyncOperationHandle<IList<Data.Characters.Character>> loading = Addressables.LoadAssetsAsync<Data.Characters.Character>(_charactersLabel,
+        public Task<IList<Character>> LoadCharacters()
+        {
+            AsyncOperationHandle<IList<Character>> loading = Addressables.LoadAssetsAsync<Character>(_charactersLabel,
                 (callback) =>
                 {
                     callback.OnLoad();
-                    result.Add(adapter.Adapt(callback));
                 });
-
-            _ = await loading.Task;
-
-            return result;
+            return loading.Task;
         }
 
         private void LoadItems() => _handlers.Add(Addressables.LoadAssetsAsync<Loadable>(_itemLabel, (callback)

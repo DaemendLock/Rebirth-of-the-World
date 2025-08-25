@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Utils.ThrowHepler.Exceptions
+namespace UtilsUnity.ThrowHepler.Exceptions
 {
     internal class FileNotLoadedException : Exception
     {

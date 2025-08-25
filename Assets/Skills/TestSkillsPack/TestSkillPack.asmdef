@@ -1,0 +1,18 @@
+{
+    "name": "TestSkillPack",
+    "rootNamespace": "TestSkillPack",
+    "references": [
+        "GUID:42ee2425d96a97649a605b8a9aa87e8f",
+        "GUID:dc965a8580913f84294fa92f59afdf35",
+        "GUID:8651ed9d0dea994419fbeebf6b549ef2"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

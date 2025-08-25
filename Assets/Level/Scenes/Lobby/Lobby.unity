@@ -1558,87 +1558,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!1 &211629342
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 211629343}
-  - component: {fileID: 211629344}
-  m_Layer: 0
-  m_Name: Account0
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &211629343
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 211629342}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 843618259}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &211629344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 211629342}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c55883f2a79d1d54ab337ade8292a369, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  accountId: 0
-  Characters:
-  - CharId: 0
-    ActiveSkin: 0
-    ActiveSpec: 0
-    _level: {x: 10, y: 80, z: 20, w: 120}
-    _affection: {x: 20, y: 120, z: 1000, w: 10000}
-    Spells: 
-    Gear:
-      _head: {fileID: 0}
-      _body: {fileID: 0}
-      _legs: {fileID: 0}
-      _weaponLeft: {fileID: 0}
-      _weaponRight: {fileID: 11400000, guid: 6eb38b0a8bca74c419121774ac1fe799, type: 2}
-      _ring1: {fileID: 0}
-      _ring2: {fileID: 0}
-      _active1: {fileID: 0}
-      _active2: {fileID: 0}
-  - CharId: 1
-    ActiveSkin: 0
-    ActiveSpec: 0
-    _level: {x: 20, y: 80, z: 20, w: 120}
-    _affection: {x: 50, y: 120, z: 5000, w: 10000}
-    Spells: 10010000100200001003000010040000
-    Gear:
-      _head: {fileID: 0}
-      _body: {fileID: 0}
-      _legs: {fileID: 0}
-      _weaponLeft: {fileID: 11400000, guid: 29e42ae281e06a94392d1c1fe3507189, type: 2}
-      _weaponRight: {fileID: 11400000, guid: 6eb38b0a8bca74c419121774ac1fe799, type: 2}
-      _ring1: {fileID: 0}
-      _ring2: {fileID: 0}
-      _active1: {fileID: 0}
-      _active2: {fileID: 0}
-  Inventory:
-  - ItemId: 1
-    Count: 10
 --- !u!1 &278248031
 GameObject:
   m_ObjectHideFlags: 0
@@ -2561,89 +2480,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 353996466}
   m_CullTransparentMesh: 1
---- !u!1 &356890963
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 356890964}
-  - component: {fileID: 356890965}
-  m_Layer: 0
-  m_Name: Account1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &356890964
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 356890963}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 843618259}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &356890965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 356890963}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c55883f2a79d1d54ab337ade8292a369, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  accountId: 0
-  Characters:
-  - CharId: 0
-    ActiveSkin: 0
-    ActiveSpec: 0
-    _level: {x: 10, y: 80, z: 20, w: 120}
-    _affection: {x: 20, y: 120, z: 1000, w: 10000}
-    Spells: 
-    Gear:
-      _head: {fileID: 0}
-      _body: {fileID: 0}
-      _legs: {fileID: 0}
-      _weaponLeft: {fileID: 11400000, guid: 29e42ae281e06a94392d1c1fe3507189, type: 2}
-      _weaponRight: {fileID: 11400000, guid: 29e42ae281e06a94392d1c1fe3507189, type: 2}
-      _ring1: {fileID: 11400000, guid: cf29e642464221c4183eea0b67315b36, type: 2}
-      _ring2: {fileID: 11400000, guid: 1cf38c401818e5742ba107130c58157d, type: 2}
-      _active1: {fileID: 0}
-      _active2: {fileID: 0}
-  - CharId: 1
-    ActiveSkin: 0
-    ActiveSpec: 0
-    _level: {x: 20, y: 80, z: 20, w: 120}
-    _affection: {x: 50, y: 120, z: 5000, w: 10000}
-    Spells: 10010000100200001003000010040000
-    Gear:
-      _head: {fileID: 0}
-      _body: {fileID: 0}
-      _legs: {fileID: 0}
-      _weaponLeft: {fileID: 11400000, guid: 29e42ae281e06a94392d1c1fe3507189, type: 2}
-      _weaponRight: {fileID: 11400000, guid: 29e42ae281e06a94392d1c1fe3507189, type: 2}
-      _ring1: {fileID: 11400000, guid: 7e08137cc5334034196cda98b0c15619, type: 2}
-      _ring2: {fileID: 11400000, guid: a05993ca276c5924a946bbec9571ffd5, type: 2}
-      _active1: {fileID: 0}
-      _active2: {fileID: 0}
-  Inventory:
-  - ItemId: 0
-    Count: 1
-  - ItemId: 1
-    Count: 1
 --- !u!1 &383749734
 GameObject:
   m_ObjectHideFlags: 0
@@ -8680,6 +8516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _icon: {fileID: 604385550}
+  <Slot>k__BackingField: 0
 --- !u!1 &670862161
 GameObject:
   m_ObjectHideFlags: 0
@@ -10632,9 +10469,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 211629343}
-  - {fileID: 356890964}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10650,10 +10485,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a9b2441af31aea45b18c32373da9add, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _chatWidget: {fileID: 1047660465}
-  _mainMenu: {fileID: 1657821962}
-  _gallery: {fileID: 511210937}
-  _characterSheet: {fileID: 1475014286}
+  _lobby: {fileID: 1133128219}
+  _activeAccount: 0
+  _assetProvider: {fileID: 843618262}
+  _dataIniter: {fileID: 843618263}
+  _ip: 127.0.0.1
+  _port: 27122
 --- !u!114 &843618262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12657,8 +12494,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1133128218}
+  - component: {fileID: 1133128219}
   m_Layer: 0
-  m_Name: Menus
+  m_Name: Lobby
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12686,6 +12524,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1133128219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133128216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e22c33912850f344afe0dbfad0036d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <MainMenu>k__BackingField: {fileID: 1657821962}
+  <Gallery>k__BackingField: {fileID: 511210937}
+  <CharacterSheet>k__BackingField: {fileID: 1475014286}
 --- !u!1 &1141602153
 GameObject:
   m_ObjectHideFlags: 0
@@ -12776,6 +12629,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _icon: {fileID: 1141602155}
+  <Slot>k__BackingField: 0
 --- !u!1 &1158382180
 GameObject:
   m_ObjectHideFlags: 0
@@ -13748,6 +13602,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _icon: {fileID: 1271984132}
+  <Slot>k__BackingField: 0
 --- !u!1 &1279069385
 GameObject:
   m_ObjectHideFlags: 0
@@ -15054,6 +14909,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _icon: {fileID: 1426028080}
+  <Slot>k__BackingField: 0
 --- !u!1 &1438753416
 GameObject:
   m_ObjectHideFlags: 0
@@ -16344,6 +16200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _icon: {fileID: 1593916767}
+  <Slot>k__BackingField: 0
 --- !u!1 &1600828969
 GameObject:
   m_ObjectHideFlags: 0
@@ -16454,7 +16311,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1615170533
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16918,9 +16775,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52cb0cbdae3b5284cb3a362472d6eadf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _profileWidget: {fileID: 1615170537}
+  <ProfileWidget>k__BackingField: {fileID: 1615170537}
   _resourceWidget: {fileID: 670862163}
-  _chatWidget: {fileID: 1047660465}
+  <ChatWidget>k__BackingField: {fileID: 1047660465}
 --- !u!1 &1728503746
 GameObject:
   m_ObjectHideFlags: 0
@@ -18480,6 +18337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _icon: {fileID: 1959284430}
+  <Slot>k__BackingField: 0
 --- !u!1 &1959313875
 GameObject:
   m_ObjectHideFlags: 0
@@ -23587,13 +23445,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ee73871c9c7c7548a321aabfaa8f55b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _headSlot: {fileID: 1426028082}
-  _bodySlot: {fileID: 1271984134}
-  _legsSlot: {fileID: 604385552}
-  _leftHandSlot: {fileID: 1959284432}
-  _rightHandSlot: {fileID: 1141602157}
-  _ring1Slot: {fileID: 1593916769}
-  _ring2Slot: {fileID: 2103454133}
+  _itemWidgets:
+  - {fileID: 1426028082}
+  - {fileID: 1271984134}
+  - {fileID: 604385552}
+  - {fileID: 1959284432}
+  - {fileID: 1141602157}
+  - {fileID: 1593916769}
+  - {fileID: 2103454133}
 --- !u!1 &2103454129
 GameObject:
   m_ObjectHideFlags: 0
@@ -23684,6 +23543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _icon: {fileID: 2103454131}
+  <Slot>k__BackingField: 0
 --- !u!1 &2118042852
 GameObject:
   m_ObjectHideFlags: 0

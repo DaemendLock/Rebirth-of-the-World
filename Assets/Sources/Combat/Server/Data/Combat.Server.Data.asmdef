@@ -1,0 +1,19 @@
+{
+    "name": "Combat.Server.Data",
+    "rootNamespace": "",
+    "references": [
+        "GUID:152cf6227a8e30946a78eb29d62fd1b0",
+        "GUID:183c83d7bd836a44c95975655413768f",
+        "GUID:3d2982040ca4e784394d7af3eab4614b",
+        "GUID:4c8dab402d9512f43a03e0fb0ae49a1c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

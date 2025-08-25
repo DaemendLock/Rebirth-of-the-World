@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Utils.DataStructure
 {
@@ -36,20 +35,21 @@ namespace Utils.DataStructure
                 return _entities.Count;
             }
         }
-        
+
         public int Count => _entities.Count - _ids.Count;
 
+        public int Capacity => _entities.Capacity;
+
         public T Get(int id) => _entities[id] ?? throw new System.InvalidOperationException();
-        
 
         public void Add(T value)
         {
-            if(value == null)
+            if (value == null)
             {
                 throw new System.ArgumentNullException(nameof(value));
             }
 
-            if(value.Id != _entities.Count && _entities[value.Id] != null)
+            if (value.Id != _entities.Count && _entities[value.Id] != null)
             {
                 throw new System.InvalidOperationException("Entity Id overlap");
             }
@@ -65,9 +65,16 @@ namespace Utils.DataStructure
             return;
         }
 
-        public void Remove(int id)
+        public void Remove(T value) => _entities.Remove(value);
+
+        public void RemoveAt(int id)
         {
             if (_ids.Contains(id))
+            {
+                throw new System.InvalidOperationException(nameof(id));
+            }
+
+            if (id >= _entities.Count)
             {
                 throw new System.InvalidOperationException(nameof(id));
             }
