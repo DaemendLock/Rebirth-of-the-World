@@ -4,9 +4,9 @@ namespace CastStateSkill.Extenstions
 {
     public static class SkillFrameDataExtension
     {
-        public static SkillCastState GetFrameType(this IFrameData skillFrameData, float time) => skillFrameData.GetCastState((int) (time * SkillFrameData.FrameRate));
+        public static SkillCastState GetFrameType(this IFrameData skillFrameData, float time) => skillFrameData.GetCastState((int) (time * FrameData.FrameRate));
 
-        public static void Log(this SkillFrameData skillFrameData)
+        public static void Log(this FrameData skillFrameData)
         {
             int startupFrames = 0;
             int recoveryframes = 0;
@@ -17,7 +17,7 @@ namespace CastStateSkill.Extenstions
 
             for (int i = 0; i < skillFrameData.TotalFrames; i++)
             {
-                switch (skillFrameData.GetCastState(i / (float) SkillFrameData.FrameRate))
+                switch (skillFrameData.GetCastState(i / (float) FrameData.FrameRate))
                 {
                     case SkillCastState.Startup:
                         startupFrames++;

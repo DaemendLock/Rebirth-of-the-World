@@ -62,7 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Sources\Combat\Client\Infrastructure.Implementations\Controllers\CameraController.cs" />
-    <Compile Include="Assets\Sources\Combat\Client\Infrastructure.Implementations\Controllers\UnitController.cs" />
     <Compile Include="Assets\Sources\Combat\Client\Infrastructure.Implementations\Controllers\CombatController.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -513,8 +512,8 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.OSXStandalone.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WebGLSupport\UnityEditor.WebGL.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
@@ -531,10 +530,6 @@
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">
@@ -1046,18 +1041,6 @@
     <ProjectReference Include="CastStateSkill.csproj">
       <Project>{025DB029-4CAC-B653-1AFC-91B5BA790B5D}</Project>
       <Name>CastStateSkill</Name>
-    </ProjectReference>
-    <ProjectReference Include="Combat.Server.Domain.csproj">
-      <Project>{05FE086E-C66A-189C-4A13-023A7137ED52}</Project>
-      <Name>Combat.Server.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="Combat.Server.Domain.Implementations.csproj">
-      <Project>{89990589-8CF3-B0B9-C41D-F6EE55F61A4C}</Project>
-      <Name>Combat.Server.Domain.Implementations</Name>
-    </ProjectReference>
-    <ProjectReference Include="Client.Combat.Domain.csproj">
-      <Project>{06E01FC0-0A8E-4076-1143-0D079F5D619E}</Project>
-      <Name>Client.Combat.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="Client.Combat.Infrastructure.csproj">
       <Project>{6B18187E-2B02-8D11-F215-4F9557B873F5}</Project>

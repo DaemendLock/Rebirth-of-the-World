@@ -1,11 +1,13 @@
-﻿using Combat.Local.Domain.API;
-using Combat.Local.Domain.API.DTO;
-using Combat.Local.Domain.API.Skills;
+﻿using Combat.API;
+using Combat.API.DTO;
+using Combat.API.Skills;
+using Combat.API.Utils;
+using Combat.Common.Flags;
 
 namespace TestSkillsPack.SkillScripts
 {
     [SkillScriptName("sayHi")]
-    public class SayHiSkillScript : ScriptedSkill, ICastStateChangeHandler
+    public class SayHiSkillScript : SkillScript, ICastStateChangeHandler, ICastableSkill, IHitHandler
     {
         private ApplyDamageOptions _applyDamageOptions;
 
@@ -13,18 +15,18 @@ namespace TestSkillsPack.SkillScripts
         {
             _applyDamageOptions = new()
             {
-                Attacker = Caster,
-                Target = Caster,
-                Source = this,
+                Attacker = Owner,
+                Target = Owner,
+                Source = Skill,
                 OriginalDamage = 5,
                 Flags = DamageFlags.None,
             };
         }
 
-        public override void OnCast()
+        public void OnCast()
         {
             UnityEngine.Debug.Log("Hi~~~!");
-            Caster.ApplyStatus(new("HiStatus", this, 5, 1));
+            Owner.ApplyStatus(new("HiStatus", Skill, 5, 1));
         }
 
         public void OnStartup()
@@ -34,8 +36,17 @@ namespace TestSkillsPack.SkillScripts
 
         public void OnEnds()
         {
-            _applyDamageOptions.ApplyDamage();
             UnityEngine.Debug.Log("Kiana-chan!");
+        }
+
+        public bool OnHit(HitRecord @event)
+        {
+            if (@event.Target == @event.Source) { return false; }
+
+            UnityEngine.Debug.Log($"Handling hit;");
+            _applyDamageOptions.Target = @event.Target;
+            _applyDamageOptions.ApplyDamage();
+            return true;
         }
     }
 }

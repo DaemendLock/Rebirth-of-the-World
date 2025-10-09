@@ -1,11 +1,12 @@
-using Combat.Local.Domain.API;
-using Combat.Local.Domain.API.DTO;
-using Combat.Local.Domain.API.Skills;
+using Combat.API;
+using Combat.API.DTO;
+using Combat.API.Skills;
+using Combat.Common.Flags;
 
 namespace Server.Combat.TestAbilityPack
 {
     [SkillScriptName("healself")]
-    public class LifegivingLight : ScriptedSkill, ICastStateChangeHandler
+    public class LifegivingLight : SkillScript, ICastStateChangeHandler
     {
         public LifegivingLight(ScriptedSkillContext context) : base()
         {
@@ -13,7 +14,7 @@ namespace Server.Combat.TestAbilityPack
 
         public void OnRecovery()
         {
-            Caster.ApplyHealing(new(Caster, this, 100, HealingFlags.CanRevive));
+            Owner.ApplyHealing(new(Owner, Skill, 100, HealingFlags.CanRevive));
             UnityEngine.Debug.Log("Healing you!");
         }
     }

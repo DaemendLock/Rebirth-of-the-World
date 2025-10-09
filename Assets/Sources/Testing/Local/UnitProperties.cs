@@ -1,10 +1,7 @@
 ﻿using Combat.Common.ValueObjects;
+using Combat.Local.Controllers;
+using Combat.Local.Data.Databases;
 using Combat.Local.Data.Entities;
-using Combat.Local.Data.Services;
-using Combat.Local.Domain.ValueObjects;
-using Combat.Local.Factories;
-using Combat.Local.Infrastructure.Controllers;
-using Combat.Local.Presentation.Components;
 
 using Temp.Domain.Implementations;
 
@@ -15,7 +12,9 @@ namespace Testing.Local
     public class UnitProperties : MonoBehaviour
     {
         [Zenject.Inject] private CombatController _combatController;
-        [Zenject.Inject] private ISkillRegistrationService _skillDataRepository;
+        [Zenject.Inject] private SkillDataBase _skillDb;
+
+        [SerializeField] private string _modelName;
 
         [field: SerializeField] public int UnitId { get; private set; }
         [field: SerializeField] public byte Team { get; private set; }
@@ -23,22 +22,23 @@ namespace Testing.Local
         [field: SerializeField] public float InitialHealth { get; private set; }
         [field: SerializeField] public float MoveSpeed { get; private set; }
         [field: SerializeField] public CastableSkillData[] Skills { get; private set; }
+        public ModelName ModelName => new(_modelName);
 
         private void Awake()
         {
-            foreach (CastableSkillData skill in Skills)
+            foreach (CastableSkillData value in Skills)
             {
-                _skillDataRepository.Register(skill);
+                _skillDb.Load(value);
             }
         }
 
         private void Start()
         {
-            _combatController.CreateUnit(GetUnitCreationData());
+            _combatController.CreateUnit(GetUnitCreationData(), transform);
             Destroy(this);
         }
 
-        private IUnitControllerFactory.UnitModelCreationData GetUnitCreationData()
+        private UnitCreationInfo GetUnitCreationData()
         {
             StatsTable statsTable = StatsTable.UnitDefault;
             statsTable[Attribute.Speed] = new(MoveSpeed, 100);
@@ -59,10 +59,7 @@ namespace Testing.Local
                     Debug.Log("Null skill");
             }
 
-            CharacterView characterView = GetComponent<CharacterView>() ?? GetComponentInChildren<CharacterView>();
-            ModelName name = characterView.UnitName;
-
-            return new(name, Team, transform, transform.position, MaxHealth, InitialHealth, statsTable, skills);
+            return new(ModelName, new(Team), transform.position, MaxHealth, InitialHealth, statsTable.ToAttributeArray(), skills);
         }
     }
 }

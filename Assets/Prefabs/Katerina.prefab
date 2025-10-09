@@ -291,8 +291,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4d7bbd35b51a2747a90be0e8cda9998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _unitName: Katerina
-  <Mass>k__BackingField: 53
 --- !u!1 &52543763377944959
 GameObject:
   m_ObjectHideFlags: 0
@@ -2203,10 +2201,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 316461148080661346}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7215503bb1a4b974ab252418cc46cb79, type: 3}
+  m_Script: {fileID: 11500000, guid: d0964053b1a9eee40a00e0d58b927899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 2
+  _type: right_foot
 --- !u!1 &320249256326371826
 GameObject:
   m_ObjectHideFlags: 0
@@ -21437,7 +21435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 744e8eff97fe4ed4b9dd5594f02afdd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hurtboxType: 
+  _hurtboxType: head
 --- !u!1 &7028274423155073129
 GameObject:
   m_ObjectHideFlags: 0

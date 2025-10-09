@@ -1,12 +1,14 @@
-﻿using Combat.Local.Domain.API;
-using Combat.Local.Domain.API.DTO;
-using Combat.Local.Domain.API.Statuses;
-using Combat.Local.Domain.ValueObjects;
+﻿using Combat.API;
+using Combat.API.DTO;
+using Combat.API.Statuses;
+using Combat.API.Utils;
+using Combat.Common.Flags;
+using Combat.Common.ValueObjects;
 
 namespace TestSkillsPack.Paladin
 {
     [StatusScriptName("Paladin1Aura")]
-    public class Paladin1Aura : StatusApi, IOutgoingHealDamageHandler
+    public class Paladin1Aura : StatusScript, IOutgoingHealDamageHandler
     {
         private ApplyDamageOptions _applyDamageOptions;
 
@@ -22,7 +24,7 @@ namespace TestSkillsPack.Paladin
 
         public void OnDealDamage(DamageRecord @event)
         {
-            if (@event.Source.IsWeaponAttack == false)
+            if (@event.Source.HasFlag(SkillFlags.WeaponAttack) == false)
             {
                 return;
             }
@@ -33,7 +35,7 @@ namespace TestSkillsPack.Paladin
             _applyDamageOptions.Target = target;
             _applyDamageOptions.OriginalDamage = caster.GetAttributeValue(Attribute.Spellpower) * 0.1f;
 
-            Parent.GiveResource(Source, new(2), 1);
+            Parent.GiveResource(ResourceId.Custom, 1, Source);
         }
     }
 }

@@ -61,28 +61,19 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Combat\Local\Data\Repositories\Skills\ISkillAnimationRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Entities\Components\Hitbox.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Entities\Components\Hurtbox.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Repositories\Unit\CastActionRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Services\ISkillRegistrationService.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Entities\CastableSkillData.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Repositories\Skills\SkillAnimationRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Repositories\Skills\SkillRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Entities\ISkillData.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Repositories\Skills\ISkillScriptNameRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Repositories\Unit\KillableRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Entities\UnitData.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Repositories\Unit\PositionRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Repositories\CharacterModelRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Entities\UnitResourceData.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Repositories\AttributesRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Repositories\Unit\HealthRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Repositories\StatusRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Repositories\IConstructorRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Entities\StatusData.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Entities\CharacterModel.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Repositories\Skills\SkillScriptNameRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\DataSources\HealingModificationDataSource.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\Factories\StatusApiFactory.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\Lookup\StatusLookup.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\DataSources\StatusModificationProvider.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\CastableSkillData.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\Factories\UnitApiFactory.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\Presentation\CharacterViewContainer.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\CharacterModelProvider.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\SkillDataBase.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\SkillScriptTypeProvider.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\DataSources\DamageModificationDataSource.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\Factories\SkillApiFactory.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\StatusScriptTypeDataSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Combat\Local\Data\Combat.Local.Data.asmdef" />
@@ -532,8 +523,8 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.OSXStandalone.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WebGLSupport\UnityEditor.WebGL.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
@@ -550,10 +541,6 @@
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">
@@ -1058,13 +1045,33 @@
       <Project>{025DB029-4CAC-B653-1AFC-91B5BA790B5D}</Project>
       <Name>CastStateSkill</Name>
     </ProjectReference>
-    <ProjectReference Include="Combat.Local.Domain.csproj">
-      <Project>{84D51C1F-4A00-169F-B1F2-C7892886743B}</Project>
-      <Name>Combat.Local.Domain</Name>
-    </ProjectReference>
     <ProjectReference Include="Combat.Common.csproj">
       <Project>{8BD67BAE-4173-6632-3746-364F6C3EA823}</Project>
       <Name>Combat.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="Data.csproj">
+      <Project>{FE06642D-D97E-6F45-E6BC-17F2C4BC433F}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="Combat.API.csproj">
+      <Project>{7A9F157A-8D7C-2B2E-AFC2-2AA28809F24E}</Project>
+      <Name>Combat.API</Name>
+    </ProjectReference>
+    <ProjectReference Include="Combat.Local.Gateways.csproj">
+      <Project>{B648FC10-4A7E-AA96-F253-272583FF1D2E}</Project>
+      <Name>Combat.Local.Gateways</Name>
+    </ProjectReference>
+    <ProjectReference Include="Combat.Local.Presentation.csproj">
+      <Project>{1D788639-8353-ABFF-F872-C4D12F5F1352}</Project>
+      <Name>Combat.Local.Presentation</Name>
+    </ProjectReference>
+    <ProjectReference Include="Combat.Local.Controllers.csproj">
+      <Project>{7F600D9F-16D4-A5C8-8D69-4CEF71897BD1}</Project>
+      <Name>Combat.Local.Controllers</Name>
+    </ProjectReference>
+    <ProjectReference Include="Combat.API.Controllers.csproj">
+      <Project>{8592C32E-7FF8-B567-3BC5-92D60D58C148}</Project>
+      <Name>Combat.API.Controllers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,12 +1,12 @@
-﻿using Combat.Local.Domain.API;
-using Combat.Local.Domain.API.Statuses;
-using Combat.Local.Domain.API.ValueObjects;
+﻿using Combat.API;
+using Combat.API.Statuses;
+using Combat.API.ValueObjects;
 
 namespace TestSkillsPack.Paladin
 {
     [StatusScriptName("TankPaladinPassive")]
-    public class TankPaladinPassive : StatusApi, IIncomingHealDamageModifier
+    public class TankPaladinPassive : StatusScript, IIncomingHealDamageModifier
     {
-        public float GetBonusDamageRecivedPercent(DamageInstance instance) => -0.1f * Parent.GetResourceValue(new(2));
+        public float GetBonusDamageRecivedPercent(DamageInstanceApi instance) => -0.1f * Parent.GetResourceValue(new(2));
     }
 }

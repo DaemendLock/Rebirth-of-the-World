@@ -61,16 +61,25 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\AttributeValue.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\DamageInstanceId.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\Flags\KillFlags.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\EntityId.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\Flags\ReviveFlags.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\HitboxType.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\Duration.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\ModelName.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\HurtboxType.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\StatusName.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\Team.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\Flags\DamageFlags.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\Flags\HealingFlags.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\HitboxId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\StatusId.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\Attribute.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\HurtboxId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\SkillId.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\Flags\SkillFlags.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\ResourceId.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -521,8 +530,8 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.OSXStandalone.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WebGLSupport\UnityEditor.WebGL.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
@@ -539,10 +548,6 @@
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">

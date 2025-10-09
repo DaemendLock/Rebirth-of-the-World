@@ -1,11 +1,9 @@
-﻿using Client.Combat.Infrastructure.Controllers;
-using Client.Combat.Presentation.Implementations.Units.Components;
-using Client.Testing.View;
+﻿using Client.Testing.View;
+
+using Combat.API;
+using Combat.Common.Flags;
 
 using DaeHitbox;
-
-using Server.Combat.Domain.DTO;
-using Server.Combat.Domain.Entities;
 
 using UnityEngine;
 
@@ -15,14 +13,14 @@ namespace Assets.Sources.Common
     {
         private class TestMenuStrategy : ITestMenuStrategy
         {
-            private readonly ICameraController _cameraController;
+            //private readonly ICameraController _cameraController;
 
             private Unit _model;
-            private Temp.UnitViewInputReaderCompenent _readerCompenent;
+            //private Temp.UnitViewInputReaderCompenent _readerCompenent;
 
-            public TestMenuStrategy(ICameraController cameraController)
+            public TestMenuStrategy(/*ICameraController cameraController*/)
             {
-                _cameraController = cameraController;
+                //_cameraController = cameraController;
             }
 
             public void Kill() => _model?.Kill(default);
@@ -44,29 +42,29 @@ namespace Assets.Sources.Common
                     return;
                 }
 
-                if (hit.collider.TryGetComponent(out Hurtbox hurtbox) == false)
-                {
-                    return;
-                }
+                //if (hit.collider.TryGetComponent(out Hurtbox hurtbox) == false)
+                //{
+                //    return;
+                //}
 
-                if (hurtbox.Owner is not IHurtboxOwner<Unit> hurtboxOwner || hurtboxOwner.Owner == _model)
-                {
-                    return;
-                }
+                //if (hurtbox.Owner is not IHurtboxOwner<Unit> hurtboxOwner || hurtboxOwner.Owner == _model)
+                //{
+                //    return;
+                //}
 
-                if (_readerCompenent != null)
-                {
-                    _readerCompenent.enabled = false;
-                }
+                //if (_readerCompenent != null)
+                //{
+                //    _readerCompenent.enabled = false;
+                //}
 
-                _model = hurtboxOwner.Owner;
+                //_model = hurtboxOwner.Owner;
 
-                if (hit.collider.attachedRigidbody.TryGetComponent(out _readerCompenent))
-                {
-                    _readerCompenent.enabled = true;
-                }
+                //if (hit.collider.attachedRigidbody.TryGetComponent(out _readerCompenent))
+                //{
+                //    _readerCompenent.enabled = true;
+                //}
 
-                _cameraController.Follow(hit.collider.attachedRigidbody.transform);
+                //_cameraController.Follow(hit.collider.attachedRigidbody.transform);
             }
         }
     }

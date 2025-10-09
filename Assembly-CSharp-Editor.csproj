@@ -540,8 +540,8 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.OSXStandalone.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WebGLSupport\UnityEditor.WebGL.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
@@ -558,10 +558,6 @@
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">
@@ -1260,12 +1256,12 @@
       <HintPath>Library\ScriptAssemblies\Unity.InputSystem.ForUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.Addressables.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Addressables.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.AI.Navigation">
@@ -1338,61 +1334,33 @@
       <Project>{3F44BBF6-1B2B-D3A9-C83F-344C2C15D846}</Project>
       <Name>Assembly-CSharp</Name>
     </ProjectReference>
-    <ProjectReference Include="Combat.Local.Infrastructure.csproj">
-      <Project>{45E6E20F-BC4D-D152-0DE3-3F0C7A013118}</Project>
-      <Name>Combat.Local.Infrastructure</Name>
+    <ProjectReference Include="Combat.Local.Controllers.csproj">
+      <Project>{7F600D9F-16D4-A5C8-8D69-4CEF71897BD1}</Project>
+      <Name>Combat.Local.Controllers</Name>
     </ProjectReference>
     <ProjectReference Include="Zenject-Editor.csproj">
       <Project>{55F96176-7DDA-E12D-1D12-74F98197CC31}</Project>
       <Name>Zenject-Editor</Name>
     </ProjectReference>
-    <ProjectReference Include="Server.Combat.Networking.csproj">
-      <Project>{3185C0B5-E5AD-ACF3-73DD-24562776EE87}</Project>
-      <Name>Server.Combat.Networking</Name>
-    </ProjectReference>
-    <ProjectReference Include="Client.Lobby.Domain.Implementations.csproj">
-      <Project>{9899A491-E8C1-8B98-FE3E-3554C231DDD4}</Project>
-      <Name>Client.Lobby.Domain.Implementations</Name>
-    </ProjectReference>
-    <ProjectReference Include="Combat.Server.Infrastructure.csproj">
-      <Project>{63AD8892-A11D-A806-D636-603462F24A58}</Project>
-      <Name>Combat.Server.Infrastructure</Name>
+    <ProjectReference Include="Combat.Local.Data.csproj">
+      <Project>{36C104CC-5AF9-7451-53CF-B9851C68353B}</Project>
+      <Name>Combat.Local.Data</Name>
     </ProjectReference>
     <ProjectReference Include="DaeAnimator.csproj">
       <Project>{A9FD6DE7-D9E5-E855-19DA-1F92951108BD}</Project>
       <Name>DaeAnimator</Name>
     </ProjectReference>
-    <ProjectReference Include="Combat.Local.Domain.API.csproj">
-      <Project>{C97784FF-8565-53AE-0EBD-3EBFD085C156}</Project>
-      <Name>Combat.Local.Domain.API</Name>
-    </ProjectReference>
-    <ProjectReference Include="Combat.Local.Data.csproj">
-      <Project>{36C104CC-5AF9-7451-53CF-B9851C68353B}</Project>
-      <Name>Combat.Local.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="Combat.Server.Data.csproj">
-      <Project>{88F5B4AE-68A0-EDDD-79AF-0EFAB11FF712}</Project>
-      <Name>Combat.Server.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="Combat.Server.Domain.csproj">
-      <Project>{05FE086E-C66A-189C-4A13-023A7137ED52}</Project>
-      <Name>Combat.Server.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="Combat.Server.Domain.Entities.csproj">
-      <Project>{88AF451A-6502-59B5-1B4B-003F2A69BC73}</Project>
-      <Name>Combat.Server.Domain.Entities</Name>
-    </ProjectReference>
-    <ProjectReference Include="Client.Combat.Infrastructure.csproj">
-      <Project>{6B18187E-2B02-8D11-F215-4F9557B873F5}</Project>
-      <Name>Client.Combat.Infrastructure</Name>
-    </ProjectReference>
     <ProjectReference Include="Combat.Local.Domain.csproj">
       <Project>{84D51C1F-4A00-169F-B1F2-C7892886743B}</Project>
       <Name>Combat.Local.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="Client.Combat.Domain.csproj">
-      <Project>{06E01FC0-0A8E-4076-1143-0D079F5D619E}</Project>
-      <Name>Client.Combat.Domain</Name>
+    <ProjectReference Include="Combat.API.Controllers.csproj">
+      <Project>{8592C32E-7FF8-B567-3BC5-92D60D58C148}</Project>
+      <Name>Combat.API.Controllers</Name>
+    </ProjectReference>
+    <ProjectReference Include="Combat.Local.Gateways.csproj">
+      <Project>{B648FC10-4A7E-AA96-F253-272583FF1D2E}</Project>
+      <Name>Combat.Local.Gateways</Name>
     </ProjectReference>
     <ProjectReference Include="Combat.Common.csproj">
       <Project>{8BD67BAE-4173-6632-3746-364F6C3EA823}</Project>
@@ -1406,18 +1374,6 @@
       <Project>{53FE5B07-E84D-D3FB-AAE5-A3F466B6E663}</Project>
       <Name>TestSkillPack</Name>
     </ProjectReference>
-    <ProjectReference Include="Client.Combat.Presentation.Implementations.csproj">
-      <Project>{703C074D-6998-E8BF-7DBA-61B4EC2C2DDC}</Project>
-      <Name>Client.Combat.Presentation.Implementations</Name>
-    </ProjectReference>
-    <ProjectReference Include="Combat.Server.Domain.Implementations.csproj">
-      <Project>{89990589-8CF3-B0B9-C41D-F6EE55F61A4C}</Project>
-      <Name>Combat.Server.Domain.Implementations</Name>
-    </ProjectReference>
-    <ProjectReference Include="Combat.Server.Infrastructure.Implementations.csproj">
-      <Project>{D1AB7533-E0D8-12F4-A2C5-7569C9456BB2}</Project>
-      <Name>Combat.Server.Infrastructure.Implementations</Name>
-    </ProjectReference>
     <ProjectReference Include="PaladinSkillsPack.csproj">
       <Project>{7A502701-AA52-5795-0F14-8920F802C20C}</Project>
       <Name>PaladinSkillsPack</Name>
@@ -1425,14 +1381,6 @@
     <ProjectReference Include="UtilsUnity.csproj">
       <Project>{9D45B644-9BEB-4ED5-3CB3-9698FAF5C4AD}</Project>
       <Name>UtilsUnity</Name>
-    </ProjectReference>
-    <ProjectReference Include="Client.Lobby.View.csproj">
-      <Project>{0FB53602-701E-EB37-662F-100283CC02BE}</Project>
-      <Name>Client.Lobby.View</Name>
-    </ProjectReference>
-    <ProjectReference Include="Client.Combat.Presentation.csproj">
-      <Project>{4436B73D-17DC-74F1-3606-D14883132BB5}</Project>
-      <Name>Client.Combat.Presentation</Name>
     </ProjectReference>
     <ProjectReference Include="DaeHitbox.csproj">
       <Project>{F1B1C6F6-7B6F-D02E-D6C5-D8D36CD92BD7}</Project>
@@ -1442,29 +1390,21 @@
       <Project>{FE06642D-D97E-6F45-E6BC-17F2C4BC433F}</Project>
       <Name>Data</Name>
     </ProjectReference>
-    <ProjectReference Include="Client.Combat.Infrastructure.Implementations.csproj">
-      <Project>{EAF0695A-0466-D320-3574-87E2D77FFF7D}</Project>
-      <Name>Client.Combat.Infrastructure.Implementations</Name>
-    </ProjectReference>
     <ProjectReference Include="Client.Testing.View.csproj">
       <Project>{86A9C684-F288-EC71-0E15-178997E399AC}</Project>
       <Name>Client.Testing.View</Name>
     </ProjectReference>
-    <ProjectReference Include="Zenject.csproj">
-      <Project>{F4F6B480-C203-5F5A-A9BA-E3020CF82B48}</Project>
-      <Name>Zenject</Name>
-    </ProjectReference>
-    <ProjectReference Include="Lobby.Client.Domain.csproj">
-      <Project>{13838811-A5EE-5245-F113-81D5FE8E41F1}</Project>
-      <Name>Lobby.Client.Domain</Name>
+    <ProjectReference Include="Combat.API.csproj">
+      <Project>{7A9F157A-8D7C-2B2E-AFC2-2AA28809F24E}</Project>
+      <Name>Combat.API</Name>
     </ProjectReference>
     <ProjectReference Include="Testing.Local.csproj">
       <Project>{50A9B997-429E-FB9E-B87B-C6F8A32EF495}</Project>
       <Name>Testing.Local</Name>
     </ProjectReference>
-    <ProjectReference Include="Lobby.Client.Infrastructure.csproj">
-      <Project>{754035DD-723F-EFC2-8326-F111B1876735}</Project>
-      <Name>Lobby.Client.Infrastructure</Name>
+    <ProjectReference Include="Zenject.csproj">
+      <Project>{F4F6B480-C203-5F5A-A9BA-E3020CF82B48}</Project>
+      <Name>Zenject</Name>
     </ProjectReference>
     <ProjectReference Include="Combat.Local.Presentation.csproj">
       <Project>{1D788639-8353-ABFF-F872-C4D12F5F1352}</Project>

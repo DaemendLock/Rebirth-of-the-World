@@ -62,14 +62,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Sources\Combat\Local\Presentation\BindableViewComponent.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Presentation\ViewModels\ActivityViewModel.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Presentation\Components\CharacterView.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Presentation\Units\ViewModels\HitboxViewModel.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Presentation\Units\ViewModels\HurtboxViewModel.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Presentation\Factories\ICharacterViewFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Presentation\Components\CasterView.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Presentation\Units\ViewModels\ActivityViewModel.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Presentation\Units\ViewModels\UnitViewModel.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Presentation\Presenters\UnitPresenter.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Presentation\Components\KillableView.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Presentation\Units\ViewModels\Action.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Presentation\Presenters\ScenePresenter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Combat\Local\Presentation\Combat.Local.Presentation.asmdef" />
@@ -519,8 +518,8 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.OSXStandalone.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WebGLSupport\UnityEditor.WebGL.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
@@ -537,10 +536,6 @@
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">
@@ -1052,6 +1047,10 @@
     <ProjectReference Include="Combat.Common.csproj">
       <Project>{8BD67BAE-4173-6632-3746-364F6C3EA823}</Project>
       <Name>Combat.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="Combat.Local.Domain.csproj">
+      <Project>{84D51C1F-4A00-169F-B1F2-C7892886743B}</Project>
+      <Name>Combat.Local.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

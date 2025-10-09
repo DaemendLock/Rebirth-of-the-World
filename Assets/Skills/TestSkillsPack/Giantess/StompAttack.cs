@@ -1,11 +1,12 @@
-﻿using Combat.Local.Domain.API;
-using Combat.Local.Domain.API.DTO;
-using Combat.Local.Domain.API.Skills;
+﻿using Combat.API;
+using Combat.API.DTO;
+using Combat.API.Skills;
+using Combat.API.Utils;
 
 namespace TestSkillPack.Assets.Skills.TestSkillsPack.Giantess
 {
     [SkillScriptName("stomp_attack")]
-    public class StompAttack : ScriptedSkill
+    public class StompAttack : SkillScript
     {
         private ApplyDamageOptions _applyDamageOptions;
 

@@ -1,18 +1,20 @@
-﻿using Combat.Local.Domain.API;
-using Combat.Local.Domain.API.Statuses;
-using Combat.Local.Domain.ValueObjects;
+﻿using Combat.API;
+using Combat.API.DTO;
+using Combat.API.Statuses;
 
 namespace TestSkillsPack.Paladin
 {
     [StatusScriptName("DpsPaladin3Buff")]
-    public class DpsPaladin3Buff : StatusApi, IResourceGainSpendHandler
+    public class DpsPaladin3Buff : StatusScript, IResourceGainSpendHandler
     {
         public void OnGainResource(ResourceChangeRecord @event) { }
 
         public void OnSpendResource(ResourceChangeRecord @event)
         {
-            Duration duration = Duration;
-            duration.FullDuration += @event.Value * 0.05f;
+            if (@event.Resource == Combat.Common.ValueObjects.ResourceId.Custom)
+            {
+                Instance.ExtendDuration(@event.Value * 0.05f);
+            }
         }
     }
 }

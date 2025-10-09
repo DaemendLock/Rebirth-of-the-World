@@ -66,14 +66,11 @@
     <Compile Include="Assets\Sources\Combat\Server\Infrastructure.Implementations\Repositories\AttributesRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Infrastructure.Implementations\Factories\UnitModelFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Infrastructure.Implementations\Repositories\SkillConstructorRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Infrastructure.Implementations\Controllers\UnitController.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Infrastructure.Implementations\Controllers\SpellCastController.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Infrastructure.Implementations\Repositories\ActionHandlerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Infrastructure.Implementations\Factories\UnitControllerFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Infrastructure.Implementations\Repositories\StatusRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Infrastructure.Implementations\Factories\StatusFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Infrastructure.Implementations\Services\SkillCastService.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Infrastructure.Implementations\Controllers\CombatController.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Infrastructure.Implementations\Factories\SkillFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Infrastructure.Implementations\Factories\ReflectionSkillScriptFactory.cs" />
   </ItemGroup>
@@ -525,8 +522,8 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.OSXStandalone.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WebGLSupport\UnityEditor.WebGL.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
@@ -543,10 +540,6 @@
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">
@@ -1058,10 +1051,6 @@
     <ProjectReference Include="Combat.Server.Domain.csproj">
       <Project>{05FE086E-C66A-189C-4A13-023A7137ED52}</Project>
       <Name>Combat.Server.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="Combat.Server.Data.csproj">
-      <Project>{88F5B4AE-68A0-EDDD-79AF-0EFAB11FF712}</Project>
-      <Name>Combat.Server.Data</Name>
     </ProjectReference>
     <ProjectReference Include="UtilsUnity.csproj">
       <Project>{9D45B644-9BEB-4ED5-3CB3-9698FAF5C4AD}</Project>

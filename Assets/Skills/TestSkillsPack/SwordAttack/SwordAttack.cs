@@ -1,11 +1,12 @@
-﻿using Combat.Local.Domain.API;
-using Combat.Local.Domain.API.DTO;
-using Combat.Local.Domain.API.Skills;
+﻿using Combat.API;
+using Combat.API.DTO;
+using Combat.API.Skills;
+using Combat.API.Utils;
 
 namespace Server.Combat.Domain.Implementations.Skills.SpellScripts
 {
     [SkillScriptName("hitbox_1_attack")]
-    public class SwordAttack : ScriptedSkill
+    public class SwordAttack : SkillScript
     {
         private ApplyDamageOptions _applyDamageOptions;
 

@@ -1,41 +1,45 @@
 ﻿using CastStateSkill;
 
 using Combat.Common.ValueObjects;
-using Combat.Local.Domain.API.Skills;
-using Combat.Local.Domain.Entities.Units;
 
-using UnityEngine;
+using System.Collections.Generic;
 
 namespace Combat.Local.Domain.Entities
 {
     public class CastAction : IAction
     {
-        private readonly ICastStateChangeHandler _stateChangeHandler;
-        private readonly IHitHandler _hitHandler;
+        private readonly List<EntityId> _hittedTargets;
+
         private readonly IFrameData _frameData;
 
         private float _timeMultiplier;
-        private SkillCastState _state;
+        private ActionState _state;
 
-        public CastAction(EntityId caster, float timeMultiplier, IFrameData frameData, bool allowMoment, ICastStateChangeHandler stateChangeHandler, IHitHandler hitHandler)
+        private ActionData _data;
+
+        public CastAction(ActionData data, float timeMultiplier, IFrameData frameData)
         {
-            _stateChangeHandler = stateChangeHandler;
-            _hitHandler = hitHandler;
             _frameData = frameData;
             _timeMultiplier = timeMultiplier;
+            _state = ActionState.Inactive;
+            _data = data;
 
-            AllowMovement = allowMoment;
-            Actor = caster;
-            ActiveTime = 0;
+            _hittedTargets = new();
         }
 
-        public EntityId Actor { get; }
+        public ICollection<EntityId> HittedTargets => _hittedTargets;
 
-        public float ActiveTime { get; set; }
+        public float ActiveTime => _data.ActiveTime;
 
-        public bool AllowMovement { get; }
+        public bool AllowMovement => _data.AllowMovement;
 
-        public bool IsActive => _state != SkillCastState.Inactive;
+        public bool IsActive => _state != ActionState.Inactive;
+
+        public ActionState CurrentState => _state;
+
+        public SkillId Skill => _data.Skill;
+
+        public ActionData Data => new(_data.Skill, IsActive, ActiveTime, ActiveTime * _timeMultiplier, AllowMovement);
 
         public void Start()
         {
@@ -44,59 +48,19 @@ namespace Combat.Local.Domain.Entities
                 return;
             }
 
-            _state = SkillCastState.Startup;
-            _stateChangeHandler.OnStartup();
+            _state = ActionState.Startup;
         }
 
-        public void Update()
+        public void Update(ActionData data)
         {
-            if (IsActive == false)
+            _data = data;
+
+            if (_state == ActionState.Inactive)
             {
                 return;
             }
 
-            SkillCastState currentState = _frameData.GetCastState(ActiveTime * _timeMultiplier);
-
-            if (currentState == _state)
-            {
-                return;
-            }
-
-            _state = currentState;
-
-            //_api.OnCastStateChange();
-            switch (_state)
-            {
-                case SkillCastState.Startup:
-                    _stateChangeHandler.OnStartup();
-                    break;
-
-                case SkillCastState.Active:
-                    _stateChangeHandler.OnActive();
-                    break;
-
-                case SkillCastState.Gap:
-                    _stateChangeHandler.OnGapStart();
-                    break;
-
-                case SkillCastState.Recovery:
-                    _stateChangeHandler.OnRecovery();
-                    break;
-
-                case SkillCastState.Inactive:
-                    _stateChangeHandler.OnEnds();
-                    break;
-
-                default:
-                    throw new System.InvalidOperationException($"Can't find skill state \"{_state}\".");
-            }
-        }
-
-        public bool HandleHit(Hitbox hitbox, Hurtbox hurtbox, Vector3 position)
-        {
-            if (_hitHandler == null)
-                return false;
-            return false;
+            _state = (ActionState)_frameData.GetCastState(data.ActiveTime * _timeMultiplier);
         }
     }
 }

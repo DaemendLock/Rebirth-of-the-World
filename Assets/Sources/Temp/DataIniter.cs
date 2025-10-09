@@ -9,9 +9,6 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using Data.Utils;
 using Data.Characters;
 using Utils.ThrowHepler;
-using Server.Combat.Domain.Skills;
-using System.Linq;
-using System.Reflection;
 
 namespace Assets.Sources.Temp
 {

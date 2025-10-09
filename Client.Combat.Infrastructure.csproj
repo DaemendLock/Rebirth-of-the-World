@@ -61,20 +61,11 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Combat\Client\Infrastructure\Factories\IUnitFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Client\Infrastructure\Controllers\ICameraController.cs" />
     <Compile Include="Assets\Sources\Combat\Client\Infrastructure\Controllers\ICombatController.cs" />
     <Compile Include="Assets\Sources\Combat\Client\Infrastructure\Controllers\IUnitController.cs" />
-    <Compile Include="Assets\Sources\Combat\Client\Infrastructure\Networking\Commands\ServerCommand.cs" />
-    <Compile Include="Assets\Sources\Combat\Client\Infrastructure\Repositories\IInputRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Client\Infrastructure\Networking\Requests\Request.cs" />
-    <Compile Include="Assets\Sources\Combat\Client\Infrastructure\Networking\Protocol\Protocol.cs" />
-    <Compile Include="Assets\Sources\Combat\Client\Infrastructure\Repositories\IHitboxCollectionRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Client\Infrastructure\Factories\IUnitControllerFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Client\Infrastructure\Providers\ConfigProvider.cs" />
-    <Compile Include="Assets\Sources\Combat\Client\Infrastructure\Repositories\IUnitControllerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Client\Infrastructure\Input\CombatInput.cs" />
-    <Compile Include="Assets\Sources\Combat\Client\Infrastructure\Networking\CombatClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Combat\Client\Infrastructure\Client.Combat.Infrastructure.asmdef" />
@@ -524,8 +515,8 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.OSXStandalone.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WebGLSupport\UnityEditor.WebGL.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
@@ -542,10 +533,6 @@
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">

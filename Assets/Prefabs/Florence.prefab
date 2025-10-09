@@ -2496,5 +2496,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4d7bbd35b51a2747a90be0e8cda9998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _unitName: Florence
-  <Mass>k__BackingField: 50
+  _characterName: Florence

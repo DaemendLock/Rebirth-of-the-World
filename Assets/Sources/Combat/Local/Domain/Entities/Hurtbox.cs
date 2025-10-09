@@ -2,13 +2,13 @@
 
 namespace Combat.Local.Domain.Entities.Units
 {
-    public struct Hurtbox
+    public readonly ref struct Hurtbox
     {
-        public Hurtbox(HurtboxId id, HurtboxType type, EntityId ownerId)
+        public Hurtbox(HurtboxId id, HurtboxType type, EntityId owner)
         {
             Id = id;
-            Owner = ownerId;
             Type = type;
+            Owner = owner;
         }
 
         public HurtboxId Id { get; }

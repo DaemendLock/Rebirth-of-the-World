@@ -61,23 +61,8 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Combat\Server\Domain.Implementations\Items\IItem.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain.Implementations\Actions\JumpAction.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain.Implementations\Utils\TeamOwnerExtestion.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain.Implementations\Utils\StatusOperations.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain.Implementations\Utils\SkillScriptNameAttribute.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain.Implementations\Utils\ScriptSkillIdAttribute.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain.Implementations\Skills\SkillScript.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain.Implementations\Utils\ActionHandlerExtension.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain.Implementations\Units\Services\HealDamageApplicationService.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain.Implementations\Utils\AbilityExtension.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain.Implementations\Actions\CastHandler.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain.Implementations\Actions\CastAction.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain.Implementations\Attributes\StatsTable.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain.Implementations\Utils\AttributesExtension.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain.Implementations\Utils\StatusAttributes.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain.Implementations\Statuses\Status.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain.Implementations\Utils\ApplyDamageOptionsExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Combat\Server\Domain.Implementations\Combat.Server.Domain.Implementations.asmdef" />
@@ -527,8 +512,8 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.OSXStandalone.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WebGLSupport\UnityEditor.WebGL.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
@@ -545,10 +530,6 @@
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">
@@ -1049,10 +1030,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Combat.Server.Infrastructure.csproj">
-      <Project>{63AD8892-A11D-A806-D636-603462F24A58}</Project>
-      <Name>Combat.Server.Infrastructure</Name>
-    </ProjectReference>
     <ProjectReference Include="Combat.Server.Domain.csproj">
       <Project>{05FE086E-C66A-189C-4A13-023A7137ED52}</Project>
       <Name>Combat.Server.Domain</Name>

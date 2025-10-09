@@ -61,48 +61,49 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\DTO\ScriptedStatusContext.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\DTO\StatusApplicationData.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\ValueObjects\Records\HitRecord.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\ValueObjects\Records\AttributesRecord.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\ValueObjects\Records\DamageRecord.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\Statuses\Modifiers\IAttributeModifier.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\ValueObjects\DamageInstance.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\Units\Unit.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\DTO\ScriptedSkillContext.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\ValueObjects\Records\ReviveRecord.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\Statuses\Handlers\IOutgoingHealDamageHandler.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\ApplyDamageOptions.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\ValueObjects\Records\ResourceChangeRecord.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\Statuses\Modifiers\IOutgoingHealDamageModifier.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\Skills\IHitHandler.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\Statuses\Handlers\IIncomingHealDamageHandler.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\Statuses\Modifiers\IIncomingHealDamageModifier.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\IDK\SkillApiRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\Units\UnitHealth.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\DTO\DamageData.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\DTO\KillData.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\ValueObjects\Records\HealingRecord.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\Skills\ScriptedSkill.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\Units\UnitResource.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\Skills\SkillScriptNameAttribute.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\DTO\HealingData.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\ValueObjects\Records\DeathRecord.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\DTO\ReviveData.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\ApiContainer.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\ValueObjects\DamageFlags.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\Skills\ICastStateChangeHandler.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\Enviroment\Scene.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\Statuses\StatusApi.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\IDK\UnitApiRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\ValueObjects\HealingFlags.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\Statuses\IStatusLookupService.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\ValueObjects\HealingInstance.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\Statuses\StatusScriptNameAttribute.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\API\Statuses\Handlers\IResourceGainSpendHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\ValueObjects\Records\ResourceChangeRecord.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\IDK\UnitApiRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\Statuses\IStatusLookupService.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\ValueObjects\Records\HitRecord.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\Enviroment\Scene.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\DTO\ScriptedSkillContext.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\Statuses\Handlers\IIncomingHealDamageHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\Statuses\StatusScriptNameAttribute.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\Statuses\Modifiers\IAttributeModifier.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\ValueObjects\DamageInstance.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\Units\Unit.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\DTO\DamageData.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\IDK\IAttributeCollection.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\DTO\ReviveData.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\Statuses\Handlers\IOutgoingHealDamageHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\ValueObjects\Records\AttributesRecord.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\DTO\ScriptedStatusContext.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\Skills\SkillScriptNameAttribute.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\DTO\HealingData.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\Statuses\Handlers\IResourceGainSpendHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\DTO\KillData.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\DTO\UnitCreationData.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\Statuses\Modifiers\IOutgoingHealDamageModifier.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\Skills\ScriptedSkill.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\Skills\SkillScriptHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\ValueObjects\Records\HealingRecord.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\Skills\Properties\IPassiveSkill.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\Skills\Properties\IHitHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\Skills\Properties\ICastStateChangeHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\Statuses\Modifiers\IIncomingHealDamageModifier.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\ValueObjects\Records\ReviveRecord.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\ValueObjects\HealingInstance.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\Skills\ISkillProperty.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\DTO\StatusApplicationData.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\IDK\SkillApiRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\ValueObjects\Records\DeathRecord.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\Statuses\StatusApi.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\ValueObjects\Records\DamageRecord.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\Skills\Properties\ICastableSkill.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\API\ApplyDamageOptions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Sources\Combat\Local\Domain\API\Combat.Local.Domain.API.asmdef" />
+    <None Include="Assets\Sources\Combat\Local\API\Combat.Local.Domain.API.asmdef" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -549,8 +550,8 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.OSXStandalone.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WebGLSupport\UnityEditor.WebGL.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
@@ -567,10 +568,6 @@
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">
@@ -1082,6 +1079,10 @@
     <ProjectReference Include="Combat.Local.Domain.csproj">
       <Project>{84D51C1F-4A00-169F-B1F2-C7892886743B}</Project>
       <Name>Combat.Local.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="Combat.Local.Infrastructure.csproj">
+      <Project>{45E6E20F-BC4D-D152-0DE3-3F0C7A013118}</Project>
+      <Name>Combat.Local.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -61,16 +61,12 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Combat\Local\Infrastructure\Factories\IUnitControllerFactory.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Infrastructure\Factories\IStatusFactory.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Infrastructure\Controllers\UnitController.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Infrastructure\Presenters\CharacterModelPresenter.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Infrastructure\PlayerController.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Infrastructure\CharacterController.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Infrastructure\CombatController.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Infrastructure\HitController.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Infrastructure\Presenters\IUnitPresenter.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Infrastructure\Presenters\UnitPresenter.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Infrastructure\Controllers\HitController.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Infrastructure\Controllers\CombatController.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Infrastructure\Factories\IUnitViewFactory.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Infrastructure\Factories\IUnitModelFactory.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Infrastructure\StatusController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Combat\Local\Infrastructure\Combat.Local.Infrastructure.asmdef" />
@@ -520,8 +516,8 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.OSXStandalone.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WebGLSupport\UnityEditor.WebGL.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
@@ -538,10 +534,6 @@
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">
@@ -1046,10 +1038,6 @@
       <Project>{84D51C1F-4A00-169F-B1F2-C7892886743B}</Project>
       <Name>Combat.Local.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="Combat.Local.Data.csproj">
-      <Project>{36C104CC-5AF9-7451-53CF-B9851C68353B}</Project>
-      <Name>Combat.Local.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="DaeHitbox.csproj">
       <Project>{F1B1C6F6-7B6F-D02E-D6C5-D8D36CD92BD7}</Project>
       <Name>DaeHitbox</Name>
@@ -1061,10 +1049,6 @@
     <ProjectReference Include="Combat.Common.csproj">
       <Project>{8BD67BAE-4173-6632-3746-364F6C3EA823}</Project>
       <Name>Combat.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="Combat.Local.Presentation.csproj">
-      <Project>{1D788639-8353-ABFF-F872-C4D12F5F1352}</Project>
-      <Name>Combat.Local.Presentation</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

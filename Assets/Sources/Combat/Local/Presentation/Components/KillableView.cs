@@ -1,11 +1,9 @@
-﻿using Combat.Local.Presentation.Units.ViewModels;
-
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Client.Combat.Presentation.Implementations.Units
 {
     [RequireComponent(typeof(Animator))]
-    public class KillableView : BindableViewComponent<UnitViewModel>
+    public class KillableView : MonoBehaviour// BindableViewComponent<UnitViewModel>
     {
         private const string AnimatorAliveName = "Alive";
 
@@ -18,7 +16,7 @@ namespace Client.Combat.Presentation.Implementations.Units
 
         private void Update()
         {
-            _animator.SetBool(AnimatorAliveName, Model.Alive);
+            //_animator.SetBool(AnimatorAliveName, Model.Alive);
         }
     }
 }

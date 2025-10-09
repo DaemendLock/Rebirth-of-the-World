@@ -65,6 +65,7 @@
     <Compile Include="Assets\Sources\Data\Animations\AnimationPack.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\MappedData.cs" />
     <Compile Include="Assets\Sources\Data\Entities\ViewSet.cs" />
+    <Compile Include="Assets\Sources\Data\Entities\Components\Hurtbox.cs" />
     <Compile Include="Assets\Sources\Data\Items\Gear\Weapon.cs" />
     <Compile Include="Assets\Sources\Data\Skills\SpellDataProvider\SpellLibFile.cs" />
     <Compile Include="Assets\Sources\Data\Characters\Character.cs" />
@@ -97,9 +98,12 @@
     <Compile Include="Assets\Sources\Data\Items\Gear\General.cs" />
     <Compile Include="Assets\Sources\Data\Items\Gear\Gear.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\TwinDataMap.cs" />
+    <Compile Include="Assets\Sources\Data\Entities\Components\Hitbox.cs" />
+    <Compile Include="Assets\Sources\Data\Entities\CharacterModel.cs" />
     <Compile Include="Assets\Sources\Data\Skills\SpellDataProvider\ISpellDataProvider.cs" />
     <Compile Include="Assets\Sources\Data\Utils\FileReader.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\DynamicUIRoot.cs" />
+    <Compile Include="Assets\Sources\Data\Entities\Local\ISkillData.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\Format\ActionBarFormat.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -550,8 +554,8 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.OSXStandalone.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WebGLSupport\UnityEditor.WebGL.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
@@ -568,10 +572,6 @@
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">
@@ -1079,6 +1079,10 @@
     <ProjectReference Include="CastStateSkill.csproj">
       <Project>{025DB029-4CAC-B653-1AFC-91B5BA790B5D}</Project>
       <Name>CastStateSkill</Name>
+    </ProjectReference>
+    <ProjectReference Include="Combat.Common.csproj">
+      <Project>{8BD67BAE-4173-6632-3746-364F6C3EA823}</Project>
+      <Name>Combat.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

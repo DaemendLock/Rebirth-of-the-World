@@ -62,48 +62,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Sources\Combat\Server\Domain\Services\IKillReviveService.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain\Events\HealingEvent.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\Units\Unit.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\Skills\ISkillScript.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\Skills\ISkill.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain\Attributes\Attributes.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\ValueObjects\Skills\SkillId.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain\Events\HealthChangeEvent.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\Statuses\IAttributesModification.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain\DTO\KillData.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\Units\ValueObjects\ReviveFlags.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\Statuses\IMovementModifier.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\Units\ValueObjects\DamageFlags.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\Statuses\StatusEffect.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain\Common\Time.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\Statuses\IHealDamageModifier.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain\Attributes\IAttributeCollection.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain\Actions\IActionHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\Units\ValueObjects\HealthValue.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain\Attributes\AttributeValue.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\Units\ValueObjects\HealingFlags.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\ValueObjects\Statuses\StatusId.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain\DTO\DamageData.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\Services\IHealDamageApplicationService.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\Units\ValueObjects\TransformValue.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\Statuses\IAttackFailEffect.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\ValueObjects\Skills\SkillFlags.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\Units\ValueObjects\DamageInstance.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\Units\ValueObjects\UnitId.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain\Entities\Transform.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\Units\ValueObjects\KillFlags.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\Statuses\ISkillCastModifier.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain\DTO\ResourceValue.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain\Events\IEvent.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain\Entities\Skills\Skill.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\Units\ValueObjects\EntityId.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain\DTO\SkillScriptContext.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain\Common\Duration.cs" />
     <Compile Include="Assets\Sources\Combat\Server\Domain\Repositories\IUnitStateRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain\DTO\ReviveData.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain\DTO\HealingData.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain\Events\DamageEvent.cs" />
-    <Compile Include="Assets\Sources\Combat\Server\Domain\DTO\ResourceType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Combat\Server\Domain\Combat.Server.Domain.asmdef" />
@@ -553,8 +534,8 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.OSXStandalone.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WebGLSupport\UnityEditor.WebGL.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
@@ -571,10 +552,6 @@
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">

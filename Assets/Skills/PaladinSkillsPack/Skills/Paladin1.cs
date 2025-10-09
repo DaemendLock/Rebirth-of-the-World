@@ -1,27 +1,28 @@
-﻿using Combat.Local.Domain.API;
-using Combat.Local.Domain.API.Skills;
+﻿using Combat.API;
+using Combat.API.Skills;
 
 namespace TestSkillsPack.Paladin
 {
     [SkillScriptName("Paladin1")]
-    public class Paladin1 : ScriptedSkill
+    public class Paladin1 : SkillScript, ICastableSkill
     {
-        public override void OnCast()
+        public void OnCast()
         {
-            Caster.ApplyStatus(new("Paladin1Aura", this, 5f, 1));
+            Owner.ApplyStatus(new("Paladin1Aura", Skill, 5f, 1));
+            Owner.GiveResource(new(2), 1, Skill);
         }
     }
 
     [SkillScriptName("DpsPaladin3")]
-    public class DpsPaladin3 : ScriptedSkill
+    public class DpsPaladin3 : SkillScript, ICastableSkill
     {
-        public override void OnCast()
+        public void OnCast()
         {
-            float energy = Caster.GetResourceValue(new(2));
+            float energy = Owner.GetResourceValue(new(2));
 
             //DealAoeDamage(energy * spellPower);
-            Caster.ApplyStatus(new("DpsPaladin3Buff", this, 1f, 1));
-            Caster.SpendResource(this, new(2), energy);
+            Owner.ApplyStatus(new("DpsPaladin3Buff", Skill, 1f, 1));
+            Owner.SpendResource(new(2), energy, Skill);
         }
     }
 }

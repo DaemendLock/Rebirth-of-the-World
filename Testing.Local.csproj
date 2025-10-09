@@ -61,36 +61,25 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Services\StatusService.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Services\UpdateServices\StatusApiUpdateService.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Factories\UnitControllerFactory.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\LocalInputReader.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\Temp\Implementations\CharacterViewFactory.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\UnitCreationHandler.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\Temp\Services\ModelUpdateService.cs" />
     <Compile Include="Assets\Sources\Testing\Local\UnitProperties.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Services\SkillRegistrationService.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\ApplyHealingHandler.cs" />
     <Compile Include="Assets\Sources\Testing\Local\LocalSceneInstaller.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\StatsTable.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Services\UpdateServices\StatusUpdateService.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Factories\StatusFactory.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Precache.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Services\SkillCastService.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Services\KillReviveService.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Services\UpdateServices\ModelUpdateService.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Factories\SkillApiFactory.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Services\HitHandler.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Services\StatusLookupService.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Services\AttributeEvaluationService.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Services\HitHandlingService.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Services\UpdateServices\AttributeUpdateService.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Factories\UnitModelFactory.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\SpendResourceEventHandler.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\StatusTickHandler.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\CastSkillEventHandler.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\ApplyStatusHandler.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\RemoveStatusHandler.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\ApplyDamageHandler.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\HitHandler.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\Implementations\CastAction.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Repositories\SkillConstructorRepository.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Factories\HurtboxViewModelFactory.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Services\UpdateServices\HealthUpdateService.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Repositories\StatusApiRepository.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Factories\StatusApiFactory.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Factories\HitboxViewModelFactory.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Repositories\StatusConstructorRepository.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Factories\UnitApiFactory.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Factories\UnitViewFactory.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\GiveResourceEventHandler.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\StatusExpireHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Testing\Local\Testing.Local.asmdef" />
@@ -540,8 +529,8 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.OSXStandalone.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WebGLSupport\UnityEditor.WebGL.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
@@ -558,10 +547,6 @@
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">
@@ -1062,13 +1047,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Combat.Local.Domain.API.csproj">
-      <Project>{C97784FF-8565-53AE-0EBD-3EBFD085C156}</Project>
-      <Name>Combat.Local.Domain.API</Name>
+    <ProjectReference Include="Combat.API.csproj">
+      <Project>{7A9F157A-8D7C-2B2E-AFC2-2AA28809F24E}</Project>
+      <Name>Combat.API</Name>
     </ProjectReference>
     <ProjectReference Include="Combat.Local.Domain.csproj">
       <Project>{84D51C1F-4A00-169F-B1F2-C7892886743B}</Project>
       <Name>Combat.Local.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="Combat.Local.Gateways.csproj">
+      <Project>{B648FC10-4A7E-AA96-F253-272583FF1D2E}</Project>
+      <Name>Combat.Local.Gateways</Name>
     </ProjectReference>
     <ProjectReference Include="Combat.Local.Data.csproj">
       <Project>{36C104CC-5AF9-7451-53CF-B9851C68353B}</Project>
@@ -1082,9 +1071,9 @@
       <Project>{F4F6B480-C203-5F5A-A9BA-E3020CF82B48}</Project>
       <Name>Zenject</Name>
     </ProjectReference>
-    <ProjectReference Include="Combat.Local.Infrastructure.csproj">
-      <Project>{45E6E20F-BC4D-D152-0DE3-3F0C7A013118}</Project>
-      <Name>Combat.Local.Infrastructure</Name>
+    <ProjectReference Include="Combat.Local.Controllers.csproj">
+      <Project>{7F600D9F-16D4-A5C8-8D69-4CEF71897BD1}</Project>
+      <Name>Combat.Local.Controllers</Name>
     </ProjectReference>
     <ProjectReference Include="DaeHitbox.csproj">
       <Project>{F1B1C6F6-7B6F-D02E-D6C5-D8D36CD92BD7}</Project>
@@ -1097,6 +1086,14 @@
     <ProjectReference Include="Combat.Common.csproj">
       <Project>{8BD67BAE-4173-6632-3746-364F6C3EA823}</Project>
       <Name>Combat.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="Data.csproj">
+      <Project>{FE06642D-D97E-6F45-E6BC-17F2C4BC433F}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="Combat.API.Controllers.csproj">
+      <Project>{8592C32E-7FF8-B567-3BC5-92D60D58C148}</Project>
+      <Name>Combat.API.Controllers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

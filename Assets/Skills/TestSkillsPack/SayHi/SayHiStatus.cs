@@ -1,14 +1,14 @@
-﻿using Combat.Local.Domain.API;
-using Combat.Local.Domain.API.Statuses;
+﻿using Combat.API;
+using Combat.API.Statuses;
 
 namespace TestSkillPack.Assets.Skills.TestSkillsPack.SayHi
 {
     [StatusScriptName("HiStatus")]
-    public class SayHiStatus : StatusApi
+    public class SayHiStatus : StatusScript
     {
         public override void OnCreate()
         {
-            StartPeriodicAction(0.5f / Source.Caster.GetHasteModifier());
+            Instance.StartPeriodicAction(0.5f / Source.Owner.GetHasteModifier());
         }
 
         public override void OnTick()
