@@ -118,8 +118,8 @@
     <Compile Include="Assets\Plugins\Zenject\Source\Providers\SubContainerCreators\ISubContainerCreator.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\Factory\FactoryFromBinder\SubContainerBinder\FactorySubContainerBinder10.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\FromBinders\FromBinderGeneric.cs" />
-    <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\Conventions\ConventionFilterTypesBinder.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\Factory\FactoryArgumentsToChoiceBinder\FactoryArgumentsToChoiceBinder4.cs" />
+    <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\Conventions\ConventionFilterTypesBinder.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Providers\PrefabCreators\IPrefabInstantiator.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Binding\Finalizers\ScopableBindingFinalizer.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\Factory\FactoryFromBinderBase.cs" />
