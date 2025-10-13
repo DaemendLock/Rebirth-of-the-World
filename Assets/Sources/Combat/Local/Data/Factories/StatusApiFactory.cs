@@ -1,6 +1,10 @@
 ﻿using Combat.API;
 using Combat.API.Controllers;
+using Combat.API.Controllers.Factories;
+using Combat.API.Scripting;
+
 using Combat.Common.ValueObjects;
+
 using Combat.Local.Controllers;
 using Combat.Local.Data.Databases;
 
@@ -10,19 +14,21 @@ using System.Runtime.Serialization;
 
 namespace Combat.Local.Data.Factories
 {
-    public class StatusApiFactory
+    public class StatusApiFactory : IStatusApiFactory
     {
         private readonly StatusScriptTypeDataSource _statusApiTypeProvider;
 
-        private readonly UnitApiProvider _unitApiRepository;
-        private readonly SkillApiProvider _skillApiRepository;
+        private readonly UnitApiProvider _unitApiProvider;
+        private readonly SkillApiProvider _skillApiProvider;
         private readonly SceneApiProvider _sceneApiProvider;
         private readonly StatusController _statusController;
 
         public StatusApiFactory(UnitApiProvider unitApiRepository, SkillApiProvider skillApiRepository, StatusController statusController, SceneApiProvider sceneApiProvider)
         {
-            _unitApiRepository = unitApiRepository;
-            _skillApiRepository = skillApiRepository;
+            _unitApiProvider = unitApiRepository;
+            _skillApiProvider = skillApiRepository;
+            _sceneApiProvider = sceneApiProvider;
+            _statusController = statusController;
 
             _statusApiTypeProvider = new StatusScriptTypeDataSource(typeof(StatusScript));
 
@@ -30,14 +36,11 @@ namespace Combat.Local.Data.Factories
             {
                 _statusApiTypeProvider.Register(type);
             }
-
-            _statusController = statusController;
-            _sceneApiProvider = sceneApiProvider;
         }
 
         public StatusApi Create(StatusId id, EntityId parent, StatusName name, SkillId? source, EntityId? caster)
         {
-            Unit parentApi = _unitApiRepository.Get(parent) ?? throw new InvalidOperationException("Can't create api status for parent with non-registered api.");
+            Unit parentApi = _unitApiProvider.Get(parent) ?? throw new InvalidOperationException("Can't create api status for parent with non-registered api.");
 
             if (TryCreateEmpty(name, out StatusScript script) == false)
             {
@@ -48,7 +51,7 @@ namespace Combat.Local.Data.Factories
 
             if (source.HasValue)
             {
-                skill = _skillApiRepository.Get(source.Value, caster);
+                skill = _skillApiProvider.Get(source.Value, caster);
             }
 
             return new(id, parentApi, skill, _sceneApiProvider.Get(), _statusController, script);

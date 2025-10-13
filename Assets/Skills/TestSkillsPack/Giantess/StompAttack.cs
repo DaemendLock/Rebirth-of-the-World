@@ -1,5 +1,6 @@
 ﻿using Combat.API;
 using Combat.API.DTO;
+using Combat.API.Scripting;
 using Combat.API.Skills;
 using Combat.API.Utils;
 

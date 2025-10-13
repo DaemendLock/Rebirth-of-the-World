@@ -38,16 +38,16 @@ namespace Data.Items
 
         public ItemType Type { get; }
 
-        public ItemId Id => (ItemId) _id;
+        public ItemId Id => (ItemId)_id;
 
         public virtual void OnLoad()
         {
-            if (_items.ContainsKey((ItemId) _id))
+            if (_items.ContainsKey((ItemId)_id))
             {
                 Debug.LogWarning($"Item({_id} overwritten");
             }
 
-            _items[(ItemId) _id] = this;
+            _items[(ItemId)_id] = this;
         }
 
         public static Item Get(ItemId id)
@@ -64,7 +64,7 @@ namespace Data.Items
                 return null;
             }
 
-            return (Gear) item;
+            return (Gear)item;
         }
 
         public static ItemId[] GetLoadedItemId()

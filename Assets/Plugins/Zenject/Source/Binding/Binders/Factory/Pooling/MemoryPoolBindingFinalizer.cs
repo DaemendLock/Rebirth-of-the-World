@@ -1,5 +1,6 @@
-using System.Linq;
 using ModestTree;
+
+using System.Linq;
 
 namespace Zenject
 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Utils.DataStructures;
 using Utils.Patterns.Factory;
 
@@ -108,7 +109,7 @@ namespace Utils.DataStructure
 
         public FreeObjectPool(int poolSize)
         {
-            _objects= new Stack<T>(poolSize);
+            _objects = new Stack<T>(poolSize);
         }
 
         public T Get() => _objects.Count == 0 ? default : _objects.Pop();

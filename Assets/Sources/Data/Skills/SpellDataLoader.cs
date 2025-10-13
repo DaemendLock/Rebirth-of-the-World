@@ -1,6 +1,8 @@
 ﻿using Data.Assets.Sources.Data.Spells;
+
 using System.Collections.Generic;
 using System.IO;
+
 using UnityEngine;
 
 using Utils.DataTypes;
@@ -11,7 +13,7 @@ namespace Data.Skills
     {
         private static readonly string _PATH_LIB = Application.streamingAssetsPath + $"{Path.DirectorySeparatorChar}Spells{Path.DirectorySeparatorChar}";
 
-        private static ISpellDataProvider _data = new MultiFileSpellDataProvider(new List<ISpellDataProvider>() { new SpellLibFile(_PATH_LIB + "general.spelllib")});
+        private static ISpellDataProvider _data = new MultiFileSpellDataProvider(new List<ISpellDataProvider>() { new SpellLibFile(_PATH_LIB + "general.spelllib") });
 
         public static void Release() => _data.Dispose();
 

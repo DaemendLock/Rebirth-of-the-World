@@ -1,6 +1,4 @@
-﻿using Utils.ByteHelper;
-
-namespace Utils.Interfaces
+﻿namespace Utils.Interfaces
 {
     public interface Value<T>
     {

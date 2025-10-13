@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Combat.Common.ValueObjects;
 
-using Combat.Common.ValueObjects;
+using System;
 
 namespace Combat.Local.Domain.Entities
 {

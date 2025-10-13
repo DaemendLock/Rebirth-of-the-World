@@ -20,7 +20,7 @@ namespace Combat.API.Utils
         public float OriginalDamage { get; set; }
         public DamageFlags Flags { get; set; }
 
-        public DamageData AsDamageData => new(Attacker, Source, OriginalDamage, Flags);
+        public ApplyDamageInfo AsDamageData => new(Attacker, Source, OriginalDamage, Flags);
     }
 
     public static class ApplyDamageOptionsExtension

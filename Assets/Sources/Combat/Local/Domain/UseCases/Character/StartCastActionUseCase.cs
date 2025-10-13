@@ -17,7 +17,7 @@ namespace Combat.Local.Domain.UseCases
         {
             Actor actor = _actorRepository.Get(target);
 
-            ActionData actionData = new(); 
+            ActionData actionData = new();
 
         }
     }

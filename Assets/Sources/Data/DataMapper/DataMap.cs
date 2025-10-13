@@ -1,7 +1,9 @@
 ﻿using Data.Utils;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using UtilsUnity.ThrowHepler.Exceptions;
 
 namespace Data.DataMapper

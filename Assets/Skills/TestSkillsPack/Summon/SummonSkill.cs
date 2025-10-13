@@ -1,5 +1,5 @@
-﻿using Combat.API;
-using Combat.API.DTO;
+﻿using Combat.API.DTO;
+using Combat.API.Scripting;
 using Combat.API.Skills;
 using Combat.Domain.OldAttributes;
 
@@ -10,7 +10,7 @@ namespace TestSkillPack.Assets.Skills.TestSkillsPack.Summon
     {
         public void OnCast()
         {
-            UnitCreationData unitCreationData = new()
+            CreateUnitInfo unitCreationData = new()
             {
                 ModelName = new("Katerina"),
                 Attributes = new AttributeSet()

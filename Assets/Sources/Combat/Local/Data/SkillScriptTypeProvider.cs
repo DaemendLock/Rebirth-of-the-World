@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Combat.API.Skills;
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
-
-using Combat.API.Skills;
 
 namespace Combat.Local.Data.Databases
 {

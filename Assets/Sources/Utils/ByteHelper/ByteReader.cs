@@ -50,7 +50,7 @@ namespace Utils.ByteHelper
 
         public string ReadString() => _encoding.GetString(GetMemory(ReadUShort()));
 
-        public string ReadZeroTerminatedString(int size) => _encoding.GetString(GetMemory(size)).TrimEnd((char) 0);
+        public string ReadZeroTerminatedString(int size) => _encoding.GetString(GetMemory(size)).TrimEnd((char)0);
 
         public void Skip(int count) => _position += count;
 

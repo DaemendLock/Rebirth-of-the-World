@@ -19,7 +19,7 @@ namespace Combat.API
             throw new System.NotImplementedException();
         }
 
-        public void CreateUnit(UnitCreationData data)
+        public void CreateUnit(CreateUnitInfo data)
         {
             UnitCreationInfo values = new(data.ModelName, data.Team, data.Position, data.BaseHealth, -1, data.Attributes, System.Array.Empty<SkillId>());
             _combatController.CreateUnit(values);

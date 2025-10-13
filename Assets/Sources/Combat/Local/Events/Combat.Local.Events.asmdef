@@ -1,0 +1,17 @@
+{
+    "name": "Combat.Local.Events",
+    "rootNamespace": "",
+    "references": [
+        "GUID:dc965a8580913f84294fa92f59afdf35",
+        "GUID:8651ed9d0dea994419fbeebf6b549ef2"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

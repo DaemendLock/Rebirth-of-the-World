@@ -15,7 +15,7 @@ namespace CastStateSkill
             _typeChangesTime = timeMarks.OrderBy(value => value).Select(value => value * _duration).ToArray();
         }
 
-        public int TotalFrames => (int) (_duration * FrameRate);
+        public int TotalFrames => (int)(_duration * FrameRate);
         public float FullDuration => _duration;
 
         public SkillCastState GetCastState(float time)

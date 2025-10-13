@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-
-using CastStateSkill;
+﻿using CastStateSkill;
 
 using Combat.Common.ValueObjects;
 using Combat.Local.Data.Entities;
 using Combat.Local.Gateways.DataSources;
 
 using Data.Entities;
+
+using System.Collections.Generic;
 
 using UnityEngine;
 

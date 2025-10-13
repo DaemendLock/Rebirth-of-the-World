@@ -1,5 +1,5 @@
-using Combat.API;
 using Combat.API.DTO;
+using Combat.API.Scripting;
 using Combat.API.Skills;
 using Combat.Common.Flags;
 
@@ -14,7 +14,7 @@ namespace Server.Combat.TestAbilityPack
 
         public void OnRecovery()
         {
-            Owner.ApplyHealing(new(Owner, Skill, 100, HealingFlags.CanRevive));
+            Owner.ApplyHealing(new(100, HealingFlags.CanRevive, Skill, Owner));
             UnityEngine.Debug.Log("Healing you!");
         }
     }

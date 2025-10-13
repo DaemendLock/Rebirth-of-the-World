@@ -1,8 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
+
 #if !NOT_UNITY3D
 using UnityEngine;
+
 #endif
 using ModestTree;
 
@@ -121,7 +122,7 @@ namespace Zenject
             // constraints below
             where TContract : IPoolable<IMemoryPool>
         {
-            return fromBinder.FromPoolableMemoryPool<TContract>(x => {});
+            return fromBinder.FromPoolableMemoryPool<TContract>(x => { });
         }
 
         public static ArgConditionCopyNonLazyBinder FromPoolableMemoryPool<TContract>(
@@ -141,7 +142,7 @@ namespace Zenject
             // constraints below
             where TContract : Component, IPoolable<IMemoryPool>
         {
-            return fromBinder.FromMonoPoolableMemoryPool<TContract>(x => {});
+            return fromBinder.FromMonoPoolableMemoryPool<TContract>(x => { });
         }
 
         public static ArgConditionCopyNonLazyBinder FromMonoPoolableMemoryPool<TContract>(
@@ -162,7 +163,7 @@ namespace Zenject
             where TContract : IPoolable<IMemoryPool>
             where TMemoryPool : MemoryPool<IMemoryPool, TContract>
         {
-            return fromBinder.FromPoolableMemoryPool<TContract, TMemoryPool>(x => {});
+            return fromBinder.FromPoolableMemoryPool<TContract, TMemoryPool>(x => { });
         }
 
         public static ArgConditionCopyNonLazyBinder FromIFactory<TContract>(

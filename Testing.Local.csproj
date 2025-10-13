@@ -63,23 +63,15 @@
   <ItemGroup>
     <Compile Include="Assets\Sources\Testing\Local\LocalInputReader.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\Implementations\CharacterViewFactory.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\UnitCreationHandler.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Services\ModelUpdateService.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\ActionStateChangeHandler.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\CharacterSpendResourceEventHandler.cs" />
     <Compile Include="Assets\Sources\Testing\Local\UnitProperties.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\ApplyHealingHandler.cs" />
     <Compile Include="Assets\Sources\Testing\Local\LocalSceneInstaller.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\StatsTable.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Precache.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\SpendResourceEventHandler.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\StatusTickHandler.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\CastSkillEventHandler.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\ApplyStatusHandler.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\RemoveStatusHandler.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\ApplyDamageHandler.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\HitHandler.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\CharacterGiveResourceEventHandler.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\UpdateController.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\Implementations\CastAction.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\GiveResourceEventHandler.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\StatusExpireHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Testing\Local\Testing.Local.asmdef" />
@@ -1094,6 +1086,10 @@
     <ProjectReference Include="Combat.API.Controllers.csproj">
       <Project>{8592C32E-7FF8-B567-3BC5-92D60D58C148}</Project>
       <Name>Combat.API.Controllers</Name>
+    </ProjectReference>
+    <ProjectReference Include="Combat.Local.Events.csproj">
+      <Project>{C41F3FDE-802B-8D79-1951-5327AE9CE500}</Project>
+      <Name>Combat.Local.Events</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

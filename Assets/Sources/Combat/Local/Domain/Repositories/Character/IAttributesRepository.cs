@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-using Combat.Common.ValueObjects;
+﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
+
+using System.Collections.Generic;
 
 namespace Combat.Local.Domain.Repositories
 {

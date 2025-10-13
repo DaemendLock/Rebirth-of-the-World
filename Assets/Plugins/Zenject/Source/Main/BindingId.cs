@@ -1,6 +1,7 @@
+using ModestTree;
+
 using System;
 using System.Diagnostics;
-using ModestTree;
 
 namespace Zenject
 {

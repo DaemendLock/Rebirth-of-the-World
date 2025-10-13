@@ -2,8 +2,6 @@
 
 using Utils.Networking;
 
-using UtilsUnity.ByteHelper;
-
 namespace UtilsUnity.Networking
 {
     public interface IClient

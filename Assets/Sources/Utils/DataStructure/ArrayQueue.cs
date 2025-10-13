@@ -26,7 +26,7 @@ namespace Utils.DataStructures
         {
             if (_front - _rear == 1 || _rear - _front == _array.Length - 1)
             {
-                Grow((uint) _array.Length << 1);
+                Grow((uint)_array.Length << 1);
             }
 
             _array[_rear++] = item;

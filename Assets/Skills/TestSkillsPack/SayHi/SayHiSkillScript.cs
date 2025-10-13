@@ -1,5 +1,5 @@
-﻿using Combat.API;
-using Combat.API.DTO;
+﻿using Combat.API.DTO;
+using Combat.API.Scripting;
 using Combat.API.Skills;
 using Combat.API.Utils;
 using Combat.Common.Flags;
@@ -26,7 +26,7 @@ namespace TestSkillsPack.SkillScripts
         public void OnCast()
         {
             UnityEngine.Debug.Log("Hi~~~!");
-            Owner.ApplyStatus(new("HiStatus", Skill, 5, 1));
+            Owner.ApplyStatus(new("HiStatus", 5, 1, Skill));
         }
 
         public void OnStartup()

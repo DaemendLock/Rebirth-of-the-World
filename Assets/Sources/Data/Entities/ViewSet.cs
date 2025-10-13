@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Data.Animations;
+using Data.Sounds;
+
+using System;
 using System.Collections.Generic;
 
 using UnityEngine;
-
-using Data.Animations;
-using Data.Sounds;
 
 using Utils.DataTypes;
 

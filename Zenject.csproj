@@ -110,8 +110,8 @@
     <Compile Include="Assets\Plugins\Zenject\Source\Internal\PreserveAttribute.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Providers\PrefabProviders\PrefabProvider.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\ConcreteBinders\ConcreteIdBinderGeneric.cs" />
-    <Compile Include="Assets\Plugins\Zenject\Source\Util\ZenAutoInjecter.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Factories\PrefabResourceFactory.cs" />
+    <Compile Include="Assets\Plugins\Zenject\Source\Util\ZenAutoInjecter.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Validation\IValidatable.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Util\DisposeBlock.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\IdScopeConcreteIdArgConditionCopyNonLazyBinder.cs" />

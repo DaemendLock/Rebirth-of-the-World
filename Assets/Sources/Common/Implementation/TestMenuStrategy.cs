@@ -3,8 +3,6 @@
 using Combat.API;
 using Combat.Common.Flags;
 
-using DaeHitbox;
-
 using UnityEngine;
 
 namespace Assets.Sources.Common
@@ -31,7 +29,7 @@ namespace Assets.Sources.Common
 
             public void HalfHealth() => _model?.ApplyDamage(new(null, null, _model.CurrentHealth / 2, DamageFlags.NonReactable));
 
-            public void HealHealth() => _model?.ApplyHealing(new(null, null, _model.MaxHealth, HealingFlags.NonReactable | HealingFlags.CanRevive));
+            public void HealHealth() => _model?.ApplyHealing(new(_model.MaxHealth, HealingFlags.NonReactable | HealingFlags.CanRevive, null, null));
 
             public void Select()
             {

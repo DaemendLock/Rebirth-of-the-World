@@ -73,7 +73,7 @@ namespace Utils.ByteHelper
                 throw new OverflowException($"Serialized string length is too big. Must be less than {ushort.MaxValue} bytes.");
             }
 
-            Write((ushort) bytes.Length);
+            Write((ushort)bytes.Length);
 
             Span<byte> memory = GetMemory(bytes.Length);
             bytes.CopyTo(memory);

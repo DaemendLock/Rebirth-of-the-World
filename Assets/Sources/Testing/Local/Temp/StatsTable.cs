@@ -1,13 +1,12 @@
-﻿using System;
-
-using Combat.Common.ValueObjects;
-using Combat.Domain.OldAttributes;
+﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
+
+using System;
 
 namespace Temp.Domain.Implementations
 {
     [System.Serializable]
-    public class StatsTable : IAttributeCollection<Combat.Common.ValueObjects.Attribute>
+    public class StatsTable
     {
         public const int AttributesCount = (int)Combat.Common.ValueObjects.Attribute.PARRY + 1;
 
@@ -39,11 +38,11 @@ namespace Temp.Domain.Implementations
             values.AsSpan().CopyTo(_values);
         }
 
-        public void Add(IAttributeCollection<Combat.Common.ValueObjects.Attribute> table)
+        public void Add(StatsTable table)
         {
             for (int i = 0; i < AttributesCount; i++)
             {
-                _values[i] += table[(Combat.Common.ValueObjects.Attribute)i];
+                _values[i] += table._values[i];
             }
         }
 

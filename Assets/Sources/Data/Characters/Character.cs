@@ -1,11 +1,12 @@
 ﻿using Core.Lobby.Characters;
-using Data.Animations;
+
 using Data.Entities;
 using Data.Items;
-using Data.Sounds;
 using Data.Utils;
+
 using System;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 namespace Data.Characters

@@ -1,5 +1,7 @@
 ﻿using Combat.Common.ValueObjects;
+
 using System;
+
 using UnityEngine;
 
 namespace Combat.Local.Domain.DTO

@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-
-using Combat.Common.ValueObjects;
+﻿using Combat.Common.ValueObjects;
 using Combat.Local.Data.Models;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Gateways.DataSources;
+
+using System.Collections.Generic;
 
 namespace Combat.Local.Gateways.Repositories.Unit
 {

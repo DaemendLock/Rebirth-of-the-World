@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using Data.Entities.Stats;
+
 using UnityEditor.Animations;
 
-using Data.Entities.Stats;
+using UnityEngine;
 
 using Utils.DataTypes;
 

@@ -1,4 +1,4 @@
-﻿using Combat.API;
+﻿using Combat.API.Scripting;
 using Combat.API.Statuses;
 using Combat.API.ValueObjects;
 using Combat.Common.ValueObjects;

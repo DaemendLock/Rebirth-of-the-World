@@ -1,11 +1,11 @@
-﻿using System;
-
-using CastStateSkill;
+﻿using CastStateSkill;
 
 using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
 
 using Data.Entities;
+
+using System;
 
 using UnityEngine;
 

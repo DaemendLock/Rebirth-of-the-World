@@ -1,5 +1,6 @@
 ﻿using Combat.API;
 using Combat.API.DTO;
+using Combat.API.Scripting;
 using Combat.API.Statuses;
 using Combat.API.Utils;
 using Combat.Common.Flags;
@@ -35,7 +36,7 @@ namespace TestSkillsPack.Paladin
             _applyDamageOptions.Target = target;
             _applyDamageOptions.OriginalDamage = caster.GetAttributeValue(Attribute.Spellpower) * 0.1f;
 
-            Parent.GiveResource(ResourceId.Custom, 1, Source);
+            Parent.GiveResource(new(ResourceId.Custom, 1, Source));
         }
     }
 }

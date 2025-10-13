@@ -1,4 +1,5 @@
 ﻿using Data.Entities.NpcModels;
+
 using UnityEngine;
 
 namespace Data.Entities

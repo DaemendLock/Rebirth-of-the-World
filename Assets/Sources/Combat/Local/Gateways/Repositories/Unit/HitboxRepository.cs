@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-
-using Combat.Common.ValueObjects;
+﻿using Combat.Common.ValueObjects;
 using Combat.Local.Data.Models;
 using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.Repositories;
+
+using System.Collections.Generic;
 
 namespace Combat.Local.Gateways.Repositories.Unit
 {

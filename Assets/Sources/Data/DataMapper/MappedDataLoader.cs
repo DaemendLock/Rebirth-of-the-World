@@ -1,5 +1,6 @@
 ﻿using Data.Utils;
 using Data.Utils.ThrowHepler;
+
 using System;
 
 namespace Data.DataMapper

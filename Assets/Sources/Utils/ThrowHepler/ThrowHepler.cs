@@ -6,7 +6,7 @@ namespace Utils.ThrowHepler
     {
         public static void ArgumentNullException(params object[] args)
         {
-            for (int i = 0; i < args.Length;i++)
+            for (int i = 0; i < args.Length; i++)
             {
                 if (args[i] == null)
                 {

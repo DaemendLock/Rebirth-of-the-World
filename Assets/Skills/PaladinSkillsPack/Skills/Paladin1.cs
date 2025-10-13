@@ -1,4 +1,4 @@
-﻿using Combat.API;
+﻿using Combat.API.Scripting;
 using Combat.API.Skills;
 
 namespace TestSkillsPack.Paladin
@@ -8,8 +8,8 @@ namespace TestSkillsPack.Paladin
     {
         public void OnCast()
         {
-            Owner.ApplyStatus(new("Paladin1Aura", Skill, 5f, 1));
-            Owner.GiveResource(new(2), 1, Skill);
+            Owner.ApplyStatus(new("Paladin1Aura", 5f, 1, Skill));
+            Owner.GiveResource(new(new(2), 1, Skill));
         }
     }
 
@@ -21,7 +21,7 @@ namespace TestSkillsPack.Paladin
             float energy = Owner.GetResourceValue(new(2));
 
             //DealAoeDamage(energy * spellPower);
-            Owner.ApplyStatus(new("DpsPaladin3Buff", Skill, 1f, 1));
+            Owner.ApplyStatus(new("DpsPaladin3Buff", 1f, 1, Skill));
             Owner.SpendResource(new(2), energy, Skill);
         }
     }

@@ -1,10 +1,11 @@
 ﻿using Combat.API;
+using Combat.API.Controllers.Factories;
 using Combat.Common.ValueObjects;
 using Combat.Local.Controllers;
 
 namespace Combat.Local.Data.Factories
 {
-    public class UnitApiFactory
+    public class UnitApiFactory : IUnitApiFactory
     {
         private readonly CharacterController _characterController;
         private readonly HealthOwnerController _healthOwnerController;

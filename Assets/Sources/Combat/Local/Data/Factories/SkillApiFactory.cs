@@ -1,6 +1,10 @@
 ﻿using Combat.API;
 using Combat.API.Controllers;
+using Combat.API.Controllers.Factories;
+using Combat.API.Scripting;
+
 using Combat.Common.ValueObjects;
+
 using Combat.Local.Data.Databases;
 
 using Data.Entities;
@@ -11,7 +15,7 @@ using System.Runtime.Serialization;
 
 namespace Combat.Local.Data.Factories
 {
-    public class SkillApiFactory
+    public class SkillApiFactory : ISkillApiFactory
     {
         private readonly UnitApiProvider _unitApiProvider;
         private readonly SceneApiProvider _sceneProvider;

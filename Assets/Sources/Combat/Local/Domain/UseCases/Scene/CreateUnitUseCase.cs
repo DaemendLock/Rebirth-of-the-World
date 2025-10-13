@@ -5,6 +5,8 @@ using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.Factories;
 using Combat.Local.Domain.Repositories;
 
+using System;
+
 using UnityEngine;
 
 namespace Combat.Local.Domain.UseCases
@@ -53,7 +55,8 @@ namespace Combat.Local.Domain.UseCases
 
             _outputPort.Present(positionable);
             _positionableRepository.Update(positionable);
-            _createUnitEventHandler.HandleEvent(positionable.Id);
+            SkillOwner skillOwner = _skillOwnerRepository.Get(positionable.Id);
+            _createUnitEventHandler.HandleEvent(positionable.Id, skillOwner.GetAll());
         }
 
         public void Execute(UnitCreationDTO data, Transform parent)
@@ -62,7 +65,8 @@ namespace Combat.Local.Domain.UseCases
 
             _outputPort.SetTransform(positionable, parent);
             _positionableRepository.Update(positionable);
-            _createUnitEventHandler.HandleEvent(positionable.Id);
+            SkillOwner skillOwner = _skillOwnerRepository.Get(positionable.Id);
+            _createUnitEventHandler.HandleEvent(positionable.Id, skillOwner.GetAll());
         }
 
         private Positionable Create(UnitCreationDTO context)
@@ -113,6 +117,6 @@ namespace Combat.Local.Domain.UseCases
 
     public interface ICreateUnitEventHandler
     {
-        void HandleEvent(EntityId id);
+        void HandleEvent(EntityId id, ReadOnlySpan<SkillId> initalSkills);
     }
 }

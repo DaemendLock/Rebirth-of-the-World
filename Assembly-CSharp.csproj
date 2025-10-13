@@ -1122,6 +1122,10 @@
       <Project>{A9FD6DE7-D9E5-E855-19DA-1F92951108BD}</Project>
       <Name>DaeAnimator</Name>
     </ProjectReference>
+    <ProjectReference Include="Combat.Local.Events.csproj">
+      <Project>{C41F3FDE-802B-8D79-1951-5327AE9CE500}</Project>
+      <Name>Combat.Local.Events</Name>
+    </ProjectReference>
     <ProjectReference Include="Combat.Local.Domain.csproj">
       <Project>{84D51C1F-4A00-169F-B1F2-C7892886743B}</Project>
       <Name>Combat.Local.Domain</Name>

@@ -1,5 +1,5 @@
-﻿using Combat.API;
-using Combat.API.DTO;
+﻿using Combat.API.DTO;
+using Combat.API.Scripting;
 using Combat.API.Statuses;
 
 namespace TestSkillsPack.Paladin

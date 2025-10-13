@@ -39,7 +39,7 @@ namespace Data.Utils
 
         public byte[] ReadBytes(long count)
         {
-            return _stream.ReadBytes((int) count);
+            return _stream.ReadBytes((int)count);
         }
 
         public T ReadStruct<T>() where T : struct

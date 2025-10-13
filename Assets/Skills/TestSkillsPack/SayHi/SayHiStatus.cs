@@ -1,4 +1,4 @@
-﻿using Combat.API;
+﻿using Combat.API.Scripting;
 using Combat.API.Statuses;
 
 namespace TestSkillPack.Assets.Skills.TestSkillsPack.SayHi

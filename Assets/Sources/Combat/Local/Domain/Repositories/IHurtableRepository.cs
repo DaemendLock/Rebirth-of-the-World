@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-using Combat.Common.ValueObjects;
+﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities.Units;
 
 namespace Combat.Local.Domain.Repositories

@@ -1,4 +1,5 @@
 using System;
+
 #if !NOT_UNITY3D
 using UnityEngine;
 #endif
@@ -72,7 +73,7 @@ namespace Zenject
             _validationErrorResponse = validationErrorResponse;
             _validationRootResolveMethod = validationRootResolveMethod;
             _displayWarningWhenResolvingDuringInstall = displayWarningWhenResolvingDuringInstall;
-            _ensureDeterministicDestructionOrderOnApplicationQuit =ensureDeterministicDestructionOrderOnApplicationQuit;
+            _ensureDeterministicDestructionOrderOnApplicationQuit = ensureDeterministicDestructionOrderOnApplicationQuit;
             _signalSettings = signalSettings ?? SignalSettings.Default;
         }
 

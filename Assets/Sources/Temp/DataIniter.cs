@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Data.Characters;
+using Data.Utils;
+
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,8 +9,6 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-using Data.Utils;
-using Data.Characters;
 using Utils.ThrowHepler;
 
 namespace Assets.Sources.Temp

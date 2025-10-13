@@ -60,30 +60,30 @@ namespace Combat.API
 
         public bool CanHurt(Unit target) => Team != target.Team;
 
-        public void ApplyStatus(StatusApplicationData data) => _characterController.ApplyStatus(_id, data.Name, data.StackCount, data.Duration, data.Source?.SkillId, data.Source?.OwnerId);
+        public void ApplyStatus(ApplyStatusInfo info) => _characterController.ApplyStatus(_id, info.Name, info.StackCount, info.Duration, info.Source?.SkillId, info.Source?.OwnerId);
 
         public bool HasStatus(StatusName name) => _characterController.HasStatus(_id, name);
 
         public float GetResourceValue(ResourceId resource) => _characterController.GetResourceValue(_id, resource);
 
-        public void GiveResource(ResourceId resource, float value, SkillApi source) => _characterController.GiveResource(_id, resource, value, source?.SkillId, source?.OwnerId);
+        public void GiveResource(GiveResourceInfo info) => _characterController.GiveResource(_id, info.Resource, info.Value, info.Source?.SkillId, info.Source?.OwnerId);
 
         public void SpendResource(ResourceId resource, float value, SkillApi source) => _characterController.SpendResource(_id, resource, value, source?.SkillId, source?.OwnerId);
 
-        public void ApplyDamage(DamageData data)
+        public void ApplyDamage(DTO.ApplyDamageInfo info)
         {
-            ApplyDamageInfo applyDamageInfo = new(_id, data.Damage, data.Flags, data.Attacker?.Id, data.Source?.SkillId, data.Source?.OwnerId);
+            Local.Controllers.ApplyDamageInfo applyDamageInfo = new(_id, info.Damage, info.Flags, info.Attacker?.Id, info.Source?.SkillId, info.Source?.OwnerId);
             _healthOwnerController.ApplyDamage(applyDamageInfo);
         }
 
-        public void ApplyHealing(HealingData data)
+        public void ApplyHealing(DTO.ApplyHealingInfo info)
         {
-            ApplyHealingInfo applyHealingInfo = new(_id, data.Healing, data.Flags, data.Healer?.Id, data.Source?.SkillId, data.Source?.OwnerId);
+            Local.Controllers.ApplyHealingInfo applyHealingInfo = new(_id, info.Healing, info.Flags, info.Healer?.Id, info.Source?.SkillId, info.Source?.OwnerId);
             _healthOwnerController.ApplyHealing(applyHealingInfo);
         }
 
-        public void Kill(KillData data) => _characterController.Kill(_id, data.Source?.SkillId, data.Source?.OwnerId);
+        public void Kill(KillInfo data) => _characterController.Kill(_id, data.Source?.SkillId, data.Source?.OwnerId);
 
-        public void Revive(ReviveData data) => _characterController.Revive(_id, data.Source?.SkillId, data.Source?.OwnerId);
+        public void Revive(ReviveInfo data) => _characterController.Revive(_id, data.Source?.SkillId, data.Source?.OwnerId);
     }
 }

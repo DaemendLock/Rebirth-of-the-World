@@ -1,4 +1,4 @@
-﻿using Combat.API;
+﻿using Combat.API.Scripting;
 using Combat.API.Skills;
 
 namespace Server.Combat.Domain.Implementations.Actions

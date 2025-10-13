@@ -55,12 +55,12 @@ namespace Utils.SpellIdGenerator
     {
         public static SpellId GenerateId(Class @class, Spec spec, int ability)
         {
-            return (SpellId) ((ability << 8) | ((int) @class) | ((int) spec << 6));
+            return (SpellId)((ability << 8) | ((int)@class) | ((int)spec << 6));
         }
 
         public static SpellId GenerateGearSpellId(ItemId itemId)
         {
-            return (SpellId) ((itemId << 8) | ((int) ClassType.ITEM));
+            return (SpellId)((itemId << 8) | ((int)ClassType.ITEM));
         }
     }
 }

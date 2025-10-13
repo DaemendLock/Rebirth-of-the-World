@@ -1,10 +1,13 @@
 #if !NOT_UNITY3D
 
+using ModestTree;
+
 using System;
 using System.Collections.Generic;
-using ModestTree;
+
 using UnityEngine;
 using UnityEngine.Serialization;
+
 using Zenject.Internal;
 
 #pragma warning disable 649
@@ -56,13 +59,13 @@ namespace Zenject
             ResolveAndStart();
         }
 
-        public void Install(DiContainer parentContainer) 
+        public void Install(DiContainer parentContainer)
         {
             Assert.That(_parentContainer == null || _parentContainer == parentContainer);
 
             // We allow calling this explicitly instead of relying on the [Inject] event above
             // so that we can follow the two-pass construction-injection pattern in the providers
-            if (_hasInstalled) 
+            if (_hasInstalled)
             {
                 return;
             }
@@ -110,7 +113,7 @@ namespace Zenject
             }
         }
 
-        void ResolveAndStart() 
+        void ResolveAndStart()
         {
             if (PreResolve != null)
             {

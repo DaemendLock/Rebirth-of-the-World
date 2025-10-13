@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 
 using Utils.ByteHelper;
-using Utils.DataStructure;
 using Utils.DataTypes;
 
 namespace Data.Characters
@@ -110,14 +109,14 @@ namespace Data.Characters
 
             for (int i = 0; i < spells.Length; i++)
             {
-                spells[i] = (SpellId) source.ReadInt();
+                spells[i] = (SpellId)source.ReadInt();
             }
 
             gear = new ItemId[source.ReadByte()];
 
             for (int i = 0; i < gear.Length; i++)
             {
-                gear[i] = (ItemId) source.ReadInt();
+                gear[i] = (ItemId)source.ReadInt();
             }
 
             return new CharacterState(characterId, viewSet, activeSpec, level, affection, spells, gear);
@@ -133,14 +132,14 @@ namespace Data.Characters
             target.Write(Level.GetBytes());
             target.Write(Affection.GetBytes());
 
-            target.WriteByte((byte) Spells.Length);
+            target.WriteByte((byte)Spells.Length);
 
             for (int i = 0; i < Spells.Length; i++)
             {
                 target.Write(BitConverter.GetBytes(Spells[i]));
             }
 
-            target.WriteByte((byte) Gear.Length);
+            target.WriteByte((byte)Gear.Length);
 
             for (int i = 0; i < Gear.Length; i++)
             {
