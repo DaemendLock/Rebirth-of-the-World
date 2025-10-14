@@ -33,7 +33,7 @@ namespace Combat.Local.Events
         public EntityId? Caster { get; }
     }
 
-    public class CharacterHealedHandler : IApplyHealingEventHandler
+    public class HealedHandler : IApplyHealingEventHandler
     {
         public delegate void Handler(HealingInfo info);
 
@@ -41,7 +41,7 @@ namespace Combat.Local.Events
 
         public void HandleEvent(HealingInstance instance)
         {
-            HealingInfo info = new(instance.Target, instance.OriginalHealing, instance.Healing, instance.Flags, instance.Healer, instance.Source.Skill, instance.Source.Unit);
+            HealingInfo info = new(instance.Target, instance.OriginalHealing, instance.FinalHealing, instance.Flags, instance.Healer, instance.Source.Skill, instance.Source.Unit);
             Healed?.Invoke(info);
         }
     }

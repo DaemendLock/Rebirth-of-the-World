@@ -32,7 +32,7 @@ namespace Combat.Local.Events
         public EntityId? Caster { get; }
     }
 
-    public class CharacterDamagedHandler : IApplyDamageEventHandler
+    public class DamagedHandler : IApplyDamageEventHandler
     {
         public delegate void Handler(DamageInfo damageInfo);
 

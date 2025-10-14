@@ -1,3 +1,4 @@
+using Combat.Api.Controllers.Factories;
 using Combat.API;
 using Combat.API.Controllers;
 using Combat.API.Controllers.Factories;
@@ -42,6 +43,7 @@ namespace Testing.Local
 
             //Container.Bind<AssetProvider>().FromComponentsOn(gameObject).AsSingle();
 
+            Container.Bind<IHitboxIniter>().To<HitboxFactory>().AsSingle();
             Container.Bind<ScenePresenter>().FromNew().AsSingle();
             Container.Bind<UnitPresenter>().FromNew().AsSingle();
 
@@ -77,8 +79,7 @@ namespace Testing.Local
             Container.Bind<ICharacterViewContainer>().To<CharacterViewContainer>().FromResolve();
             Container.Bind<ISceneObjectDataSource>().To<CharacterViewContainer>().FromResolve();
 
-            Container.Bind<StatusModificationProvider>().FromNew().AsSingle();
-            Container.Bind<IStatusApiDataSource>().To<StatusModificationProvider>().FromResolve();
+            Container.Bind<IStatusApiDataSource>().To<StatusModificationProvider>().AsSingle();
             Container.Bind<IHealingModificationDataSource>().To<HealingModificationDataSource>().AsSingle();
             Container.Bind<IDamageModificationDataSource>().To<DamageModificationDataSource>().AsSingle();
         }
@@ -117,6 +118,7 @@ namespace Testing.Local
             Container.Bind<StatusFactory>().FromNew().AsSingle();
             Container.Bind<DamageInstanceFactory>().FromNew().AsSingle();
 
+            Container.Bind<IStatusScriptTypeProvider>().To<StatusScriptTypeProvider>().AsSingle();
             Container.Bind<ICharacterViewFactory>().To<CharacterViewFactory>().AsSingle();
         }
 
@@ -139,22 +141,24 @@ namespace Testing.Local
             Container.Bind<IMovementOutput>().To<UnitPresenter>().FromResolve();
 
             Container.Bind<GiveResourceUseCase>().FromNew().AsSingle();
-            Container.Bind<IGiveResourceEventHandler>().To<CharacterGiveResourceEventHandler>().AsSingle();
+            Container.Bind<GiveResourceEventHandler>().FromNew().AsSingle();
+            Container.Bind<IGiveResourceEventHandler>().To<GiveResourceEventHandler>().FromResolve();
             Container.Bind<IGiveResourceOutput>().To<UnitPresenter>().FromResolve();
 
             Container.Bind<SpendResourceUseCase>().FromNew().AsSingle();
-            Container.Bind<ISpendResourceEventHandler>().To<CharacterSpendResourceEventHandler>().AsSingle();
+            Container.Bind<SpendResourceEventHandler>().FromNew().AsSingle();
+            Container.Bind<ISpendResourceEventHandler>().To<SpendResourceEventHandler>().FromResolve();
             Container.Bind<ISpendResourceOutput>().To<UnitPresenter>().FromResolve();
 
             Container.Bind<GetHealthUseCase>().FromNew().AsSingle();
 
             Container.Bind<ApplyDamageUseCase>().FromNew().AsSingle();
-            Container.Bind<CharacterDamagedHandler>().FromNew().AsSingle();
-            Container.Bind<IApplyDamageEventHandler>().To<CharacterDamagedHandler>().FromResolve();
+            Container.Bind<DamagedHandler>().FromNew().AsSingle();
+            Container.Bind<IApplyDamageEventHandler>().To<DamagedHandler>().FromResolve();
 
             Container.Bind<ApplyHealingUseCase>().FromNew().AsSingle();
-            Container.Bind<CharacterHealedHandler>().FromNew().AsSingle();
-            Container.Bind<IApplyHealingEventHandler>().To<CharacterHealedHandler>().FromResolve();
+            Container.Bind<HealedHandler>().FromNew().AsSingle();
+            Container.Bind<IApplyHealingEventHandler>().To<HealedHandler>().FromResolve();
 
             Container.Bind<SetHealthUseCase>().FromNew().AsSingle();
             Container.Bind<IHealthOutput>().To<UnitPresenter>().FromResolve();
@@ -202,7 +206,7 @@ namespace Testing.Local
 
         private void BindApi()
         {
-            Container.Bind<UnitApiProvider>().FromNew().AsSingle();
+            Container.Bind<CharacterApiProvider>().FromNew().AsSingle();
             Container.Bind<SkillApiProvider>().FromNew().AsSingle();
             Container.Bind<StatusApiProvider>().FromNew().AsSingle();
             Container.Bind<SceneApiProvider>().FromNew().AsSingle();
@@ -235,11 +239,14 @@ namespace Testing.Local
             Container.Resolve<StatusExpireHandler>().Expired += statusEventApiController.HandleExpire;
             Container.Resolve<StatusRemoveHandler>().Removed += statusEventApiController.HandleRemove;
 
-            Container.Resolve<CharacterDamagedHandler>().Damaged += characterEventApiController.HandleDamageRecived;
-            Container.Resolve<CharacterDamagedHandler>().Damaged += characterEventApiController.HandleDamageDealth;
+            Container.Resolve<DamagedHandler>().Damaged += characterEventApiController.HandleDamageRecived;
+            Container.Resolve<DamagedHandler>().Damaged += characterEventApiController.HandleDamageDealth;
 
-            Container.Resolve<CharacterHealedHandler>().Healed += characterEventApiController.HandleHealingRecived;
-            Container.Resolve<CharacterHealedHandler>().Healed += characterEventApiController.HandleHealingDealth;
+            Container.Resolve<HealedHandler>().Healed += characterEventApiController.HandleHealingRecived;
+            Container.Resolve<HealedHandler>().Healed += characterEventApiController.HandleHealingDealth;
+
+            Container.Resolve<GiveResourceEventHandler>().Given += characterEventApiController.HandleResourceGained;
+            Container.Resolve<SpendResourceEventHandler>().Spent += characterEventApiController.HandleResourceSpent;
         }
     }
 }

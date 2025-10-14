@@ -12,11 +12,13 @@ namespace Combat.Local.Presentation.Presenters
     {
         private readonly ICharacterViewContainer _container;
         private readonly ICharacterViewFactory _factory;
+        private readonly IHitboxIniter _characterViewIniter;
 
-        public ScenePresenter(ICharacterViewContainer container, ICharacterViewFactory factory)
+        public ScenePresenter(ICharacterViewContainer container, ICharacterViewFactory factory, IHitboxIniter characterViewIniter)
         {
             _container = container;
             _factory = factory;
+            _characterViewIniter = characterViewIniter;
         }
 
         public void Present(Positionable value)
@@ -40,14 +42,13 @@ namespace Combat.Local.Presentation.Presenters
 
         private void SetModel(EntityId target, CharacterView view)
         {
-            _factory.Init(target, view);
-
             if (_container.TryGetValue(target, out Transform oldCharacterView))
             {
                 oldCharacterView.gameObject.SetActive(false);
                 Object.Destroy(oldCharacterView.gameObject);
             }
 
+            _characterViewIniter.CreateHitboxes(target, view.transform);
             _container.Save(target, view.transform);
         }
     }

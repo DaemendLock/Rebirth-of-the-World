@@ -1,7 +1,23 @@
 ﻿using Combat.Common.Flags;
 
-namespace Combat.Local.Data.Models
+namespace Combat.Local.Gateways.Models
 {
+    public ref struct HealingModification
+    {
+        public HealingModification(float bonusHealing, float bonusHealingPercent, HealingFlags bonusFlags)
+        {
+            BonusHealing = bonusHealing;
+            BonusHealingPercent = bonusHealingPercent;
+            BonusFlags = bonusFlags;
+        }
+
+        public float BonusHealing { get; set; }
+
+        public float BonusHealingPercent { get; set; }
+
+        public HealingFlags BonusFlags { get; set; }
+    }
+
     public ref struct DamageModifiaction
     {
         public DamageModifiaction(float bonusDamage, float bonusDamagePercent, DamageFlags bonusFlags)

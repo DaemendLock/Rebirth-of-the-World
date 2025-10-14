@@ -2,9 +2,7 @@
 using Combat.API.Controllers;
 using Combat.API.Controllers.Factories;
 using Combat.API.Scripting;
-
 using Combat.Common.ValueObjects;
-
 using Combat.Local.Data.Databases;
 
 using Data.Entities;
@@ -17,13 +15,13 @@ namespace Combat.Local.Data.Factories
 {
     public class SkillApiFactory : ISkillApiFactory
     {
-        private readonly UnitApiProvider _unitApiProvider;
+        private readonly CharacterApiProvider _unitApiProvider;
         private readonly SceneApiProvider _sceneProvider;
 
         private readonly SkillDataBase _skillDataBase;
         private readonly SkillScriptTypeProvider _skillScriptTypeProvider;
 
-        public SkillApiFactory(UnitApiProvider unitApiRepository, SkillDataBase skillDataBase, SceneApiProvider scene)
+        public SkillApiFactory(CharacterApiProvider unitApiRepository, SkillDataBase skillDataBase, SceneApiProvider scene)
         {
             _unitApiProvider = unitApiRepository;
             _skillDataBase = skillDataBase;

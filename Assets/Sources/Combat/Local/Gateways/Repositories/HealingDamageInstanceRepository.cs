@@ -1,8 +1,8 @@
 ﻿using Combat.Common.Flags;
-using Combat.Local.Data.Models;
 using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Gateways.DataSources;
+using Combat.Local.Gateways.Models;
 
 namespace Combat.Local.Gateways.Repositories
 {
@@ -22,17 +22,21 @@ namespace Combat.Local.Gateways.Repositories
             DamageInstanceData data = new(value.Target, value.Damage, value.Flags, value.Attacker, value.Source.Skill, value.Source.Unit);
             DamageModifiaction modifiaction = _damageModificationDataSource.GetDamageInstanceModification(data);
 
-            float finalDamage = (value.Damage + modifiaction.BonusDamage) * (1 + modifiaction.BonusDamagePercent * 0.01f);
+            float finalDamage = (value.OriginalDamage + modifiaction.BonusDamage) * (1 + modifiaction.BonusDamagePercent * 0.01f);
             DamageFlags finalFlags = value.Flags | modifiaction.BonusFlags;
 
-            return new(value.Id, data.Target, value.Damage, finalDamage, finalFlags, data.Attacker, new(data.Caster, data.Skill));
+            return new(data.Target, value.OriginalDamage, finalDamage, finalFlags, value.Attacker, value.Source);
         }
 
         public HealingInstance GetHealingInstance(HealingInstance value)
         {
             HealingInstanceData data = new(value.Target, value.OriginalHealing, value.Flags, value.Healer, value.Source.Skill, value.Source.Unit);
-            data = _healingModificationDataSource.GetHealingInstanceModification(data);
-            return new(data.Target, value.OriginalHealing, data.Healing, data.Flags, data.Healer, new(data.Caster, data.Skill));
+            HealingModification modification = _healingModificationDataSource.GetHealingInstanceModification(data);
+
+            float finalHealing = (value.OriginalHealing + modification.BonusHealing) * (1 + modification.BonusHealingPercent * 0.01f);
+            HealingFlags finalFlags = data.Flags | modification.BonusFlags;
+
+            return new(value.Target, value.OriginalHealing, finalHealing, finalFlags, value.Healer, value.Source);
         }
     }
 }

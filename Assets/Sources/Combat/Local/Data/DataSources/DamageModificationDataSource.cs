@@ -2,11 +2,10 @@
 using Combat.API.Controllers;
 using Combat.API.Statuses;
 using Combat.API.ValueObjects;
-using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
 using Combat.Local.Data.Lookup;
-using Combat.Local.Data.Models;
 using Combat.Local.Gateways.DataSources;
+using Combat.Local.Gateways.Models;
 
 using System.Collections.Generic;
 
@@ -14,11 +13,11 @@ namespace Combat.Local.Data.Databases
 {
     public class DamageModificationDataSource : IDamageModificationDataSource
     {
-        private readonly UnitApiProvider _unitApiProvider;
+        private readonly CharacterApiProvider _unitApiProvider;
         private readonly SkillApiProvider _skillApiProvider;
         private readonly StatusLookup _statusLookupService;
 
-        public DamageModificationDataSource(UnitApiProvider unitApiProvider, SkillApiProvider skillApiProvider, StatusLookup statusLookupService)
+        public DamageModificationDataSource(CharacterApiProvider unitApiProvider, SkillApiProvider skillApiProvider, StatusLookup statusLookupService)
         {
             _unitApiProvider = unitApiProvider;
             _skillApiProvider = skillApiProvider;
@@ -51,7 +50,7 @@ namespace Combat.Local.Data.Databases
 
         private DamageModifiaction HandleAttackerDamageModification(EntityId target, DamageInstanceApi instance)
         {
-            DamageModifiaction result = new(0, 0, DamageFlags.None);
+            DamageModifiaction result = default;
             IEnumerable<StatusApi> effects = _statusLookupService.FindStatusesOnUnit(target);
 
             foreach (StatusApi effect in effects)
@@ -71,7 +70,7 @@ namespace Combat.Local.Data.Databases
 
         private DamageModifiaction HandleDefenderDamageModification(EntityId target, DamageInstanceApi instance)
         {
-            DamageModifiaction result = new(0, 0, DamageFlags.None);
+            DamageModifiaction result = default;
             IEnumerable<StatusApi> effects = _statusLookupService.FindStatusesOnUnit(target);
 
             foreach (StatusApi effect in effects)

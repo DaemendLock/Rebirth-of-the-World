@@ -16,10 +16,10 @@ namespace Combat.API.Controllers
     {
         private readonly IStatusLookupService _statusLookup;
 
-        private readonly UnitApiProvider _unitApiProvider;
+        private readonly CharacterApiProvider _unitApiProvider;
         private readonly SkillApiProvider _skillApiProvider;
 
-        public CharacterEventApiController(IStatusLookupService statusLookup, UnitApiProvider unitApiProvider, SkillApiProvider skillApiProvider)
+        public CharacterEventApiController(IStatusLookupService statusLookup, CharacterApiProvider unitApiProvider, SkillApiProvider skillApiProvider)
         {
             _statusLookup = statusLookup;
             _unitApiProvider = unitApiProvider;
@@ -104,9 +104,11 @@ namespace Combat.API.Controllers
             }
         }
 
-        public void HandleResourceGained(EntityId target, ResourceChangeRecord @event)
+        public void HandleResourceGained(GiveResourceInfo info)
         {
-            IEnumerable<StatusApi> effects = _statusLookup.FindStatusesOnUnit(target);
+            ResourceChangeRecord @event = CreateGiveResourceRecord(info);
+
+            IEnumerable<StatusApi> effects = _statusLookup.FindStatusesOnUnit(info.Target);
 
             foreach (StatusApi status in effects)
             {
@@ -119,9 +121,11 @@ namespace Combat.API.Controllers
             }
         }
 
-        public void HandleResourceSpent(EntityId target, ResourceChangeRecord record)
+        public void HandleResourceSpent(SpendResourceInfo info)
         {
-            IEnumerable<StatusApi> effects = _statusLookup.FindStatusesOnUnit(target);
+            ResourceChangeRecord @event = CreateSpendRecord(info);
+
+            IEnumerable<StatusApi> effects = _statusLookup.FindStatusesOnUnit(info.Target);
 
             foreach (StatusApi status in effects)
             {
@@ -130,7 +134,7 @@ namespace Combat.API.Controllers
                     continue;
                 }
 
-                handler.OnSpendResource(record);
+                handler.OnSpendResource(@event);
             }
         }
 
@@ -188,6 +192,32 @@ namespace Combat.API.Controllers
             }
 
             return new(targetApi, healerApi, sourceSkill, info.OriginalHealing, info.FinalHealing, info.Flags);
+        }
+
+        private ResourceChangeRecord CreateGiveResourceRecord(GiveResourceInfo info)
+        {
+            SkillApi skill = null;
+
+            if (info.Skill.HasValue)
+            {
+                _skillApiProvider.Get(info.Skill.Value, info.Caster);
+            }
+
+            ResourceChangeRecord @event = new(info.Resource, skill, info.Value);
+            return @event;
+        }
+
+        private ResourceChangeRecord CreateSpendRecord(SpendResourceInfo info)
+        {
+            SkillApi skill = null;
+
+            if (info.Skill.HasValue)
+            {
+                _skillApiProvider.Get(info.Skill.Value, info.Caster);
+            }
+
+            ResourceChangeRecord @event = new(info.Resource, skill, info.Value);
+            return @event;
         }
     }
 }

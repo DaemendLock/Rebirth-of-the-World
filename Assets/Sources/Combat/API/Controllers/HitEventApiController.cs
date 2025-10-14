@@ -6,10 +6,10 @@ namespace Combat.API.Controllers
 {
     public class HitEventApiController
     {
-        private readonly UnitApiProvider _unitApiProvider;
+        private readonly CharacterApiProvider _unitApiProvider;
         private readonly SkillApiProvider _skillApiProvider;
 
-        public HitEventApiController(SkillApiProvider skillApiProvider, UnitApiProvider unitApiProvider)
+        public HitEventApiController(SkillApiProvider skillApiProvider, CharacterApiProvider unitApiProvider)
         {
             _skillApiProvider = skillApiProvider;
             _unitApiProvider = unitApiProvider;

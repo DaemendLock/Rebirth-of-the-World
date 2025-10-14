@@ -27,7 +27,7 @@ namespace Combat.Local.Domain.UseCases
             HealingInstance value = new(target, healing, healing, flags, healer, source);
             HealingInstance instance = _healingDamageInstanceRepository.GetHealingInstance(value);
 
-            healing = instance.Healing;
+            healing = instance.FinalHealing;
             flags = instance.Flags;
 
             Health health = _healthRepository.Get(target);

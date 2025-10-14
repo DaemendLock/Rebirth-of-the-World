@@ -9,7 +9,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{7F600D9F-16D4-A5C8-8D69-4CEF71897BD1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -67,7 +68,6 @@
     <Compile Include="Assets\Sources\Combat\Local\Controllers\CharacterController.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Controllers\AttributeOwnerController.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Controllers\CombatController.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Controllers\ResourceOwnerController.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Controllers\PlayerController.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Controllers\Inputs\HurtboxInputComponent.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Controllers\Inputs\HitboxInputComponent.cs" />

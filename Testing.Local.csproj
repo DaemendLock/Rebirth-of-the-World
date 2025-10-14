@@ -62,14 +62,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Sources\Testing\Local\LocalInputReader.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Implementations\CharacterViewFactory.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\Temp\Implementations\HitboxFactory.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\ActionStateChangeHandler.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\CharacterSpendResourceEventHandler.cs" />
     <Compile Include="Assets\Sources\Testing\Local\UnitProperties.cs" />
     <Compile Include="Assets\Sources\Testing\Local\LocalSceneInstaller.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\StatsTable.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\StartActionUseCase.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\CastSkillEventHandler.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\CharacterGiveResourceEventHandler.cs" />
     <Compile Include="Assets\Sources\Testing\Local\UpdateController.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\Implementations\CastAction.cs" />
   </ItemGroup>

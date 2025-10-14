@@ -1,19 +1,7 @@
-﻿using Combat.Common.ValueObjects;
-
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Combat.Local.Presentation.Units.ViewModels
 {
-    public class CharacterViewModel
-    {
-        public ModelName ModelName { get; set; }
-    }
-
-    public class CasterModelView
-    {
-
-    }
-
     public class ActivityViewModel
     {
         public ActivityViewModel(AnimationClip clip, float startTime, float recoveryTime)

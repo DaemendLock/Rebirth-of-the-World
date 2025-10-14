@@ -11,6 +11,7 @@ namespace Combat.Local.Domain.Repositories
         void Update(Attributes attributes);
         Attributes Get(EntityId entityId);
         void Delete(EntityId id);
+        void ClearCache();
 
         IReadOnlyCollection<EntityId> GetAllIds();
     }

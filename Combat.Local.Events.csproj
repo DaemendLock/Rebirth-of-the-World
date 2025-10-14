@@ -63,12 +63,14 @@
   <ItemGroup>
     <Compile Include="Assets\Sources\Combat\Local\Events\Statuses\StatusTickHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Events\Statuses\StatusCreateHandler.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Events\Characters\CharacterDamagedHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Events\Statuses\StatusExpireHandler.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Events\Characters\CharacterHealedHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Events\Statuses\StatusRemoveHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Events\Characters\HealedHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Events\Characters\GiveResourceEventHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Events\Scene\CharacterCreatedHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Events\HitHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Events\Characters\DamagedHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Events\Characters\SpendResourceEventHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Combat\Local\Events\Combat.Local.Events.asmdef" />

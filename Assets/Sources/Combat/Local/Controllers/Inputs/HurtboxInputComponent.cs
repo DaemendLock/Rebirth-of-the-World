@@ -1,7 +1,6 @@
 ﻿using Combat.Common.ValueObjects;
 
 using System;
-using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -23,8 +22,5 @@ namespace Combat.Local.Controllers.Inputs
         }
 
         public HurtboxId Id { get; set; }
-
-        public override bool Equals(object obj) => obj is HurtboxInputComponent model && base.Equals(obj) && EqualityComparer<HurtboxId>.Default.Equals(Id, model.Id);
-        public override int GetHashCode() => Id.Value;
     }
 }

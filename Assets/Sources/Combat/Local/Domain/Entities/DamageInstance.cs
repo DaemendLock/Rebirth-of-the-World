@@ -12,21 +12,20 @@ namespace Combat.Local.Domain.Entities.Units
             Healer = healer;
             OriginalHealing = originalHealing;
             Source = source;
-            Healing = healing;
+            FinalHealing = healing;
             Flags = flags;
         }
 
         public EntityId Target { get; }
-        public EntityId? Healer { get; }
         public float OriginalHealing { get; }
-        public EventSource Source { get; }
-        public float Healing { get; }
+        public float FinalHealing { get; }
         public HealingFlags Flags { get; }
+        public EntityId? Healer { get; }
+        public EventSource Source { get; }
     }
 
     public ref struct DamageInstance
     {
-        public DamageInstanceId Id { get; }
         public EntityId Target { get; }
         public EntityId? Attacker { get; }
         public float OriginalDamage { get; }
@@ -34,9 +33,8 @@ namespace Combat.Local.Domain.Entities.Units
         public float Damage { get; set; }
         public DamageFlags Flags { get; set; }
 
-        public DamageInstance(DamageInstanceId id, EntityId target, float originalDamage, float damage, DamageFlags flags, EntityId? attacker, EventSource source)
+        public DamageInstance(EntityId target, float originalDamage, float damage, DamageFlags flags, EntityId? attacker, EventSource source)
         {
-            Id = id;
             Target = target;
             Attacker = attacker;
             OriginalDamage = originalDamage;
@@ -45,9 +43,8 @@ namespace Combat.Local.Domain.Entities.Units
             Flags = flags;
         }
 
-        public DamageInstance(DamageInstanceId id, EntityId target, float originalDamage, EntityId? attacker, DamageFlags flags, EventSource source)
+        public DamageInstance(EntityId target, float originalDamage, EntityId? attacker, DamageFlags flags, EventSource source)
         {
-            Id = id;
             Target = target;
             OriginalDamage = originalDamage;
             Source = source;

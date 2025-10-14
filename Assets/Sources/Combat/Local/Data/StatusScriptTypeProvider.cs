@@ -1,4 +1,5 @@
-﻿using Combat.API.Statuses;
+﻿using Combat.Api.Controllers.Factories;
+using Combat.API.Statuses;
 using Combat.Common.ValueObjects;
 
 using System;
@@ -7,12 +8,12 @@ using System.Reflection;
 
 namespace Combat.Local.Data.Databases
 {
-    public class StatusScriptTypeDataSource
+    public class StatusScriptTypeProvider : IStatusScriptTypeProvider
     {
         private readonly Type _scriptType;
         private readonly Dictionary<StatusName, Type> _typesByName;
 
-        public StatusScriptTypeDataSource(Type scriptType)
+        public StatusScriptTypeProvider(Type scriptType)
         {
             _scriptType = scriptType;
             _typesByName = new();
@@ -35,26 +36,10 @@ namespace Combat.Local.Data.Databases
 
             if (skillScriptNameAttribute == null)
             {
-                //UnityEngine.Debug.LogError($"Status script {type.Name} has no name assigned.");
                 return;
             }
 
             _typesByName[skillScriptNameAttribute.Name] = type;
-
-            //ConstructorInfo constructor = type.GetConstructor(_constructorArgumentsType);
-
-            //if (constructor == null)
-            //{
-            //    UnityEngine.Debug.LogError($"Skill script {type.Name} has no valid constructors.");
-            //    return;
-            //}
-
-            //if (skillScriptNameAttribute == null)
-            //{
-            //    return;
-            //}
-
-            //_constructorsByName[skillScriptNameAttribute.Name] = constructor;
         }
 
         public bool TryGet(StatusName key, out Type type) => _typesByName.TryGetValue(key, out type);

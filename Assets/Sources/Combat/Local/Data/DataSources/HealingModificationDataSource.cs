@@ -2,11 +2,14 @@
 using Combat.API.Controllers;
 using Combat.API.Statuses;
 using Combat.API.ValueObjects;
+
 using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
+
 using Combat.Local.Data.Lookup;
-using Combat.Local.Data.Models;
+
 using Combat.Local.Gateways.DataSources;
+using Combat.Local.Gateways.Models;
 
 using System.Collections.Generic;
 
@@ -15,32 +18,36 @@ namespace Combat.Local.Data.Databases
 
     public class HealingModificationDataSource : IHealingModificationDataSource
     {
-        private readonly UnitApiProvider _unitApiProvider;
+        private readonly CharacterApiProvider _unitApiProvider;
         private readonly SkillApiProvider _skillApiProvider;
         private readonly StatusLookup _statusLookupService;
 
-        public HealingModificationDataSource(UnitApiProvider unitApiProvider, SkillApiProvider skillApiProvider, StatusLookup statusLookupService)
+        public HealingModificationDataSource(CharacterApiProvider unitApiProvider, SkillApiProvider skillApiProvider, StatusLookup statusLookupService)
         {
             _unitApiProvider = unitApiProvider;
             _skillApiProvider = skillApiProvider;
             _statusLookupService = statusLookupService;
         }
 
-        public HealingInstanceData GetHealingInstanceModification(HealingInstanceData data)
+        public HealingModification GetHealingInstanceModification(HealingInstanceData data)
         {
+            HealingModification result = new(0, 0, HealingFlags.None);
             HealingInstanceApi instance = CreateHealingInstance(data);
 
             if (data.Healer.HasValue)
             {
-                instance = HandleHealerHealingModification(data.Healer.Value, instance);
+                HealingModification healerBonus = HandleHealerHealingModification(data.Healer.Value, instance);
+                result.BonusHealing += healerBonus.BonusHealing;
+                result.BonusHealingPercent += healerBonus.BonusHealingPercent;
+                result.BonusFlags |= healerBonus.BonusFlags;
             }
 
-            instance = HandleHealeeHealingModification(data.Target, instance);
+            HealingModification healeeBonus = HandleHealeeHealingModification(data.Target, instance);
+            result.BonusHealing += healeeBonus.BonusHealing;
+            result.BonusHealingPercent += healeeBonus.BonusHealingPercent;
+            result.BonusFlags |= healeeBonus.BonusFlags;
 
-            HealingFlags flags = instance.Flags;
-            float finalHealing = instance.GetCurrentHealing();
-
-            return new(instance.Target.Id, finalHealing, flags, instance.Healer?.Id, data.Skill, data.Caster);
+            return result;
         }
 
         private HealingInstanceApi CreateHealingInstance(HealingInstanceData data)
@@ -52,10 +59,11 @@ namespace Combat.Local.Data.Databases
             return new(target, healer, skill, data.Healing, data.Flags);
         }
 
-        private HealingInstanceApi HandleHealerHealingModification(EntityId target, HealingInstanceApi instance)
+        private HealingModification HandleHealerHealingModification(EntityId target, HealingInstanceApi instance)
         {
             IEnumerable<StatusApi> effects = _statusLookupService.FindStatusesOnUnit(target);
             HealingInstanceApi originalInstance = instance;
+            HealingModification result = new(0, 0, HealingFlags.None);
 
             foreach (StatusApi effect in effects)
             {
@@ -64,18 +72,19 @@ namespace Combat.Local.Data.Databases
                     continue;
                 }
 
-                instance.BaseHealing += modifier.GetBonusHealingDealth(originalInstance);
-                instance.HealingPercent += modifier.GetBonusHealingDealthPercent(originalInstance);
-                instance.Flags |= modifier.GetHealingFlagMask(originalInstance);
+                result.BonusHealing += modifier.GetBonusHealingDealth(originalInstance);
+                result.BonusHealingPercent += modifier.GetBonusHealingDealthPercent(originalInstance);
+                result.BonusFlags |= modifier.GetHealingFlagMask(originalInstance);
             }
 
-            return instance;
+            return result;
         }
 
-        private HealingInstanceApi HandleHealeeHealingModification(EntityId target, HealingInstanceApi instance)
+        private HealingModification HandleHealeeHealingModification(EntityId target, HealingInstanceApi instance)
         {
             IEnumerable<StatusApi> effects = _statusLookupService.FindStatusesOnUnit(target);
             HealingInstanceApi originalInstance = instance;
+            HealingModification result = new(0, 0, HealingFlags.None);
 
             foreach (StatusApi effect in effects)
             {
@@ -84,12 +93,12 @@ namespace Combat.Local.Data.Databases
                     continue;
                 }
 
-                instance.BaseHealing += modifier.GetBonusHealingRecived(originalInstance);
-                instance.HealingPercent += modifier.GetBonusHealingRecivedPercent(originalInstance);
-                instance.Flags |= modifier.GetHealingFlagMask(originalInstance);
+                result.BonusHealing += modifier.GetBonusHealingRecived(originalInstance);
+                result.BonusHealingPercent += modifier.GetBonusHealingRecivedPercent(originalInstance);
+                result.BonusFlags |= modifier.GetHealingFlagMask(originalInstance);
             }
 
-            return instance;
+            return result;
         }
     }
 }

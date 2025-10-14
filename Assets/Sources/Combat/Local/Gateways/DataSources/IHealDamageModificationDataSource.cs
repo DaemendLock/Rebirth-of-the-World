@@ -1,4 +1,4 @@
-﻿using Combat.Local.Data.Models;
+﻿using Combat.Local.Gateways.Models;
 
 namespace Combat.Local.Gateways.DataSources
 {
@@ -9,6 +9,6 @@ namespace Combat.Local.Gateways.DataSources
 
     public interface IHealingModificationDataSource
     {
-        HealingInstanceData GetHealingInstanceModification(HealingInstanceData original);
+        HealingModification GetHealingInstanceModification(HealingInstanceData data);
     }
 }

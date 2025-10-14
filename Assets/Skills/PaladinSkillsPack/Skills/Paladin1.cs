@@ -9,7 +9,7 @@ namespace TestSkillsPack.Paladin
         public void OnCast()
         {
             Owner.ApplyStatus(new("Paladin1Aura", 5f, 1, Skill));
-            Owner.GiveResource(new(new(2), 1, Skill));
+            Owner.GiveResource(new(2), 1, Skill);
         }
     }
 

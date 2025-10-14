@@ -4,37 +4,39 @@ using Combat.API.Controllers.Factories;
 using Combat.API.Scripting;
 
 using Combat.Common.ValueObjects;
-
 using Combat.Local.Controllers;
-using Combat.Local.Data.Databases;
 
 using System;
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace Combat.Local.Data.Factories
+namespace Combat.Api.Controllers.Factories
 {
+    public interface IStatusScriptTypeProvider
+    {
+        void Register(Type type);
+        bool TryGet(StatusName name, out Type type);
+    }
+
     public class StatusApiFactory : IStatusApiFactory
     {
-        private readonly StatusScriptTypeDataSource _statusApiTypeProvider;
-
-        private readonly UnitApiProvider _unitApiProvider;
+        private readonly IStatusScriptTypeProvider _scriptTypeProvider;
+        private readonly CharacterApiProvider _unitApiProvider;
         private readonly SkillApiProvider _skillApiProvider;
         private readonly SceneApiProvider _sceneApiProvider;
         private readonly StatusController _statusController;
 
-        public StatusApiFactory(UnitApiProvider unitApiRepository, SkillApiProvider skillApiRepository, StatusController statusController, SceneApiProvider sceneApiProvider)
+        public StatusApiFactory(CharacterApiProvider unitApiRepository, SkillApiProvider skillApiRepository, StatusController statusController, SceneApiProvider sceneApiProvider, IStatusScriptTypeProvider scriptTypeProvider)
         {
             _unitApiProvider = unitApiRepository;
             _skillApiProvider = skillApiRepository;
             _sceneApiProvider = sceneApiProvider;
             _statusController = statusController;
-
-            _statusApiTypeProvider = new StatusScriptTypeDataSource(typeof(StatusScript));
+            _scriptTypeProvider = scriptTypeProvider;
 
             foreach (Type type in AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes()).Where(value => typeof(StatusScript).IsAssignableFrom(value)))
             {
-                _statusApiTypeProvider.Register(type);
+                _scriptTypeProvider.Register(type);
             }
         }
 
@@ -59,7 +61,7 @@ namespace Combat.Local.Data.Factories
 
         private bool TryCreateEmpty(StatusName name, out StatusScript value)
         {
-            if (_statusApiTypeProvider.TryGet(name, out Type targetType) == false)
+            if (_scriptTypeProvider.TryGet(name, out Type targetType) == false)
             {
                 value = default;
                 return false;

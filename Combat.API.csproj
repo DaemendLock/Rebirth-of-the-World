@@ -73,7 +73,6 @@
     <Compile Include="Assets\Sources\Combat\API\API\ApplyDamageOptions.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\ApplyStatusInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\DamageRecord.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\GiveResourceInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\ReviveInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Statuses\StatusApi.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\ReviveRecord.cs" />

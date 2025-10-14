@@ -16,6 +16,8 @@ namespace Combat.Local.Domain.UseCases
 
         public void Execute(float deltaTime)
         {
+            _attributesRepository.ClearCache();
+
             foreach (EntityId value in _attributesRepository.GetAllIds().ToArray())
             {
                 _attributesRepository.Get(value);

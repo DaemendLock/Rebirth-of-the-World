@@ -62,14 +62,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Sources\Combat\API\Controllers\StatusEventApiController.cs" />
-    <Compile Include="Assets\Sources\Combat\API\Controllers\SceneApiProvider.cs" />
     <Compile Include="Assets\Sources\Combat\API\Controllers\SceneEventApiController.cs" />
-    <Compile Include="Assets\Sources\Combat\API\Controllers\SkillApiProvider.cs" />
-    <Compile Include="Assets\Sources\Combat\API\Controllers\UnitApiProvider.cs" />
+    <Compile Include="Assets\Sources\Combat\API\Controllers\Providers\StatusApiProvider.cs" />
     <Compile Include="Assets\Sources\Combat\API\Controllers\HitEventApiController.cs" />
+    <Compile Include="Assets\Sources\Combat\API\Controllers\Providers\SkillApiProvider.cs" />
     <Compile Include="Assets\Sources\Combat\API\Controllers\Factories\IStatusApiFactory.cs" />
+    <Compile Include="Assets\Sources\Combat\API\Controllers\Factories\ISkillApiFactory.cs" />
     <Compile Include="Assets\Sources\Combat\API\Controllers\CharacterEventApiController.cs" />
-    <Compile Include="Assets\Sources\Combat\API\Controllers\StatusApiProvider.cs" />
+    <Compile Include="Assets\Sources\Combat\API\Controllers\Factories\IUnitApiFactory.cs" />
+    <Compile Include="Assets\Sources\Combat\API\Controllers\Providers\SceneApiProvider.cs" />
+    <Compile Include="Assets\Sources\Combat\API\Controllers\Providers\CharacterApiProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Combat\API\Controllers\Combat.API.Controllers.asmdef" />

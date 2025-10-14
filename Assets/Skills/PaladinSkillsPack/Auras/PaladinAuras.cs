@@ -36,7 +36,7 @@ namespace TestSkillsPack.Paladin
             _applyDamageOptions.Target = target;
             _applyDamageOptions.OriginalDamage = caster.GetAttributeValue(Attribute.Spellpower) * 0.1f;
 
-            Parent.GiveResource(new(ResourceId.Custom, 1, Source));
+            Parent.GiveResource(ResourceId.Custom, 1, Source);
         }
     }
 }

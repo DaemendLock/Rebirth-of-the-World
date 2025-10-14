@@ -66,7 +66,7 @@ namespace Combat.API
 
         public float GetResourceValue(ResourceId resource) => _characterController.GetResourceValue(_id, resource);
 
-        public void GiveResource(GiveResourceInfo info) => _characterController.GiveResource(_id, info.Resource, info.Value, info.Source?.SkillId, info.Source?.OwnerId);
+        public void GiveResource(ResourceId resource, float value, SkillApi source) => _characterController.GiveResource(_id, resource, value, source?.SkillId, source?.OwnerId);
 
         public void SpendResource(ResourceId resource, float value, SkillApi source) => _characterController.SpendResource(_id, resource, value, source?.SkillId, source?.OwnerId);
 

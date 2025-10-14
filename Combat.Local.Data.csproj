@@ -62,18 +62,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Sources\Combat\Local\Data\DataSources\HealingModificationDataSource.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\Factories\CharacterViewFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\Factories\StatusApiFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\Lookup\StatusLookup.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\DataSources\StatusModificationProvider.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\CastableSkillData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\Factories\UnitApiFactory.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\StatusScriptTypeProvider.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\Presentation\CharacterViewContainer.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\CharacterModelProvider.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\SkillDataBase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\SkillScriptTypeProvider.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\DataSources\DamageModificationDataSource.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\Factories\SkillApiFactory.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\StatusScriptTypeDataSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Combat\Local\Data\Combat.Local.Data.asmdef" />

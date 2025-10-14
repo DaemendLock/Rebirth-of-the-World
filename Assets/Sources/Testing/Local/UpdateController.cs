@@ -1,4 +1,5 @@
 ﻿using Combat.Local.Data.Databases;
+using Combat.Local.Data.Lookup;
 using Combat.Local.Domain.UseCases;
 using Combat.Local.Domain.UseCases.Scene;
 
@@ -73,17 +74,16 @@ namespace Testing.Local
         private readonly UpdateStatusesUseCases _updateStatusesUseCase;
         private readonly UpdateActorsUseCase _updateActorsUseCase;
         private readonly HandleHitUseCase _handleHitUseCase;
+        private readonly StatusLookup _statusLookup;
 
-        private readonly StatusModificationProvider _statusModificationProvider;
-
-        public UpdateController(PrecacheAttributersUseCase updateCombatUseCase, UpdateStatusTimersUseCase updateStatusTimersUseCase, StatusModificationProvider statusModificationProvider, UpdateStatusesUseCases updateStatusesUseCase, UpdateActorsUseCase updateActionUseCase, HandleHitUseCase handleHitUseCase)
+        public UpdateController(PrecacheAttributersUseCase updateCombatUseCase, UpdateStatusTimersUseCase updateStatusTimersUseCase, UpdateStatusesUseCases updateStatusesUseCase, UpdateActorsUseCase updateActionUseCase, HandleHitUseCase handleHitUseCase, StatusLookup statusLookup)
         {
             _updateCombatUseCase = updateCombatUseCase;
             _updateStatusTimersUseCase = updateStatusTimersUseCase;
-            _statusModificationProvider = statusModificationProvider;
             _updateStatusesUseCase = updateStatusesUseCase;
             _updateActorsUseCase = updateActionUseCase;
             _handleHitUseCase = handleHitUseCase;
+            _statusLookup = statusLookup;
         }
 
         public void Tick()
@@ -96,7 +96,7 @@ namespace Testing.Local
             _updateActorsUseCase.Execute(deltaTime);
             _handleHitUseCase.Execute();
 
-            _statusModificationProvider.ClearCache();
+            _statusLookup.ClearCache();
         }
     }
 }

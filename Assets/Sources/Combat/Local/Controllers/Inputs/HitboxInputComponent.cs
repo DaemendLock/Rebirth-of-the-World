@@ -68,9 +68,5 @@ namespace Combat.Local.Controllers.Inputs
 
             Hitted?.Invoke(Id, hurtbox.Id, collision.GetContact(0).point);
         }
-
-        public override bool Equals(object obj) => obj is HitboxInputComponent model && EqualityComparer<HitboxId>.Default.Equals(Id, model.Id);
-
-        public override int GetHashCode() => HashCode.Combine(Id);
     }
 }

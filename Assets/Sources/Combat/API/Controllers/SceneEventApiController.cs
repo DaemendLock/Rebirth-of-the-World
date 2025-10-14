@@ -5,13 +5,13 @@ namespace Combat.API.Controllers
 {
     public class SceneEventApiController
     {
-        private readonly UnitApiProvider _unitApiProvider;
+        private readonly CharacterApiProvider _unitApiProvider;
         private readonly SkillApiProvider _skillApiProvider;
 
         private readonly IUnitApiFactory _unitApiFactory;
         private readonly ISkillApiFactory _skillApiFactory;
 
-        public SceneEventApiController(UnitApiProvider unitApiProvider, SkillApiProvider skillApiProvider, IUnitApiFactory unitApiFactory, ISkillApiFactory skillApiFactory)
+        public SceneEventApiController(CharacterApiProvider unitApiProvider, SkillApiProvider skillApiProvider, IUnitApiFactory unitApiFactory, ISkillApiFactory skillApiFactory)
         {
             _unitApiProvider = unitApiProvider;
             _skillApiProvider = skillApiProvider;

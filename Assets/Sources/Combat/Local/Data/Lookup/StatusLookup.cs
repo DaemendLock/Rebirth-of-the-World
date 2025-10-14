@@ -21,7 +21,7 @@ namespace Combat.Local.Data.Lookup
 
     public class UnitLookup
     {
-        private readonly UnitApiProvider _unitApiProvider;
+        private readonly CharacterApiProvider _unitApiProvider;
         private readonly CombatController _combatController;
 
         public ICollection<Unit> FindUnitsInRadius(Vector3 position, float radius)

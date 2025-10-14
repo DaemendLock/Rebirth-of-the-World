@@ -1,7 +1,5 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Controllers;
-using Combat.Local.Data.Databases;
-using Combat.Local.Presentation.Components;
 using Combat.Local.Presentation.Factories;
 
 using Data.Entities.Components;
@@ -10,36 +8,16 @@ using UnityEngine;
 
 namespace Testing.Local.Temp.Factories
 {
-    public class CharacterViewFactory : ICharacterViewFactory
+    public class HitboxFactory : IHitboxIniter
     {
         private readonly HitController _hitController;
-        private readonly CharacterModelProvider _characterModelProvider;
 
-        public CharacterViewFactory(CharacterModelProvider characterModelRepository, HitController hitController)
+        public HitboxFactory(HitController hitController)
         {
-            _characterModelProvider = characterModelRepository;
-
             _hitController = hitController;
         }
 
-        public CharacterView Create(EntityId id, ModelName modelName)
-        {
-            GameObject prefab = _characterModelProvider.Get(modelName);
-
-            if (prefab == null)
-            {
-                throw new System.InvalidOperationException();
-            }
-
-            GameObject gameObject = Object.Instantiate(prefab);
-            CharacterView result = gameObject.GetComponent<CharacterView>() ?? gameObject.AddComponent<CharacterView>();
-            result.Id = id;
-            gameObject.name = modelName.ToString() + id.ToString();
-
-            return result;
-        }
-
-        public void Init(EntityId entityId, CharacterView target)
+        public void CreateHitboxes(EntityId entityId, Transform target)
         {
             Hitbox[] hitboxes = target.GetComponentsInChildren<Hitbox>();
             Hurtbox[] hurtboxes = target.GetComponentsInChildren<Hurtbox>();
