@@ -135,7 +135,8 @@ namespace Testing.Local
             Container.Bind<ICreateUnitOutput>().To<ScenePresenter>().FromResolve();
 
             Container.Bind<CastSkillFromSlotUseCase>().FromNew().AsSingle();
-            Container.Bind<ISkillCastEventHandler>().To<SkillCastHandler>().AsSingle();
+            Container.Bind<SkillCastHandler>().FromNew().AsSingle();
+            Container.Bind<ISkillCastEventHandler>().To<SkillCastHandler>().FromResolve();
             Container.Bind<ICastOutput>().To<UnitPresenter>().FromResolve();
 
             Container.Bind<MoveUseCase>().FromNew().AsSingle();
@@ -218,6 +219,7 @@ namespace Testing.Local
             Container.Bind<HitEventApiController>().FromNew().AsSingle();
             Container.Bind<CharacterEventApiController>().FromNew().AsSingle();
             Container.Bind<StatusEventApiController>().FromNew().AsSingle();
+            Container.Bind<SkillEventApiHandler>().FromNew().AsSingle();
         }
 
         private void SetUpEventHandlers()
@@ -226,6 +228,7 @@ namespace Testing.Local
             HitEventApiController hitEventApiController = Container.Resolve<HitEventApiController>();
             CharacterEventApiController characterEventApiController = Container.Resolve<CharacterEventApiController>();
             StatusEventApiController statusEventApiController = Container.Resolve<StatusEventApiController>();
+            SkillEventApiHandler skillEventApiHandler = Container.Resolve<SkillEventApiHandler>();
 
             Container.Resolve<CharacterCreatedHandler>().Created += sceneEventApiController.HandleCharacterCreated;
 
@@ -242,7 +245,7 @@ namespace Testing.Local
             Container.Resolve<CharacterHealedHandler>().Healed += characterEventApiController.HandleHealingRecived;
             Container.Resolve<CharacterHealedHandler>().Healed += characterEventApiController.HandleHealingDealth;
 
-
+            Container.Resolve<SkillCastHandler>().SkillCasted += skillEventApiHandler.HandleCast;
         }
     }
 }

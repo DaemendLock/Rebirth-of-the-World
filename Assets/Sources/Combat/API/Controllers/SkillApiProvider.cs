@@ -7,11 +7,16 @@ using Testing.Local.Temp.DomainOutputs;
 
 namespace Combat.API.Controllers
 {
-    public class SkillCastEventApiHandler
+    public class SkillEventApiHandler
     {
         private readonly SkillApiProvider _skillApiProvider;
 
-        public void Handle(SkillCastInfo info)
+        public SkillEventApiHandler(SkillApiProvider skillApiProvider)
+        {
+            _skillApiProvider = skillApiProvider;
+        }
+
+        public void HandleCast(SkillCastInfo info)
         {
             SkillApi api = _skillApiProvider.Get(info.SkillId, info.Caster);
 

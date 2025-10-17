@@ -9,8 +9,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{84D51C1F-4A00-169F-B1F2-C7892886743B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -63,7 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\SkillFrameData.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\DTO\ApplStatusDTO.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IKillableRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\Health.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Status\UpdateStatusTimersUseCase.cs" />
@@ -104,6 +102,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Status\StartStatusTimerUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\UpdateActorsUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\Positionable.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\DTO\ApplStatusDTO.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Charcters\IApplyHealingEventHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\SpendResourceUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\ApplyDamageUseCase.cs" />
