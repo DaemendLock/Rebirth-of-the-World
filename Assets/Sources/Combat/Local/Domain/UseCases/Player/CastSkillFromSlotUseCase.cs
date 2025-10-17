@@ -1,39 +1,15 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
+using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories;
 
 using UnityEngine;
 
 namespace Combat.Local.Domain.UseCases
 {
-    public class CastSkillUseCase
+    public interface IActionFactory
     {
-        private readonly ISkillRepository _skillRepository;
-        private readonly IActorRepository _actorRepository;
-        private readonly ICastSkillEventHandler _castSkillEventHandler;
-
-        public CastFailReason Execute(SkillId skillId, EntityId? caster)
-        {
-            Skill skill = _skillRepository.Get(skillId, caster);
-
-            if (skill.CanCast == false)
-            {
-                return CastFailReason.NotCastable;
-            }
-
-            if (caster.HasValue)
-            {
-                Actor actor = _actorRepository.Get(caster.Value);
-
-                if (actor.CanCast == false)
-                {
-                    return CastFailReason.CantCast;
-                }
-            }
-
-            _castSkillEventHandler.HandleEvent(caster, skillId);
-            return CastFailReason.Success;
-        }
+        IAction CreateCastAction(Skill skill, EntityId actorId);
     }
 
     public class CastSkillFromSlotUseCase
@@ -41,21 +17,23 @@ namespace Combat.Local.Domain.UseCases
         private readonly ISkillOwnerRepository _skillOwnerRepository;
         private readonly IActorRepository _actorRepository;
         private readonly ISkillRepository _skillRepository;
-
-        private readonly ICastSkillEventHandler _castSkillEventHandler;
-
+        private readonly ISkillCastEventHandler _castSkillEventHandler;
+        private readonly IActionStateChangeEventHandler _actionStateChangeEventHandler;
         private readonly ICastOutput _castOutput;
+        private readonly IActionFactory _actionFactory;
 
-        public CastSkillFromSlotUseCase(ISkillOwnerRepository skillOwnerRepository, IActorRepository actorRepository, ICastSkillEventHandler castSkillEventHandler/*, ISkillRepository skillRepository*/, ICastOutput castOutput)
+        public CastSkillFromSlotUseCase(ISkillOwnerRepository skillOwnerRepository, IActorRepository actorRepository, ISkillRepository skillRepository, ISkillCastEventHandler castSkillEventHandler, IActionStateChangeEventHandler actionStateChangeEventHandler, ICastOutput castOutput, IActionFactory actionFactory)
         {
             _skillOwnerRepository = skillOwnerRepository;
             _actorRepository = actorRepository;
+            _skillRepository = skillRepository;
             _castSkillEventHandler = castSkillEventHandler;
+            _actionStateChangeEventHandler = actionStateChangeEventHandler;
             _castOutput = castOutput;
-            //_skillRepository = skillRepository;
+            _actionFactory = actionFactory;
         }
 
-        public CastFailReason Execute(EntityId caster, int slot)
+        public void Execute(EntityId caster, int slot)
         {
             SkillOwner skillOwner = _skillOwnerRepository.Get(caster);
 
@@ -64,31 +42,37 @@ namespace Combat.Local.Domain.UseCases
             if (skillId.HasValue == false)
             {
                 Debug.Log("No skill in slot");
-                return CastFailReason.UnknownSkill;
+                return;
             }
 
-            //Skill skill = _skillRepository.Get(skillId.Value, caster);
+            Skill skill = _skillRepository.Get(skillId.Value, caster);
 
-            //if (skill.CanCast == false)
-            //{
-            //    return CastFailReason.NotCastable;
-            //}
+            if (skill.CanCast == false)
+            {
+                return;
+            }
 
-            //Actor actor = _actorRepository.Get(caster);
+            if (skill.StartAction == false)
+            {
+                _castSkillEventHandler.HandleEvent(caster, skillId.Value);
+                return;
+            }
 
-            //if (actor.CanCast == false)
-            //{
-            //    return CastFailReason.CantCast;
-            //}
+            Actor actor = _actorRepository.Get(caster);
 
+            actor.CurrentAction = _actionFactory.CreateCastAction(skill, caster);
+            actor.CurrentAction.Start();
+            _actorRepository.Update(actor);
             _castOutput.PlayAnimation(caster, skillId.Value);
-            return _castSkillEventHandler.HandleEvent(caster, skillId.Value);
+
+            _castSkillEventHandler.HandleEvent(caster, skillId.Value);
+            _actionStateChangeEventHandler.HandleEvent(caster, skillId.Value, ActionState.Startup);
         }
     }
 
-    public interface ICastSkillEventHandler
+    public interface ISkillCastEventHandler
     {
-        CastFailReason HandleEvent(EntityId? caster, SkillId skill);
+        void HandleEvent(EntityId? caster, SkillId skill);
     }
 
     public interface ICastOutput

@@ -1,6 +1,6 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.UseCases;
+using Combat.Local.Domain.OutputPorts;
 
 namespace Combat.Local.Events
 {
@@ -29,10 +29,6 @@ namespace Combat.Local.Events
     public class StatusCreateHandler : IApplyStatusEventHandler
     {
         public delegate void Handle(StatusCreateInfo info);
-
-        public StatusCreateHandler()
-        {
-        }
 
         public event Handle Created;
 

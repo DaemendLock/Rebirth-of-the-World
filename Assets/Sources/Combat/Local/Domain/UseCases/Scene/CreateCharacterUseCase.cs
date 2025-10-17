@@ -3,6 +3,7 @@ using Combat.Local.Domain.DTO;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.Factories;
+using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories;
 
 using System;
@@ -11,7 +12,7 @@ using UnityEngine;
 
 namespace Combat.Local.Domain.UseCases
 {
-    public class CreateUnitUseCase
+    public class CreateCharacterUseCase
     {
         private readonly UnitIdFactory _unitModelFactory;
 
@@ -28,7 +29,7 @@ namespace Combat.Local.Domain.UseCases
 
         private readonly ICreateUnitOutput _outputPort;
 
-        public CreateUnitUseCase(
+        public CreateCharacterUseCase(
             IHealthRepository healthRepository, IKillableRepository killableRepository, IAligmentRepository aligmentRepository,
             IAttributesRepository attributesRepository, IResourceRepository resourceRepository, ISkillOwnerRepository skillOwnerRepository,
             IPositionableRepository positionableRepository, IActorRepository actorRepository,
@@ -49,7 +50,7 @@ namespace Combat.Local.Domain.UseCases
             _unitModelFactory = new();
         }
 
-        public void Execute(UnitCreationDTO data)
+        public void Execute(CreateCharacterDTO data)
         {
             Positionable positionable = Create(data);
 
@@ -59,7 +60,7 @@ namespace Combat.Local.Domain.UseCases
             _createUnitEventHandler.HandleEvent(positionable.Id, skillOwner.GetAll());
         }
 
-        public void Execute(UnitCreationDTO data, Transform parent)
+        public void Execute(CreateCharacterDTO data, Transform parent)
         {
             Positionable positionable = Create(data);
 
@@ -69,7 +70,7 @@ namespace Combat.Local.Domain.UseCases
             _createUnitEventHandler.HandleEvent(positionable.Id, skillOwner.GetAll());
         }
 
-        private Positionable Create(UnitCreationDTO context)
+        private Positionable Create(CreateCharacterDTO context)
         {
             EntityId id = _unitModelFactory.GetId();
 
@@ -107,16 +108,5 @@ namespace Combat.Local.Domain.UseCases
 
             return positionable;
         }
-    }
-
-    public interface ICreateUnitOutput
-    {
-        void Present(Positionable positionable);
-        void SetTransform(Positionable positionable, Transform parent);
-    }
-
-    public interface ICreateUnitEventHandler
-    {
-        void HandleEvent(EntityId id, ReadOnlySpan<SkillId> initalSkills);
     }
 }

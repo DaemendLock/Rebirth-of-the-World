@@ -1,5 +1,6 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
+using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
 
@@ -20,27 +21,18 @@ namespace Combat.Local.Domain.UseCases
 
         public void Execute(EntityId target, ResourceId resource, float value, EventSource source)
         {
-            Resource result = _resourceRepository.Get(target, resource);
-            result.CurrentValue += value;
+            Resource resourceValue = _resourceRepository.Get(target, resource);
+            resourceValue.CurrentValue += value;
 
-            if (result.CurrentValue > result.MaxValue)
+            if (resourceValue.CurrentValue > resourceValue.MaxValue)
             {
-                result.CurrentValue = result.MaxValue;
+                resourceValue.CurrentValue = resourceValue.MaxValue;
             }
 
-            _resourceRepository.Update(result);
+            _resourceRepository.Update(resourceValue);
+            GiveResourceResult result = new(target, resource, value, resourceValue.CurrentValue, resourceValue.MaxValue, source.Skill, source.Unit);
             _giveResourceOutput.Present(result);
-            _eventHandler.HandleEvent(target, resource, value, source);
+            _eventHandler.HandleEvent(result);
         }
-    }
-
-    public interface IGiveResourceOutput
-    {
-        void Present(Resource resource);
-    }
-
-    public interface IGiveResourceEventHandler
-    {
-        void HandleEvent(EntityId unit, ResourceId resource, float value, EventSource source);
     }
 }

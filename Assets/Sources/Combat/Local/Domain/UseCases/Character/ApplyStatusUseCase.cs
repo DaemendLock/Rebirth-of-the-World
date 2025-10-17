@@ -1,8 +1,8 @@
-﻿using Combat.Common.ValueObjects;
+﻿using Combat.Local.Domain.DTO;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Factories;
+using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories;
-using Combat.Local.Domain.ValueObjects;
 
 namespace Combat.Local.Domain.UseCases
 {
@@ -19,21 +19,11 @@ namespace Combat.Local.Domain.UseCases
             _applyStatusEventHandler = applyStatusEventHandler;
         }
 
-        public void Execute(EntityId parent, StatusName statusName, int stackCount, float duration, EventSource source)
+        public void Execute(ApplStatusDTO data)
         {
-            Status status = _statusFactory.Create(statusName, parent, duration, stackCount, source);
+            Status status = _statusFactory.Create(data.StatusName, data.Parent, data.InitialDuration, data.InitialStackCount, new(data.Caster, data.Skill));
             _statusRepository.Create(status);
             _applyStatusEventHandler.HandleEvent(status);
         }
-    }
-
-    public interface IApplyStatusOutput
-    {
-        void Present(Status status);
-    }
-
-    public interface IApplyStatusEventHandler
-    {
-        void HandleEvent(Status status);
     }
 }

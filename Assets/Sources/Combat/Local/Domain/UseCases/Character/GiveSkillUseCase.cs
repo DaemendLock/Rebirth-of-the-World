@@ -1,5 +1,6 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
+using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories;
 
 using System;
@@ -29,10 +30,5 @@ namespace Combat.Local.Domain.UseCases
 
             _eventHandler?.HandleEvent(target, skillId);
         }
-    }
-
-    public interface IGiveSkillEventHandler
-    {
-        void HandleEvent(EntityId target, SkillId skill);
     }
 }

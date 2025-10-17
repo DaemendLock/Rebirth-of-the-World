@@ -9,7 +9,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{84D51C1F-4A00-169F-B1F2-C7892886743B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -62,32 +63,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\SkillFrameData.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\DTO\ApplStatusDTO.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IKillableRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\Health.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\DTO\UnitCreationDTO.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Status\UpdateStatusTimersUseCase.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\Factory\UnitIdFactory.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\DamageInstance.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Scene\CreateCharacterUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\IHurtableRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Skill.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\Factory\StatusFactory.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\IFrameDataRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Player\CastSkillFromSlotUseCase.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Charcters\ICreateUnitOutput.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IResourceRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\IHitRecordRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\Aligment.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Hitbox.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\IHitboxRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\FindStatusUseCase.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\IReviveUnitUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\ApplyStatusUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\GetHealthUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\KillUnitUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Status\IStatusTimerRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\DTO\CreateCharacterDTO.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\Factories\UnitIdFactory.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Charcters\IGiveResourceEventHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Charcters\IApplyDamageEventHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Charcters\ISpendResourceEventHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\ApplyHealingUseCase.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Scene\CreateUnitUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IAttributesRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\StartCastActionUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IActorRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IHealthRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\ISkillAnimationRepository.cs" />
@@ -103,11 +104,13 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Status\StartStatusTimerUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\UpdateActorsUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\Positionable.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Charcters\IApplyHealingEventHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\SpendResourceUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\ApplyDamageUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\IAction.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\SetHealthUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\ISkillOwnerRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\DamageInstance.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\GiveResourceUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Player\MoveUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Statuses\Status.cs" />
@@ -118,11 +121,12 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Status\StopStatusTimerUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\GetHasteModifierUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Scene\HadleHitUseCase.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\Factories\DamageInstanceFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\Killable.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Status\RemoveStatusUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\IHealingDamageInstanceRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\Factory\DamageInstanceFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\ResourceValue.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\Factories\StatusFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\ResourceOwner.cs" />
   </ItemGroup>
   <ItemGroup>

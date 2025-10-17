@@ -2,7 +2,7 @@
 using Combat.API.Controllers;
 using Combat.API.Skills;
 using Combat.Common.ValueObjects;
-using Combat.Local.Domain.UseCases;
+using Combat.Local.Domain.OutputPorts;
 
 namespace Testing.Local.Temp.DomainOutputs
 {

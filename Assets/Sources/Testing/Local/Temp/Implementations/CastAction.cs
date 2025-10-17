@@ -17,12 +17,12 @@ namespace Combat.Local.Domain.Entities
 
         private ActionData _data;
 
-        public CastAction(ActionData data, float timeMultiplier, IFrameData frameData)
+        public CastAction(SkillId skillId, float timeMultiplier, bool allowMoment, IFrameData frameData)
         {
             _frameData = frameData;
             _timeMultiplier = timeMultiplier;
             _state = ActionState.Inactive;
-            _data = data;
+            _data = new(skillId, false, 0, 0, allowMoment);
 
             _hittedTargets = new();
         }

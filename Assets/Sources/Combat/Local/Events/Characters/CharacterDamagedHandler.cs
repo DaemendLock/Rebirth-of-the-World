@@ -1,6 +1,6 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
-using Combat.Local.Domain.UseCases;
+using Combat.Local.Domain.OutputPorts;
 
 namespace Combat.Local.Events
 {
@@ -38,7 +38,7 @@ namespace Combat.Local.Events
 
         public event Handler Damaged;
 
-        public void HandleEvent(DamageResult instance)
+        public void HandleEvent(IApplyDamageEventHandler.DamageResult instance)
         {
             DamageInfo damageInfo = new(instance.Target, instance.OriginalDamage, instance.FinalDamage, instance.Flags, instance.Attacker, instance.Skill, instance.Caster);
             Damaged?.Invoke(damageInfo);

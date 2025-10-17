@@ -64,6 +64,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Events\Statuses\StatusTickHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Events\Statuses\StatusCreateHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Events\Characters\CharacterDamagedHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Events\SkillCastHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Events\Statuses\StatusExpireHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Events\Characters\CharacterHealedHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Events\Statuses\StatusRemoveHandler.cs" />

@@ -1,5 +1,6 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
+using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
 using Combat.Local.Presentation.Components;
@@ -42,9 +43,9 @@ namespace Combat.Local.Presentation.Presenters
 
         }
 
-        void IGiveResourceOutput.Present(Resource value)
+        public void Present(GiveResourceResult value)
         {
-            Debug.Log($"Resource update for {value.Id}: {value.CurrentValue}/{value.MaxValue}");
+            Debug.Log($"Resource update for {value.Target}: {value.CurrentValue}/{value.MaxValue}");
         }
 
         void ISpendResourceOutput.Present(Resource value)

@@ -1,6 +1,5 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.ValueObjects;
 
 namespace Combat.Local.Domain.Factories

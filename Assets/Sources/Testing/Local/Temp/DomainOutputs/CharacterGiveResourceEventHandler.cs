@@ -1,9 +1,7 @@
 ﻿using Combat.API;
 using Combat.API.Controllers;
 using Combat.API.DTO;
-using Combat.Common.ValueObjects;
-using Combat.Local.Domain.UseCases;
-using Combat.Local.Domain.ValueObjects;
+using Combat.Local.Domain.OutputPorts;
 
 namespace Testing.Local.Temp.DomainOutputs
 {
@@ -18,17 +16,17 @@ namespace Testing.Local.Temp.DomainOutputs
             _eventApiController = eventApiController;
         }
 
-        public void HandleEvent(EntityId target, ResourceId resource, float value, EventSource source)
+        public void HandleEvent(GiveResourceResult result)
         {
             SkillApi skill = null;
 
-            if (source.Skill.HasValue)
+            if (result.Skill.HasValue)
             {
-                _skillApiProvider.Get(source.Skill.Value, source.Unit.Value);
+                _skillApiProvider.Get(result.Skill.Value, result.Caster);
             }
 
-            ResourceChangeRecord @event = new(resource, skill, value);
-            _eventApiController.HandleResourceGained(target, @event);
+            ResourceChangeRecord @event = new(result.Resource, skill, result.Value);
+            _eventApiController.HandleResourceGained(result.Target, @event);
         }
     }
 }

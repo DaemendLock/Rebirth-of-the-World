@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace Combat.Local.Domain.DTO
 {
-    public readonly ref struct UnitCreationDTO
+    public readonly ref struct CreateCharacterDTO
     {
-        public UnitCreationDTO(ModelName model, Team team, Vector3 position, float initialHealth, float defaultHealth, Span<AttributeValue> defaultAttributes, Span<SkillId> skills)
+        public CreateCharacterDTO(ModelName model, Team team, Vector3 position, float initialHealth, float defaultHealth, Span<AttributeValue> defaultAttributes, Span<SkillId> skills)
         {
             Model = model;
             Team = team;

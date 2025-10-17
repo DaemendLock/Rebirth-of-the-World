@@ -9,6 +9,7 @@ using Combat.Local.Data.Lookup;
 using Combat.Local.Data.Presentation;
 using Combat.Local.Data.Repositories;
 using Combat.Local.Domain.Factories;
+using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
 using Combat.Local.Domain.UseCases.Scene;
@@ -98,10 +99,11 @@ namespace Testing.Local
             Container.Bind<IPositionableRepository>().To<PositionableRepository>().AsSingle();
             Container.Bind<ISkillOwnerRepository>().To<SkillOwnerRepository>().AsSingle();
             Container.Bind<CharacterModelProvider>().FromNew().AsSingle();
-            Container.Bind<IFrameDataRepository>().To<FrameDataRepository>().AsSingle();
             Container.Bind<IActorRepository>().To<ActorRepository>().AsSingle();
             Container.Bind<IStatusTimerRepository>().To<StatusTimerRepository>().AsSingle();
             Container.Bind<IHealingDamageInstanceRepository>().To<HealingDamageInstanceRepository>().AsSingle();
+
+            Container.Bind<ISkillRepository>().To<SkillRepository>().AsSingle();
 
         }
 
@@ -118,6 +120,7 @@ namespace Testing.Local
             Container.Bind<DamageInstanceFactory>().FromNew().AsSingle();
 
             Container.Bind<ICharacterViewFactory>().To<CharacterViewFactory>().AsSingle();
+            Container.Bind<IActionFactory>().To<ActionFactory>().AsSingle();
         }
 
         private void BindUseCases()
@@ -126,13 +129,13 @@ namespace Testing.Local
             Container.Bind<UpdateActorsUseCase>().FromNew().AsSingle();
             Container.Bind<IActionStateChangeEventHandler>().To<ActionStateChangeHandler>().AsSingle();
 
-            Container.Bind<CreateUnitUseCase>().FromNew().AsSingle();
+            Container.Bind<CreateCharacterUseCase>().FromNew().AsSingle();
             Container.Bind<CharacterCreatedHandler>().FromNew().AsSingle();
             Container.Bind<ICreateUnitEventHandler>().To<CharacterCreatedHandler>().FromResolve();
             Container.Bind<ICreateUnitOutput>().To<ScenePresenter>().FromResolve();
 
             Container.Bind<CastSkillFromSlotUseCase>().FromNew().AsSingle();
-            Container.Bind<ICastSkillEventHandler>().To<CastSkillEventHandler>().AsSingle();
+            Container.Bind<ISkillCastEventHandler>().To<SkillCastHandler>().AsSingle();
             Container.Bind<ICastOutput>().To<UnitPresenter>().FromResolve();
 
             Container.Bind<MoveUseCase>().FromNew().AsSingle();
@@ -168,8 +171,6 @@ namespace Testing.Local
             Container.Bind<GiveSkillUseCase>().FromNew().AsSingle();
 
             Container.Bind<FindStatusUseCase>().FromNew().AsSingle();
-
-            Container.Bind<StartActionUseCase>().FromNew().AsSingle();
 
             //Hits
             Container.Bind<RecordHitUseCase>().FromNew().AsSingle();
@@ -240,6 +241,8 @@ namespace Testing.Local
 
             Container.Resolve<CharacterHealedHandler>().Healed += characterEventApiController.HandleHealingRecived;
             Container.Resolve<CharacterHealedHandler>().Healed += characterEventApiController.HandleHealingDealth;
+
+
         }
     }
 }

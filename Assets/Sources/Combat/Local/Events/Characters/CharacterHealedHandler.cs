@@ -1,7 +1,6 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Entities.Units;
-using Combat.Local.Domain.UseCases;
+using Combat.Local.Domain.OutputPorts;
 
 namespace Combat.Local.Events
 {
@@ -39,9 +38,9 @@ namespace Combat.Local.Events
 
         public event Handler Healed;
 
-        public void HandleEvent(HealingInstance instance)
+        public void HandleEvent(IApplyHealingEventHandler.HealingResult result)
         {
-            HealingInfo info = new(instance.Target, instance.OriginalHealing, instance.Healing, instance.Flags, instance.Healer, instance.Source.Skill, instance.Source.Unit);
+            HealingInfo info = new(result.Target, result.OriginalHealing, result.Healing, result.Flags, result.Healer, result.Skill, result.Caster);
             Healed?.Invoke(info);
         }
     }

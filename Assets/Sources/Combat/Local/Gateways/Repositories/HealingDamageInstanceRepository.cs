@@ -1,7 +1,7 @@
 ﻿using Combat.Common.Flags;
 using Combat.Local.Data.Models;
-using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.Repositories;
+using Combat.Local.Domain.ValueObjects;
 using Combat.Local.Gateways.DataSources;
 
 namespace Combat.Local.Gateways.Repositories

@@ -1,4 +1,4 @@
-﻿using Combat.Local.Domain.Entities.Units;
+﻿using Combat.Local.Domain.ValueObjects;
 
 namespace Combat.Local.Domain.Repositories
 {

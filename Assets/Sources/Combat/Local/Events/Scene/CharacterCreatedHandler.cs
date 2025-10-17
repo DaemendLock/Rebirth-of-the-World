@@ -1,5 +1,5 @@
 ﻿using Combat.Common.ValueObjects;
-using Combat.Local.Domain.UseCases;
+using Combat.Local.Domain.OutputPorts;
 
 using System;
 

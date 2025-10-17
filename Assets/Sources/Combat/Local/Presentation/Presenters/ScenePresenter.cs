@@ -1,6 +1,6 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.UseCases;
+using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Presentation.Components;
 using Combat.Local.Presentation.Factories;
 

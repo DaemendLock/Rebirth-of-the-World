@@ -34,10 +34,10 @@ namespace Combat.Local.Controllers
 
     public class CombatController
     {
-        private readonly CreateUnitUseCase _createUnitUseCase;
+        private readonly CreateCharacterUseCase _createUnitUseCase;
         private readonly IPositionableRepository _positionableRepository;
 
-        public CombatController(CreateUnitUseCase createUnitUseCase, IPositionableRepository positionableRepository)
+        public CombatController(CreateCharacterUseCase createUnitUseCase, IPositionableRepository positionableRepository)
         {
             _createUnitUseCase = createUnitUseCase;
             _positionableRepository = positionableRepository;
@@ -45,13 +45,13 @@ namespace Combat.Local.Controllers
 
         public void CreateUnit(UnitCreationInfo data)
         {
-            UnitCreationDTO unitCreationDTO = new(data.ModelName, data.Team, data.Position, data.CurrentHealth, data.BaseHealth, data.DefaultAttributes, data.Skills);
+            CreateCharacterDTO unitCreationDTO = new(data.ModelName, data.Team, data.Position, data.CurrentHealth, data.BaseHealth, data.DefaultAttributes, data.Skills);
             _createUnitUseCase.Execute(unitCreationDTO);
         }
 
         public void CreateUnit(UnitCreationInfo data, Transform parent)
         {
-            UnitCreationDTO unitCreationDTO = new(data.ModelName, data.Team, data.Position, data.CurrentHealth, data.BaseHealth, data.DefaultAttributes, data.Skills);
+            CreateCharacterDTO unitCreationDTO = new(data.ModelName, data.Team, data.Position, data.CurrentHealth, data.BaseHealth, data.DefaultAttributes, data.Skills);
             _createUnitUseCase.Execute(unitCreationDTO, parent);
         }
 

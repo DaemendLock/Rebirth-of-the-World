@@ -67,8 +67,8 @@
     <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\CharacterSpendResourceEventHandler.cs" />
     <Compile Include="Assets\Sources\Testing\Local\UnitProperties.cs" />
     <Compile Include="Assets\Sources\Testing\Local\LocalSceneInstaller.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\SkillRepository.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\StatsTable.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\CastSkillEventHandler.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\DomainOutputs\CharacterGiveResourceEventHandler.cs" />
     <Compile Include="Assets\Sources\Testing\Local\UpdateController.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\Implementations\CastAction.cs" />

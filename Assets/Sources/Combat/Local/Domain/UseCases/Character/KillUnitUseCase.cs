@@ -10,4 +10,8 @@ namespace Combat.Local.Domain.UseCases
 
         }
     }
+    public interface IReviveUnitUseCase
+    {
+        void Execute(EntityId target, EventSource source);
+    }
 }

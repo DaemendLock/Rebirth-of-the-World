@@ -1,7 +1,7 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Entities.Units;
+using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
 
@@ -50,13 +50,9 @@ namespace Combat.Local.Domain.UseCases
 
             if (instance.Flags.HasFlag(HealingFlags.NonReactable) == false)
             {
-                _applyHealingEventHandler.HandleEvent(instance);
+                IApplyHealingEventHandler.HealingResult result = new(target, healing, instance.Healing, instance.Flags, healer, source.Skill, source.Unit);
+                _applyHealingEventHandler.HandleEvent(result);
             }
         }
-    }
-
-    public interface IApplyHealingEventHandler
-    {
-        void HandleEvent(HealingInstance instance);
     }
 }

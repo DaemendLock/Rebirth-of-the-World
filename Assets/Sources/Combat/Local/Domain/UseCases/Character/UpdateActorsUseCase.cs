@@ -1,22 +1,12 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
+using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories;
 
 using System.Linq;
 
-using UnityEngine;
-
 namespace Combat.Local.Domain.UseCases
 {
-
-    public readonly ref struct ActionDTO
-    {
-        public EntityId ActorId { get; }
-        public AnimationClip Clip { get; }
-        public float StartTime { get; }
-        public float HasteModifier { get; }
-    }
-
     public readonly struct UpdateActorsUseCase
     {
         private readonly IActorRepository _actorRepository;
@@ -67,15 +57,5 @@ namespace Combat.Local.Domain.UseCases
 
             _actionStateChangeEventHandler.HandleEvent(actor.Id, data.Skill, action.CurrentState);
         }
-    }
-
-    public interface IActionOutput
-    {
-        void Present(ActionDTO actionDTO);
-    }
-
-    public interface IActionStateChangeEventHandler
-    {
-        void HandleEvent(EntityId actorId, SkillId skill, ActionState newState);
     }
 }

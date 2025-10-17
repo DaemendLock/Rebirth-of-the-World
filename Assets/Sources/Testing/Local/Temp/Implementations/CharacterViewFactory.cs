@@ -1,6 +1,9 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Controllers;
 using Combat.Local.Data.Databases;
+using Combat.Local.Domain.Entities;
+using Combat.Local.Domain.Repositories;
+using Combat.Local.Domain.UseCases;
 using Combat.Local.Presentation.Components;
 using Combat.Local.Presentation.Factories;
 
@@ -10,6 +13,21 @@ using UnityEngine;
 
 namespace Testing.Local.Temp.Factories
 {
+    public class ActionFactory : IActionFactory
+    {
+        private readonly IAttributesRepository _attributesRepository;
+
+        public ActionFactory(IAttributesRepository attributesRepository)
+        {
+            _attributesRepository = attributesRepository;
+        }
+
+        public IAction CreateCastAction(Skill skill, EntityId actorId)
+        {
+            return new CastAction(skill.Id, _attributesRepository.Get(actorId).GetHasteModifier(), skill.AllowMovement, skill.FrameData);
+        }
+    }
+
     public class CharacterViewFactory : ICharacterViewFactory
     {
         private readonly HitController _hitController;

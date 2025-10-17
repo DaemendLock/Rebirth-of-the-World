@@ -1,4 +1,5 @@
 ﻿using Combat.Common.ValueObjects;
+using Combat.Local.Domain.DTO;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
@@ -40,7 +41,8 @@ namespace Combat.Local.Controllers
 
         public void ApplyStatus(EntityId target, StatusName name, int stackCount, float duration, SkillId? skill, EntityId? caster)
         {
-            _applyStatusUseCase.Execute(target, name, stackCount, duration, new(caster, skill));
+            ApplStatusDTO dto = new(target, name, stackCount, duration, skill, caster);
+            _applyStatusUseCase.Execute(dto);
         }
 
         public float GetResourceValue(EntityId target, ResourceId resource) => _resourceRepository.Get(target, resource).CurrentValue;
