@@ -15,11 +15,11 @@ namespace Combat.Local.Data.Databases
 
     public class HealingModificationDataSource : IHealingModificationDataSource
     {
-        private readonly UnitApiProvider _unitApiProvider;
+        private readonly CharacterApiProvider _unitApiProvider;
         private readonly SkillApiProvider _skillApiProvider;
         private readonly StatusLookup _statusLookupService;
 
-        public HealingModificationDataSource(UnitApiProvider unitApiProvider, SkillApiProvider skillApiProvider, StatusLookup statusLookupService)
+        public HealingModificationDataSource(CharacterApiProvider unitApiProvider, SkillApiProvider skillApiProvider, StatusLookup statusLookupService)
         {
             _unitApiProvider = unitApiProvider;
             _skillApiProvider = skillApiProvider;

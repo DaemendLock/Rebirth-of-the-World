@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8235ff18f90bcd247afbf2248f110167, type: 3}
   m_Name: testSkill
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: 0
+  _id: 0
   <Cooldown>k__BackingField: 0
   <Flags>k__BackingField: 128
-  _frameData: []
-  <AnimationClip>k__BackingField: {fileID: -203655887218126122, guid: 5e2782e5088bb4b4bbbac929a4d9b7aa, type: 3}
   <ScriptName>k__BackingField: sayHi
+  _actions:
+  - {fileID: 11400000, guid: 6eae9589ef57c7748894405be7e4a00b, type: 2}

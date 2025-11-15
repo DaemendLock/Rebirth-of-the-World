@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 1
   <Cooldown>k__BackingField: 0
-  <Flags>k__BackingField: 0
+  <Flags>k__BackingField: 4096
   _frameData: []
   <AnimationClip>k__BackingField: {fileID: 0}
   <ScriptName>k__BackingField: Paladin1

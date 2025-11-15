@@ -34,8 +34,7 @@ namespace Combat.Local.Gateways.Repositories.Unit
                 return;
             }
 
-            transform.position = value.Position;
-            transform.rotation = value.Rotation;
+            transform.SetPositionAndRotation(value.Position, value.Rotation);
             transform.localScale = value.Scale * Vector3.one;
         }
 

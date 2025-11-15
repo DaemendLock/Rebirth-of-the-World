@@ -3,15 +3,6 @@ using Combat.Local.Domain.ValueObjects;
 
 namespace Combat.Local.Domain.Entities
 {
-    public readonly ref struct UnitEvent
-    {
-        public EntityId Target { get; }
-        public SkillId? Source { get; }
-        public EntityId? ActorId { get; }
-
-        public EventSource EventSource => new(ActorId, Source);
-    }
-
     public struct Status
     {
         public Status(StatusId id, EntityId parent, StatusName name, EventSource source, int stackCount, Duration duration)
@@ -23,6 +14,8 @@ namespace Combat.Local.Domain.Entities
             Caster = source.Unit;
             Duration = duration;
             Source = source.Skill;
+
+            StateModifiers = ActorState.None;
         }
 
         public StatusId Id { get; }
@@ -33,5 +26,7 @@ namespace Combat.Local.Domain.Entities
 
         public int StackCount { get; set; }
         public Duration Duration { get; set; }
+
+        public ActorState StateModifiers { get; }
     }
 }

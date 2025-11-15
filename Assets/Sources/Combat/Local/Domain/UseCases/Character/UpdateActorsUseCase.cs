@@ -1,7 +1,9 @@
-﻿using Combat.Common.ValueObjects;
+﻿using Combat.Common.Flags;
+using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories;
+using Combat.Local.Domain.ValueObjects;
 
 using System.Linq;
 
@@ -45,9 +47,16 @@ namespace Combat.Local.Domain.UseCases
 
             ActionState actionState = action.CurrentState;
 
-            float time = action.ActiveTime + deltaTime;
+            float activeTime = action.ActiveTime + deltaTime;
+            float effectiveTime = action.EffectiveTime;
 
-            ActionData data = new(action.Skill, action.IsActive, time, time, action.AllowMovement);
+            if (!action.Flags.HasFlag(ActionFlags.Holdable) || action.CurrentState != ActionState.Active)
+            {
+                effectiveTime += deltaTime;
+            }
+
+            ActionData data = new(action.IsActive, activeTime, effectiveTime);
+
             action.Update(data);
 
             if (action.CurrentState == actionState)
@@ -55,7 +64,12 @@ namespace Combat.Local.Domain.UseCases
                 return;
             }
 
-            _actionStateChangeEventHandler.HandleEvent(actor.Id, data.Skill, action.CurrentState);
+            if (action.CurrentState == ActionState.Active)
+            {
+                action.HittedTargets.Clear();
+            }
+
+            _actionStateChangeEventHandler.HandleEvent(actor.Id, action.CurrentState);
         }
     }
 }

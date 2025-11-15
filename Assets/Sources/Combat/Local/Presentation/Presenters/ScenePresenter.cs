@@ -1,5 +1,4 @@
-﻿using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Entities;
+﻿using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Presentation.Components;
 using Combat.Local.Presentation.Factories;
@@ -19,36 +18,24 @@ namespace Combat.Local.Presentation.Presenters
             _factory = factory;
         }
 
-        public void Present(Positionable value)
-        {
-            CharacterView view = _factory.Create(value.Id, value.ModelName);
-            SetModel(value.Id, view);
-        }
-
-        public void SetTransform(Positionable positionable, Transform transform)
+        public void Present(Positionable value, Transform transform)
         {
             if (transform == null || transform.TryGetComponent(out CharacterView view) == false)
             {
-                Present(positionable);
-                return;
+                view = _factory.Create(value.Id, value.ModelName);
             }
 
-            view.Id = positionable.Id;
-            view.name = positionable.ModelName.ToString() + positionable.Id.ToString();
-            SetModel(positionable.Id, view);
-        }
+            view.Id = value.Id;
+            view.name = value.ModelName.ToString() + value.Id.ToString();
+            _factory.Init(value.Id, view);
 
-        private void SetModel(EntityId target, CharacterView view)
-        {
-            _factory.Init(target, view);
-
-            if (_container.TryGetValue(target, out Transform oldCharacterView))
+            if (_container.TryGetValue(value.Id, out Transform oldCharacterView))
             {
                 oldCharacterView.gameObject.SetActive(false);
                 Object.Destroy(oldCharacterView.gameObject);
             }
 
-            _container.Save(target, view.transform);
+            _container.Save(value.Id, view.transform);
         }
     }
 }

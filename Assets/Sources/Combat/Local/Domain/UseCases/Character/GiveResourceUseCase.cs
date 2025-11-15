@@ -19,18 +19,13 @@ namespace Combat.Local.Domain.UseCases
             _giveResourceOutput = giveResourceOutput;
         }
 
-        public void Execute(EntityId target, ResourceId resource, float value, EventSource source)
+        public void Execute(EntityId target, ResourceId resourceType, float value, EventSource source)
         {
-            Resource resourceValue = _resourceRepository.Get(target, resource);
-            resourceValue.CurrentValue += value;
+            Resource resource = _resourceRepository.Get(target, resourceType);
+            resource.Fill(value);
+            _resourceRepository.Update(resource);
 
-            if (resourceValue.CurrentValue > resourceValue.MaxValue)
-            {
-                resourceValue.CurrentValue = resourceValue.MaxValue;
-            }
-
-            _resourceRepository.Update(resourceValue);
-            GiveResourceResult result = new(target, resource, value, resourceValue.CurrentValue, resourceValue.MaxValue, source.Skill, source.Unit);
+            GiveResourceResult result = new(target, resourceType, value, resource.CurrentValue, resource.MaxValue, source.Skill, source.Unit);
             _giveResourceOutput.Present(result);
             _eventHandler.HandleEvent(result);
         }

@@ -14,15 +14,13 @@ namespace Combat.Local.Domain.UseCases
         private readonly IStatusRepository _statusRepository;
         private readonly IStatusTimerRepository _statusTimerRepository;
         private readonly IStatusExpiredEventHandler _statusExpiredEventHandler;
-        private readonly IStatusTickEventHandler _statusTickEventHandler;
         private readonly IRemoveStatusEventHandler _removeStatusEventHandler;
 
-        public UpdateStatusesUseCases(IStatusRepository statusRepository, IStatusTimerRepository statusTimerRepository, IStatusExpiredEventHandler statusExpiredEventHandler, IStatusTickEventHandler statusTickEventHandler, IRemoveStatusEventHandler removeStatusEventHandler)
+        public UpdateStatusesUseCases(IStatusRepository statusRepository, IStatusTimerRepository statusTimerRepository, IStatusExpiredEventHandler statusExpiredEventHandler, IRemoveStatusEventHandler removeStatusEventHandler)
         {
             _statusRepository = statusRepository;
             _statusTimerRepository = statusTimerRepository;
             _statusExpiredEventHandler = statusExpiredEventHandler;
-            _statusTickEventHandler = statusTickEventHandler;
             _removeStatusEventHandler = removeStatusEventHandler;
         }
 

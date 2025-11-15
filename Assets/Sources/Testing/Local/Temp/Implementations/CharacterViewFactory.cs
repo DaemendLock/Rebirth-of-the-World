@@ -1,9 +1,14 @@
-﻿using Combat.Common.ValueObjects;
+﻿using CastStateSkill;
+
+using Combat.Common.Flags;
+using Combat.Common.ValueObjects;
 using Combat.Local.Controllers;
 using Combat.Local.Data.Databases;
 using Combat.Local.Domain.Entities;
+using Combat.Local.Domain.Factories;
 using Combat.Local.Domain.Repositories;
-using Combat.Local.Domain.UseCases;
+using Combat.Local.Domain.ValueObjects;
+using Combat.Local.Gateways.DataSources;
 using Combat.Local.Presentation.Components;
 using Combat.Local.Presentation.Factories;
 
@@ -15,16 +20,33 @@ namespace Testing.Local.Temp.Factories
 {
     public class ActionFactory : IActionFactory
     {
-        private readonly IAttributesRepository _attributesRepository;
+        private readonly ISkillRepository _skillRepository;
+        private readonly ISkillDataBase _skillDataBase;
 
-        public ActionFactory(IAttributesRepository attributesRepository)
+        public ActionFactory(ISkillRepository skillRepository, ISkillDataBase skillDataBase)
         {
-            _attributesRepository = attributesRepository;
+            _skillRepository = skillRepository;
+            _skillDataBase = skillDataBase;
         }
 
-        public IAction CreateCastAction(Skill skill, EntityId actorId)
+        public IAction CreateCastAction(ActionId actionId, EntityId actorId)
         {
-            return new CastAction(skill.Id, _attributesRepository.Get(actorId).GetHasteModifier(), skill.AllowMovement, skill.FrameData);
+            Skill skill = _skillRepository.Get(new(actionId.Value), actorId);
+            ActionFlags flags = ActionFlags.None;
+
+            if (skill.AllowMoment)
+            {
+                flags |= ActionFlags.AllowMovement;
+            }
+
+            if(skill.Flags.HasFlag(SkillFlags.CanHold))
+            {
+                flags |= ActionFlags.Holdable;
+            }
+
+            IFrameData frameData = _skillDataBase.GetFrameData(actionId);
+
+            return new CastAction(actionId, flags, frameData);
         }
     }
 
@@ -51,9 +73,6 @@ namespace Testing.Local.Temp.Factories
 
             GameObject gameObject = Object.Instantiate(prefab);
             CharacterView result = gameObject.GetComponent<CharacterView>() ?? gameObject.AddComponent<CharacterView>();
-            result.Id = id;
-            gameObject.name = modelName.ToString() + id.ToString();
-
             return result;
         }
 

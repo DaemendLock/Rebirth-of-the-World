@@ -16,10 +16,10 @@ namespace Combat.API.Controllers
     {
         private readonly IStatusLookupService _statusLookup;
 
-        private readonly UnitApiProvider _unitApiProvider;
+        private readonly CharacterApiProvider _unitApiProvider;
         private readonly SkillApiProvider _skillApiProvider;
 
-        public CharacterEventApiController(IStatusLookupService statusLookup, UnitApiProvider unitApiProvider, SkillApiProvider skillApiProvider)
+        public CharacterEventApiController(IStatusLookupService statusLookup, CharacterApiProvider unitApiProvider, SkillApiProvider skillApiProvider)
         {
             _statusLookup = statusLookup;
             _unitApiProvider = unitApiProvider;

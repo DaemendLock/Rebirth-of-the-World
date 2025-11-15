@@ -17,7 +17,7 @@ namespace Combat.Local.Domain.UseCases
         private readonly UnitIdFactory _unitModelFactory;
 
         private readonly IHealthRepository _healthRepository;
-        private readonly IKillableRepository _killableRepository;
+        private readonly IStateRepository _stateRepository;
         private readonly IAligmentRepository _aligmentRepository;
         private readonly IAttributesRepository _attributesRepository;
         private readonly IResourceRepository _resourceRepository;
@@ -30,14 +30,14 @@ namespace Combat.Local.Domain.UseCases
         private readonly ICreateUnitOutput _outputPort;
 
         public CreateCharacterUseCase(
-            IHealthRepository healthRepository, IKillableRepository killableRepository, IAligmentRepository aligmentRepository,
+            IHealthRepository healthRepository, IStateRepository killableRepository, IAligmentRepository aligmentRepository,
             IAttributesRepository attributesRepository, IResourceRepository resourceRepository, ISkillOwnerRepository skillOwnerRepository,
             IPositionableRepository positionableRepository, IActorRepository actorRepository,
             ICreateUnitEventHandler createUnitEventHandler,
             ICreateUnitOutput outputPort)
         {
             _healthRepository = healthRepository;
-            _killableRepository = killableRepository;
+            _stateRepository = killableRepository;
             _aligmentRepository = aligmentRepository;
             _attributesRepository = attributesRepository;
             _resourceRepository = resourceRepository;
@@ -50,21 +50,11 @@ namespace Combat.Local.Domain.UseCases
             _unitModelFactory = new();
         }
 
-        public void Execute(CreateCharacterDTO data)
+        public void Execute(CreateCharacterDTO data, Transform parent = null)
         {
             Positionable positionable = Create(data);
 
-            _outputPort.Present(positionable);
-            _positionableRepository.Update(positionable);
-            SkillOwner skillOwner = _skillOwnerRepository.Get(positionable.Id);
-            _createUnitEventHandler.HandleEvent(positionable.Id, skillOwner.GetAll());
-        }
-
-        public void Execute(CreateCharacterDTO data, Transform parent)
-        {
-            Positionable positionable = Create(data);
-
-            _outputPort.SetTransform(positionable, parent);
+            _outputPort.Present(positionable, parent);
             _positionableRepository.Update(positionable);
             SkillOwner skillOwner = _skillOwnerRepository.Get(positionable.Id);
             _createUnitEventHandler.HandleEvent(positionable.Id, skillOwner.GetAll());
@@ -74,7 +64,7 @@ namespace Combat.Local.Domain.UseCases
         {
             EntityId id = _unitModelFactory.GetId();
 
-            Killable killable = new(id, true);
+            CharacterState state = new(id);
 
             Health health = new(id, context.DefaultHealth)
             {
@@ -97,13 +87,13 @@ namespace Combat.Local.Domain.UseCases
             Positionable positionable = new(id, context.Position, default, 1f, default, context.Model);
             SkillOwner skillOwner = new(id, context.Skills);
 
-            _killableRepository.Create(killable);
             _healthRepository.Create(health);
+            _stateRepository.Create(state);
             _aligmentRepository.Create(aligment);
             _attributesRepository.Create(attributes);
             _resourceRepository.Create(new(id, ResourceId.Custom, 100, 0));
             _positionableRepository.Create(positionable);
-            _actorRepository.Create(new(id, ActorState.Free, null));
+            _actorRepository.Create(new(id, ActorState.None, null));
             _skillOwnerRepository.Create(skillOwner);
 
             return positionable;

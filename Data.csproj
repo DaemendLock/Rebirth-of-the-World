@@ -86,6 +86,7 @@
     <Compile Include="Assets\Sources\Data\Utils\ThrowHelper\ThrowHelper.cs" />
     <Compile Include="Assets\Sources\Data\Entities\NpcModels\NpcModel.cs" />
     <Compile Include="Assets\Sources\Data\Utils\ThrowHelper\Exceptions\FileLoadedException.cs" />
+    <Compile Include="Assets\Sources\Data\Entities\Local\ActionData.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\DataMapper.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\MappedDataLoader.cs" />
     <Compile Include="Assets\Sources\Data\Skills\SpellDataLoader.cs" />
@@ -103,7 +104,7 @@
     <Compile Include="Assets\Sources\Data\Skills\SpellDataProvider\ISpellDataProvider.cs" />
     <Compile Include="Assets\Sources\Data\Utils\FileReader.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\DynamicUIRoot.cs" />
-    <Compile Include="Assets\Sources\Data\Entities\Local\ISkillData.cs" />
+    <Compile Include="Assets\Sources\Data\Entities\Local\SkillData.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\Format\ActionBarFormat.cs" />
   </ItemGroup>
   <ItemGroup>

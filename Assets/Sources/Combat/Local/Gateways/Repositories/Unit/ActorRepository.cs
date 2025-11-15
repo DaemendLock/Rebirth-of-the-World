@@ -30,7 +30,7 @@ namespace Combat.Local.Gateways.Repositories.Unit
 
             if (_apiDataSource.RestrictMovement(id))
             {
-                state |= ActorState.CantMove;
+                state |= ActorState.Rooted;
             }
 
             return new(id, state, data.Action);

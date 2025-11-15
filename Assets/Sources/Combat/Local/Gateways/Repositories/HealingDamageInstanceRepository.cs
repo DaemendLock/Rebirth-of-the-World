@@ -25,7 +25,7 @@ namespace Combat.Local.Gateways.Repositories
             float finalDamage = (value.Damage + modifiaction.BonusDamage) * (1 + modifiaction.BonusDamagePercent * 0.01f);
             DamageFlags finalFlags = value.Flags | modifiaction.BonusFlags;
 
-            return new(value.Id, data.Target, value.Damage, finalDamage, finalFlags, data.Attacker, new(data.Caster, data.Skill));
+            return new(data.Target, value.Damage, finalDamage, finalFlags, data.Attacker, new(data.Caster, data.Skill));
         }
 
         public HealingInstance GetHealingInstance(HealingInstance value)

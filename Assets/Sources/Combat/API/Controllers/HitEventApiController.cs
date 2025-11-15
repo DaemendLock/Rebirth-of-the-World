@@ -6,10 +6,10 @@ namespace Combat.API.Controllers
 {
     public class HitEventApiController
     {
-        private readonly UnitApiProvider _unitApiProvider;
+        private readonly CharacterApiProvider _unitApiProvider;
         private readonly SkillApiProvider _skillApiProvider;
 
-        public HitEventApiController(SkillApiProvider skillApiProvider, UnitApiProvider unitApiProvider)
+        public HitEventApiController(SkillApiProvider skillApiProvider, CharacterApiProvider unitApiProvider)
         {
             _skillApiProvider = skillApiProvider;
             _unitApiProvider = unitApiProvider;
@@ -25,7 +25,7 @@ namespace Combat.API.Controllers
         {
             Unit hitboxOwner = _unitApiProvider.Get(hitInfo.Source);
             Unit hurtboxOwner = _unitApiProvider.Get(hitInfo.Target);
-            SkillApi handler = hitInfo.Handler.HasValue ? _skillApiProvider.Get(hitInfo.Handler.Value, hitInfo.Source) : null;
+            SkillApi handler = hitInfo.Handler.HasValue ? _skillApiProvider.Get(new(hitInfo.Handler.Value.Value), hitInfo.Source) : null;
             return new(hitboxOwner, hitInfo.HitboxType, hurtboxOwner, hitInfo.HurtboxType, hitInfo.Location, handler);
         }
 

@@ -1,32 +1,9 @@
-﻿using Combat.API.Skills;
-using Combat.Common.ValueObjects;
+﻿using Combat.Common.ValueObjects;
 
 using System.Collections.Generic;
 
-using Testing.Local.Temp.DomainOutputs;
-
 namespace Combat.API.Controllers
 {
-    public class SkillEventApiHandler
-    {
-        private readonly SkillApiProvider _skillApiProvider;
-
-        public SkillEventApiHandler(SkillApiProvider skillApiProvider)
-        {
-            _skillApiProvider = skillApiProvider;
-        }
-
-        public void HandleCast(SkillCastInfo info)
-        {
-            SkillApi api = _skillApiProvider.Get(info.SkillId, info.Caster);
-
-            if (api.TryGetProperty(out ICastableSkill script))
-            {
-                script.OnCast();
-            }
-        }
-    }
-
     public class SkillApiProvider
     {
         private readonly Dictionary<(EntityId?, SkillId), SkillApi> _values;

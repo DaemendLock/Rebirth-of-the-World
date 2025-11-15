@@ -18,12 +18,12 @@ namespace Combat.Local.Data.Factories
     {
         private readonly StatusScriptTypeDataSource _statusApiTypeProvider;
 
-        private readonly UnitApiProvider _unitApiProvider;
+        private readonly CharacterApiProvider _unitApiProvider;
         private readonly SkillApiProvider _skillApiProvider;
         private readonly SceneApiProvider _sceneApiProvider;
         private readonly StatusController _statusController;
 
-        public StatusApiFactory(UnitApiProvider unitApiRepository, SkillApiProvider skillApiRepository, StatusController statusController, SceneApiProvider sceneApiProvider)
+        public StatusApiFactory(CharacterApiProvider unitApiRepository, SkillApiProvider skillApiRepository, StatusController statusController, SceneApiProvider sceneApiProvider)
         {
             _unitApiProvider = unitApiRepository;
             _skillApiProvider = skillApiRepository;

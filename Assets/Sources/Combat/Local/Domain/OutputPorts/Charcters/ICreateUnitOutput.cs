@@ -9,8 +9,7 @@ namespace Combat.Local.Domain.OutputPorts
 {
     public interface ICreateUnitOutput
     {
-        void Present(Positionable positionable);
-        void SetTransform(Positionable positionable, Transform parent);
+        void Present(Positionable positionable, Transform parent = null);
     }
 
     public interface ICreateUnitEventHandler
@@ -40,6 +39,6 @@ namespace Combat.Local.Domain.OutputPorts
 
     public interface IActionStateChangeEventHandler
     {
-        void HandleEvent(EntityId actorId, SkillId skill, ActionState newState);
+        void HandleEvent(EntityId actorId, ActionState newState);
     }
 }

@@ -1,12 +1,23 @@
 ﻿using Combat.Common.ValueObjects;
+using Combat.Local.Domain.ValueObjects;
+
+using System;
 
 namespace Combat.Local.Domain.Entities
 {
+    public enum ConsciousState
+    {
+        Alive,
+        Down,
+        Dead,
+    }
+
+    [Flags]
     public enum ActorState
     {
-        Free = 0,
-        CantCast = 1,
-        CantMove = 2,
+        None = 0,
+        Silenced = 1,
+        Rooted = 2,
     }
 
     public enum ActionType
@@ -15,20 +26,12 @@ namespace Combat.Local.Domain.Entities
         Casting = 1,
     }
 
-    public readonly struct ActorAction
-    {
-        public float ActiveTime { get; }
-        public ActionType ActionType { get; }
-    }
-
     public ref struct Actor
     {
-        private readonly ActorState _state;
-
         public Actor(EntityId id, ActorState state, IAction action)
         {
             Id = id;
-            _state = state;
+            State = state;
             CurrentAction = action;
         }
 
@@ -36,12 +39,16 @@ namespace Combat.Local.Domain.Entities
 
         public IAction CurrentAction { get; set; }
 
-        public ActorState State => _state;
+        public ActorState State { get; set; }
 
-        public bool IsCasting => CurrentAction != null;
+        public bool CanCast => State == ActorState.Silenced == false;
 
-        public bool CanCast => _state == ActorState.CantCast == false;
+        public bool CanMove => (State.HasFlag(ActorState.Rooted) == false) && (CurrentAction == null || CurrentAction.AllowMovement);
 
-        public bool CanMove => (_state.HasFlag(ActorState.CantMove) == false) && (CurrentAction == null || CurrentAction.AllowMovement);
+        public void StartAction(IAction action)
+        {
+            CurrentAction = action;
+            action.Start();
+        }
     }
 }

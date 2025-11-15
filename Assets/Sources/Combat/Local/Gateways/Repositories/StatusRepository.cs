@@ -3,6 +3,7 @@ using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Combat.Local.Data.Repositories
 {
@@ -38,5 +39,10 @@ namespace Combat.Local.Data.Repositories
         public ICollection<Status> GetAll() => _values.Values;
 
         public ICollection<StatusId> GetAllIds() => _values.Keys;
+
+        public IReadOnlyCollection<Status> FindStatusesWithParent(EntityId parent)
+        {
+            return _values.Where(value => value.Value.Parent == parent).Select(value => value.Value).ToArray();
+        }
     }
 }

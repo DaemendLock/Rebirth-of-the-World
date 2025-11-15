@@ -20,6 +20,7 @@ namespace Combat.Local.Domain.UseCases
             var health = _healthRepository.Get(target);
             health.CurrentHealth = value;
             _healthRepository.Update(health);
+
             _healthOutput.Present(health);
         }
     }

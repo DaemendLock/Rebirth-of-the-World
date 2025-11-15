@@ -1,7 +1,8 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Controllers;
 using Combat.Local.Data.Databases;
-using Combat.Local.Data.Entities;
+
+using Data.Entities;
 
 using Temp.Domain.Implementations;
 
@@ -21,12 +22,12 @@ namespace Testing.Local
         [field: SerializeField] public float MaxHealth { get; private set; }
         [field: SerializeField] public float InitialHealth { get; private set; }
         [field: SerializeField] public float MoveSpeed { get; private set; }
-        [field: SerializeField] public CastableSkillData[] Skills { get; private set; }
+        [field: SerializeField] public SkillData[] Skills { get; private set; }
         public ModelName ModelName => new(_modelName);
 
         private void Awake()
         {
-            foreach (CastableSkillData value in Skills)
+            foreach (SkillData value in Skills)
             {
                 _skillDb.Load(value);
             }

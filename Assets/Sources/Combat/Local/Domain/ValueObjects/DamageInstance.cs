@@ -25,7 +25,6 @@ namespace Combat.Local.Domain.ValueObjects
 
     public ref struct DamageInstance
     {
-        public DamageInstanceId Id { get; }
         public EntityId Target { get; }
         public EntityId? Attacker { get; }
         public float OriginalDamage { get; }
@@ -33,9 +32,8 @@ namespace Combat.Local.Domain.ValueObjects
         public float Damage { get; set; }
         public DamageFlags Flags { get; set; }
 
-        public DamageInstance(DamageInstanceId id, EntityId target, float originalDamage, float damage, DamageFlags flags, EntityId? attacker, EventSource source)
+        public DamageInstance(EntityId target, float originalDamage, float damage, DamageFlags flags, EntityId? attacker, EventSource source)
         {
-            Id = id;
             Target = target;
             Attacker = attacker;
             OriginalDamage = originalDamage;
@@ -44,9 +42,8 @@ namespace Combat.Local.Domain.ValueObjects
             Flags = flags;
         }
 
-        public DamageInstance(DamageInstanceId id, EntityId target, float originalDamage, EntityId? attacker, DamageFlags flags, EventSource source)
+        public DamageInstance(EntityId target, float originalDamage, EntityId? attacker, DamageFlags flags, EventSource source)
         {
-            Id = id;
             Target = target;
             OriginalDamage = originalDamage;
             Source = source;

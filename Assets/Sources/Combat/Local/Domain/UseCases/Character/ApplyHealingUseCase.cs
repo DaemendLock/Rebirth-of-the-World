@@ -27,20 +27,12 @@ namespace Combat.Local.Domain.UseCases
             HealingInstance value = new(target, healing, healing, flags, healer, source);
             HealingInstance instance = _healingDamageInstanceRepository.GetHealingInstance(value);
 
-            healing = instance.Healing;
-            flags = instance.Flags;
-
             Health health = _healthRepository.Get(target);
+            healing = instance.Healing;
 
-            health.CurrentHealth += healing;
-
-            if (health.CurrentHealth > health.MaxHealth)
-            {
-                health.CurrentHealth = health.MaxHealth;
-            }
+            health.TakeHealing(healing);
 
             _healthRepository.Update(health);
-
             _healthOutput.Present(health);
 
             if (instance.Flags.HasFlag(HealingFlags.CanRevive) && health.CurrentHealth > 0)

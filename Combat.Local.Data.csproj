@@ -65,7 +65,6 @@
     <Compile Include="Assets\Sources\Combat\Local\Data\Factories\StatusApiFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\Lookup\StatusLookup.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\DataSources\StatusModificationProvider.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\CastableSkillData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\Factories\UnitApiFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\Presentation\CharacterViewContainer.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\CharacterModelProvider.cs" />

@@ -68,13 +68,13 @@
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\HitboxRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\DataSources\ISceneObjectDataSource.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\SkillOwnerRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\StateRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\HealthData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\ActorRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\ResourceRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\DamageInstanceData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\HitboxData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\AttributesRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\KillableRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\DamageModifiaction.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\DataSources\IStatusApiDataSource.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\HealingDamageInstanceRepository.cs" />

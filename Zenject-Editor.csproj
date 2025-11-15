@@ -68,8 +68,8 @@
     <Compile Include="Assets\Plugins\Zenject\Source\Editor\UnityInspectorListEditor.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Editor\Editors\ProjectContextEditor.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Editor\Editors\SceneContextEditor.cs" />
-    <Compile Include="Assets\Plugins\Zenject\Source\Editor\Editors\SceneDecoratorContextEditor.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Editor\EditorStaticInstaller.cs" />
+    <Compile Include="Assets\Plugins\Zenject\Source\Editor\Editors\SceneDecoratorContextEditor.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Editor\Editors\ContextEditor.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Editor\Editors\RunnableContextEditor.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Editor\Editors\GameObjectContextEditor.cs" />

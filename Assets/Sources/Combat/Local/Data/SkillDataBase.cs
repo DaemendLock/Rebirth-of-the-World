@@ -1,11 +1,11 @@
 ﻿using CastStateSkill;
 
 using Combat.Common.ValueObjects;
-using Combat.Local.Data.Entities;
 using Combat.Local.Gateways.DataSources;
 
 using Data.Entities;
 
+using System;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -15,16 +15,14 @@ namespace Combat.Local.Data.Databases
     public class SkillDataBase : ISkillDataBase
     {
         private readonly Dictionary<SkillId, ISkillData> _values;
-        private readonly Dictionary<SkillId, IFrameData> _frameData;
-        private readonly Dictionary<SkillId, AnimationClip> _animations;
+        private readonly Dictionary<ActionId, IActionData> _actions;
 
         public SkillDataBase()
         {
             _values = new();
-            _frameData = new();
-            _animations = new();
+            _actions = new();
 
-            foreach (CastableSkillData data in Resources.LoadAll<CastableSkillData>("Temp/TestSkills"))
+            foreach (SkillData data in Resources.LoadAll<SkillData>("Temp/TestSkills"))
             {
                 Load(data);
             }
@@ -41,25 +39,46 @@ namespace Combat.Local.Data.Databases
 
             _values[value.Id] = value;
 
-            if (value is CastableSkillData castableSkill)
+            foreach (IActionData action in value.AssociatedActions)
             {
-                _animations.Add(id, castableSkill.AnimationClip);
-            }
-
-            if (value is CastableSkillData castable)
-            {
-                _frameData[value.Id] = castable.FrameData;
+                _actions[action.Id] = action;
             }
         }
 
         public ISkillData Get(SkillId id) => _values[id];
 
-        public IFrameData GetFrameData(SkillId id) => _frameData.GetValueOrDefault(id, null);
+        public IFrameData GetFrameData(ActionId id)
+        {
+            if (_actions.TryGetValue(id, out IActionData data) == false)
+            {
+                return null;
+            }
 
-        public AnimationClip GetAnimation(SkillId id) => _animations.GetValueOrDefault(id, null);
+            return data.FrameData;
+        }
+
+        public AnimationClip GetAnimation(ActionId id)
+        {
+            if (_actions.TryGetValue(id, out IActionData data) == false)
+            {
+                return null;
+            }
+
+            return data.Animation;
+        }
 
         public void Free(SkillId id) => _values.Remove(id);
 
         public bool IsLoaded(SkillId id) => _values.ContainsKey(id);
+
+        public IReadOnlyCollection<ActionId> GetAssociatedActions(SkillId id)
+        {
+            if (_actions.ContainsKey(new(id.Value)) == false)
+            {
+                return Array.Empty<ActionId>();
+            }
+
+            return new ActionId[] { new(id.Value) };
+        }
     }
 }

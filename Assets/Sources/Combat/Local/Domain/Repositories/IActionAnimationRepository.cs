@@ -10,8 +10,8 @@ namespace Combat.Local.Domain.Repositories
         Skill Get(SkillId id, EntityId? caster);
     }
 
-    public interface ISkillAnimationRepository
+    public interface IActionAnimationRepository
     {
-        AnimationClip Get(SkillId id);
+        AnimationClip Get(ActionId id);
     }
 }

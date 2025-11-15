@@ -9,7 +9,7 @@ namespace Combat.Local.Events
 {
     public readonly ref struct HitInfo
     {
-        public HitInfo(EntityId source, EntityId target, HitboxType hitboxType, HurtboxType hurtboxType, Vector3 location, SkillId? handler)
+        public HitInfo(EntityId source, EntityId target, HitboxType hitboxType, HurtboxType hurtboxType, Vector3 location, ActionId? handler)
         {
             Source = source;
             Target = target;
@@ -29,7 +29,7 @@ namespace Combat.Local.Events
 
         public Vector3 Location { get; }
 
-        public SkillId? Handler { get; }
+        public ActionId? Handler { get; }
     }
 
     public class HitHandler : IHitEventHandler
@@ -48,7 +48,7 @@ namespace Combat.Local.Events
         {
             var actor = _actorRepository.Get(hitbox.Owner);
 
-            HitInfo hitInfo = new(hitbox.Owner, hurtbox.Owner, hitbox.Type, hurtbox.Type, position, actor.CurrentAction?.Skill);
+            HitInfo hitInfo = new(hitbox.Owner, hurtbox.Owner, hitbox.Type, hurtbox.Type, position, actor.CurrentAction?.Id);
             Hitted?.Invoke(hitInfo);
         }
     }

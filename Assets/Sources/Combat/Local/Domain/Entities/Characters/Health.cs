@@ -60,9 +60,46 @@ namespace Combat.Local.Domain.Entities
                     throw new System.InvalidOperationException($"Value can't be NaN");
                 }
 
+                if (value < 0)
+                {
+                    _currentHealth = 1;
+                    return;
+                }
+
+                if (value > MaxHealth)
+                {
+                    _currentHealth = MaxHealth;
+                }
+
                 _currentHealth = value;
             }
         }
+
         public float MaxHealth => _maxHealth;
+
+        public void TakeDamage(float damage)
+        {
+            if (damage < 0)
+            {
+                return;
+            }
+
+            _currentHealth -= damage;
+        }
+
+        public void TakeHealing(float healing)
+        {
+            if (healing < 0)
+            {
+                return;
+            }
+
+            _currentHealth += healing;
+
+            if (_currentHealth > MaxHealth)
+            {
+                _currentHealth = MaxHealth;
+            }
+        }
     }
 }

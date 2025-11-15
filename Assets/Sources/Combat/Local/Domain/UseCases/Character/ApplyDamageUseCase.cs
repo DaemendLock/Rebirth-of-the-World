@@ -1,7 +1,6 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Factories;
 using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
@@ -11,38 +10,36 @@ namespace Combat.Local.Domain.UseCases
     public readonly struct ApplyDamageUseCase
     {
         private readonly IHealthRepository _healthRepository;
-        private readonly DamageInstanceFactory _damageInstanceFactory;
         private readonly IHealthOutput _healthOutput;
         private readonly IApplyDamageEventHandler _applyDamageEventHandler;
         private readonly IHealingDamageInstanceRepository _damageInstanceRepository;
+        private readonly IStateRepository _stateRepository;
 
-        public ApplyDamageUseCase(IHealthRepository healthRepository, IHealthOutput healthOutput, IApplyDamageEventHandler applyDamageEventHandler, DamageInstanceFactory damageInstanceFactory, IHealingDamageInstanceRepository damageInstanceRepository)
+        public ApplyDamageUseCase(IHealthRepository healthRepository, IHealthOutput healthOutput, IApplyDamageEventHandler applyDamageEventHandler, IHealingDamageInstanceRepository damageInstanceRepository, IStateRepository stateRepository)
         {
             _healthRepository = healthRepository;
             _healthOutput = healthOutput;
             _applyDamageEventHandler = applyDamageEventHandler;
-            _damageInstanceFactory = damageInstanceFactory;
             _damageInstanceRepository = damageInstanceRepository;
+            _stateRepository = stateRepository;
         }
 
         public void Execute(EntityId targetId, float damage, DamageFlags flags, EntityId? attacker, EventSource source)
         {
-            DamageInstance instance = _damageInstanceFactory.Create(targetId, damage, attacker, flags, source);
+            DamageInstance instance = new(targetId, damage, attacker, flags, source);
             instance = _damageInstanceRepository.GetDamageInstance(instance);
 
-            EntityId target = instance.Target;
+            Health health = _healthRepository.Get(instance.Target);
             float finalDamage = instance.Damage;
-            Health health = _healthRepository.Get(target);
 
-            health.CurrentHealth -= finalDamage;
-
-            if (health.CurrentHealth < 0 && instance.Flags.HasFlag(DamageFlags.NonLethal))
+            if (finalDamage >= health.CurrentHealth && instance.Flags.HasFlag(DamageFlags.NonLethal))
             {
-                health.CurrentHealth = 1;
+                finalDamage = health.CurrentHealth - 1;
             }
 
-            _healthRepository.Update(health);
+            health.TakeDamage(finalDamage);
 
+            _healthRepository.Update(health);
             _healthOutput.Present(health);
 
             if (instance.Flags.HasFlag(DamageFlags.NonReactable) == false)
@@ -50,6 +47,27 @@ namespace Combat.Local.Domain.UseCases
                 IApplyDamageEventHandler.DamageResult result = new(instance.Target, damage, finalDamage, instance.Flags, instance.Attacker, instance.Source.Skill, instance.Source.Unit);
                 _applyDamageEventHandler.HandleEvent(result);
             }
+
+            if (health.CurrentHealth > 0)
+            {
+                return;
+            }
+
+            Kill(health.Id, attacker, source);
+        }
+
+        private void Kill(EntityId target, EntityId? attacker, EventSource source)
+        {
+            var state = _stateRepository.Get(target);
+
+            if (state.ConsciousState == ConsciousState.Dead)
+            {
+                return;
+            }
+
+            state.ConsciousState = ConsciousState.Dead;
+            _stateRepository.Update(state);
+            return;
         }
     }
 }

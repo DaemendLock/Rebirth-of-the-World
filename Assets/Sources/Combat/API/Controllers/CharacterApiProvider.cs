@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace Combat.API.Controllers
 {
-    public class UnitApiProvider
+    public class CharacterApiProvider
     {
         private readonly Dictionary<EntityId, Unit> _values;
 
-        public UnitApiProvider()
+        public CharacterApiProvider()
         {
             _values = new();
         }

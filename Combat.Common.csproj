@@ -65,6 +65,7 @@
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\DamageInstanceId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\Flags\KillFlags.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\EntityId.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\PlayerId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\Flags\ReviveFlags.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\HitboxType.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\Duration.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\Attribute.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\HurtboxId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\SkillId.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\ActionId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\Flags\SkillFlags.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\ResourceId.cs" />
   </ItemGroup>

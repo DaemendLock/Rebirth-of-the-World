@@ -2,22 +2,27 @@
 using Combat.API.Controllers;
 using Combat.API.Skills;
 using Combat.Common.ValueObjects;
+using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.OutputPorts;
+using Combat.Local.Domain.Repositories;
 
 namespace Testing.Local.Temp.DomainOutputs
 {
     public class ActionStateChangeHandler : IActionStateChangeEventHandler
     {
         private readonly SkillApiProvider _skillApiProvider;
+        private readonly IActorRepository _actorRepository;
 
-        public ActionStateChangeHandler(SkillApiProvider skillApiProvider)
+        public ActionStateChangeHandler(SkillApiProvider skillApiProvider, IActorRepository actorRepository)
         {
             _skillApiProvider = skillApiProvider;
+            _actorRepository = actorRepository;
         }
 
-        public void HandleEvent(EntityId actorId, SkillId skillId, ActionState newState)
+        public void HandleEvent(EntityId actorId, ActionState newState)
         {
-            SkillApi skillApi = _skillApiProvider.Get(skillId, actorId);
+            Actor actor = _actorRepository.Get(actorId);
+            SkillApi skillApi = _skillApiProvider.Get(new(actor.CurrentAction.Id.Value), actorId);
 
             if (skillApi == null || (skillApi.TryGetProperty(out ICastStateChangeHandler handler) == false))
             {

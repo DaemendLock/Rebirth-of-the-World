@@ -68,17 +68,17 @@ namespace Testing.Local
     //}
     public class UpdateController : ITickable
     {
-        private readonly PrecacheAttributersUseCase _updateCombatUseCase;
+        private readonly PrecacheAttributersUseCase _precacheAttributesUseCase;
         private readonly UpdateStatusTimersUseCase _updateStatusTimersUseCase;
         private readonly UpdateStatusesUseCases _updateStatusesUseCase;
         private readonly UpdateActorsUseCase _updateActorsUseCase;
-        private readonly HandleHitUseCase _handleHitUseCase;
+        private readonly HandleHitsUseCase _handleHitUseCase;
 
         private readonly StatusModificationProvider _statusModificationProvider;
 
-        public UpdateController(PrecacheAttributersUseCase updateCombatUseCase, UpdateStatusTimersUseCase updateStatusTimersUseCase, StatusModificationProvider statusModificationProvider, UpdateStatusesUseCases updateStatusesUseCase, UpdateActorsUseCase updateActionUseCase, HandleHitUseCase handleHitUseCase)
+        public UpdateController(PrecacheAttributersUseCase updateCombatUseCase, UpdateStatusTimersUseCase updateStatusTimersUseCase, StatusModificationProvider statusModificationProvider, UpdateStatusesUseCases updateStatusesUseCase, UpdateActorsUseCase updateActionUseCase, HandleHitsUseCase handleHitUseCase)
         {
-            _updateCombatUseCase = updateCombatUseCase;
+            _precacheAttributesUseCase = updateCombatUseCase;
             _updateStatusTimersUseCase = updateStatusTimersUseCase;
             _statusModificationProvider = statusModificationProvider;
             _updateStatusesUseCase = updateStatusesUseCase;
@@ -90,7 +90,7 @@ namespace Testing.Local
         {
             float deltaTime = UnityEngine.Time.deltaTime;
 
-            _updateCombatUseCase.Execute(deltaTime);
+            _precacheAttributesUseCase.Execute();
             _updateStatusesUseCase.Execute(deltaTime);
             _updateStatusTimersUseCase.Execute(deltaTime);
             _updateActorsUseCase.Execute(deltaTime);

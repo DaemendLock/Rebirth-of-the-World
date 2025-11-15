@@ -44,7 +44,7 @@ namespace Testing.Local
             //Container.Bind<AssetProvider>().FromComponentsOn(gameObject).AsSingle();
 
             Container.Bind<ScenePresenter>().FromNew().AsSingle();
-            Container.Bind<UnitPresenter>().FromNew().AsSingle();
+            Container.Bind<CharacterPresenter>().FromNew().AsSingle();
 
             var val = Container.Resolve<CombatController>();
             Container.Resolve<SceneApiProvider>().Register(Container.Resolve<SceneApi>());
@@ -89,9 +89,9 @@ namespace Testing.Local
             Container.Bind<IHitRecordRepository>().To<HitRecordRepository>().AsSingle();
             Container.Bind<IStatusRepository>().To<StatusRepository>().AsSingle();
             Container.Bind<IHealthRepository>().To<HealthRepository>().AsSingle();
-            Container.Bind<IKillableRepository>().To<KillableRepository>().AsSingle();
+            Container.Bind<IStateRepository>().To<StateRepository>().AsSingle();
             Container.Bind<IAligmentRepository>().To<AligmentRepository>().AsSingle();
-            Container.Bind<ISkillAnimationRepository>().To<SkillAnimationRepository>().AsSingle();
+            Container.Bind<IActionAnimationRepository>().To<SkillAnimationRepository>().AsSingle();
             Container.Bind<IAttributesRepository>().To<AttributesRepository>().AsSingle();
             Container.Bind<IResourceRepository>().To<ResourceRepository>().AsSingle();
             Container.Bind<IHitboxRepository>().To<HitboxRepository>().AsSingle();
@@ -117,7 +117,6 @@ namespace Testing.Local
         private void BindFactories()
         {
             Container.Bind<StatusFactory>().FromNew().AsSingle();
-            Container.Bind<DamageInstanceFactory>().FromNew().AsSingle();
 
             Container.Bind<ICharacterViewFactory>().To<CharacterViewFactory>().AsSingle();
             Container.Bind<IActionFactory>().To<ActionFactory>().AsSingle();
@@ -137,18 +136,18 @@ namespace Testing.Local
             Container.Bind<CastSkillFromSlotUseCase>().FromNew().AsSingle();
             Container.Bind<SkillCastHandler>().FromNew().AsSingle();
             Container.Bind<ISkillCastEventHandler>().To<SkillCastHandler>().FromResolve();
-            Container.Bind<ICastOutput>().To<UnitPresenter>().FromResolve();
+            Container.Bind<ICastOutput>().To<CharacterPresenter>().FromResolve();
 
             Container.Bind<MoveUseCase>().FromNew().AsSingle();
-            Container.Bind<IMovementOutput>().To<UnitPresenter>().FromResolve();
+            Container.Bind<IMovementOutput>().To<CharacterPresenter>().FromResolve();
 
             Container.Bind<GiveResourceUseCase>().FromNew().AsSingle();
             Container.Bind<IGiveResourceEventHandler>().To<CharacterGiveResourceEventHandler>().AsSingle();
-            Container.Bind<IGiveResourceOutput>().To<UnitPresenter>().FromResolve();
+            Container.Bind<IGiveResourceOutput>().To<CharacterPresenter>().FromResolve();
 
             Container.Bind<SpendResourceUseCase>().FromNew().AsSingle();
             Container.Bind<ISpendResourceEventHandler>().To<CharacterSpendResourceEventHandler>().AsSingle();
-            Container.Bind<ISpendResourceOutput>().To<UnitPresenter>().FromResolve();
+            Container.Bind<ISpendResourceOutput>().To<CharacterPresenter>().FromResolve();
 
             Container.Bind<GetHealthUseCase>().FromNew().AsSingle();
 
@@ -161,21 +160,19 @@ namespace Testing.Local
             Container.Bind<IApplyHealingEventHandler>().To<CharacterHealedHandler>().FromResolve();
 
             Container.Bind<SetHealthUseCase>().FromNew().AsSingle();
-            Container.Bind<IHealthOutput>().To<UnitPresenter>().FromResolve();
+            Container.Bind<IHealthOutput>().To<CharacterPresenter>().FromResolve();
 
             Container.Bind<ApplyStatusUseCase>().FromNew().AsSingle();
             Container.Bind<StatusCreateHandler>().FromNew().AsSingle();
             Container.Bind<IApplyStatusEventHandler>().To<StatusCreateHandler>().FromResolve();
 
-            Container.Bind<KillUnitUseCase>().FromNew().AsSingle();
-
-            Container.Bind<GiveSkillUseCase>().FromNew().AsSingle();
+            Container.Bind<ForceKillUseCase>().FromNew().AsSingle();
 
             Container.Bind<FindStatusUseCase>().FromNew().AsSingle();
 
             //Hits
             Container.Bind<RecordHitUseCase>().FromNew().AsSingle();
-            Container.Bind<HandleHitUseCase>().FromNew().AsSingle();
+            Container.Bind<HandleHitsUseCase>().FromNew().AsSingle();
             Container.Bind<HitHandler>().FromNew().AsSingle();
             Container.Bind<IHitEventHandler>().To<HitHandler>().FromResolve();
 
@@ -204,7 +201,7 @@ namespace Testing.Local
 
         private void BindApi()
         {
-            Container.Bind<UnitApiProvider>().FromNew().AsSingle();
+            Container.Bind<CharacterApiProvider>().FromNew().AsSingle();
             Container.Bind<SkillApiProvider>().FromNew().AsSingle();
             Container.Bind<StatusApiProvider>().FromNew().AsSingle();
             Container.Bind<SceneApiProvider>().FromNew().AsSingle();

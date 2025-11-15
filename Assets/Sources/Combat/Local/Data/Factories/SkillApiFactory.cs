@@ -17,13 +17,13 @@ namespace Combat.Local.Data.Factories
 {
     public class SkillApiFactory : ISkillApiFactory
     {
-        private readonly UnitApiProvider _unitApiProvider;
+        private readonly CharacterApiProvider _unitApiProvider;
         private readonly SceneApiProvider _sceneProvider;
 
         private readonly SkillDataBase _skillDataBase;
         private readonly SkillScriptTypeProvider _skillScriptTypeProvider;
 
-        public SkillApiFactory(UnitApiProvider unitApiRepository, SkillDataBase skillDataBase, SceneApiProvider scene)
+        public SkillApiFactory(CharacterApiProvider unitApiRepository, SkillDataBase skillDataBase, SceneApiProvider scene)
         {
             _unitApiProvider = unitApiRepository;
             _skillDataBase = skillDataBase;
@@ -40,7 +40,16 @@ namespace Combat.Local.Data.Factories
         public SkillApi Create(SkillId skillId, EntityId? owner)
         {
             ISkillData skillData = _skillDataBase.Get(skillId);
-            SkillScript script = CreateUninitiailizedScript(skillData.ScriptName);
+            SkillScript script = null;
+
+            try
+            {
+                script = CreateUninitiailizedScript(skillData.ScriptName);
+            }
+            catch (Exception e)
+            {
+                UnityEngine.Debug.LogError(e);
+            }
 
             Unit ownerApi = owner.HasValue ? _unitApiProvider.Get(owner.Value) ?? throw new InvalidOperationException("Can't create script api for non-registred unit " + owner.Value) : null;
             SceneApi sceneApi = _sceneProvider.Get();

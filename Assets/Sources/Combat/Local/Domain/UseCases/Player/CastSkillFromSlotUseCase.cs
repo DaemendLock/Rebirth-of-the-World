@@ -1,17 +1,15 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
+using Combat.Local.Domain.Factories;
 using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories;
+
+using System.Linq;
 
 using UnityEngine;
 
 namespace Combat.Local.Domain.UseCases
 {
-    public interface IActionFactory
-    {
-        IAction CreateCastAction(Skill skill, EntityId actorId);
-    }
-
     public class CastSkillFromSlotUseCase
     {
         private readonly ISkillOwnerRepository _skillOwnerRepository;
@@ -49,24 +47,40 @@ namespace Combat.Local.Domain.UseCases
 
             if (skill.CanCast == false)
             {
+                Debug.Log("Can't cast");
                 return;
             }
 
-            if (skill.StartAction == false)
+            if (skill.Flags.HasFlag(Common.Flags.SkillFlags.Instant))
             {
                 _castSkillEventHandler.HandleEvent(caster, skillId.Value);
                 return;
             }
 
-            Actor actor = _actorRepository.Get(caster);
+            if (skill.AssociatedActions.Count == 0)
+            {
+                return;
+            }
 
-            actor.CurrentAction = _actionFactory.CreateCastAction(skill, caster);
-            actor.CurrentAction.Start();
+            ActionId actionId = skill.AssociatedActions.First();
+            StartCastAction(actionId, caster, skillId.Value);
+        }
+
+        private void StartCastAction(ActionId actionId, EntityId actorId, SkillId source)
+        {
+            Actor actor = _actorRepository.Get(actorId);
+
+            if (actor.CurrentAction != null)
+            {
+                return;
+            }
+
+            actor.StartAction(_actionFactory.CreateCastAction(actionId, actorId));
             _actorRepository.Update(actor);
-            _castOutput.PlayAnimation(caster, skillId.Value);
 
-            _castSkillEventHandler.HandleEvent(caster, skillId.Value);
-            _actionStateChangeEventHandler.HandleEvent(caster, skillId.Value, ActionState.Startup);
+            _castSkillEventHandler.HandleEvent(actorId, source);
+            _castOutput.Present(actorId, actionId);
+            _actionStateChangeEventHandler.HandleEvent(actorId, ActionState.Startup);
         }
     }
 
@@ -77,6 +91,6 @@ namespace Combat.Local.Domain.UseCases
 
     public interface ICastOutput
     {
-        void PlayAnimation(EntityId id, SkillId skill);
+        void Present(EntityId id, ActionId skill);
     }
 }

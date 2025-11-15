@@ -2,14 +2,18 @@
 
 using Combat.Common.ValueObjects;
 
+using System.Collections.Generic;
+
 using UnityEngine;
 
 namespace Combat.Local.Gateways.DataSources
 {
     public interface ISkillDataBase
     {
-        IFrameData GetFrameData(SkillId id);
+        IFrameData GetFrameData(ActionId id);
 
-        AnimationClip GetAnimation(SkillId id);
+        AnimationClip GetAnimation(ActionId id);
+
+        IReadOnlyCollection<ActionId> GetAssociatedActions(SkillId id);
     }
 }

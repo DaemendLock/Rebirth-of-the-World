@@ -17,20 +17,20 @@ namespace Combat.Local.Presentation.Presenters
         bool TryGetValue(EntityId entityId, out Transform result);
     }
 
-    public class UnitPresenter : IHealthOutput, IGiveResourceOutput, ISpendResourceOutput, IMovementOutput, ICastOutput
+    public class CharacterPresenter : IHealthOutput, IGiveResourceOutput, ISpendResourceOutput, IMovementOutput, ICastOutput
     {
         private readonly ICharacterViewContainer _container;
-        private readonly ISkillAnimationRepository _skillAnimationRepository;
+        private readonly IActionAnimationRepository _actionAnimationRepository;
 
-        public UnitPresenter(ICharacterViewContainer container, ISkillAnimationRepository skillAnimationRepository)
+        public CharacterPresenter(ICharacterViewContainer container, IActionAnimationRepository skillAnimationRepository)
         {
             _container = container;
-            _skillAnimationRepository = skillAnimationRepository;
+            _actionAnimationRepository = skillAnimationRepository;
         }
 
-        public void PlayAnimation(EntityId target, SkillId skill)
+        public void Present(EntityId target, ActionId skill)
         {
-            AnimationClip clip = _skillAnimationRepository.Get(skill);
+            AnimationClip clip = _actionAnimationRepository.Get(skill);
 
             if (_container.TryGetValue(target, out var view) == false)
             {

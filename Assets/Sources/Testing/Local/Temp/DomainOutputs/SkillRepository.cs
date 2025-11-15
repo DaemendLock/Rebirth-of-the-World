@@ -3,10 +3,13 @@
 using Combat.API;
 using Combat.API.Controllers;
 using Combat.API.Skills;
+using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Gateways.DataSources;
+
+using System;
 
 namespace Testing.Local.Temp.DomainOutputs
 {
@@ -27,13 +30,14 @@ namespace Testing.Local.Temp.DomainOutputs
 
             if (skillInfo == null)
             {
-                return new(skillId, false, false, true, null);
+                return new(skillId, false, Array.Empty<ActionId>(), SkillFlags.None);
             }
 
             bool canCast = skillInfo.TryGetProperty(out ICastableSkill castable);
             bool startAction = skillInfo.TryGetProperty(out ICastStateChangeHandler actionHandler);
-            IFrameData frameData = startAction ? _skillDataBase.GetFrameData(skillId) : null;
-            return new(skillId, canCast, startAction, false, frameData);
+            var actions = _skillDataBase.GetAssociatedActions(skillId);
+
+            return new(skillId, canCast, actions, skillInfo.Flags);
         }
     }
 }

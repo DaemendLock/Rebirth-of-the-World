@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Combat.Local.Gateways.Repositories
 {
-    public class SkillAnimationRepository : ISkillAnimationRepository
+    public class SkillAnimationRepository : IActionAnimationRepository
     {
         private readonly ISkillDataBase _skillDataBase;
 
@@ -15,6 +15,6 @@ namespace Combat.Local.Gateways.Repositories
             _skillDataBase = skillDataBase;
         }
 
-        AnimationClip ISkillAnimationRepository.Get(SkillId id) => _skillDataBase.GetAnimation(id);
+        AnimationClip IActionAnimationRepository.Get(ActionId id) => _skillDataBase.GetAnimation(id);
     }
 }

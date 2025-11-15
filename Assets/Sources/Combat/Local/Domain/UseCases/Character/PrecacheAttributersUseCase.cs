@@ -14,7 +14,7 @@ namespace Combat.Local.Domain.UseCases
             _attributesRepository = attributesRepository;
         }
 
-        public void Execute(float deltaTime)
+        public void Execute()
         {
             foreach (EntityId value in _attributesRepository.GetAllIds().ToArray())
             {

@@ -22,16 +22,11 @@ namespace Combat.Local.Domain.UseCases
         public void Execute(EntityId target, ResourceId resource, float value, EventSource source)
         {
             Resource resourceValue = _resourceRepository.Get(target, resource);
-
-            resourceValue.CurrentValue -= value;
-
-            if (resourceValue.CurrentValue < 0)
-            {
-                resourceValue.CurrentValue = 0;
-            }
+            resourceValue.Spend(value);
 
             _resourceRepository.Update(resourceValue);
             _spendResourceOutput.Present(resourceValue);
+
             SpendResourceResult result = new(target, resource, value, source.Skill, source.Unit);
             _spendResourceEventHandler.HandleEvent(result);
         }

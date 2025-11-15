@@ -2,6 +2,16 @@
 
 namespace Combat.Common.Flags
 {
+
+    [Flags]
+    public enum ActionFlags
+    {
+        None = 0,
+        AllowMovement = 1,
+        CanInterrupt = 2,
+        Holdable = 4,
+    }
+
     [Flags]
     public enum SkillFlags : int
     {
@@ -22,5 +32,6 @@ namespace Combat.Common.Flags
         Instant = 4096,
         StartCooldownOnImpact = 8192,
         IgnorCooldown = 16384,
+        CanHold = 32768,
     }
 }

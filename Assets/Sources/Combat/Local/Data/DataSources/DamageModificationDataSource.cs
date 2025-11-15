@@ -14,11 +14,11 @@ namespace Combat.Local.Data.Databases
 {
     public class DamageModificationDataSource : IDamageModificationDataSource
     {
-        private readonly UnitApiProvider _unitApiProvider;
+        private readonly CharacterApiProvider _unitApiProvider;
         private readonly SkillApiProvider _skillApiProvider;
         private readonly StatusLookup _statusLookupService;
 
-        public DamageModificationDataSource(UnitApiProvider unitApiProvider, SkillApiProvider skillApiProvider, StatusLookup statusLookupService)
+        public DamageModificationDataSource(CharacterApiProvider unitApiProvider, SkillApiProvider skillApiProvider, StatusLookup statusLookupService)
         {
             _unitApiProvider = unitApiProvider;
             _skillApiProvider = skillApiProvider;

@@ -15,18 +15,18 @@ namespace Combat.Local.Controllers
         private readonly GiveResourceUseCase _giveResourceUseCase;
         private readonly SpendResourceUseCase _spendResourceUseCase;
 
-        private readonly KillUnitUseCase _killUnitUseCase;
+        private readonly ForceKillUseCase _killUnitUseCase;
         private readonly IReviveUnitUseCase _reviveUnitUseCase;
 
         private readonly FindStatusUseCase _findStatusUseCase;
 
         private readonly IAligmentRepository _aligmentRepository;
-        private readonly IKillableRepository _killableRepository;
+        private readonly IStateRepository _killableRepository;
         private readonly IPositionableRepository _positionableRepository;
         private readonly IResourceRepository _resourceRepository;
 
-        public CharacterController(ApplyStatusUseCase applyStatusUseCase, GiveResourceUseCase giveResourceUseCase, SpendResourceUseCase spendResourceUseCase, KillUnitUseCase killUnitUseCase, FindStatusUseCase findStatusUseCase,
-            IAligmentRepository aligmentRepository, IKillableRepository killableRepository, IPositionableRepository positionableRepository, IResourceRepository resourceRepository)
+        public CharacterController(ApplyStatusUseCase applyStatusUseCase, GiveResourceUseCase giveResourceUseCase, SpendResourceUseCase spendResourceUseCase, ForceKillUseCase killUnitUseCase, FindStatusUseCase findStatusUseCase,
+            IAligmentRepository aligmentRepository, IStateRepository killableRepository, IPositionableRepository positionableRepository, IResourceRepository resourceRepository)
         {
             _applyStatusUseCase = applyStatusUseCase;
             _giveResourceUseCase = giveResourceUseCase;
@@ -57,7 +57,7 @@ namespace Combat.Local.Controllers
             _spendResourceUseCase.Execute(target, resource, value, new(caster, skill));
         }
 
-        public bool IsAlive(EntityId target) => _killableRepository.Get(target).Alive;
+        public bool IsAlive(EntityId target) => _killableRepository.Get(target).ConsciousState == ConsciousState.Alive;
 
         public void Kill(EntityId target, SkillId? skill, EntityId? caster)
         {
