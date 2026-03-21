@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Testing.Local.Temp.Factories
+namespace Testing.Local.Temp
 {
     public class ScaleOverTimeComponent : MonoBehaviour
     {
@@ -21,7 +21,7 @@ namespace Testing.Local.Temp.Factories
             }
 
             Duration -= Time.deltaTime;
-            transform.localScale += Vector3.one * ((ScaleRate) / 100 * Time.deltaTime);
+            transform.localScale += Vector3.one * (ScaleRate / 100 * Time.deltaTime);
 
         }
     }

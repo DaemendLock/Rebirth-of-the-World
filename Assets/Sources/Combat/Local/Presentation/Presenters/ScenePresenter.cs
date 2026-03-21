@@ -27,7 +27,7 @@ namespace Combat.Local.Presentation.Presenters
 
             view.Id = value.Id;
             view.name = value.ModelName.ToString() + value.Id.ToString();
-            _factory.Init(value.Id, view);
+            _factory.Init(view);
 
             if (_container.TryGetValue(value.Id, out Transform oldCharacterView))
             {

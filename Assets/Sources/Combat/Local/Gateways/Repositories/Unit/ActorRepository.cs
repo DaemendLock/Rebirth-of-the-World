@@ -10,13 +10,11 @@ namespace Combat.Local.Gateways.Repositories.Unit
 {
     public sealed class ActorRepository : IActorRepository
     {
-        private readonly IStatusApiDataSource _apiDataSource;
         private readonly Dictionary<EntityId, ActorData> _values;
 
-        public ActorRepository(IStatusApiDataSource apiDataSource)
+        public ActorRepository()
         {
             _values = new();
-            _apiDataSource = apiDataSource;
         }
 
         public void Create(Actor value) => _values[value.Id] = new(value.State, value.CurrentAction);
@@ -25,17 +23,12 @@ namespace Combat.Local.Gateways.Repositories.Unit
 
         public Actor Get(EntityId id)
         {
-            if(_values.TryGetValue(id, out ActorData data) == false)
+            if (_values.TryGetValue(id, out ActorData data) == false)
             {
                 return default;
             }
 
             ActorState state = data.State;
-
-            if (_apiDataSource.RestrictMovement(id))
-            {
-                state |= ActorState.Rooted;
-            }
 
             return new(id, state, data.Action);
         }

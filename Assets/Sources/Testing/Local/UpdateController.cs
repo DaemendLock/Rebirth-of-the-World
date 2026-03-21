@@ -1,5 +1,4 @@
-﻿using Combat.Local.Data.Databases;
-using Combat.Local.Domain.Entities.Units;
+﻿using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
 using Combat.Local.Domain.UseCases.Scene;
@@ -21,13 +20,10 @@ namespace Testing.Local
         private readonly ICharacterUpdateList _characterUpdateList;
         private readonly UpdateTransformEffectsUseCase _updateMovementEffectsUseCase;
 
-        private readonly StatusModificationProvider _statusModificationProvider;
-
-        public UpdateController(UpdateAttributersUseCase updateCombatUseCase, UpdateStatusTimersUseCase updateStatusTimersUseCase, StatusModificationProvider statusModificationProvider, UpdateStatusesUseCases updateStatusesUseCase, UpdateActorsUseCase updateActionUseCase, HandleHitsUseCase handleHitUseCase, ICharacterUpdateList characterUpdateList, UpdateTransformEffectsUseCase updateMovementEffectsUseCase)
+        public UpdateController(UpdateAttributersUseCase updateCombatUseCase, UpdateStatusTimersUseCase updateStatusTimersUseCase, UpdateStatusesUseCases updateStatusesUseCase, UpdateActorsUseCase updateActionUseCase, HandleHitsUseCase handleHitUseCase, ICharacterUpdateList characterUpdateList, UpdateTransformEffectsUseCase updateMovementEffectsUseCase)
         {
             _updateAttributesUseCase = updateCombatUseCase;
             _updateStatusTimersUseCase = updateStatusTimersUseCase;
-            _statusModificationProvider = statusModificationProvider;
             _updateStatusesUseCase = updateStatusesUseCase;
             _updateActorsUseCase = updateActionUseCase;
             _handleHitUseCase = handleHitUseCase;
@@ -52,8 +48,6 @@ namespace Testing.Local
             }
 
             _handleHitUseCase.Execute();
-
-            _statusModificationProvider.ClearCache();
         }
     }
 }

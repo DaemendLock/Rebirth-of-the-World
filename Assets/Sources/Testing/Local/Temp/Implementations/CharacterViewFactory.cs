@@ -35,8 +35,10 @@ namespace Testing.Local.Temp.Factories
             return result;
         }
 
-        public void Init(EntityId entityId, CharacterView target)
+        public void Init(CharacterView target)
         {
+            EntityId entityId = target.Id;
+
             Hitbox[] hitboxes = target.GetComponentsInChildren<Hitbox>();
             Hurtbox[] hurtboxes = target.GetComponentsInChildren<Hurtbox>();
 

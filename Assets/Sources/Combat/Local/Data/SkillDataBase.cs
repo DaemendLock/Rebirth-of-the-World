@@ -16,7 +16,7 @@ namespace Combat.Local.Data.Databases
 {
     public class SkillDataBase : ISkillDataBase
     {
-        private readonly SkillStrategyTypeProvider _skillStrategyTypeProvider;
+        private readonly SkillStrategyTypeDataSource _skillStrategyTypeProvider;
 
         private readonly Dictionary<SkillId, global::Data.Entities.SkillData> _values;
         private readonly Dictionary<ActionId, ActionData> _actions;
@@ -28,7 +28,7 @@ namespace Combat.Local.Data.Databases
             _actions = new();
             _skillScripts = new();
 
-            _skillStrategyTypeProvider = new SkillStrategyTypeProvider(typeof(SkillScript));
+            _skillStrategyTypeProvider = new SkillStrategyTypeDataSource(typeof(SkillScript));
 
             foreach (Type type in AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes()).Where(value => typeof(SkillScript).IsAssignableFrom(value)))
             {

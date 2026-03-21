@@ -78,9 +78,6 @@ namespace Testing.Local
             Container.Bind<CharacterViewContainer>().FromNew().AsSingle();
             Container.Bind<ICharacterViewContainer>().To<CharacterViewContainer>().FromResolve();
             Container.Bind<ISceneObjectDataSource>().To<CharacterViewContainer>().FromResolve();
-
-            Container.Bind<StatusModificationProvider>().FromNew().AsSingle();
-            Container.Bind<IStatusApiDataSource>().To<StatusModificationProvider>().FromResolve();
         }
 
         private void BindRepositories()
@@ -125,8 +122,6 @@ namespace Testing.Local
             Container.Bind<UpdateTransformEffectsUseCase>().FromNew().AsSingle();
 
             Container.Bind<CreateCharacterUseCase>().FromNew().AsSingle();
-            Container.Bind<CharacterCreatedHandler>().FromNew().AsSingle();
-            Container.Bind<ICreateUnitEventHandler>().To<CharacterCreatedHandler>().FromResolve();
             Container.Bind<ICreateUnitOutput>().To<ScenePresenter>().FromResolve();
 
             Container.Bind<CastSkillFromSlotUseCase>().FromNew().AsSingle();

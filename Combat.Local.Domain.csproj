@@ -66,6 +66,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\HealingModification.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\ScaleOverTimeEffect.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\IAction.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\Factories\ISkillFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Scene\CreateCharacterUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Factories\IStatusFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Player\CastSkillFromSlotUseCase.cs" />

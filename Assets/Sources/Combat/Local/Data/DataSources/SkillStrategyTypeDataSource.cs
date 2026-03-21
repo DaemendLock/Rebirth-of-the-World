@@ -6,15 +6,14 @@ using System.Reflection;
 
 namespace Combat.Local.Data.Databases
 {
-    public class SkillStrategyTypeProvider
+    public class SkillStrategyTypeDataSource
     {
         private readonly Type _targetType;
         private readonly Dictionary<string, Type> _typesByName;
 
-        public SkillStrategyTypeProvider(Type targetType)
+        public SkillStrategyTypeDataSource(Type targetType)
         {
             _targetType = targetType;
-
             _typesByName = new();
         }
 
@@ -50,15 +49,6 @@ namespace Combat.Local.Data.Databases
             //_constructorsByName[skillScriptNameAttribute.Name] = constructor;
         }
 
-        public bool TryGet(string name, out Type type)
-        {
-            if (name == null)
-            {
-                type = default;
-                return false;
-            }
-
-            return _typesByName.TryGetValue(name, out type);
-        }
+        public bool TryGet(string name, out Type type) => _typesByName.TryGetValue(name, out type);
     }
 }

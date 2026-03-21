@@ -26,15 +26,12 @@ namespace Combat.Local.Domain.UseCases
         private readonly ISkillFactory _skillFactory;
         private readonly ICharacterUpdateList _characterUpdateList;
 
-        private readonly ICreateUnitEventHandler _createUnitEventHandler;
-
         private readonly ICreateUnitOutput _outputPort;
 
         public CreateCharacterUseCase(
             IHealthRepository healthRepository, IStateRepository killableRepository, IAligmentRepository aligmentRepository,
             IAttributesRepository attributesRepository, IResourceRepository resourceRepository, ISkillOwnerRepository skillOwnerRepository,
             IPositionableRepository positionableRepository, IActorRepository actorRepository,
-            ICreateUnitEventHandler createUnitEventHandler,
             ICreateUnitOutput outputPort, ISkillRepository skillRepository, ISkillFactory skillFactory, ICharacterUpdateList characterUpdateList)
         {
             _healthFactory = new(healthRepository);
@@ -45,7 +42,6 @@ namespace Combat.Local.Domain.UseCases
             _skillOwnerRepository = skillOwnerRepository;
             _positionableRepository = positionableRepository;
             _actorRepository = actorRepository;
-            _createUnitEventHandler = createUnitEventHandler;
             _outputPort = outputPort;
 
             _idFactory = new();
@@ -68,8 +64,6 @@ namespace Combat.Local.Domain.UseCases
             SkillOwner skillOwner = _skillOwnerRepository.Get(positionable.Id);
 
             _characterUpdateList.Create(new(id, 1));
-
-            _createUnitEventHandler.HandleEvent(positionable.Id);
 
             foreach (SkillId skillId in skillOwner.GetAll())
             {

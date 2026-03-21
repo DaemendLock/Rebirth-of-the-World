@@ -9,11 +9,4 @@ namespace Combat.Local.Domain.Factories
 
         ISkillStrategy Create(SkillId skillId, EntityId? owner);
     }
-
-    public interface ISkillFactory
-    {
-        void RegisterStrategyFactory(ISkillStrategyFactory factory);
-
-        Skill Create(SkillId skill, EntityId? owner);
-    }
 }

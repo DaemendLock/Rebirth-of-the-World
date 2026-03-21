@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Testing.Local.Temp.Factories
+namespace Testing.Local.Temp
 {
     public class MoveInDirectionOverTimeComponent : MonoBehaviour
     {

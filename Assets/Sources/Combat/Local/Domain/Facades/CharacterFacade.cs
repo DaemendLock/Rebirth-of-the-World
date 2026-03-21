@@ -4,8 +4,6 @@ using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
 
-using System.Security.Cryptography;
-
 using UnityEngine;
 
 namespace Combat.Local.Domain.Facades
@@ -55,15 +53,9 @@ namespace Combat.Local.Domain.Facades
 
         public bool IsAlive(EntityId target) => _killableRepository.Get(target).ConsciousState == ConsciousState.Alive;
 
-        public void Kill(EntityId target, SkillId? skill, EntityId? caster)
-        {
-            _killUnitUseCase.Execute(target, new(caster, skill));
-        }
+        public void Kill(EntityId target, SkillId? skill, EntityId? caster) => _killUnitUseCase.Execute(target, new(caster, skill));
 
-        public void Revive(EntityId target, SkillId? skill, EntityId? caster)
-        {
-            _reviveUnitUseCase.Execute(target, new(caster, skill));
-        }
+        public void Revive(EntityId target, SkillId? skill, EntityId? caster) => _reviveUnitUseCase.Execute(target, new(caster, skill));
 
         public bool HasStatus(EntityId target, StatusName statusName)
         {
