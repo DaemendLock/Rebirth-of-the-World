@@ -59,52 +59,67 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\AspectGenerator.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\JobEntityGenerator.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\Unity.Entities.Analyzer.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.LambdaJobs.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.SystemAPI.QueryBuilder.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.SystemAPI.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.SystemAPI.Query.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.Common.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\Common.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.EntityQueryBulkOperations.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\Unity.Entities.Analyzer.CodeFixes.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Data\Utils\ThrowHelper\Exceptions\FileNotLoadedException.cs" />
     <Compile Include="Assets\Sources\Data\Animations\AnimationPack.cs" />
-    <Compile Include="Assets\Sources\Data\DataMapper\MappedData.cs" />
     <Compile Include="Assets\Sources\Data\Entities\ViewSet.cs" />
-    <Compile Include="Assets\Sources\Data\Entities\Components\Hurtbox.cs" />
     <Compile Include="Assets\Sources\Data\Items\Gear\Weapon.cs" />
-    <Compile Include="Assets\Sources\Data\Skills\SpellDataProvider\SpellLibFile.cs" />
-    <Compile Include="Assets\Sources\Data\Characters\Character.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\ActionBarProvider.cs" />
-    <Compile Include="Assets\Sources\Data\Entities\Stats\CastResourceData.cs" />
     <Compile Include="Assets\Sources\Data\Skills\SpellDataProvider\MappedSingleFileSpellDataProvider.cs" />
     <Compile Include="Assets\Sources\Data\Entities\NpcModels\Hardpoint.cs" />
     <Compile Include="Assets\Sources\Data\Characters\CharacterState.cs" />
-    <Compile Include="Assets\Sources\Data\DataMapper\DataMap.cs" />
-    <Compile Include="Assets\Sources\Data\Items\Gear\Ring.cs" />
-    <Compile Include="Assets\Sources\Data\Skills\SpellDataProvider\MultiFileSpellDataProvider.cs" />
-    <Compile Include="Assets\Sources\Data\Sounds\SoundPack.cs" />
     <Compile Include="Assets\Sources\Data\Utils\File.cs" />
     <Compile Include="Assets\Sources\Data\Localization\Localization.cs" />
-    <Compile Include="Assets\Sources\Data\Characters\CharacterRole.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\DataLoader.cs" />
     <Compile Include="Assets\Sources\Data\Entities\Npc.cs" />
-    <Compile Include="Assets\Sources\Data\Utils\ThrowHelper\ThrowHelper.cs" />
-    <Compile Include="Assets\Sources\Data\Entities\NpcModels\NpcModel.cs" />
     <Compile Include="Assets\Sources\Data\Utils\ThrowHelper\Exceptions\FileLoadedException.cs" />
     <Compile Include="Assets\Sources\Data\Entities\Local\ActionData.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\DataMapper.cs" />
-    <Compile Include="Assets\Sources\Data\DataMapper\MappedDataLoader.cs" />
-    <Compile Include="Assets\Sources\Data\Skills\SpellDataLoader.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\PartyFrameProvider.cs" />
-    <Compile Include="Assets\Sources\Data\Libraries\GenericLibrary.cs" />
     <Compile Include="Assets\Sources\Data\Entities\Stats\CharacterStats.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\PartyIconProvider.cs" />
     <Compile Include="Assets\Sources\Data\Items\Item.cs" />
     <Compile Include="Assets\Sources\Data\Utils\Loadable.cs" />
     <Compile Include="Assets\Sources\Data\Items\Gear\General.cs" />
-    <Compile Include="Assets\Sources\Data\Items\Gear\Gear.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\TwinDataMap.cs" />
     <Compile Include="Assets\Sources\Data\Entities\Components\Hitbox.cs" />
     <Compile Include="Assets\Sources\Data\Entities\CharacterModel.cs" />
-    <Compile Include="Assets\Sources\Data\Skills\SpellDataProvider\ISpellDataProvider.cs" />
-    <Compile Include="Assets\Sources\Data\Utils\FileReader.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\DynamicUIRoot.cs" />
     <Compile Include="Assets\Sources\Data\Entities\Local\SkillData.cs" />
+    <Compile Include="Assets\Sources\Data\Utils\ThrowHelper\Exceptions\FileNotLoadedException.cs" />
+    <Compile Include="Assets\Sources\Data\DataMapper\MappedData.cs" />
+    <Compile Include="Assets\Sources\Data\Entities\Components\Hurtbox.cs" />
+    <Compile Include="Assets\Sources\Data\Skills\SpellDataProvider\SpellLibFile.cs" />
+    <Compile Include="Assets\Sources\Data\Characters\Character.cs" />
+    <Compile Include="Assets\Sources\Data\Skills\Components\SkillActionsComponent.cs" />
+    <Compile Include="Assets\Sources\Data\Entities\Stats\CastResourceData.cs" />
+    <Compile Include="Assets\Sources\Data\DataMapper\DataMap.cs" />
+    <Compile Include="Assets\Sources\Data\Items\Gear\Ring.cs" />
+    <Compile Include="Assets\Sources\Data\Skills\SpellDataProvider\MultiFileSpellDataProvider.cs" />
+    <Compile Include="Assets\Sources\Data\Sounds\SoundPack.cs" />
+    <Compile Include="Assets\Sources\Data\Characters\CharacterRole.cs" />
+    <Compile Include="Assets\Sources\Data\Utils\ThrowHelper\ThrowHelper.cs" />
+    <Compile Include="Assets\Sources\Data\Entities\NpcModels\NpcModel.cs" />
+    <Compile Include="Assets\Sources\Data\Entities\Local\SkillCooldownComponent.cs" />
+    <Compile Include="Assets\Sources\Data\DataMapper\MappedDataLoader.cs" />
+    <Compile Include="Assets\Sources\Data\Skills\SpellDataLoader.cs" />
+    <Compile Include="Assets\Sources\Data\Libraries\GenericLibrary.cs" />
+    <Compile Include="Assets\Sources\Data\Skills\Components\SkillScriptComponent.cs" />
+    <Compile Include="Assets\Sources\Data\Items\Gear\Gear.cs" />
+    <Compile Include="Assets\Sources\Data\Skills\SpellDataProvider\ISpellDataProvider.cs" />
+    <Compile Include="Assets\Sources\Data\Utils\FileReader.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\Format\ActionBarFormat.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -321,6 +336,10 @@
     </Reference>
     <Reference Include="UnityEngine.UmbraModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEngine\UnityEngine.UmbraModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UnityAnalyticsModule">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityAnalyticsModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UnityAnalyticsCommonModule">
@@ -571,8 +590,28 @@
       <HintPath>Assets\Plugins\Zenject\Source\Usage\Zenject-usage.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.Cecil.Awesome">
+      <HintPath>Library\PackageCache\com.unity.entities\Unity.Entities.CodeGen\Unity.Cecil.Awesome.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Collections.LowLevel.ILSupport">
+      <HintPath>Library\PackageCache\com.unity.collections\Unity.Collections.LowLevel.ILSupport\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.IO.Hashing">
+      <HintPath>Library\PackageCache\com.unity.collections\Unity.Collections.Tests\System.IO.Hashing\System.IO.Hashing.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>Library\PackageCache\com.unity.nuget.mono-cecil\Mono.Cecil.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>Library\PackageCache\com.unity.collections\Unity.Collections.Tests\System.Runtime.CompilerServices.Unsafe\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">
@@ -1061,6 +1100,14 @@
     </Reference>
     <Reference Include="System.Xml.Serialization">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Entities">
+      <HintPath>Library\ScriptAssemblies\Unity.Entities.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Collections">
+      <HintPath>Library\ScriptAssemblies\Unity.Collections.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.UI">

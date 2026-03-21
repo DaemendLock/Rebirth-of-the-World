@@ -10,13 +10,11 @@ namespace Combat.Local.Domain.UseCases
     {
         private readonly IResourceRepository _resourceRepository;
         private readonly ISpendResourceOutput _spendResourceOutput;
-        private readonly ISpendResourceEventHandler _spendResourceEventHandler;
 
-        public SpendResourceUseCase(IResourceRepository resourceRepository, ISpendResourceOutput spendResourceOutput, ISpendResourceEventHandler spendResourceEventHandler)
+        public SpendResourceUseCase(IResourceRepository resourceRepository, ISpendResourceOutput spendResourceOutput)
         {
             _resourceRepository = resourceRepository;
             _spendResourceOutput = spendResourceOutput;
-            _spendResourceEventHandler = spendResourceEventHandler;
         }
 
         public void Execute(EntityId target, ResourceId resource, float value, EventSource source)
@@ -26,9 +24,6 @@ namespace Combat.Local.Domain.UseCases
 
             _resourceRepository.Update(resourceValue);
             _spendResourceOutput.Present(resourceValue);
-
-            SpendResourceResult result = new(target, resource, value, source.Skill, source.Unit);
-            _spendResourceEventHandler.HandleEvent(result);
         }
     }
 }

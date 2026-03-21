@@ -17,8 +17,8 @@ namespace Combat.API.DTO
 
         public AttributeValue this[Attribute attribute]
         {
-            get => GetBaseValue(attribute) + _bonusValues[(int)attribute];
-            set => _bonusValues[(int)attribute] = value - GetBaseValue(attribute);
+            get => _bonusValues[(int)attribute];
+            set => _bonusValues[(int)attribute] = value;
         }
     }
 }

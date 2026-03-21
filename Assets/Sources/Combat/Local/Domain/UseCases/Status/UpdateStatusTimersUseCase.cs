@@ -11,11 +11,15 @@ namespace Combat.Local.Domain.UseCases
     {
         private readonly IStatusTimerRepository _statusTimeRepository;
         private readonly IStatusTickEventHandler _statusTickEventHandler;
+        private readonly ICharacterUpdateList _characterUpdateList;
+        private readonly IStatusRepository _statusRepository;
 
-        public UpdateStatusTimersUseCase(IStatusTimerRepository statusTimeRepository, IStatusTickEventHandler statusTickEventHandler)
+        public UpdateStatusTimersUseCase(IStatusTimerRepository statusTimeRepository, IStatusTickEventHandler statusTickEventHandler, ICharacterUpdateList characterUpdateList, IStatusRepository statusRepository)
         {
             _statusTimeRepository = statusTimeRepository;
             _statusTickEventHandler = statusTickEventHandler;
+            _characterUpdateList = characterUpdateList;
+            _statusRepository = statusRepository;
         }
 
         public void Execute(float deltaTime)
@@ -25,11 +29,20 @@ namespace Combat.Local.Domain.UseCases
             foreach (StatusTimer timer in statusTimers)
             {
                 StatusTimer value = timer;
-                value.TimePassed += deltaTime;
+
+                if (_statusRepository.TryGet(timer.StatusId, out Status status) == false)
+                {
+                    continue;
+                }
+
+                float timeScale = _characterUpdateList.Get(status.Parent).TimeScale;
+
+                value.TimePassed += deltaTime * timeScale;
 
                 if (value.TimePassed >= value.Priod)
                 {
                     value.TimePassed -= value.Priod;
+                    value.Tick();
                     _statusTickEventHandler.HandleEvent(value.StatusId);
                 }
 

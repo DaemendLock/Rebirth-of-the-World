@@ -10,12 +10,10 @@ namespace Combat.Local.Domain.UseCases
     {
         private readonly IResourceRepository _resourceRepository;
         private readonly IGiveResourceOutput _giveResourceOutput;
-        private readonly IGiveResourceEventHandler _eventHandler;
 
-        public GiveResourceUseCase(IResourceRepository resourceRepository, IGiveResourceEventHandler eventHandler, IGiveResourceOutput giveResourceOutput)
+        public GiveResourceUseCase(IResourceRepository resourceRepository, IGiveResourceOutput giveResourceOutput)
         {
             _resourceRepository = resourceRepository;
-            _eventHandler = eventHandler;
             _giveResourceOutput = giveResourceOutput;
         }
 
@@ -27,7 +25,6 @@ namespace Combat.Local.Domain.UseCases
 
             GiveResourceResult result = new(target, resourceType, value, resource.CurrentValue, resource.MaxValue, source.Skill, source.Unit);
             _giveResourceOutput.Present(result);
-            _eventHandler.HandleEvent(result);
         }
     }
 }

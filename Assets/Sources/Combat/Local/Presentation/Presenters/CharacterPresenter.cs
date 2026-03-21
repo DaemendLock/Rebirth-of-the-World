@@ -17,7 +17,7 @@ namespace Combat.Local.Presentation.Presenters
         bool TryGetValue(EntityId entityId, out Transform result);
     }
 
-    public class CharacterPresenter : IHealthOutput, IGiveResourceOutput, ISpendResourceOutput, IMovementOutput, ICastOutput
+    public class CharacterPresenter : IHealthOutput, IGiveResourceOutput, ISpendResourceOutput, IMovementOutput, IActionOutput
     {
         private readonly ICharacterViewContainer _container;
         private readonly IActionAnimationRepository _actionAnimationRepository;

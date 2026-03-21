@@ -12,10 +12,17 @@ namespace Combat.Local.Domain.UseCases
         {
             foreach (Status item in _statusRepository.GetAll())
             {
-                if (item.Parent == id && item.Name == statusName)
+                if (item.Parent != id)
                 {
-                    return item.Id;
+                    continue;
                 }
+
+                if (item.Name != statusName)
+                {
+                    continue;
+                }
+
+                return item.Id;
             }
 
             return default;

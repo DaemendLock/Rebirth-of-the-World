@@ -31,7 +31,7 @@ namespace Combat.Local.Gateways.Repositories
                 return new(id, default, default, default);
             }
 
-            Attributes attributes = _attributesRepository.Get(id);
+            AttributesOwner attributes = _attributesRepository.Get(id);
 
             return new(id, value.CurrentHealth, value.DefaultHealth + attributes.GetMaxHealthBonus(), value.DefaultHealth);
         }

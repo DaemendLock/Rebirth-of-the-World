@@ -2,7 +2,7 @@
 
 namespace Combat.API.ValueObjects
 {
-    public ref struct DamageInstanceApi
+    public readonly ref struct DamageInstanceApi
     {
         private const float DamagePercentConvertionRatio = 0.01f;
 
@@ -22,9 +22,9 @@ namespace Combat.API.ValueObjects
         public SkillApi Source { get; }
         public float OriginalDamage { get; }
 
-        public DamageFlags Flags { get; set; }
-        public float BaseDamage { get; set; }
-        public float DamagePercent { get; set; }
+        public DamageFlags Flags { get; }
+        public float BaseDamage { get; }
+        public float DamagePercent { get; }
 
         public float GetCurrentDamage()
         {

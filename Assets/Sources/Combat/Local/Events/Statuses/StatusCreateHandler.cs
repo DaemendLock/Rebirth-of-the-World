@@ -1,6 +1,4 @@
 ﻿using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.OutputPorts;
 
 namespace Combat.Local.Events
 {
@@ -24,18 +22,5 @@ namespace Combat.Local.Events
         public SkillId? Source { get; }
 
         public EntityId? Caster { get; }
-    }
-
-    public class StatusCreateHandler : IApplyStatusEventHandler
-    {
-        public delegate void Handle(StatusCreateInfo info);
-
-        public event Handle Created;
-
-        public void HandleEvent(Status status)
-        {
-            StatusCreateInfo info = new(status.Id, status.Parent, status.Name, status.Source, status.Caster);
-            Created?.Invoke(info);
-        }
     }
 }

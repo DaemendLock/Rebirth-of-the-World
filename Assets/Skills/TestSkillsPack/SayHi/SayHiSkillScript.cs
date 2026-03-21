@@ -9,24 +9,14 @@ namespace TestSkillsPack.SkillScripts
     [SkillScriptName("sayHi")]
     public class SayHiSkillScript : SkillScript, ICastStateChangeHandler, ICastableSkill, IHitHandler
     {
-        private ApplyDamageOptions _applyDamageOptions;
-
         protected override void OnInit()
         {
-            _applyDamageOptions = new()
-            {
-                Attacker = Owner,
-                Target = Owner,
-                Source = Skill,
-                OriginalDamage = 5,
-                Flags = DamageFlags.None,
-            };
         }
 
-        public void OnCast()
+        public void OnCast(CastEvent @event)
         {
             UnityEngine.Debug.Log("Hi~~~!");
-            Owner.ApplyStatus(new("HiStatus", 5, 1, Skill));
+            Instance.Scene.CreateStatus(new(@event.Caster, "HiStatus", 5, 1, Instance));
         }
 
         public void OnStartup()
@@ -44,8 +34,18 @@ namespace TestSkillsPack.SkillScripts
             if (@event.Target == @event.Source) { return false; }
 
             UnityEngine.Debug.Log($"Handling hit;");
-            _applyDamageOptions.Target = @event.Target;
-            _applyDamageOptions.ApplyDamage();
+
+            ApplyDamageOptions applyDamageOptions = new()
+            {
+                Attacker = @event.Source,
+                Target = @event.Target,
+                Source = Instance,
+                OriginalDamage = 5,
+                Flags = DamageFlags.None,
+            };
+
+            applyDamageOptions.Target = @event.Target;
+            applyDamageOptions.ApplyDamage();
             return true;
         }
     }

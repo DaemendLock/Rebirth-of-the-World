@@ -13,21 +13,24 @@ namespace Combat.Local.Domain.Entities
         private readonly List<EntityId> _hittedTargets;
         private readonly IFrameData _frameData;
 
-        private ActionState _state;
         private ActionData _data;
+        private ActionState _state;
 
-        public CastAction(ActionId id, ActionFlags flags, IFrameData frameData)
+        public CastAction(ActionId id, SkillId source, ActionFlags flags, IFrameData frameData)
         {
             _frameData = frameData;
-            _state = ActionState.Inactive;
             Id = id;
-            _data = new(false, 0, 0);
+            Source = source;
+            _data = new(0, 0);
+            _state = ActionState.Inactive;
             Flags = flags;
 
             _hittedTargets = new();
         }
 
         public ActionId Id { get; }
+
+        public SkillId Source { get; }
 
         public ActionFlags Flags { get; }
 

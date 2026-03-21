@@ -6,9 +6,9 @@ namespace TestSkillsPack.Paladin
     [SkillScriptName("Paladin1")]
     public class Paladin1 : SkillScript, ICastableSkill
     {
-        public void OnCast()
+        public void OnCast(CastEvent @event)
         {
-            Owner.ApplyStatus(new("Paladin1Aura", 5f, 1, Skill));
+            @event.Scene.CreateStatus(new(@event.Caster, "Paladin1Aura", 1f, 1, @event.Skill));
             //Owner.GiveResource(new(new(2), 1, Skill));
         }
     }
@@ -16,13 +16,13 @@ namespace TestSkillsPack.Paladin
     [SkillScriptName("DpsPaladin3")]
     public class DpsPaladin3 : SkillScript, ICastableSkill
     {
-        public void OnCast()
+        public void OnCast(CastEvent @event)
         {
-            float energy = Owner.GetResourceValue(new(2));
+            float energy = @event.Caster.GetResourceValue(new(2));
 
             //DealAoeDamage(energy * spellPower);
-            Owner.ApplyStatus(new("DpsPaladin3Buff", 1f, 1, Skill));
-            Owner.SpendResource(new(2), energy, Skill);
+            @event.Scene.CreateStatus(new(@event.Caster, "DpsPaladin3Buff", 1f, 1, @event.Skill));
+            @event.Caster.SpendResource(new(2), energy, @event.Skill);
         }
     }
 }

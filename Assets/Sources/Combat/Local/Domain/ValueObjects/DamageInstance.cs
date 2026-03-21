@@ -3,8 +3,18 @@ using Combat.Common.ValueObjects;
 
 namespace Combat.Local.Domain.ValueObjects
 {
-    public readonly ref struct HealingInstance
+    public ref struct HealingInstance
     {
+        public HealingInstance(EntityId target, float originalHealing, HealingFlags flags, EntityId? healer, EventSource source)
+        {
+            Target = target;
+            Healer = healer;
+            OriginalHealing = originalHealing;
+            Source = source;
+            Healing = originalHealing;
+            Flags = flags;
+        }
+
         public HealingInstance(EntityId target, float originalHealing, float healing, HealingFlags flags, EntityId? healer, EventSource source)
         {
             Target = target;
@@ -19,8 +29,8 @@ namespace Combat.Local.Domain.ValueObjects
         public EntityId? Healer { get; }
         public float OriginalHealing { get; }
         public EventSource Source { get; }
-        public float Healing { get; }
-        public HealingFlags Flags { get; }
+        public float Healing { get; set; }
+        public HealingFlags Flags { get; set; }
     }
 
     public ref struct DamageInstance
@@ -42,7 +52,7 @@ namespace Combat.Local.Domain.ValueObjects
             Flags = flags;
         }
 
-        public DamageInstance(EntityId target, float originalDamage, EntityId? attacker, DamageFlags flags, EventSource source)
+        public DamageInstance(EntityId target, float originalDamage, DamageFlags flags, EntityId? attacker, EventSource source)
         {
             Target = target;
             OriginalDamage = originalDamage;

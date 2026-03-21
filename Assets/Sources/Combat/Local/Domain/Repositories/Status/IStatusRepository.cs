@@ -12,7 +12,5 @@ namespace Combat.Local.Domain.Repositories
         void Delete(StatusId effect);
         bool TryGet(StatusId id, out Status effect);
         ICollection<Status> GetAll();
-
-        IReadOnlyCollection<Status> FindStatusesWithParent(EntityId parent);
     }
 }

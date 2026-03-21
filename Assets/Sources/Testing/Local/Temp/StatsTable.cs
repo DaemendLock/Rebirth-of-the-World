@@ -72,7 +72,7 @@ namespace Temp.Domain.Implementations
 
         public AttributeValue[] ToAttributeArray()
         {
-            AttributeValue[] attributeValue = new AttributeValue[Attributes.AttributeCount];
+            AttributeValue[] attributeValue = new AttributeValue[AttributesOwner.AttributeCount];
 
             for (int i = 0; i < attributeValue.Length; i++)
             {

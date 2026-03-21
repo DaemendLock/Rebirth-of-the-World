@@ -63,11 +63,11 @@
   <ItemGroup>
     <Compile Include="Assets\Skills\TestSkillsPack\SayHi\SayHiStatus.cs" />
     <Compile Include="Assets\Skills\TestSkillsPack\SayHi\SayHiSkillScript.cs" />
+    <Compile Include="Assets\Skills\TestSkillsPack\Summon\SummonSkill.cs" />
+    <Compile Include="Assets\Skills\TestSkillsPack\HealSelf\HealSelf.cs" />
     <Compile Include="Assets\Skills\TestSkillsPack\Giantess\StompAttack.cs" />
     <Compile Include="Assets\Skills\TestSkillsPack\SwordAttack\SwordAttack.cs" />
     <Compile Include="Assets\Skills\TestSkillsPack\Giantess\GrowSkillScript.cs" />
-    <Compile Include="Assets\Skills\TestSkillsPack\Summon\SummonSkill.cs" />
-    <Compile Include="Assets\Skills\TestSkillsPack\HealSelf\HealSelf.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Skills\TestSkillsPack\TestSkillPack.asmdef" />
@@ -283,6 +283,10 @@
     </Reference>
     <Reference Include="UnityEngine.UmbraModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEngine\UnityEngine.UmbraModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UnityAnalyticsModule">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityAnalyticsModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UnityAnalyticsCommonModule">
@@ -533,8 +537,28 @@
       <HintPath>Assets\Plugins\Zenject\Source\Usage\Zenject-usage.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.Cecil.Awesome">
+      <HintPath>Library\PackageCache\com.unity.entities\Unity.Entities.CodeGen\Unity.Cecil.Awesome.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Collections.LowLevel.ILSupport">
+      <HintPath>Library\PackageCache\com.unity.collections\Unity.Collections.LowLevel.ILSupport\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.IO.Hashing">
+      <HintPath>Library\PackageCache\com.unity.collections\Unity.Collections.Tests\System.IO.Hashing\System.IO.Hashing.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>Library\PackageCache\com.unity.nuget.mono-cecil\Mono.Cecil.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>Library\PackageCache\com.unity.collections\Unity.Collections.Tests\System.Runtime.CompilerServices.Unsafe\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">

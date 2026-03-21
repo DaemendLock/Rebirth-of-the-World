@@ -8,9 +8,9 @@ namespace Combat.Local.Controllers
     public class PlayerController
     {
         private readonly CastSkillFromSlotUseCase _castSkillFromSlotUseCase;
-        private readonly MoveUseCase _moveUseCase;
+        private readonly MoveInDirectionUseCase _moveUseCase;
 
-        public PlayerController(CastSkillFromSlotUseCase castSkillFromSlotUseCase, MoveUseCase moveUseCase)
+        public PlayerController(CastSkillFromSlotUseCase castSkillFromSlotUseCase, MoveInDirectionUseCase moveUseCase)
         {
             _castSkillFromSlotUseCase = castSkillFromSlotUseCase;
             _moveUseCase = moveUseCase;

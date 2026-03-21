@@ -61,47 +61,41 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Combat\API\API\Units\Unit.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Statuses\Properties\Handlers\IResourceGainSpendHandler.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Statuses\Properties\Modifiers\IAttributeModifier.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\HealingRecord.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Skills\Properties\ICastableSkill.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Skills\SkillApi.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\ResourceChangeRecord.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\DTO\ScriptedSkillContext.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Statuses\Properties\Modifiers\IOutgoingHealDamageModifier.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\ApplyDamageOptions.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\ApplyStatusInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\DamageRecord.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\GiveResourceInfo.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Scripting\CustomStatusStrategy.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\ReviveInfo.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Statuses\StatusApi.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Skills\IPassiveSkill.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Entities\SceneApi.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Skills\ICastableSkill.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\ReviveRecord.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\AttributesRecord.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Statuses\Properties\Handlers\IOutgoingHealDamageHandler.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\DTO\ScriptedStatusContext.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\DeathRecord.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\UnitCreationInfo.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Scripting\StatusScript.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Skills\Properties\ISkillProperty.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Skills\Properties\IPassiveSkill.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Enviroment\SceneApi.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Entities\StatusApi.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Scripting\StatusScriptNameAttribute.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\ApplyHealingInfo.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\KillInfo.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Scripting\SkillScript.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\ResourceChangeRecord.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Skills\ICastStateChangeHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Statuses\IIncomingHealDamageHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\GiveResourceInfo.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Statuses\IOutgoingHealDamageHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Entities\SkillApi.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\UnitCreationInfo.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Statuses\IStatusPropery.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\ValueObjects\DamageInstanceApi.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Skills\ISkillProperty.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\ValueObjects\HealingInstanceApi.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Statuses\Properties\Modifiers\IIncomingHealDamageModifier.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\ValueObjects\AttributesApi.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Scripting\SkillScriptNameAttribute.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\ApplyDamageInfo.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\ApplyHealingInfo.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Skills\Properties\ICastStateChangeHandler.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\HitRecord.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Skills\Properties\IHitHandler.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Statuses\Properties\Handlers\IIncomingHealDamageHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Entities\Unit.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\IDK\AttributeSet.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\KillInfo.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Scripting\SkillScript.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Statuses\Properties\IStatusPropery.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Skills\IHitHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Combat\API\API\Combat.API.asmdef" />
@@ -317,6 +311,10 @@
     </Reference>
     <Reference Include="UnityEngine.UmbraModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEngine\UnityEngine.UmbraModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UnityAnalyticsModule">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityAnalyticsModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UnityAnalyticsCommonModule">
@@ -567,8 +565,28 @@
       <HintPath>Assets\Plugins\Zenject\Source\Usage\Zenject-usage.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.Cecil.Awesome">
+      <HintPath>Library\PackageCache\com.unity.entities\Unity.Entities.CodeGen\Unity.Cecil.Awesome.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Collections.LowLevel.ILSupport">
+      <HintPath>Library\PackageCache\com.unity.collections\Unity.Collections.LowLevel.ILSupport\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.IO.Hashing">
+      <HintPath>Library\PackageCache\com.unity.collections\Unity.Collections.Tests\System.IO.Hashing\System.IO.Hashing.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>Library\PackageCache\com.unity.nuget.mono-cecil\Mono.Cecil.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>Library\PackageCache\com.unity.collections\Unity.Collections.Tests\System.Runtime.CompilerServices.Unsafe\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">
@@ -1077,9 +1095,9 @@
       <Project>{8BD67BAE-4173-6632-3746-364F6C3EA823}</Project>
       <Name>Combat.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="Combat.Local.Controllers.csproj">
-      <Project>{7F600D9F-16D4-A5C8-8D69-4CEF71897BD1}</Project>
-      <Name>Combat.Local.Controllers</Name>
+    <ProjectReference Include="Combat.Local.Domain.csproj">
+      <Project>{84D51C1F-4A00-169F-B1F2-C7892886743B}</Project>
+      <Name>Combat.Local.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -4,6 +4,14 @@ using Combat.Local.Domain.ValueObjects;
 
 namespace Combat.Local.Domain.UseCases
 {
+    public class ScaleOverTimeUseCase
+    {
+        public void Execute(EntityId target, float ratePercent, float duration)
+        {
+
+        }
+    }
+
     public class ForceKillUseCase
     {
         private readonly IStateRepository _stateRepository;

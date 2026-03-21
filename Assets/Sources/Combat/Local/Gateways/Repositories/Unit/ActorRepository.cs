@@ -25,7 +25,11 @@ namespace Combat.Local.Gateways.Repositories.Unit
 
         public Actor Get(EntityId id)
         {
-            ActorData data = _values[id];
+            if(_values.TryGetValue(id, out ActorData data) == false)
+            {
+                return default;
+            }
+
             ActorState state = data.State;
 
             if (_apiDataSource.RestrictMovement(id))
@@ -39,12 +43,5 @@ namespace Combat.Local.Gateways.Repositories.Unit
         public void Delete(EntityId id) => _values.Remove(id);
 
         public ICollection<EntityId> GetAll() => _values.Keys;
-
-        private bool CanMove(EntityId entityId)
-        {
-
-
-            return true;
-        }
     }
 }

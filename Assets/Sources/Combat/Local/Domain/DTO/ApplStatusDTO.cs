@@ -4,9 +4,9 @@ namespace Combat.Local.Domain.DTO
 {
     public readonly ref struct ApplStatusDTO
     {
-        public ApplStatusDTO(EntityId parent, StatusName statusName, int initialStackCount, float initialDuration, SkillId? skill, EntityId? caster)
+        public ApplStatusDTO(EntityId target, StatusName statusName, float initialDuration, int initialStackCount, SkillId? skill, EntityId? caster)
         {
-            Parent = parent;
+            Target = target;
             StatusName = statusName;
             InitialStackCount = initialStackCount;
             InitialDuration = initialDuration;
@@ -14,10 +14,10 @@ namespace Combat.Local.Domain.DTO
             Caster = caster;
         }
 
-        public EntityId Parent { get; }
+        public EntityId Target { get; }
         public StatusName StatusName { get; }
-        public int InitialStackCount { get; }
         public float InitialDuration { get; }
+        public int InitialStackCount { get; }
 
         public SkillId? Skill { get; }
         public EntityId? Caster { get; }

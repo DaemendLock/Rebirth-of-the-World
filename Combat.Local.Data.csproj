@@ -59,20 +59,28 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\AspectGenerator.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\JobEntityGenerator.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\Unity.Entities.Analyzer.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.LambdaJobs.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.SystemAPI.QueryBuilder.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.SystemAPI.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.SystemAPI.Query.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.Common.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\Common.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.EntityQueryBulkOperations.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\Unity.Entities.Analyzer.CodeFixes.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Combat\Local\Data\DataSources\HealingModificationDataSource.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Factories\StatusApiFactory.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Lookup\StatusLookup.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\DataSources\StatusModificationProvider.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Factories\UnitApiFactory.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\Factories\SkillScriptFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\Presentation\CharacterViewContainer.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\CharacterModelProvider.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\DataSources\StatusScriptTypeDataSource.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\DataSources\StatusModificationProvider.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\StatusDataBase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\SkillDataBase.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\SkillScriptTypeProvider.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\DataSources\DamageModificationDataSource.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Factories\SkillApiFactory.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\StatusScriptTypeDataSource.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\SkillStrategyTypeProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Combat\Local\Data\Combat.Local.Data.asmdef" />
@@ -288,6 +296,10 @@
     </Reference>
     <Reference Include="UnityEngine.UmbraModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEngine\UnityEngine.UmbraModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UnityAnalyticsModule">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityAnalyticsModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UnityAnalyticsCommonModule">
@@ -538,8 +550,28 @@
       <HintPath>Assets\Plugins\Zenject\Source\Usage\Zenject-usage.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.Cecil.Awesome">
+      <HintPath>Library\PackageCache\com.unity.entities\Unity.Entities.CodeGen\Unity.Cecil.Awesome.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Collections.LowLevel.ILSupport">
+      <HintPath>Library\PackageCache\com.unity.collections\Unity.Collections.LowLevel.ILSupport\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.IO.Hashing">
+      <HintPath>Library\PackageCache\com.unity.collections\Unity.Collections.Tests\System.IO.Hashing\System.IO.Hashing.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>Library\PackageCache\com.unity.nuget.mono-cecil\Mono.Cecil.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>Library\PackageCache\com.unity.collections\Unity.Collections.Tests\System.Runtime.CompilerServices.Unsafe\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">

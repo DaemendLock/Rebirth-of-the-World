@@ -2066,8 +2066,8 @@ MonoBehaviour:
   <InitialHealth>k__BackingField: 500
   <MoveSpeed>k__BackingField: 1
   <Skills>k__BackingField:
-  - {fileID: 11400000, guid: 8f4a3d95771a11c4e845459ead6b8b53, type: 2}
-  - {fileID: 11400000, guid: ca1aab1a7abae294da6f219ef70ebd51, type: 2}
+  - {fileID: 4635443917247608688, guid: 7d32522860a7c37499c13c66a413b63c, type: 3}
+  - {fileID: 4635443917247608688, guid: 1da8c7635d32c3b4e95393e9fcf9ddf2, type: 3}
 --- !u!1 &798017608
 GameObject:
   m_ObjectHideFlags: 0
@@ -6457,8 +6457,8 @@ MonoBehaviour:
   <InitialHealth>k__BackingField: 1000
   <MoveSpeed>k__BackingField: 3
   <Skills>k__BackingField:
-  - {fileID: 11400000, guid: ce581df008776df4488d77daab9d4fd0, type: 2}
-  - {fileID: 11400000, guid: 8f4a3d95771a11c4e845459ead6b8b53, type: 2}
+  - {fileID: 4635443917247608688, guid: 86de2475993beb946b3465fe50b7729d, type: 3}
+  - {fileID: 4635443917247608688, guid: 7d32522860a7c37499c13c66a413b63c, type: 3}
 --- !u!1001 &7024440655674221647
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6535,6 +6535,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 241833896969761970, guid: 9f618b4cfce34ef408cadeaebf5b81ad, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 16f9cf459733d45428412c7b519d48a1, type: 2}
     - target: {fileID: 1088966547432174500, guid: 9f618b4cfce34ef408cadeaebf5b81ad, type: 3}
       propertyPath: m_Center.y
       value: 0

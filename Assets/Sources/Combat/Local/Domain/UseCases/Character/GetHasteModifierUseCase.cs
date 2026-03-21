@@ -13,7 +13,7 @@ namespace Combat.Local.Domain.UseCases
             _attributesRepository = attributesRepository;
         }
 
-        public AttributeValue GetAttributeValue(EntityId target, Attribute attributes)
+        public float GetAttributeValue(EntityId target, Attribute attributes)
         {
             return _attributesRepository.Get(target)[attributes];
         }
@@ -30,7 +30,7 @@ namespace Combat.Local.Domain.UseCases
 
         public float Execute(EntityId target)
         {
-            Attributes attributes = _attributesRepository.Get(target);
+            AttributesOwner attributes = _attributesRepository.Get(target);
             return attributes.GetVersalityModifier();
         }
     }
@@ -46,7 +46,7 @@ namespace Combat.Local.Domain.UseCases
 
         public float Execute(EntityId target)
         {
-            Attributes attributes = _attributesRepository.Get(target);
+            AttributesOwner attributes = _attributesRepository.Get(target);
             return attributes.GetHasteModifier();
         }
     }

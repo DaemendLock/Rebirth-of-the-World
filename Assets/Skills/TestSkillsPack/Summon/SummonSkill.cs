@@ -8,7 +8,7 @@ namespace TestSkillPack.Assets.Skills.TestSkillsPack.Summon
     [SkillScriptName("summon_test")]
     public class SummonSkill : SkillScript, ICastableSkill
     {
-        public void OnCast()
+        public void OnCast(CastEvent @event)
         {
             CreateUnitInfo unitCreationData = new()
             {
@@ -18,11 +18,11 @@ namespace TestSkillPack.Assets.Skills.TestSkillsPack.Summon
                     Haste = 100,
                     Speed = 5,
                 }.ToAttributesArray(),
-                Position = Owner.Position + UnityEngine.Vector3.forward * 2,
+                Position = @event.Caster.Position + UnityEngine.Vector3.forward * 2,
                 BaseHealth = 100,
             };
 
-            Enviroment.CreateUnit(unitCreationData);
+            @event.Scene.CreateUnit(unitCreationData);
         }
     }
 }

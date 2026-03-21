@@ -1,4 +1,5 @@
 ﻿using Combat.Common.ValueObjects;
+using Combat.Local.Data.Models;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Gateways.DataSources;
 
@@ -15,6 +16,14 @@ namespace Combat.Local.Gateways.Repositories
             _skillDataBase = skillDataBase;
         }
 
-        AnimationClip IActionAnimationRepository.Get(ActionId id) => _skillDataBase.GetAnimation(id);
+        AnimationClip IActionAnimationRepository.Get(ActionId id)
+        {
+            if (_skillDataBase.TryGetActionData(id, out ActionData data) == false)
+            {
+                return null;
+            }
+
+            return data.Animation;
+        }
     }
 }

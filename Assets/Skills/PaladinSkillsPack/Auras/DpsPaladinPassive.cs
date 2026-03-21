@@ -6,8 +6,8 @@ using Combat.Common.ValueObjects;
 namespace TestSkillsPack.Paladin
 {
     [StatusScriptName("DpsPaladinPassive")]
-    public class DpsPaladinPassive : StatusScript, IOutgoingHealDamageModifier
+    public class DpsPaladinPassive : CustomStatusStrategy, IOutgoingDamageModifier
     {
-        public float GetBonusDamageDealthPercent(DamageInstanceApi instance) => 0.1f * Parent.GetResourceValue(ResourceId.Custom);
+        public float GetDamageDealthModification_Percent(DamageInstanceApi instance) => 0.1f * Parent.GetResourceValue(ResourceId.Custom);
     }
 }

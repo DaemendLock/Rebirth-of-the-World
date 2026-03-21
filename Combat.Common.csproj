@@ -62,27 +62,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\AttributeValue.cs" />
-    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\DamageInstanceId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\Flags\KillFlags.cs" />
-    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\EntityId.cs" />
-    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\PlayerId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\Flags\ReviveFlags.cs" />
-    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\HitboxType.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\Duration.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\ModelName.cs" />
-    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\HurtboxType.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\StatusName.cs" />
-    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\Team.cs" />
     <Compile Include="Assets\Sources\Combat\Common\Flags\DamageFlags.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\TransformEffectId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\Flags\HealingFlags.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\HitboxId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\StatusId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\Attribute.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\HurtboxId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\SkillId.cs" />
-    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\ActionId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\Flags\SkillFlags.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\ResourceId.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\DamageInstanceId.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\EntityId.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\PlayerId.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\HitboxType.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\HurtboxType.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\Team.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\ActionId.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Combat\Common\Combat.Common.asmdef" />
@@ -298,6 +299,10 @@
     </Reference>
     <Reference Include="UnityEngine.UmbraModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEngine\UnityEngine.UmbraModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UnityAnalyticsModule">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityAnalyticsModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UnityAnalyticsCommonModule">
@@ -548,8 +553,28 @@
       <HintPath>Assets\Plugins\Zenject\Source\Usage\Zenject-usage.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.Cecil.Awesome">
+      <HintPath>Library\PackageCache\com.unity.entities\Unity.Entities.CodeGen\Unity.Cecil.Awesome.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Collections.LowLevel.ILSupport">
+      <HintPath>Library\PackageCache\com.unity.collections\Unity.Collections.LowLevel.ILSupport\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.IO.Hashing">
+      <HintPath>Library\PackageCache\com.unity.collections\Unity.Collections.Tests\System.IO.Hashing\System.IO.Hashing.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>Library\PackageCache\com.unity.nuget.mono-cecil\Mono.Cecil.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>Library\PackageCache\com.unity.collections\Unity.Collections.Tests\System.Runtime.CompilerServices.Unsafe\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">

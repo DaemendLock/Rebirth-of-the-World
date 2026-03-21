@@ -6,24 +6,25 @@ using Combat.Local.Domain.Factories;
 using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories;
 
-using System;
-
 using UnityEngine;
 
 namespace Combat.Local.Domain.UseCases
 {
     public class CreateCharacterUseCase
     {
-        private readonly UnitIdFactory _unitModelFactory;
+        private readonly UnitIdFactory _idFactory;
 
-        private readonly IHealthRepository _healthRepository;
-        private readonly IStateRepository _stateRepository;
+        private readonly HealthFactory _healthFactory;
+        private readonly CharacterStateFactory _stateFactory;
         private readonly IAligmentRepository _aligmentRepository;
         private readonly IAttributesRepository _attributesRepository;
         private readonly IResourceRepository _resourceRepository;
         private readonly ISkillOwnerRepository _skillOwnerRepository;
         private readonly IPositionableRepository _positionableRepository;
         private readonly IActorRepository _actorRepository;
+        private readonly ISkillRepository _skillRepository;
+        private readonly ISkillFactory _skillFactory;
+        private readonly ICharacterUpdateList _characterUpdateList;
 
         private readonly ICreateUnitEventHandler _createUnitEventHandler;
 
@@ -34,10 +35,10 @@ namespace Combat.Local.Domain.UseCases
             IAttributesRepository attributesRepository, IResourceRepository resourceRepository, ISkillOwnerRepository skillOwnerRepository,
             IPositionableRepository positionableRepository, IActorRepository actorRepository,
             ICreateUnitEventHandler createUnitEventHandler,
-            ICreateUnitOutput outputPort)
+            ICreateUnitOutput outputPort, ISkillRepository skillRepository, ISkillFactory skillFactory, ICharacterUpdateList characterUpdateList)
         {
-            _healthRepository = healthRepository;
-            _stateRepository = killableRepository;
+            _healthFactory = new(healthRepository);
+            _stateFactory = new(killableRepository);
             _aligmentRepository = aligmentRepository;
             _attributesRepository = attributesRepository;
             _resourceRepository = resourceRepository;
@@ -47,35 +48,43 @@ namespace Combat.Local.Domain.UseCases
             _createUnitEventHandler = createUnitEventHandler;
             _outputPort = outputPort;
 
-            _unitModelFactory = new();
+            _idFactory = new();
+            _skillRepository = skillRepository;
+            _skillFactory = skillFactory;
+            _characterUpdateList = characterUpdateList;
         }
 
-        public void Execute(CreateCharacterDTO data, Transform parent = null)
+        public void Execute(CreateCharacterDTO context, Transform parent = null)
         {
-            Positionable positionable = Create(data);
+            EntityId id = _idFactory.GetId();
+
+            _stateFactory.Create(id);
+            _healthFactory.Create(id, context.DefaultHealth, context.InitialHealth);
+
+            Positionable positionable = Create(id, context);
 
             _outputPort.Present(positionable, parent);
             _positionableRepository.Update(positionable);
             SkillOwner skillOwner = _skillOwnerRepository.Get(positionable.Id);
-            _createUnitEventHandler.HandleEvent(positionable.Id, skillOwner.GetAll());
+
+            _characterUpdateList.Create(new(id, 1));
+
+            _createUnitEventHandler.HandleEvent(positionable.Id);
+
+            foreach (SkillId skillId in skillOwner.GetAll())
+            {
+                Skill skill = _skillFactory.Create(skillId, id);
+                _skillRepository.Create(skill);
+            }
         }
 
-        private Positionable Create(CreateCharacterDTO context)
+        private Positionable Create(EntityId id, CreateCharacterDTO context)
         {
-            EntityId id = _unitModelFactory.GetId();
-
-            CharacterState state = new(id);
-
-            Health health = new(id, context.DefaultHealth)
-            {
-                CurrentHealth = context.InitialHealth < 0 ? context.DefaultHealth : context.InitialHealth,
-            };
-
             Aligment aligment = new(id, context.Team);
 
-            AttributeValue[] attributeValue = new AttributeValue[Attributes.AttributeCount];
+            AttributeValue[] attributeValue = new AttributeValue[AttributesOwner.AttributeCount];
 
-            for (int i = 0; i < Attributes.AttributeCount; i++)
+            for (int i = 0; i < AttributesOwner.AttributeCount; i++)
             {
                 if (i < context.DefaultAttributes.Length)
                 {
@@ -83,12 +92,10 @@ namespace Combat.Local.Domain.UseCases
                 }
             }
 
-            Attributes attributes = new(id, context.DefaultAttributes, default);
+            AttributesOwner attributes = new(id, context.DefaultAttributes);
             Positionable positionable = new(id, context.Position, default, 1f, default, context.Model);
             SkillOwner skillOwner = new(id, context.Skills);
 
-            _healthRepository.Create(health);
-            _stateRepository.Create(state);
             _aligmentRepository.Create(aligment);
             _attributesRepository.Create(attributes);
             _resourceRepository.Create(new(id, ResourceId.Custom, 100, 0));
@@ -97,6 +104,44 @@ namespace Combat.Local.Domain.UseCases
             _skillOwnerRepository.Create(skillOwner);
 
             return positionable;
+        }
+
+        private readonly struct CharacterStateFactory
+        {
+            private readonly IStateRepository _stateRepository;
+
+            public CharacterStateFactory(IStateRepository stateRepository)
+            {
+                _stateRepository = stateRepository;
+            }
+
+            public CharacterState Create(EntityId id)
+            {
+                CharacterState state = new(id);
+                _stateRepository.Create(state);
+                return state;
+            }
+        }
+
+        private readonly struct HealthFactory
+        {
+            private readonly IHealthRepository _healthRepository;
+
+            public HealthFactory(IHealthRepository healthRepository)
+            {
+                _healthRepository = healthRepository;
+            }
+
+            public Health Create(EntityId id, float defaultValue, float initialValue)
+            {
+                Health health = new(id, defaultValue)
+                {
+                    CurrentHealth = initialValue < 0 ? defaultValue : initialValue,
+                };
+                _healthRepository.Create(health);
+
+                return health;
+            }
         }
     }
 }

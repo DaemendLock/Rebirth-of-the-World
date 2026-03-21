@@ -1,21 +1,20 @@
-using Combat.API;
 using Combat.API.Controllers;
-using Combat.API.Controllers.Factories;
 using Combat.Common.ValueObjects;
 using Combat.Local.Controllers;
 using Combat.Local.Data.Databases;
-using Combat.Local.Data.Factories;
-using Combat.Local.Data.Lookup;
 using Combat.Local.Data.Presentation;
 using Combat.Local.Data.Repositories;
+using Combat.Local.Domain.Facades;
 using Combat.Local.Domain.Factories;
 using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories;
+using Combat.Local.Domain.Repositories.Skills;
 using Combat.Local.Domain.UseCases;
 using Combat.Local.Domain.UseCases.Scene;
 using Combat.Local.Events;
 using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Repositories;
+using Combat.Local.Gateways.Repositories.Characters;
 using Combat.Local.Gateways.Repositories.Unit;
 using Combat.Local.Presentation.Factories;
 using Combat.Local.Presentation.Presenters;
@@ -34,7 +33,6 @@ namespace Testing.Local
         public override void InstallBindings()
         {
             BindRepositories();
-            BindServices();
             BindFactories();
             BindUseCases();
             BindDataSources();
@@ -42,15 +40,17 @@ namespace Testing.Local
             BindApi();
 
             //Container.Bind<AssetProvider>().FromComponentsOn(gameObject).AsSingle();
-
             Container.Bind<ScenePresenter>().FromNew().AsSingle();
             Container.Bind<CharacterPresenter>().FromNew().AsSingle();
 
             var val = Container.Resolve<CombatController>();
-            Container.Resolve<SceneApiProvider>().Register(Container.Resolve<SceneApi>());
             Container.Resolve<SkillDataBase>();
 
-            SetUpEventHandlers();
+            ISkillFactory skillFactory = Container.Resolve<ISkillFactory>();
+            skillFactory.RegisterStrategyFactory(Container.Resolve<CustomScriptSkillStrategyFactory>());
+
+            IStatusFactory statusFactory = Container.Resolve<IStatusFactory>();
+            statusFactory.RegisterStrategyFactory(Container.Resolve<CustomScriptStatusStrategyFactory>());
 
             StatsTable stats = StatsTable.UnitDefault;
             stats[Attribute.Speed] = new(1, 100);
@@ -61,12 +61,13 @@ namespace Testing.Local
         private void BindControllers()
         {
             Container.Bind<CombatController>().FromNew().AsSingle();
-            Container.Bind<CharacterController>().FromNew().AsSingle();
+            Container.Bind<CharacterFacade>().FromNew().AsSingle();
             Container.Bind<PlayerController>().FromNew().AsSingle();
-            Container.Bind<StatusController>().FromNew().AsSingle();
+            Container.Bind<StatusFacade>().FromNew().AsSingle();
             Container.Bind<HitController>().FromNew().AsSingle();
-            Container.Bind<HealthOwnerController>().FromNew().AsSingle();
-            Container.Bind<AttributeOwnerController>().FromNew().AsSingle();
+            Container.Bind<HealthOwnerFacade>().FromNew().AsSingle();
+            Container.Bind<AttributeOwnerFacade>().FromNew().AsSingle();
+            Container.Bind<ITickable>().To<UpdateController>().AsSingle();
         }
 
         private void BindDataSources()
@@ -80,8 +81,6 @@ namespace Testing.Local
 
             Container.Bind<StatusModificationProvider>().FromNew().AsSingle();
             Container.Bind<IStatusApiDataSource>().To<StatusModificationProvider>().FromResolve();
-            Container.Bind<IHealingModificationDataSource>().To<HealingModificationDataSource>().AsSingle();
-            Container.Bind<IDamageModificationDataSource>().To<DamageModificationDataSource>().AsSingle();
         }
 
         private void BindRepositories()
@@ -101,22 +100,19 @@ namespace Testing.Local
             Container.Bind<CharacterModelProvider>().FromNew().AsSingle();
             Container.Bind<IActorRepository>().To<ActorRepository>().AsSingle();
             Container.Bind<IStatusTimerRepository>().To<StatusTimerRepository>().AsSingle();
-            Container.Bind<IHealingDamageInstanceRepository>().To<HealingDamageInstanceRepository>().AsSingle();
-
+            Container.Bind<ICharacterUpdateList>().To<UpdateTargetList>().AsSingle();
             Container.Bind<ISkillRepository>().To<SkillRepository>().AsSingle();
-
-        }
-
-        private void BindServices()
-        {
-            Container.Bind<ITickable>().To<UpdateController>().AsSingle();
-            Container.Bind<StatusLookup>().FromNew().AsSingle();
-            Container.Bind<IStatusLookupService>().To<StatusLookup>().FromResolve();
+            Container.Bind<IStatusOwnerRepository>().To<StatusOwnerRepository>().AsSingle();
+            Container.Bind<ISkillActionsRepository>().To<SkillActionsRepository>().AsSingle();
         }
 
         private void BindFactories()
         {
-            Container.Bind<StatusFactory>().FromNew().AsSingle();
+            Container.Bind<ISkillFactory>().To<SkillFactory>().AsSingle();
+            Container.Bind<CustomScriptSkillStrategyFactory>().FromNew().AsSingle();
+
+            Container.Bind<IStatusFactory>().To<StatusFactory>().AsSingle();
+            Container.Bind<CustomScriptStatusStrategyFactory>().FromNew().AsSingle();
 
             Container.Bind<ICharacterViewFactory>().To<CharacterViewFactory>().AsSingle();
             Container.Bind<IActionFactory>().To<ActionFactory>().AsSingle();
@@ -124,9 +120,9 @@ namespace Testing.Local
 
         private void BindUseCases()
         {
-            Container.Bind<PrecacheAttributersUseCase>().FromNew().AsSingle();
+            Container.Bind<UpdateAttributersUseCase>().FromNew().AsSingle();
             Container.Bind<UpdateActorsUseCase>().FromNew().AsSingle();
-            Container.Bind<IActionStateChangeEventHandler>().To<ActionStateChangeHandler>().AsSingle();
+            Container.Bind<UpdateTransformEffectsUseCase>().FromNew().AsSingle();
 
             Container.Bind<CreateCharacterUseCase>().FromNew().AsSingle();
             Container.Bind<CharacterCreatedHandler>().FromNew().AsSingle();
@@ -136,35 +132,27 @@ namespace Testing.Local
             Container.Bind<CastSkillFromSlotUseCase>().FromNew().AsSingle();
             Container.Bind<SkillCastHandler>().FromNew().AsSingle();
             Container.Bind<ISkillCastEventHandler>().To<SkillCastHandler>().FromResolve();
-            Container.Bind<ICastOutput>().To<CharacterPresenter>().FromResolve();
+            Container.Bind<IActionOutput>().To<CharacterPresenter>().FromResolve();
 
-            Container.Bind<MoveUseCase>().FromNew().AsSingle();
+            Container.Bind<MoveInDirectionUseCase>().FromNew().AsSingle();
             Container.Bind<IMovementOutput>().To<CharacterPresenter>().FromResolve();
 
             Container.Bind<GiveResourceUseCase>().FromNew().AsSingle();
-            Container.Bind<IGiveResourceEventHandler>().To<CharacterGiveResourceEventHandler>().AsSingle();
             Container.Bind<IGiveResourceOutput>().To<CharacterPresenter>().FromResolve();
 
             Container.Bind<SpendResourceUseCase>().FromNew().AsSingle();
-            Container.Bind<ISpendResourceEventHandler>().To<CharacterSpendResourceEventHandler>().AsSingle();
             Container.Bind<ISpendResourceOutput>().To<CharacterPresenter>().FromResolve();
 
             Container.Bind<GetHealthUseCase>().FromNew().AsSingle();
 
             Container.Bind<ApplyDamageUseCase>().FromNew().AsSingle();
-            Container.Bind<CharacterDamagedHandler>().FromNew().AsSingle();
-            Container.Bind<IApplyDamageEventHandler>().To<CharacterDamagedHandler>().FromResolve();
 
             Container.Bind<ApplyHealingUseCase>().FromNew().AsSingle();
-            Container.Bind<CharacterHealedHandler>().FromNew().AsSingle();
-            Container.Bind<IApplyHealingEventHandler>().To<CharacterHealedHandler>().FromResolve();
 
             Container.Bind<SetHealthUseCase>().FromNew().AsSingle();
             Container.Bind<IHealthOutput>().To<CharacterPresenter>().FromResolve();
 
             Container.Bind<ApplyStatusUseCase>().FromNew().AsSingle();
-            Container.Bind<StatusCreateHandler>().FromNew().AsSingle();
-            Container.Bind<IApplyStatusEventHandler>().To<StatusCreateHandler>().FromResolve();
 
             Container.Bind<ForceKillUseCase>().FromNew().AsSingle();
 
@@ -201,48 +189,14 @@ namespace Testing.Local
 
         private void BindApi()
         {
-            Container.Bind<CharacterApiProvider>().FromNew().AsSingle();
-            Container.Bind<SkillApiProvider>().FromNew().AsSingle();
-            Container.Bind<StatusApiProvider>().FromNew().AsSingle();
-            Container.Bind<SceneApiProvider>().FromNew().AsSingle();
+            Container.Bind<SceneApiAdapter>().FromNew().AsSingle();
 
-            Container.Bind<IUnitApiFactory>().To<UnitApiFactory>().AsSingle();
-            Container.Bind<ISkillApiFactory>().To<SkillApiFactory>().AsSingle();
-            Container.Bind<IStatusApiFactory>().To<StatusApiFactory>().AsSingle();
+            Container.Bind<ChracterApiAdapter>().FromNew().AsSingle();
+            Container.Bind<SkillApiAdapter>().FromNew().AsSingle();
+            Container.Bind<StatusApiAdapter>().FromNew().AsSingle();
 
-            Container.Bind<SceneApi>().FromNew().AsSingle();
-
-            Container.Bind<SceneEventApiController>().FromNew().AsSingle();
-            Container.Bind<HitEventApiController>().FromNew().AsSingle();
-            Container.Bind<CharacterEventApiController>().FromNew().AsSingle();
-            Container.Bind<StatusEventApiController>().FromNew().AsSingle();
-            Container.Bind<SkillEventApiHandler>().FromNew().AsSingle();
-        }
-
-        private void SetUpEventHandlers()
-        {
-            SceneEventApiController sceneEventApiController = Container.Resolve<SceneEventApiController>(); ;
-            HitEventApiController hitEventApiController = Container.Resolve<HitEventApiController>();
-            CharacterEventApiController characterEventApiController = Container.Resolve<CharacterEventApiController>();
-            StatusEventApiController statusEventApiController = Container.Resolve<StatusEventApiController>();
-            SkillEventApiHandler skillEventApiHandler = Container.Resolve<SkillEventApiHandler>();
-
-            Container.Resolve<CharacterCreatedHandler>().Created += sceneEventApiController.HandleCharacterCreated;
-
-            Container.Resolve<HitHandler>().Hitted += hitEventApiController.HandleHit;
-
-            Container.Resolve<StatusCreateHandler>().Created += statusEventApiController.HandleCreate;
-            Container.Resolve<StatusTickHandler>().Ticked += statusEventApiController.HandleTick;
-            Container.Resolve<StatusExpireHandler>().Expired += statusEventApiController.HandleExpire;
-            Container.Resolve<StatusRemoveHandler>().Removed += statusEventApiController.HandleRemove;
-
-            Container.Resolve<CharacterDamagedHandler>().Damaged += characterEventApiController.HandleDamageRecived;
-            Container.Resolve<CharacterDamagedHandler>().Damaged += characterEventApiController.HandleDamageDealth;
-
-            Container.Resolve<CharacterHealedHandler>().Healed += characterEventApiController.HandleHealingRecived;
-            Container.Resolve<CharacterHealedHandler>().Healed += characterEventApiController.HandleHealingDealth;
-
-            Container.Resolve<SkillCastHandler>().SkillCasted += skillEventApiHandler.HandleCast;
+            Container.Bind<SkillFacade>().FromNew().AsSingle();
+            Container.Bind<SceneFacade>().FromNew().AsSingle();
         }
     }
 }

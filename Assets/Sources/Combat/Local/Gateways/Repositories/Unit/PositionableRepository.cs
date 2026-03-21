@@ -1,10 +1,10 @@
 ﻿using Combat.Common.ValueObjects;
-using Combat.Local.Data.Models;
 using Combat.Local.Domain.Entities;
+using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Gateways.DataSources;
+using Combat.Local.Gateways.Models;
 
-using System;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -72,16 +72,6 @@ namespace Combat.Local.Gateways.Repositories.Unit
             transform.position = value.Position;
             transform.rotation = value.Rotation;
             transform.localScale = value.Scale * Vector3.one;
-        }
-
-        public ICollection<EntityId> FindInRadius(Vector3 origin, float radius)
-        {
-            return _sceneObjectDataSource.FindCharacterInRadius(origin, radius);
-        }
-
-        public int FindInRadiusNoAlloc(Vector3 origin, float radius, Span<EntityId> buffer)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

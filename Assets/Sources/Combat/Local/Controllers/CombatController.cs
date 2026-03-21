@@ -35,12 +35,10 @@ namespace Combat.Local.Controllers
     public class CombatController
     {
         private readonly CreateCharacterUseCase _createUnitUseCase;
-        private readonly IPositionableRepository _positionableRepository;
 
-        public CombatController(CreateCharacterUseCase createUnitUseCase, IPositionableRepository positionableRepository)
+        public CombatController(CreateCharacterUseCase createUnitUseCase)
         {
             _createUnitUseCase = createUnitUseCase;
-            _positionableRepository = positionableRepository;
         }
 
         public void CreateUnit(UnitCreationInfo data)
@@ -53,16 +51,6 @@ namespace Combat.Local.Controllers
         {
             CreateCharacterDTO unitCreationDTO = new(data.ModelName, data.Team, data.Position, data.CurrentHealth, data.BaseHealth, data.DefaultAttributes, data.Skills);
             _createUnitUseCase.Execute(unitCreationDTO, parent);
-        }
-
-        public ICollection<EntityId> FindCharactersInRadius(Vector3 origin, float radius)
-        {
-            return _positionableRepository.FindInRadius(origin, radius);
-        }
-
-        public int FindCharactersInRadiusNoAlloc(Vector3 origin, float radius, Span<EntityId> buffer)
-        {
-            return _positionableRepository.FindInRadiusNoAlloc(origin, radius, buffer);
         }
     }
 }

@@ -1,31 +1,33 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.OutputPorts;
+using Combat.Local.Domain.Entities.Skills.Effects;
+using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
 
-using System.Linq;
+using System.Collections.Generic;
 
 namespace Combat.Local.Domain.UseCases
 {
     public readonly struct UpdateActorsUseCase
     {
         private readonly IActorRepository _actorRepository;
-        private readonly IActionStateChangeEventHandler _actionStateChangeEventHandler;
+        private readonly ISkillRepository _skillRepository;
 
-        public UpdateActorsUseCase(IActorRepository actorRepository, IActionStateChangeEventHandler actionStateChangeEventHandler)
+        public UpdateActorsUseCase(IActorRepository actorRepository, ISkillRepository skillRepository)
         {
             _actorRepository = actorRepository;
-            _actionStateChangeEventHandler = actionStateChangeEventHandler;
+            _skillRepository = skillRepository;
         }
 
-        public void Execute(float deltaTime)
+        public void Execute(float deltaTime, IReadOnlyCollection<Updatable> targets)
         {
-            foreach (EntityId id in _actorRepository.GetAll().ToArray())
+            foreach (Updatable target in targets)
             {
-                Actor actor = _actorRepository.Get(id);
-                UpdateActor(actor, deltaTime);
+                Actor actor = _actorRepository.Get(target.Id);
+
+                UpdateActor(actor, deltaTime * target.TimeScale);
             }
         }
 
@@ -50,12 +52,12 @@ namespace Combat.Local.Domain.UseCases
             float activeTime = action.ActiveTime + deltaTime;
             float effectiveTime = action.EffectiveTime;
 
-            if (!action.Flags.HasFlag(ActionFlags.Holdable) || action.CurrentState != ActionState.Active)
+            if (!action.Flags.HasFlag(ActionFlags.Holdable) || actionState != ActionState.Active)
             {
                 effectiveTime += deltaTime;
             }
 
-            ActionData data = new(action.IsActive, activeTime, effectiveTime);
+            ActionData data = new(activeTime, effectiveTime);
 
             action.Update(data);
 
@@ -69,7 +71,12 @@ namespace Combat.Local.Domain.UseCases
                 action.HittedTargets.Clear();
             }
 
-            _actionStateChangeEventHandler.HandleEvent(actor.Id, action.CurrentState);
+            Skill skill = _skillRepository.Get(action.Source, actor.Id);
+
+            if (skill.TryGetEffect(out SkillActionStateChangeEffect effect))
+            {
+                effect.Handle(action.CurrentState);
+            }
         }
     }
 }

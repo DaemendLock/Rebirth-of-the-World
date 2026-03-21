@@ -5,7 +5,7 @@ using Combat.API.Statuses;
 namespace TestSkillsPack.Paladin
 {
     [StatusScriptName("DpsPaladin3Buff")]
-    public class DpsPaladin3Buff : StatusScript, IResourceGainSpendHandler
+    public class DpsPaladin3Buff : CustomStatusStrategy, IResourceGainSpendHandler
     {
         public void OnGainResource(ResourceChangeRecord @event) { }
 

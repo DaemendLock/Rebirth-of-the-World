@@ -1,7 +1,7 @@
 ﻿using Combat.Common.ValueObjects;
+using Combat.Local.Data.Models;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
-using Combat.Local.Gateways.DataSources;
 
 using System.Collections.Generic;
 
@@ -9,37 +9,44 @@ namespace Combat.Local.Gateways.Repositories.Unit
 {
     public class AttributesRepository : IAttributesRepository
     {
-        private readonly IStatusApiDataSource _statusModificationProvider;
-        private readonly Dictionary<EntityId, AttributeValue[]> _values;
+        private readonly Dictionary<EntityId, AttributeData> _values;
 
-        public AttributesRepository(IStatusApiDataSource apiDataSource)
+        public AttributesRepository()
         {
             _values = new();
-            _statusModificationProvider = apiDataSource;
         }
 
-        public void Create(Attributes value)
+        public void Create(AttributesOwner value)
         {
-            _values.Add(value.Id, value.GetAllBase().ToArray());
+            float[] values = new float[value.GetAllBase().Length];
+
+            _values[value.Id] = new(value.GetAllBase().ToArray(), values);
         }
 
-        public Attributes Get(EntityId id)
+        public AttributesOwner Get(EntityId id)
         {
-            AttributeValue[] baseValues = _values[id];
-            AttributeValue[] bonusValues = _statusModificationProvider.GetAttributesModification(id, baseValues);
-            return new(id, baseValues, bonusValues);
+            if (_values.TryGetValue(id, out var data) == false)
+            {
+                throw new System.ArgumentException();
+            }
+
+            return new(id, data.BaseValues, data.Values);
         }
 
-        public void Update(Attributes value)
+        public void Update(AttributesOwner value)
         {
-            _values[value.Id] = value.GetAllBase().ToArray();
+            if (_values.TryGetValue(value.Id, out var data) == false)
+            {
+                throw new System.ArgumentException();
+            }
+
+            value.GetAllBase().CopyTo(data.BaseValues);
+            value.GetAll().CopyTo(data.Values);
         }
 
         public void Delete(EntityId id)
         {
             _values.Remove(id);
         }
-
-        public IReadOnlyCollection<EntityId> GetAllIds() => _values.Keys;
     }
 }

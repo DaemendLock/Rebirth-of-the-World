@@ -4,7 +4,7 @@ using Combat.API.Skills;
 namespace Server.Combat.Domain.Implementations.Actions
 {
     [SkillScriptName("growself")]
-    public class GrowSkillScript : SkillScript
+    public class GrowSkillScript : SkillScript, ICastableSkill, ICastStateChangeHandler
     {
         private float _growPercent;
         private float _duration;
@@ -14,10 +14,17 @@ namespace Server.Combat.Domain.Implementations.Actions
 
         protected override void OnInit()
         {
-            _duration = 10;
+            _duration = 5;
             _growPercent = 40;
-            _targetSize = Owner.Scale * (1 + _growPercent / 100f);
-            _growRate = (_targetSize - Owner.Scale) / _duration;
+            //_targetSize = Owner.Scale * (1 + _growPercent / 100f);
+            //_growRate = (_targetSize - Owner.Scale) / _duration;
+        }
+
+        public void OnCast(CastEvent @event)
+        {
+            float currentSize = @event.Caster.Scale;
+            
+            _targetSize = currentSize + (_growPercent / 100);
         }
     }
 }

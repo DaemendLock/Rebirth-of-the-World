@@ -25,7 +25,7 @@ namespace Data.Entities
     }
 
     [CreateAssetMenu(menuName = "Assets/Skills/Action")]
-    public class ActionData : ScriptableObject, IActionData
+    public class ActionData : ScriptableObject
     {
         [SerializeField] private int _id;
         [SerializeField, Range(0, 1)] private float[] _frameData;
@@ -42,12 +42,5 @@ namespace Data.Entities
             Array.Sort(_frameData ?? Array.Empty<float>());
         }
 #endif
-    }
-
-    public interface IActionData
-    {
-        ActionId Id { get; }
-        AnimationClip Animation { get; }
-        IFrameData FrameData { get; }
     }
 }

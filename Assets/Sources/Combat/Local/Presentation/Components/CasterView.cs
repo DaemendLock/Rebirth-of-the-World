@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Combat.Local.Presentation.Components
 {
-    [RequireComponent(typeof(DaeAnimator.UnitAnimator))]
+    [RequireComponent(typeof(DaeAnimator.CharacterAnimator))]
     public class CasterView : MonoBehaviour
     {
         private const string AnimatorIsCastingName = "Casting";
@@ -12,13 +12,13 @@ namespace Combat.Local.Presentation.Components
 
         //[Zenject.Inject] private ISkillDataRepository _skillDataRepository;
 
-        private DaeAnimator.UnitAnimator _daeAnimator;
+        private DaeAnimator.CharacterAnimator _daeAnimator;
 
         private ActivityViewModel _activeAction;
 
         private void Awake()
         {
-            _daeAnimator = GetComponent<DaeAnimator.UnitAnimator>();
+            _daeAnimator = GetComponent<DaeAnimator.CharacterAnimator>();
         }
 
         public bool Casting => _activeAction != null;
@@ -31,6 +31,7 @@ namespace Combat.Local.Presentation.Components
             }
 
             _activeAction = action;
+
             _daeAnimator.Play(new(action.Clip, action.StartTime, action.RecoveryTime));
         }
     }

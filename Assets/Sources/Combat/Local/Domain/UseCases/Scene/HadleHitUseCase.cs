@@ -1,6 +1,8 @@
 ﻿using Combat.Local.Domain.Entities;
+using Combat.Local.Domain.Entities.Skills.Effects;
 using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.Repositories;
+using Combat.Local.Domain.ValueObjects;
 
 using UnityEngine;
 
@@ -13,14 +15,16 @@ namespace Combat.Local.Domain.UseCases.Scene
         private readonly IHurtableRepository _hurtboxRepository;
         private readonly IHitEventHandler _hitEventHandler;
         private readonly IActorRepository _actorRepository;
+        private readonly ISkillRepository _skillRepository;
 
-        public HandleHitsUseCase(IHitRecordRepository hitRecordRepository, IHitboxRepository hitboxRepository, IHurtableRepository hurtboxRepository, IHitEventHandler hitEventHandler, IActorRepository actorRepository)
+        public HandleHitsUseCase(IHitRecordRepository hitRecordRepository, IHitboxRepository hitboxRepository, IHurtableRepository hurtboxRepository, IHitEventHandler hitEventHandler, IActorRepository actorRepository, ISkillRepository skillRepository)
         {
             _hitRecordRepository = hitRecordRepository;
             _hitboxRepository = hitboxRepository;
             _hurtboxRepository = hurtboxRepository;
             _hitEventHandler = hitEventHandler;
             _actorRepository = actorRepository;
+            _skillRepository = skillRepository;
         }
 
         public void Execute()
@@ -53,6 +57,13 @@ namespace Combat.Local.Domain.UseCases.Scene
             }
 
             actor.CurrentAction.HittedTargets.Add(hurtbox.Owner);
+
+            Skill handler = _skillRepository.Get(new(actor.CurrentAction.Id.Value), hitbox.Owner);
+
+            if (handler.TryGetEffect(out SkillHitEffect hitEffect))
+            {
+                hitEffect.HandleHit(hitbox, hurtbox, value.Location);
+            }
 
             _hitEventHandler.HandleEvent(hitbox, hurtbox, value.Location);
         }

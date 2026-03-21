@@ -9,7 +9,7 @@ using Combat.Common.ValueObjects;
 namespace TestSkillsPack.Paladin
 {
     [StatusScriptName("Paladin1Aura")]
-    public class Paladin1Aura : StatusScript, IOutgoingHealDamageHandler
+    public class Paladin1Aura : CustomStatusStrategy, IOutgoingHealDamageHandler
     {
         private ApplyDamageOptions _applyDamageOptions;
 
@@ -35,7 +35,7 @@ namespace TestSkillsPack.Paladin
 
             _applyDamageOptions.Target = target;
             _applyDamageOptions.OriginalDamage = caster.GetAttributeValue(Attribute.Spellpower) * 0.1f;
-
+            UnityEngine.Debug.Log("+Smite Hit");
             Parent.GiveResource(new(ResourceId.Custom, 1, Source));
         }
     }

@@ -1,19 +1,17 @@
-﻿using CastStateSkill;
-
+﻿using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
+using Combat.Local.Data.Models;
 
 using System.Collections.Generic;
-
-using UnityEngine;
 
 namespace Combat.Local.Gateways.DataSources
 {
     public interface ISkillDataBase
     {
-        IFrameData GetFrameData(ActionId id);
-
-        AnimationClip GetAnimation(ActionId id);
+        bool TryGetActionData(ActionId id, out ActionData value);
 
         IReadOnlyCollection<ActionId> GetAssociatedActions(SkillId id);
+
+        SkillFlags GetDefaultFlags(SkillId id);
     }
 }

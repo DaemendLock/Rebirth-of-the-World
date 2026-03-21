@@ -1,99 +1,56 @@
 ﻿using Combat.Local.Data.Databases;
+using Combat.Local.Domain.Entities.Units;
+using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
 using Combat.Local.Domain.UseCases.Scene;
+
+using System.Collections.Generic;
+using System.Linq;
 
 using Zenject;
 
 namespace Testing.Local
 {
-    //public class AttributesEvaluationService : IAttributeEvaluationService
-    //{
-    //    private readonly IStatusRepository _effectRepository;
-    //    private readonly IAttributesRepository _attributesRepository;
-
-    //    private readonly Dictionary<EntityId, CachedAttributes> _cachedValues;
-
-    //    private byte _version;
-
-    //    public AttributesEvaluationService(IStatusRepository effectRepository, IAttributesRepository attributesRepository)
-    //    {
-    //        _effectRepository = effectRepository;
-    //        _attributesRepository = attributesRepository;
-
-    //        _cachedValues = new();
-    //        _version = 0;
-    //    }
-
-    //    public float GetAttributeValue(EntityId id, Attribute attribute)
-    //    {
-    //        if (_cachedValues.TryGetValue(id, out CachedAttributes cachedValue) == false)
-    //        {
-    //            StatsTable memory = new(_attributesRepository.Get(id));
-    //            cachedValue = new(memory, _version);
-    //        }
-
-    //        if (cachedValue.Version != _version)
-    //        {
-    //            cachedValue.Values.Clear();
-    //            cachedValue.Values.Add(_attributesRepository.Get(id));
-    //            _cachedValues.Add(id, new(cachedValue.Values, _version));
-
-    //            IEnumerable<StatusEffect> effects = _effectRepository.FindStatusEffects(id);
-
-    //            foreach (StatusEffect effect in effects)
-    //            {
-    //                effect.ModifyAttributes(cachedValue.Values);
-    //            }
-    //        }
-
-    //        return cachedValue.Values[attribute].CalculatedValue;
-    //    }
-
-    //    public void ClearCache()
-    //    {
-    //        _version++;
-    //    }
-
-    //    private readonly struct CachedAttributes
-    //    {
-    //        public CachedAttributes(StatsTable values, int version)
-    //        {
-    //            Values = values;
-    //            Version = version;
-    //        }
-
-    //        public StatsTable Values { get; }
-    //        public int Version { get; }
-    //    }
-    //}
     public class UpdateController : ITickable
     {
-        private readonly PrecacheAttributersUseCase _precacheAttributesUseCase;
+        private readonly UpdateAttributersUseCase _updateAttributesUseCase;
         private readonly UpdateStatusTimersUseCase _updateStatusTimersUseCase;
         private readonly UpdateStatusesUseCases _updateStatusesUseCase;
         private readonly UpdateActorsUseCase _updateActorsUseCase;
         private readonly HandleHitsUseCase _handleHitUseCase;
+        private readonly ICharacterUpdateList _characterUpdateList;
+        private readonly UpdateTransformEffectsUseCase _updateMovementEffectsUseCase;
 
         private readonly StatusModificationProvider _statusModificationProvider;
 
-        public UpdateController(PrecacheAttributersUseCase updateCombatUseCase, UpdateStatusTimersUseCase updateStatusTimersUseCase, StatusModificationProvider statusModificationProvider, UpdateStatusesUseCases updateStatusesUseCase, UpdateActorsUseCase updateActionUseCase, HandleHitsUseCase handleHitUseCase)
+        public UpdateController(UpdateAttributersUseCase updateCombatUseCase, UpdateStatusTimersUseCase updateStatusTimersUseCase, StatusModificationProvider statusModificationProvider, UpdateStatusesUseCases updateStatusesUseCase, UpdateActorsUseCase updateActionUseCase, HandleHitsUseCase handleHitUseCase, ICharacterUpdateList characterUpdateList, UpdateTransformEffectsUseCase updateMovementEffectsUseCase)
         {
-            _precacheAttributesUseCase = updateCombatUseCase;
+            _updateAttributesUseCase = updateCombatUseCase;
             _updateStatusTimersUseCase = updateStatusTimersUseCase;
             _statusModificationProvider = statusModificationProvider;
             _updateStatusesUseCase = updateStatusesUseCase;
             _updateActorsUseCase = updateActionUseCase;
             _handleHitUseCase = handleHitUseCase;
+            _characterUpdateList = characterUpdateList;
+            _updateMovementEffectsUseCase = updateMovementEffectsUseCase;
         }
 
         public void Tick()
         {
             float deltaTime = UnityEngine.Time.deltaTime;
 
-            _precacheAttributesUseCase.Execute();
-            _updateStatusesUseCase.Execute(deltaTime);
+            IReadOnlyCollection<Updatable> updateList = _characterUpdateList.GetAll().ToArray();
+
+            _updateAttributesUseCase.Execute(updateList);
+            _updateStatusesUseCase.Execute(deltaTime, updateList);
             _updateStatusTimersUseCase.Execute(deltaTime);
-            _updateActorsUseCase.Execute(deltaTime);
+            _updateActorsUseCase.Execute(deltaTime, updateList);
+
+            foreach (var val in updateList)
+            {
+                _updateMovementEffectsUseCase.Execute(val.Id, deltaTime);
+            }
+
             _handleHitUseCase.Execute();
 
             _statusModificationProvider.ClearCache();
