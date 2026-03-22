@@ -79,13 +79,11 @@
     <Compile Include="Assets\Sources\Testing\Local\Temp\MoveInDirectionOverTimeComponent.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\Implementations\ActionFactory.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\ScaleOverTimeComponent.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Implementations\CharacterViewFactory.cs" />
     <Compile Include="Assets\Sources\Testing\Local\UnitProperties.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\Implementations\CustomScriptStatusStrategyFactory.cs" />
     <Compile Include="Assets\Sources\Testing\Local\LocalSceneInstaller.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\StatsTable.cs" />
     <Compile Include="Assets\Sources\Testing\Local\UpdateController.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Implementations\CastAction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Testing\Local\Testing.Local.asmdef" />

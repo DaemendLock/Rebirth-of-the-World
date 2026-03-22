@@ -1,9 +1,10 @@
-﻿using Combat.Common.Flags;
+﻿using CastStateSkill;
+
+using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Factories;
 using Combat.Local.Domain.Repositories;
-using Combat.Local.Domain.ValueObjects;
 using Combat.Local.Gateways.DataSources;
 
 namespace Testing.Local.Temp.Factories
@@ -19,7 +20,7 @@ namespace Testing.Local.Temp.Factories
             _skillDataBase = skillDataBase;
         }
 
-        public IAction CreateCastAction(ActionId actionId, EntityId actorId)
+        public Action CreateCastAction(ActionId actionId, EntityId actorId)
         {
             Skill skill = _skillRepository.Get(new(actionId.Value), actorId);
             ActionFlags flags = ActionFlags.None;
@@ -29,17 +30,19 @@ namespace Testing.Local.Temp.Factories
                 flags |= ActionFlags.AllowMovement;
             }
 
-            if(skill.Flags.HasFlag(SkillFlags.CanHold))
+            if (skill.Flags.HasFlag(SkillFlags.CanHold))
             {
                 flags |= ActionFlags.Holdable;
             }
 
-            if (_skillDataBase.TryGetActionData(actionId, out var actionData) == false)
+            IActionStrategy strategy = null;
+
+            if (_skillDataBase.TryGetActionData(actionId, out var actionData))
             {
-                return new CastAction(actionId, skill.Id, flags, null);
+                strategy = new CastActionStrategy(actionData.FrameData);
             }
 
-            return new CastAction(actionId, skill.Id, flags, actionData.FrameData);
+            return new Action(actionId, skill.Id, flags, strategy);
         }
     }
 }

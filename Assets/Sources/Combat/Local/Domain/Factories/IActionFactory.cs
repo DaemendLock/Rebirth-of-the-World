@@ -1,11 +1,10 @@
 ﻿using Combat.Common.ValueObjects;
-using Combat.Local.Domain.ValueObjects;
+using Combat.Local.Domain.Entities;
 
 namespace Combat.Local.Domain.Factories
 {
-
     public interface IActionFactory
     {
-        IAction CreateCastAction(ActionId actionId, EntityId actorId);
+        Action CreateCastAction(ActionId actionId, EntityId actorId);
     }
 }

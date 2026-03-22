@@ -1,10 +1,8 @@
-﻿using Combat.Common.Flags;
-using Combat.Common.ValueObjects;
+﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Entities.Skills.Effects;
 using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.Repositories;
-using Combat.Local.Domain.ValueObjects;
 
 using System.Collections.Generic;
 
@@ -33,35 +31,32 @@ namespace Combat.Local.Domain.UseCases
 
         private void UpdateActor(Actor actor, float deltaTime)
         {
-            IAction action = actor.CurrentAction;
+            Entities.Action action = actor.CurrentAction;
 
             if (action == null)
             {
                 return;
             }
 
-            if (action.IsActive == false)
+            ActionState actionState = action.CurrentState;
+
+            if (actionState == ActionState.Inactive)
             {
                 actor.CurrentAction = null;
                 _actorRepository.Update(actor);
                 return;
             }
 
-            ActionState actionState = action.CurrentState;
+            action.Update(deltaTime);
+            actor.CurrentAction = action;
+            _actorRepository.Update(actor);
 
-            float activeTime = action.ActiveTime + deltaTime;
-            float effectiveTime = action.EffectiveTime;
+            HandleStateChanges(actor.Id, action, actionState);
+        }
 
-            if (!action.Flags.HasFlag(ActionFlags.Holdable) || actionState != ActionState.Active)
-            {
-                effectiveTime += deltaTime;
-            }
-
-            ActionData data = new(activeTime, effectiveTime);
-
-            action.Update(data);
-
-            if (action.CurrentState == actionState)
+        private void HandleStateChanges(EntityId actorId, Entities.Action action, ActionState oldState)
+        {
+            if (action.CurrentState == oldState)
             {
                 return;
             }
@@ -71,7 +66,7 @@ namespace Combat.Local.Domain.UseCases
                 action.HittedTargets.Clear();
             }
 
-            Skill skill = _skillRepository.Get(action.Source, actor.Id);
+            Skill skill = _skillRepository.Get(action.Source, actorId);
 
             if (skill.TryGetEffect(out SkillActionStateChangeEffect effect))
             {

@@ -22,7 +22,7 @@ namespace Combat.Local.Data.Models
 
     public readonly struct ActorData
     {
-        public ActorData(ActorState state, IAction action)
+        public ActorData(ActorState state, Action action)
         {
             State = state;
             Action = action;
@@ -30,7 +30,7 @@ namespace Combat.Local.Data.Models
 
         public ActorState State { get; }
 
-        public IAction Action { get; }
+        public Action Action { get; }
     }
 
     public readonly struct StatusData

@@ -10,6 +10,8 @@ namespace Combat.Local.Gateways.Models
 
         public Quaternion LookDirection { get; set; }
 
+        public EntityId Id { get; set; }
+
         public ModelName ModelName { get => new(_modelName); set => _modelName = value.Value; }
     }
 }

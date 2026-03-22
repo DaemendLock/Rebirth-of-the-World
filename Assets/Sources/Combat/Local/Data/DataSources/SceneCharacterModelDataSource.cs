@@ -1,5 +1,5 @@
 ﻿using Combat.Common.ValueObjects;
-using Combat.Local.Data.Databases;
+using Combat.Local.Data.Factories;
 using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Models;
 using Combat.Local.Presentation.Components;
@@ -10,63 +10,26 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Combat.Local.Data.Presentation
+namespace Combat.Local.Data.DataSources
 {
-    public class CharacterModelFactory : ICharacterModelFactory
-    {
-        private readonly CharacterModelProvider _characterModelProvider;
-
-        public CharacterModelFactory(CharacterModelProvider characterModelProvider)
-        {
-            _characterModelProvider = characterModelProvider;
-        }
-
-        public CharacterModel Create(ModelName name, Transform parent)
-        {
-            if (parent == null)
-            {
-                parent = CreatePrefab(name);
-            }
-
-            CharacterModel result = parent.gameObject.AddComponent<CharacterModel>();
-            result.ModelName = name;
-            return result;
-        }
-
-        private Transform CreatePrefab(ModelName modelName)
-        {
-            GameObject prefab = _characterModelProvider.Get(modelName);
-
-            if (prefab == null)
-            {
-                throw new System.InvalidOperationException();
-            }
-
-            GameObject gameObject = UnityEngine.Object.Instantiate(prefab);
-            return gameObject.transform;
-        }
-    }
-
-    public interface ICharacterModelFactory
-    {
-        CharacterModel Create(ModelName name, Transform parent);
-    }
-
-    public class SceneCharacterModelDataSource : ICharacterViewContainer, ISceneObjectDataSource
+    public class SceneCharacterModelDataSource : ICharacterViewContainer, ISceneCharacterModelDataSource
     {
         private readonly Dictionary<EntityId, CharacterModel> _values;
-        private readonly ICharacterModelFactory _factory;
+        private readonly CharacterModelFactory _factory;
 
-        public SceneCharacterModelDataSource(ICharacterModelFactory factory)
+        public SceneCharacterModelDataSource(CharacterModelFactory factory)
         {
-            _values = new();
             _factory = factory;
+            _values = new();
         }
 
         public CharacterModel Create(EntityId id, ModelName name, Transform parent)
         {
             CharacterModel result = _factory.Create(name, parent);
+            result.Id = id;
             _values[id] = result;
+
+            _factory.Init(result);
             return result;
         }
 
@@ -79,8 +42,6 @@ namespace Combat.Local.Data.Presentation
 
             UnityEngine.Object.Destroy(value.gameObject);
         }
-
-        public CharacterModel GetCharacterModel(EntityId id) => _values[id];
 
         public bool TryGetCharacterModel(EntityId id, out CharacterModel model) => _values.TryGetValue(id, out model);
 

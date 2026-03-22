@@ -10,9 +10,9 @@ namespace Combat.Local.Gateways.Repositories.Unit
 {
     public sealed class PositionableRepository : IPositionableRepository
     {
-        private readonly ISceneObjectDataSource _sceneObjectDataSource;
+        private readonly ISceneCharacterModelDataSource _sceneObjectDataSource;
 
-        public PositionableRepository(ISceneObjectDataSource sceneObjectDataSource)
+        public PositionableRepository(ISceneCharacterModelDataSource sceneObjectDataSource)
         {
             _sceneObjectDataSource = sceneObjectDataSource;
         }
@@ -43,6 +43,11 @@ namespace Combat.Local.Gateways.Repositories.Unit
             {
                 return;
             }
+
+            //if(model.ModelName != value.ModelName)
+            //{
+            //    model = _sceneObjectDataSource.Create(value.Id, value.ModelName, null);
+            //}
 
             model.transform.position = value.Position;
             model.transform.rotation = value.Rotation;

@@ -68,7 +68,6 @@
     <Compile Include="Assets\Sources\Combat\Local\Presentation\Components\KillableView.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Presentation\ViewModels\ActivityViewModel.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Presentation\Components\CharacterView.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Presentation\Factories\ICharacterViewFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Presentation\Components\CasterView.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Presentation\Presenters\ScenePresenter.cs" />
   </ItemGroup>

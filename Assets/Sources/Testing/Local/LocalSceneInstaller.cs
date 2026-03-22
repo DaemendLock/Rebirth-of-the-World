@@ -2,7 +2,8 @@ using Combat.API.Controllers;
 using Combat.Common.ValueObjects;
 using Combat.Local.Controllers;
 using Combat.Local.Data.Databases;
-using Combat.Local.Data.Presentation;
+using Combat.Local.Data.DataSources;
+using Combat.Local.Data.Factories;
 using Combat.Local.Data.Repositories;
 using Combat.Local.Domain.Facades;
 using Combat.Local.Domain.Factories;
@@ -16,7 +17,6 @@ using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Repositories;
 using Combat.Local.Gateways.Repositories.Characters;
 using Combat.Local.Gateways.Repositories.Unit;
-using Combat.Local.Presentation.Factories;
 using Combat.Local.Presentation.Presenters;
 
 using Temp.Domain.Implementations;
@@ -77,7 +77,7 @@ namespace Testing.Local
 
             Container.Bind<SceneCharacterModelDataSource>().FromNew().AsSingle();
             Container.Bind<ICharacterViewContainer>().To<SceneCharacterModelDataSource>().FromResolve();
-            Container.Bind<ISceneObjectDataSource>().To<SceneCharacterModelDataSource>().FromResolve();
+            Container.Bind<ISceneCharacterModelDataSource>().To<SceneCharacterModelDataSource>().FromResolve();
         }
 
         private void BindRepositories()
@@ -111,8 +111,7 @@ namespace Testing.Local
             Container.Bind<IStatusFactory>().To<StatusFactory>().AsSingle();
             Container.Bind<CustomScriptStatusStrategyFactory>().FromNew().AsSingle();
 
-            Container.Bind<ICharacterViewFactory>().To<CharacterViewFactory>().AsSingle();
-            Container.Bind<ICharacterModelFactory>().To<CharacterModelFactory>().AsSingle();
+            Container.Bind<CharacterModelFactory>().FromNew().AsSingle();
             Container.Bind<IActionFactory>().To<ActionFactory>().AsSingle();
         }
 

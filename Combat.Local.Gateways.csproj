@@ -70,6 +70,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\HealthData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\CharacterModel.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\ActorRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\DataSources\ISceneCharacterModelDataSource.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\ResourceRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\StatusOwnerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\HitboxData.cs" />
@@ -78,7 +79,6 @@
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\StatusData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\HealthRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Skills\SkillActionsRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\DataSources\ISceneObjectDataSource.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\SkillOwnerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Skills\SkillRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\AttributesRepository.cs" />

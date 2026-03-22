@@ -28,7 +28,7 @@ namespace Combat.Local.Domain.Entities
 
     public ref struct Actor
     {
-        public Actor(EntityId id, ActorState state, IAction action)
+        public Actor(EntityId id, ActorState state, Action action)
         {
             Id = id;
             State = state;
@@ -37,15 +37,15 @@ namespace Combat.Local.Domain.Entities
 
         public EntityId Id { get; }
 
-        public IAction CurrentAction { get; set; }
+        public Action CurrentAction { get; set; }
 
         public ActorState State { get; set; }
 
-        public bool CanCast => State == ActorState.Silenced == false;
+        public readonly bool CanCast => State.HasFlag(ActorState.Silenced) == false;
 
-        public bool CanMove => (State.HasFlag(ActorState.Rooted) == false) && (CurrentAction == null || CurrentAction.AllowMovement);
+        public readonly bool CanMove => (State.HasFlag(ActorState.Rooted) == false) && (CurrentAction == null || CurrentAction.AllowMovement);
 
-        public void StartAction(IAction action)
+        public void StartAction(Action action)
         {
             CurrentAction = action;
             action.Start();
