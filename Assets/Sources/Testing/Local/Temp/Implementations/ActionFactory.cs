@@ -1,48 +1,29 @@
-﻿using CastStateSkill;
-
-using Combat.Common.Flags;
-using Combat.Common.ValueObjects;
+﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Factories;
-using Combat.Local.Domain.Repositories;
 using Combat.Local.Gateways.DataSources;
 
 namespace Testing.Local.Temp.Factories
 {
-    public class ActionFactory : IActionFactory
+    public class ActionStrategyFactory : IActionStrategyFactory
     {
-        private readonly ISkillRepository _skillRepository;
         private readonly ISkillDataBase _skillDataBase;
 
-        public ActionFactory(ISkillRepository skillRepository, ISkillDataBase skillDataBase)
+        public ActionStrategyFactory(ISkillDataBase skillDataBase)
         {
-            _skillRepository = skillRepository;
             _skillDataBase = skillDataBase;
         }
 
-        public Action CreateCastAction(ActionId actionId, EntityId actorId)
+        public IActionStrategy Create(ActionId id)
         {
-            Skill skill = _skillRepository.Get(new(actionId.Value), actorId);
-            ActionFlags flags = ActionFlags.None;
+            IActionStrategy result = null;
 
-            if (skill.AllowMoment)
+            if (_skillDataBase.TryGetActionData(id, out var actionData))
             {
-                flags |= ActionFlags.AllowMovement;
+                result = new CastActionStrategy(actionData.FrameData);
             }
 
-            if (skill.Flags.HasFlag(SkillFlags.CanHold))
-            {
-                flags |= ActionFlags.Holdable;
-            }
-
-            IActionStrategy strategy = null;
-
-            if (_skillDataBase.TryGetActionData(actionId, out var actionData))
-            {
-                strategy = new CastActionStrategy(actionData.FrameData);
-            }
-
-            return new Action(actionId, skill.Id, flags, strategy);
+            return result;
         }
     }
 }

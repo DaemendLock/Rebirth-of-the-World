@@ -26,14 +26,14 @@ namespace Combat.Local.Presentation.Presenters
             _actionAnimationRepository = skillAnimationRepository;
         }
 
-        public void Present(EntityId target, ActionId skill)
+        public void Present(EntityId target, ActionId actionId)
         {
             if (_container.TryGetValue(target, out var view) == false)
             {
                 return;
             }
 
-            AnimationClip clip = _actionAnimationRepository.Get(skill);
+            AnimationClip clip = _actionAnimationRepository.Get(actionId);
 
             ActivityViewModel skillViewModel = new(clip, 0, 0);
 

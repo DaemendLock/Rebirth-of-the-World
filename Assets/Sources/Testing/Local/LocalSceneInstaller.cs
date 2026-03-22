@@ -12,7 +12,6 @@ using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.Repositories.Skills;
 using Combat.Local.Domain.UseCases;
 using Combat.Local.Domain.UseCases.Scene;
-using Combat.Local.Events;
 using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Repositories;
 using Combat.Local.Gateways.Repositories.Characters;
@@ -21,7 +20,6 @@ using Combat.Local.Presentation.Presenters;
 
 using Temp.Domain.Implementations;
 
-using Testing.Local.Temp.DomainOutputs;
 using Testing.Local.Temp.Factories;
 
 using Zenject;
@@ -112,7 +110,8 @@ namespace Testing.Local
             Container.Bind<CustomScriptStatusStrategyFactory>().FromNew().AsSingle();
 
             Container.Bind<CharacterModelFactory>().FromNew().AsSingle();
-            Container.Bind<IActionFactory>().To<ActionFactory>().AsSingle();
+            Container.Bind<ActionFactory>().FromNew().AsSingle();
+            Container.Bind<IActionStrategyFactory>().To<ActionStrategyFactory>().AsSingle();
         }
 
         private void BindUseCases()
@@ -125,8 +124,6 @@ namespace Testing.Local
             Container.Bind<ICreateUnitOutput>().To<ScenePresenter>().FromResolve();
 
             Container.Bind<CastSkillFromSlotUseCase>().FromNew().AsSingle();
-            Container.Bind<SkillCastHandler>().FromNew().AsSingle();
-            Container.Bind<ISkillCastEventHandler>().To<SkillCastHandler>().FromResolve();
             Container.Bind<IActionOutput>().To<CharacterPresenter>().FromResolve();
 
             Container.Bind<MoveInDirectionUseCase>().FromNew().AsSingle();
@@ -156,8 +153,6 @@ namespace Testing.Local
             //Hits
             Container.Bind<RecordHitUseCase>().FromNew().AsSingle();
             Container.Bind<HandleHitsUseCase>().FromNew().AsSingle();
-            Container.Bind<HitHandler>().FromNew().AsSingle();
-            Container.Bind<IHitEventHandler>().To<HitHandler>().FromResolve();
 
             //Statuses
             Container.Bind<StartStatusTimerUseCase>().FromNew().AsSingle();
@@ -165,16 +160,10 @@ namespace Testing.Local
             Container.Bind<StopStatusTimerUseCase>().FromNew().AsSingle();
 
             Container.Bind<UpdateStatusTimersUseCase>().FromNew().AsSingle();
-            Container.Bind<StatusTickHandler>().FromNew().AsSingle();
-            Container.Bind<IStatusTickEventHandler>().To<StatusTickHandler>().FromResolve();
 
             Container.Bind<RemoveStatusUseCase>().FromNew().AsSingle();
-            Container.Bind<StatusRemoveHandler>().FromNew().AsSingle();
-            Container.Bind<IRemoveStatusEventHandler>().To<StatusRemoveHandler>().FromResolve();
 
             Container.Bind<UpdateStatusesUseCases>().FromNew().AsSingle();
-            Container.Bind<StatusExpireHandler>().FromNew().AsSingle();
-            Container.Bind<IStatusExpiredEventHandler>().To<StatusExpireHandler>().FromResolve();
 
             //Attributes
             Container.Bind<GetAttributeValueUseCase>().FromNew().AsSingle();

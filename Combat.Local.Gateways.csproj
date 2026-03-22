@@ -74,10 +74,12 @@
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\ResourceRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\StatusOwnerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\HitboxData.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\ActorData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\HitRecordRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\StatusRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\StatusData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\HealthRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\ActionData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Skills\SkillActionsRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\SkillOwnerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Skills\SkillRepository.cs" />

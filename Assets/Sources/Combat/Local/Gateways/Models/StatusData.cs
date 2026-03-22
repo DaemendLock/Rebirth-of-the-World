@@ -1,38 +1,8 @@
-﻿using CastStateSkill;
-
-using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Entities;
+﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.ValueObjects;
-
-using UnityEngine;
 
 namespace Combat.Local.Data.Models
 {
-    public readonly struct ActionData
-    {
-        public ActionData(AnimationClip animation, IFrameData frameData)
-        {
-            Animation = animation;
-            FrameData = frameData;
-        }
-
-        public readonly AnimationClip Animation { get; }
-        public readonly IFrameData FrameData { get; }
-    }
-
-    public readonly struct ActorData
-    {
-        public ActorData(ActorState state, Action action)
-        {
-            State = state;
-            Action = action;
-        }
-
-        public ActorState State { get; }
-
-        public Action Action { get; }
-    }
-
     public readonly struct StatusData
     {
         public EntityId Parent { get; }

@@ -2,7 +2,6 @@
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Entities.Skills.Effects;
 using Combat.Local.Domain.Factories;
-using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.Repositories.Skills;
 
@@ -20,9 +19,9 @@ namespace Combat.Local.Domain.UseCases
         private readonly ISkillRepository _skillRepository;
         private readonly ISkillActionsRepository _skillActionsRepository;
         private readonly IActionOutput _actionOutput;
-        private readonly IActionFactory _actionFactory;
+        private readonly ActionFactory _actionFactory;
 
-        public CastSkillFromSlotUseCase(ISkillOwnerRepository skillOwnerRepository, IActorRepository actorRepository, ISkillRepository skillRepository, IActionOutput castOutput, IActionFactory actionFactory, ISkillActionsRepository skillActionsRepository)
+        public CastSkillFromSlotUseCase(ISkillOwnerRepository skillOwnerRepository, IActorRepository actorRepository, ISkillRepository skillRepository, IActionOutput castOutput, ActionFactory actionFactory, ISkillActionsRepository skillActionsRepository)
         {
             _skillOwnerRepository = skillOwnerRepository;
             _actorRepository = actorRepository;
@@ -112,11 +111,6 @@ namespace Combat.Local.Domain.UseCases
                 effect.Handle(ActionState.Startup);
             }
         }
-    }
-
-    public interface ISkillCastEventHandler
-    {
-        void HandleEvent(EntityId? caster, SkillId skill);
     }
 
     public interface IActionOutput

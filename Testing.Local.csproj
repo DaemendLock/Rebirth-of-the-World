@@ -1123,10 +1123,6 @@
       <Project>{8592C32E-7FF8-B567-3BC5-92D60D58C148}</Project>
       <Name>Combat.API.Controllers</Name>
     </ProjectReference>
-    <ProjectReference Include="Combat.Local.Events.csproj">
-      <Project>{C41F3FDE-802B-8D79-1951-5327AE9CE500}</Project>
-      <Name>Combat.Local.Events</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

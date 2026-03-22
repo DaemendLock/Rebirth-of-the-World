@@ -4,8 +4,6 @@ using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
 
-using UnityEngine;
-
 namespace Combat.Local.Domain.UseCases.Scene
 {
     public class HandleHitsUseCase
@@ -13,16 +11,14 @@ namespace Combat.Local.Domain.UseCases.Scene
         private readonly IHitRecordRepository _hitRecordRepository;
         private readonly IHitboxRepository _hitboxRepository;
         private readonly IHurtableRepository _hurtboxRepository;
-        private readonly IHitEventHandler _hitEventHandler;
         private readonly IActorRepository _actorRepository;
         private readonly ISkillRepository _skillRepository;
 
-        public HandleHitsUseCase(IHitRecordRepository hitRecordRepository, IHitboxRepository hitboxRepository, IHurtableRepository hurtboxRepository, IHitEventHandler hitEventHandler, IActorRepository actorRepository, ISkillRepository skillRepository)
+        public HandleHitsUseCase(IHitRecordRepository hitRecordRepository, IHitboxRepository hitboxRepository, IHurtableRepository hurtboxRepository, IActorRepository actorRepository, ISkillRepository skillRepository)
         {
             _hitRecordRepository = hitRecordRepository;
             _hitboxRepository = hitboxRepository;
             _hurtboxRepository = hurtboxRepository;
-            _hitEventHandler = hitEventHandler;
             _actorRepository = actorRepository;
             _skillRepository = skillRepository;
         }
@@ -64,13 +60,6 @@ namespace Combat.Local.Domain.UseCases.Scene
             {
                 hitEffect.HandleHit(hitbox, hurtbox, value.Location);
             }
-
-            _hitEventHandler.HandleEvent(hitbox, hurtbox, value.Location);
         }
-    }
-
-    public interface IHitEventHandler
-    {
-        void HandleEvent(Hitbox hitbox, Hurtbox hurt, Vector3 position);
     }
 }
