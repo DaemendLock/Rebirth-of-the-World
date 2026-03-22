@@ -12,9 +12,9 @@ namespace Combat.Local.Domain.UseCases
     {
         private readonly IStatusRepository _statusRepository;
         private readonly IStatusOwnerRepository _statusOwnerRepository;
-        private readonly IStatusFactory _statusFactory;
+        private readonly StatusFactory _statusFactory;
 
-        public ApplyStatusUseCase(IStatusRepository statusRepository, IStatusFactory statusFactory, IStatusOwnerRepository statusOwnerRepository)
+        public ApplyStatusUseCase(IStatusRepository statusRepository, StatusFactory statusFactory, IStatusOwnerRepository statusOwnerRepository)
         {
             _statusRepository = statusRepository;
             _statusFactory = statusFactory;

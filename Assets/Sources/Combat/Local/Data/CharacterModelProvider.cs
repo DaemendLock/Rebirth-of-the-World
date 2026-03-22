@@ -1,5 +1,6 @@
 ﻿using Combat.Common.ValueObjects;
-using Combat.Local.Data.Entities;
+
+using Data.Entities;
 
 using System.Collections.Generic;
 

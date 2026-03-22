@@ -14,13 +14,7 @@ namespace Combat.Local.Domain.Factories
         IStatusStrategy Create(StatusId id, StatusName name, EntityId parent);
     }
 
-    public interface IStatusFactory
-    {
-        void RegisterStrategyFactory(IStatusStrategyFactory factory);
-        Status Create(StatusName name, EntityId parent, float duration, int stackCount, EventSource source);
-    }
-
-    public class StatusFactory : IStatusFactory
+    public class StatusFactory
     {
         private readonly List<IStatusStrategyFactory> _statusStrategyFactories;
         private int _nextId = 0;

@@ -9,11 +9,18 @@ namespace Combat.Local.Controllers
     {
         private readonly CastSkillFromSlotUseCase _castSkillFromSlotUseCase;
         private readonly MoveInDirectionUseCase _moveUseCase;
+        private readonly AssumeControllOverCharacterUseCase _assumeControllOverCharacterUseCase;
 
-        public PlayerController(CastSkillFromSlotUseCase castSkillFromSlotUseCase, MoveInDirectionUseCase moveUseCase)
+        public PlayerController(CastSkillFromSlotUseCase castSkillFromSlotUseCase, MoveInDirectionUseCase moveUseCase, AssumeControllOverCharacterUseCase assumeControllOverCharacterUseCase)
         {
             _castSkillFromSlotUseCase = castSkillFromSlotUseCase;
             _moveUseCase = moveUseCase;
+            _assumeControllOverCharacterUseCase = assumeControllOverCharacterUseCase;
+        }
+
+        public void TakeControll(EntityId id)
+        {
+            _assumeControllOverCharacterUseCase.Execute(default, id);
         }
 
         public void MoveInDirection(EntityId target, Vector2 relativeDirection)

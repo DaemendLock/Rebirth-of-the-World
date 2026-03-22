@@ -2,6 +2,8 @@
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 
+using UnityEngine;
+
 namespace Combat.Local.Domain.UseCases
 {
     public class RotateUseCase
@@ -9,7 +11,7 @@ namespace Combat.Local.Domain.UseCases
         private readonly IActorRepository _actorRepository;
         private readonly IPositionableRepository _positionableRepository;
 
-        public void Execute(EntityId entityId, float angle)
+        public void Execute(EntityId entityId, Vector2 angles)
         {
             Actor actor = _actorRepository.Get(entityId);
 
@@ -19,9 +21,6 @@ namespace Combat.Local.Domain.UseCases
             }
 
             Positionable positionable = _positionableRepository.Get(entityId);
-
-            
-
             _positionableRepository.Update(positionable);
         }
     }

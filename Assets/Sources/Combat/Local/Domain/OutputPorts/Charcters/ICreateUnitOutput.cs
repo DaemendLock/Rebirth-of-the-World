@@ -8,11 +8,6 @@ namespace Combat.Local.Domain.OutputPorts
         void Present(Positionable positionable);
     }
 
-    public interface ICreateUnitEventHandler
-    {
-        void HandleEvent(EntityId id);
-    }
-
     public interface IApplyStatusOutput
     {
         void Present(Status status);

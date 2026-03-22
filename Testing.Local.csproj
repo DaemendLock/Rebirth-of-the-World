@@ -79,6 +79,7 @@
     <Compile Include="Assets\Sources\Testing\Local\Temp\Implementations\ActionStrategyFactory.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\MoveInDirectionOverTimeComponent.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\ScaleOverTimeComponent.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\TestMenuStrategy.cs" />
     <Compile Include="Assets\Sources\Testing\Local\UnitProperties.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\Implementations\CustomScriptStatusStrategyFactory.cs" />
     <Compile Include="Assets\Sources\Testing\Local\LocalSceneInstaller.cs" />
@@ -1122,6 +1123,10 @@
     <ProjectReference Include="Combat.API.Controllers.csproj">
       <Project>{8592C32E-7FF8-B567-3BC5-92D60D58C148}</Project>
       <Name>Combat.API.Controllers</Name>
+    </ProjectReference>
+    <ProjectReference Include="Client.Testing.View.csproj">
+      <Project>{86A9C684-F288-EC71-0E15-178997E399AC}</Project>
+      <Name>Client.Testing.View</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

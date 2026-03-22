@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace Combat.Local.Data.Entities
+namespace Data.Entities
 {
     [CreateAssetMenu(menuName = "Assets/Characters/Model")]
     public class CharacterModel : ScriptableObject

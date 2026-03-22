@@ -68,7 +68,6 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\ScaleOverTimeEffect.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Factories\ISkillFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Scene\CreateCharacterUseCase.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\Factories\IStatusFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Player\CastSkillFromSlotUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Statuses\Effects\ModifyIncomingDamageEffect.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IResourceRepository.cs" />
@@ -96,6 +95,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Statuses\Effects\DealDamageEffect.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\UpdateActorsUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\DTO\ApplStatusDTO.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Player\IPlayerControlRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\SpendResourceUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\ApplyDamageUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Statuses\Effects\ModifyAttributesEffect.cs" />
@@ -127,6 +127,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\Facades\CharacterFacade.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\IHitboxRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Facades\SceneFacade.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Player\AssumeControllOverCharacterUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Status\IStatusTimerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\DTO\CreateCharacterDTO.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Factories\UnitIdFactory.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Status\RemoveStatusUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Statuses\Effects\TakeDamageEffect.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\ResourceValue.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\Factories\StatusFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\ResourceOwner.cs" />
   </ItemGroup>
   <ItemGroup>

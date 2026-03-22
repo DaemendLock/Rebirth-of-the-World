@@ -1,3 +1,5 @@
+using Client.Testing.View;
+
 using Combat.API.Controllers;
 using Combat.Common.ValueObjects;
 using Combat.Local.Controllers;
@@ -35,11 +37,12 @@ namespace Testing.Local
             BindUseCases();
             BindDataSources();
             BindControllers();
+            BindPresenters();
             BindApi();
 
             //Container.Bind<AssetProvider>().FromComponentsOn(gameObject).AsSingle();
-            Container.Bind<ScenePresenter>().FromNew().AsSingle();
-            Container.Bind<CharacterPresenter>().FromNew().AsSingle();
+
+            Container.Bind<ITestMenuStrategy>().To<TestMenuStrategy>().AsSingle();
 
             var val = Container.Resolve<CombatController>();
             Container.Resolve<SkillDataBase>();
@@ -47,7 +50,7 @@ namespace Testing.Local
             ISkillFactory skillFactory = Container.Resolve<ISkillFactory>();
             skillFactory.RegisterStrategyFactory(Container.Resolve<CustomScriptSkillStrategyFactory>());
 
-            IStatusFactory statusFactory = Container.Resolve<IStatusFactory>();
+            StatusFactory statusFactory = Container.Resolve<StatusFactory>();
             statusFactory.RegisterStrategyFactory(Container.Resolve<CustomScriptStatusStrategyFactory>());
 
             StatsTable stats = StatsTable.UnitDefault;
@@ -62,6 +65,21 @@ namespace Testing.Local
             Container.Bind<PlayerController>().FromNew().AsSingle();
             Container.Bind<HitController>().FromNew().AsSingle();
             Container.Bind<ITickable>().To<UpdateController>().AsSingle();
+        }
+
+        private void BindPresenters()
+        {
+            Container.Bind<ScenePresenter>().FromNew().AsSingle();
+            Container.Bind<CharacterPresenter>().FromNew().AsSingle();
+
+            Container.Bind<ICreateUnitOutput>().To<ScenePresenter>().FromResolve();
+            Container.Bind<IActionOutput>().To<CharacterPresenter>().FromResolve();
+            Container.Bind<IMovementOutput>().To<CharacterPresenter>().FromResolve();
+            Container.Bind<IGiveResourceOutput>().To<CharacterPresenter>().FromResolve();
+            Container.Bind<ISpendResourceOutput>().To<CharacterPresenter>().FromResolve();
+            Container.Bind<IHealthOutput>().To<CharacterPresenter>().FromResolve();
+            Container.Bind<ITakeControllOutput>().To<PlayerPresenter>().AsSingle();
+
         }
 
         private void BindDataSources()
@@ -102,7 +120,7 @@ namespace Testing.Local
             Container.Bind<ISkillFactory>().To<SkillFactory>().AsSingle();
             Container.Bind<CustomScriptSkillStrategyFactory>().FromNew().AsSingle();
 
-            Container.Bind<IStatusFactory>().To<StatusFactory>().AsSingle();
+            Container.Bind<StatusFactory>().FromNew().AsSingle();
             Container.Bind<CustomScriptStatusStrategyFactory>().FromNew().AsSingle();
 
             Container.Bind<CharacterModelFactory>().FromNew().AsSingle();
@@ -147,13 +165,8 @@ namespace Testing.Local
             Container.Bind<GetHasteModifierUseCase>().FromNew().AsSingle();
             Container.Bind<GetVersalityModifierUseCase>().FromNew().AsSingle();
 
-            //Outputs
-            Container.Bind<ICreateUnitOutput>().To<ScenePresenter>().FromResolve();
-            Container.Bind<IActionOutput>().To<CharacterPresenter>().FromResolve();
-            Container.Bind<IMovementOutput>().To<CharacterPresenter>().FromResolve();
-            Container.Bind<IGiveResourceOutput>().To<CharacterPresenter>().FromResolve();
-            Container.Bind<ISpendResourceOutput>().To<CharacterPresenter>().FromResolve();
-            Container.Bind<IHealthOutput>().To<CharacterPresenter>().FromResolve();
+            //Player
+            Container.Bind<AssumeControllOverCharacterUseCase>().FromNew().AsSingle();
         }
 
         private void BindApi()
