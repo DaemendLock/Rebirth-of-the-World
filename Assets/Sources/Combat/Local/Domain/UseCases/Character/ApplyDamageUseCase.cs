@@ -1,11 +1,9 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Entities.Statuses.Effects;
+using Combat.Local.Domain.Entities.Statuses;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
-
-using Local.Domain.Entities.Statuses.Effects;
 
 namespace Combat.Local.Domain.UseCases
 {

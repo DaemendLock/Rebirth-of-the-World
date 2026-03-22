@@ -1,8 +1,4 @@
-﻿using Combat.Local.Domain.Entities.Statuses.Effects;
-
-using Local.Domain.Entities.Statuses.Effects;
-
-namespace Combat.Local.Domain.Entities.Statuses
+﻿namespace Combat.Local.Domain.Entities.Statuses
 {
     public interface IStatusStrategy
     {

@@ -1,6 +1,6 @@
 ﻿using Combat.Common.ValueObjects;
 
-namespace Local.Domain.Entities.Statuses.Effects
+namespace Combat.Local.Domain.Entities.Statuses
 {
     public interface IModifyTimeScaleStrategy
     {

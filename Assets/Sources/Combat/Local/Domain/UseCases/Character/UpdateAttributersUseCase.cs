@@ -1,10 +1,9 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
+using Combat.Local.Domain.Entities.Statuses;
 using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
-
-using Local.Domain.Entities.Statuses.Effects;
 
 using System.Collections.Generic;
 
