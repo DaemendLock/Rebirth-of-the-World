@@ -293,8 +293,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _holdToShow: 0
-  _showButton: 0
-  _infoText: {fileID: 0}
+  _showButton: 9
+  _infoText: {fileID: 1951498336}
   _menu: {fileID: 1608541616}
 --- !u!114 &66101008
 MonoBehaviour:

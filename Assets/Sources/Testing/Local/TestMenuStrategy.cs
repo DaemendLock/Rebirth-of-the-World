@@ -1,6 +1,7 @@
 ﻿using Client.Testing.View;
 
 using Combat.API;
+using Combat.API.Controllers;
 using Combat.Common.Flags;
 using Combat.Local.Controllers;
 using Combat.Local.Gateways.Models;
@@ -14,12 +15,14 @@ namespace Testing.Local
         //private readonly ICameraController _cameraController;
 
         private readonly PlayerController _playerController;
+        private readonly ChracterApiAdapter _chracterApiAdapter;
         private Unit _model;
         //private Temp.UnitViewInputReaderCompenent _readerCompenent;
 
-        public TestMenuStrategy( /*ICameraController cameraController, */PlayerController playerController)
+        public TestMenuStrategy( /*ICameraController cameraController, */PlayerController playerController, ChracterApiAdapter chracterApiAdapter)
         {
             _playerController = playerController;
+            _chracterApiAdapter = chracterApiAdapter;
             //_cameraController = cameraController;
         }
 
@@ -53,6 +56,8 @@ namespace Testing.Local
 
             UnityEngine.Debug.Log("Let the darkness take control");
             _playerController.TakeControll(model.Id);
+
+            _model = _chracterApiAdapter.Adaptee(model.Id);
 
             //if (hurtbox.Owner is not IHurtboxOwner<Unit> hurtboxOwner || hurtboxOwner.Owner == _model)
             //{

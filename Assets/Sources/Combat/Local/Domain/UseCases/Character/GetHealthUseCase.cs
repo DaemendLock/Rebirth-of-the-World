@@ -8,6 +8,11 @@ namespace Combat.Local.Domain.UseCases
     {
         private readonly IHealthRepository _healthRepository;
 
+        public GetHealthUseCase(IHealthRepository healthRepository)
+        {
+            _healthRepository = healthRepository;
+        }
+
         public Health Execute(EntityId target)
         {
             return _healthRepository.Get(target);
