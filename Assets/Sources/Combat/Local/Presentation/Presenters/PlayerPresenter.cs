@@ -1,17 +1,19 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.UseCases;
-
-using UnityEngine;
+using Combat.Local.Presentation.Components;
 
 namespace Combat.Local.Presentation.Presenters
 {
     public class PlayerPresenter : ITakeControllOutput
     {
         private ICharacterViewContainer _container;
+        
+        private CameraView _cameraView;
 
-        public PlayerPresenter(ICharacterViewContainer container)
+        public PlayerPresenter(ICharacterViewContainer container, CameraView cameraView)
         {
             _container = container;
+            _cameraView = cameraView;
         }
 
         public void Present(EntityId id)
@@ -21,7 +23,7 @@ namespace Combat.Local.Presentation.Presenters
                 return;
             }
 
-            Camera.main.transform.parent = val;
+            _cameraView.Follow(val);
         }
     }
 }

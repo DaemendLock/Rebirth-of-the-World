@@ -1,4 +1,4 @@
-﻿using Combat.API.Controllers;
+﻿using Combat.API.Adapters;
 using Combat.API.Controllers.Misc;
 using Combat.API.Scripting;
 using Combat.Common.ValueObjects;
@@ -16,13 +16,13 @@ namespace Temp.Domain.Implementations
     public class CustomScriptStatusStrategyFactory : IStatusStrategyFactory
     {
         private readonly StatusScriptTypeDataSource _statusApiTypeProvider;
-        private readonly ChracterApiAdapter _unitApiAdapter;
+        private readonly CharacterApiAdapter _unitApiAdapter;
         private readonly StatusApiAdapter _statusApiFactory;
         private readonly SkillApiAdapter _skillApiProvider;
         private readonly SceneApiAdapter _sceneApiProvider;
         private readonly IStatusRepository _statusRepository;
 
-        public CustomScriptStatusStrategyFactory(ChracterApiAdapter unitApiAdapter, SkillApiAdapter skillApiProvider, SceneApiAdapter sceneApiProvider, StatusApiAdapter statusApiFactory, IStatusRepository statusRepository)
+        public CustomScriptStatusStrategyFactory(CharacterApiAdapter unitApiAdapter, SkillApiAdapter skillApiProvider, SceneApiAdapter sceneApiProvider, StatusApiAdapter statusApiFactory, IStatusRepository statusRepository)
         {
             _unitApiAdapter = unitApiAdapter;
             _skillApiProvider = skillApiProvider;

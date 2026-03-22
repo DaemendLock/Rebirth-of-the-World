@@ -124,6 +124,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\CastInfo.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\IHitRecordRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Hitbox.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Scene\FindCharactersInRadiusUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Facades\CharacterFacade.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\IHitboxRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Facades\SceneFacade.cs" />

@@ -1,4 +1,5 @@
-﻿using Combat.API.DTO;
+﻿using Combat.API.Adapters;
+using Combat.API.DTO;
 using Combat.API.Scripting;
 using Combat.API.Statuses;
 using Combat.API.ValueObjects;
@@ -24,7 +25,7 @@ namespace Combat.API.Controllers.Misc
         private readonly IModifyAttributesStrategy _modifyAttributesStrategy;
         private readonly IModifyTimeScaleStrategy _modifyTimeScaleStrategy;
 
-        public DataDrivenStatusStrategy(StatusId statusId, CustomStatusStrategy script, ChracterApiAdapter unitApiAdapter, SkillApiAdapter skillApiProvider, SceneApiAdapter sceneApiProvider, StatusApiAdapter statusApiFactory, IStatusRepository statusRepository)
+        public DataDrivenStatusStrategy(StatusId statusId, CustomStatusStrategy script, CharacterApiAdapter unitApiAdapter, SkillApiAdapter skillApiProvider, SceneApiAdapter sceneApiProvider, StatusApiAdapter statusApiFactory, IStatusRepository statusRepository)
         {
             _statusId = statusId;
             _statusScript = script;
@@ -173,11 +174,11 @@ namespace Combat.API.Controllers.Misc
 
         private class DataDrivenTakeDamageEffectStrategy : ITakeDamageEffectStrategy
         {
-            private readonly ChracterApiAdapter _unitApiAdapter;
+            private readonly CharacterApiAdapter _unitApiAdapter;
             private readonly SkillApiAdapter _skillApiProvider;
             private readonly IIncomingHealDamageHandler _handler;
 
-            public DataDrivenTakeDamageEffectStrategy(IIncomingHealDamageHandler handler, ChracterApiAdapter unitApiAdapter, SkillApiAdapter skillApiProvider)
+            public DataDrivenTakeDamageEffectStrategy(IIncomingHealDamageHandler handler, CharacterApiAdapter unitApiAdapter, SkillApiAdapter skillApiProvider)
             {
                 _handler = handler;
                 _unitApiAdapter = unitApiAdapter;
@@ -206,11 +207,11 @@ namespace Combat.API.Controllers.Misc
 
         private class DataDrivenDealDamageEffectStrategy : IDealDamageEffectStrategy
         {
-            private readonly ChracterApiAdapter _unitApiAdapter;
+            private readonly CharacterApiAdapter _unitApiAdapter;
             private readonly SkillApiAdapter _skillApiProvider;
             private readonly IOutgoingHealDamageHandler _handler;
 
-            public DataDrivenDealDamageEffectStrategy(IOutgoingHealDamageHandler handler, ChracterApiAdapter unitApiAdapter, SkillApiAdapter skillApiProvider)
+            public DataDrivenDealDamageEffectStrategy(IOutgoingHealDamageHandler handler, CharacterApiAdapter unitApiAdapter, SkillApiAdapter skillApiProvider)
             {
                 _handler = handler;
                 _unitApiAdapter = unitApiAdapter;
@@ -239,11 +240,11 @@ namespace Combat.API.Controllers.Misc
 
         private class DataDrivenModifyParentDamageEffectStrategy : IModifyParentOutgoingDamageStrategy
         {
-            private readonly ChracterApiAdapter _unitApiAdapter;
+            private readonly CharacterApiAdapter _unitApiAdapter;
             private readonly SkillApiAdapter _skillApiProvider;
             private readonly IOutgoingDamageModifier _modifer;
 
-            public DataDrivenModifyParentDamageEffectStrategy(IOutgoingDamageModifier modifier, ChracterApiAdapter unitApiAdapter, SkillApiAdapter skillApiProvider)
+            public DataDrivenModifyParentDamageEffectStrategy(IOutgoingDamageModifier modifier, CharacterApiAdapter unitApiAdapter, SkillApiAdapter skillApiProvider)
             {
                 _modifer = modifier;
                 _unitApiAdapter = unitApiAdapter;
@@ -274,11 +275,11 @@ namespace Combat.API.Controllers.Misc
 
         private class DataDrivenModifyParentHealingEffectStrategy : IModifyParentOutgoingHealingStrategy
         {
-            private readonly ChracterApiAdapter _unitApiAdapter;
+            private readonly CharacterApiAdapter _unitApiAdapter;
             private readonly SkillApiAdapter _skillApiProvider;
             private readonly IOutgoingHealingModifier _modifer;
 
-            public DataDrivenModifyParentHealingEffectStrategy(IOutgoingHealingModifier modifier, ChracterApiAdapter unitApiAdapter, SkillApiAdapter skillApiProvider)
+            public DataDrivenModifyParentHealingEffectStrategy(IOutgoingHealingModifier modifier, CharacterApiAdapter unitApiAdapter, SkillApiAdapter skillApiProvider)
             {
                 _modifer = modifier;
                 _unitApiAdapter = unitApiAdapter;
@@ -309,11 +310,11 @@ namespace Combat.API.Controllers.Misc
 
         private class DataDrivenModifyParentIncomingDamageEffectStrategy : IModifyParentIncomingDamageStrategy
         {
-            private readonly ChracterApiAdapter _unitApiAdapter;
+            private readonly CharacterApiAdapter _unitApiAdapter;
             private readonly SkillApiAdapter _skillApiProvider;
             private readonly IIncomingHealDamageModifier _modifer;
 
-            public DataDrivenModifyParentIncomingDamageEffectStrategy(IIncomingHealDamageModifier modifier, ChracterApiAdapter unitApiAdapter, SkillApiAdapter skillApiProvider)
+            public DataDrivenModifyParentIncomingDamageEffectStrategy(IIncomingHealDamageModifier modifier, CharacterApiAdapter unitApiAdapter, SkillApiAdapter skillApiProvider)
             {
                 _modifer = modifier;
                 _unitApiAdapter = unitApiAdapter;

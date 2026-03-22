@@ -4,6 +4,8 @@ using Combat.Local.Domain.Repositories;
 using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Models;
 
+using System.Collections.Generic;
+
 using UnityEngine;
 
 namespace Combat.Local.Gateways.Repositories.Unit
@@ -52,6 +54,11 @@ namespace Combat.Local.Gateways.Repositories.Unit
             model.transform.position = value.Position;
             model.transform.rotation = value.Rotation;
             model.transform.localScale = value.Scale * Vector3.one;
+        }
+
+        public ICollection<EntityId> FindInRadius(Vector3 center, float radius)
+        {
+            return _sceneObjectDataSource.FindCharacterInRadius(center, radius);
         }
     }
 }

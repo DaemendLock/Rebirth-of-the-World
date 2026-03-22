@@ -13,9 +13,11 @@ namespace Assets.Sources.Testing.Local
 
         [SerializeField] private int _unitId;
 
+        public EntityId Id { get => new(_unitId); set => _unitId = value.Value; }
+
         private void Update()
         {
-            EntityId id = new(_unitId);
+            EntityId id = Id;
 
             if (_playerController == null)
             {

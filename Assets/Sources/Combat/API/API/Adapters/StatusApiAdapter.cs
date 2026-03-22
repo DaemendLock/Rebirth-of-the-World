@@ -2,18 +2,18 @@
 using Combat.Local.Domain.Facades;
 using Combat.Local.Domain.Repositories;
 
-namespace Combat.API.Controllers
+namespace Combat.API.Adapters
 {
     public class StatusApiAdapter
     {
-        private readonly ChracterApiAdapter _unitApiProvider;
+        private readonly CharacterApiAdapter _unitApiProvider;
         private readonly SkillApiAdapter _skillApiProvider;
         private readonly SceneApiAdapter _sceneApiProvider;
         private readonly StatusFacade _statusFacade;
 
         private readonly IStatusRepository _statusRepository;
 
-        public StatusApiAdapter(ChracterApiAdapter unitApiRepository, SkillApiAdapter skillApiRepository, StatusFacade statusController, SceneApiAdapter sceneApiProvider, IStatusRepository statusRepository)
+        public StatusApiAdapter(CharacterApiAdapter unitApiRepository, SkillApiAdapter skillApiRepository, StatusFacade statusController, SceneApiAdapter sceneApiProvider, IStatusRepository statusRepository)
         {
             _unitApiProvider = unitApiRepository;
             _skillApiProvider = skillApiRepository;

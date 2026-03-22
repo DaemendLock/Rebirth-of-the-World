@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\HealingRecord.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Adapters\CharacterApiAdapter.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\ApplyDamageOptions.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\ApplyStatusInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\DamageRecord.cs" />
@@ -76,13 +77,16 @@
     <Compile Include="Assets\Sources\Combat\API\API\Entities\StatusApi.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Scripting\StatusScriptNameAttribute.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\ApplyHealingInfo.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Adapters\StatusApiAdapter.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\KillInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Scripting\SkillScript.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\ResourceChangeRecord.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\ICastStateChangeHandler.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Statuses\IIncomingHealDamageHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Adapters\SkillApiAdapter.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\GiveResourceInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Statuses\IOutgoingHealDamageHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Adapters\SceneApiAdapter.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Entities\SkillApi.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\UnitCreationInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Statuses\IStatusPropery.cs" />

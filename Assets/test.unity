@@ -1140,7 +1140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _distance: 1
-  _height: 1
+  _height: 2
   <FollowTarget>k__BackingField: {fileID: 0}
 --- !u!1 &517993139
 GameObject:

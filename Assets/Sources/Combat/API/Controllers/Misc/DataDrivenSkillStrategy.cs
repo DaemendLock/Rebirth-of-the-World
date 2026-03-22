@@ -1,4 +1,5 @@
-﻿using Combat.API.DTO;
+﻿using Combat.API.Adapters;
+using Combat.API.DTO;
 using Combat.API.Scripting;
 using Combat.API.Skills;
 using Combat.Common.ValueObjects;
@@ -17,7 +18,7 @@ namespace Combat.API.Controllers.Misc
         private readonly ISkillHitStrategy _hitStrategy;
         private readonly ISkillActionStateChangeStrategy _actionStateChangeStrategy;
 
-        public DataDrivenSkillStrategy(SkillId id, SkillScript customSkillStrategy, ChracterApiAdapter characterApiProvider, SkillApiAdapter skillApiProvider, SceneApiAdapter sceneApiProvider)
+        public DataDrivenSkillStrategy(SkillId id, SkillScript customSkillStrategy, CharacterApiAdapter characterApiProvider, SkillApiAdapter skillApiProvider, SceneApiAdapter sceneApiProvider)
         {
             _skillId = id;
             _customSkillStrategy = customSkillStrategy;
@@ -82,11 +83,11 @@ namespace Combat.API.Controllers.Misc
             private readonly SkillId _skillId;
             private readonly ICastableSkill _castableSkill;
 
-            private readonly ChracterApiAdapter _characterApiProvider;
+            private readonly CharacterApiAdapter _characterApiProvider;
             private readonly SkillApiAdapter _skillApiProvider;
             private readonly SceneApiAdapter _sceneApiProvider;
 
-            public DataDrivenCastStrategy(SkillId skillId, ICastableSkill castableSkill, ChracterApiAdapter characterApiProvider, SkillApiAdapter skillApiProvider, SceneApiAdapter sceneApiProvider)
+            public DataDrivenCastStrategy(SkillId skillId, ICastableSkill castableSkill, CharacterApiAdapter characterApiProvider, SkillApiAdapter skillApiProvider, SceneApiAdapter sceneApiProvider)
             {
                 _skillId = skillId;
                 _castableSkill = castableSkill;
@@ -108,9 +109,9 @@ namespace Combat.API.Controllers.Misc
         private class DataDrivenHitStrategy : ISkillHitStrategy
         {
             private readonly IHitHandler _handler;
-            private readonly ChracterApiAdapter _characterApiProvider;
+            private readonly CharacterApiAdapter _characterApiProvider;
 
-            public DataDrivenHitStrategy(IHitHandler hitHandler, ChracterApiAdapter characterApiProvider)
+            public DataDrivenHitStrategy(IHitHandler hitHandler, CharacterApiAdapter characterApiProvider)
             {
                 _handler = hitHandler;
                 _characterApiProvider = characterApiProvider;

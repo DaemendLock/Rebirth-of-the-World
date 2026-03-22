@@ -1,4 +1,4 @@
-﻿using Combat.API.Controllers;
+﻿using Combat.API.Adapters;
 using Combat.API.Controllers.Misc;
 using Combat.API.Scripting;
 using Combat.Common.ValueObjects;
@@ -13,11 +13,11 @@ namespace Temp.Domain.Implementations
     public class CustomScriptSkillStrategyFactory : ISkillStrategyFactory
     {
         private readonly SkillDataBase _skillDataBase;
-        private readonly ChracterApiAdapter _characterApiProvider;
+        private readonly CharacterApiAdapter _characterApiProvider;
         private readonly SkillApiAdapter _skillApiAdapter;
         private readonly SceneApiAdapter _sceneApiAdapter;
 
-        public CustomScriptSkillStrategyFactory(SkillDataBase skillDataBase, ChracterApiAdapter characterApiProvider, SkillApiAdapter skillApiProvider, SceneApiAdapter sceneApiProvider)
+        public CustomScriptSkillStrategyFactory(SkillDataBase skillDataBase, CharacterApiAdapter characterApiProvider, SkillApiAdapter skillApiProvider, SceneApiAdapter sceneApiProvider)
         {
             _skillDataBase = skillDataBase;
             _characterApiProvider = characterApiProvider;

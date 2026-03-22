@@ -61,12 +61,8 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Combat\API\Controllers\Adapters\SkillApiAdapter.cs" />
     <Compile Include="Assets\Sources\Combat\API\Controllers\Misc\DataDrivenStatusStrategy.cs" />
-    <Compile Include="Assets\Sources\Combat\API\Controllers\Adapters\ChracterApiAdapter.cs" />
-    <Compile Include="Assets\Sources\Combat\API\Controllers\Adapters\StatusApiAdapter.cs" />
     <Compile Include="Assets\Sources\Combat\API\Controllers\Misc\DataDrivenSkillStrategy.cs" />
-    <Compile Include="Assets\Sources\Combat\API\Controllers\Adapters\SceneApiAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Combat\API\Controllers\Combat.API.Controllers.asmdef" />

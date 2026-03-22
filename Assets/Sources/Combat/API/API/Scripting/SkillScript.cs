@@ -4,6 +4,8 @@
     {
         protected SkillApi Instance { get; private set; }
 
+        protected SceneApi Scene => Instance.Scene;
+
         public void Init(SkillApi instance)
         {
             Instance = instance;

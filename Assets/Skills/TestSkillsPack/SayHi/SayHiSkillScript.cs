@@ -16,7 +16,14 @@ namespace TestSkillsPack.SkillScripts
         public void OnCast(CastEvent @event)
         {
             UnityEngine.Debug.Log("Hi~~~!");
-            Instance.Scene.CreateStatus(new(@event.Caster, "HiStatus", 5, 1, Instance));
+            Scene.CreateStatus(new(@event.Caster, "HiStatus", 5, 1, Instance));
+
+            var targets = Scene.FindUnitsInRadius(Instance.Owner.Position, 100f);
+
+            foreach (var target in targets)
+            {
+                UnityEngine.Debug.Log($"Hi, {target.ModelName}[{target.Id}] of team {target.Team}");
+            }
         }
 
         public void OnStartup()

@@ -1,6 +1,8 @@
+using Assets.Sources.Testing.Local;
+
 using Client.Testing.View;
 
-using Combat.API.Controllers;
+using Combat.API.Adapters;
 using Combat.Common.ValueObjects;
 using Combat.Local.Controllers;
 using Combat.Local.Data.Databases;
@@ -18,6 +20,7 @@ using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Repositories;
 using Combat.Local.Gateways.Repositories.Characters;
 using Combat.Local.Gateways.Repositories.Unit;
+using Combat.Local.Presentation.Components;
 using Combat.Local.Presentation.Presenters;
 
 using Temp.Domain.Implementations;
@@ -41,7 +44,8 @@ namespace Testing.Local
             BindApi();
 
             //Container.Bind<AssetProvider>().FromComponentsOn(gameObject).AsSingle();
-
+            Container.Bind<CameraView>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<LocalInputReader>().FromComponentInHierarchy().AsSingle();
             Container.Bind<ITestMenuStrategy>().To<TestMenuStrategy>().AsSingle();
 
             var val = Container.Resolve<CombatController>();
@@ -165,6 +169,9 @@ namespace Testing.Local
             Container.Bind<GetHasteModifierUseCase>().FromNew().AsSingle();
             Container.Bind<GetVersalityModifierUseCase>().FromNew().AsSingle();
 
+            //Scene
+            Container.Bind<FindCharactersInRadiusUseCase>().FromNew().AsSingle();
+
             //Player
             Container.Bind<AssumeControllOverCharacterUseCase>().FromNew().AsSingle();
         }
@@ -172,7 +179,7 @@ namespace Testing.Local
         private void BindApi()
         {
             Container.Bind<SceneApiAdapter>().FromNew().AsSingle();
-            Container.Bind<ChracterApiAdapter>().FromNew().AsSingle();
+            Container.Bind<CharacterApiAdapter>().FromNew().AsSingle();
             Container.Bind<SkillApiAdapter>().FromNew().AsSingle();
             Container.Bind<StatusApiAdapter>().FromNew().AsSingle();
 

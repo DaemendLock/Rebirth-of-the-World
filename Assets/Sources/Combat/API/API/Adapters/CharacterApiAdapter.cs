@@ -3,9 +3,9 @@ using Combat.Local.Domain.Facades;
 
 using System.Collections.Generic;
 
-namespace Combat.API.Controllers
+namespace Combat.API.Adapters
 {
-    public class ChracterApiAdapter
+    public class CharacterApiAdapter
     {
         private readonly CharacterFacade _characterFacade;
         private readonly HealthOwnerFacade _healthOwnerFacade;
@@ -13,7 +13,7 @@ namespace Combat.API.Controllers
 
         private readonly Dictionary<EntityId, Unit> _cache;
 
-        public ChracterApiAdapter(CharacterFacade characterFacade, HealthOwnerFacade healthFacade, AttributeOwnerFacade attributeOwnerFacade)
+        public CharacterApiAdapter(CharacterFacade characterFacade, HealthOwnerFacade healthFacade, AttributeOwnerFacade attributeOwnerFacade)
         {
             _characterFacade = characterFacade;
             _healthOwnerFacade = healthFacade;
