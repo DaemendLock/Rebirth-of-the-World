@@ -1,7 +1,6 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.OutputPorts;
-using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
 using Combat.Local.Presentation.Components;
 using Combat.Local.Presentation.Units.ViewModels;
@@ -10,6 +9,11 @@ using UnityEngine;
 
 namespace Combat.Local.Presentation.Presenters
 {
+    public interface IActionAnimationProvider
+    {
+        AnimationClip GetAnimation(ActionId id);
+    }
+
     public interface ICharacterViewContainer
     {
         bool TryGetValue(EntityId entityId, out Transform result);
@@ -18,12 +22,12 @@ namespace Combat.Local.Presentation.Presenters
     public class CharacterPresenter : IHealthOutput, IGiveResourceOutput, ISpendResourceOutput, IMovementOutput, IActionOutput
     {
         private readonly ICharacterViewContainer _container;
-        private readonly IActionAnimationRepository _actionAnimationRepository;
+        private readonly IActionAnimationProvider _actionAnimationProvider;
 
-        public CharacterPresenter(ICharacterViewContainer container, IActionAnimationRepository skillAnimationRepository)
+        public CharacterPresenter(ICharacterViewContainer container, IActionAnimationProvider skillAnimationRepository)
         {
             _container = container;
-            _actionAnimationRepository = skillAnimationRepository;
+            _actionAnimationProvider = skillAnimationRepository;
         }
 
         public void Present(EntityId target, ActionId actionId)
@@ -33,7 +37,7 @@ namespace Combat.Local.Presentation.Presenters
                 return;
             }
 
-            AnimationClip clip = _actionAnimationRepository.Get(actionId);
+            AnimationClip clip = _actionAnimationProvider.GetAnimation(actionId);
 
             ActivityViewModel skillViewModel = new(clip, 0, 0);
 

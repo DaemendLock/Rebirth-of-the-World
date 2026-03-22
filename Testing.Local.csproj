@@ -76,8 +76,8 @@
     <Compile Include="Assets\Sources\Testing\Local\LocalInputReader.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\Implementations\SkillFactory.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\Implementations\CustomScriptSkillStrategyFactory.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\Temp\Implementations\ActionStrategyFactory.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\MoveInDirectionOverTimeComponent.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Temp\Implementations\ActionFactory.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\ScaleOverTimeComponent.cs" />
     <Compile Include="Assets\Sources\Testing\Local\UnitProperties.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Temp\Implementations\CustomScriptStatusStrategyFactory.cs" />

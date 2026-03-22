@@ -86,7 +86,6 @@
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\AttributesRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Status\StatusTimerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\PositionableData.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Skills\SkillAnimationRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\UpdateTargetList.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\PositionableRepository.cs" />
   </ItemGroup>

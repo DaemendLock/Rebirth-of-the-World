@@ -13,17 +13,13 @@ namespace Combat.Local.Domain.UseCases
     {
         private readonly IStatusRepository _statusRepository;
         private readonly IStatusTimerRepository _statusTimerRepository;
-        private readonly IStatusExpiredEventHandler _statusExpiredEventHandler;
-        private readonly IRemoveStatusEventHandler _removeStatusEventHandler;
         private readonly IStatusOwnerRepository _statusOwnerRepository;
         private readonly ICharacterUpdateList _characterUpdateList;
 
-        public UpdateStatusesUseCases(IStatusRepository statusRepository, IStatusTimerRepository statusTimerRepository, IStatusExpiredEventHandler statusExpiredEventHandler, IRemoveStatusEventHandler removeStatusEventHandler, IStatusOwnerRepository statusOwnerRepository, ICharacterUpdateList characterUpdateList)
+        public UpdateStatusesUseCases(IStatusRepository statusRepository, IStatusTimerRepository statusTimerRepository, IStatusOwnerRepository statusOwnerRepository, ICharacterUpdateList characterUpdateList)
         {
             _statusRepository = statusRepository;
             _statusTimerRepository = statusTimerRepository;
-            _statusExpiredEventHandler = statusExpiredEventHandler;
-            _removeStatusEventHandler = removeStatusEventHandler;
             _statusOwnerRepository = statusOwnerRepository;
             _characterUpdateList = characterUpdateList;
         }

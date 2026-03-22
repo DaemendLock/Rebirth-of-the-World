@@ -71,7 +71,6 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\Factories\IStatusFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Player\CastSkillFromSlotUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Statuses\Effects\ModifyIncomingDamageEffect.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\Factories\IActionFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IResourceRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\Aligment.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IDamageInstanceRepository.cs" />
@@ -139,6 +138,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Hurtbox.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IPositionableRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Status\IStatusRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\Factories\ActionFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Updatable.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Status\StartStatusTimerUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Facades\AttributeOwnerFacade.cs" />

@@ -102,7 +102,7 @@ namespace Combat.Local.Domain.UseCases
         {
             Actor actor = _actorRepository.Get(actorId);
 
-            actor.StartAction(_actionFactory.CreateCastAction(actionId, actorId));
+            actor.StartAction(_actionFactory.CreateCastAction(actionId, actorId, source.Id));
             _actorRepository.Update(actor);
             _actionOutput.Present(actorId, actionId);
 

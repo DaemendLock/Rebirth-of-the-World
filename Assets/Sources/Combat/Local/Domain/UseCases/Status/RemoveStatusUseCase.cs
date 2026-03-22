@@ -12,13 +12,10 @@ namespace Combat.Local.Domain.UseCases
         private readonly IStatusTimerRepository _statusTimerRepository;
         private readonly IStatusOwnerRepository _statusOwnerRepository;
 
-        private readonly IRemoveStatusEventHandler _removeStatusEventHandler;
-
-        public RemoveStatusUseCase(IStatusRepository statusRepository, IStatusTimerRepository statusTimerRepository, IRemoveStatusEventHandler removeStatusEventHandler)
+        public RemoveStatusUseCase(IStatusRepository statusRepository, IStatusTimerRepository statusTimerRepository)
         {
             _statusRepository = statusRepository;
             _statusTimerRepository = statusTimerRepository;
-            _removeStatusEventHandler = removeStatusEventHandler;
         }
 
         public void Execute(StatusId targetId)
@@ -47,13 +44,6 @@ namespace Combat.Local.Domain.UseCases
             }
 
             _statusOwnerRepository.Update(new(statusOwner.Id, newValues));
-
-            _removeStatusEventHandler.HandleEvent(targetId);
         }
-    }
-
-    public interface IRemoveStatusEventHandler
-    {
-        void HandleEvent(StatusId id);
     }
 }

@@ -1,8 +1,6 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 
-using UnityEngine;
-
 namespace Combat.Local.Domain.Repositories
 {
     public interface ISkillRepository
@@ -10,10 +8,5 @@ namespace Combat.Local.Domain.Repositories
         void Create(Skill skill);
 
         Skill Get(SkillId id, EntityId? caster);
-    }
-
-    public interface IActionAnimationRepository
-    {
-        AnimationClip Get(ActionId id);
     }
 }

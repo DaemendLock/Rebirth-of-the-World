@@ -3,6 +3,7 @@ using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
 using Combat.Local.Data.Models;
 using Combat.Local.Gateways.DataSources;
+using Combat.Local.Presentation.Presenters;
 
 using Data.Skills.Components;
 
@@ -14,7 +15,7 @@ using UnityEngine;
 
 namespace Combat.Local.Data.Databases
 {
-    public class SkillDataBase : ISkillDataBase
+    public class SkillDataBase : ISkillDataBase, IActionAnimationProvider
     {
         private readonly SkillStrategyTypeDataSource _skillStrategyTypeProvider;
 
@@ -114,6 +115,16 @@ namespace Combat.Local.Data.Databases
             }
 
             return actions.Values.Select(value => value.Id).ToArray();
+        }
+
+        public AnimationClip GetAnimation(ActionId id)
+        {
+            if (_actions.TryGetValue(id, out var data) == false)
+            {
+                return null;
+            }
+
+            return data.Animation;
         }
     }
 }

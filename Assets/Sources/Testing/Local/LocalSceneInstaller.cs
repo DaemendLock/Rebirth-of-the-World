@@ -68,6 +68,7 @@ namespace Testing.Local
         {
             Container.Bind<SkillDataBase>().FromNew().AsSingle();
             Container.Bind<ISkillDataBase>().To<SkillDataBase>().FromResolve();
+            Container.Bind<IActionAnimationProvider>().To<SkillDataBase>().FromResolve();
 
             Container.Bind<SceneCharacterModelDataSource>().FromNew().AsSingle();
             Container.Bind<ICharacterViewContainer>().To<SceneCharacterModelDataSource>().FromResolve();
@@ -81,7 +82,6 @@ namespace Testing.Local
             Container.Bind<IHealthRepository>().To<HealthRepository>().AsSingle();
             Container.Bind<IStateRepository>().To<StateRepository>().AsSingle();
             Container.Bind<IAligmentRepository>().To<AligmentRepository>().AsSingle();
-            Container.Bind<IActionAnimationRepository>().To<SkillAnimationRepository>().AsSingle();
             Container.Bind<IAttributesRepository>().To<AttributesRepository>().AsSingle();
             Container.Bind<IResourceRepository>().To<ResourceRepository>().AsSingle();
             Container.Bind<IHitboxRepository>().To<HitboxRepository>().AsSingle();

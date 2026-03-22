@@ -21,9 +21,9 @@ namespace Combat.Local.Domain.Factories
             _actionStrategyFactory = actionStrategyFactory;
         }
 
-        public Action CreateCastAction(ActionId actionId, EntityId actorId)
+        public Action CreateCastAction(ActionId actionId, EntityId actorId, SkillId handerId)
         {
-            Skill skill = _skillRepository.Get(new(actionId.Value), actorId);
+            Skill skill = _skillRepository.Get(handerId, actorId);
             ActionFlags flags = ActionFlags.None;
 
             if (skill.AllowMoment)
