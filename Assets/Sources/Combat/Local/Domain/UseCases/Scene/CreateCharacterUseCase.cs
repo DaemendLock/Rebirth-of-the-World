@@ -57,9 +57,9 @@ namespace Combat.Local.Domain.UseCases
             _stateFactory.Create(id);
             _healthFactory.Create(id, context.DefaultHealth, context.InitialHealth);
 
-            Positionable positionable = Create(id, context);
+            Positionable positionable = Create(id, context, parent);
 
-            _outputPort.Present(positionable, parent);
+            _outputPort.Present(positionable);
             _positionableRepository.Update(positionable);
             SkillOwner skillOwner = _skillOwnerRepository.Get(positionable.Id);
 
@@ -72,7 +72,7 @@ namespace Combat.Local.Domain.UseCases
             }
         }
 
-        private Positionable Create(EntityId id, CreateCharacterDTO context)
+        private Positionable Create(EntityId id, CreateCharacterDTO context, Transform parent)
         {
             Aligment aligment = new(id, context.Team);
 
@@ -93,7 +93,7 @@ namespace Combat.Local.Domain.UseCases
             _aligmentRepository.Create(aligment);
             _attributesRepository.Create(attributes);
             _resourceRepository.Create(new(id, ResourceId.Custom, 100, 0));
-            _positionableRepository.Create(positionable);
+            _positionableRepository.Create(positionable, parent);
             _actorRepository.Create(new(id, ActorState.None, null));
             _skillOwnerRepository.Create(skillOwner);
 

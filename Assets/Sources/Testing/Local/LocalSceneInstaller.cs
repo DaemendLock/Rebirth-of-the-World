@@ -75,9 +75,9 @@ namespace Testing.Local
             Container.Bind<SkillDataBase>().FromNew().AsSingle();
             Container.Bind<ISkillDataBase>().To<SkillDataBase>().FromResolve();
 
-            Container.Bind<CharacterViewContainer>().FromNew().AsSingle();
-            Container.Bind<ICharacterViewContainer>().To<CharacterViewContainer>().FromResolve();
-            Container.Bind<ISceneObjectDataSource>().To<CharacterViewContainer>().FromResolve();
+            Container.Bind<SceneCharacterModelDataSource>().FromNew().AsSingle();
+            Container.Bind<ICharacterViewContainer>().To<SceneCharacterModelDataSource>().FromResolve();
+            Container.Bind<ISceneObjectDataSource>().To<SceneCharacterModelDataSource>().FromResolve();
         }
 
         private void BindRepositories()
@@ -112,6 +112,7 @@ namespace Testing.Local
             Container.Bind<CustomScriptStatusStrategyFactory>().FromNew().AsSingle();
 
             Container.Bind<ICharacterViewFactory>().To<CharacterViewFactory>().AsSingle();
+            Container.Bind<ICharacterModelFactory>().To<CharacterModelFactory>().AsSingle();
             Container.Bind<IActionFactory>().To<ActionFactory>().AsSingle();
         }
 

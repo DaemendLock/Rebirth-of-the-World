@@ -63,10 +63,12 @@
   <ItemGroup>
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\AligmentRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\DataSources\ISkillDataBase.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\AttributeData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\HitboxRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Skills\SkillData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\StateRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\HealthData.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\CharacterModel.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\ActorRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\ResourceRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\StatusOwnerRepository.cs" />

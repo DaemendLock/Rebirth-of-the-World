@@ -1,4 +1,5 @@
 ﻿using Combat.Common.ValueObjects;
+using Combat.Local.Gateways.Models;
 
 using System.Collections.Generic;
 
@@ -8,9 +9,13 @@ namespace Combat.Local.Gateways.DataSources
 {
     public interface ISceneObjectDataSource
     {
-        Transform GetCharacterTransform(EntityId id);
+        CharacterModel Create(EntityId id, ModelName name, Transform parent);
 
-        bool TryGetCharacterTransform(EntityId id, out Transform transform);
+        void Destroy(EntityId id);
+
+        CharacterModel GetCharacterModel(EntityId id);
+
+        bool TryGetCharacterModel(EntityId id, out CharacterModel transform);
 
         ICollection<EntityId> FindCharacterInRadius(Vector3 location, float radius);
     }

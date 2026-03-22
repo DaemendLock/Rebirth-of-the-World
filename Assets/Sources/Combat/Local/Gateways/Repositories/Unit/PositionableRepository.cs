@@ -1,11 +1,8 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Models;
-
-using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -14,64 +11,42 @@ namespace Combat.Local.Gateways.Repositories.Unit
     public sealed class PositionableRepository : IPositionableRepository
     {
         private readonly ISceneObjectDataSource _sceneObjectDataSource;
-        private readonly Dictionary<EntityId, PositionableData> _values;
 
         public PositionableRepository(ISceneObjectDataSource sceneObjectDataSource)
         {
             _sceneObjectDataSource = sceneObjectDataSource;
-
-            _values = new();
         }
 
-        public void Create(Positionable value)
+        public void Create(Positionable value, Transform parent)
         {
-            PositionableData data = new(value.ModelName, value.LookDirection);
-
-            _values.Add(value.Id, data);
-
-            if (_sceneObjectDataSource.TryGetCharacterTransform(value.Id, out Transform transform) == false)
-            {
-                return;
-            }
-
-            transform.SetPositionAndRotation(value.Position, value.Rotation);
-            transform.localScale = value.Scale * Vector3.one;
+            CharacterModel characterModel = _sceneObjectDataSource.Create(value.Id, value.ModelName, parent);
+            characterModel.LookDirection = value.LookDirection;
+            characterModel.transform.SetPositionAndRotation(value.Position, value.Rotation);
+            characterModel.transform.localScale = value.Scale * Vector3.one;
         }
 
-        public void Delete(EntityId id) => _values.Remove(id);
+        public void Delete(EntityId id) => _sceneObjectDataSource.Destroy(id);
 
         public Positionable Get(EntityId id)
         {
-            if (_values.TryGetValue(id, out var value) == false)
+            if (_sceneObjectDataSource.TryGetCharacterModel(id, out var value) == false)
             {
                 return default;
             }
 
-            if (_sceneObjectDataSource.TryGetCharacterTransform(id, out Transform transform) == false)
-            {
-                return new(id, default, default, 1f, value.LookDirection, value.Model);
-            }
-
-            return new(id, transform.position, transform.rotation, transform.localScale.x, value.LookDirection, value.Model);
+            return new(id, value.transform.position, value.transform.rotation, value.transform.localScale.x, value.LookDirection, value.ModelName);
         }
 
         public void Update(Positionable value)
         {
-            if (_values.TryGetValue(value.Id, out var currentValue) == false)
+            if (_sceneObjectDataSource.TryGetCharacterModel(value.Id, out var model) == false)
             {
                 return;
             }
 
-            _values[value.Id] = new(value.ModelName, value.LookDirection);
-
-            if (_sceneObjectDataSource.TryGetCharacterTransform(value.Id, out Transform transform) == false)
-            {
-                return;
-            }
-
-            transform.position = value.Position;
-            transform.rotation = value.Rotation;
-            transform.localScale = value.Scale * Vector3.one;
+            model.transform.position = value.Position;
+            model.transform.rotation = value.Rotation;
+            model.transform.localScale = value.Scale * Vector3.one;
         }
     }
 }

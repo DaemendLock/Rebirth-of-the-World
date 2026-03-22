@@ -3,8 +3,6 @@ using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Presentation.Components;
 using Combat.Local.Presentation.Factories;
 
-using UnityEngine;
-
 namespace Combat.Local.Presentation.Presenters
 {
     public class ScenePresenter : ICreateUnitOutput
@@ -18,24 +16,17 @@ namespace Combat.Local.Presentation.Presenters
             _factory = factory;
         }
 
-        public void Present(Positionable value, Transform transform)
+        public void Present(Positionable value)
         {
-            if (transform == null || transform.TryGetComponent(out CharacterView view) == false)
+            if (_container.TryGetValue(value.Id, out var transform) == false)
             {
-                view = _factory.Create(value.Id, value.ModelName);
+                return;
             }
 
+            CharacterView view = transform.GetComponent<CharacterView>() ?? transform.gameObject.AddComponent<CharacterView>();
             view.Id = value.Id;
             view.name = value.ModelName.ToString() + value.Id.ToString();
             _factory.Init(view);
-
-            if (_container.TryGetValue(value.Id, out Transform oldCharacterView))
-            {
-                oldCharacterView.gameObject.SetActive(false);
-                Object.Destroy(oldCharacterView.gameObject);
-            }
-
-            _container.Save(value.Id, view.transform);
         }
     }
 }

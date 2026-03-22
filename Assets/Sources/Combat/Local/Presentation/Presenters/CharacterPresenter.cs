@@ -12,8 +12,6 @@ namespace Combat.Local.Presentation.Presenters
 {
     public interface ICharacterViewContainer
     {
-        void Save(EntityId entityId, Transform value);
-        Transform Get(EntityId entityId);
         bool TryGetValue(EntityId entityId, out Transform result);
     }
 
@@ -30,17 +28,16 @@ namespace Combat.Local.Presentation.Presenters
 
         public void Present(EntityId target, ActionId skill)
         {
-            AnimationClip clip = _actionAnimationRepository.Get(skill);
-
             if (_container.TryGetValue(target, out var view) == false)
             {
                 return;
             }
 
+            AnimationClip clip = _actionAnimationRepository.Get(skill);
+
             ActivityViewModel skillViewModel = new(clip, 0, 0);
 
             view.GetComponent<CasterView>().DisplayAction(skillViewModel);
-
         }
 
         public void Present(GiveResourceResult value)

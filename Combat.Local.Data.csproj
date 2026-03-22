@@ -73,8 +73,8 @@
     <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\Unity.Entities.Analyzer.CodeFixes.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Combat\Local\Data\Presentation\CharacterViewContainer.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\CharacterModelProvider.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\Presentation\SceneCharacterModelDataSource.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\DataSources\StatusScriptTypeDataSource.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\SkillDataBase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\DataSources\SkillStrategyTypeDataSource.cs" />

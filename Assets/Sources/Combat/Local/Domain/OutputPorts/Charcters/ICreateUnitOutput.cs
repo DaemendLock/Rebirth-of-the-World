@@ -1,13 +1,11 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 
-using UnityEngine;
-
 namespace Combat.Local.Domain.OutputPorts
 {
     public interface ICreateUnitOutput
     {
-        void Present(Positionable positionable, Transform parent = null);
+        void Present(Positionable positionable);
     }
 
     public interface ICreateUnitEventHandler
