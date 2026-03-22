@@ -56,7 +56,7 @@ namespace Combat.Local.Domain.UseCases
 
                 if (duration.Left <= 0)
                 {
-                    _statusExpiredEventHandler.HandleEvent(value.Id);
+                    //_statusExpiredEventHandler.HandleEvent(value.Id);
                 }
 
                 Status status = value;
@@ -72,9 +72,10 @@ namespace Combat.Local.Domain.UseCases
                 return false;
             }
 
+            status.Remove();
             _statusRepository.Delete(status.Id);
             _statusTimerRepository.Delete(status.Id);
-            _removeStatusEventHandler.HandleEvent(status.Id);
+            //_removeStatusEventHandler.HandleEvent(status.Id);
 
             StatusOwner statusOwner = _statusOwnerRepository.Get(status.Parent);
             var buffer = statusOwner.GetAll();
