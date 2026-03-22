@@ -59,12 +59,8 @@ namespace Testing.Local
         private void BindControllers()
         {
             Container.Bind<CombatController>().FromNew().AsSingle();
-            Container.Bind<CharacterFacade>().FromNew().AsSingle();
             Container.Bind<PlayerController>().FromNew().AsSingle();
-            Container.Bind<StatusFacade>().FromNew().AsSingle();
             Container.Bind<HitController>().FromNew().AsSingle();
-            Container.Bind<HealthOwnerFacade>().FromNew().AsSingle();
-            Container.Bind<AttributeOwnerFacade>().FromNew().AsSingle();
             Container.Bind<ITickable>().To<UpdateController>().AsSingle();
         }
 
@@ -121,33 +117,17 @@ namespace Testing.Local
             Container.Bind<UpdateTransformEffectsUseCase>().FromNew().AsSingle();
 
             Container.Bind<CreateCharacterUseCase>().FromNew().AsSingle();
-            Container.Bind<ICreateUnitOutput>().To<ScenePresenter>().FromResolve();
-
             Container.Bind<CastSkillFromSlotUseCase>().FromNew().AsSingle();
-            Container.Bind<IActionOutput>().To<CharacterPresenter>().FromResolve();
-
             Container.Bind<MoveInDirectionUseCase>().FromNew().AsSingle();
-            Container.Bind<IMovementOutput>().To<CharacterPresenter>().FromResolve();
-
             Container.Bind<GiveResourceUseCase>().FromNew().AsSingle();
-            Container.Bind<IGiveResourceOutput>().To<CharacterPresenter>().FromResolve();
-
             Container.Bind<SpendResourceUseCase>().FromNew().AsSingle();
-            Container.Bind<ISpendResourceOutput>().To<CharacterPresenter>().FromResolve();
-
-            Container.Bind<GetHealthUseCase>().FromNew().AsSingle();
-
             Container.Bind<ApplyDamageUseCase>().FromNew().AsSingle();
-
             Container.Bind<ApplyHealingUseCase>().FromNew().AsSingle();
 
+            Container.Bind<GetHealthUseCase>().FromNew().AsSingle();
             Container.Bind<SetHealthUseCase>().FromNew().AsSingle();
-            Container.Bind<IHealthOutput>().To<CharacterPresenter>().FromResolve();
-
-            Container.Bind<ApplyStatusUseCase>().FromNew().AsSingle();
 
             Container.Bind<ForceKillUseCase>().FromNew().AsSingle();
-
             Container.Bind<FindStatusUseCase>().FromNew().AsSingle();
 
             //Hits
@@ -155,30 +135,38 @@ namespace Testing.Local
             Container.Bind<HandleHitsUseCase>().FromNew().AsSingle();
 
             //Statuses
+            Container.Bind<ApplyStatusUseCase>().FromNew().AsSingle();
             Container.Bind<StartStatusTimerUseCase>().FromNew().AsSingle();
-
             Container.Bind<StopStatusTimerUseCase>().FromNew().AsSingle();
-
             Container.Bind<UpdateStatusTimersUseCase>().FromNew().AsSingle();
-
             Container.Bind<RemoveStatusUseCase>().FromNew().AsSingle();
-
             Container.Bind<UpdateStatusesUseCases>().FromNew().AsSingle();
 
             //Attributes
             Container.Bind<GetAttributeValueUseCase>().FromNew().AsSingle();
             Container.Bind<GetHasteModifierUseCase>().FromNew().AsSingle();
             Container.Bind<GetVersalityModifierUseCase>().FromNew().AsSingle();
+
+            //Outputs
+            Container.Bind<ICreateUnitOutput>().To<ScenePresenter>().FromResolve();
+            Container.Bind<IActionOutput>().To<CharacterPresenter>().FromResolve();
+            Container.Bind<IMovementOutput>().To<CharacterPresenter>().FromResolve();
+            Container.Bind<IGiveResourceOutput>().To<CharacterPresenter>().FromResolve();
+            Container.Bind<ISpendResourceOutput>().To<CharacterPresenter>().FromResolve();
+            Container.Bind<IHealthOutput>().To<CharacterPresenter>().FromResolve();
         }
 
         private void BindApi()
         {
             Container.Bind<SceneApiAdapter>().FromNew().AsSingle();
-
             Container.Bind<ChracterApiAdapter>().FromNew().AsSingle();
             Container.Bind<SkillApiAdapter>().FromNew().AsSingle();
             Container.Bind<StatusApiAdapter>().FromNew().AsSingle();
 
+            Container.Bind<StatusFacade>().FromNew().AsSingle();
+            Container.Bind<HealthOwnerFacade>().FromNew().AsSingle();
+            Container.Bind<AttributeOwnerFacade>().FromNew().AsSingle();
+            Container.Bind<CharacterFacade>().FromNew().AsSingle();
             Container.Bind<SkillFacade>().FromNew().AsSingle();
             Container.Bind<SceneFacade>().FromNew().AsSingle();
         }
