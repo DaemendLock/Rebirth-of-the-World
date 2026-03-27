@@ -12,7 +12,7 @@ namespace Combat.API.Controllers.Misc
     public class DataDrivenSkillStrategy : ISkillStrategy
     {
         private readonly SkillId _skillId;
-        private readonly SkillScript _customSkillStrategy;
+        private readonly SkillScript _script;
 
         private readonly ISkillCastStrategy _castStrategy;
         private readonly ISkillHitStrategy _hitStrategy;
@@ -21,25 +21,26 @@ namespace Combat.API.Controllers.Misc
         public DataDrivenSkillStrategy(SkillId id, SkillScript customSkillStrategy, CharacterApiAdapter characterApiProvider, SkillApiAdapter skillApiProvider, SceneApiAdapter sceneApiProvider)
         {
             _skillId = id;
-            _customSkillStrategy = customSkillStrategy;
+            _script = customSkillStrategy;
 
-            if (_customSkillStrategy is ICastableSkill castable)
+            if (_script is ICastableSkill castable)
             {
                 _castStrategy = new DataDrivenCastStrategy(id, castable, characterApiProvider, skillApiProvider, sceneApiProvider);
             }
 
-            if (_customSkillStrategy is IHitHandler hitHandler)
+            if (_script is IHitHandler hitHandler)
             {
                 _hitStrategy = new DataDrivenHitStrategy(hitHandler, characterApiProvider);
             }
 
-            if (_customSkillStrategy is ICastStateChangeHandler actionStateChangeHandler)
+            if (_script is ICastStateChangeHandler actionStateChangeHandler)
             {
                 _actionStateChangeStrategy = new DataDrivenActionStateChangeStrategy(actionStateChangeHandler);
             }
         }
 
         public void Give(EntityId owner) => throw new System.NotImplementedException();
+
         public void Remove(EntityId owner) => throw new System.NotImplementedException();
 
         public bool TryGetEffect(out SkillCastEffect result)
@@ -68,7 +69,7 @@ namespace Combat.API.Controllers.Misc
 
         public bool TryGetEffect(out SkillActionStateChangeEffect result)
         {
-            if (_hitStrategy == null)
+            if (_actionStateChangeStrategy == null)
             {
                 result = default;
                 return false;
@@ -96,13 +97,13 @@ namespace Combat.API.Controllers.Misc
                 _sceneApiProvider = sceneApiProvider;
             }
 
-            public CastFailReason CanCast(EntityId caster) => _castableSkill.CanCast(CreateCastEvent(caster));
+            public CastFailReason CanCast(EntityId? caster) => _castableSkill.CanCast(CreateCastEvent(caster));
 
-            public void Execute(EntityId caster) => _castableSkill.OnCast(CreateCastEvent(caster));
+            public void Execute(EntityId? caster) => _castableSkill.OnCast(CreateCastEvent(caster));
 
-            private CastEvent CreateCastEvent(EntityId caster)
+            private CastEvent CreateCastEvent(EntityId? caster)
             {
-                return new(_characterApiProvider.Adaptee(caster), _skillApiProvider.Adaptee(_skillId, caster), _sceneApiProvider.Get());
+                return new(caster.HasValue ? _characterApiProvider.Adaptee(caster.Value) : null, _skillApiProvider.Adaptee(_skillId, caster), _sceneApiProvider.Get());
             }
         }
 

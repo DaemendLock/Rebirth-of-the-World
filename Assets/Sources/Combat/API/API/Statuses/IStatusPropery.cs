@@ -32,7 +32,7 @@ namespace Combat.API.Statuses
 
     public interface ITimeScaleModifier : IStatusPropery
     {
-        float GetModification() => 0f;
+        float GetTimeModification() => 0f;
     }
 
     public interface IAttributesModifier : IStatusPropery

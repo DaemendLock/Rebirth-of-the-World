@@ -28,21 +28,9 @@ namespace Combat.Local.Data.Factories
             }
 
             CharacterModel result = parent.gameObject.AddComponent<CharacterModel>();
+            result.gameObject.AddComponent<MovementEffectComponent>();
             result.ModelName = name;
             return result;
-        }
-
-        private Transform CreatePrefab(ModelName modelName)
-        {
-            GameObject prefab = _characterModelProvider.Get(modelName);
-
-            if (prefab == null)
-            {
-                throw new System.InvalidOperationException();
-            }
-
-            GameObject gameObject = UnityEngine.Object.Instantiate(prefab);
-            return gameObject.transform;
         }
 
         public void Init(CharacterModel target)
@@ -65,6 +53,19 @@ namespace Combat.Local.Data.Factories
                 _hitController.CreateHurtbox(collider, hurtboxData.Type, entityId);
                 UnityEngine.Object.Destroy(hurtboxData);
             }
+        }
+
+        private Transform CreatePrefab(ModelName modelName)
+        {
+            GameObject prefab = _characterModelProvider.Get(modelName);
+
+            if (prefab == null)
+            {
+                throw new System.InvalidOperationException();
+            }
+
+            GameObject gameObject = UnityEngine.Object.Instantiate(prefab);
+            return gameObject.transform;
         }
     }
 }

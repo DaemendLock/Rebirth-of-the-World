@@ -37,7 +37,7 @@ namespace Temp.Domain.Implementations
 
             ISkillStrategy skillStrategy = GetFactory(skillId)?.Create(skillId, owner);
 
-            return new(skillId, flags, owner, skillStrategy);
+            return new(skillId, flags, owner, actions, skillStrategy);
         }
 
         private ISkillStrategyFactory GetFactory(SkillId id)

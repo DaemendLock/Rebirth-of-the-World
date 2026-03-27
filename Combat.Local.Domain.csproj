@@ -92,6 +92,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\AttributesModification.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\ICharacterUpdateList.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Scene\RecordHitUseCase.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IMovementEffectRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Statuses\Effects\DealDamageEffect.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\UpdateActorsUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\DTO\ApplStatusDTO.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Statuses\Status.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Skill\ISkillActionsRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\EventSource.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Charcters\ISpendResourceOutput.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\SkillOwner.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\ForceKillUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Player\MoveInDirectionUseCase.cs" />
@@ -123,11 +125,12 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Charcters\ICreateUnitOutput.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\CastInfo.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\IHitRecordRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Hitbox.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Scene\FindCharactersInRadiusUseCase.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Hitbox.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Facades\CharacterFacade.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\IHitboxRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Facades\SceneFacade.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Charcters\IApplyStatusOutput.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Player\AssumeControllOverCharacterUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Status\IStatusTimerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\DTO\CreateCharacterDTO.cs" />
@@ -148,6 +151,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Skills\Effects\SkillCastEffect.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\DamageInstance.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Status\UpdateStatusesUseCases.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\Factories\MoveInDirectionEffectFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Player\SkillPanel.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Statuses\StatusTimer.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Action\CancelActionUseCase.cs" />

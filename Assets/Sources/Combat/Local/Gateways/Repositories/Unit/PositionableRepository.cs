@@ -1,9 +1,11 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
+using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Models;
 
+using System;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -12,9 +14,9 @@ namespace Combat.Local.Gateways.Repositories.Unit
 {
     public sealed class PositionableRepository : IPositionableRepository
     {
-        private readonly ISceneCharacterModelDataSource _sceneObjectDataSource;
+        private readonly ICharacterModelDataSource _sceneObjectDataSource;
 
-        public PositionableRepository(ISceneCharacterModelDataSource sceneObjectDataSource)
+        public PositionableRepository(ICharacterModelDataSource sceneObjectDataSource)
         {
             _sceneObjectDataSource = sceneObjectDataSource;
         }
@@ -31,12 +33,14 @@ namespace Combat.Local.Gateways.Repositories.Unit
 
         public Positionable Get(EntityId id)
         {
-            if (_sceneObjectDataSource.TryGetCharacterModel(id, out var value) == false)
+            if (_sceneObjectDataSource.TryGetCharacterModel(id, out var model) == false)
             {
                 return default;
             }
 
-            return new(id, value.transform.position, value.transform.rotation, value.transform.localScale.x, value.LookDirection, value.ModelName);
+            IReadOnlyCollection<MoveInDirectionEffect> moveEffects = Array.Empty<MoveInDirectionEffect>();
+
+            return new(id, model.transform.position, model.transform.rotation, model.transform.localScale.x, model.LookDirection, model.ModelName, moveEffects);
         }
 
         public void Update(Positionable value)

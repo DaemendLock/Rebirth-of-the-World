@@ -7,11 +7,13 @@ using UnityEngine;
 
 namespace Combat.Local.Gateways.DataSources
 {
-    public interface ISceneCharacterModelDataSource
+    public interface ICharacterModelDataSource
     {
         CharacterModel Create(EntityId id, ModelName name, Transform parent);
         void Destroy(EntityId id);
-        bool TryGetCharacterModel(EntityId id, out CharacterModel transform);
+        bool TryGetCharacterModel(EntityId id, out CharacterModel model);
+        bool TryGetMovementContainer(EntityId id, out IMovementEffectContainer container);
+
         ICollection<EntityId> FindCharacterInRadius(Vector3 location, float radius);
     }
 }

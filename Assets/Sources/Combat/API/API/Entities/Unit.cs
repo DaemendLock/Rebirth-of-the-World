@@ -82,6 +82,8 @@ namespace Combat.API
             _healthOwnerFacade.ApplyHealing(applyHealingInfo);
         }
 
+        public void AddMovement(UnityEngine.Vector3 direction, float speed, bool isRelative) => _characterFacade.AddMoveInDirectionEffect(Id, direction, speed, isRelative);
+
         public void Kill(KillInfo data) => _characterFacade.Kill(_id, data.Source?.SkillId, data.Source?.OwnerId);
 
         public void Revive(ReviveInfo data) => _characterFacade.Revive(_id, data.Source?.SkillId, data.Source?.OwnerId);

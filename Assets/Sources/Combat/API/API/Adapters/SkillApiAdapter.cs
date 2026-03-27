@@ -3,7 +3,7 @@ using Combat.Local.Domain.Facades;
 
 namespace Combat.API.Adapters
 {
-    public class SkillApiAdapter
+    public readonly struct SkillApiAdapter
     {
         private readonly CharacterApiAdapter _characterApiProvider;
         private readonly SceneApiAdapter _sceneApiProvider;

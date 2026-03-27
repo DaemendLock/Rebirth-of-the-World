@@ -34,10 +34,13 @@ namespace Combat.Local.Domain.ValueObjects
 
         public AttributeModifier Spellpower { get; set; }
 
-        public AttributeModifier this[Attribute attribute] => attribute switch
+        public AttributeModifier Speed { get; set; }
+
+        public readonly AttributeModifier this[Attribute attribute] => attribute switch
         {
             Attribute.Atk => Attack,
             Attribute.Spellpower => Spellpower,
+            Attribute.Speed => Speed,
             _ => default,
         };
 
@@ -47,6 +50,7 @@ namespace Combat.Local.Domain.ValueObjects
 
             result.Attack = value1.Attack + value2.Attack;
             result.Spellpower = value1.Spellpower + value2.Spellpower;
+            result.Speed = value1.Speed + value2.Speed;
 
             return result;
         }

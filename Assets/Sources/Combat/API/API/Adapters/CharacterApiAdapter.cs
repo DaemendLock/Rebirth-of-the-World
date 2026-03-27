@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Combat.API.Adapters
 {
-    public class CharacterApiAdapter
+    public readonly struct CharacterApiAdapter
     {
         private readonly CharacterFacade _characterFacade;
         private readonly HealthOwnerFacade _healthOwnerFacade;

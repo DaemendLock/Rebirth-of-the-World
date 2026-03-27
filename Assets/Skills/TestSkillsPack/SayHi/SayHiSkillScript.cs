@@ -1,8 +1,11 @@
-﻿using Combat.API.DTO;
+﻿using Combat.API;
+using Combat.API.DTO;
 using Combat.API.Scripting;
 using Combat.API.Skills;
 using Combat.API.Utils;
 using Combat.Common.Flags;
+
+using UnityEngine;
 
 namespace TestSkillsPack.SkillScripts
 {
@@ -18,12 +21,8 @@ namespace TestSkillsPack.SkillScripts
             UnityEngine.Debug.Log("Hi~~~!");
             Scene.CreateStatus(new(@event.Caster, "HiStatus", 5, 1, Instance));
 
-            var targets = Scene.FindUnitsInRadius(Instance.Owner.Position, 100f);
-
-            foreach (var target in targets)
-            {
-                UnityEngine.Debug.Log($"Hi, {target.ModelName}[{target.Id}] of team {target.Team}");
-            }
+            Unit owner = @event.Caster;
+            owner.AddMovement(Vector3.forward, 0.5f, true);
         }
 
         public void OnStartup()

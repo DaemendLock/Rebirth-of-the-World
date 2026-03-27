@@ -13,5 +13,7 @@ namespace Combat.Local.Gateways.Models
         public EntityId Id { get; set; }
 
         public ModelName ModelName { get => new(_modelName); set => _modelName = value.Value; }
+
+        public float TimeScale { get; set; }
     }
 }

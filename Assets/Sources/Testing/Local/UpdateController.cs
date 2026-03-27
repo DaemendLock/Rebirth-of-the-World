@@ -18,9 +18,8 @@ namespace Testing.Local
         private readonly UpdateActorsUseCase _updateActorsUseCase;
         private readonly HandleHitsUseCase _handleHitUseCase;
         private readonly ICharacterUpdateList _characterUpdateList;
-        private readonly UpdateTransformEffectsUseCase _updateMovementEffectsUseCase;
 
-        public UpdateController(UpdateAttributersUseCase updateCombatUseCase, UpdateStatusTimersUseCase updateStatusTimersUseCase, UpdateStatusesUseCases updateStatusesUseCase, UpdateActorsUseCase updateActionUseCase, HandleHitsUseCase handleHitUseCase, ICharacterUpdateList characterUpdateList, UpdateTransformEffectsUseCase updateMovementEffectsUseCase)
+        public UpdateController(UpdateAttributersUseCase updateCombatUseCase, UpdateStatusTimersUseCase updateStatusTimersUseCase, UpdateStatusesUseCases updateStatusesUseCase, UpdateActorsUseCase updateActionUseCase, HandleHitsUseCase handleHitUseCase, ICharacterUpdateList characterUpdateList)
         {
             _updateAttributesUseCase = updateCombatUseCase;
             _updateStatusTimersUseCase = updateStatusTimersUseCase;
@@ -28,7 +27,6 @@ namespace Testing.Local
             _updateActorsUseCase = updateActionUseCase;
             _handleHitUseCase = handleHitUseCase;
             _characterUpdateList = characterUpdateList;
-            _updateMovementEffectsUseCase = updateMovementEffectsUseCase;
         }
 
         public void Tick()
@@ -41,11 +39,6 @@ namespace Testing.Local
             _updateStatusesUseCase.Execute(deltaTime, updateList);
             _updateStatusTimersUseCase.Execute(deltaTime);
             _updateActorsUseCase.Execute(deltaTime, updateList);
-
-            foreach (var val in updateList)
-            {
-                _updateMovementEffectsUseCase.Execute(val.Id, deltaTime);
-            }
 
             _handleHitUseCase.Execute();
         }

@@ -1,4 +1,4 @@
-﻿using Combat.Local.Domain.Entities;
+﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Presentation.Components;
 
@@ -13,16 +13,15 @@ namespace Combat.Local.Presentation.Presenters
             _container = container;
         }
 
-        public void Present(Positionable value)
+        public void Present(EntityId value)
         {
-            if (_container.TryGetValue(value.Id, out var transform) == false)
+            if (_container.TryGetValue(value, out var transform) == false)
             {
                 return;
             }
 
             CharacterView view = transform.GetComponent<CharacterView>() ?? transform.gameObject.AddComponent<CharacterView>();
-            view.Id = value.Id;
-            view.name = value.ModelName.ToString() + value.Id.ToString();
+            view.Id = value;
         }
     }
 }

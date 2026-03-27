@@ -21,7 +21,7 @@ namespace Combat.Local.Domain.Facades
             _findCharacterInRadiusUseCase = findCharacterInRadiusUseCase;
         }
 
-        public void CreateUnit(CreateCharacterDTO dto) => _createUnitUseCase.Execute(dto);
+        public EntityId CreateUnit(CreateCharacterDTO dto) => _createUnitUseCase.Execute(dto);
 
         public void CreateStatus(ApplStatusDTO dto) => _applyStatusUseCase.Execute(dto);
 

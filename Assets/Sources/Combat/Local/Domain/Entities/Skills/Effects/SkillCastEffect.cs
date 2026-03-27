@@ -4,8 +4,8 @@ namespace Combat.Local.Domain.Entities.Skills.Effects
 {
     public interface ISkillCastStrategy
     {
-        CastFailReason CanCast(EntityId caster);
-        void Execute(EntityId caster);
+        CastFailReason CanCast(EntityId? caster);
+        void Execute(EntityId? caster);
     }
 
     public readonly ref struct SkillCastEffect
@@ -20,8 +20,8 @@ namespace Combat.Local.Domain.Entities.Skills.Effects
 
         public SkillId Skill { get; }
 
-        public CastFailReason CanCast(EntityId caster) => _skillCastStrategy.CanCast(caster);
+        public CastFailReason CanCast(EntityId? caster) => _skillCastStrategy.CanCast(caster);
 
-        public void Execute(EntityId caster) => _skillCastStrategy.Execute(caster);
+        public void Execute(EntityId? caster) => _skillCastStrategy.Execute(caster);
     }
 }

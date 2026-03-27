@@ -2,6 +2,7 @@
 using Combat.Local.Domain.Entities.Units;
 
 using System;
+using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace Combat.Local.Domain.Entities
     {
         private readonly Quaternion _rotation;
         private readonly Quaternion _lookDirection;
-        private readonly Span<MoveInDirectionEffect> _movementEffects;
+        private readonly IReadOnlyCollection<MoveInDirectionEffect> _movementEffects;
         private readonly Span<ScaleOverTimeEffect> _scaleEffects;
 
         public Positionable(EntityId id, Vector3 position, Quaternion rotation, float scale, Quaternion lookDiration, ModelName modelName)
@@ -23,7 +24,20 @@ namespace Combat.Local.Domain.Entities
             Position = position;
             _rotation = rotation;
             _lookDirection = lookDiration;
-            _movementEffects = Span<MoveInDirectionEffect>.Empty;
+            _movementEffects = Array.Empty<MoveInDirectionEffect>();
+            _scaleEffects = Span<ScaleOverTimeEffect>.Empty;
+        }
+
+        public Positionable(EntityId id, Vector3 position, Quaternion rotation, float scale, Quaternion lookDiration, ModelName modelName, IReadOnlyCollection<MoveInDirectionEffect> moveEffects)
+        {
+            Id = id;
+            ModelName = modelName;
+            Scale = scale;
+
+            Position = position;
+            _rotation = rotation;
+            _lookDirection = lookDiration;
+            _movementEffects = moveEffects;
             _scaleEffects = Span<ScaleOverTimeEffect>.Empty;
         }
 
@@ -39,7 +53,7 @@ namespace Combat.Local.Domain.Entities
 
         public float Scale { get; set; }
 
-        public Span<MoveInDirectionEffect> GetMoveInDirectionOverTimeEffects() => _movementEffects;
+        public IReadOnlyCollection<MoveInDirectionEffect> GetMoveInDirectionOverTimeEffects() => _movementEffects;
 
         public Span<ScaleOverTimeEffect> GetScaleOverTimeEffects() => _scaleEffects;
     }

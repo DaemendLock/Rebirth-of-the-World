@@ -4,7 +4,6 @@ using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
 
 using System;
-using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -41,10 +40,10 @@ namespace Combat.Local.Controllers
             _createUnitUseCase = createUnitUseCase;
         }
 
-        public void CreateUnit(UnitCreationInfo data)
+        public EntityId CreateUnit(UnitCreationInfo data)
         {
             CreateCharacterDTO unitCreationDTO = new(data.ModelName, data.Team, data.Position, data.CurrentHealth, data.BaseHealth, data.DefaultAttributes, data.Skills);
-            _createUnitUseCase.Execute(unitCreationDTO);
+            return _createUnitUseCase.Execute(unitCreationDTO);
         }
 
         public void CreateUnit(UnitCreationInfo data, Transform parent)

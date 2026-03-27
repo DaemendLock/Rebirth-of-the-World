@@ -30,21 +30,22 @@ namespace Combat.Local.Presentation.Presenters
             _actionAnimationProvider = skillAnimationRepository;
         }
 
-        public void Present(EntityId target, ActionId actionId)
+        void IActionOutput.Present(Actor actor)
         {
-            if (_container.TryGetValue(target, out var view) == false)
+            if (_container.TryGetValue(actor.Id, out var view) == false)
             {
                 return;
             }
 
-            AnimationClip clip = _actionAnimationProvider.GetAnimation(actionId);
+            AnimationClip clip = _actionAnimationProvider.GetAnimation(actor.CurrentAction.Id);
 
             ActivityViewModel skillViewModel = new(clip, 0, 0);
 
+            //TODO: wth is this?
             view.GetComponent<CasterView>().DisplayAction(skillViewModel);
         }
 
-        public void Present(GiveResourceResult value)
+        void IGiveResourceOutput.Present(GiveResourceResult value)
         {
             Debug.Log($"Resource update for {value.Target}: {value.CurrentValue}/{value.MaxValue}");
         }
@@ -55,7 +56,7 @@ namespace Combat.Local.Presentation.Presenters
             Debug.Log($"Resource update for {value.Id}: {value.CurrentValue}/{value.MaxValue}");
         }
 
-        public void Present(Health value)
+        void IHealthOutput.Present(Health value)
         {
             Debug.Log($"Health updated for {value.Id}: {value.CurrentHealth}/{value.MaxHealth}");
         }

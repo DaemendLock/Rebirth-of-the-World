@@ -36,7 +36,7 @@ namespace TestSkillsPack.Paladin
             _applyDamageOptions.Target = target;
             _applyDamageOptions.OriginalDamage = caster.GetAttributeValue(Attribute.Spellpower) * 0.1f;
             UnityEngine.Debug.Log("+Smite Hit");
-            Parent.GiveResource(new(ResourceId.Custom, 1, Source));
+            Parent.GiveResource(new(ResourceId.Custom, 10, Source));
         }
     }
 }

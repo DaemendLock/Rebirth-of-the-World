@@ -6457,13 +6457,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _modelName: Katerina
   <UnitId>k__BackingField: 1
-  <Team>k__BackingField: 0
+  <Team>k__BackingField: 1
   <MaxHealth>k__BackingField: 1000
   <InitialHealth>k__BackingField: 1000
   <MoveSpeed>k__BackingField: 3
   <Skills>k__BackingField:
   - {fileID: 4635443917247608688, guid: 86de2475993beb946b3465fe50b7729d, type: 3}
   - {fileID: 4635443917247608688, guid: 7d32522860a7c37499c13c66a413b63c, type: 3}
+  - {fileID: 4635443917247608688, guid: edc8ac2b09fb2a648a6cb520b11ec481, type: 3}
+  - {fileID: 4635443917247608688, guid: 1b65f772a651c554eb7d45795249b208, type: 3}
 --- !u!1001 &7024440655674221647
 PrefabInstance:
   m_ObjectHideFlags: 0

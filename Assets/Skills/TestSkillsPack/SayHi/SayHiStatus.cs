@@ -1,12 +1,11 @@
 ﻿using Combat.API.DTO;
 using Combat.API.Scripting;
 using Combat.API.Statuses;
-using Combat.API.ValueObjects;
 
 namespace TestSkillPack.Assets.Skills.TestSkillsPack.SayHi
 {
     [StatusScriptName("HiStatus")]
-    public class SayHiStatus : CustomStatusStrategy, IOutgoingDamageModifier, IAttributesModifier
+    public class SayHiStatus : CustomStatusStrategy, IAttributesModifier, ITimeScaleModifier
     {
         public override void OnCreate()
         {
@@ -17,11 +16,11 @@ namespace TestSkillPack.Assets.Skills.TestSkillsPack.SayHi
         {
         }
 
-        public float GetDamageDealthModification_Bonus(DamageInstanceApi instance) => instance.Attacker.GetAttributeValue(Combat.Common.ValueObjects.Attribute.Spellpower);
-
         public void GetAttributesBonuses(AttributesData data)
         {
             data[Combat.Common.ValueObjects.Attribute.Spellpower] = new(100f, 0f);
         }
+
+        public float GetModification() => -50f;
     }
 }

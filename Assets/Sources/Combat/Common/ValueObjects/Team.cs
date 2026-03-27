@@ -15,7 +15,7 @@
 
         public override bool Equals(object obj) => obj is Team enitityId && enitityId.Value == Value;
 
-        public static bool operator ==(Team value1, Team value2) => value1.Equals(value2);
+        public static bool operator ==(Team value1, Team value2) => value1.Value == value2.Value;
 
         public static bool operator !=(Team value1, Team value2) => !value1.Equals(value2);
     }

@@ -2,7 +2,7 @@
 
 namespace Combat.API.Adapters
 {
-    public class SceneApiAdapter
+    public readonly struct SceneApiAdapter
     {
         private readonly SceneFacade _sceneFacade;
         private readonly CharacterApiAdapter _characterApiAdapter;

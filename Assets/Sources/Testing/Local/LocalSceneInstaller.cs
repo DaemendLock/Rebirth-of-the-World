@@ -48,7 +48,7 @@ namespace Testing.Local
             Container.Bind<LocalInputReader>().FromComponentInHierarchy().AsSingle();
             Container.Bind<ITestMenuStrategy>().To<TestMenuStrategy>().AsSingle();
 
-            var val = Container.Resolve<CombatController>();
+            var combatController = Container.Resolve<CombatController>();
             Container.Resolve<SkillDataBase>();
 
             ISkillFactory skillFactory = Container.Resolve<ISkillFactory>();
@@ -59,8 +59,8 @@ namespace Testing.Local
 
             StatsTable stats = StatsTable.UnitDefault;
             stats[Attribute.Speed] = new(1, 100);
-            System.Span<SkillId> skills = stackalloc SkillId[] { new(0) };
-            val.CreateUnit(new(new("Katerina"), new(2), new(5, 5, 5), 1000, 1000, stats.ToAttributeArray(), skills));
+            System.Span<SkillId> skills = stackalloc SkillId[] { new(1001) };
+            var id = combatController.CreateUnit(new(new("Katerina"), new(2), new(5, 5, 5), 1000, 1000, stats.ToAttributeArray(), skills));
         }
 
         private void BindControllers()
@@ -94,7 +94,7 @@ namespace Testing.Local
 
             Container.Bind<SceneCharacterModelDataSource>().FromNew().AsSingle();
             Container.Bind<ICharacterViewContainer>().To<SceneCharacterModelDataSource>().FromResolve();
-            Container.Bind<ISceneCharacterModelDataSource>().To<SceneCharacterModelDataSource>().FromResolve();
+            Container.Bind<ICharacterModelDataSource>().To<SceneCharacterModelDataSource>().FromResolve();
         }
 
         private void BindRepositories()
@@ -116,7 +116,7 @@ namespace Testing.Local
             Container.Bind<ICharacterUpdateList>().To<UpdateTargetList>().AsSingle();
             Container.Bind<ISkillRepository>().To<SkillRepository>().AsSingle();
             Container.Bind<IStatusOwnerRepository>().To<StatusOwnerRepository>().AsSingle();
-            Container.Bind<ISkillActionsRepository>().To<SkillActionsRepository>().AsSingle();
+            Container.Bind<IMovementEffectRepository>().To<MovementEffectRepository>().AsSingle();
         }
 
         private void BindFactories()
@@ -130,13 +130,13 @@ namespace Testing.Local
             Container.Bind<CharacterModelFactory>().FromNew().AsSingle();
             Container.Bind<ActionFactory>().FromNew().AsSingle();
             Container.Bind<IActionStrategyFactory>().To<ActionStrategyFactory>().AsSingle();
+            Container.Bind<MoveInDirectionEffectFactory>().To<MoveInDirectionEffectFactory>().AsSingle();
         }
 
         private void BindUseCases()
         {
             Container.Bind<UpdateAttributersUseCase>().FromNew().AsSingle();
             Container.Bind<UpdateActorsUseCase>().FromNew().AsSingle();
-            Container.Bind<UpdateTransformEffectsUseCase>().FromNew().AsSingle();
 
             Container.Bind<CreateCharacterUseCase>().FromNew().AsSingle();
             Container.Bind<CastSkillFromSlotUseCase>().FromNew().AsSingle();
@@ -151,6 +151,8 @@ namespace Testing.Local
 
             Container.Bind<ForceKillUseCase>().FromNew().AsSingle();
             Container.Bind<FindStatusUseCase>().FromNew().AsSingle();
+
+            Container.Bind<AddMovementEffectUseCase>().FromNew().AsSingle();
 
             //Hits
             Container.Bind<RecordHitUseCase>().FromNew().AsSingle();

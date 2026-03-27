@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Combat.Local.Data.DataSources
 {
-    public class SceneCharacterModelDataSource : ICharacterViewContainer, ISceneCharacterModelDataSource
+    public class SceneCharacterModelDataSource : ICharacterViewContainer, ICharacterModelDataSource
     {
         private readonly Dictionary<EntityId, CharacterModel> _values;
         private readonly CharacterModelFactory _factory;
@@ -27,6 +27,7 @@ namespace Combat.Local.Data.DataSources
         {
             CharacterModel result = _factory.Create(name, parent);
             result.Id = id;
+            result.name = name.ToString() + id.ToString();
             _values[id] = result;
 
             _factory.Init(result);
@@ -44,6 +45,24 @@ namespace Combat.Local.Data.DataSources
         }
 
         public bool TryGetCharacterModel(EntityId id, out CharacterModel model) => _values.TryGetValue(id, out model);
+
+        public bool TryGetMovementContainer(EntityId id, out IMovementEffectContainer result)
+        {
+            if (TryGetCharacterModel(id, out CharacterModel model) == false)
+            {
+                result = default;
+                return false;
+            }
+
+            if (model.TryGetComponent(out MovementEffectComponent component) == false)
+            {
+                result = default;
+                return false;
+            }
+
+            result = component;
+            return true;
+        }
 
         public bool TryGetValue(EntityId entityId, out Transform result)
         {

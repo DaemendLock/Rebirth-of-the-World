@@ -1,5 +1,4 @@
-﻿using Combat.Common.Flags;
-using Combat.Common.ValueObjects;
+﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Gateways.Models;
@@ -19,10 +18,7 @@ namespace Combat.Local.Gateways.Repositories
 
         public void Create(Skill skill)
         {
-            SkillFlags flags = skill.Flags;
-            ISkillStrategy skillStrategy = skill.Strategy;
-
-            _values[skill.Id] = new(skillStrategy, flags);
+            _values[skill.Id] = new(skill.Flags, skill.Actions, skill.Strategy);
         }
 
         public Skill Get(SkillId skillId, EntityId? ownerId)
@@ -32,7 +28,7 @@ namespace Combat.Local.Gateways.Repositories
                 throw new System.InvalidOperationException();
             }
 
-            return new(skillId, data.Flags, ownerId, data.Strategy);
+            return new(skillId, data.Flags, ownerId, data.Actions, data.Strategy);
         }
     }
 }

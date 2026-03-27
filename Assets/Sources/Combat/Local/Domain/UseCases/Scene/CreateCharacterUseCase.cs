@@ -50,7 +50,7 @@ namespace Combat.Local.Domain.UseCases
             _characterUpdateList = characterUpdateList;
         }
 
-        public void Execute(CreateCharacterDTO context, Transform parent = null)
+        public EntityId Execute(CreateCharacterDTO context, Transform parent = null)
         {
             EntityId id = _idFactory.GetId();
 
@@ -59,17 +59,16 @@ namespace Combat.Local.Domain.UseCases
 
             Positionable positionable = Create(id, context, parent);
 
-            _outputPort.Present(positionable);
-            _positionableRepository.Update(positionable);
+            _outputPort.Present(id);
             SkillOwner skillOwner = _skillOwnerRepository.Get(positionable.Id);
-
-            _characterUpdateList.Create(new(id, 1));
 
             foreach (SkillId skillId in skillOwner.GetAll())
             {
                 Skill skill = _skillFactory.Create(skillId, id);
                 _skillRepository.Create(skill);
             }
+
+            return id;
         }
 
         private Positionable Create(EntityId id, CreateCharacterDTO context, Transform parent)
@@ -96,6 +95,7 @@ namespace Combat.Local.Domain.UseCases
             _positionableRepository.Create(positionable, parent);
             _actorRepository.Create(new(id, ActorState.None, null));
             _skillOwnerRepository.Create(skillOwner);
+            _characterUpdateList.Create(new(id, 1));
 
             return positionable;
         }

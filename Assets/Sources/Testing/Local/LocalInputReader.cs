@@ -45,14 +45,29 @@ namespace Assets.Sources.Testing.Local
 
             _playerController.MoveInDirection(id, movement);
 
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetKeyDown(KeyCode.A))
             {
                 _playerController.Cast(id, 0);
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha2))
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 _playerController.Cast(id, 1);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                _playerController.Cast(id, 2);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                _playerController.Cast(id, 3);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                _playerController.Cast(id, 4);
             }
         }
     }

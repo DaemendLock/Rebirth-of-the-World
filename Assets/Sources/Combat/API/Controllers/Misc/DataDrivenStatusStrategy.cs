@@ -352,7 +352,7 @@ namespace Combat.API.Controllers.Misc
                 _modifer = modifier;
             }
 
-            public float GetModification() => _modifer.GetModification();
+            public float GetModification() => _modifer.GetTimeModification();
         }
 
         private class DataDrivenModifyAttributeStrategy : IModifyAttributesStrategy
@@ -368,8 +368,8 @@ namespace Combat.API.Controllers.Misc
             {
                 AttributesModification result = new();
 
-                System.Span<AttributeValue> baseValues = stackalloc AttributeValue[5];
-                System.Span<AttributeValue> bonusValues = stackalloc AttributeValue[5];
+                System.Span<AttributeValue> baseValues = stackalloc AttributeValue[AttributesOwner.AttributeCount];
+                System.Span<AttributeValue> bonusValues = stackalloc AttributeValue[baseValues.Length];
 
                 baseValues.Clear();
                 bonusValues.Clear();
@@ -377,8 +377,9 @@ namespace Combat.API.Controllers.Misc
                 AttributesData attributesData = new(baseValues, bonusValues);
                 _modifer.GetAttributesBonuses(attributesData);
 
-                result.Attack = new(bonusValues[0]);
-                result.Spellpower = new(bonusValues[1]);
+                result.Attack = new(bonusValues[(int)Attribute.Atk]);
+                result.Spellpower = new(bonusValues[(int)Attribute.Spellpower]);
+                result.Speed = new(bonusValues[(int)Attribute.Speed]);
 
                 return result;
             }

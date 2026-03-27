@@ -4,6 +4,8 @@ using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
 
+using System.ComponentModel;
+
 using UnityEngine;
 
 namespace Combat.Local.Domain.Facades
@@ -15,6 +17,7 @@ namespace Combat.Local.Domain.Facades
 
         private readonly ForceKillUseCase _killUnitUseCase;
         private readonly IReviveUnitUseCase _reviveUnitUseCase;
+        private readonly AddMovementEffectUseCase _addMovementEffectUseCase;
 
         private readonly FindStatusUseCase _findStatusUseCase;
         private readonly ApplyStatusUseCase _applyStatusUseCase;
@@ -24,7 +27,7 @@ namespace Combat.Local.Domain.Facades
         private readonly IResourceRepository _resourceRepository;
 
         public CharacterFacade(GiveResourceUseCase giveResourceUseCase, SpendResourceUseCase spendResourceUseCase, ForceKillUseCase killUnitUseCase, FindStatusUseCase findStatusUseCase,
-            IAligmentRepository aligmentRepository, IStateRepository killableRepository, IPositionableRepository positionableRepository, IResourceRepository resourceRepository, ApplyStatusUseCase applyStatusUseCase)
+            IAligmentRepository aligmentRepository, IStateRepository killableRepository, IPositionableRepository positionableRepository, IResourceRepository resourceRepository, ApplyStatusUseCase applyStatusUseCase, MoveInDirectionUseCase moveInDirectionUseCase, AddMovementEffectUseCase addMovementEffectUseCase)
         {
             _giveResourceUseCase = giveResourceUseCase;
             _spendResourceUseCase = spendResourceUseCase;
@@ -37,6 +40,7 @@ namespace Combat.Local.Domain.Facades
             _applyStatusUseCase = applyStatusUseCase;
 
             _reviveUnitUseCase = default;
+            _addMovementEffectUseCase = addMovementEffectUseCase;
         }
 
         public float GetResourceValue(EntityId target, ResourceId resource) => _resourceRepository.Get(target, resource).CurrentValue;
@@ -74,6 +78,11 @@ namespace Combat.Local.Domain.Facades
         {
             ApplStatusDTO dto = new(target, name, duration, stackCount, source, caster);
             _applyStatusUseCase.Execute(dto);
+        }
+
+        public void AddMoveInDirectionEffect(EntityId target, Vector3 direction, float speed, bool isRelative, float maxDuration = 10f)
+        {
+            _addMovementEffectUseCase.Execute(target, direction, speed, isRelative, maxDuration);
         }
     }
 

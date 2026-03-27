@@ -4,7 +4,7 @@ using Combat.Local.Domain.Repositories;
 
 namespace Combat.API.Adapters
 {
-    public class StatusApiAdapter
+    public readonly struct StatusApiAdapter
     {
         private readonly CharacterApiAdapter _unitApiProvider;
         private readonly SkillApiAdapter _skillApiProvider;

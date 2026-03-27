@@ -54,7 +54,7 @@ namespace Combat.Local.Domain.UseCases.Scene
 
             actor.CurrentAction.HittedTargets.Add(hurtbox.Owner);
 
-            Skill handler = _skillRepository.Get(new(actor.CurrentAction.Id.Value), hitbox.Owner);
+            Skill handler = _skillRepository.Get(actor.CurrentAction.Source, hitbox.Owner);
 
             if (handler.TryGetEffect(out SkillHitEffect hitEffect))
             {

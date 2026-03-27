@@ -25,10 +25,10 @@ namespace Combat.API
             throw new System.NotImplementedException();
         }
 
-        public void CreateUnit(CreateUnitInfo data)
+        public Unit CreateUnit(CreateUnitInfo data)
         {
             CreateCharacterDTO dto = new(data.ModelName, data.Team, data.Position, -1, data.BaseHealth, data.Attributes, System.Array.Empty<SkillId>());
-            _sceneFacade.CreateUnit(dto);
+            return _chracterApiAdapter.Adaptee(_sceneFacade.CreateUnit(dto));
         }
 
         public void CreateStatus(ApplyStatusInfo info)

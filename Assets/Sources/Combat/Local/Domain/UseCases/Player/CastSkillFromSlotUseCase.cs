@@ -3,9 +3,7 @@ using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Entities.Skills.Effects;
 using Combat.Local.Domain.Factories;
 using Combat.Local.Domain.Repositories;
-using Combat.Local.Domain.Repositories.Skills;
 
-using System.Collections.Generic;
 using System.Linq;
 
 using UnityEngine;
@@ -17,16 +15,14 @@ namespace Combat.Local.Domain.UseCases
         private readonly ISkillOwnerRepository _skillOwnerRepository;
         private readonly IActorRepository _actorRepository;
         private readonly ISkillRepository _skillRepository;
-        private readonly ISkillActionsRepository _skillActionsRepository;
         private readonly IActionOutput _actionOutput;
         private readonly ActionFactory _actionFactory;
 
-        public CastSkillFromSlotUseCase(ISkillOwnerRepository skillOwnerRepository, IActorRepository actorRepository, ISkillRepository skillRepository, IActionOutput castOutput, ActionFactory actionFactory, ISkillActionsRepository skillActionsRepository)
+        public CastSkillFromSlotUseCase(ISkillOwnerRepository skillOwnerRepository, IActorRepository actorRepository, ISkillRepository skillRepository, IActionOutput castOutput, ActionFactory actionFactory)
         {
             _skillOwnerRepository = skillOwnerRepository;
             _actorRepository = actorRepository;
             _skillRepository = skillRepository;
-            _skillActionsRepository = skillActionsRepository;
             _actionOutput = castOutput;
             _actionFactory = actionFactory;
         }
@@ -47,9 +43,7 @@ namespace Combat.Local.Domain.UseCases
                 return;
             }
 
-            IReadOnlyCollection<ActionId> actions = _skillActionsRepository.Get(skillId);
-
-            if (CanCast(caster, effect, actions) == false)
+            if (CanCast(skill, effect) == false)
             {
                 Debug.Log("Can't cast");
             }
@@ -61,25 +55,45 @@ namespace Combat.Local.Domain.UseCases
                 return;
             }
 
-            ActionId actionId = actions.First();
-            StartCastAction(actionId, caster, skill, effect);
+            ActionId actionId = skill.Actions.First();
+            StartCastAction(actionId, caster, skill);
         }
 
-        private bool CanCast(EntityId caster, SkillCastEffect effect, IReadOnlyCollection<ActionId> actions)
+        private bool CanCast(Skill skill, SkillCastEffect effect)
         {
-            if (effect.CanCast(caster) != CastFailReason.Success)
+            if (effect.CanCast(skill.Owner) != CastFailReason.Success)
             {
                 return false;
             }
 
-            if (actions == null || actions.Count == 0)
+            if (skill.Flags.HasFlag(Common.Flags.SkillFlags.Instant))
             {
                 return true;
             }
 
-            Actor actor = _actorRepository.Get(caster);
+            if (skill.Owner == null)
+            {
+                return false;
+            }
+
+            Actor actor = _actorRepository.Get(skill.Owner.Value);
 
             return actor.CurrentAction == null;
+        }
+
+        private void StartCastAction(ActionId actionId, EntityId actorId, Skill source)
+        {
+            Actor actor = _actorRepository.Get(actorId);
+
+            actor.CurrentAction = _actionFactory.CreateCastAction(actionId, actorId, source.Id);
+            actor.CurrentAction.Start();
+            _actorRepository.Update(actor);
+            _actionOutput.Present(actor);
+
+            if (source.TryGetEffect(out SkillActionStateChangeEffect effect))
+            {
+                effect.Handle(ActionState.Startup);
+            }
         }
 
         private bool TryGetSkillId(EntityId owner, int slot, out SkillId result)
@@ -97,24 +111,10 @@ namespace Combat.Local.Domain.UseCases
             result = skillId.Value;
             return true;
         }
-
-        private void StartCastAction(ActionId actionId, EntityId actorId, Skill source, SkillCastEffect castEffect)
-        {
-            Actor actor = _actorRepository.Get(actorId);
-
-            actor.StartAction(_actionFactory.CreateCastAction(actionId, actorId, source.Id));
-            _actorRepository.Update(actor);
-            _actionOutput.Present(actorId, actionId);
-
-            if (source.TryGetEffect(out SkillActionStateChangeEffect effect))
-            {
-                effect.Handle(ActionState.Startup);
-            }
-        }
     }
 
     public interface IActionOutput
     {
-        void Present(EntityId id, ActionId skill);
+        void Present(Actor actor);
     }
 }

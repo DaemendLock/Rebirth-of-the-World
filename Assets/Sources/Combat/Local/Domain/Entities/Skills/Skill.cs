@@ -2,6 +2,8 @@
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities.Skills.Effects;
 
+using System.Collections.Generic;
+
 namespace Combat.Local.Domain.Entities
 {
     public interface ISkillStrategy
@@ -17,18 +19,24 @@ namespace Combat.Local.Domain.Entities
     {
         private readonly ISkillStrategy _skillStrategy;
 
-        public Skill(SkillId id, SkillFlags flags, EntityId? owner, ISkillStrategy skillStrategy)
+        public Skill(SkillId id, SkillFlags flags, EntityId? owner, IReadOnlyCollection<ActionId> actions, ISkillStrategy skillStrategy)
         {
             Id = id;
             Flags = flags;
             Owner = owner;
+            Actions = actions;
             _skillStrategy = skillStrategy;
         }
 
         public SkillId Id { get; }
+
         public SkillFlags Flags { get; }
+
         public EntityId? Owner { get; }
+
         public ISkillStrategy Strategy => _skillStrategy;
+
+        public IReadOnlyCollection<ActionId> Actions { get; }
 
         public bool AllowMoment => Flags.HasFlag(SkillFlags.DontRestrictMovement);
 

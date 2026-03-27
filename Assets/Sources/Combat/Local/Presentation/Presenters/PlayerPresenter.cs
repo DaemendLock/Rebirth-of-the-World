@@ -6,7 +6,7 @@ namespace Combat.Local.Presentation.Presenters
 {
     public class PlayerPresenter : ITakeControllOutput
     {
-        private ICharacterViewContainer _container;
+        private readonly ICharacterViewContainer _container;
         
         private CameraView _cameraView;
 
