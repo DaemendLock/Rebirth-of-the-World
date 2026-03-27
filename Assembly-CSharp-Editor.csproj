@@ -1454,9 +1454,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{D7A1F4ED-5695-EC8C-47EC-971DBF3B9A60}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
     <ProjectReference Include="Assembly-CSharp.csproj">
       <Project>{3F44BBF6-1B2B-D3A9-C83F-344C2C15D846}</Project>
       <Name>Assembly-CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="Assembly-CSharp-Editor-firstpass.csproj">
+      <Project>{5C91E8C6-E6AB-9892-A9C7-82DC6DE7A48B}</Project>
+      <Name>Assembly-CSharp-Editor-firstpass</Name>
     </ProjectReference>
     <ProjectReference Include="Combat.Local.Domain.csproj">
       <Project>{84D51C1F-4A00-169F-B1F2-C7892886743B}</Project>

@@ -1,22 +1,29 @@
-﻿using UnityEngine;
+﻿using DaeAnimator;
 
-namespace Client.Combat.Presentation.Implementations.Units
+using UnityEngine;
+
+namespace Combat.Local.Presentation.Components
 {
-    [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(CharacterAnimator))]
     public class KillableView : MonoBehaviour// BindableViewComponent<UnitViewModel>
     {
         private const string AnimatorAliveName = "Alive";
 
-        private Animator _animator;
+        private CharacterAnimator _animator;
 
         private void Awake()
         {
-            _animator = GetComponent<Animator>();
+            _animator = GetComponent<CharacterAnimator>();
         }
 
-        private void Update()
+        public void Kill()
         {
-            //_animator.SetBool(AnimatorAliveName, Model.Alive);
+            _animator.SetConsciousState(false);
+        }
+
+        public void Revive()
+        {
+            _animator.SetConsciousState(true);
         }
     }
 }

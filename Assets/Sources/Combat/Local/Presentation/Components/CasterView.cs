@@ -32,7 +32,12 @@ namespace Combat.Local.Presentation.Components
 
             _activeAction = action;
 
-            _daeAnimator.Play(new(action.Clip, action.StartTime, action.RecoveryTime));
+            _daeAnimator.PlayCastAnimation(new(action.Clip, action.StartTime, action.RecoveryTime, false));
+        }
+
+        public void StopCast()
+        {
+            _daeAnimator.StopCastAnimation();
         }
     }
 }

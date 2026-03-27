@@ -5,8 +5,6 @@ using Combat.API.Skills;
 using Combat.API.Utils;
 using Combat.Common.Flags;
 
-using UnityEngine;
-
 namespace TestSkillsPack.SkillScripts
 {
     [SkillScriptName("sayHi")]

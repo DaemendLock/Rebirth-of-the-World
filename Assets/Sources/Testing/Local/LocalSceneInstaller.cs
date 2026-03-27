@@ -82,8 +82,9 @@ namespace Testing.Local
             Container.Bind<IGiveResourceOutput>().To<CharacterPresenter>().FromResolve();
             Container.Bind<ISpendResourceOutput>().To<CharacterPresenter>().FromResolve();
             Container.Bind<IHealthOutput>().To<CharacterPresenter>().FromResolve();
-            Container.Bind<ITakeControllOutput>().To<PlayerPresenter>().AsSingle();
+            Container.Bind<ICharacterConsciousStateOutput>().To<CharacterPresenter>().FromResolve();
 
+            Container.Bind<ITakeControllOutput>().To<PlayerPresenter>().AsSingle();
         }
 
         private void BindDataSources()
@@ -150,6 +151,7 @@ namespace Testing.Local
             Container.Bind<SetHealthUseCase>().FromNew().AsSingle();
 
             Container.Bind<ForceKillUseCase>().FromNew().AsSingle();
+            Container.Bind<ReviveUseCase>().FromNew().AsSingle();
             Container.Bind<FindStatusUseCase>().FromNew().AsSingle();
 
             Container.Bind<AddMovementEffectUseCase>().FromNew().AsSingle();

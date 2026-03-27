@@ -4,8 +4,6 @@ using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
 
-using System.ComponentModel;
-
 using UnityEngine;
 
 namespace Combat.Local.Domain.Facades
@@ -16,7 +14,7 @@ namespace Combat.Local.Domain.Facades
         private readonly SpendResourceUseCase _spendResourceUseCase;
 
         private readonly ForceKillUseCase _killUnitUseCase;
-        private readonly IReviveUnitUseCase _reviveUnitUseCase;
+        private readonly ReviveUseCase _reviveUnitUseCase;
         private readonly AddMovementEffectUseCase _addMovementEffectUseCase;
 
         private readonly FindStatusUseCase _findStatusUseCase;
@@ -27,7 +25,7 @@ namespace Combat.Local.Domain.Facades
         private readonly IResourceRepository _resourceRepository;
 
         public CharacterFacade(GiveResourceUseCase giveResourceUseCase, SpendResourceUseCase spendResourceUseCase, ForceKillUseCase killUnitUseCase, FindStatusUseCase findStatusUseCase,
-            IAligmentRepository aligmentRepository, IStateRepository killableRepository, IPositionableRepository positionableRepository, IResourceRepository resourceRepository, ApplyStatusUseCase applyStatusUseCase, MoveInDirectionUseCase moveInDirectionUseCase, AddMovementEffectUseCase addMovementEffectUseCase)
+            IAligmentRepository aligmentRepository, IStateRepository killableRepository, IPositionableRepository positionableRepository, IResourceRepository resourceRepository, ApplyStatusUseCase applyStatusUseCase, MoveInDirectionUseCase moveInDirectionUseCase, AddMovementEffectUseCase addMovementEffectUseCase, ReviveUseCase reviveUnitUseCase)
         {
             _giveResourceUseCase = giveResourceUseCase;
             _spendResourceUseCase = spendResourceUseCase;
@@ -38,9 +36,8 @@ namespace Combat.Local.Domain.Facades
             _positionableRepository = positionableRepository;
             _resourceRepository = resourceRepository;
             _applyStatusUseCase = applyStatusUseCase;
-
-            _reviveUnitUseCase = default;
             _addMovementEffectUseCase = addMovementEffectUseCase;
+            _reviveUnitUseCase = reviveUnitUseCase;
         }
 
         public float GetResourceValue(EntityId target, ResourceId resource) => _resourceRepository.Get(target, resource).CurrentValue;

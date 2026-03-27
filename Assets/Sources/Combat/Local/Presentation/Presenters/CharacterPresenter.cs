@@ -19,7 +19,7 @@ namespace Combat.Local.Presentation.Presenters
         bool TryGetValue(EntityId entityId, out Transform result);
     }
 
-    public class CharacterPresenter : IHealthOutput, IGiveResourceOutput, ISpendResourceOutput, IMovementOutput, IActionOutput
+    public class CharacterPresenter : IHealthOutput, IGiveResourceOutput, ISpendResourceOutput, IMovementOutput, IActionOutput, ICharacterConsciousStateOutput
     {
         private readonly ICharacterViewContainer _container;
         private readonly IActionAnimationProvider _actionAnimationProvider;
@@ -34,6 +34,12 @@ namespace Combat.Local.Presentation.Presenters
         {
             if (_container.TryGetValue(actor.Id, out var view) == false)
             {
+                return;
+            }
+
+            if (actor.CurrentAction == null)
+            {
+                view.GetComponent<CasterView>().StopCast();
                 return;
             }
 
@@ -70,6 +76,26 @@ namespace Combat.Local.Presentation.Presenters
 
             Rigidbody rigidbody = view.GetComponent<Rigidbody>();
             rigidbody.linearVelocity = new(velocity.x, rigidbody.linearVelocity.y, velocity.z);
+        }
+
+        void ICharacterConsciousStateOutput.Present(EntityId value, ConsciousState state)
+        {
+            if (_container.TryGetValue(value, out var view) == false)
+            {
+                return;
+            }
+
+            if (state == ConsciousState.Alive)
+            {
+                view.GetComponent<KillableView>().Revive();
+                return;
+            }
+
+            if (state == ConsciousState.Dead)
+            {
+                view.GetComponent<KillableView>().Kill();
+                return;
+            }
         }
     }
 }

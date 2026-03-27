@@ -12,11 +12,13 @@ namespace Combat.Local.Domain.UseCases
     {
         private readonly IActorRepository _actorRepository;
         private readonly ISkillRepository _skillRepository;
+        private readonly IActionOutput _actionOutput;
 
-        public UpdateActorsUseCase(IActorRepository actorRepository, ISkillRepository skillRepository)
+        public UpdateActorsUseCase(IActorRepository actorRepository, ISkillRepository skillRepository, IActionOutput actionOutput)
         {
             _actorRepository = actorRepository;
             _skillRepository = skillRepository;
+            _actionOutput = actionOutput;
         }
 
         public void Execute(float deltaTime, IReadOnlyCollection<Updatable> targets)
@@ -42,8 +44,7 @@ namespace Combat.Local.Domain.UseCases
 
             if (actionState == ActionState.Inactive)
             {
-                actor.CurrentAction = null;
-                _actorRepository.Update(actor);
+                StopAction(actor);
                 return;
             }
 
@@ -72,6 +73,13 @@ namespace Combat.Local.Domain.UseCases
             {
                 effect.Handle(action.CurrentState);
             }
+        }
+
+        private void StopAction(Actor actor)
+        {
+            actor.CurrentAction = null;
+            _actorRepository.Update(actor);
+            _actionOutput.Present(actor);
         }
     }
 }

@@ -1234,6 +1234,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{D7A1F4ED-5695-EC8C-47EC-971DBF3B9A60}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
     <ProjectReference Include="Combat.Local.Domain.csproj">
       <Project>{84D51C1F-4A00-169F-B1F2-C7892886743B}</Project>
       <Name>Combat.Local.Domain</Name>

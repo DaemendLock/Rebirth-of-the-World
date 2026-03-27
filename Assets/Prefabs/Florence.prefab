@@ -2445,6 +2445,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d33db3c0789f84d42bbd7160fddc8998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animationPack:
+    IdleAnimation: {fileID: -203655887218126122, guid: f64af35ee41bc494bbcc1657f59cafe8, type: 3}
 --- !u!54 &6459899414703298962
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2496,4 +2498,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4d7bbd35b51a2747a90be0e8cda9998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterName: Florence
