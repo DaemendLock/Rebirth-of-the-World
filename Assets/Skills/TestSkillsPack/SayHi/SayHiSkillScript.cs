@@ -22,7 +22,6 @@ namespace TestSkillsPack.SkillScripts
             Scene.CreateStatus(new(@event.Caster, "HiStatus", 5, 1, Instance));
 
             Unit owner = @event.Caster;
-            owner.AddMovement(Vector3.forward, 0.5f, true);
         }
 
         public void OnStartup()
