@@ -12,7 +12,7 @@ namespace Combat.Local.Gateways.Repositories.Unit
         private readonly Dictionary<HurtboxId, HurtboxData> _values = new();
 
         public void Create(Hurtbox value) => _values.Add(value.Id, new(value.Type, value.Owner));
-        
+
         public void Delete(HurtboxId id) => _values.Remove(id);
 
         public Hurtbox Get(HurtboxId id)

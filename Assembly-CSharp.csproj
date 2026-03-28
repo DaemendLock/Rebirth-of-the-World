@@ -1242,10 +1242,6 @@
       <Project>{84D51C1F-4A00-169F-B1F2-C7892886743B}</Project>
       <Name>Combat.Local.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="Combat.API.Controllers.csproj">
-      <Project>{8592C32E-7FF8-B567-3BC5-92D60D58C148}</Project>
-      <Name>Combat.API.Controllers</Name>
-    </ProjectReference>
     <ProjectReference Include="Combat.Common.csproj">
       <Project>{8BD67BAE-4173-6632-3746-364F6C3EA823}</Project>
       <Name>Combat.Common</Name>

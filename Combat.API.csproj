@@ -66,7 +66,6 @@
     <Compile Include="Assets\Sources\Combat\API\API\ApplyDamageOptions.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\ApplyStatusInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\DamageRecord.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Scripting\CustomStatusStrategy.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\ReviveInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Entities\SceneApi.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\IPassiveSkill.cs" />
@@ -89,11 +88,11 @@
     <Compile Include="Assets\Sources\Combat\API\API\Adapters\SceneApiAdapter.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Entities\SkillApi.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\UnitCreationInfo.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Scripting\StatusScript.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Statuses\IStatusPropery.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\ValueObjects\DamageInstanceApi.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\ISkillProperty.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\ValueObjects\HealingInstanceApi.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\ValueObjects\AttributesApi.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Scripting\SkillScriptNameAttribute.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\ApplyDamageInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\HitRecord.cs" />

@@ -2,7 +2,7 @@
 
 namespace Combat.API.Scripting
 {
-    public class CustomStatusStrategy : IStatusPropery
+    public class StatusScript : IStatusPropery
     {
         private StatusApi _instance;
 

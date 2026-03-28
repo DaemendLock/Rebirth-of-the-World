@@ -1098,10 +1098,6 @@
       <Project>{7F600D9F-16D4-A5C8-8D69-4CEF71897BD1}</Project>
       <Name>Combat.Local.Controllers</Name>
     </ProjectReference>
-    <ProjectReference Include="Combat.API.Controllers.csproj">
-      <Project>{8592C32E-7FF8-B567-3BC5-92D60D58C148}</Project>
-      <Name>Combat.API.Controllers</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

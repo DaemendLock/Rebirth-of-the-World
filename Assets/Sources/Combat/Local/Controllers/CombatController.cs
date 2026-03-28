@@ -1,6 +1,5 @@
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.DTO;
-using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
 
 using System;

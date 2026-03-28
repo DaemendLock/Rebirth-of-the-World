@@ -41,8 +41,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Combat.Local.Data", "Combat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-firstpass", "Assembly-CSharp-firstpass.csproj", "{D7A1F4ED-5695-EC8C-47EC-971DBF3B9A60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Combat.API.Controllers", "Combat.API.Controllers.csproj", "{8592C32E-7FF8-B567-3BC5-92D60D58C148}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaeAnimator", "DaeAnimator.csproj", "{A9FD6DE7-D9E5-E855-19DA-1F92951108BD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{1E1E9F26-6C77-7569-519D-49C58C5F6A78}"
@@ -138,10 +136,6 @@ Global
 		{D7A1F4ED-5695-EC8C-47EC-971DBF3B9A60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7A1F4ED-5695-EC8C-47EC-971DBF3B9A60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7A1F4ED-5695-EC8C-47EC-971DBF3B9A60}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8592C32E-7FF8-B567-3BC5-92D60D58C148}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8592C32E-7FF8-B567-3BC5-92D60D58C148}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8592C32E-7FF8-B567-3BC5-92D60D58C148}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8592C32E-7FF8-B567-3BC5-92D60D58C148}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A9FD6DE7-D9E5-E855-19DA-1F92951108BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A9FD6DE7-D9E5-E855-19DA-1F92951108BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9FD6DE7-D9E5-E855-19DA-1F92951108BD}.Release|Any CPU.ActiveCfg = Release|Any CPU

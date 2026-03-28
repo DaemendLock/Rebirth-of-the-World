@@ -9,7 +9,7 @@ using Combat.Common.ValueObjects;
 namespace TestSkillsPack.Paladin
 {
     [StatusScriptName("Paladin1Aura")]
-    public class Paladin1Aura : CustomStatusStrategy, IOutgoingHealDamageHandler
+    public class Paladin1Aura : StatusScript, IOutgoingHealDamageHandler
     {
         private ApplyDamageOptions _applyDamageOptions;
 

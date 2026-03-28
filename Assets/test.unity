@@ -6602,6 +6602,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Florence
       objectReference: {fileID: 0}
+    - target: {fileID: 8091750800387894356, guid: 9f618b4cfce34ef408cadeaebf5b81ad, type: 3}
+      propertyPath: _animationPack.DeathAnimation
+      value: 
+      objectReference: {fileID: -203655887218126122, guid: df93bbb7128fe0944ae9aff80d2dad1a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

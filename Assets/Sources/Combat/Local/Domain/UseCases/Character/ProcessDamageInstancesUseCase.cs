@@ -1,6 +1,5 @@
 ﻿using Combat.Common.Flags;
 using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
 

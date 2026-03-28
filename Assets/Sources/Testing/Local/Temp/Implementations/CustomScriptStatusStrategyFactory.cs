@@ -28,9 +28,9 @@ namespace Temp.Domain.Implementations
             _skillApiProvider = skillApiProvider;
             _sceneApiProvider = sceneApiProvider;
 
-            _statusApiTypeProvider = new StatusScriptTypeDataSource(typeof(CustomStatusStrategy));
+            _statusApiTypeProvider = new StatusScriptTypeDataSource(typeof(StatusScript));
 
-            foreach (Type type in AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes()).Where(value => typeof(CustomStatusStrategy).IsAssignableFrom(value)))
+            foreach (Type type in AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes()).Where(value => typeof(StatusScript).IsAssignableFrom(value)))
             {
                 _statusApiTypeProvider.Register(type);
             }
@@ -43,7 +43,7 @@ namespace Temp.Domain.Implementations
 
         public IStatusStrategy Create(StatusId id, StatusName name, EntityId parent)
         {
-            if (TryCreateEmpty(name, out CustomStatusStrategy script) == false)
+            if (TryCreateEmpty(name, out StatusScript script) == false)
             {
                 return null;
             }
@@ -51,7 +51,7 @@ namespace Temp.Domain.Implementations
             return new DataDrivenStatusStrategy(id, script, _unitApiAdapter, _skillApiProvider, _sceneApiProvider, _statusApiFactory, _statusRepository);
         }
 
-        public bool TryCreateEmpty(StatusName name, out CustomStatusStrategy value)
+        public bool TryCreateEmpty(StatusName name, out StatusScript value)
         {
             if (_statusApiTypeProvider.TryGet(name, out Type targetType) == false)
             {
@@ -59,7 +59,7 @@ namespace Temp.Domain.Implementations
                 return false;
             }
 
-            value = (CustomStatusStrategy)FormatterServices.GetUninitializedObject(targetType);
+            value = (StatusScript)FormatterServices.GetUninitializedObject(targetType);
             return true;
         }
     }

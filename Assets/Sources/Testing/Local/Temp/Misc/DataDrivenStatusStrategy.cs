@@ -15,7 +15,7 @@ namespace Combat.API.Controllers.Misc
     {
         private readonly StatusId _statusId;
         private readonly IStatusRepository _statusRepository;
-        private readonly CustomStatusStrategy _statusScript;
+        private readonly StatusScript _statusScript;
         private readonly StatusApiAdapter _statusApiAdapter;
         private readonly ITakeDamageEffectStrategy _takeDamageEffectStrategy;
         private readonly IDealDamageEffectStrategy _dealDamageEffectStrategy;
@@ -25,7 +25,7 @@ namespace Combat.API.Controllers.Misc
         private readonly IModifyAttributesStrategy _modifyAttributesStrategy;
         private readonly IModifyTimeScaleStrategy _modifyTimeScaleStrategy;
 
-        public DataDrivenStatusStrategy(StatusId statusId, CustomStatusStrategy script, CharacterApiAdapter unitApiAdapter, SkillApiAdapter skillApiProvider, SceneApiAdapter sceneApiProvider, StatusApiAdapter statusApiFactory, IStatusRepository statusRepository)
+        public DataDrivenStatusStrategy(StatusId statusId, StatusScript script, CharacterApiAdapter unitApiAdapter, SkillApiAdapter skillApiProvider, SceneApiAdapter sceneApiProvider, StatusApiAdapter statusApiFactory, IStatusRepository statusRepository)
         {
             _statusId = statusId;
             _statusScript = script;

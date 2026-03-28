@@ -43,7 +43,7 @@ namespace TestSkillsPack.SkillScripts
                 Attacker = @event.Source,
                 Target = @event.Target,
                 Source = Instance,
-                OriginalDamage = 5,
+                OriginalDamage = 500,
                 Flags = DamageFlags.None,
             };
 

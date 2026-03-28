@@ -13,6 +13,6 @@ namespace Combat.Local.Domain.Repositories
 
     public interface ITransformEffectRepository
     {
-        
+
     }
 }

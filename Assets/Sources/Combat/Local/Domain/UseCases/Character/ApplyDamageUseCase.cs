@@ -2,6 +2,7 @@
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Entities.Statuses;
+using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
 
@@ -10,18 +11,21 @@ namespace Combat.Local.Domain.UseCases
     public readonly struct ApplyDamageUseCase
     {
         private readonly IHealthRepository _healthRepository;
-        private readonly IHealthOutput _healthOutput;
         private readonly IStateRepository _stateRepository;
         private readonly IStatusOwnerRepository _statusOwnerRepository;
         private readonly IStatusRepository _statusRepository;
 
-        public ApplyDamageUseCase(IHealthRepository healthRepository, IHealthOutput healthOutput, IStateRepository stateRepository, IStatusOwnerRepository statusOwnerRepository, IStatusRepository statusRepository)
+        private readonly IHealthOutput _healthOutput;
+        private readonly ICharacterConsciousStateOutput _characterConsciousStateOutput;
+
+        public ApplyDamageUseCase(IHealthRepository healthRepository, IHealthOutput healthOutput, IStateRepository stateRepository, IStatusOwnerRepository statusOwnerRepository, IStatusRepository statusRepository, ICharacterConsciousStateOutput characterConsciousStateOutput)
         {
             _healthRepository = healthRepository;
             _healthOutput = healthOutput;
             _stateRepository = stateRepository;
             _statusOwnerRepository = statusOwnerRepository;
             _statusRepository = statusRepository;
+            _characterConsciousStateOutput = characterConsciousStateOutput;
         }
 
         //public void Execute(DamageInstanceId damageInstanceId)
@@ -33,7 +37,6 @@ namespace Combat.Local.Domain.UseCases
         public void Execute(EntityId targetId, float damage, DamageFlags flags, EntityId? attacker, EventSource source)
         {
             DamageInstance instance = CreateDamageInstance(targetId, damage, flags, attacker, source);
-
             ApplyDamageInstance(instance);
         }
 
@@ -115,14 +118,14 @@ namespace Combat.Local.Domain.UseCases
 
             if (health.CurrentHealth <= 0)
             {
-                if (instance.Flags.HasFlag(DamageFlags.InstantKill))
-                {
-                    Kill(health.Id, instance.Attacker, instance.Source);
-                }
-                else
-                {
-                    KnockDown(health.Id, instance.Attacker, instance.Source);
-                }
+                //if (instance.Flags.HasFlag(DamageFlags.InstantKill))
+                //{
+                Kill(health.Id, instance.Attacker, instance.Source);
+                //}
+                //else
+                //{
+                //    KnockDown(health.Id, instance.Attacker, instance.Source);
+                //}
             }
         }
 
@@ -179,6 +182,7 @@ namespace Combat.Local.Domain.UseCases
 
             state.ConsciousState = ConsciousState.Dead;
             _stateRepository.Update(state);
+            _characterConsciousStateOutput.Present(target, state.ConsciousState);
             return;
         }
 

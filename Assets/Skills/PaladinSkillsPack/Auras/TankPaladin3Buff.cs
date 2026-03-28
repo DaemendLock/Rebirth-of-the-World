@@ -6,7 +6,7 @@ using Combat.Common.ValueObjects;
 namespace TestSkillsPack.Paladin
 {
     [StatusScriptName("TankPaladin3Buff")]
-    public class TankPaladin3Buff : CustomStatusStrategy, IAttributesModifier
+    public class TankPaladin3Buff : StatusScript, IAttributesModifier
     {
         public void GetAttributesBonuses(AttributesData data)
         {
