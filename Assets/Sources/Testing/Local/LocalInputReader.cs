@@ -12,8 +12,11 @@ namespace Assets.Sources.Testing.Local
         [Inject] private PlayerController _playerController;
 
         [SerializeField] private int _unitId;
+        [SerializeField, Min(0.1f)] private float _sensitivity = 1;
 
         public EntityId Id { get => new(_unitId); set => _unitId = value.Value; }
+
+        private bool _cameraLock;
 
         private void Update()
         {
@@ -69,6 +72,44 @@ namespace Assets.Sources.Testing.Local
             {
                 _playerController.Cast(id, 4);
             }
+
+            if (_cameraLock)
+            {
+                Vector2 rotation = Input.mousePositionDelta;
+                _playerController.Rotate(id, rotation * _sensitivity);
+            }
+
+            if (Input.GetMouseButtonDown(2))
+            {
+                LockCamera();
+            }
+
+            if (Input.GetMouseButtonUp(2))
+            {
+                ReleaseCamera();
+            }
+        }
+
+        private void LockCamera()
+        {
+            if (_cameraLock)
+            {
+                return;
+            }
+
+            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+            _cameraLock = true;
+        }
+
+        private void ReleaseCamera()
+        {
+            if (_cameraLock == false)
+            {
+                return;
+            }
+
+            UnityEngine.Cursor.lockState = CursorLockMode.None;
+            _cameraLock = false;
         }
     }
 }

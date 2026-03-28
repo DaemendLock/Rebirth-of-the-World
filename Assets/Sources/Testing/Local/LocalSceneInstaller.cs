@@ -139,7 +139,6 @@ namespace Testing.Local
 
             Container.Bind<CreateCharacterUseCase>().FromNew().AsSingle();
             Container.Bind<CastSkillFromSlotUseCase>().FromNew().AsSingle();
-            Container.Bind<MoveInDirectionUseCase>().FromNew().AsSingle();
             Container.Bind<GiveResourceUseCase>().FromNew().AsSingle();
             Container.Bind<SpendResourceUseCase>().FromNew().AsSingle();
             Container.Bind<ApplyDamageUseCase>().FromNew().AsSingle();
@@ -176,6 +175,8 @@ namespace Testing.Local
 
             //Player
             Container.Bind<AssumeControllOverCharacterUseCase>().FromNew().AsSingle();
+            Container.Bind<RotateUseCase>().FromNew().AsSingle();
+            Container.Bind<MoveInDirectionUseCase>().FromNew().AsSingle();
         }
 
         private void BindApi()

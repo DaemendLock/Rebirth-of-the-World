@@ -5,7 +5,7 @@ using System;
 
 namespace Temp.Domain.Implementations
 {
-    [System.Serializable]
+    [Serializable]
     public class StatsTable
     {
         public const int AttributesCount = (int)Combat.Common.ValueObjects.Attribute.PARRY + 1;

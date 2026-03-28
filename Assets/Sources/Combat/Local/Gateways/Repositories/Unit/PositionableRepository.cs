@@ -38,9 +38,7 @@ namespace Combat.Local.Gateways.Repositories.Unit
                 return default;
             }
 
-            IReadOnlyCollection<MoveInDirectionEffect> moveEffects = Array.Empty<MoveInDirectionEffect>();
-
-            return new(id, model.transform.position, model.transform.rotation, model.transform.localScale.x, model.LookDirection, model.ModelName, moveEffects);
+            return new(id, model.transform.position, model.transform.rotation, model.transform.localScale.x, model.LookDirection, model.ModelName);
         }
 
         public void Update(Positionable value)

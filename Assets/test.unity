@@ -2789,6 +2789,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unitId: 2
+  _sensitivity: 0.3
 --- !u!1 &1063135044
 GameObject:
   m_ObjectHideFlags: 0

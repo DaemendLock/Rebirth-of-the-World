@@ -185,19 +185,5 @@ namespace Combat.Local.Domain.UseCases
             _characterConsciousStateOutput.Present(target, state.ConsciousState);
             return;
         }
-
-        private void KnockDown(EntityId target, EntityId? attacker, EventSource source)
-        {
-            CharacterState state = _stateRepository.Get(target);
-
-            if (state.ConsciousState != ConsciousState.Alive)
-            {
-                return;
-            }
-
-            state.ConsciousState = ConsciousState.KnockedDown;
-            _stateRepository.Update(state);
-            return;
-        }
     }
 }

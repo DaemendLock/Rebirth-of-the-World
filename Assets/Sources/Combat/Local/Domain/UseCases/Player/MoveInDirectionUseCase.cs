@@ -10,19 +10,26 @@ namespace Combat.Local.Domain.UseCases
         private readonly IPositionableRepository _positionableRepository;
         private readonly IAttributesRepository _attributesRepository;
         private readonly IActorRepository _actorRepository;
+        private readonly IStateRepository _stateRepository;
 
         private readonly IMovementOutput _movementOutput;
 
-        public MoveInDirectionUseCase(IPositionableRepository positionableRepository, IAttributesRepository attributesRepository, IActorRepository actorRepository, IMovementOutput movementOutput)
+        public MoveInDirectionUseCase(IPositionableRepository positionableRepository, IAttributesRepository attributesRepository, IActorRepository actorRepository, IMovementOutput movementOutput, IStateRepository stateRepository)
         {
             _positionableRepository = positionableRepository;
             _attributesRepository = attributesRepository;
             _actorRepository = actorRepository;
             _movementOutput = movementOutput;
+            _stateRepository = stateRepository;
         }
 
         public void Execute(EntityId id, Vector2 relativeDirection)
         {
+            if (_stateRepository.Get(id).ConsciousState == Entities.ConsciousState.Dead)
+            {
+                return;
+            }
+
             if (_actorRepository.Get(id).CanMove == false)
             {
                 return;

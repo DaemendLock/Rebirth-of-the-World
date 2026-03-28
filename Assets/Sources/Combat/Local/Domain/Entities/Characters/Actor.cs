@@ -7,7 +7,6 @@ namespace Combat.Local.Domain.Entities
     public enum ConsciousState
     {
         Alive,
-        KnockedDown,
         Dead,
     }
 
