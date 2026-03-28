@@ -6,7 +6,7 @@ using Combat.Local.Gateways.DataSources;
 
 using System.Collections.Generic;
 
-namespace Temp.Domain.Implementations
+namespace Combat.Local.Gateways.Factories
 {
     public class SkillFactory : ISkillFactory
     {

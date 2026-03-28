@@ -1,5 +1,4 @@
 ﻿using Combat.API.Adapters;
-using Combat.API.Controllers.Misc;
 using Combat.API.Scripting;
 using Combat.Common.ValueObjects;
 using Combat.Local.Data.Databases;

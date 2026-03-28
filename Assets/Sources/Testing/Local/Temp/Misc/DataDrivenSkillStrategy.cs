@@ -1,4 +1,5 @@
-﻿using Combat.API.Adapters;
+﻿using Combat.API;
+using Combat.API.Adapters;
 using Combat.API.DTO;
 using Combat.API.Scripting;
 using Combat.API.Skills;
@@ -7,7 +8,7 @@ using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Entities.Skills.Effects;
 using Combat.Local.Domain.Entities.Units;
 
-namespace Combat.API.Controllers.Misc
+namespace Temp.Domain.Implementations
 {
     public class DataDrivenSkillStrategy : ISkillStrategy
     {

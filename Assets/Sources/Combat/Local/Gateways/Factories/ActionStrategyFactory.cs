@@ -3,7 +3,7 @@ using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Factories;
 using Combat.Local.Gateways.DataSources;
 
-namespace Testing.Local.Temp.Factories
+namespace Combat.Local.Gateways.Factories
 {
     public class ActionStrategyFactory : IActionStrategyFactory
     {

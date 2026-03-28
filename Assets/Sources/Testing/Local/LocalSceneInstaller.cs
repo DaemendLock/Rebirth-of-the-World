@@ -13,10 +13,10 @@ using Combat.Local.Domain.Facades;
 using Combat.Local.Domain.Factories;
 using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories;
-using Combat.Local.Domain.Repositories.Skills;
 using Combat.Local.Domain.UseCases;
 using Combat.Local.Domain.UseCases.Scene;
 using Combat.Local.Gateways.DataSources;
+using Combat.Local.Gateways.Factories;
 using Combat.Local.Gateways.Repositories;
 using Combat.Local.Gateways.Repositories.Characters;
 using Combat.Local.Gateways.Repositories.Unit;
@@ -24,8 +24,6 @@ using Combat.Local.Presentation.Components;
 using Combat.Local.Presentation.Presenters;
 
 using Temp.Domain.Implementations;
-
-using Testing.Local.Temp.Factories;
 
 using Zenject;
 

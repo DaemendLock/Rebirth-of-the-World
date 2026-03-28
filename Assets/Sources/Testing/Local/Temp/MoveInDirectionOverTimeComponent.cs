@@ -1,10 +1,4 @@
-﻿using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Entities.Units;
-using Combat.Local.Domain.Repositories;
-using Combat.Local.Gateways.DataSources;
-using Combat.Local.Gateways.Models;
-
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Testing.Local.Temp
 {

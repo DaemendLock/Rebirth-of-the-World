@@ -66,6 +66,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\AttributeData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\MovementEffectRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\HitboxRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Factories\ActionStrategyFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Skills\SkillData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\StateRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\MovementEffectComponent.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\ActionData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\SkillOwnerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Skills\SkillRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Factories\SkillFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\AttributesRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Status\StatusTimerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\PositionableData.cs" />
