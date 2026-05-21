@@ -14,11 +14,11 @@ namespace Combat.Common.ValueObjects
             Bonus = bonus;
         }
 
-        public float CalculatedValue => BaseValue * Percent * PercentConvertionMultiplier + Bonus;
+        public readonly float CalculatedValue => BaseValue * Percent * PercentConvertionMultiplier + Bonus;
 
-        public float BaseValue { get; set; }
-        public float Percent { get; set; }
-        public float Bonus { get; set; }
+        public float BaseValue { readonly get; set; }
+        public float Percent { readonly get; set; }
+        public float Bonus { readonly get; set; }
 
         public static AttributeValue operator +(AttributeValue value1, AttributeValue value2) => new(value1.BaseValue + value2.BaseValue, value1.Percent + value2.Percent, value1.Bonus + value2.Bonus);
         public static AttributeValue operator -(AttributeValue value1, AttributeValue value2) => new(value1.BaseValue - value2.BaseValue, value1.Percent - value2.Percent, value1.Bonus - value2.Bonus);

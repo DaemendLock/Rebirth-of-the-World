@@ -5,7 +5,7 @@ namespace Combat.API.Utils
 {
     public struct ApplyDamageOptions
     {
-        public ApplyDamageOptions(Unit target, Unit attacker, SkillApi skill, float originalDamage, DamageFlags flags)
+        public ApplyDamageOptions(Unit target, Unit attacker, AbilityApi skill, float originalDamage, DamageFlags flags)
         {
             Target = target;
             Attacker = attacker;
@@ -16,7 +16,7 @@ namespace Combat.API.Utils
 
         public Unit Target { get; set; }
         public Unit Attacker { get; set; }
-        public SkillApi Source { get; set; }
+        public AbilityApi Source { get; set; }
         public float OriginalDamage { get; set; }
         public DamageFlags Flags { get; set; }
 

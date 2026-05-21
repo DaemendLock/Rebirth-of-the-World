@@ -3,6 +3,7 @@ using Combat.Local.Domain.DTO;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
+using Combat.Local.Domain.ValueObjects;
 
 using UnityEngine;
 
@@ -10,22 +11,22 @@ namespace Combat.Local.Domain.Facades
 {
     public readonly struct CharacterFacade
     {
-        private readonly GiveResourceUseCase _giveResourceUseCase;
-        private readonly SpendResourceUseCase _spendResourceUseCase;
+        private readonly ResourceGiveUseCase _giveResourceUseCase;
+        private readonly ResourceSpendUseCase _spendResourceUseCase;
 
-        private readonly ForceKillUseCase _killUnitUseCase;
-        private readonly ReviveUseCase _reviveUnitUseCase;
+        private readonly ActorForceKillUseCase _killUnitUseCase;
+        private readonly ActorReviveUseCase _reviveUnitUseCase;
         private readonly AddMovementEffectUseCase _addMovementEffectUseCase;
 
-        private readonly FindStatusUseCase _findStatusUseCase;
-        private readonly ApplyStatusUseCase _applyStatusUseCase;
+        private readonly StatusOwnerFindStatusUseCase _findStatusUseCase;
+        private readonly StatusApplyUseCase _applyStatusUseCase;
         private readonly IAligmentRepository _aligmentRepository;
-        private readonly IStateRepository _killableRepository;
+        private readonly IActorRepository _killableRepository;
         private readonly IPositionableRepository _positionableRepository;
-        private readonly IResourceRepository _resourceRepository;
+        private readonly IResourceOwnerRepository _resourceRepository;
 
-        public CharacterFacade(GiveResourceUseCase giveResourceUseCase, SpendResourceUseCase spendResourceUseCase, ForceKillUseCase killUnitUseCase, FindStatusUseCase findStatusUseCase,
-            IAligmentRepository aligmentRepository, IStateRepository killableRepository, IPositionableRepository positionableRepository, IResourceRepository resourceRepository, ApplyStatusUseCase applyStatusUseCase, MoveInDirectionUseCase moveInDirectionUseCase, AddMovementEffectUseCase addMovementEffectUseCase, ReviveUseCase reviveUnitUseCase)
+        public CharacterFacade(ResourceGiveUseCase giveResourceUseCase, ResourceSpendUseCase spendResourceUseCase, ActorForceKillUseCase killUnitUseCase, StatusOwnerFindStatusUseCase findStatusUseCase,
+            IAligmentRepository aligmentRepository, IActorRepository killableRepository, IPositionableRepository positionableRepository, IResourceOwnerRepository resourceRepository, StatusApplyUseCase applyStatusUseCase, DesireMoveInDirectionUseCase moveInDirectionUseCase, AddMovementEffectUseCase addMovementEffectUseCase, ActorReviveUseCase reviveUnitUseCase)
         {
             _giveResourceUseCase = giveResourceUseCase;
             _spendResourceUseCase = spendResourceUseCase;
@@ -40,44 +41,41 @@ namespace Combat.Local.Domain.Facades
             _reviveUnitUseCase = reviveUnitUseCase;
         }
 
-        public float GetResourceValue(EntityId target, ResourceId resource) => _resourceRepository.Get(target, resource).CurrentValue;
+        public float GetResourceValue(UnitId target, ResourceId resource) => _resourceRepository.Get(target).GetResource(resource).Value;
 
-        public void GiveResource(EntityId target, ResourceId resource, float value, SkillId? skill, EntityId? caster)
+        public void GiveResource(UnitId target, ResourceId resource, float value, AbilityKey? abilityId)
         {
-            _giveResourceUseCase.Execute(target, resource, value, new(caster, skill));
+            _giveResourceUseCase.Execute(target, resource, value, abilityId);
         }
 
-        public void SpendResource(EntityId target, ResourceId resource, float value, SkillId? skill, EntityId? caster)
+        public void SpendResource(UnitId target, ResourceId resource, float value, AbilityKey? abilityId)
         {
-            _spendResourceUseCase.Execute(target, resource, value, new(caster, skill));
+            _spendResourceUseCase.Execute(target, resource, value, abilityId);
         }
 
-        public bool IsAlive(EntityId target) => _killableRepository.Get(target).ConsciousState == ConsciousState.Alive;
+        public bool IsAlive(UnitId target) => _killableRepository.Get(target).ConsciousState == ConsciousState.Alive;
 
-        public void Kill(EntityId target, SkillId? skill, EntityId? caster) => _killUnitUseCase.Execute(target, new(caster, skill));
+        public void Kill(UnitId target, AbilityKey? source) => _killUnitUseCase.Execute(target, source);
 
-        public void Revive(EntityId target, SkillId? skill, EntityId? caster) => _reviveUnitUseCase.Execute(target, new(caster, skill));
+        public void Revive(UnitId target, AbilityKey? source) => _reviveUnitUseCase.Execute(target, source);
 
-        public bool HasStatus(EntityId target, StatusName statusName)
-        {
-            return _findStatusUseCase.FindStatus(target, statusName).HasValue;
-        }
+        public bool HasStatus(UnitId target, StatusType statusName) => _findStatusUseCase.FindStatus(target, statusName).HasValue;
 
-        public Team GetTeam(EntityId target) => _aligmentRepository.Get(target).Team;
+        public Team GetTeam(UnitId target) => _aligmentRepository.Get(target).Team;
 
-        public PositionDTO GetPosition(EntityId target)
+        public PositionDTO GetPosition(UnitId target)
         {
             Positionable value = _positionableRepository.Get(target);
             return new(value.Position, value.Rotation, value.Scale, value.ModelName);
         }
 
-        public void ApplyStatus(EntityId target, StatusName name, int stackCount, float duration, SkillId? source, EntityId? caster)
+        public void ApplyStatus(UnitId target, StatusType name, int stackCount, float duration, AbilityKey? source)
         {
-            ApplStatusDTO dto = new(target, name, duration, stackCount, source, caster);
+            ApplStatusDTO dto = new(target, name, duration, stackCount, source);
             _applyStatusUseCase.Execute(dto);
         }
 
-        public void AddMoveInDirectionEffect(EntityId target, Vector3 direction, float speed, bool isRelative, float maxDuration = 10f)
+        public void AddMoveInDirectionEffect(UnitId target, Vector3 direction, float speed, bool isRelative, float maxDuration = 10f)
         {
             _addMovementEffectUseCase.Execute(target, direction, speed, isRelative, maxDuration);
         }

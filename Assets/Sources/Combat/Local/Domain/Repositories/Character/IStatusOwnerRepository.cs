@@ -6,8 +6,8 @@ namespace Combat.Local.Domain.Repositories
     public interface IStatusOwnerRepository
     {
         void Create(StatusOwner statusOwner);
-        StatusOwner Get(EntityId id);
+        StatusOwner Get(UnitId id);
         void Update(StatusOwner statusOwner);
-        void Delete(StatusOwner statusOwner);
+        void Delete(UnitId id);
     }
 }

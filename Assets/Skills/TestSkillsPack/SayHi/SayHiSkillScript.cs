@@ -1,5 +1,4 @@
-﻿using Combat.API;
-using Combat.API.DTO;
+﻿using Combat.API.DTO;
 using Combat.API.Scripting;
 using Combat.API.Skills;
 using Combat.API.Utils;
@@ -14,12 +13,10 @@ namespace TestSkillsPack.SkillScripts
         {
         }
 
-        public void OnCast(CastEvent @event)
+        public void OnCast()
         {
             UnityEngine.Debug.Log("Hi~~~!");
-            Scene.CreateStatus(new(@event.Caster, "HiStatus", 5, 1, Instance));
-
-            Unit owner = @event.Caster;
+            Scene.CreateStatus(new(Owner, "HiStatus", 5, 1, Instance));
         }
 
         public void OnStartup()

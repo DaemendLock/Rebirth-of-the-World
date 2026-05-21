@@ -5,9 +5,9 @@ namespace Combat.Local.Domain.Repositories
 {
     public interface IAligmentRepository
     {
-        Aligment Get(EntityId id);
+        Aligment Get(UnitId id);
         void Create(Aligment value);
         void Update(Aligment value);
-        void Delete(EntityId id);
+        void Delete(UnitId id);
     }
 }

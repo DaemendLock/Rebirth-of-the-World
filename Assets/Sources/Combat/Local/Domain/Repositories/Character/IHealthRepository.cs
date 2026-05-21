@@ -5,9 +5,11 @@ namespace Combat.Local.Domain.Repositories
 {
     public interface IHealthRepository
     {
-        Health Get(EntityId id);
-        void Create(Health health);
+        delegate void Processor(Health health);
+
+        Health Create(UnitId id);
+        Health Get(UnitId id);
         void Update(Health health);
-        void Delete(EntityId id);
+        void Delete(UnitId id);
     }
 }

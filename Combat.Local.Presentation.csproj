@@ -62,14 +62,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Sources\Combat\Local\Presentation\BindableViewComponent.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Presentation\Components\CameraView.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Presentation\Controllers\EncounterController.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Presentation\Presenters\PlayerPresenter.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Presentation\Presenters\CharacterPresenter.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Presentation\Components\KillableView.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Presentation\ViewModels\ActivityViewModel.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Presentation\Components\CharacterView.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Presentation\Components\CasterView.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Presentation\Views\CharacterUI\ResourceUI.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Presentation\Views\CharacterUI\HealthBar.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Presentation\Controllers\PlayerController.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Presentation\Views\CharacterUI\UIRoot.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Presentation\ViewModels\HealthViewModel.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Presentation\Presenters\ScenePresenter.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Presentation\Views\Common\Bar.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Combat\Local\Presentation\Combat.Local.Presentation.asmdef" />

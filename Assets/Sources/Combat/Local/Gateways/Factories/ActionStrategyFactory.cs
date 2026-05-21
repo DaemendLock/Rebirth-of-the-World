@@ -20,7 +20,7 @@ namespace Combat.Local.Gateways.Factories
 
             if (_skillDataBase.TryGetActionData(id, out var actionData))
             {
-                result = new CastActionStrategy(actionData.FrameData);
+                result = new FrameDataActionStrategy(actionData.FrameData);
             }
 
             return result;

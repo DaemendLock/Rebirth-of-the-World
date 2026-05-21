@@ -1,11 +1,18 @@
-﻿using Combat.Common.ValueObjects;
+﻿using System;
 
 namespace Combat.Local.Domain.ValueObjects
 {
-
-    public readonly ref struct CastInfo
+    public enum ConsciousState
     {
-        public readonly EntityId CasterId { get; }
-        public readonly SkillId SkillId { get; }
+        Alive,
+        Dead,
+    }
+
+    [Flags]
+    public enum ActorState
+    {
+        None = 0,
+        Silenced = 1,
+        Rooted = 2,
     }
 }

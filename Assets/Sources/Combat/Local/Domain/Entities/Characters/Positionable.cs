@@ -1,8 +1,4 @@
 ﻿using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Entities.Units;
-
-using System;
-using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -10,9 +6,7 @@ namespace Combat.Local.Domain.Entities
 {
     public ref struct Positionable
     {
-        private readonly Quaternion _lookDirection;
-
-        public Positionable(EntityId id, Vector3 position, Quaternion rotation, float scale, Quaternion lookDiration, ModelName modelName)
+        public Positionable(UnitId id, Vector3 position, Quaternion rotation, float scale, Quaternion lookDiration, ModelName modelName, Vector3 velocity)
         {
             Id = id;
             ModelName = modelName;
@@ -20,18 +14,21 @@ namespace Combat.Local.Domain.Entities
 
             Position = position;
             Rotation = rotation;
-            _lookDirection = lookDiration;
+            LookDirection = lookDiration;
+            Velocity = velocity;
         }
 
-        public EntityId Id { get; }
+        public UnitId Id { get; }
 
         public Vector3 Position { get; set; }
 
         public Quaternion Rotation { get; set; }
 
-        public Quaternion LookDirection => _lookDirection;
+        public Quaternion LookDirection { get; set; }
 
         public ModelName ModelName { get; }
+
+        public Vector3 Velocity { get; set; }
 
         public float Scale { get; set; }
     }

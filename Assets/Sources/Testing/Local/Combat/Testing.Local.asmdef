@@ -1,0 +1,28 @@
+{
+    "name": "Testing.Local.Combat",
+    "rootNamespace": "",
+    "references": [
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:42ee2425d96a97649a605b8a9aa87e8f",
+        "GUID:8651ed9d0dea994419fbeebf6b549ef2",
+        "GUID:acec19dd566e4414b96c09862c7350b8",
+        "GUID:4378eeac20bd190438cf49cb31406b64",
+        "GUID:ef0378ff5322d6744b2be5755e568683",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:1c4c19f87c10f5e49a94d8df5bc73c19",
+        "GUID:7fa263559a2285442ac79762376237ec",
+        "GUID:183c83d7bd836a44c95975655413768f",
+        "GUID:dc965a8580913f84294fa92f59afdf35",
+        "GUID:56f9f1a8f61c8a2408ed99359b9cdc4e",
+        "GUID:971589a3c4bedcc4e9fe1380128acaa9"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

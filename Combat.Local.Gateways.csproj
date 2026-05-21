@@ -59,38 +59,68 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\AspectGenerator.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\JobEntityGenerator.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\Unity.Entities.Analyzer.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.LambdaJobs.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.SystemAPI.QueryBuilder.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.SystemAPI.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.SystemAPI.Query.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.Common.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\Common.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.EntityQueryBulkOperations.dll" />
+    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\Unity.Entities.Analyzer.CodeFixes.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\AligmentRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\DataSources\ICharacterPrefabDataSource.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Charatcters\ActionData.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\PlayerModel.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\DataSources\ISkillDataBase.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\AttributeData.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\MovementEffectRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\HitboxRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Factories\ActionStrategyFactory.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Skills\SkillData.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\StateRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\MovementEffectComponent.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\HealthData.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\CharacterModel.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\ActorRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\ResourceRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Factories\CharacterModelFactory.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Status\ApiScriptStatusPropertyContainer.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\UpdateTargetRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\DataSources\IActionDataContainer.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Charatcters\HealthData.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Charatcters\AligmentData.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Charatcters\HitboxData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\StatusOwnerRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\HitboxData.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\DataSources\ICharacterModelDataSource.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\ActorData.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\HitRecordRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\StatusRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\ProjectileRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Charatcters\ActorData.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\HitboxRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\ProjectileModel.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Charatcters\AttributeData.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\DataSources\IStatusDataBase.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Encounter\EncounterProvider.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\AligmentRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Status\StatusRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Factories\AbilityFactory.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Skills\ApiScriptDrivenAbilityPropertyContainer.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\HurtableRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\StatusData.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\HealthRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\ActionData.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\SkillOwnerRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Skills\SkillRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Factories\SkillFactory.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\AttributesRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\SkillOwnerRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Charatcters\CharacterModelComponent.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\PositionableRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Charatcters\HitboxModelComponent.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\ResourceRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\DataSources\ISceneObjectDataSource.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Factories\IProjectileModelFactory.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\MovementEffectOwnerRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\DictionaryHealthRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Players\PlayerRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Player\PlayerModelComponent.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Charatcters\HurtboxModelComponent.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\ActorRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\AttributesRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Factories\CustomScriptStatusStrategyFactory.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Encounter\EncounterModel.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Factories\CustomScriptSkillStrategyFactory.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Skills\AbilityRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Status\StatusTimerRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\PositionableData.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\UpdateTargetList.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Unit\PositionableRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Skills\ActivityModel.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Skills\AbilityData.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Charatcters\MovementEffectComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Combat\Local\Gateways\Combat.Local.Gateways.asmdef" />
@@ -1093,6 +1123,18 @@
     <ProjectReference Include="Combat.Local.Domain.csproj">
       <Project>{84D51C1F-4A00-169F-B1F2-C7892886743B}</Project>
       <Name>Combat.Local.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="Combat.API.csproj">
+      <Project>{7A9F157A-8D7C-2B2E-AFC2-2AA28809F24E}</Project>
+      <Name>Combat.API</Name>
+    </ProjectReference>
+    <ProjectReference Include="DaeAnimator.csproj">
+      <Project>{A9FD6DE7-D9E5-E855-19DA-1F92951108BD}</Project>
+      <Name>DaeAnimator</Name>
+    </ProjectReference>
+    <ProjectReference Include="Data.csproj">
+      <Project>{FE06642D-D97E-6F45-E6BC-17F2C4BC433F}</Project>
+      <Name>Data</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

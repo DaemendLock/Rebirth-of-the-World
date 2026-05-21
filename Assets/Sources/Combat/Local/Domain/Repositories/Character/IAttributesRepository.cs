@@ -7,8 +7,8 @@ namespace Combat.Local.Domain.Repositories
     {
         void Create(AttributesOwner attributes);
         void Update(AttributesOwner attributes);
-        AttributesOwner Get(EntityId entityId);
-        void Delete(EntityId id);
+        AttributesOwner Get(UnitId entityId);
+        void Delete(UnitId id);
     }
 
     public interface ITransformEffectRepository

@@ -9,17 +9,18 @@ namespace Combat.Local.Gateways.Repositories.Characters
 {
     public class StatusOwnerRepository : IStatusOwnerRepository
     {
-        private readonly Dictionary<EntityId, StatusId[]> _statusRepository;
+        private readonly Dictionary<UnitId, StatusId[]> _statusRepository;
 
         public StatusOwnerRepository()
         {
             _statusRepository = new();
         }
 
-        public void Create(StatusOwner statusOwner) => throw new System.NotImplementedException();
-        public void Delete(StatusOwner statusOwner) => throw new System.NotImplementedException();
+        public void Create(StatusOwner statusOwner) => _statusRepository.Add(statusOwner.Id, statusOwner.GetAll().ToArray());
 
-        public StatusOwner Get(EntityId id)
+        public void Delete(UnitId id) => _statusRepository.Remove(id);
+
+        public StatusOwner Get(UnitId id)
         {
             if (_statusRepository.TryGetValue(id, out StatusId[] values) == false)
             {

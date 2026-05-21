@@ -6,13 +6,13 @@ namespace Combat.Local.Domain.Entities
 {
     public readonly ref struct SkillOwner
     {
-        public SkillOwner(EntityId id, ReadOnlySpan<SkillId> skills)
+        public SkillOwner(UnitId id, ReadOnlySpan<SkillId> skills)
         {
             Id = id;
             Skills = skills;
         }
 
-        public EntityId Id { get; }
+        public UnitId Id { get; }
 
         public ReadOnlySpan<SkillId> Skills { get; }
 

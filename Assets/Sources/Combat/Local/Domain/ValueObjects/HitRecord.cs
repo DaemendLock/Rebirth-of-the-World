@@ -4,18 +4,22 @@ using UnityEngine;
 
 namespace Combat.Local.Domain.ValueObjects
 {
-    public readonly ref struct HitRecord
+    public readonly struct HitRecord
     {
-        public HitRecord(HitboxId hitboxId, HurtboxId hurtboxId, Vector3 location)
+        public HitRecord(UnitId hitboxOwner, HitboxType hitboxType, UnitId hurtboxOwner, HurtboxType hurtboxType, Vector3 location)
         {
-            HitboxId = hitboxId;
-            HurtboxId = hurtboxId;
+            HitboxOwner = hitboxOwner;
+            HitboxType = hitboxType;
+            HurtboxOwner = hurtboxOwner;
+            HurtboxType = hurtboxType;
             Location = location;
         }
 
-        public HitboxId HitboxId { get; }
+        public UnitId HitboxOwner { get; }
+        public HitboxType HitboxType { get; }
 
-        public HurtboxId HurtboxId { get; }
+        public UnitId HurtboxOwner { get; }
+        public HurtboxType HurtboxType { get; }
 
         public Vector3 Location { get; }
     }

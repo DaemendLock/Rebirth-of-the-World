@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Combat.Local.Domain.Entities.Player
+namespace Combat.Local.Domain.Entities.Players
 {
     public readonly ref struct SkillPanel
     {

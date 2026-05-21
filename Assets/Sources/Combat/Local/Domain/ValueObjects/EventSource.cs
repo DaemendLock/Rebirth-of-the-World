@@ -4,10 +4,10 @@ namespace Combat.Local.Domain.ValueObjects
 {
     public readonly ref struct EventSource
     {
-        public readonly EntityId? Unit;
+        public readonly UnitId? Unit;
         public readonly SkillId? Skill;
 
-        public EventSource(EntityId? unit, SkillId? skill)
+        public EventSource(UnitId? unit, SkillId? skill)
         {
             Unit = unit;
             Skill = skill;

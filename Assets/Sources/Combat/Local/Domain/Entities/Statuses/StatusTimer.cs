@@ -5,9 +5,9 @@ namespace Combat.Local.Domain.Entities
 {
     public struct StatusTimer
     {
-        private readonly IStatusStrategy _statusStrategy;
+        private readonly IStatusPropertyContainer _statusStrategy;
 
-        public StatusTimer(StatusId statusId, float priod, IStatusStrategy strategy, float timePassed = 0)
+        public StatusTimer(StatusId statusId, float priod, IStatusPropertyContainer strategy, float timePassed = 0)
         {
             StatusId = statusId;
             TimePassed = timePassed;

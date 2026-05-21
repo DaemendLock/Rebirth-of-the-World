@@ -91,12 +91,13 @@
     <Compile Include="Assets\Sources\Data\Entities\Stats\CharacterStats.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\PartyIconProvider.cs" />
     <Compile Include="Assets\Sources\Data\Items\Item.cs" />
-    <Compile Include="Assets\Sources\Data\Utils\Loadable.cs" />
+    <Compile Include="Assets\Sources\Data\Levels\PlayerSpawnpoint.cs" />
     <Compile Include="Assets\Sources\Data\Items\Gear\General.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\TwinDataMap.cs" />
     <Compile Include="Assets\Sources\Data\Entities\Components\Hitbox.cs" />
     <Compile Include="Assets\Sources\Data\Entities\CharacterModel.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\DynamicUIRoot.cs" />
+    <Compile Include="Assets\Sources\Data\Levels\LocationData.cs" />
     <Compile Include="Assets\Sources\Data\Entities\Local\SkillData.cs" />
     <Compile Include="Assets\Sources\Data\Utils\ThrowHelper\Exceptions\FileNotLoadedException.cs" />
     <Compile Include="Assets\Sources\Data\DataMapper\MappedData.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="Assets\Sources\Data\Items\Gear\Gear.cs" />
     <Compile Include="Assets\Sources\Data\Skills\SpellDataProvider\ISpellDataProvider.cs" />
     <Compile Include="Assets\Sources\Data\Utils\FileReader.cs" />
+    <Compile Include="Assets\Sources\Data\Utils\ILoadable.cs" />
     <Compile Include="Assets\Sources\Data\DynamicUiProvider\Format\ActionBarFormat.cs" />
   </ItemGroup>
   <ItemGroup>

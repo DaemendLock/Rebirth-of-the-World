@@ -1128,12 +1128,12 @@
       <HintPath>Library\ScriptAssemblies\Unity.Serialization.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.Collections.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Collections.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.Entities.Hybrid">
       <HintPath>Library\ScriptAssemblies\Unity.Entities.Hybrid.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Collections.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Collections.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Profiling.Core">
@@ -1238,6 +1238,18 @@
       <Project>{D7A1F4ED-5695-EC8C-47EC-971DBF3B9A60}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
+    <ProjectReference Include="Testing.Local.Combat.csproj">
+      <Project>{F1F85403-EC56-FBCD-48CD-59F9F9F4E553}</Project>
+      <Name>Testing.Local.Combat</Name>
+    </ProjectReference>
+    <ProjectReference Include="Lobby.Common.csproj">
+      <Project>{52270EF4-7E47-2DC8-7039-33A4B3FA47A0}</Project>
+      <Name>Lobby.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="Lobby.Local.Data.csproj">
+      <Project>{EB333052-0C8D-844C-0B5D-26AFE179C859}</Project>
+      <Name>Lobby.Local.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="Combat.Local.Domain.csproj">
       <Project>{84D51C1F-4A00-169F-B1F2-C7892886743B}</Project>
       <Name>Combat.Local.Domain</Name>
@@ -1274,17 +1286,17 @@
       <Project>{7A9F157A-8D7C-2B2E-AFC2-2AA28809F24E}</Project>
       <Name>Combat.API</Name>
     </ProjectReference>
-    <ProjectReference Include="Testing.Local.csproj">
-      <Project>{50A9B997-429E-FB9E-B87B-C6F8A32EF495}</Project>
-      <Name>Testing.Local</Name>
-    </ProjectReference>
-    <ProjectReference Include="Combat.Local.Controllers.csproj">
-      <Project>{7F600D9F-16D4-A5C8-8D69-4CEF71897BD1}</Project>
-      <Name>Combat.Local.Controllers</Name>
+    <ProjectReference Include="Testing.Local.Lobby.csproj">
+      <Project>{4C0D9CC7-F0BF-A3E3-E7C9-77546A603E2A}</Project>
+      <Name>Testing.Local.Lobby</Name>
     </ProjectReference>
     <ProjectReference Include="Zenject-Editor.csproj">
       <Project>{55F96176-7DDA-E12D-1D12-74F98197CC31}</Project>
       <Name>Zenject-Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Lobby.Local.Domain.csproj">
+      <Project>{93EBF88C-E936-D2CC-6409-D21D27A901D4}</Project>
+      <Name>Lobby.Local.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="Combat.Local.Data.csproj">
       <Project>{36C104CC-5AF9-7451-53CF-B9851C68353B}</Project>
@@ -1301,6 +1313,10 @@
     <ProjectReference Include="TestSkillPack.csproj">
       <Project>{53FE5B07-E84D-D3FB-AAE5-A3F466B6E663}</Project>
       <Name>TestSkillPack</Name>
+    </ProjectReference>
+    <ProjectReference Include="Lobby.Local.Presentation.csproj">
+      <Project>{FF6530FC-143D-D9AA-0FFF-37C45A005B80}</Project>
+      <Name>Lobby.Local.Presentation</Name>
     </ProjectReference>
     <ProjectReference Include="PaladinSkillsPack.csproj">
       <Project>{7A502701-AA52-5795-0F14-8920F802C20C}</Project>

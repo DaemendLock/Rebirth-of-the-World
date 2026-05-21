@@ -2,6 +2,8 @@
 
 using Combat.Common.ValueObjects;
 
+using System.Linq;
+
 namespace Combat.Local.Domain.Entities
 {
     public interface IActionStrategy
@@ -11,15 +13,20 @@ namespace Combat.Local.Domain.Entities
 
         void Start();
         void Progress(float deltaTime);
+        void Interrupt();
+
+        bool CanChainInto(SkillId skillId);
     }
 
-    public class CastActionStrategy : IActionStrategy
+    public class FrameDataActionStrategy : IActionStrategy
     {
         private readonly IFrameData _frameData;
+        private readonly SkillId[] _chainableSkills;
 
-        public CastActionStrategy(IFrameData frameData)
+        public FrameDataActionStrategy(IFrameData frameData)
         {
             _frameData = frameData;
+            _chainableSkills = new SkillId[] { new(1001) };
             State = ActionState.Inactive;
             EffectiveTime = 0;
         }
@@ -49,5 +56,12 @@ namespace Combat.Local.Domain.Entities
 
             State = (ActionState)_frameData.GetCastState(EffectiveTime);
         }
+
+        public void Interrupt()
+        {
+            State = ActionState.Inactive;
+        }
+
+        public bool CanChainInto(SkillId skillId) => _chainableSkills.Contains(skillId);
     }
 }

@@ -6,7 +6,7 @@ namespace Combat.API.ValueObjects
     {
         private const float DamagePercentConvertionRatio = 0.01f;
 
-        public DamageInstanceApi(Unit target, Unit attacker, SkillApi source, float originalDamage, DamageFlags flags)
+        public DamageInstanceApi(Unit target, Unit attacker, AbilityApi source, float originalDamage, DamageFlags flags)
         {
             Attacker = attacker;
             Target = target;
@@ -19,7 +19,7 @@ namespace Combat.API.ValueObjects
 
         public Unit Target { get; }
         public Unit Attacker { get; }
-        public SkillApi Source { get; }
+        public AbilityApi Source { get; }
         public float OriginalDamage { get; }
 
         public DamageFlags Flags { get; }

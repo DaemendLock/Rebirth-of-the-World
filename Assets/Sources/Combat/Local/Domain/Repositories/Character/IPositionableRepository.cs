@@ -9,11 +9,12 @@ namespace Combat.Local.Domain.Repositories
 {
     public interface IPositionableRepository
     {
-        void Create(Positionable positionable, Transform parent);
+        void Create(Positionable positionable);
         void Update(Positionable positionable);
-        Positionable Get(EntityId entityId);
-        void Delete(EntityId entityId);
+        Positionable Get(UnitId entityId);
+        void Delete(UnitId entityId);
 
-        ICollection<EntityId> FindInRadius(Vector3 center, float radius);
+        IReadOnlyCollection<UnitId> FindInRadius(Vector3 center, float radius);
+        IReadOnlyCollection<UnitId> FindInCone(Vector3 origin, Quaternion direction, float angle, float maxDistance);
     }
 }

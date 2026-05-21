@@ -1,14 +1,19 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
 
-using System.Collections.Generic;
-
 namespace Combat.Local.Domain.Entities
 {
-    public class Action
+    public enum InterruptReason
+    {
+        None,
+        Chained,
+        Death,
+        Forced
+    }
+
+    public sealed class Action
     {
         private readonly IActionStrategy _strategy;
-        private readonly List<EntityId> _hittedTargets;
 
         public Action(ActionId id, SkillId source, ActionFlags flags, IActionStrategy strategy)
         {
@@ -17,7 +22,6 @@ namespace Combat.Local.Domain.Entities
             Flags = flags;
             _strategy = strategy;
 
-            _hittedTargets = new();
             ActiveTime = 0;
         }
 
@@ -27,20 +31,28 @@ namespace Combat.Local.Domain.Entities
 
         public ActionFlags Flags { get; }
 
-        public float ActiveTime { get; set; }
+        public IActionStrategy Strategy => _strategy;
 
-        public float EffectiveTime => _strategy.EffectiveTime;
+        public float ActiveTime { get; private set; }
 
         public ActionState CurrentState => _strategy.State;
 
-        public ICollection<EntityId> HittedTargets => _hittedTargets;
+        public bool CanChainInto(SkillId skillId) => _strategy.CanChainInto(skillId);
 
-        public void Start() => _strategy.Start();
+        public void Start()
+        {
+            _strategy.Start();
+        }
 
-        public void Update(float deltaTime)
+        public void Progress(float deltaTime)
         {
             ActiveTime += deltaTime;
             _strategy.Progress(deltaTime);
+        }
+
+        public void Interrupt(InterruptReason reason)
+        {
+            _strategy.Interrupt();
         }
 
         public bool AllowMovement => Flags.HasFlag(ActionFlags.AllowMovement);

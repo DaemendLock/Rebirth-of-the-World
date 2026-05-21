@@ -2,15 +2,15 @@
 
 namespace Combat.Local.Domain.Entities.Units
 {
-    public struct Aligment
+    public ref struct Aligment
     {
-        public Aligment(EntityId id, Team team)
+        public Aligment(UnitId id, Team team)
         {
             Id = id;
             Team = team;
         }
 
-        public EntityId Id { get; }
+        public UnitId Id { get; }
 
         public Team Team { get; set; }
     }

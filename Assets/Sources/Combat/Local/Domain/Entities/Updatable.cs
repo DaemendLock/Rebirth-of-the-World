@@ -4,7 +4,7 @@ namespace Combat.Local.Domain.Entities.Units
 {
     public readonly struct Updatable
     {
-        public Updatable(EntityId id, float timeScale)
+        public Updatable(UnitId id, float timeScale)
         {
             Id = id;
             TimeScale = timeScale;
@@ -15,7 +15,7 @@ namespace Combat.Local.Domain.Entities.Units
             }
         }
 
-        public EntityId Id { get; }
+        public UnitId Id { get; }
         public float TimeScale { get; }
     }
 }

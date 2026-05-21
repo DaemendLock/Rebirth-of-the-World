@@ -1,11 +1,11 @@
 ﻿using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Entities;
+using Combat.Local.Domain.ValueObjects;
 
 namespace Combat.Local.Domain.OutputPorts
 {
     public readonly ref struct SpendResourceResult
     {
-        public SpendResourceResult(EntityId target, ResourceId resource, float value, float currentValue, float maxValue, SkillId? skill, EntityId? caster)
+        public SpendResourceResult(UnitId target, ResourceId resource, float value, float currentValue, float maxValue, SkillId? skill, UnitId? caster)
         {
             Target = target;
             Resource = resource;
@@ -16,13 +16,13 @@ namespace Combat.Local.Domain.OutputPorts
             MaxValue = maxValue;
         }
 
-        public EntityId Target { get; }
+        public UnitId Target { get; }
         public ResourceId Resource { get; }
         public float Value { get; }
         public float CurrentValue { get; }
         public float MaxValue { get; }
         public SkillId? Skill { get; }
-        public EntityId? Caster { get; }
+        public UnitId? Caster { get; }
     }
 
     public interface ISpendResourceOutput

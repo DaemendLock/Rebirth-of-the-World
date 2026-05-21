@@ -1,0 +1,18 @@
+﻿using Combat.Common.ValueObjects;
+
+using UnityEngine;
+
+namespace Combat.Local.Controllers.Inputs
+{
+    public class HurtboxModelComponent : MonoBehaviour
+    {
+        private void Awake()
+        {
+            hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector | HideFlags.NotEditable | HideFlags.DontSaveInEditor;
+        }
+
+        public HurtboxType Type { get; set; }
+
+        public UnitId Owner { get; set; }
+    }
+}

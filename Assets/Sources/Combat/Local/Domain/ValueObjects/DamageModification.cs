@@ -16,5 +16,13 @@ namespace Combat.Local.Domain.ValueObjects
             BonusValue = bonusValue;
             FlagsModification = flagsModification;
         }
+
+        public static DamageModification operator +(DamageModification value1, DamageModification value2)
+        {
+            return new(value1.BaseValue + value2.BaseValue,
+                        value1.PercentModication + value2.PercentModication,
+                        value1.BonusValue + value2.BonusValue,
+                        value1.FlagsModification | value2.FlagsModification);
+        }
     }
 }

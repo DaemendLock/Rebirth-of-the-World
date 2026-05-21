@@ -12,6 +12,6 @@ namespace Combat.API.Statuses
             Name = new(name);
         }
 
-        public StatusName Name { get; }
+        public StatusType Name { get; }
     }
 }

@@ -73,11 +73,10 @@
     <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\Unity.Entities.Analyzer.CodeFixes.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Combat\Local\Data\CharacterModelProvider.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\Factories\CharacterModelFactory.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\DataSources\SceneObjectDataSource.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\DataSources\CharacterPrefabDataSource.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\DataSources\StatusScriptTypeDataSource.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\DataSources\SceneCharacterModelDataSource.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Data\SkillDataBase.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Data\DataSources\SkillDataBase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Data\DataSources\SkillStrategyTypeDataSource.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1093,10 +1092,6 @@
     <ProjectReference Include="Combat.Local.Presentation.csproj">
       <Project>{1D788639-8353-ABFF-F872-C4D12F5F1352}</Project>
       <Name>Combat.Local.Presentation</Name>
-    </ProjectReference>
-    <ProjectReference Include="Combat.Local.Controllers.csproj">
-      <Project>{7F600D9F-16D4-A5C8-8D69-4CEF71897BD1}</Project>
-      <Name>Combat.Local.Controllers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

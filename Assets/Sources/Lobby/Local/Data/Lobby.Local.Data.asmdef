@@ -1,0 +1,17 @@
+{
+    "name": "Lobby.Local.Data",
+    "rootNamespace": "",
+    "references": [
+        "GUID:44579ed5de1535940a8742f86e7eb710",
+        "GUID:47a379848eb3d4741b98639809c930ea"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -12,5 +12,10 @@
         public float FullDuration { get; set; }
 
         public float Left => FullDuration - ActiveTime;
+
+        public void Progress(float deltaTime)
+        {
+            ActiveTime += deltaTime;
+        }
     }
 }

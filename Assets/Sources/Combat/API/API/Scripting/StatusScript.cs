@@ -8,7 +8,7 @@ namespace Combat.API.Scripting
 
         protected Unit Parent => _instance.Parent;
 
-        protected SkillApi Source => _instance.Source;
+        protected AbilityApi Source => _instance.Source;
 
         protected StatusApi Instance => _instance;
 

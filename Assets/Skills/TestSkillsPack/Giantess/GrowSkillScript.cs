@@ -20,9 +20,9 @@ namespace Server.Combat.Domain.Implementations.Actions
             //_growRate = (_targetSize - Owner.Scale) / _duration;
         }
 
-        public void OnCast(CastEvent @event)
+        public void OnCast()
         {
-            float currentSize = @event.Caster.Scale;
+            float currentSize = Owner.Scale;
             
             _targetSize = currentSize + (_growPercent / 100);
         }

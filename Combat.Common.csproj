@@ -66,23 +66,23 @@
     <Compile Include="Assets\Sources\Combat\Common\Flags\ReviveFlags.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\Duration.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\ModelName.cs" />
-    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\StatusName.cs" />
     <Compile Include="Assets\Sources\Combat\Common\Flags\DamageFlags.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\TransformEffectId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\Flags\HealingFlags.cs" />
-    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\HitboxId.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\LocationId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\StatusId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\Attribute.cs" />
-    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\HurtboxId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\SkillId.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\AbilityKey.cs" />
     <Compile Include="Assets\Sources\Combat\Common\Flags\SkillFlags.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\ResourceId.cs" />
-    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\DamageInstanceId.cs" />
-    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\EntityId.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\UnitId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\PlayerId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\HitboxType.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\StatusType.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\HurtboxType.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\Team.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\ProjectileId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\ActionId.cs" />
   </ItemGroup>
   <ItemGroup>

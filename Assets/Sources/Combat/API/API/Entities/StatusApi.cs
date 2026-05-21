@@ -10,7 +10,7 @@ namespace Combat.API
 
         private readonly StatusFacade _statusFacade;
 
-        public StatusApi(StatusId id, Unit parent, SkillApi source, StatusFacade statusController)
+        public StatusApi(StatusId id, Unit parent, AbilityApi source, StatusFacade statusController)
         {
             _id = id;
             _statusFacade = statusController;
@@ -22,7 +22,7 @@ namespace Combat.API
 
         public Unit Parent { get; }
 
-        public SkillApi Source { get; }
+        public AbilityApi Source { get; }
 
         public int StackCount { get => _statusFacade.GetStackCount(_id); set => _statusFacade.SetStackCount(_id, value); }
 

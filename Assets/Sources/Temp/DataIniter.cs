@@ -38,7 +38,7 @@ namespace Assets.Sources.Temp
             return loading.Task;
         }
 
-        private void LoadItems() => _handlers.Add(Addressables.LoadAssetsAsync<Loadable>(_itemLabel, (callback)
+        private void LoadItems() => _handlers.Add(Addressables.LoadAssetsAsync<ILoadable>(_itemLabel, (callback)
                                                  =>
                                              {
                                                  callback.OnLoad();

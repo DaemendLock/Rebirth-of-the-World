@@ -7,6 +7,6 @@ namespace Combat.Local.Domain.Factories
     {
         bool CanHandle(SkillId skillId);
 
-        ISkillStrategy Create(SkillId skillId, EntityId? owner);
+        IAbilityPropertyContainer Create(UnitId? owner, SkillId skillId);
     }
 }

@@ -154,10 +154,10 @@
     <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\Factory\FactoryToChoiceIdBinder\FactoryToChoiceIdBinder10.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Runtime\TickableManager.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\NonLazyBinder.cs" />
-    <Compile Include="Assets\Plugins\Zenject\Source\Providers\ScriptableObjectInstanceProvider.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\GameObject\TransformScopeConcreteIdArgConditionCopyNonLazyBinder.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Install\Installer.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Binding\BindInfo\GameObjectCreationParameters.cs" />
+    <Compile Include="Assets\Plugins\Zenject\Source\Providers\ScriptableObjectInstanceProvider.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Injection\LazyInject.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\ConcreteBinders\ConcreteBinderGeneric.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Providers\SubContainerCreators\SubContainerCreatorBindInfo.cs" />
@@ -189,8 +189,8 @@
     <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\Factory\FactoryFromBinder\FactoryFromBinder1.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\FromBinders\FromBinderNonGeneric.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Providers\InstanceProvider.cs" />
-    <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\Factory\FactoryFromBinder\SubContainerBinder\FactorySubContainerBinder3.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Internal\Log.cs" />
+    <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\Factory\FactoryFromBinder\SubContainerBinder\FactorySubContainerBinder3.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Install\MonoInstaller.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Binding\Finalizers\NullBindingFinalizer.cs" />
     <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\Factory\FactoryFromBinder\FactoryFromBinder6.cs" />

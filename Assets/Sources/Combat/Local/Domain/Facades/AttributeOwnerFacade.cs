@@ -5,21 +5,21 @@ namespace Combat.Local.Domain.Facades
 {
     public readonly struct AttributeOwnerFacade
     {
-        private readonly GetAttributeValueUseCase _getAttributeValueUseCase;
-        private readonly GetHasteModifierUseCase _getHasteModifierUseCase;
-        private readonly GetVersalityModifierUseCase _getVersalityModifierUseCase;
+        private readonly AttributeOwnerGetAttributeValueUseCase _getAttributeValueUseCase;
+        private readonly AttributeOwnerGetHasteModifierUseCase _getHasteModifierUseCase;
+        private readonly AttributeOwnerGetVersalityModifierUseCase _getVersalityModifierUseCase;
 
-        public AttributeOwnerFacade(GetHasteModifierUseCase getHasteModifierUseCase, GetVersalityModifierUseCase getVersalityModifierUseCase, GetAttributeValueUseCase getAttributeValueUseCase)
+        public AttributeOwnerFacade(AttributeOwnerGetHasteModifierUseCase getHasteModifierUseCase, AttributeOwnerGetVersalityModifierUseCase getVersalityModifierUseCase, AttributeOwnerGetAttributeValueUseCase getAttributeValueUseCase)
         {
             _getHasteModifierUseCase = getHasteModifierUseCase;
             _getVersalityModifierUseCase = getVersalityModifierUseCase;
             _getAttributeValueUseCase = getAttributeValueUseCase;
         }
 
-        public float GetAttributeValue(EntityId target, Attribute attribute) => _getAttributeValueUseCase.GetAttributeValue(target, attribute);
+        public float GetAttributeValue(UnitId target, Attribute attribute) => _getAttributeValueUseCase.GetAttributeValue(target, attribute);
 
-        public float GetVersalityModifier(EntityId target) => _getVersalityModifierUseCase.Execute(target);
+        public float GetVersalityModifier(UnitId target) => _getVersalityModifierUseCase.Execute(target);
 
-        public float GetHasteModifier(EntityId target) => _getHasteModifierUseCase.Execute(target);
+        public float GetHasteModifier(UnitId target) => _getHasteModifierUseCase.Execute(target);
     }
 }

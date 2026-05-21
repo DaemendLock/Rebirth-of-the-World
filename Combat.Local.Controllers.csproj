@@ -61,9 +61,6 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Combat\Local\Controllers\CombatController.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Controllers\PlayerController.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Controllers\HitController.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Controllers\Inputs\HurtboxInputComponent.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Controllers\Inputs\HitboxInputComponent.cs" />
   </ItemGroup>

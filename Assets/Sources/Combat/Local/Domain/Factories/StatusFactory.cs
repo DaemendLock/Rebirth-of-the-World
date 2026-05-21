@@ -1,22 +1,21 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Entities.Statuses;
-using Combat.Local.Domain.ValueObjects;
 
 using System.Collections.Generic;
 
 namespace Combat.Local.Domain.Factories
 {
-    public interface IStatusStrategyFactory
+    public interface IStatusPropertyContainerFactory
     {
-        bool CanHandle(StatusName statusName);
+        bool CanHandle(StatusType statusName);
 
-        IStatusStrategy Create(StatusId id, StatusName name, EntityId parent);
+        IStatusPropertyContainer Create(StatusId id, StatusType name, UnitId parent, AbilityKey? source);
     }
 
     public class StatusFactory
     {
-        private readonly List<IStatusStrategyFactory> _statusStrategyFactories;
+        private readonly List<IStatusPropertyContainerFactory> _statusStrategyFactories;
         private int _nextId = 0;
 
         public StatusFactory()
@@ -24,21 +23,23 @@ namespace Combat.Local.Domain.Factories
             _statusStrategyFactories = new();
         }
 
-        public void RegisterStrategyFactory(IStatusStrategyFactory factory)
+        public void RegisterStrategyFactory(IStatusPropertyContainerFactory factory)
         {
             _statusStrategyFactories.Add(factory);
         }
 
-        public Status Create(StatusName name, EntityId parentId, float duration, int stackCount, EventSource source)
+        public Status Create(StatusType name, UnitId parentId, float duration, int stackCount, AbilityKey? source)
         {
             StatusId nextId = new(_nextId++);
-            IStatusStrategy statusStrategy = GetFactory(name)?.Create(nextId, name, parentId);
-            return new(nextId, parentId, name, source, stackCount, new(0, duration), statusStrategy);
+            IStatusPropertyContainerFactory factory = GetFactory(name);
+
+            IStatusPropertyContainer container = GetFactory(name)?.Create(nextId, name, parentId, source);
+            return new(nextId, parentId, name, source, stackCount, new(0, duration), container);
         }
 
-        private IStatusStrategyFactory GetFactory(StatusName name)
+        private IStatusPropertyContainerFactory GetFactory(StatusType name)
         {
-            foreach (IStatusStrategyFactory factory in _statusStrategyFactories)
+            foreach (IStatusPropertyContainerFactory factory in _statusStrategyFactories)
             {
                 if (factory.CanHandle(name) == false)
                 {

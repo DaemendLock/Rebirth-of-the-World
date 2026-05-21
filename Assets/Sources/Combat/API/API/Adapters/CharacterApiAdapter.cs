@@ -11,7 +11,7 @@ namespace Combat.API.Adapters
         private readonly HealthOwnerFacade _healthOwnerFacade;
         private readonly AttributeOwnerFacade _attributeOwnerFacade;
 
-        private readonly Dictionary<EntityId, Unit> _cache;
+        private readonly Dictionary<UnitId, Unit> _cache;
 
         public CharacterApiAdapter(CharacterFacade characterFacade, HealthOwnerFacade healthFacade, AttributeOwnerFacade attributeOwnerFacade)
         {
@@ -22,7 +22,7 @@ namespace Combat.API.Adapters
             _cache = new();
         }
 
-        public Unit Adaptee(EntityId id)
+        public Unit Adaptee(UnitId id)
         {
             if (_cache.TryGetValue(id, out Unit result))
             {
