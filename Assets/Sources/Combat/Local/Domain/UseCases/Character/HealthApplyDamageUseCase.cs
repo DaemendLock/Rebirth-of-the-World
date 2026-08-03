@@ -30,7 +30,11 @@ namespace Combat.Local.Domain.UseCases
 
         public void Execute(UnitId targetId, float damage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
         {
-            Health health = _healthRepository.Get(targetId);
+            if (_healthRepository.TryGet(targetId, out Health health) == false)
+            {
+                throw new System.InvalidOperationException();
+            }
+
             DamageInstance instance = CreateInstance(targetId, damage, flags, attacker, source);
 
             float finalDamage = ApplyDamageInstance(instance, ref health);
@@ -152,7 +156,7 @@ namespace Combat.Local.Domain.UseCases
         {
             StatusOwner targetStatuses = _statusOwnerRepository.Get(@event.Target);
 
-            foreach (var statusId in targetStatuses.GetAll())
+            foreach (StatusId statusId in targetStatuses.GetAll())
             {
                 if (_statusRepository.TryGet(statusId, out Status status) == false)
                 {

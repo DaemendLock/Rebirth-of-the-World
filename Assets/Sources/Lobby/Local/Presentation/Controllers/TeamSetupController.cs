@@ -3,6 +3,7 @@ using Lobby.Local.Domain.Entities;
 using Lobby.Local.Domain.Repositories;
 using Lobby.Local.Domain.UseCases.Scenarios;
 using Lobby.Local.Domain.ValueObjects;
+using Lobby.Local.Presentation.Misc;
 
 using System.Collections.Generic;
 
@@ -15,7 +16,7 @@ namespace Lobby.Local.Presentation.View
     {
         [Zenject.Inject] private readonly IScenarioRepository _scenarioRepository;
         [Zenject.Inject] private readonly IAccountRepository _accountRepository;
-        [Zenject.Inject] private readonly LobbyController _lobbyController;
+        [Zenject.Inject] private readonly UiNavigationService _lobbyController;
         [Zenject.Inject] private readonly ScenarioStartUseCase _scenarioStartUseCase;
 
         [SerializeField] private GameObject _startButton;

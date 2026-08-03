@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4326973858770567875}
   - component: {fileID: 4635443917247608688}
-  - component: {fileID: -1407603228137632107}
   - component: {fileID: 122034387924800988}
   m_Layer: 0
   m_Name: testSkill
@@ -46,21 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8235ff18f90bcd247afbf2248f110167, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: 1001
+  _id: 10012
   <Flags>k__BackingField: 128
---- !u!114 &-1407603228137632107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6098887686954981585}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0c052f854d536e49a2c438c809d9ce9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <ScriptName>k__BackingField: sayHi
 --- !u!114 &122034387924800988
 MonoBehaviour:
   m_ObjectHideFlags: 0

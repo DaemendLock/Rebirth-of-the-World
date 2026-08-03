@@ -13,7 +13,8 @@ namespace Lobby.Local.Presentation.Presenters
         {
             foreach (var character in characters)
             {
-                _view.Show(new(character));
+                ViewModels.CharacterCardViewModel viewModel = new(character);
+                _view.Show(viewModel);
             }
         }
     }

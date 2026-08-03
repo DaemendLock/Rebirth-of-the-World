@@ -66,9 +66,7 @@
     <Compile Include="Assets\Sources\Lobby\Local\Data\Repositories\LocalScenarioRepository.cs" />
     <Compile Include="Assets\Sources\Lobby\Local\Data\Repositories\CharacterRepository.cs" />
     <Compile Include="Assets\Sources\Lobby\Local\Data\Repositories\AccountRepository.cs" />
-    <Compile Include="Assets\Sources\Lobby\Local\Data\Models\LobbyData.cs" />
     <Compile Include="Assets\Sources\Lobby\Local\Data\Models\ScenarioData.cs" />
-    <Compile Include="Assets\Sources\Lobby\Local\Data\Repositories\LobbyStateContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Lobby\Local\Data\Lobby.Local.Data.asmdef" />

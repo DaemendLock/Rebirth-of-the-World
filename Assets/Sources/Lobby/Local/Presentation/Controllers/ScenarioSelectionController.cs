@@ -3,8 +3,8 @@ using Lobby.Local.Domain.Entities;
 using Lobby.Local.Domain.Repositories;
 using Lobby.Local.Domain.UseCases.Accounts;
 using Lobby.Local.Domain.UseCases.Scenarios;
-using Lobby.Local.Presentation.View.ScenarioSelection;
 using Lobby.Local.Presentation.ViewModels.ScenarioSelection;
+using Lobby.Local.Presentation.Widgets;
 
 using System.Collections.Generic;
 
@@ -19,10 +19,10 @@ namespace Lobby.Local.Presentation.View
         [Zenject.Inject] private readonly ScenarioJoinUseCase _scenarioJoinUse;
         [Zenject.Inject] private readonly IScenarioRepository _scenarioRepository;
 
-        private readonly Dictionary<ScenarioId, ScenarioView> _views = new();
+        private readonly Dictionary<ScenarioId, ScenarioCardWidget> _views = new();
 
         [SerializeField] private Transform _scenarioContainer;
-        [SerializeField] private ScenarioView _prefab;
+        [SerializeField] private ScenarioCardWidget _prefab;
         [SerializeField] private Sprite _defaultScenarioIcon;
 
         [SerializeField] private TeamSetupController _teamSetupController;
@@ -39,7 +39,7 @@ namespace Lobby.Local.Presentation.View
             }
         }
 
-        public void Register(ScenarioId id, ScenarioView view)
+        public void Register(ScenarioId id, ScenarioCardWidget view)
         {
             if (_views.ContainsKey(id))
             {
@@ -63,13 +63,13 @@ namespace Lobby.Local.Presentation.View
                 LocalizedName = data.Name,
             };
 
-            if (_views.TryGetValue(id, out ScenarioView view) == false)
+            if (_views.TryGetValue(id, out ScenarioCardWidget widget) == false)
             {
-                view = Instantiate(_prefab, _scenarioContainer);
-                _views.Add(id, view);
+                widget = Instantiate(_prefab, _scenarioContainer);
+                _views.Add(id, widget);
             }
 
-            view.Show(viewModel);
+            //widget.Show(viewModel);
         }
 
         private Sprite GetIcon(Scenario scenario)

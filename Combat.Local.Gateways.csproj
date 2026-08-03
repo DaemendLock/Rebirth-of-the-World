@@ -90,6 +90,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Charatcters\ActorData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\HitboxRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\ProjectileModel.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Factories\NewScriptStrategyFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Charatcters\AttributeData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\DataSources\IStatusDataBase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Encounter\EncounterProvider.cs" />
@@ -117,10 +118,12 @@
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Encounter\EncounterModel.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Factories\CustomScriptSkillStrategyFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Skills\AbilityRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Skills\NewScriptAbilityPropertyContainer.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Status\StatusTimerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Skills\ActivityModel.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Skills\AbilityData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Charatcters\MovementEffectComponent.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Skills\FixedSizeArraySkillMemoryRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Combat\Local\Gateways\Combat.Local.Gateways.asmdef" />

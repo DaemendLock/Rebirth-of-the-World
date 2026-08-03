@@ -1,4 +1,5 @@
 ﻿using Combat.API.Adapters;
+using Combat.API.API.Skills;
 using Combat.API.Scripting;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
@@ -10,6 +11,7 @@ using System.Runtime.Serialization;
 
 namespace Combat.Local.Gateways.Factories
 {
+
     public sealed class CustomScriptSkillStrategyFactory : ISkillStrategyFactory
     {
         private readonly ISkillDataBase _skillDataBase;

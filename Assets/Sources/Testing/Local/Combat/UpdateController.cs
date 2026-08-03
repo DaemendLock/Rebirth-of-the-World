@@ -14,17 +14,20 @@ namespace Testing.Local
     public class UpdateController : ITickable
     {
         private readonly AttributeOwnerUpdateAllUseCase _attributeOwnerUpdateAllUseCase;
-        private readonly StatusTimerUpdateAllUseCase _updateStatusTimersUseCase;
-        private readonly StatusUpdateAllUseCases _updateStatusesUseCase;
-        private readonly AbilityUpdateAllUseCase _skillUpdateAllUseCase;
+        private readonly StatusOwnerProgressAllUseCases _updateStatusesUseCase;
+        private readonly AbilityProgressAllUseCase _skillUpdateAllUseCase;
         private readonly ActorActAllUseCase _actorUpdateAllUseCase;
         private readonly HitsHandleUseCase _handleHitUseCase;
         private readonly ICharacterUpdateRepository _characterUpdateList;
 
-        public UpdateController(AttributeOwnerUpdateAllUseCase updateCombatUseCase, StatusTimerUpdateAllUseCase updateStatusTimersUseCase, StatusUpdateAllUseCases updateStatusesUseCase, HitsHandleUseCase handleHitUseCase, ICharacterUpdateRepository characterUpdateList, ActorActAllUseCase actorActAllUseCase, AbilityUpdateAllUseCase skillUpdateAllUseCase)
+        public UpdateController(AttributeOwnerUpdateAllUseCase updateCombatUseCase,
+                                StatusOwnerProgressAllUseCases updateStatusesUseCase,
+                                HitsHandleUseCase handleHitUseCase,
+                                ICharacterUpdateRepository characterUpdateList,
+                                ActorActAllUseCase actorActAllUseCase,
+                                AbilityProgressAllUseCase skillUpdateAllUseCase)
         {
             _attributeOwnerUpdateAllUseCase = updateCombatUseCase;
-            _updateStatusTimersUseCase = updateStatusTimersUseCase;
             _updateStatusesUseCase = updateStatusesUseCase;
             _handleHitUseCase = handleHitUseCase;
             _characterUpdateList = characterUpdateList;
@@ -42,8 +45,6 @@ namespace Testing.Local
  
             _skillUpdateAllUseCase.Execute(updateList, deltaTime);
             _updateStatusesUseCase.Execute(updateList, deltaTime);
-
-            _updateStatusTimersUseCase.Execute(deltaTime);
             _handleHitUseCase.Execute(updateList);
             _actorUpdateAllUseCase.Execute(updateList, deltaTime);
         }

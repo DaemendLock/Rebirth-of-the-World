@@ -1,4 +1,4 @@
-﻿using Lobby.Local.Domain.ValueObjects;
+﻿using Lobby.Local.Presentation.Misc;
 
 using UnityEngine;
 

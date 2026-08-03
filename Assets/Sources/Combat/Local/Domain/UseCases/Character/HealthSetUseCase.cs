@@ -17,15 +17,14 @@ namespace Combat.Local.Domain.UseCases
 
         public void Execute(UnitId target, float value)
         {
-            Health health = _healthRepository.Get(target);
+            if (_healthRepository.TryGet(target, out Health health) == false)
+            {
+                throw new System.InvalidOperationException("Not found");
+            }
+
             health.CurrentHealth = value;
             _healthOutput.Present(health);
         }
-    }
-
-    public interface ISetHealthEventHandler
-    {
-        void HandleEvent(Health value, float oldValue);
     }
 
     public interface IHealthOutput

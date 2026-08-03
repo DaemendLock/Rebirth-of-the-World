@@ -30,6 +30,11 @@ namespace Combat.Local.Domain.Entities
         public int StackCount { get; set; }
         public Duration Duration { get; set; }
 
+        public readonly void Progreess(float time)
+        {
+            Duration.Progress(time);
+        }
+
         public void RefreshDuration(float duration)
         {
             Duration = new(Duration.ActiveTime, duration);

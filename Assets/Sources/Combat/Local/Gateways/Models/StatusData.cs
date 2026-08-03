@@ -9,18 +9,17 @@ namespace Combat.Local.Data.Models
     {
         public StatusData(Status status)
         {
-            Parent = status.Parent;
             Name = status.Name;
             Source = status.Source;
+            Parent = status.Parent;
             StackCount = status.StackCount;
             Duration = status.Duration;
             Properties = status.Properties;
         }
 
-        public UnitId Parent { get; }
         public StatusType Name { get; }
         public AbilityKey? Source { get; }
-
+        public UnitId Parent { get; }
         public int StackCount { get; }
         public Duration Duration { get; }
 

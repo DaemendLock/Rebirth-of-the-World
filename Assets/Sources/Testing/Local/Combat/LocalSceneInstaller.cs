@@ -3,8 +3,8 @@ using Assets.Sources.Testing.Local;
 using Client.Testing.View;
 
 using Combat.API.Adapters;
+using Combat.API.API.Skills;
 using Combat.API.Scripting;
-using Combat.Common.ValueObjects;
 using Combat.Local.Controllers;
 using Combat.Local.Data.Databases;
 using Combat.Local.Data.DataSources;
@@ -14,18 +14,19 @@ using Combat.Local.Domain.Facades;
 using Combat.Local.Domain.Factories;
 using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories;
+using Combat.Local.Domain.Repositories.Skill;
 using Combat.Local.Domain.UseCases;
 using Combat.Local.Domain.UseCases.Character;
 using Combat.Local.Domain.UseCases.Players;
 using Combat.Local.Domain.UseCases.Scene;
 using Combat.Local.Domain.UseCases.Skills;
-using Combat.Local.Domain.ValueObjects;
 using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Factories;
 using Combat.Local.Gateways.Repositories;
 using Combat.Local.Gateways.Repositories.Characters;
 using Combat.Local.Gateways.Repositories.Encounter;
 using Combat.Local.Gateways.Repositories.Players;
+using Combat.Local.Gateways.Repositories.Skills;
 using Combat.Local.Presentation.Components;
 using Combat.Local.Presentation.Presenters;
 
@@ -54,6 +55,7 @@ namespace Testing.Local.Combat
 
             IAbilityFactory skillFactory = Container.Resolve<IAbilityFactory>();
             skillFactory.RegisterStrategyFactory(Container.Resolve<CustomScriptSkillStrategyFactory>());
+            skillFactory.RegisterStrategyFactory(Container.Resolve<NewScriptStrategyFactory>());
 
             StatusFactory statusFactory = Container.Resolve<StatusFactory>();
             statusFactory.RegisterStrategyFactory(Container.Resolve<CustomScriptStatusStrategyFactory>());
@@ -123,12 +125,15 @@ namespace Testing.Local.Combat
             Container.Bind<ICharacterPrefabDataSource>().To<CharacterPrefabDataSource>().AsSingle();
 
             //Container.Bind<IEncounterProvider>().To<LocalEncounterRepository>().AsSingle();
+
+            Container.Bind<ISkillMemoryRepository>().To<FixedSizeArraySkillMemoryRepository>().AsSingle();
         }
 
         private void BindFactories()
         {
             Container.Bind<IAbilityFactory>().To<AbilityFactory>().AsSingle();
             Container.Bind<CustomScriptSkillStrategyFactory>().FromNew().AsSingle();
+            Container.Bind<NewScriptStrategyFactory>().FromNew().AsSingle();
 
             Container.Bind<StatusFactory>().FromNew().AsSingle();
             Container.Bind<CustomScriptStatusStrategyFactory>().FromNew().AsSingle();
@@ -162,15 +167,14 @@ namespace Testing.Local.Combat
             Container.Bind<HitsHandleUseCase>().FromNew().AsSingle();
 
             //Abilities
-            Container.Bind<AbilityUpdateAllUseCase>().FromNew().AsSingle();
+            Container.Bind<AbilityProgressAllUseCase>().FromNew().AsSingle();
 
             //Statuses
             Container.Bind<StatusApplyUseCase>().FromNew().AsSingle();
             Container.Bind<StatusTimerStartUseCase>().FromNew().AsSingle();
             Container.Bind<StatusTimerStopUseCase>().FromNew().AsSingle();
-            Container.Bind<StatusTimerUpdateAllUseCase>().FromNew().AsSingle();
             Container.Bind<StatusRemoveUseCase>().FromNew().AsSingle();
-            Container.Bind<StatusUpdateAllUseCases>().FromNew().AsSingle();
+            Container.Bind<StatusOwnerProgressAllUseCases>().FromNew().AsSingle();
 
             //Attributes
             Container.Bind<AttributeOwnerGetAttributeValueUseCase>().FromNew().AsSingle();

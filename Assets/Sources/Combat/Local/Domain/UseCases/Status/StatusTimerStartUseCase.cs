@@ -22,7 +22,8 @@ namespace Combat.Local.Domain.UseCases
                 throw new System.InvalidOperationException();
             }
 
-            _statusTimeRepository.Create(new(statusId, period, status.Properties, timePassed));
+            StatusTimer statusTimer = new(statusId, period, status.Properties, timePassed);
+            _statusTimeRepository.Create(statusTimer);
         }
     }
 }

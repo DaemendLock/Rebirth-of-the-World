@@ -23,16 +23,6 @@ namespace Combat.API.Adapters
             _statusRepository = statusRepository;
         }
 
-        public StatusApi Adaptee(StatusId id)
-        {
-            if (_statusRepository.TryGet(id, out var status) == false)
-            {
-                return default;
-            }
-
-            return Adaptee(status.Id, status.Parent, status.Source);
-        }
-
         public StatusApi Adaptee(StatusId id, UnitId parent, AbilityKey? abilityKey)
         {
             Unit parentApi = _unitApiProvider.Adaptee(parent);

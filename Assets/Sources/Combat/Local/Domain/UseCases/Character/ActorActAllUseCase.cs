@@ -18,6 +18,7 @@ namespace Combat.Local.Domain.UseCases.Character
         private readonly IPositionableRepository _positionableRepository;
         private readonly IActorRepository _actorRepository;
         private readonly IAbilityRepository _abilityRepository;
+        private readonly ISkillOwnerRepository _skillOwnerRepository;
         private readonly ActionFactory _actionFactory;
 
         public ActorActAllUseCase(IAttributesRepository attributesRepository, IPositionableRepository positionableRepository, IActorRepository actorRepository, IAbilityRepository skillRepository, ActionFactory actionFactory)
@@ -119,8 +120,9 @@ namespace Combat.Local.Domain.UseCases.Character
             actor.DesireCast(default);
             _actorRepository.Update(actor);
             Ability skill = _abilityRepository.Get(new(caster, skillId));
+            SkillOwner skillOwner = _skillOwnerRepository.Get(caster);
 
-            if (skill.ActiveCooldown > 0)
+            if (skillOwner.GetCooldown(skillId) > 0)
             {
                 return;
             }

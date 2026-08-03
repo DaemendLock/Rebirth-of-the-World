@@ -65,6 +65,7 @@
     <Compile Include="Assets\Sources\Combat\Common\Flags\KillFlags.cs" />
     <Compile Include="Assets\Sources\Combat\Common\Flags\ReviveFlags.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\Duration.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\Helpers\TypeIdProvider.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\ModelName.cs" />
     <Compile Include="Assets\Sources\Combat\Common\Flags\DamageFlags.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\TransformEffectId.cs" />

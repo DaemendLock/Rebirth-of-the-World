@@ -1,6 +1,6 @@
 using Lobby.Local.Domain.UseCases.Scenarios;
 using Lobby.Local.Presentation.View;
-using Lobby.Local.Presentation.View.ScenarioSelection;
+using Lobby.Local.Presentation.Widgets;
 
 using System;
 
@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Testing.Local.Lobby
 {
-    [RequireComponent(typeof(ScenarioView))]
+    [RequireComponent(typeof(ScenarioCardWidget))]
     public sealed class ScenarioProperties : MonoBehaviour
     {
         [Zenject.Inject] private ScenarioCreateUseCase _scenarioCreateUseCase;
@@ -23,7 +23,7 @@ namespace Testing.Local.Lobby
         {
             var val = _scenarioCreateUseCase.Execute(_scenarioName, _maxPlayerCount);
             _guid = val.ToString();
-            FindAnyObjectByType<ScenarioSelectionController>().Register(val, GetComponent<ScenarioView>());
+            FindAnyObjectByType<ScenarioSelectionController>().Register(val, GetComponent<ScenarioCardWidget>());
         }
 
         private void OnDestroy()

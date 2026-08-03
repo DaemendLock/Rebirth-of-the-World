@@ -10,7 +10,7 @@ namespace Combat.Local.Domain.Repositories
         void Create(StatusTimer statusTimer);
         void Update(StatusTimer statusTimer);
         void Delete(StatusId statusId);
-        bool Contain(StatusId statusId);
+        bool TryGet(StatusId statusId, out StatusTimer statusTimer);
 
         ICollection<StatusTimer> GetAll();
     }

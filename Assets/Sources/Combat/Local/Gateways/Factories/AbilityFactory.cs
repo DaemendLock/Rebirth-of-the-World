@@ -37,7 +37,7 @@ namespace Combat.Local.Gateways.Factories
 
             IAbilityPropertyContainer properties = GetFactory(skillId)?.Create(owner, skillId);
 
-            return new(skillId, flags, owner, 0, actions, properties);
+            return new(skillId, flags, owner, actions, properties);
         }
 
         private ISkillStrategyFactory GetFactory(SkillId id)

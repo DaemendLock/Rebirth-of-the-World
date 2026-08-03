@@ -29,7 +29,7 @@ namespace Combat.Local.Domain.UseCases
             }
 
             Status status = _statusFactory.Create(data.StatusName, data.Target, data.InitialDuration, data.InitialStackCount, data.Ability);
-            RegisterStatus(status);
+            RegisterStatus(data.Target, status);
             status.Properties.Apply();
         }
 
@@ -61,9 +61,9 @@ namespace Combat.Local.Domain.UseCases
             return false;
         }
 
-        private void RegisterStatus(Status status)
+        private void RegisterStatus(UnitId parent, Status status)
         {
-            StatusOwner statusOwner = _statusOwnerRepository.Get(status.Parent);
+            StatusOwner statusOwner = _statusOwnerRepository.Get(parent);
             var buffer = statusOwner.GetAll();
             System.Span<StatusId> values = stackalloc StatusId[buffer.Length + 1];
             buffer.CopyTo(values);

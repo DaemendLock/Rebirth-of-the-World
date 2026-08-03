@@ -22,11 +22,6 @@ namespace Combat.Local.Domain.Facades
             _statusRepository = statusRepository;
         }
 
-        public void Remove(StatusId id)
-        {
-            _removeStatusUseCase.Execute(id);
-        }
-
         public void StartPeriodicAction(StatusId target, float period, float startTime = 0)
         {
             _startStatusTimerUseCase.Execute(target, period, startTime);

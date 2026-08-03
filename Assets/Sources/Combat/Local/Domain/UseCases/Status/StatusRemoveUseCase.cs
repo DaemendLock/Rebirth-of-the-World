@@ -18,24 +18,31 @@ namespace Combat.Local.Domain.UseCases
             _statusTimerRepository = statusTimerRepository;
         }
 
-        public void Execute(StatusId targetId)
+        public void Execute(UnitId target, StatusId statusId)
         {
-            if (_statusRepository.TryGet(targetId, out var target) == false)
+            StatusOwner statusOwner = _statusOwnerRepository.Get(target);
+
+            if (statusOwner.HasStatus(statusId) == false)
+            {
+                throw new InvalidOperationException();
+            }
+
+            if (_statusRepository.TryGet(statusId, out var status) == false)
             {
                 throw new System.InvalidOperationException();
             }
 
-            target.Properties.Remove();
-            _statusRepository.Delete(targetId);
-            _statusTimerRepository.Delete(targetId);
-            StatusOwner statusOwner = _statusOwnerRepository.Get(target.Parent);
+            status.Properties.Remove();
+            _statusTimerRepository.Delete(statusId);
+            _statusRepository.Delete(statusId);
+
             ReadOnlySpan<StatusId> buffer = statusOwner.GetAll();
             Span<StatusId> newValues = stackalloc StatusId[buffer.Length - 1];
 
             int i = 0;
             foreach (StatusId value in buffer)
             {
-                if (value == targetId)
+                if (value == statusId)
                 {
                     continue;
                 }

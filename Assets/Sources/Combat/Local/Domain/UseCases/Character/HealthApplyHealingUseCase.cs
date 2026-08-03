@@ -25,7 +25,10 @@ namespace Combat.Local.Domain.UseCases
 
         public void Execute(UnitId target, float healing, HealingFlags flags, UnitId? healer, AbilityKey? source)
         {
-            Health health = _healthRepository.Get(target);
+            if (_healthRepository.TryGet(target, out Health health) == false)
+            {
+                throw new System.InvalidOperationException();
+            }
 
             HealingInstance instance = CreateHealingInstance(target, healing, flags, healer, source);
             healing = instance.Healing;

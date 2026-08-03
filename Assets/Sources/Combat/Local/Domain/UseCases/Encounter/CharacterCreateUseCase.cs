@@ -63,9 +63,7 @@ namespace Combat.Local.Domain.UseCases
 
             float currentHealth = context.InitialHealth < 0 ? context.DefaultHealth : context.InitialHealth;
 
-            Health health = _healthRepository.Create(id);
-            health.DefaultHealth = context.DefaultHealth;
-            health.CurrentHealth = currentHealth;
+            Health health = _healthRepository.Create(id, new(context.DefaultHealth, currentHealth));
 
             System.Span<SkillId> abilities = stackalloc SkillId[context.Skills.Length];
             int index = 0;

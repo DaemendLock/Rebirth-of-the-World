@@ -17,5 +17,18 @@ namespace Combat.Local.Domain.Entities
         public UnitId Id { get; }
 
         public ReadOnlySpan<StatusId> GetAll() => _statuses;
+
+        public bool HasStatus(StatusId id)
+        {
+            foreach (StatusId status in _statuses)
+            {
+                if (status != id)
+                    continue;
+
+                return true;
+            }
+
+            return false;
+        }
     }
 }

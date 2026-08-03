@@ -5,6 +5,21 @@ using System.Collections.Generic;
 
 namespace Combat.API.Adapters
 {
+    public readonly struct UnitNewAdapter
+    {
+        private readonly HealthOwnerFacade _healthOwnerFacade;
+
+        public UnitNewAdapter(HealthOwnerFacade healthOwnerFacade)
+        {
+            _healthOwnerFacade = healthOwnerFacade;
+        }
+
+        public UnitNew Adaptee(UnitId id)
+        {
+            return new(id, _healthOwnerFacade);
+        }
+    }
+
     public readonly struct CharacterApiAdapter
     {
         private readonly CharacterFacade _characterFacade;
