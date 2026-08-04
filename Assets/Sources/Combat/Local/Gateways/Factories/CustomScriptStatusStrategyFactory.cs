@@ -1,7 +1,7 @@
 ﻿using Combat.API.Adapters;
 using Combat.API.Scripting;
 using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Entities.Statuses;
+using Combat.Local.API.IDK;
 using Combat.Local.Domain.Factories;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Gateways.DataSources;

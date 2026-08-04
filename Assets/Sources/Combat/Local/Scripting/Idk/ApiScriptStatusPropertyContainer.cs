@@ -5,8 +5,8 @@ using Combat.API.Scripting;
 using Combat.API.Statuses;
 using Combat.API.ValueObjects;
 using Combat.Common.ValueObjects;
+using Combat.Local.API.IDK;
 using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Entities.Statuses;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
 

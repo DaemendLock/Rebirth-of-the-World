@@ -2,6 +2,7 @@
 using Combat.Local.Domain.DTO;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Factories;
+using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
 
 using System;
@@ -13,12 +14,14 @@ namespace Combat.Local.Domain.UseCases
         private readonly IStatusRepository _statusRepository;
         private readonly IStatusOwnerRepository _statusOwnerRepository;
         private readonly StatusFactory _statusFactory;
+        private readonly IStatusLifecycleHandler _statusLyfecycleHandler;
 
-        public StatusApplyUseCase(IStatusRepository statusRepository, StatusFactory statusFactory, IStatusOwnerRepository statusOwnerRepository)
+        public StatusApplyUseCase(IStatusRepository statusRepository, StatusFactory statusFactory, IStatusOwnerRepository statusOwnerRepository, IStatusLifecycleHandler statusInitCleanupPort)
         {
             _statusRepository = statusRepository;
             _statusFactory = statusFactory;
             _statusOwnerRepository = statusOwnerRepository;
+            _statusLyfecycleHandler = statusInitCleanupPort;
         }
 
         public void Execute(ApplStatusDTO data)
@@ -30,7 +33,6 @@ namespace Combat.Local.Domain.UseCases
 
             Status status = _statusFactory.Create(data.StatusName, data.Target, data.InitialDuration, data.InitialStackCount, data.Ability);
             RegisterStatus(data.Target, status);
-            status.Properties.Apply();
         }
 
         private bool TryReapplyStatus(ApplStatusDTO data)
@@ -70,6 +72,7 @@ namespace Combat.Local.Domain.UseCases
             values[^1] = status.Id;
             _statusOwnerRepository.Update(new(statusOwner.Id, values));
             _statusRepository.Create(status);
+            _statusLyfecycleHandler.Apply(status);
         }
     }
 }

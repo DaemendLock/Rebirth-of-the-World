@@ -1,6 +1,6 @@
 ﻿using Combat.Common.ValueObjects;
+using Combat.Local.API.IDK;
 using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Entities.Statuses;
 using Combat.Local.Domain.ValueObjects;
 
 namespace Combat.Local.Data.Models

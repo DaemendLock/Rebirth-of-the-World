@@ -76,8 +76,10 @@
     <Compile Include="Assets\Sources\Combat\Local\Scripting\Idk\ApiScriptDrivenAbilityPropertyContainer.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Scripting\Idk\ApiScriptStatusPropertyContainer.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Scripting\Idk\NewScriptAbilityPropertyContainer.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Scripting\Idk\ScriptStatusRuntimeRegistry.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Scripting\Ports\SkillPorts\SkillExecutionPort.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Ports\StatusPorts\StatusPropertyDamageModifcationCalculator.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Scripting\Ports\StatusPorts\PropertyDamageModifcationCalculator.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Scripting\Ports\StatusPorts\PropertyStatusLifecycleHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Scripting\Ports\StatusPorts\StatusPropertyDamageResultHandler.cs" />
   </ItemGroup>
   <ItemGroup>

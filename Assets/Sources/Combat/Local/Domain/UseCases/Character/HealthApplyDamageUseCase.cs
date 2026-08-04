@@ -124,21 +124,7 @@ namespace Combat.Local.Domain.UseCases
             }
 
             StatusOwner attackerStatuses = _statusOwnerRepository.Get(@event.Attacker.Value);
-
-            foreach (var statusId in attackerStatuses.GetAll())
-            {
-                if (_statusRepository.TryGet(statusId, out Status status) == false)
-                {
-                    continue;
-                }
-
-                if (status.Properties.TryGetProperty(out IDealDamageEffectStrategy effect) == false)
-                {
-                    continue;
-                }
-
-                effect.HandleDamage(@event);
-            }
+            _damageResultHandler.HandleDamageDealth(attackerStatuses.GetAll(), @event);
         }
 
         private void Kill(UnitId target, UnitId? attacker, AbilityKey? source)
