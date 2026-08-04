@@ -6,6 +6,7 @@ namespace Combat.Local.Domain.OutputPorts.Statuses
     public interface IStatusLifecycleHandler
     {
         void Apply(Status status);
+        void Expire(StatusId status);
         void Cleanup(StatusId status);
     }
 }

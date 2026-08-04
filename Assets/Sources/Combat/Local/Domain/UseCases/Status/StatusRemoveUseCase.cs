@@ -1,5 +1,6 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
+using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
 
 using System;
@@ -11,6 +12,7 @@ namespace Combat.Local.Domain.UseCases
         private readonly IStatusRepository _statusRepository;
         private readonly IStatusTimerRepository _statusTimerRepository;
         private readonly IStatusOwnerRepository _statusOwnerRepository;
+        private readonly IStatusLifecycleHandler _statusLifecycleHandler;
 
         public StatusRemoveUseCase(IStatusRepository statusRepository, IStatusTimerRepository statusTimerRepository)
         {
@@ -27,12 +29,7 @@ namespace Combat.Local.Domain.UseCases
                 throw new InvalidOperationException();
             }
 
-            if (_statusRepository.TryGet(statusId, out var status) == false)
-            {
-                throw new System.InvalidOperationException();
-            }
-
-            status.Properties.Remove();
+            _statusLifecycleHandler.Cleanup(statusId);
             _statusTimerRepository.Delete(statusId);
             _statusRepository.Delete(statusId);
 

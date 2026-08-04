@@ -9,8 +9,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{84D51C1F-4A00-169F-B1F2-C7892886743B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -62,16 +61,9 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Skills\ILockTargetBehaviour.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Skills\ISkillActionStateChangeHandler.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Skills\ISkillBehaviour.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Skills\ISkillExecutionPort.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Skills\ISkillHitHandler.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Statuses\IDamageHandler.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Statuses\IDamageModifierCalculator.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\HealingModification.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Skills\Ability.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Actions\IActionStrategy.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Statuses\IStatusLifecycleHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Encounter\ProjectileCreateUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\ScaleOverTimeEffect.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Facades\EncounterFacade.cs" />
@@ -80,14 +72,16 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\AddMovementEffectUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IResourceOwnerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\Aligment.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\DamageModification.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\DesiredActions.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Encounter.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\StatusOwner.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Projectile.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IMovementEffectOwnerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Players\FindSuitableTargetUseCase.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\DamageModification.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Charcters\IGiveResourceOutput.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Statuses\IHealingDamageModifierCalculator.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Skills\ISkillActionStateChangeHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Player\Player.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\AttributesOwner.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IActorRepository.cs" />
@@ -102,6 +96,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\HealthApplyDamageUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Actions\Action.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\AttributesModification.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Skills\ILockTargetBehaviour.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\IAbilityRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\DTO\ApplStatusDTO.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Players\AssumeControlOverCharacterUseCase.cs" />
@@ -114,23 +109,24 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Skill\ISkillMemoryRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Charcters\ISpendResourceOutput.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\SkillOwner.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Skills\IAbilityPropertyContainer.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Statuses\IStatusTickHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IStateRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IStatusOwnerRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Skills\ISkillExecutionPort.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Players\IPlayerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\IProjectileRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\ResourceGiveUseCase.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\HealingModification.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\Resource.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\Health.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Encounter\HitsHandleUseCase.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Statuses\IStatusAttributeCalculator.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Status\StatusTimerStopUseCase.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\Factories\ISkillStrategyFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Players\DesireCastFromSlotUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Players\CreatePlayerUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\MovementEffectOwner.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\IHurtableRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Encounter\FindCharactersInRadiusUseCase.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Statuses\IStatusLifecycleHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\CastInfo.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\ActorActAllUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\MoveInDirectionEffect.cs" />
@@ -141,6 +137,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Status\IStatusTimerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\DTO\CreateCharacterDTO.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Factories\UnitIdFactory.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Statuses\IDamageHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\DamageResult.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IAttributesRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\HealthSetUseCase.cs" />
@@ -158,16 +155,19 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\DamageInstance.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IHitboxOwnerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Encounter\CharacterDeleteUseCase.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Skills\ISkillBehaviour.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Player\SkillPanel.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Statuses\StatusTimer.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Factories\IAbilityFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\ActorForceKillUseCase.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Skills\ISkillHitHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Encounter\CharacterCreateUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\Character.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Facades\AbilityFacade.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\HitRecord.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Facades\StatusFacade.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Charcters\ICharacterCreateOutput.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Skills\ISkillLyfecycleHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\ResourceValue.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Factories\StatusFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\StatusOwnerFindStatusUseCase.cs" />
@@ -1172,7 +1172,6 @@
       <Name>Combat.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

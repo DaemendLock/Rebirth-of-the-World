@@ -1,6 +1,6 @@
-﻿using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Endpoints.Skills;
-using Combat.Local.Domain.Entities;
+﻿using Combat.API;
+using Combat.API.Skills;
+using Combat.Common.ValueObjects;
 
 namespace Combat.Local.Scripting.Idk
 {
@@ -17,19 +17,19 @@ namespace Combat.Local.Scripting.Idk
 
         public void Remove() { }
 
-        public bool TryGet(out ISkillHitHandler result)
+        public bool TryGet(out IHitHandler result)
         {
             result = default;
             return false;
         }
 
-        public bool TryGet(out ISkillActionStateChangeHandler result)
+        public bool TryGet(out ICastStateChangeHandler result)
         {
             result = default;
             return false;
         }
 
-        public bool TryGet(out ILockTargetBehaviour result)
+        public bool TryGet(out ITargettableSkill result)
         {
             result = default;
             return false;

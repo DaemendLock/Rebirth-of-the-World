@@ -36,6 +36,8 @@ namespace Combat.Local.Domain.ValueObjects
 
         public AttributeModifier Speed { get; set; }
 
+        public float TimeScale { get; set; }
+
         public readonly AttributeModifier this[Attribute attribute] => attribute switch
         {
             Attribute.Atk => Attack,

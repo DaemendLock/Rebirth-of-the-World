@@ -72,13 +72,13 @@ namespace Combat.Local.Scripting
 
         public void SpendResource(ResourceId resource, float value, AbilityApi source) => _characterFacade.SpendResource(_id, resource, value, source?.AbilityKey);
 
-        public void ApplyDamage(API.DTO.ApplyDamageInfo info)
+        public void ApplyDamage(Combat.API.DTO.ApplyDamageInfo info)
         {
             Domain.Facades.ApplyDamageInfo applyDamageInfo = new(_id, info.Damage, info.Flags, info.Attacker?.Id, info.Source?.AbilityKey);
             _healthOwnerFacade.ApplyDamage(applyDamageInfo);
         }
 
-        public void ApplyHealing(API.DTO.ApplyHealingInfo info)
+        public void ApplyHealing(Combat.API.DTO.ApplyHealingInfo info)
         {
             Domain.Facades.ApplyHealingInfo applyHealingInfo = new(_id, info.Healing, info.Flags, info.Healer?.Id, info.Source?.AbilityKey);
             _healthOwnerFacade.ApplyHealing(applyHealingInfo);

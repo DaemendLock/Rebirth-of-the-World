@@ -14,68 +14,58 @@ namespace Combat.Local.Gateways.Repositories.Statuses
 {
     public class ApiScriptStatusPropertyContainer : IStatusPropertyContainer
     {
-        private readonly StatusId _statusId;
-        private readonly IStatusRepository _statusRepository;
         private readonly StatusScript _statusScript;
-        private readonly IStatusApiAdapter _statusApiAdapter;
-        private readonly ITakeDamageEffectStrategy _takeDamageEffectStrategy;
-        private readonly IDealDamageEffectStrategy _dealDamageEffectStrategy;
-        private readonly IModifyParentOutgoingDamageStrategy _modifyParentOutgoingDamageStrategy;
-        private readonly IModifyParentOutgoingHealingStrategy _modifyParentOutgoingHealingStrategy;
-        private readonly IModifyParentIncomingDamageStrategy _modifyParentIncomingDamageStrategy;
-        private readonly IModifyAttributesStrategy _modifyAttributesStrategy;
-        private readonly IModifyTimeScaleStrategy _modifyTimeScaleStrategy;
+        private readonly IIncomingHealDamageHandler _takeDamageEffectStrategy;
+        private readonly IOutgoingHealDamageHandler _dealDamageEffectStrategy;
+        private readonly IOutgoingDamageModifier _modifyParentOutgoingDamageStrategy;
+        private readonly IOutgoingHealingModifier _modifyParentOutgoingHealingStrategy;
+        private readonly IIncomingHealDamageModifier _modifyParentIncomingDamageStrategy;
+        private readonly IAttributesModifier _modifyAttributesStrategy;
+        private readonly ITimeScaleModifier _modifyTimeScaleStrategy;
 
-        public ApiScriptStatusPropertyContainer(StatusId statusId, StatusScript script, ICharacterApiAdapter unitApiAdapter, IAbilityApiAdapter skillApiProvider, ISceneApiAdapter sceneApiProvider, IStatusApiAdapter statusApiFactory, IStatusRepository statusRepository)
+        public ApiScriptStatusPropertyContainer(StatusScript script)
         {
-            _statusId = statusId;
             _statusScript = script;
 
             if (script is IIncomingHealDamageHandler incomingHealDamageHandler)
             {
-                _takeDamageEffectStrategy = new DataDrivenTakeDamageEffectStrategy(incomingHealDamageHandler, unitApiAdapter, skillApiProvider);
+                _takeDamageEffectStrategy = incomingHealDamageHandler;
             }
 
             if (script is IOutgoingHealDamageHandler outgoingHealDamageHandler)
             {
-                _dealDamageEffectStrategy = new DataDrivenDealDamageEffectStrategy(outgoingHealDamageHandler, unitApiAdapter, skillApiProvider);
+                _dealDamageEffectStrategy = outgoingHealDamageHandler;
             }
 
             if (script is IOutgoingDamageModifier outgoinDamageModifier)
             {
-                _modifyParentOutgoingDamageStrategy = new DataDrivenModifyParentDamageEffectStrategy(outgoinDamageModifier, unitApiAdapter, skillApiProvider);
+                _modifyParentOutgoingDamageStrategy = outgoinDamageModifier;
             }
 
             if (script is IOutgoingHealingModifier outgoinHealingModifier)
             {
-                _modifyParentOutgoingHealingStrategy = new DataDrivenModifyParentHealingEffectStrategy(outgoinHealingModifier, unitApiAdapter, skillApiProvider);
+                _modifyParentOutgoingHealingStrategy = outgoinHealingModifier;
             }
 
             if (script is IIncomingHealDamageModifier incomingHealDamageModifier)
             {
-                _modifyParentIncomingDamageStrategy = new DataDrivenModifyParentIncomingDamageEffectStrategy(incomingHealDamageModifier, unitApiAdapter, skillApiProvider);
+                _modifyParentIncomingDamageStrategy = incomingHealDamageModifier;
             }
 
             if (script is ITimeScaleModifier timeScaleModifier)
             {
-                _modifyTimeScaleStrategy = new DataDrivenModifyTimeScaleEffectStrategy(timeScaleModifier);
+                _modifyTimeScaleStrategy = timeScaleModifier;
             }
 
             if (script is IAttributesModifier attributesModifier)
             {
-                _modifyAttributesStrategy = new DataDrivenModifyAttributeStrategy(attributesModifier);
+                _modifyAttributesStrategy = attributesModifier;
             }
-
-            _statusApiAdapter = statusApiFactory;
-            _statusRepository = statusRepository;
         }
 
         public bool DestroyOnExpire => true;
 
-        public void Apply()
-        {
-            _statusScript.OnCreate();
-        }
+        public void Apply() => _statusScript.OnCreate();
 
         public void Expire() => _statusScript.OnExpire();
 
@@ -83,7 +73,7 @@ namespace Combat.Local.Gateways.Repositories.Statuses
 
         public void Tick() => _statusScript.OnTick();
 
-        public bool TryGetProperty(out ITakeDamageEffectStrategy effect)
+        public bool TryGetProperty(out IIncomingHealDamageHandler effect)
         {
             if (_takeDamageEffectStrategy == null)
             {
@@ -95,7 +85,7 @@ namespace Combat.Local.Gateways.Repositories.Statuses
             return true;
         }
 
-        public bool TryGetProperty(out IDealDamageEffectStrategy effect)
+        public bool TryGetProperty(out IOutgoingHealDamageHandler effect)
         {
             if (_dealDamageEffectStrategy == null)
             {
@@ -107,7 +97,7 @@ namespace Combat.Local.Gateways.Repositories.Statuses
             return true;
         }
 
-        public bool TryGetProperty(out IModifyParentOutgoingDamageStrategy effect)
+        public bool TryGetProperty(out IOutgoingDamageModifier effect)
         {
             if (_modifyParentOutgoingDamageStrategy == null)
             {
@@ -119,7 +109,7 @@ namespace Combat.Local.Gateways.Repositories.Statuses
             return true;
         }
 
-        public bool TryGetProperty(out IModifyParentOutgoingHealingStrategy effect)
+        public bool TryGetProperty(out IOutgoingHealingModifier effect)
         {
             if (_modifyParentOutgoingDamageStrategy == null)
             {
@@ -131,7 +121,7 @@ namespace Combat.Local.Gateways.Repositories.Statuses
             return true;
         }
 
-        public bool TryGetProperty(out IModifyParentIncomingDamageStrategy effect)
+        public bool TryGetProperty(out IIncomingHealDamageModifier effect)
         {
             if (_modifyParentIncomingDamageStrategy == null)
             {
@@ -143,7 +133,7 @@ namespace Combat.Local.Gateways.Repositories.Statuses
             return true;
         }
 
-        public bool TryGetProperty(out IModifyAttributesStrategy effect)
+        public bool TryGetProperty(out IAttributesModifier effect)
         {
             if (_modifyAttributesStrategy == null)
             {
@@ -155,7 +145,7 @@ namespace Combat.Local.Gateways.Repositories.Statuses
             return true;
         }
 
-        public bool TryGetProperty(out IModifyTimeScaleStrategy effect)
+        public bool TryGetProperty(out ITimeScaleModifier effect)
         {
             if (_modifyTimeScaleStrategy == null)
             {
@@ -165,219 +155,6 @@ namespace Combat.Local.Gateways.Repositories.Statuses
 
             effect = _modifyTimeScaleStrategy;
             return true;
-        }
-
-        private class DataDrivenTakeDamageEffectStrategy : ITakeDamageEffectStrategy
-        {
-            private readonly ICharacterApiAdapter _unitApiAdapter;
-            private readonly IAbilityApiAdapter _skillApiProvider;
-            private readonly IIncomingHealDamageHandler _handler;
-
-            public DataDrivenTakeDamageEffectStrategy(IIncomingHealDamageHandler handler, ICharacterApiAdapter unitApiAdapter, IAbilityApiAdapter skillApiProvider)
-            {
-                _handler = handler;
-                _unitApiAdapter = unitApiAdapter;
-                _skillApiProvider = skillApiProvider;
-            }
-
-            public void HandleDamage(DamageResult @event)
-            {
-                Unit target = _unitApiAdapter.Adaptee(@event.Target);
-                Unit attacker = @event.Attacker.HasValue ? _unitApiAdapter.Adaptee(@event.Attacker.Value) : null;
-                AbilityApi source;
-
-                if (@event.Skill.HasValue)
-                {
-                    source = _skillApiProvider.Adaptee(@event.Skill.Value);
-                }
-                else
-                {
-                    source = null;
-                }
-
-                DamageRecord record = new(target, @event.OriginalDamage, @event.FinalDamage, @event.Flags, attacker, source);
-                _handler.OnTakeDamage(record);
-            }
-        }
-
-        private class DataDrivenDealDamageEffectStrategy : IDealDamageEffectStrategy
-        {
-            private readonly ICharacterApiAdapter _unitApiAdapter;
-            private readonly IAbilityApiAdapter _skillApiProvider;
-            private readonly IOutgoingHealDamageHandler _handler;
-
-            public DataDrivenDealDamageEffectStrategy(IOutgoingHealDamageHandler handler, ICharacterApiAdapter unitApiAdapter, IAbilityApiAdapter skillApiProvider)
-            {
-                _handler = handler;
-                _unitApiAdapter = unitApiAdapter;
-                _skillApiProvider = skillApiProvider;
-            }
-
-            public void HandleDamage(DamageResult @event)
-            {
-                Unit target = _unitApiAdapter.Adaptee(@event.Target);
-                Unit attacker = @event.Attacker.HasValue ? _unitApiAdapter.Adaptee(@event.Attacker.Value) : null;
-                AbilityApi source;
-
-                if (@event.Skill.HasValue)
-                {
-                    source = _skillApiProvider.Adaptee(@event.Skill.Value);
-                }
-                else
-                {
-                    source = null;
-                }
-
-                DamageRecord record = new(target, @event.OriginalDamage, @event.FinalDamage, @event.Flags, attacker, source);
-                _handler.OnDealDamage(record);
-            }
-        }
-
-        private class DataDrivenModifyParentDamageEffectStrategy : IModifyParentOutgoingDamageStrategy
-        {
-            private readonly ICharacterApiAdapter _unitApiAdapter;
-            private readonly IAbilityApiAdapter _skillApiProvider;
-            private readonly IOutgoingDamageModifier _modifer;
-
-            public DataDrivenModifyParentDamageEffectStrategy(IOutgoingDamageModifier modifier, ICharacterApiAdapter unitApiAdapter, IAbilityApiAdapter skillApiProvider)
-            {
-                _modifer = modifier;
-                _unitApiAdapter = unitApiAdapter;
-                _skillApiProvider = skillApiProvider;
-            }
-
-            public DamageModification GetModification(DamageInstance instance)
-            {
-                Unit target = _unitApiAdapter.Adaptee(instance.Target);
-                Unit attacker = instance.Attacker.HasValue ? _unitApiAdapter.Adaptee(instance.Attacker.Value) : null;
-                AbilityApi source;
-
-                if (instance.Source.HasValue)
-                {
-                    source = _skillApiProvider.Adaptee(instance.Source.Value);
-                }
-                else
-                {
-                    source = null;
-                }
-
-                DamageInstanceApi instanceApi = new(target, attacker, source, instance.OriginalDamage, instance.Flags);
-                DamageModification modification = new(_modifer.GetDamageDealthModification_Value(instanceApi), _modifer.GetDamageDealthModification_Percent(instanceApi), _modifer.GetDamageDealthModification_Bonus(instanceApi), _modifer.GetDamageFlagMask(instanceApi));
-
-                return modification;
-            }
-        }
-
-        private class DataDrivenModifyParentHealingEffectStrategy : IModifyParentOutgoingHealingStrategy
-        {
-            private readonly ICharacterApiAdapter _unitApiAdapter;
-            private readonly IAbilityApiAdapter _skillApiProvider;
-            private readonly IOutgoingHealingModifier _modifer;
-
-            public DataDrivenModifyParentHealingEffectStrategy(IOutgoingHealingModifier modifier, ICharacterApiAdapter unitApiAdapter, IAbilityApiAdapter skillApiProvider)
-            {
-                _modifer = modifier;
-                _unitApiAdapter = unitApiAdapter;
-                _skillApiProvider = skillApiProvider;
-            }
-
-            public HealingModification GetModification(HealingInstance instance)
-            {
-                Unit target = _unitApiAdapter.Adaptee(instance.Target);
-                Unit attacker = instance.Healer.HasValue ? _unitApiAdapter.Adaptee(instance.Healer.Value) : null;
-                AbilityApi source;
-
-                if (instance.Source.HasValue)
-                {
-                    source = _skillApiProvider.Adaptee(instance.Source.Value);
-                }
-                else
-                {
-                    source = null;
-                }
-
-                HealingInstanceApi instanceApi = new(target, attacker, source, instance.OriginalHealing, instance.Flags);
-                HealingModification modification = new(_modifer.GetBonusHealingDealthValue(instanceApi), _modifer.GetBonusHealingDealthPercent(instanceApi), _modifer.GetBonusHealingDealth(instanceApi), _modifer.GetHealingFlagMask(instanceApi));
-
-                return modification;
-            }
-        }
-
-        private class DataDrivenModifyParentIncomingDamageEffectStrategy : IModifyParentIncomingDamageStrategy
-        {
-            private readonly ICharacterApiAdapter _unitApiAdapter;
-            private readonly IAbilityApiAdapter _skillApiProvider;
-            private readonly IIncomingHealDamageModifier _modifer;
-
-            public DataDrivenModifyParentIncomingDamageEffectStrategy(IIncomingHealDamageModifier modifier, ICharacterApiAdapter unitApiAdapter, IAbilityApiAdapter skillApiProvider)
-            {
-                _modifer = modifier;
-                _unitApiAdapter = unitApiAdapter;
-                _skillApiProvider = skillApiProvider;
-            }
-
-            public DamageModification GetModification(DamageInstance instance)
-            {
-                Unit target = _unitApiAdapter.Adaptee(instance.Target);
-                Unit attacker = instance.Attacker.HasValue ? _unitApiAdapter.Adaptee(instance.Attacker.Value) : null;
-                AbilityApi source;
-
-                if (instance.Source.HasValue)
-                {
-                    source = _skillApiProvider.Adaptee(instance.Source.Value);
-                }
-                else
-                {
-                    source = null;
-                }
-
-                DamageInstanceApi instanceApi = new(target, attacker, source, instance.OriginalDamage, instance.Flags);
-                DamageModification modification = new(_modifer.GetBonusDamageRecivedValue(instanceApi), _modifer.GetBonusDamageRecivedPercent(instanceApi), _modifer.GetBonusDamageRecived(instanceApi), _modifer.GetDamageFlagMask(instanceApi));
-
-                return modification;
-            }
-        }
-
-        private class DataDrivenModifyTimeScaleEffectStrategy : IModifyTimeScaleStrategy
-        {
-            private readonly ITimeScaleModifier _modifer;
-
-            public DataDrivenModifyTimeScaleEffectStrategy(ITimeScaleModifier modifier)
-            {
-                _modifer = modifier;
-            }
-
-            public float GetModification() => _modifer.GetTimeModification();
-        }
-
-        private class DataDrivenModifyAttributeStrategy : IModifyAttributesStrategy
-        {
-            private readonly IAttributesModifier _modifer;
-
-            public DataDrivenModifyAttributeStrategy(IAttributesModifier modifier)
-            {
-                _modifer = modifier;
-            }
-
-            public AttributesModification ModifyAttributes()
-            {
-                AttributesModification result = new();
-
-                System.Span<AttributeValue> baseValues = stackalloc AttributeValue[AttributesOwner.AttributeCount];
-                System.Span<AttributeValue> bonusValues = stackalloc AttributeValue[baseValues.Length];
-
-                baseValues.Clear();
-                bonusValues.Clear();
-
-                AttributesData attributesData = new(baseValues, bonusValues);
-                _modifer.GetAttributesBonuses(attributesData);
-
-                result.Attack = new(bonusValues[(int)Attribute.Atk]);
-                result.Spellpower = new(bonusValues[(int)Attribute.Spellpower]);
-                result.Speed = new(bonusValues[(int)Attribute.Speed]);
-
-                return result;
-            }
         }
     }
 }

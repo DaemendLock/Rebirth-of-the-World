@@ -9,8 +9,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{B648FC10-4A7E-AA96-F253-272583FF1D2E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -112,9 +111,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Charatcters\HurtboxModelComponent.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\ActorRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\AttributesRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Factories\CustomScriptStatusStrategyFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Encounter\EncounterModel.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Factories\CustomScriptSkillStrategyFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Skills\AbilityRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Status\StatusTimerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Skills\ActivityModel.cs" />
@@ -1124,10 +1121,6 @@
       <Project>{84D51C1F-4A00-169F-B1F2-C7892886743B}</Project>
       <Name>Combat.Local.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="Combat.API.csproj">
-      <Project>{7A9F157A-8D7C-2B2E-AFC2-2AA28809F24E}</Project>
-      <Name>Combat.API</Name>
-    </ProjectReference>
     <ProjectReference Include="DaeAnimator.csproj">
       <Project>{A9FD6DE7-D9E5-E855-19DA-1F92951108BD}</Project>
       <Name>DaeAnimator</Name>
@@ -1135,10 +1128,6 @@
     <ProjectReference Include="Data.csproj">
       <Project>{FE06642D-D97E-6F45-E6BC-17F2C4BC433F}</Project>
       <Name>Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="Combat.Local.Scripting.csproj">
-      <Project>{8984F390-A55D-7DEA-7A76-2500D7A1CEC3}</Project>
-      <Name>Combat.Local.Scripting</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

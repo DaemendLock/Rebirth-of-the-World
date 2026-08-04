@@ -12,7 +12,5 @@ namespace Combat.Local.Domain.Repositories
         void Update(Ability value);
 
         void Delete(AbilityKey key);
-
-        IAbilityPropertyContainer GetPropertyContainer(AbilityKey key);
     }
 }

@@ -1,25 +1,27 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Entities.Statuses;
 using Combat.Local.Domain.Entities.Units;
+using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
 
 namespace Combat.Local.Domain.UseCases
 {
-    public class AttributeOwnerUpdateAllUseCase
+    public sealed class AttributeOwnerUpdateAllUseCase
     {
         private readonly IAttributesRepository _attributesRepository;
         private readonly IStatusOwnerRepository _statusOwnerRepository;
         private readonly IStatusRepository _statusRepository;
         private readonly ICharacterUpdateRepository _characterUpdateList;
+        private readonly IStatusAttributeCalculator _statusAttributeCalculator;
 
-        public AttributeOwnerUpdateAllUseCase(IAttributesRepository attributesRepository, IStatusOwnerRepository statusOwnerRepository, IStatusRepository statusRepository, ICharacterUpdateRepository characterUpdateList)
+        public AttributeOwnerUpdateAllUseCase(IAttributesRepository attributesRepository, IStatusOwnerRepository statusOwnerRepository, IStatusRepository statusRepository, ICharacterUpdateRepository characterUpdateList, IStatusAttributeCalculator statusAttributeCalculator)
         {
             _attributesRepository = attributesRepository;
             _statusOwnerRepository = statusOwnerRepository;
             _statusRepository = statusRepository;
             _characterUpdateList = characterUpdateList;
+            _statusAttributeCalculator = statusAttributeCalculator;
         }
 
         public void Execute()
@@ -59,27 +61,9 @@ namespace Combat.Local.Domain.UseCases
             System.ReadOnlySpan<AttributeValue> baseValues = attributesOwner.GetAllBase();
 
             attributesOwner = new(target, baseValues);
-            AttributesModification finalModification = new();
-            float timeScale = 100f;
 
-            foreach (StatusId statusId in statusOwner.GetAll())
-            {
-                if (_statusRepository.TryGet(statusId, out Status status) == false)
-                {
-                    continue;
-                }
-
-                if (status.Properties.TryGetProperty(out IModifyAttributesStrategy attributeEffect))
-                {
-                    AttributesModification modification = attributeEffect.ModifyAttributes();
-                    finalModification += modification;
-                }
-
-                if (status.Properties.TryGetProperty(out IModifyTimeScaleStrategy timeScaleEffect))
-                {
-                    timeScale += timeScaleEffect.GetModification();
-                }
-            }
+            var statuses = statusOwner.GetAll();
+            HandleModfication(statuses, out AttributesModification finalModification);
 
             System.Span<float> values = stackalloc float[baseValues.Length];
 
@@ -91,7 +75,17 @@ namespace Combat.Local.Domain.UseCases
 
             AttributesOwner newOwner = new(target, baseValues, values);
             _attributesRepository.Update(newOwner);
-            _characterUpdateList.Update(new(target, timeScale / 100f));
+            _characterUpdateList.Update(new(target, finalModification.TimeScale / 100f));
+        }
+
+        private void HandleModfication(System.ReadOnlySpan<StatusId> statuses, out AttributesModification finalModification)
+        {
+            finalModification = new()
+            {
+                TimeScale = 100f
+            };
+
+            finalModification = _statusAttributeCalculator.Evaluate(statuses);
         }
     }
 }

@@ -29,6 +29,9 @@ using Combat.Local.Gateways.Repositories.Players;
 using Combat.Local.Gateways.Repositories.Skills;
 using Combat.Local.Presentation.Components;
 using Combat.Local.Presentation.Presenters;
+using Combat.Local.Scripting.Factories;
+using Combat.Local.Scripting.Ports.Statuses;
+using Combat.Local.Scripting.SkillPorts;
 
 using Local.Combat.LazyData;
 
@@ -53,12 +56,12 @@ namespace Testing.Local.Combat
             Container.Bind<LocalInputReader>().FromComponentInHierarchy().AsSingle();
             Container.Bind<ITestMenuStrategy>().To<TestMenuStrategy>().AsSingle();
 
-            IAbilityFactory skillFactory = Container.Resolve<IAbilityFactory>();
-            skillFactory.RegisterStrategyFactory(Container.Resolve<CustomScriptSkillStrategyFactory>());
-            skillFactory.RegisterStrategyFactory(Container.Resolve<NewScriptStrategyFactory>());
+            PropertySkillLyfecycleHandler skillFactory = Container.Resolve<PropertySkillLyfecycleHandler>();
+            //skillFactory.RegisterStrategyFactory(Container.Resolve<CustomScriptSkillStrategyFactory>());
+            //skillFactory.RegisterStrategyFactory(Container.Resolve<NewScriptStrategyFactory>());
 
-            StatusFactory statusFactory = Container.Resolve<StatusFactory>();
-            statusFactory.RegisterStrategyFactory(Container.Resolve<CustomScriptStatusStrategyFactory>());
+            PropertyStatusLifecycleHandler statusFactory = Container.Resolve<PropertyStatusLifecycleHandler>();
+            //statusFactory.RegisterStrategyFactory(Container.Resolve<CustomScriptStatusStrategyFactory>());
 
             //StatsTable stats = StatsTable.UnitDefault;
             //stats[Attribute.Speed] = new(1, 100);
@@ -132,11 +135,11 @@ namespace Testing.Local.Combat
         private void BindFactories()
         {
             Container.Bind<IAbilityFactory>().To<AbilityFactory>().AsSingle();
-            Container.Bind<CustomScriptSkillStrategyFactory>().FromNew().AsSingle();
+           // Container.Bind<CustomScriptSkillStrategyFactory>().FromNew().AsSingle();
             Container.Bind<NewScriptStrategyFactory>().FromNew().AsSingle();
 
             Container.Bind<StatusFactory>().FromNew().AsSingle();
-            Container.Bind<CustomScriptStatusStrategyFactory>().FromNew().AsSingle();
+            //Container.Bind<CustomScriptStatusStrategyFactory>().FromNew().AsSingle();
 
             Container.Bind<CharacterModelFactory>().FromNew().AsSingle();
             Container.Bind<ActionFactory>().FromNew().AsSingle();

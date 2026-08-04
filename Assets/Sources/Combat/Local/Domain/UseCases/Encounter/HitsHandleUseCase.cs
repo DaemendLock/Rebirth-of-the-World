@@ -1,6 +1,6 @@
 ﻿using Combat.Common.ValueObjects;
+using Combat.Local.Domain.Endpoints.Skills;
 using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Entities.Skills.Effects;
 using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
@@ -13,13 +13,12 @@ namespace Combat.Local.Domain.UseCases.Scene
     {
         private readonly IHitboxOwnerRepository _hitboxRepository;
         private readonly IActorRepository _actorRepository;
-        private readonly IAbilityRepository _skillRepository;
+        private readonly ISkillHitHandler _skillHitHandler;
 
-        public HitsHandleUseCase(IHitboxOwnerRepository hitboxRepository, IActorRepository actorRepository, IAbilityRepository skillRepository)
+        public HitsHandleUseCase(IHitboxOwnerRepository hitboxRepository, IActorRepository actorRepository)
         {
             _hitboxRepository = hitboxRepository;
             _actorRepository = actorRepository;
-            _skillRepository = skillRepository;
         }
 
         public void Execute(System.ReadOnlySpan<Updatable> targets)
@@ -45,17 +44,9 @@ namespace Combat.Local.Domain.UseCases.Scene
                 return;
             }
 
-            var properties = _skillRepository.GetPropertyContainer(new(actor.Id, actor.CurrentAction.Source));
-
-            if (properties.TryGet(out ISkillHitStrategy hitEffect))
+            foreach (var value in values)
             {
-                foreach (var value in values)
-                {
-                    while (value.TryDequeue(out var record))
-                    {
-                        hitEffect.HandleHit(record);
-                    }
-                }
+                _skillHitHandler.HandleHits(new(actor.Id, actor.CurrentAction.Source), value);
             }
         }
     }

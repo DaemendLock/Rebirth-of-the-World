@@ -1,26 +1,30 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Entities.Units;
+using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
-using Combat.Local.Domain.ValueObjects;
 
 using System;
 
 namespace Combat.Local.Domain.UseCases
 {
-    public class StatusOwnerProgressAllUseCases
+    public sealed class StatusOwnerProgressAllUseCases
     {
         private readonly IStatusRepository _statusRepository;
         private readonly IStatusTimerRepository _statusTimerRepository;
         private readonly IStatusOwnerRepository _statusOwnerRepository;
         private readonly ICharacterUpdateRepository _characterUpdateList;
+        private readonly IStatusLifecycleHandler _statusLifecycleHandler;
+        private readonly IStatusTickHandler _statusTickHandler;
 
-        public StatusOwnerProgressAllUseCases(IStatusRepository statusRepository, IStatusTimerRepository statusTimerRepository, IStatusOwnerRepository statusOwnerRepository, ICharacterUpdateRepository characterUpdateList)
+        public StatusOwnerProgressAllUseCases(IStatusRepository statusRepository, IStatusTimerRepository statusTimerRepository, IStatusOwnerRepository statusOwnerRepository, ICharacterUpdateRepository characterUpdateList, IStatusTickHandler statusTickHandler, IStatusLifecycleHandler statusLifecycleHandler)
         {
             _statusRepository = statusRepository;
             _statusTimerRepository = statusTimerRepository;
             _statusOwnerRepository = statusOwnerRepository;
             _characterUpdateList = characterUpdateList;
+            _statusLifecycleHandler = statusLifecycleHandler;
+            _statusTickHandler = statusTickHandler;
         }
 
         public void Execute(ReadOnlySpan<Updatable> targets, float deltaTime)
@@ -60,7 +64,7 @@ namespace Combat.Local.Domain.UseCases
 
             if (value.Duration.Left <= 0)
             {
-                value.Properties.Expire();
+                _statusLifecycleHandler.Expire(value.Id);
             }
 
             if (_statusTimerRepository.TryGet(value.Id, out StatusTimer timer))
@@ -69,7 +73,7 @@ namespace Combat.Local.Domain.UseCases
 
                 if (timer.TimePassed > timer.Priod)
                 {
-                    timer.Tick();
+                    _statusTickHandler.Handle(value.Id);
                     timer.TimePassed -= timer.Priod;
                 }
 
@@ -86,7 +90,7 @@ namespace Combat.Local.Domain.UseCases
                 return false;
             }
 
-            status.Properties.Remove();
+            _statusLifecycleHandler.Cleanup(status.Id);
             _statusRepository.Delete(status.Id);
             _statusTimerRepository.Delete(status.Id);
             //_removeStatusEventHandler.HandleEvent(status.Id);

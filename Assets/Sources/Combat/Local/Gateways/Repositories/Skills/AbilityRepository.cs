@@ -35,7 +35,5 @@ namespace Combat.Local.Gateways.Repositories
         public void Update(Ability value) => _values[new(value.Owner, value.SkillId)] = new(value);
 
         public void Delete(AbilityKey key) => _values.Remove(key);
-
-        public IAbilityPropertyContainer GetPropertyContainer(AbilityKey key) => _values[key].Properties;
     }
 }

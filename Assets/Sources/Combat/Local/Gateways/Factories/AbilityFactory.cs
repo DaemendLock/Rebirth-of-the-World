@@ -12,17 +12,9 @@ namespace Combat.Local.Gateways.Factories
     {
         private readonly ISkillDataBase _skillDataBase;
 
-        private readonly List<ISkillStrategyFactory> _skillStrategies;
-
-        public AbilityFactory(ISkillDataBase skillDataBase, List<ISkillStrategyFactory> skillStrategies)
+        public AbilityFactory(ISkillDataBase skillDataBase)
         {
             _skillDataBase = skillDataBase;
-            _skillStrategies = skillStrategies;
-        }
-
-        public void RegisterStrategyFactory(ISkillStrategyFactory factory)
-        {
-            _skillStrategies.Add(factory);
         }
 
         public Ability Create(SkillId skillId, UnitId? owner)
@@ -35,24 +27,7 @@ namespace Combat.Local.Gateways.Factories
                 flags |= SkillFlags.Instant;
             }
 
-            IAbilityPropertyContainer properties = GetFactory(skillId)?.Create(owner, skillId);
-
-            return new(skillId, flags, owner, actions, properties);
-        }
-
-        private ISkillStrategyFactory GetFactory(SkillId id)
-        {
-            foreach (ISkillStrategyFactory factory in _skillStrategies)
-            {
-                if (factory.CanHandle(id) == false)
-                {
-                    continue;
-                }
-
-                return factory;
-            }
-
-            return null;
+            return new(skillId, flags, owner, actions);
         }
     }
 }

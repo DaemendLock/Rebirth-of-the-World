@@ -1,7 +1,7 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Entities.Statuses;
+using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
 
@@ -13,14 +13,15 @@ namespace Combat.Local.Domain.UseCases
         private readonly IHealthOutput _healthOutput;
 
         private readonly IStatusOwnerRepository _statusOwnerRepository;
-        private readonly IStatusRepository _statusRepository;
 
-        public HealthApplyHealingUseCase(IHealthRepository healthRepository, IHealthOutput healthOutput, IStatusOwnerRepository statusOwnerRepository, IStatusRepository statusRepository)
+        private readonly IHealingDamageModifierCalculator _damageModifierCalculator;
+
+        public HealthApplyHealingUseCase(IHealthRepository healthRepository, IHealthOutput healthOutput, IStatusOwnerRepository statusOwnerRepository, IHealingDamageModifierCalculator damageModifierCalculator)
         {
             _healthRepository = healthRepository;
             _healthOutput = healthOutput;
             _statusOwnerRepository = statusOwnerRepository;
-            _statusRepository = statusRepository;
+            _damageModifierCalculator = damageModifierCalculator;
         }
 
         public void Execute(UnitId target, float healing, HealingFlags flags, UnitId? healer, AbilityKey? source)
@@ -79,25 +80,8 @@ namespace Combat.Local.Domain.UseCases
             if (healer.HasValue)
             {
                 StatusOwner ids = _statusOwnerRepository.Get(healer.Value);
-
-                foreach (StatusId id in ids.GetAll())
-                {
-                    if (_statusRepository.TryGet(id, out Status status) == false)
-                    {
-                        continue;
-                    }
-
-                    if (status.Properties.TryGetProperty(out IModifyParentOutgoingHealingStrategy effect) == false)
-                    {
-                        continue;
-                    }
-
-                    HealingModification modification = effect.GetModification(result);
-                    finalModification = new(finalModification.BaseValue + modification.BaseValue,
-                            finalModification.PercentModication + modification.PercentModication,
-                            finalModification.BonusValue + modification.BonusValue,
-                            finalModification.FlagsModification | modification.FlagsModification);
-                }
+                var statuses = ids.GetAll();
+                _damageModifierCalculator.GetHealingModification(statuses, result);
             }
 
             result.Healing = (result.OriginalHealing + finalModification.BaseValue) * 100f / (100 + finalModification.PercentModication) + finalModification.BonusValue;

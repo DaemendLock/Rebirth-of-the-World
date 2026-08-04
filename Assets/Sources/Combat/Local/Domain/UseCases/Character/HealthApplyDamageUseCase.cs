@@ -1,7 +1,6 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Entities.Statuses;
 using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
@@ -14,20 +13,18 @@ namespace Combat.Local.Domain.UseCases
         private readonly IHealthRepository _healthRepository;
         private readonly IActorRepository _actorRepository;
         private readonly IStatusOwnerRepository _statusOwnerRepository;
-        private readonly IStatusRepository _statusRepository;
 
         private readonly IHealthOutput _healthOutput;
         private readonly ICharacterConsciousStateOutput _characterConsciousStateOutput;
-        private readonly IDamageModifierCalculator _damageModifierCalculator;
+        private readonly IHealingDamageModifierCalculator _damageModifierCalculator;
         private readonly IDamageResultHandler _damageResultHandler;
 
-        public HealthApplyDamageUseCase(IHealthRepository healthRepository, IHealthOutput healthOutput, IActorRepository stateRepository, IStatusOwnerRepository statusOwnerRepository, IStatusRepository statusRepository, ICharacterConsciousStateOutput characterConsciousStateOutput, IDamageModifierCalculator damageModifierCalculator, IDamageResultHandler damageResultHandler)
+        public HealthApplyDamageUseCase(IHealthRepository healthRepository, IHealthOutput healthOutput, IActorRepository stateRepository, IStatusOwnerRepository statusOwnerRepository, ICharacterConsciousStateOutput characterConsciousStateOutput, IHealingDamageModifierCalculator damageModifierCalculator, IDamageResultHandler damageResultHandler)
         {
             _healthRepository = healthRepository;
             _healthOutput = healthOutput;
             _actorRepository = stateRepository;
             _statusOwnerRepository = statusOwnerRepository;
-            _statusRepository = statusRepository;
             _characterConsciousStateOutput = characterConsciousStateOutput;
             _damageModifierCalculator = damageModifierCalculator;
             _damageResultHandler = damageResultHandler;

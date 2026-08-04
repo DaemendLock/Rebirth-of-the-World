@@ -1,5 +1,4 @@
 ﻿using Combat.Common.ValueObjects;
-using Combat.Local.API.IDK;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.ValueObjects;
 
@@ -14,7 +13,6 @@ namespace Combat.Local.Data.Models
             Parent = status.Parent;
             StackCount = status.StackCount;
             Duration = status.Duration;
-            Properties = status.Properties;
         }
 
         public StatusType Name { get; }
@@ -23,11 +21,9 @@ namespace Combat.Local.Data.Models
         public int StackCount { get; }
         public Duration Duration { get; }
 
-        public IStatusPropertyContainer Properties { get; }
-
         public Status ToStatus(StatusId id)
         {
-            return new(id, Parent, Name, Source, StackCount, Duration, Properties);
+            return new(id, Parent, Name, Source, StackCount, Duration);
         }
     }
 }

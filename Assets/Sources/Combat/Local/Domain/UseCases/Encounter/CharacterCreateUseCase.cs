@@ -72,7 +72,7 @@ namespace Combat.Local.Domain.UseCases
             {
                 Ability ability = _abilityFactory.Create(skillId, id);
                 _abilityRepository.Create(ability);
-                ability.Properties.Give();
+                //ability.Properties.Give();
                 abilities[index++] = ability.SkillId;
             }
 

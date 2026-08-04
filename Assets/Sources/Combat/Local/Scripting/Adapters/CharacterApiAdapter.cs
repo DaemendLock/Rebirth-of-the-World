@@ -19,7 +19,7 @@ namespace Combat.API.Adapters
         {
             return new UnitNew(id, _healthOwnerFacade);
         }
-    }
+    } 
 
     public readonly struct CharacterApiAdapter : ICharacterApiAdapter
     {

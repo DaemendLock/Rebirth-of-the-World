@@ -16,7 +16,7 @@ namespace Combat.Local.Domain.UseCases.Character
             SkillOwner skillOwner = _skillOwnerRepository.Get(target);
             Ability ability = _abilityFactory.Create(skillId, target);
             _abilityRepository.Create(ability);
-            ability.Properties.Give();
+            //ability.Properties.Give();
         }
     }
 }

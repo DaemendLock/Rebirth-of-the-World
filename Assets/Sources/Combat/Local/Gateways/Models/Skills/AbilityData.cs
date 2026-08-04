@@ -14,20 +14,18 @@ namespace Combat.Local.Gateways.Models
 
     public readonly struct AbilityData
     {
-        public readonly IAbilityPropertyContainer Properties;
         public readonly SkillFlags Flags;
         public readonly IReadOnlyCollection<ActionId> Actions;
 
         public AbilityData(Ability skill)
         {
-            Properties = skill.Properties;
             Actions = skill.Actions;
             Flags = skill.Flags;
         }
 
         public Ability ToAbility(UnitId? owner, SkillId id)
         {
-            return new(id, Flags, owner, Actions, Properties);
+            return new(id, Flags, owner, Actions);
         }
     }
 }

@@ -1,23 +1,19 @@
-﻿using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Entities;
+﻿using Combat.API;
+using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Factories;
-using Combat.Local.Domain.Repositories.Skill;
 using Combat.Local.Scripting.Idk;
 
-namespace Combat.Local.Gateways.Factories
+namespace Combat.Local.Scripting.Factories
 {
-    public sealed class NewScriptStrategyFactory : ISkillStrategyFactory
+    public sealed class NewScriptStrategyFactory : ISkillPropertyContainerFactory
     {
-        private readonly ISkillMemoryRepository _skillMemoryRepository;
-
-        public NewScriptStrategyFactory(ISkillMemoryRepository skillMemoryRepository)
+        public NewScriptStrategyFactory()
         {
-            _skillMemoryRepository = skillMemoryRepository;
         }
 
         public bool CanHandle(SkillId skillId) => true;
 
         public IAbilityPropertyContainer Create(UnitId? owner, SkillId skillId) =>
-            new NewScriptAbilityPropertyContainer(new(owner, skillId), new(), _skillMemoryRepository);
+            new NewScriptAbilityPropertyContainer(new(owner, skillId));
     }
 }

@@ -22,14 +22,16 @@ namespace Combat.Local.Domain.UseCases.Character
 
         private readonly ISkillExecutionPort _skillExecutionPort;
         private readonly ISkillActionStateChangeHandler _skillActionStateChangeHandler;
+        private readonly ISkillHitHandler _skillHitHandler;
 
-        public ActorActAllUseCase(IAttributesRepository attributesRepository, IPositionableRepository positionableRepository, IActorRepository actorRepository, IAbilityRepository skillRepository, ActionFactory actionFactory)
+        public ActorActAllUseCase(IAttributesRepository attributesRepository, IPositionableRepository positionableRepository, IActorRepository actorRepository, IAbilityRepository skillRepository, ActionFactory actionFactory, ISkillHitHandler skillHitHandler)
         {
             _attributesRepository = attributesRepository;
             _positionableRepository = positionableRepository;
             _actorRepository = actorRepository;
             _abilityRepository = skillRepository;
             _actionFactory = actionFactory;
+            _skillHitHandler = skillHitHandler;
         }
 
         public void Execute(System.ReadOnlySpan<Updatable> targets, float deltaTime)
@@ -127,7 +129,7 @@ namespace Combat.Local.Domain.UseCases.Character
 
             if (CanCast(actor, skill.Flags, abilityKey) == false)
             {
-                Debug.Log("Can't cast - cast forbidden");
+                UnityEngine.Debug.Log("Can't cast - cast forbidden");
                 return;
             }
 
@@ -174,8 +176,6 @@ namespace Combat.Local.Domain.UseCases.Character
             {
                 Entities.Action oldAction = actor.CurrentAction;
                 oldAction.Interrupt(InterruptReason.Chained);
-                IAbilityPropertyContainer oldProperties = _abilityRepository.GetPropertyContainer(new(actor.Id, oldAction.Source));
-
                 _skillActionStateChangeHandler.Handle(new(actor.Id, oldAction.Source), ActionState.Inactive);
             }
 
@@ -198,12 +198,7 @@ namespace Combat.Local.Domain.UseCases.Character
             }
 
             AbilityKey key = new(actorId, action.Source);
-            var skill = _abilityRepository.GetPropertyContainer(key);
-
-            if (skill.TryGet(out ISkillHitHandler hitEffect))
-            {
-                hitEffect.Reset();
-            }
+            _skillHitHandler.Reset(key);
 
             _skillActionStateChangeHandler.Handle(key, action.CurrentState);
         }

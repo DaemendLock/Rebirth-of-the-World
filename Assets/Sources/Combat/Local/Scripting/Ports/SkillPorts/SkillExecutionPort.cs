@@ -11,6 +11,7 @@ using System.Collections.Generic;
 
 namespace Combat.Local.Scripting.SkillPorts
 {
+
     public sealed class SkillExecutionPort : ISkillExecutionPort
     {
         private readonly Dictionary<SkillId, ISkillScriptNew> _newScripts;

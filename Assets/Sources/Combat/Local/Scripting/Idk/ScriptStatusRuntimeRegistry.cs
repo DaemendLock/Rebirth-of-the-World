@@ -1,18 +1,17 @@
 ﻿using Combat.API.API.IDK;
 using Combat.Common.ValueObjects;
 using Combat.Local.API.IDK;
-using Combat.Local.Gateways.Repositories.Statuses;
 
-using System;
 using System.Collections.Generic;
 
 namespace Combat.Local.Scripting.Idk
 {
+
     public sealed class ScriptStatusRuntimeRegistry : IStatusRuntimeRegistry
     {
-        private readonly Dictionary<StatusId, ApiScriptStatusPropertyContainer> _values;
+        private readonly Dictionary<StatusId, IStatusPropertyContainer> _values;
 
-        public void Create(StatusId id) => throw new NotImplementedException();
+        public void Create(StatusId id, IStatusPropertyContainer value) => _values.Add(id, value);
 
         public void Remove(StatusId id) => _values.Remove(id);
 

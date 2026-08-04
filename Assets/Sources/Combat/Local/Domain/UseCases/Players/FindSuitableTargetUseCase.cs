@@ -1,6 +1,5 @@
 ﻿using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Entities.Skills.Effects;
+using Combat.Local.Domain.Endpoints.Skills;
 using Combat.Local.Domain.Repositories;
 
 using System;
@@ -16,29 +15,29 @@ namespace Combat.Local.Domain.UseCases.Players
 
         public UnitId? Execute(AbilityKey id)
         {
-            var skill = _skillRepository.GetPropertyContainer(id);
+            //var skill = _skillRepository.GetPropertyContainer(id);
 
-            if (skill.TryGet(out LockTargetSkillEffect effect) == false)
-            {
-                return default;
-            }
+            //if (skill.TryGet(out ILockTargetBehaviour effect) == false)
+            //{
+            //    return default;
+            //}
 
-            var targets = FindTargets(effect);
+            //var targets = FindTargets(effect);
 
-            foreach (UnitId target in targets)
-            {
-                if (effect.CanTarget(target) == false)
-                {
-                    continue;
-                }
+            //foreach (UnitId target in targets)
+            //{
+            //    if (effect.Handle(target) == false)
+            //    {
+            //        continue;
+            //    }
 
-                return target;
-            }
+            //    return target;
+            //}
 
             return default;
         }
 
-        private IReadOnlyCollection<UnitId> FindTargets(LockTargetSkillEffect effect)
+        private IReadOnlyCollection<UnitId> FindTargets(ILockTargetBehaviour effect)
         {
             return _characterRepository.FindInRadius(UnityEngine.Vector3.zero, 15f);
 

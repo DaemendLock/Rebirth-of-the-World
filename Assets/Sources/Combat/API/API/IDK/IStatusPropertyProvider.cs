@@ -1,9 +1,7 @@
 ﻿using Combat.API.Statuses;
-using Combat.Common.ValueObjects;
 
 namespace Combat.Local.API.IDK
 {
-
     public interface IStatusPropertyContainer
     {
         bool DestroyOnExpire { get; }
