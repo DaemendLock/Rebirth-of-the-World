@@ -5,14 +5,14 @@ namespace Combat.API.DTO
 {
     public readonly ref struct DeathRecord
     {
-        public DeathRecord(Unit target, SkillScript source, KillFlags flags)
+        public DeathRecord(IUnit target, SkillScript source, KillFlags flags)
         {
             Target = target;
             Source = source;
             Flags = flags;
         }
 
-        public Unit Target { get; }
+        public IUnit Target { get; }
         public SkillScript Source { get; }
         public KillFlags Flags { get; }
     }

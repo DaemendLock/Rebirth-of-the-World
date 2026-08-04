@@ -4,16 +4,16 @@ namespace Combat.API.Skills
 {
     public readonly ref struct CastEvent
     {
-        public CastEvent(Unit caster, AbilityApi skill, EncounterApi scene)
+        public CastEvent(IUnit caster, IAbilityApi skill, IEncounterApi scene)
         {
             Caster = caster;
             Skill = skill;
             Scene = scene;
         }
 
-        public Unit Caster { get; }
-        public AbilityApi Skill { get; }
-        public EncounterApi Scene { get; }
+        public IUnit Caster { get; }
+        public IAbilityApi Skill { get; }
+        public IEncounterApi Scene { get; }
     }
 
     public interface ICastableSkill : ISkillProperty

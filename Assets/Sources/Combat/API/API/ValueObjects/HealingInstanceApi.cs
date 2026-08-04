@@ -6,7 +6,7 @@ namespace Combat.API.ValueObjects
     {
         private const float PercentConvertionRation = 0.001f;
 
-        public HealingInstanceApi(Unit healee, Unit healer, AbilityApi source, float healing, HealingFlags flags)
+        public HealingInstanceApi(IUnit healee, IUnit healer, IAbilityApi source, float healing, HealingFlags flags)
         {
             Healer = healer;
             Target = healee;
@@ -17,9 +17,9 @@ namespace Combat.API.ValueObjects
             HealingPercent = 100f;
         }
 
-        public Unit Target { get; }
-        public Unit Healer { get; }
-        public AbilityApi Source { get; }
+        public IUnit Target { get; }
+        public IUnit Healer { get; }
+        public IAbilityApi Source { get; }
         public float OriginalHealing { get; }
 
         public HealingFlags Flags { get; set; }

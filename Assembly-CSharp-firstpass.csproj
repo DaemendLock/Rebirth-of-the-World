@@ -1290,6 +1290,10 @@
       <Project>{7A502701-AA52-5795-0F14-8920F802C20C}</Project>
       <Name>PaladinSkillsPack</Name>
     </ProjectReference>
+    <ProjectReference Include="Combat.Local.Scripting.csproj">
+      <Project>{8984F390-A55D-7DEA-7A76-2500D7A1CEC3}</Project>
+      <Name>Combat.Local.Scripting</Name>
+    </ProjectReference>
     <ProjectReference Include="Zenject.csproj">
       <Project>{F4F6B480-C203-5F5A-A9BA-E3020CF82B48}</Project>
       <Name>Zenject</Name>

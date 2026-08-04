@@ -17,7 +17,7 @@ namespace Combat.Local.Gateways.Repositories.Statuses
         private readonly StatusId _statusId;
         private readonly IStatusRepository _statusRepository;
         private readonly StatusScript _statusScript;
-        private readonly StatusApiAdapter _statusApiAdapter;
+        private readonly IStatusApiAdapter _statusApiAdapter;
         private readonly ITakeDamageEffectStrategy _takeDamageEffectStrategy;
         private readonly IDealDamageEffectStrategy _dealDamageEffectStrategy;
         private readonly IModifyParentOutgoingDamageStrategy _modifyParentOutgoingDamageStrategy;
@@ -26,7 +26,7 @@ namespace Combat.Local.Gateways.Repositories.Statuses
         private readonly IModifyAttributesStrategy _modifyAttributesStrategy;
         private readonly IModifyTimeScaleStrategy _modifyTimeScaleStrategy;
 
-        public ApiScriptStatusPropertyContainer(StatusId statusId, StatusScript script, CharacterApiAdapter unitApiAdapter, AbilityApiAdapter skillApiProvider, SceneApiAdapter sceneApiProvider, StatusApiAdapter statusApiFactory, IStatusRepository statusRepository)
+        public ApiScriptStatusPropertyContainer(StatusId statusId, StatusScript script, ICharacterApiAdapter unitApiAdapter, IAbilityApiAdapter skillApiProvider, ISceneApiAdapter sceneApiProvider, IStatusApiAdapter statusApiFactory, IStatusRepository statusRepository)
         {
             _statusId = statusId;
             _statusScript = script;
@@ -169,11 +169,11 @@ namespace Combat.Local.Gateways.Repositories.Statuses
 
         private class DataDrivenTakeDamageEffectStrategy : ITakeDamageEffectStrategy
         {
-            private readonly CharacterApiAdapter _unitApiAdapter;
-            private readonly AbilityApiAdapter _skillApiProvider;
+            private readonly ICharacterApiAdapter _unitApiAdapter;
+            private readonly IAbilityApiAdapter _skillApiProvider;
             private readonly IIncomingHealDamageHandler _handler;
 
-            public DataDrivenTakeDamageEffectStrategy(IIncomingHealDamageHandler handler, CharacterApiAdapter unitApiAdapter, AbilityApiAdapter skillApiProvider)
+            public DataDrivenTakeDamageEffectStrategy(IIncomingHealDamageHandler handler, ICharacterApiAdapter unitApiAdapter, IAbilityApiAdapter skillApiProvider)
             {
                 _handler = handler;
                 _unitApiAdapter = unitApiAdapter;
@@ -182,9 +182,9 @@ namespace Combat.Local.Gateways.Repositories.Statuses
 
             public void HandleDamage(DamageResult @event)
             {
-                Unit target = _unitApiAdapter.Adaptee(@event.Target);
-                Unit attacker = @event.Attacker.HasValue ? _unitApiAdapter.Adaptee(@event.Attacker.Value) : null;
-                AbilityApi source;
+                IUnit target = _unitApiAdapter.Adaptee(@event.Target);
+                IUnit attacker = @event.Attacker.HasValue ? _unitApiAdapter.Adaptee(@event.Attacker.Value) : null;
+                IAbilityApi source;
 
                 if (@event.Skill.HasValue)
                 {
@@ -202,11 +202,11 @@ namespace Combat.Local.Gateways.Repositories.Statuses
 
         private class DataDrivenDealDamageEffectStrategy : IDealDamageEffectStrategy
         {
-            private readonly CharacterApiAdapter _unitApiAdapter;
-            private readonly AbilityApiAdapter _skillApiProvider;
+            private readonly ICharacterApiAdapter _unitApiAdapter;
+            private readonly IAbilityApiAdapter _skillApiProvider;
             private readonly IOutgoingHealDamageHandler _handler;
 
-            public DataDrivenDealDamageEffectStrategy(IOutgoingHealDamageHandler handler, CharacterApiAdapter unitApiAdapter, AbilityApiAdapter skillApiProvider)
+            public DataDrivenDealDamageEffectStrategy(IOutgoingHealDamageHandler handler, ICharacterApiAdapter unitApiAdapter, IAbilityApiAdapter skillApiProvider)
             {
                 _handler = handler;
                 _unitApiAdapter = unitApiAdapter;
@@ -215,9 +215,9 @@ namespace Combat.Local.Gateways.Repositories.Statuses
 
             public void HandleDamage(DamageResult @event)
             {
-                Unit target = _unitApiAdapter.Adaptee(@event.Target);
-                Unit attacker = @event.Attacker.HasValue ? _unitApiAdapter.Adaptee(@event.Attacker.Value) : null;
-                AbilityApi source;
+                IUnit target = _unitApiAdapter.Adaptee(@event.Target);
+                IUnit attacker = @event.Attacker.HasValue ? _unitApiAdapter.Adaptee(@event.Attacker.Value) : null;
+                IAbilityApi source;
 
                 if (@event.Skill.HasValue)
                 {
@@ -235,11 +235,11 @@ namespace Combat.Local.Gateways.Repositories.Statuses
 
         private class DataDrivenModifyParentDamageEffectStrategy : IModifyParentOutgoingDamageStrategy
         {
-            private readonly CharacterApiAdapter _unitApiAdapter;
-            private readonly AbilityApiAdapter _skillApiProvider;
+            private readonly ICharacterApiAdapter _unitApiAdapter;
+            private readonly IAbilityApiAdapter _skillApiProvider;
             private readonly IOutgoingDamageModifier _modifer;
 
-            public DataDrivenModifyParentDamageEffectStrategy(IOutgoingDamageModifier modifier, CharacterApiAdapter unitApiAdapter, AbilityApiAdapter skillApiProvider)
+            public DataDrivenModifyParentDamageEffectStrategy(IOutgoingDamageModifier modifier, ICharacterApiAdapter unitApiAdapter, IAbilityApiAdapter skillApiProvider)
             {
                 _modifer = modifier;
                 _unitApiAdapter = unitApiAdapter;
@@ -248,9 +248,9 @@ namespace Combat.Local.Gateways.Repositories.Statuses
 
             public DamageModification GetModification(DamageInstance instance)
             {
-                Unit target = _unitApiAdapter.Adaptee(instance.Target);
-                Unit attacker = instance.Attacker.HasValue ? _unitApiAdapter.Adaptee(instance.Attacker.Value) : null;
-                AbilityApi source;
+                IUnit target = _unitApiAdapter.Adaptee(instance.Target);
+                IUnit attacker = instance.Attacker.HasValue ? _unitApiAdapter.Adaptee(instance.Attacker.Value) : null;
+                IAbilityApi source;
 
                 if (instance.Source.HasValue)
                 {
@@ -270,11 +270,11 @@ namespace Combat.Local.Gateways.Repositories.Statuses
 
         private class DataDrivenModifyParentHealingEffectStrategy : IModifyParentOutgoingHealingStrategy
         {
-            private readonly CharacterApiAdapter _unitApiAdapter;
-            private readonly AbilityApiAdapter _skillApiProvider;
+            private readonly ICharacterApiAdapter _unitApiAdapter;
+            private readonly IAbilityApiAdapter _skillApiProvider;
             private readonly IOutgoingHealingModifier _modifer;
 
-            public DataDrivenModifyParentHealingEffectStrategy(IOutgoingHealingModifier modifier, CharacterApiAdapter unitApiAdapter, AbilityApiAdapter skillApiProvider)
+            public DataDrivenModifyParentHealingEffectStrategy(IOutgoingHealingModifier modifier, ICharacterApiAdapter unitApiAdapter, IAbilityApiAdapter skillApiProvider)
             {
                 _modifer = modifier;
                 _unitApiAdapter = unitApiAdapter;
@@ -283,9 +283,9 @@ namespace Combat.Local.Gateways.Repositories.Statuses
 
             public HealingModification GetModification(HealingInstance instance)
             {
-                Unit target = _unitApiAdapter.Adaptee(instance.Target);
-                Unit attacker = instance.Healer.HasValue ? _unitApiAdapter.Adaptee(instance.Healer.Value) : null;
-                AbilityApi source;
+                IUnit target = _unitApiAdapter.Adaptee(instance.Target);
+                IUnit attacker = instance.Healer.HasValue ? _unitApiAdapter.Adaptee(instance.Healer.Value) : null;
+                IAbilityApi source;
 
                 if (instance.Source.HasValue)
                 {
@@ -305,11 +305,11 @@ namespace Combat.Local.Gateways.Repositories.Statuses
 
         private class DataDrivenModifyParentIncomingDamageEffectStrategy : IModifyParentIncomingDamageStrategy
         {
-            private readonly CharacterApiAdapter _unitApiAdapter;
-            private readonly AbilityApiAdapter _skillApiProvider;
+            private readonly ICharacterApiAdapter _unitApiAdapter;
+            private readonly IAbilityApiAdapter _skillApiProvider;
             private readonly IIncomingHealDamageModifier _modifer;
 
-            public DataDrivenModifyParentIncomingDamageEffectStrategy(IIncomingHealDamageModifier modifier, CharacterApiAdapter unitApiAdapter, AbilityApiAdapter skillApiProvider)
+            public DataDrivenModifyParentIncomingDamageEffectStrategy(IIncomingHealDamageModifier modifier, ICharacterApiAdapter unitApiAdapter, IAbilityApiAdapter skillApiProvider)
             {
                 _modifer = modifier;
                 _unitApiAdapter = unitApiAdapter;
@@ -318,9 +318,9 @@ namespace Combat.Local.Gateways.Repositories.Statuses
 
             public DamageModification GetModification(DamageInstance instance)
             {
-                Unit target = _unitApiAdapter.Adaptee(instance.Target);
-                Unit attacker = instance.Attacker.HasValue ? _unitApiAdapter.Adaptee(instance.Attacker.Value) : null;
-                AbilityApi source;
+                IUnit target = _unitApiAdapter.Adaptee(instance.Target);
+                IUnit attacker = instance.Attacker.HasValue ? _unitApiAdapter.Adaptee(instance.Attacker.Value) : null;
+                IAbilityApi source;
 
                 if (instance.Source.HasValue)
                 {

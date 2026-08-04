@@ -1,11 +1,12 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Facades;
+using Combat.Local.Scripting;
 
 using System.Collections.Generic;
 
 namespace Combat.API.Adapters
 {
-    public readonly struct UnitNewAdapter
+    public sealed class UnitNewAdapter : IUnitNewAdapter
     {
         private readonly HealthOwnerFacade _healthOwnerFacade;
 
@@ -14,19 +15,19 @@ namespace Combat.API.Adapters
             _healthOwnerFacade = healthOwnerFacade;
         }
 
-        public UnitNew Adaptee(UnitId id)
+        public ITargetable Adaptee(UnitId id)
         {
-            return new(id, _healthOwnerFacade);
+            return new UnitNew(id, _healthOwnerFacade);
         }
     }
 
-    public readonly struct CharacterApiAdapter
+    public readonly struct CharacterApiAdapter : ICharacterApiAdapter
     {
         private readonly CharacterFacade _characterFacade;
         private readonly HealthOwnerFacade _healthOwnerFacade;
         private readonly AttributeOwnerFacade _attributeOwnerFacade;
 
-        private readonly Dictionary<UnitId, Unit> _cache;
+        private readonly Dictionary<UnitId, UnitFacade> _cache;
 
         public CharacterApiAdapter(CharacterFacade characterFacade, HealthOwnerFacade healthFacade, AttributeOwnerFacade attributeOwnerFacade)
         {
@@ -37,9 +38,9 @@ namespace Combat.API.Adapters
             _cache = new();
         }
 
-        public Unit Adaptee(UnitId id)
+        public IUnit Adaptee(UnitId id)
         {
-            if (_cache.TryGetValue(id, out Unit result))
+            if (_cache.TryGetValue(id, out UnitFacade result))
             {
                 return result;
             }

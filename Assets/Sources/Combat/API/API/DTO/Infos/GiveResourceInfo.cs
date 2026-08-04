@@ -4,7 +4,7 @@ namespace Combat.API.DTO
 {
     public readonly ref struct GiveResourceInfo
     {
-        public GiveResourceInfo(ResourceId resource, float value, AbilityApi source)
+        public GiveResourceInfo(ResourceId resource, float value, IAbilityApi source)
         {
             Resource = resource;
             Value = value;
@@ -13,6 +13,6 @@ namespace Combat.API.DTO
 
         public ResourceId Resource { get; }
         public float Value { get; }
-        public AbilityApi Source { get; }
+        public IAbilityApi Source { get; }
     }
 }

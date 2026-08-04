@@ -62,8 +62,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\HealingRecord.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Adapters\CharacterApiAdapter.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\ApplyDamageOptions.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Entities\IAbilityApi.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\ApplyStatusInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\DamageRecord.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\ReviveInfo.cs" />
@@ -71,19 +71,17 @@
     <Compile Include="Assets\Sources\Combat\API\API\Skills\ICastableSkill.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\ReviveRecord.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\AttributesRecord.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Adapters\AbilityApiAdapter.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Entities\IEncounterApi.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\DeathRecord.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Entities\StatusApi.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Entities\IActor.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Skills\CoreUnitSkillContext.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Scripting\StatusScriptNameAttribute.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Adapters\ISceneApiAdapter.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Entities\IUnit.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\ApplyHealingInfo.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Adapters\StatusApiAdapter.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Entities\AbilityApi.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Entities\EncounterApi.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\KillInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Scripting\SkillScript.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\New\ISkillScriptNew.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Entities\IStatusApi.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\ResourceChangeRecord.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\ICastStateChangeHandler.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Statuses\IIncomingHealDamageHandler.cs" />
@@ -91,7 +89,7 @@
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\GiveResourceInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\New\TestScript.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Statuses\IOutgoingHealDamageHandler.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Adapters\SceneApiAdapter.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Adapters\IStatusApiAdapter.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\SkillState.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\UnitCreationInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Scripting\StatusScript.cs" />
@@ -103,9 +101,11 @@
     <Compile Include="Assets\Sources\Combat\API\API\Scripting\SkillScriptNameAttribute.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\ApplyDamageInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\HitRecord.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Entities\Unit.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Adapters\IUnitNewAdapter.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\IDK\AttributeSet.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\IHitHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Adapters\ICharacterApiAdapter.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Adapters\IAbilityApiAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Combat\API\API\Combat.API.asmdef" />
@@ -1104,10 +1104,6 @@
     <ProjectReference Include="Combat.Common.csproj">
       <Project>{8BD67BAE-4173-6632-3746-364F6C3EA823}</Project>
       <Name>Combat.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="Combat.Local.Domain.csproj">
-      <Project>{84D51C1F-4A00-169F-B1F2-C7892886743B}</Project>
-      <Name>Combat.Local.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

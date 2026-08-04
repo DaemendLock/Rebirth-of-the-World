@@ -15,11 +15,11 @@ namespace Combat.Local.Gateways.Factories
     public sealed class CustomScriptSkillStrategyFactory : ISkillStrategyFactory
     {
         private readonly ISkillDataBase _skillDataBase;
-        private readonly CharacterApiAdapter _characterApiProvider;
-        private readonly AbilityApiAdapter _skillApiAdapter;
-        private readonly SceneApiAdapter _sceneApiAdapter;
+        private readonly ICharacterApiAdapter _characterApiProvider;
+        private readonly IAbilityApiAdapter _skillApiAdapter;
+        private readonly ISceneApiAdapter _sceneApiAdapter;
 
-        public CustomScriptSkillStrategyFactory(ISkillDataBase skillDataBase, CharacterApiAdapter characterApiProvider, AbilityApiAdapter skillApiProvider, SceneApiAdapter sceneApiProvider)
+        public CustomScriptSkillStrategyFactory(ISkillDataBase skillDataBase, ICharacterApiAdapter characterApiProvider, IAbilityApiAdapter skillApiProvider, ISceneApiAdapter sceneApiProvider)
         {
             _skillDataBase = skillDataBase;
             _characterApiProvider = characterApiProvider;

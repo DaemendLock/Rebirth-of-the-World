@@ -193,10 +193,10 @@ namespace Testing.Local.Combat
 
         private void BindApi()
         {
-            Container.Bind<SceneApiAdapter>().FromNew().AsSingle();
-            Container.Bind<CharacterApiAdapter>().FromNew().AsSingle();
-            Container.Bind<AbilityApiAdapter>().FromNew().AsSingle();
-            Container.Bind<StatusApiAdapter>().FromNew().AsSingle();
+            Container.Bind<ISceneApiAdapter>().To<SceneApiAdapter>().AsSingle();
+            Container.Bind<ICharacterApiAdapter>().To<CharacterApiAdapter>().AsSingle();
+            Container.Bind<IAbilityApiAdapter>().To<AbilityApiAdapter>().AsSingle();
+            Container.Bind<IStatusApiAdapter>().To<StatusApiAdapter>().AsSingle();
 
             Container.Bind<StatusFacade>().FromNew().AsSingle();
             Container.Bind<HealthOwnerFacade>().FromNew().AsSingle();

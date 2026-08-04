@@ -1120,6 +1120,10 @@
       <Project>{86A9C684-F288-EC71-0E15-178997E399AC}</Project>
       <Name>Client.Testing.View</Name>
     </ProjectReference>
+    <ProjectReference Include="Combat.Local.Scripting.csproj">
+      <Project>{8984F390-A55D-7DEA-7A76-2500D7A1CEC3}</Project>
+      <Name>Combat.Local.Scripting</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

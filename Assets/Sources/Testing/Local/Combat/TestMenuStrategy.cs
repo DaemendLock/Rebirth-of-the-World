@@ -18,11 +18,11 @@ namespace Testing.Local
 
         private readonly LocalInputReader _localInputReader;
         private readonly PlayerController _playerController;
-        private readonly CharacterApiAdapter _chracterApiAdapter;
-        private Unit _model;
+        private readonly ICharacterApiAdapter _chracterApiAdapter;
+        private IUnit _model;
         //private Temp.UnitViewInputReaderCompenent _readerCompenent;
 
-        public TestMenuStrategy( /*ICameraController cameraController, */PlayerController playerController, CharacterApiAdapter chracterApiAdapter, LocalInputReader localInputReader)
+        public TestMenuStrategy( /*ICameraController cameraController, */PlayerController playerController, ICharacterApiAdapter chracterApiAdapter, LocalInputReader localInputReader)
         {
             _playerController = playerController;
             _chracterApiAdapter = chracterApiAdapter;

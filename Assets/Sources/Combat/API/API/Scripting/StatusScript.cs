@@ -4,13 +4,13 @@ namespace Combat.API.Scripting
 {
     public class StatusScript : IStatusPropery
     {
-        private StatusApi _instance;
+        private IStatusApi _instance;
 
-        protected Unit Parent => _instance.Parent;
+        protected IUnit Parent => _instance.Parent;
 
-        protected AbilityApi Source => _instance.Source;
+        protected IAbilityApi Source => _instance.Source;
 
-        protected StatusApi Instance => _instance;
+        protected IStatusApi Instance => _instance;
 
         public virtual void OnCreate() { }
 
@@ -20,7 +20,7 @@ namespace Combat.API.Scripting
 
         public virtual void OnTick() { }
 
-        public void Init(StatusApi instacne)
+        public void Init(IStatusApi instacne)
         {
             _instance = instacne;
         }

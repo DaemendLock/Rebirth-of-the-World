@@ -19,7 +19,7 @@ namespace TestSkillsPack.Paladin
 
         public void OnActive()
         {
-            Unit owner = Instance.Owner;
+            IUnit owner = Instance.Owner;
 
             float energy = owner.GetResourceValue(new(2));
             float healing = energy * owner.GetAttributeValue(Attribute.Spellpower) * _spellPowerHealRatio;

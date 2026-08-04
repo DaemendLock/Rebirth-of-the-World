@@ -16,13 +16,13 @@ namespace Combat.Local.Gateways.Factories
     public class CustomScriptStatusStrategyFactory : IStatusPropertyContainerFactory
     {
         private readonly IStatusDataBase _statusApiTypeProvider;
-        private readonly CharacterApiAdapter _unitApiAdapter;
-        private readonly StatusApiAdapter _statusApiFactory;
-        private readonly AbilityApiAdapter _skillApiProvider;
-        private readonly SceneApiAdapter _sceneApiProvider;
+        private readonly ICharacterApiAdapter _unitApiAdapter;
+        private readonly IStatusApiAdapter _statusApiFactory;
+        private readonly IAbilityApiAdapter _skillApiProvider;
+        private readonly ISceneApiAdapter _sceneApiProvider;
         private readonly IStatusRepository _statusRepository;
 
-        public CustomScriptStatusStrategyFactory(CharacterApiAdapter unitApiAdapter, AbilityApiAdapter skillApiProvider, SceneApiAdapter sceneApiProvider, StatusApiAdapter statusApiFactory, IStatusRepository statusRepository, IStatusDataBase statusApiTypeProvider)
+        public CustomScriptStatusStrategyFactory(ICharacterApiAdapter unitApiAdapter, IAbilityApiAdapter skillApiProvider, ISceneApiAdapter sceneApiProvider, IStatusApiAdapter statusApiFactory, IStatusRepository statusRepository, IStatusDataBase statusApiTypeProvider)
         {
             _unitApiAdapter = unitApiAdapter;
             _skillApiProvider = skillApiProvider;

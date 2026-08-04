@@ -21,7 +21,7 @@ namespace Combat.Local.Gateways.Repositories.Skills
         private readonly ISkillActionStateChangeStrategy _actionStateChangeStrategy;
         private readonly ILockTargetStrategy _lockTargetStrategy;
 
-        public ApiScriptDrivenAbilityPropertyContainer(SkillId skillId, SkillScript customSkillStrategy, CharacterApiAdapter characterApiAdapter, AbilityApiAdapter skillApiProvider, SceneApiAdapter sceneApiProvider)
+        public ApiScriptDrivenAbilityPropertyContainer(SkillId skillId, SkillScript customSkillStrategy, ICharacterApiAdapter characterApiAdapter, IAbilityApiAdapter skillApiProvider, ISceneApiAdapter sceneApiProvider)
         {
             _skillType = skillId;
             _script = customSkillStrategy;
@@ -121,9 +121,9 @@ namespace Combat.Local.Gateways.Repositories.Skills
         {
             private readonly IHitHandler _handler;
             private readonly List<UnitId> _hittedTargets;
-            private readonly CharacterApiAdapter _characterApiProvider;
+            private readonly ICharacterApiAdapter _characterApiProvider;
 
-            public DataDrivenHitStrategy(IHitHandler hitHandler, CharacterApiAdapter characterApiProvider)
+            public DataDrivenHitStrategy(IHitHandler hitHandler, ICharacterApiAdapter characterApiProvider)
             {
                 _handler = hitHandler;
                 _characterApiProvider = characterApiProvider;
@@ -153,8 +153,8 @@ namespace Combat.Local.Gateways.Repositories.Skills
 
             private HitRecord CreateHitEvent(Domain.ValueObjects.HitRecord record)
             {
-                Unit source = _characterApiProvider.Adaptee(record.HitboxOwner);
-                Unit target = _characterApiProvider.Adaptee(record.HurtboxOwner);
+                IUnit source = _characterApiProvider.Adaptee(record.HitboxOwner);
+                IUnit target = _characterApiProvider.Adaptee(record.HurtboxOwner);
 
                 return new(source, record.HitboxType, target, record.HurtboxType, record.Location);
             }
@@ -201,10 +201,10 @@ namespace Combat.Local.Gateways.Repositories.Skills
 
         private sealed class DataDrivenLockTargetStrategy : ILockTargetStrategy
         {
-            private readonly CharacterApiAdapter _apiAdapter;
+            private readonly ICharacterApiAdapter _apiAdapter;
             private readonly ITargettableSkill _handler;
 
-            public DataDrivenLockTargetStrategy(CharacterApiAdapter apiAdapter, ITargettableSkill handler)
+            public DataDrivenLockTargetStrategy(ICharacterApiAdapter apiAdapter, ITargettableSkill handler)
             {
                 _apiAdapter = apiAdapter;
                 _handler = handler;

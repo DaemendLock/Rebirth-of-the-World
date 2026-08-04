@@ -4,13 +4,13 @@ using Combat.Local.Domain.ValueObjects;
 
 namespace Combat.API
 {
-    public sealed class StatusApi
+    public sealed class StatusApi : IStatusApi
     {
         private readonly StatusId _id;
 
         private readonly StatusFacade _statusFacade;
 
-        public StatusApi(StatusId id, Unit parent, AbilityApi source, StatusFacade statusController)
+        public StatusApi(StatusId id, IUnit parent, IAbilityApi source, StatusFacade statusController)
         {
             _id = id;
             _statusFacade = statusController;
@@ -20,9 +20,9 @@ namespace Combat.API
 
         public StatusId Id => _id;
 
-        public Unit Parent { get; }
+        public IUnit Parent { get; }
 
-        public AbilityApi Source { get; }
+        public IAbilityApi Source { get; }
 
         public int StackCount { get => _statusFacade.GetStackCount(_id); set => _statusFacade.SetStackCount(_id, value); }
 

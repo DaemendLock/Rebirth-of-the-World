@@ -10,12 +10,12 @@ using UnityEngine;
 
 namespace Combat.API
 {
-    public sealed class EncounterApi
+    public sealed class EncounterApi : IEncounterApi
     {
         private readonly EncounterFacade _sceneFacade;
-        private readonly CharacterApiAdapter _chracterApiAdapter;
+        private readonly ICharacterApiAdapter _chracterApiAdapter;
 
-        public EncounterApi(EncounterFacade sceneFacade, CharacterApiAdapter chracterApiAdapter)
+        public EncounterApi(EncounterFacade sceneFacade, ICharacterApiAdapter chracterApiAdapter)
         {
             _sceneFacade = sceneFacade;
             _chracterApiAdapter = chracterApiAdapter;
@@ -26,7 +26,7 @@ namespace Combat.API
             throw new System.NotImplementedException();
         }
 
-        public Unit CreateUnit(CreateUnitInfo data)
+        public IUnit CreateUnit(CreateUnitInfo data)
         {
             CreateCharacterDTO dto = new(data.ModelName, data.Team, data.Position, -1, data.BaseHealth, data.Attributes, System.Array.Empty<ResourceValue>(), System.Array.Empty<SkillId>());
             return _chracterApiAdapter.Adaptee(_sceneFacade.CreateUnit(dto));
@@ -38,10 +38,10 @@ namespace Combat.API
             _sceneFacade.CreateStatus(dto);
         }
 
-        public Unit[] FindUnitsInRadius(Vector3 center, float radius)
+        public IUnit[] FindUnitsInRadius(Vector3 center, float radius)
         {
             var ids = _sceneFacade.FindCharactersInRadius(center, radius);
-            Unit[] result = new Unit[ids.Count];
+            IUnit[] result = new IUnit[ids.Count];
 
             int index = 0;
 

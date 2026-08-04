@@ -1,9 +1,8 @@
-﻿using Assets.Sources.Combat.Local.Gateways.Repositories.Skills;
-
-using Combat.Common.ValueObjects;
+﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Factories;
 using Combat.Local.Domain.Repositories.Skill;
+using Combat.Local.Gateways.Repositories.Skills;
 
 namespace Combat.Local.Gateways.Factories
 {

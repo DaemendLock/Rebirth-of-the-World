@@ -4,11 +4,11 @@ using Combat.Local.Domain.Facades;
 
 namespace Combat.API
 {
-    public sealed class AbilityApi
+    public sealed class AbilityApi : IAbilityApi
     {
         private readonly AbilityFacade _skillFacade;
 
-        public AbilityApi(SkillId id, Unit owner, AbilityFacade skillFacede, EncounterApi scene)
+        public AbilityApi(SkillId id, IUnit owner, AbilityFacade skillFacede, IEncounterApi scene)
         {
             _skillFacade = skillFacede;
             SkillId = id;
@@ -19,9 +19,9 @@ namespace Combat.API
 
         public SkillId SkillId { get; }
 
-        public Unit Owner { get; }
+        public IUnit Owner { get; }
 
-        public EncounterApi Scene { get; }
+        public IEncounterApi Scene { get; }
 
         public AbilityKey AbilityKey => new(Owner?.Id, SkillId);
 

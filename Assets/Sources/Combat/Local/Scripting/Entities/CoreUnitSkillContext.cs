@@ -1,11 +1,12 @@
-﻿using Combat.API.Skills;
+﻿using Combat.API.API.Skills;
+using Combat.API.Skills;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Repositories.Skill;
 
 using System;
 using System.Runtime.InteropServices;
 
-namespace Combat.API.API.Skills
+namespace Combat.Local.Scripting
 {
     public class CoreUnitSkillContext : ISkillContext // ?? Model
     {

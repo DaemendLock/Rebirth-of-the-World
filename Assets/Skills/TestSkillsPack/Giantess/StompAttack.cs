@@ -45,7 +45,7 @@ namespace TestSkillPack.Assets.Skills.TestSkillsPack.Giantess
             return true;
         }
 
-        private float GetDamage(Unit caster, Unit target)
+        private float GetDamage(IUnit caster, IUnit target)
         {
             float scaleDif = caster.Scale / target.Scale;
 

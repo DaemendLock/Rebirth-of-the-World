@@ -30,8 +30,8 @@ namespace TestSkillsPack.Paladin
                 return;
             }
 
-            Unit caster = @event.Attacker;
-            Unit target = @event.Target;
+            IUnit caster = @event.Attacker;
+            IUnit target = @event.Target;
 
             _applyDamageOptions.Target = target;
             _applyDamageOptions.OriginalDamage = caster.GetAttributeValue(Attribute.Spellpower) * 0.1f;

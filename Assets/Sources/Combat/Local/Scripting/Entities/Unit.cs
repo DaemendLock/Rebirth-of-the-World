@@ -1,17 +1,18 @@
+using Combat.API;
 using Combat.API.DTO;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Facades;
 
-namespace Combat.API
+namespace Combat.Local.Scripting
 {
-    public sealed class Unit
+    public sealed class UnitFacade : IUnit
     {
         private readonly UnitId _id;
         private readonly CharacterFacade _characterFacade;
         private readonly HealthOwnerFacade _healthOwnerFacade;
         private readonly AttributeOwnerFacade _attributeOwnerFacade;
 
-        public Unit(UnitId id,
+        public UnitFacade(UnitId id,
             CharacterFacade characterController,
             HealthOwnerFacade healthOwnerController,
             AttributeOwnerFacade attributeOwnerController)
@@ -58,7 +59,7 @@ namespace Combat.API
 
         public float GetHasteModifier() => _attributeOwnerFacade.GetHasteModifier(_id);
 
-        public bool CanHurt(Unit target) => Team != target.Team;
+        public bool CanHurt(IUnit target) => Team != target.Team;
 
         public void ApplyStatus(ApplyStatusInfo info) => _characterFacade.ApplyStatus(_id, info.Name, info.StackCount, info.Duration, info.Source?.AbilityKey);
 
@@ -68,17 +69,17 @@ namespace Combat.API
 
         public void GiveResource(GiveResourceInfo info) => _characterFacade.GiveResource(_id, info.Resource, info.Value, info.Source?.AbilityKey);
 
-        public void SpendResource(ResourceId resource, float value, AbilityApi source) => _characterFacade.SpendResource(_id, resource, value, source?.AbilityKey);
+        public void SpendResource(ResourceId resource, float value, IAbilityApi source) => _characterFacade.SpendResource(_id, resource, value, source?.AbilityKey);
 
-        public void ApplyDamage(DTO.ApplyDamageInfo info)
+        public void ApplyDamage(API.DTO.ApplyDamageInfo info)
         {
-            Local.Domain.Facades.ApplyDamageInfo applyDamageInfo = new(_id, info.Damage, info.Flags, info.Attacker?.Id, info.Source?.AbilityKey);
+            Domain.Facades.ApplyDamageInfo applyDamageInfo = new(_id, info.Damage, info.Flags, info.Attacker?.Id, info.Source?.AbilityKey);
             _healthOwnerFacade.ApplyDamage(applyDamageInfo);
         }
 
-        public void ApplyHealing(DTO.ApplyHealingInfo info)
+        public void ApplyHealing(API.DTO.ApplyHealingInfo info)
         {
-            Local.Domain.Facades.ApplyHealingInfo applyHealingInfo = new(_id, info.Healing, info.Flags, info.Healer?.Id, info.Source?.AbilityKey);
+            Domain.Facades.ApplyHealingInfo applyHealingInfo = new(_id, info.Healing, info.Flags, info.Healer?.Id, info.Source?.AbilityKey);
             _healthOwnerFacade.ApplyHealing(applyHealingInfo);
         }
 
@@ -88,6 +89,6 @@ namespace Combat.API
 
         public void Revive(ReviveInfo data) => _characterFacade.Revive(_id, data.Source?.AbilityKey);
 
-        public bool Equals(Unit other) => other.Id == _id;
+        public bool Equals(IUnit other) => other.Id == _id;
     }
 }
