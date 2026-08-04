@@ -9,7 +9,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{B648FC10-4A7E-AA96-F253-272583FF1D2E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -79,7 +80,6 @@
     <Compile Include="Assets\Sources\Combat\Local\Gateways\DataSources\ISkillDataBase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Factories\ActionStrategyFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Factories\CharacterModelFactory.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Status\ApiScriptStatusPropertyContainer.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\UpdateTargetRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\DataSources\IActionDataContainer.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Charatcters\HealthData.cs" />
@@ -90,14 +90,12 @@
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Charatcters\ActorData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\HitboxRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\ProjectileModel.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Factories\NewScriptStrategyFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Charatcters\AttributeData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\DataSources\IStatusDataBase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Encounter\EncounterProvider.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\AligmentRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Status\StatusRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Factories\AbilityFactory.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Skills\ApiScriptDrivenAbilityPropertyContainer.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\HurtableRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\StatusData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\SkillOwnerRepository.cs" />
@@ -118,7 +116,6 @@
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Encounter\EncounterModel.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Factories\CustomScriptSkillStrategyFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Skills\AbilityRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Skills\NewScriptAbilityPropertyContainer.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Status\StatusTimerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Skills\ActivityModel.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Skills\AbilityData.cs" />

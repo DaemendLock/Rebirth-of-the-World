@@ -9,7 +9,7 @@ namespace Combat.API.DTO
             this(instance.Target, instance.Healer, instance.Source, instance.OriginalHealing, instance.GetCurrentHealing(), instance.Flags)
         { }
 
-        public HealingRecord(IUnit target, IUnit healer, IAbilityApi source, float originalHealing, float finalHealing, HealingFlags flags)
+        public HealingRecord(Unit target, Unit healer, AbilityApi source, float originalHealing, float finalHealing, HealingFlags flags)
         {
             Healer = healer;
             Target = target;
@@ -19,11 +19,11 @@ namespace Combat.API.DTO
             Flags = flags;
         }
 
-        public IUnit Healer { get; }
-        public IUnit Target { get; }
+        public Unit Healer { get; }
+        public Unit Target { get; }
         public float OriginalHealing { get; }
         public float FinalHealing { get; }
-        public IAbilityApi Source { get; }
+        public AbilityApi Source { get; }
         public HealingFlags Flags { get; }
     }
 }

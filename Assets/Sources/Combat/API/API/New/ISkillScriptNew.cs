@@ -1,4 +1,6 @@
-﻿namespace Combat.API.API.Skills
+﻿using Combat.API.Contexts;
+
+namespace Combat.API.API.Skills
 {
     public interface ISkillScriptNew // AbstractUseCase
     {
@@ -18,7 +20,7 @@
         public readonly float Recovery;
     }
 
-    public readonly struct DealDamageEvent
+    public readonly struct DealDamageEventData : IEventData
     {
 
     }

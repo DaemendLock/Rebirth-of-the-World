@@ -5,11 +5,11 @@ namespace Combat.API.DTO
     public readonly ref struct ApplyDamageInfo
     {
         public readonly float Damage;
-        public readonly IAbilityApi Source;
-        public readonly IUnit Attacker;
+        public readonly AbilityApi Source;
+        public readonly Unit Attacker;
         public readonly DamageFlags Flags;
 
-        public ApplyDamageInfo(IUnit attacker, IAbilityApi source, float damage, DamageFlags flags)
+        public ApplyDamageInfo(Unit attacker, AbilityApi source, float damage, DamageFlags flags)
         {
             Damage = damage;
             Source = source;

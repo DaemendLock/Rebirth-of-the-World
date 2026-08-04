@@ -21,10 +21,10 @@ namespace TestSkillsPack.Paladin
 
         public void OnCast()
         {
-            IUnit[] targets = Scene.FindUnitsInRadius(Owner.Position, _radius);
+            Unit[] targets = Scene.FindUnitsInRadius(Owner.Position, _radius);
             int targetCount = 0;
 
-            foreach (IUnit target in targets)
+            foreach (Unit target in targets)
             {
                 if (CanHit(target) == false)
                 {
@@ -40,7 +40,7 @@ namespace TestSkillsPack.Paladin
             Owner.GiveResource(new(ResourceId.Custom, _energyPerTarget * targetCount, Instance));
         }
 
-        private bool CanHit(IUnit target)
+        private bool CanHit(Unit target)
         {
             if (target.Team == Instance.Owner.Team)
             {

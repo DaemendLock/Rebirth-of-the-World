@@ -2,6 +2,6 @@
 {
     public interface ISceneApiAdapter
     {
-        IEncounterApi Get();
+        EncounterApi Get();
     }
 }

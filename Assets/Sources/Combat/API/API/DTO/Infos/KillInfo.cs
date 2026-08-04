@@ -4,11 +4,11 @@ namespace Combat.API.DTO
 {
     public readonly ref struct KillInfo
     {
-        public readonly IUnit Attacker;
-        public readonly IAbilityApi Source;
+        public readonly Unit Attacker;
+        public readonly AbilityApi Source;
         public readonly KillFlags Flags;
 
-        public KillInfo(IUnit attacker, IAbilityApi source, KillFlags flags)
+        public KillInfo(Unit attacker, AbilityApi source, KillFlags flags)
         {
             Attacker = attacker;
             Source = source;

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Combat.API.Adapters
 {
-    public sealed class UnitNewAdapter : IUnitNewAdapter
+    public sealed class UnitNewAdapter
     {
         private readonly HealthOwnerFacade _healthOwnerFacade;
 
@@ -15,7 +15,7 @@ namespace Combat.API.Adapters
             _healthOwnerFacade = healthOwnerFacade;
         }
 
-        public ITargetable Adaptee(UnitId id)
+        public UnitNew Adaptee(UnitId id)
         {
             return new UnitNew(id, _healthOwnerFacade);
         }
@@ -27,7 +27,7 @@ namespace Combat.API.Adapters
         private readonly HealthOwnerFacade _healthOwnerFacade;
         private readonly AttributeOwnerFacade _attributeOwnerFacade;
 
-        private readonly Dictionary<UnitId, UnitFacade> _cache;
+        private readonly Dictionary<UnitId, OldDomainUnitContext> _cache;
 
         public CharacterApiAdapter(CharacterFacade characterFacade, HealthOwnerFacade healthFacade, AttributeOwnerFacade attributeOwnerFacade)
         {
@@ -38,11 +38,11 @@ namespace Combat.API.Adapters
             _cache = new();
         }
 
-        public IUnit Adaptee(UnitId id)
+        public Unit Adaptee(UnitId id)
         {
-            if (_cache.TryGetValue(id, out UnitFacade result))
+            if (_cache.TryGetValue(id, out OldDomainUnitContext result))
             {
-                return result;
+                return new(result);
             }
 
             result = new(id,
@@ -50,7 +50,7 @@ namespace Combat.API.Adapters
             _healthOwnerFacade,
             _attributeOwnerFacade);
             _cache.Add(id, result);
-            return result;
+            return new(result);
         }
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Combat.API
 {
-    // OnScene/External elements
     public interface IActor
     {
         UnitId Id { get; }

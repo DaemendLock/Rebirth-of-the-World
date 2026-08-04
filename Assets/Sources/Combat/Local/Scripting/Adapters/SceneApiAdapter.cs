@@ -1,4 +1,5 @@
 ﻿using Combat.Local.Domain.Facades;
+using Combat.Local.Scripting.Contexts;
 
 namespace Combat.API.Adapters
 {
@@ -13,6 +14,6 @@ namespace Combat.API.Adapters
             _characterApiAdapter = characterApiAdapter;
         }
 
-        public IEncounterApi Get() => new EncounterApi(_sceneFacade, _characterApiAdapter);
+        public EncounterApi Get() => new(new DomainEncounterContext(_sceneFacade, _characterApiAdapter));
     }
 }

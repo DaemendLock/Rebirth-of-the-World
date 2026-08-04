@@ -6,7 +6,7 @@ namespace Combat.API.DTO
 {
     public readonly ref struct HitRecord
     {
-        public HitRecord(IUnit source, HitboxType hitterType, IUnit target, HurtboxType hurtboxType, Vector3 position)
+        public HitRecord(Unit source, HitboxType hitterType, Unit target, HurtboxType hurtboxType, Vector3 position)
         {
             Source = source;
             HitboxType = hitterType;
@@ -15,9 +15,9 @@ namespace Combat.API.DTO
             Position = position;
         }
 
-        public IUnit Source { get; }
+        public Unit Source { get; }
         public HitboxType HitboxType { get; }
-        public IUnit Target { get; }
+        public Unit Target { get; }
         public HurtboxType HurtboxType { get; }
         public Vector3 Position { get; }
     }

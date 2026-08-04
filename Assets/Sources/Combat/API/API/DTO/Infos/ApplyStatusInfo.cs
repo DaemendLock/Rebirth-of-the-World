@@ -4,13 +4,13 @@ namespace Combat.API.DTO
 {
     public readonly ref struct ApplyStatusInfo
     {
-        public readonly IUnit Target;
+        public readonly Unit Target;
         public readonly StatusType Name;
-        public readonly IAbilityApi Source;
+        public readonly AbilityApi Source;
         public readonly float Duration;
         public readonly int StackCount;
 
-        public ApplyStatusInfo(IUnit target, string name, float duration, int stackCount, IAbilityApi source)
+        public ApplyStatusInfo(Unit target, string name, float duration, int stackCount, AbilityApi source)
         {
             Target = target;
             Name = new(name);

@@ -6,12 +6,12 @@ using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Factories;
 using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Repositories.Skills;
+using Combat.Local.Scripting.Idk;
 
 using System.Runtime.Serialization;
 
 namespace Combat.Local.Gateways.Factories
 {
-
     public sealed class CustomScriptSkillStrategyFactory : ISkillStrategyFactory
     {
         private readonly ISkillDataBase _skillDataBase;

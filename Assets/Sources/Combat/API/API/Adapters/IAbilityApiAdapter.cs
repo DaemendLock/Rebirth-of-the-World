@@ -4,6 +4,6 @@ namespace Combat.API.Adapters
 {
     public interface IAbilityApiAdapter
     {
-        IAbilityApi Adaptee(AbilityKey abilityKey);
+        AbilityApi Adaptee(AbilityKey abilityKey);
     }
 }

@@ -4,6 +4,6 @@ namespace Combat.API.Adapters
 {
     public interface ICharacterApiAdapter
     {
-        IUnit Adaptee(UnitId id);
+        Unit Adaptee(UnitId id);
     }
 }

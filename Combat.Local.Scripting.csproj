@@ -9,7 +9,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{8984F390-A55D-7DEA-7A76-2500D7A1CEC3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -64,13 +65,20 @@
     <Compile Include="Assets\Sources\Combat\Local\Scripting\Entities\UnitNew.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Scripting\Adapters\CharacterApiAdapter.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Scripting\Adapters\StatusApiAdapter.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Entities\CoreUnitSkillContext.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Entities\StatusApi.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Scripting\Contexts\DomainSkillContext.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Scripting\Contexts\StatusContext.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Scripting\Adapters\AbilityApiAdapter.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Entities\EncounterApi.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Entities\AbilityApi.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Scripting\Contexts\DomainEncounterContext.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Scripting\Contexts\DomainAbilityContext.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Scripting\Adapters\SceneApiAdapter.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Entities\Unit.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Scripting\Contexts\OldDomainUnitContext.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Scripting\Factories\NewScriptStrategyFactory.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Scripting\Idk\ApiScriptDrivenAbilityPropertyContainer.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Scripting\Idk\ApiScriptStatusPropertyContainer.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Scripting\Idk\NewScriptAbilityPropertyContainer.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Scripting\Ports\SkillPorts\SkillExecutionPort.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Scripting\Ports\StatusPorts\StatusPropertyDamageModifcationCalculator.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Scripting\Ports\StatusPorts\StatusPropertyDamageResultHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Combat\Local\Scripting\Combat.Local.Scripting.asmdef" />
@@ -1075,6 +1083,7 @@
       <Name>Combat.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

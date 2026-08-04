@@ -9,7 +9,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{84D51C1F-4A00-169F-B1F2-C7892886743B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -61,6 +62,13 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Skills\ILockTargetBehaviour.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Skills\ISkillActionStateChangeHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Skills\ISkillBehaviour.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Skills\ISkillExecutionPort.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Skills\ISkillHitHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Statuses\IDamageHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Statuses\IDamageModifierCalculator.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\HealingModification.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Skills\Ability.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Actions\IActionStrategy.cs" />
@@ -70,12 +78,10 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\ActorReviveUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\AttributeOwnerGetHasteModifierUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\AddMovementEffectUseCase.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Skills\Properties\ISkillHitStrategy.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IResourceOwnerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\Aligment.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\DesiredActions.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Encounter.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Skills\Properties\SkillCastEffect.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\StatusOwner.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Projectile.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IMovementEffectOwnerRepository.cs" />
@@ -101,7 +107,6 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\DTO\ApplStatusDTO.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Players\AssumeControlOverCharacterUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Players\DesireMoveInDirectionUseCase.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Skills\Properties\SkillActionStateChangeEffect.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Facades\HealthOwnerFacade.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\ISkillOwnerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Statuses\Status.cs" />
@@ -147,7 +152,6 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\HealthApplyHealingUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Charcters\ICharacterConsciousStateOutput.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IPositionableRepository.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Skills\Properties\LockTargetSkillEffect.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Status\IStatusRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\AttributeOwnerUpdateAllUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Factories\ActionFactory.cs" />
@@ -1175,6 +1179,7 @@
       <Name>Combat.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

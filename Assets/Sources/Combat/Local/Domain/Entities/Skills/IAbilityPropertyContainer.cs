@@ -1,4 +1,4 @@
-﻿using Combat.Local.Domain.Entities.Skills.Effects;
+﻿using Combat.Local.Domain.Endpoints.Skills;
 
 namespace Combat.Local.Domain.Entities
 {
@@ -6,9 +6,8 @@ namespace Combat.Local.Domain.Entities
     {
         void Give();
         void Remove();
-        bool TryGet(out SkillCastEffect result);
-        bool TryGet(out ISkillHitStrategy result);
-        bool TryGet(out SkillActionStateChangeEffect result);
-        bool TryGet(out LockTargetSkillEffect result);
+        bool TryGet(out ISkillHitHandler result);
+        bool TryGet(out ISkillActionStateChangeHandler result);
+        bool TryGet(out ILockTargetBehaviour result);
     }
 }

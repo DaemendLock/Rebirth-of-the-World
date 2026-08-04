@@ -2,6 +2,6 @@
 {
     public interface ITargettableSkill : ISkillProperty
     {
-        bool CanTarget(IUnit unit);
+        bool CanTarget(Unit unit);
     }
 }

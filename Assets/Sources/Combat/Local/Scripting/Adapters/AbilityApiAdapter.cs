@@ -1,5 +1,6 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Facades;
+using Combat.Local.Scripting.Contexts;
 
 namespace Combat.API.Adapters
 {
@@ -16,9 +17,10 @@ namespace Combat.API.Adapters
             _skillFacade = skillFacade;
         }
 
-        public IAbilityApi Adaptee(AbilityKey abilityKey)
+        public AbilityApi Adaptee(AbilityKey abilityKey)
         {
-            return new AbilityApi(abilityKey.Skill, abilityKey.Owner.HasValue ? _characterApiProvider.Adaptee(abilityKey.Owner.Value) : null, _skillFacade, _sceneApiProvider.Get());
+            var context = new DomainAbilityContext(abilityKey.Skill, abilityKey.Owner.HasValue ? _characterApiProvider.Adaptee(abilityKey.Owner.Value) : null, _skillFacade, _sceneApiProvider.Get());
+            return new(context);
         }
     }
 }

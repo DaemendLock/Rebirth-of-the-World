@@ -1,6 +1,7 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Facades;
 using Combat.Local.Domain.Repositories;
+using Combat.Local.Scripting.Contexts;
 
 namespace Combat.API.Adapters
 {
@@ -11,29 +12,26 @@ namespace Combat.API.Adapters
         private readonly ISceneApiAdapter _sceneApiProvider;
         private readonly StatusFacade _statusFacade;
 
-        private readonly IStatusRepository _statusRepository;
-
-        public StatusApiAdapter(ICharacterApiAdapter unitApiRepository, IAbilityApiAdapter skillApiRepository, StatusFacade statusController, ISceneApiAdapter sceneApiProvider, IStatusRepository statusRepository)
+        public StatusApiAdapter(ICharacterApiAdapter unitApiRepository, IAbilityApiAdapter skillApiRepository, StatusFacade statusController, ISceneApiAdapter sceneApiProvider)
         {
             _unitApiProvider = unitApiRepository;
             _skillApiProvider = skillApiRepository;
             _sceneApiProvider = sceneApiProvider;
             _statusFacade = statusController;
-            _statusRepository = statusRepository;
         }
 
-        public IStatusApi Adaptee(StatusId id, UnitId parent, AbilityKey? abilityKey)
+        public StatusApi Adaptee(StatusId id, UnitId parent, AbilityKey? abilityKey)
         {
-            IUnit parentApi = _unitApiProvider.Adaptee(parent);
+            Unit parentApi = _unitApiProvider.Adaptee(parent);
 
-            IAbilityApi skill = null;
+            AbilityApi skill = null;
 
             if (abilityKey.HasValue)
             {
                 skill = _skillApiProvider.Adaptee(abilityKey.Value);
             }
 
-            return new StatusApi(id, parentApi, skill, _statusFacade);
+            return new(new StatusContext(id, _statusFacade), parentApi, skill);
         }
     }
 }

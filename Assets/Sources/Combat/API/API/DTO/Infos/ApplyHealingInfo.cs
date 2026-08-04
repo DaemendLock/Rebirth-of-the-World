@@ -6,10 +6,10 @@ namespace Combat.API.DTO
     {
         public readonly float Healing;
         public readonly HealingFlags Flags;
-        public readonly IAbilityApi Source;
-        public readonly IUnit Healer;
+        public readonly AbilityApi Source;
+        public readonly Unit Healer;
 
-        public ApplyHealingInfo(float healing, HealingFlags flags, IAbilityApi source, IUnit healer)
+        public ApplyHealingInfo(float healing, HealingFlags flags, AbilityApi source, Unit healer)
         {
             Healing = healing;
             Source = source;

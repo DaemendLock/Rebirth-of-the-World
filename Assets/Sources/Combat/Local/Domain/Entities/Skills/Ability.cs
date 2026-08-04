@@ -22,8 +22,6 @@ namespace Combat.Local.Domain.Entities
 
         public UnitId? Owner { get; }
 
-        public IAbilityPropertyContainer Properties { get; }
-
         public IReadOnlyCollection<ActionId> Actions { get; }
 
         public readonly bool AllowMoment => Flags.HasFlag(SkillFlags.DontRestrictMovement);
