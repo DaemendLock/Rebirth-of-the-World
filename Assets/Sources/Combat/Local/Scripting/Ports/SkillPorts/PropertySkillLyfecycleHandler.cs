@@ -1,5 +1,6 @@
 ﻿using Combat.API;
 using Combat.API.API.IDK;
+using Combat.API.Skills;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Endpoints.Skills;
 using Combat.Local.Scripting.Factories;
@@ -28,6 +29,12 @@ namespace Combat.Local.Scripting.SkillPorts
         public void Give(AbilityKey abilityKey)
         {
             IAbilityPropertyContainer properties = GetFactory(abilityKey.Skill)?.Create(abilityKey.Owner, abilityKey.Skill);
+
+            if (properties == null)
+            {
+                throw new System.InvalidOperationException($"No skill property factory can handle skill '{abilityKey.Skill}'.");
+            }
+
             _runtimeRegistry.Create(abilityKey, properties);
             properties.Give();
         }
@@ -56,6 +63,46 @@ namespace Combat.Local.Scripting.SkillPorts
             }
 
             return null;
+        }
+    }
+
+    public sealed class PropertySkillActionStateChangeHandler : ISkillActionStateChangeHandler
+    {
+        private readonly ISkillRuntimeRegistry _runtimeRegistry;
+
+        public PropertySkillActionStateChangeHandler(ISkillRuntimeRegistry runtimeRegistry)
+        {
+            _runtimeRegistry = runtimeRegistry;
+        }
+
+        public void Handle(AbilityKey abilityKey, ActionState newState)
+        {
+            if (_runtimeRegistry.TryGet(abilityKey, out IAbilityPropertyContainer properties) == false ||
+                properties.TryGet(out ICastStateChangeHandler handler) == false)
+            {
+                return;
+            }
+
+            switch (newState)
+            {
+                case ActionState.Startup:
+                    handler.OnStartup();
+                    break;
+                case ActionState.Active:
+                    handler.OnActive();
+                    break;
+                case ActionState.Gap:
+                    handler.OnGapStart();
+                    break;
+                case ActionState.Recovery:
+                    handler.OnRecovery();
+                    break;
+                case ActionState.Inactive:
+                    handler.OnEnds();
+                    break;
+                default:
+                    throw new System.ArgumentOutOfRangeException(nameof(newState), newState, null);
+            }
         }
     }
 }

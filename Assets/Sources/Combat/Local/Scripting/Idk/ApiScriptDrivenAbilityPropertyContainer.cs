@@ -1,8 +1,6 @@
 ﻿using Combat.API;
-using Combat.API.Adapters;
 using Combat.API.Scripting;
 using Combat.API.Skills;
-using Combat.Common.ValueObjects;
 
 namespace Combat.Local.Scripting.Idk
 {

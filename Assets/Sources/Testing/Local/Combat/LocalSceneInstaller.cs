@@ -3,16 +3,18 @@ using Assets.Sources.Testing.Local;
 using Client.Testing.View;
 
 using Combat.API.Adapters;
-using Combat.API.API.Skills;
+using Combat.API.API.IDK;
 using Combat.API.Scripting;
 using Combat.Local.Controllers;
 using Combat.Local.Data.Databases;
 using Combat.Local.Data.DataSources;
 using Combat.Local.Data.Factories;
 using Combat.Local.Data.Repositories;
+using Combat.Local.Domain.Endpoints.Skills;
 using Combat.Local.Domain.Facades;
 using Combat.Local.Domain.Factories;
 using Combat.Local.Domain.OutputPorts;
+using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.Repositories.Skill;
 using Combat.Local.Domain.UseCases;
@@ -29,7 +31,9 @@ using Combat.Local.Gateways.Repositories.Players;
 using Combat.Local.Gateways.Repositories.Skills;
 using Combat.Local.Presentation.Components;
 using Combat.Local.Presentation.Presenters;
+using Combat.Local.Scripting.Adapters;
 using Combat.Local.Scripting.Factories;
+using Combat.Local.Scripting.Idk;
 using Combat.Local.Scripting.Ports.Statuses;
 using Combat.Local.Scripting.SkillPorts;
 
@@ -47,6 +51,7 @@ namespace Testing.Local.Combat
             BindFactories();
             BindUseCases();
             BindDataSources();
+            BindScripting();
             BindControllers();
             BindPresenters();
             BindApi();
@@ -57,11 +62,11 @@ namespace Testing.Local.Combat
             Container.Bind<ITestMenuStrategy>().To<TestMenuStrategy>().AsSingle();
 
             PropertySkillLyfecycleHandler skillFactory = Container.Resolve<PropertySkillLyfecycleHandler>();
-            //skillFactory.RegisterStrategyFactory(Container.Resolve<CustomScriptSkillStrategyFactory>());
-            //skillFactory.RegisterStrategyFactory(Container.Resolve<NewScriptStrategyFactory>());
+            skillFactory.RegisterStrategyFactory(Container.Resolve<CustomScriptSkillStrategyFactory>());
+            skillFactory.RegisterStrategyFactory(Container.Resolve<NewScriptStrategyFactory>());
 
             PropertyStatusLifecycleHandler statusFactory = Container.Resolve<PropertyStatusLifecycleHandler>();
-            //statusFactory.RegisterStrategyFactory(Container.Resolve<CustomScriptStatusStrategyFactory>());
+            statusFactory.RegisterStrategyFactory(Container.Resolve<CustomScriptStatusStrategyFactory>());
 
             //StatsTable stats = StatsTable.UnitDefault;
             //stats[Attribute.Speed] = new(1, 100);
@@ -97,13 +102,39 @@ namespace Testing.Local.Combat
             Container.Bind<SkillDataBase>().FromNew().AsSingle();
             Container.Bind<ISkillDataBase>().To<SkillDataBase>().FromResolve();
             Container.Bind<IActionDataContainer>().To<SkillDataBase>().FromResolve();
+            Container.Bind<ISkillScriptTypeProvider>().To<SkillDataBase>().FromResolve();
 
-            Container.Bind<IStatusDataBase>().FromInstance(new StatusScriptTypeDataSource(typeof(StatusScript))).AsSingle();
+            StatusScriptTypeDataSource statusDataSource = new(typeof(StatusScript));
+            Container.Bind<IStatusDataBase>().FromInstance(statusDataSource);
+            Container.Bind<IStatusScriptTypeProvider>().FromInstance(statusDataSource);
 
             Container.Bind<SceneObjectDataSource>().FromNew().AsSingle();
             Container.Bind<ISceneObjectDataSource>().To<SceneObjectDataSource>().FromResolve();
 
             Container.Bind<ILocationDataSource>().To<LazyEnviromentDataSource>().FromComponentInHierarchy().AsSingle();
+        }
+
+        private void BindScripting()
+        {
+            Container.Bind<ScriptSkillRuntimeRegistry>().AsSingle();
+            Container.Bind<ISkillRuntimeRegistry>().To<ScriptSkillRuntimeRegistry>().FromResolve();
+            Container.Bind<ScriptStatusRuntimeRegistry>().AsSingle();
+            Container.Bind<IStatusRuntimeRegistry>().To<ScriptStatusRuntimeRegistry>().FromResolve();
+
+            Container.Bind<PropertySkillLyfecycleHandler>().AsSingle();
+            Container.Bind<ISkillLyfecycleHandler>().To<PropertySkillLyfecycleHandler>().FromResolve();
+            Container.Bind<ISkillHitHandler>().To<PropertySkillHitHandler>().AsSingle();
+            Container.Bind<ISkillActionStateChangeHandler>().To<PropertySkillActionStateChangeHandler>().AsSingle();
+            Container.Bind<ISkillExecutionPort>().To<SkillExecutionPort>().AsSingle();
+
+            Container.Bind<PropertyStatusLifecycleHandler>().AsSingle();
+            Container.Bind<IStatusLifecycleHandler>().To<PropertyStatusLifecycleHandler>().FromResolve();
+            Container.Bind<IStatusTickHandler>().To<StatusPropertyTickHandler>().AsSingle();
+            Container.Bind<IStatusAttributeCalculator>().To<StatusAttributeModifierCalculator>().AsSingle();
+            Container.Bind<IHealingDamageModifierCalculator>().To<PropertyDamageModifcationCalculator>().AsSingle();
+            Container.Bind<IDamageResultHandler>().To<StatusPropertyDamageResultHandler>().AsSingle();
+
+            Container.Bind<UnitNewAdapter>().AsSingle();
         }
 
         private void BindRepositories()
@@ -135,11 +166,11 @@ namespace Testing.Local.Combat
         private void BindFactories()
         {
             Container.Bind<IAbilityFactory>().To<AbilityFactory>().AsSingle();
-           // Container.Bind<CustomScriptSkillStrategyFactory>().FromNew().AsSingle();
+            Container.Bind<CustomScriptSkillStrategyFactory>().FromNew().AsSingle();
             Container.Bind<NewScriptStrategyFactory>().FromNew().AsSingle();
 
             Container.Bind<StatusFactory>().FromNew().AsSingle();
-            //Container.Bind<CustomScriptStatusStrategyFactory>().FromNew().AsSingle();
+            Container.Bind<CustomScriptStatusStrategyFactory>().FromNew().AsSingle();
 
             Container.Bind<CharacterModelFactory>().FromNew().AsSingle();
             Container.Bind<ActionFactory>().FromNew().AsSingle();

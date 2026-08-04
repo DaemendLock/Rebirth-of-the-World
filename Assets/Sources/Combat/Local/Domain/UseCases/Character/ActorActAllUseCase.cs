@@ -24,13 +24,19 @@ namespace Combat.Local.Domain.UseCases.Character
         private readonly ISkillActionStateChangeHandler _skillActionStateChangeHandler;
         private readonly ISkillHitHandler _skillHitHandler;
 
-        public ActorActAllUseCase(IAttributesRepository attributesRepository, IPositionableRepository positionableRepository, IActorRepository actorRepository, IAbilityRepository skillRepository, ActionFactory actionFactory, ISkillHitHandler skillHitHandler)
+        public ActorActAllUseCase(IAttributesRepository attributesRepository, IPositionableRepository positionableRepository,
+            IActorRepository actorRepository, IAbilityRepository skillRepository, ISkillOwnerRepository skillOwnerRepository,
+            ActionFactory actionFactory, ISkillExecutionPort skillExecutionPort,
+            ISkillActionStateChangeHandler skillActionStateChangeHandler, ISkillHitHandler skillHitHandler)
         {
             _attributesRepository = attributesRepository;
             _positionableRepository = positionableRepository;
             _actorRepository = actorRepository;
             _abilityRepository = skillRepository;
+            _skillOwnerRepository = skillOwnerRepository;
             _actionFactory = actionFactory;
+            _skillExecutionPort = skillExecutionPort;
+            _skillActionStateChangeHandler = skillActionStateChangeHandler;
             _skillHitHandler = skillHitHandler;
         }
 

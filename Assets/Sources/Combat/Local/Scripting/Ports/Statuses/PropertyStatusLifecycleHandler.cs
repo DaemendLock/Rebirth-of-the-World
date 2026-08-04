@@ -14,6 +14,12 @@ namespace Combat.Local.Scripting.Ports.Statuses
         private readonly List<IStatusPropertyContainerFactory> _statusStrategyFactories;
         private readonly IStatusRuntimeRegistry _statusRuntimeRegistry;
 
+        public PropertyStatusLifecycleHandler(IStatusRuntimeRegistry statusRuntimeRegistry)
+        {
+            _statusRuntimeRegistry = statusRuntimeRegistry;
+            _statusStrategyFactories = new();
+        }
+
         public void RegisterStrategyFactory(IStatusPropertyContainerFactory factory)
         {
             _statusStrategyFactories.Add(factory);
@@ -23,6 +29,12 @@ namespace Combat.Local.Scripting.Ports.Statuses
         {
             IStatusPropertyContainerFactory factory = GetFactory(status.Name);
             IStatusPropertyContainer container = factory?.Create(status.Id, status.Name, status.Parent, status.Source);
+
+            if (container == null)
+            {
+                throw new System.InvalidOperationException($"No status property factory can handle status '{status.Name}'.");
+            }
+
             _statusRuntimeRegistry.Create(status.Id, container);
             container.Apply();
         }
@@ -58,6 +70,24 @@ namespace Combat.Local.Scripting.Ports.Statuses
             }
 
             return null;
+        }
+    }
+
+    public sealed class StatusPropertyTickHandler : IStatusTickHandler
+    {
+        private readonly IStatusRuntimeRegistry _statusRuntimeRegistry;
+
+        public StatusPropertyTickHandler(IStatusRuntimeRegistry statusRuntimeRegistry)
+        {
+            _statusRuntimeRegistry = statusRuntimeRegistry;
+        }
+
+        public void Handle(StatusId statusId)
+        {
+            if (_statusRuntimeRegistry.TryGet(statusId, out IStatusPropertyContainer properties))
+            {
+                properties.Tick();
+            }
         }
     }
 }

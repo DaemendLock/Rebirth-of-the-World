@@ -32,7 +32,7 @@ namespace Combat.Local.Scripting.Factories
             return new ApiScriptDrivenAbilityPropertyContainer(script);
         }
 
-        public bool TryCreateEmpty(SkillId id, out SkillScript value)
+        private bool TryCreateEmpty(SkillId id, out SkillScript value)
         {
             System.Type type = _skillDataBase.GetScriptType(id);
 

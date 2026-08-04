@@ -1,8 +1,10 @@
-﻿using Combat.Common.ValueObjects;
+﻿using Combat.API;
+using Combat.API.Adapters;
+using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Facades;
 using Combat.Local.Scripting.Contexts;
 
-namespace Combat.API.Adapters
+namespace Combat.Local.Scripting.Adapters
 {
     public sealed class AbilityApiAdapter : IAbilityApiAdapter
     {
@@ -19,7 +21,10 @@ namespace Combat.API.Adapters
 
         public AbilityApi Adaptee(AbilityKey abilityKey)
         {
-            var context = new DomainAbilityContext(abilityKey.Skill, abilityKey.Owner.HasValue ? _characterApiProvider.Adaptee(abilityKey.Owner.Value) : null, _skillFacade, _sceneApiProvider.Get());
+            var context = new DomainAbilityContext(abilityKey.Skill,
+                abilityKey.Owner.HasValue ? _characterApiProvider.Adaptee(abilityKey.Owner.Value) : null,
+                _skillFacade,
+                _sceneApiProvider.Get());
             return new(context);
         }
     }

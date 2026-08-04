@@ -3,6 +3,7 @@ using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
 using Combat.Local.Data.Models;
 using Combat.Local.Gateways.DataSources;
+using Combat.Local.Scripting.Idk;
 
 using Data.Skills.Components;
 
@@ -14,7 +15,7 @@ using UnityEngine;
 
 namespace Combat.Local.Data.Databases
 {
-    public class SkillDataBase : ISkillDataBase, IActionDataContainer
+    public class SkillDataBase : ISkillDataBase, IActionDataContainer, ISkillScriptTypeProvider
     {
         private readonly SkillStrategyTypeDataSource _skillStrategyTypeProvider;
 

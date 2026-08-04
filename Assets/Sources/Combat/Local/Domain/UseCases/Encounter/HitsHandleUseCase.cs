@@ -15,10 +15,11 @@ namespace Combat.Local.Domain.UseCases.Scene
         private readonly IActorRepository _actorRepository;
         private readonly ISkillHitHandler _skillHitHandler;
 
-        public HitsHandleUseCase(IHitboxOwnerRepository hitboxRepository, IActorRepository actorRepository)
+        public HitsHandleUseCase(IHitboxOwnerRepository hitboxRepository, IActorRepository actorRepository, ISkillHitHandler skillHitHandler)
         {
             _hitboxRepository = hitboxRepository;
             _actorRepository = actorRepository;
+            _skillHitHandler = skillHitHandler;
         }
 
         public void Execute(System.ReadOnlySpan<Updatable> targets)

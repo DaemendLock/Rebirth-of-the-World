@@ -3,6 +3,7 @@ using Combat.Local.Domain.DTO;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.Factories;
+using Combat.Local.Domain.Endpoints.Skills;
 using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
@@ -25,6 +26,7 @@ namespace Combat.Local.Domain.UseCases
         private readonly IActorRepository _actorRepository;
         private readonly IAbilityRepository _abilityRepository;
         private readonly IAbilityFactory _abilityFactory;
+        private readonly ISkillLyfecycleHandler _skillLyfecycleHandler;
         private readonly IHitboxOwnerRepository _hitboxOwnerRepository;
         private readonly IHurtableRepository _hurtableRepository;
         private readonly IMovementEffectOwnerRepository _movementEffectOwnerRepository;
@@ -36,7 +38,10 @@ namespace Combat.Local.Domain.UseCases
             IHealthRepository healthRepository, IAligmentRepository aligmentRepository,
             IAttributesRepository attributesRepository, IResourceOwnerRepository resourceRepository, ISkillOwnerRepository skillOwnerRepository,
             IPositionableRepository positionableRepository, IActorRepository actorRepository,
-            ICharacterCreateOutput outputPort, IAbilityRepository skillRepository, IAbilityFactory skillFactory, ICharacterUpdateRepository characterUpdateList, IStatusOwnerRepository statusOwnerRepository, IMovementEffectOwnerRepository movementEffectOwnerRepository, IHitboxOwnerRepository hitboxOwnerRepository, IHurtableRepository hurtableRepository)
+            ICharacterCreateOutput outputPort, IAbilityRepository skillRepository, IAbilityFactory skillFactory,
+            ISkillLyfecycleHandler skillLyfecycleHandler, ICharacterUpdateRepository characterUpdateList,
+            IStatusOwnerRepository statusOwnerRepository, IMovementEffectOwnerRepository movementEffectOwnerRepository,
+            IHitboxOwnerRepository hitboxOwnerRepository, IHurtableRepository hurtableRepository)
         {
             _healthRepository = healthRepository;
             _aligmentRepository = aligmentRepository;
@@ -49,6 +54,7 @@ namespace Combat.Local.Domain.UseCases
             _idFactory = new(characterUpdateList);
             _abilityRepository = skillRepository;
             _abilityFactory = skillFactory;
+            _skillLyfecycleHandler = skillLyfecycleHandler;
             _characterUpdateList = characterUpdateList;
             _outputPort = outputPort;
             _statusOwnerRepository = statusOwnerRepository;
@@ -72,7 +78,7 @@ namespace Combat.Local.Domain.UseCases
             {
                 Ability ability = _abilityFactory.Create(skillId, id);
                 _abilityRepository.Create(ability);
-                //ability.Properties.Give();
+                _skillLyfecycleHandler.Give(new(id, skillId));
                 abilities[index++] = ability.SkillId;
             }
 

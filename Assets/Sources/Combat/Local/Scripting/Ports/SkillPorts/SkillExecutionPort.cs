@@ -20,6 +20,14 @@ namespace Combat.Local.Scripting.SkillPorts
         private readonly UnitNewAdapter _unitNewAdapter;
         private readonly ISkillMemoryRepository _memoryRepository;
 
+        public SkillExecutionPort(UnitNewAdapter unitNewAdapter, ISkillMemoryRepository memoryRepository)
+        {
+            _unitNewAdapter = unitNewAdapter;
+            _memoryRepository = memoryRepository;
+            _newScripts = new();
+            _oldScripts = new();
+        }
+
         public bool BeginCast(AbilityKey abilityKey)
         {
             if (_oldScripts.TryGetValue(abilityKey, out var oldScript))

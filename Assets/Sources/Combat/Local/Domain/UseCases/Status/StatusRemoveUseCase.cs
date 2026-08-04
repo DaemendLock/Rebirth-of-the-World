@@ -14,10 +14,13 @@ namespace Combat.Local.Domain.UseCases
         private readonly IStatusOwnerRepository _statusOwnerRepository;
         private readonly IStatusLifecycleHandler _statusLifecycleHandler;
 
-        public StatusRemoveUseCase(IStatusRepository statusRepository, IStatusTimerRepository statusTimerRepository)
+        public StatusRemoveUseCase(IStatusRepository statusRepository, IStatusTimerRepository statusTimerRepository,
+            IStatusOwnerRepository statusOwnerRepository, IStatusLifecycleHandler statusLifecycleHandler)
         {
             _statusRepository = statusRepository;
             _statusTimerRepository = statusTimerRepository;
+            _statusOwnerRepository = statusOwnerRepository;
+            _statusLifecycleHandler = statusLifecycleHandler;
         }
 
         public void Execute(UnitId target, StatusId statusId)

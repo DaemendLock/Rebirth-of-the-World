@@ -9,7 +9,7 @@ namespace Combat.Local.Scripting.Idk
 
     public sealed class ScriptStatusRuntimeRegistry : IStatusRuntimeRegistry
     {
-        private readonly Dictionary<StatusId, IStatusPropertyContainer> _values;
+        private readonly Dictionary<StatusId, IStatusPropertyContainer> _values = new();
 
         public void Create(StatusId id, IStatusPropertyContainer value) => _values.Add(id, value);
 
