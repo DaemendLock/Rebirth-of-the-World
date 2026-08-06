@@ -1,6 +1,6 @@
 ﻿using Combat.API.Contexts;
+using Combat.Common;
 using Combat.Common.ValueObjects;
-using Combat.Local.Domain.ValueObjects;
 
 namespace Combat.API
 {

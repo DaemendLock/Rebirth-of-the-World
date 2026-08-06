@@ -1,12 +1,12 @@
 ﻿using Combat.API;
-using Combat.API.API.IDK;
 using Combat.API.API.Skills;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Endpoints.Skills;
 using Combat.Local.Domain.Repositories.Skill;
 using Combat.Local.Scripting.Adapters;
+using Combat.Local.Scripting.Capabilities.Skills;
 using Combat.Local.Scripting.Contexts;
-using Combat.Local.Scripting.Idk.Capabilities.Skills;
+using Combat.Local.Scripting.Runtime;
 
 using System.Collections.Generic;
 

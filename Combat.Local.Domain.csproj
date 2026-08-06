@@ -106,6 +106,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\ISkillOwnerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Statuses\Status.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Skill\ISkillActionsRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\StatusOwnerApplyUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Skill\ISkillMemoryRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Charcters\ISpendResourceOutput.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\SkillOwner.cs" />
@@ -131,8 +132,6 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\MoveInDirectionEffect.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Status\StatusTimerStartUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Facades\CharacterFacade.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\SkillOwnerGiveUseCase.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Encounter\StatusApplyUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Status\IStatusTimerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\DTO\CreateCharacterDTO.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Factories\UnitIdFactory.cs" />

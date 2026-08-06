@@ -3,7 +3,6 @@ using Assets.Sources.Testing.Local;
 using Client.Testing.View;
 
 using Combat.API.Adapters;
-using Combat.API.API.IDK;
 using Combat.API.Scripting;
 using Combat.Local.Controllers;
 using Combat.Local.Data.Databases;
@@ -35,6 +34,7 @@ using Combat.Local.Scripting.Adapters;
 using Combat.Local.Scripting.Factories;
 using Combat.Local.Scripting.Idk;
 using Combat.Local.Scripting.Ports.Statuses;
+using Combat.Local.Scripting.Runtime;
 using Combat.Local.Scripting.SkillPorts;
 
 using Local.Combat.LazyData;
@@ -204,7 +204,7 @@ namespace Testing.Local.Combat
             Container.Bind<AbilityProgressAllUseCase>().FromNew().AsSingle();
 
             //Statuses
-            Container.Bind<StatusApplyUseCase>().FromNew().AsSingle();
+            Container.Bind<StatusOwnerApplyUseCase>().FromNew().AsSingle();
             Container.Bind<StatusTimerStartUseCase>().FromNew().AsSingle();
             Container.Bind<StatusTimerStopUseCase>().FromNew().AsSingle();
             Container.Bind<StatusRemoveUseCase>().FromNew().AsSingle();

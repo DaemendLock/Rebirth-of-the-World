@@ -1,4 +1,4 @@
-using Combat.Local.Scripting.Idk.Capabilities.Skills;
+using Combat.Local.Scripting.Capabilities.Skills;
 
 namespace Combat.Local.Scripting.IDK
 {

@@ -11,10 +11,10 @@ namespace Combat.Local.Domain.Facades
     public readonly struct EncounterFacade
     {
         private readonly CharacterCreateUseCase _createUnitUseCase;
-        private readonly StatusApplyUseCase _applyStatusUseCase;
+        private readonly StatusOwnerApplyUseCase _applyStatusUseCase;
         private readonly FindCharactersInRadiusUseCase _findCharacterInRadiusUseCase;
 
-        public EncounterFacade(CharacterCreateUseCase createUnitUseCase, StatusApplyUseCase applyStatusUseCase, FindCharactersInRadiusUseCase findCharacterInRadiusUseCase)
+        public EncounterFacade(CharacterCreateUseCase createUnitUseCase, StatusOwnerApplyUseCase applyStatusUseCase, FindCharactersInRadiusUseCase findCharacterInRadiusUseCase)
         {
             _createUnitUseCase = createUnitUseCase;
             _applyStatusUseCase = applyStatusUseCase;

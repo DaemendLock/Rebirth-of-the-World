@@ -4,7 +4,7 @@ using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.ValueObjects;
 
-namespace Combat.Local.Scripting.Idk.Capabilities.Statuses
+namespace Combat.Local.Scripting.Capabilities.Statuses
 {
     public readonly ref struct ModifyAttributesCapability
     {

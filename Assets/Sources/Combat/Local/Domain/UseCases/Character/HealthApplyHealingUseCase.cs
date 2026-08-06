@@ -36,7 +36,7 @@ namespace Combat.Local.Domain.UseCases
 
             health.TakeHealing(healing);
 
-            //useCase._healthRepository.Update(health);
+            _healthRepository.Update(health);
             _healthOutput.Present(health);
 
             if (instance.Flags.HasFlag(HealingFlags.CanRevive) && health.Current > 0)

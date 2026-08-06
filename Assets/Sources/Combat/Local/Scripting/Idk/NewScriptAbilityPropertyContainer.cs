@@ -4,8 +4,8 @@ using Combat.API.Skills;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Repositories.Skill;
 using Combat.Local.Scripting.Adapters;
+using Combat.Local.Scripting.Capabilities.Skills;
 using Combat.Local.Scripting.Contexts;
-using Combat.Local.Scripting.Idk.Capabilities.Skills;
 using Combat.Local.Scripting.IDK;
 
 namespace Combat.Local.Scripting.Idk

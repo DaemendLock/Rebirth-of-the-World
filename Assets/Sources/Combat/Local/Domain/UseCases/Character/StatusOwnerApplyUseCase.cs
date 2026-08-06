@@ -9,14 +9,14 @@ using System;
 
 namespace Combat.Local.Domain.UseCases
 {
-    public readonly struct StatusApplyUseCase
+    public readonly struct StatusOwnerApplyUseCase
     {
         private readonly IStatusRepository _statusRepository;
         private readonly IStatusOwnerRepository _statusOwnerRepository;
         private readonly StatusFactory _statusFactory;
         private readonly IStatusLifecycleHandler _statusLyfecycleHandler;
 
-        public StatusApplyUseCase(IStatusRepository statusRepository, StatusFactory statusFactory, IStatusOwnerRepository statusOwnerRepository, IStatusLifecycleHandler statusInitCleanupPort)
+        public StatusOwnerApplyUseCase(IStatusRepository statusRepository, StatusFactory statusFactory, IStatusOwnerRepository statusOwnerRepository, IStatusLifecycleHandler statusInitCleanupPort)
         {
             _statusRepository = statusRepository;
             _statusFactory = statusFactory;
@@ -26,20 +26,20 @@ namespace Combat.Local.Domain.UseCases
 
         public void Execute(ApplStatusDTO data)
         {
-            if (TryReapplyStatus(data))
+            StatusOwner target = _statusOwnerRepository.Get(data.Target);
+
+            if (TryReapplyStatus(target, data))
             {
                 return;
             }
 
             Status status = _statusFactory.Create(data.StatusName, data.Target, data.InitialDuration, data.InitialStackCount, data.Ability);
-            RegisterStatus(data.Target, status);
+            RegisterStatus(target, status);
         }
 
-        private bool TryReapplyStatus(ApplStatusDTO data)
+        private bool TryReapplyStatus(StatusOwner target, ApplStatusDTO data)
         {
-            StatusOwner statusOwner = _statusOwnerRepository.Get(data.Target);
-
-            ReadOnlySpan<StatusId> ids = statusOwner.GetAll();
+            ReadOnlySpan<StatusId> ids = target.GetAll();
 
             StatusType name = data.StatusName;
 
@@ -63,14 +63,13 @@ namespace Combat.Local.Domain.UseCases
             return false;
         }
 
-        private void RegisterStatus(UnitId parent, Status status)
+        private void RegisterStatus(StatusOwner target, Status status)
         {
-            StatusOwner statusOwner = _statusOwnerRepository.Get(parent);
-            var buffer = statusOwner.GetAll();
+            var buffer = target.GetAll();
             System.Span<StatusId> values = stackalloc StatusId[buffer.Length + 1];
             buffer.CopyTo(values);
             values[^1] = status.Id;
-            _statusOwnerRepository.Update(new(statusOwner.Id, values));
+            _statusOwnerRepository.Update(new(target.Id, values));
             _statusRepository.Create(status);
             _statusLyfecycleHandler.Apply(status);
         }

@@ -1,7 +1,7 @@
 using Combat.API.Skills;
 using Combat.Common.ValueObjects;
 
-namespace Combat.Local.Scripting.Idk.Capabilities.Skills
+namespace Combat.Local.Scripting.Capabilities.Skills
 {
     public readonly ref struct HandleSkillActionStateChangeCapability
     {

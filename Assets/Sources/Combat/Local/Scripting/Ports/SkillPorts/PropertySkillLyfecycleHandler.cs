@@ -1,11 +1,11 @@
-using Combat.API.API.IDK;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Endpoints.Skills;
 using Combat.Local.Scripting.Factories;
 using Combat.Local.Scripting.IDK;
-using Combat.Local.Scripting.Idk.Capabilities.Skills;
 
 using System.Collections.Generic;
+using Combat.Local.Scripting.Runtime;
+using Combat.Local.Scripting.Capabilities.Skills;
 
 namespace Combat.Local.Scripting.SkillPorts
 {

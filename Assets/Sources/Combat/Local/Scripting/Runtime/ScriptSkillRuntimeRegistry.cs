@@ -1,10 +1,9 @@
-using Combat.API.API.IDK;
 using Combat.Common.ValueObjects;
 using Combat.Local.Scripting.IDK;
 
 using System.Collections.Generic;
 
-namespace Combat.Local.Scripting.Idk
+namespace Combat.Local.Scripting.Runtime
 {
     public sealed class ScriptSkillRuntimeRegistry : ISkillRuntimeRegistry
     {

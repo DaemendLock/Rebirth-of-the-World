@@ -1,9 +1,10 @@
-﻿using Combat.API.API.IDK;
-using Combat.Common.ValueObjects;
+﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.OutputPorts.Statuses;
+using Combat.Local.Scripting.Capabilities.Statuses;
 using Combat.Local.Scripting.Factories;
 using Combat.Local.Scripting.IDK;
+using Combat.Local.Scripting.Runtime;
 
 using System.Collections.Generic;
 
@@ -28,33 +29,52 @@ namespace Combat.Local.Scripting.Ports.Statuses
         public void Apply(Status status)
         {
             IStatusPropertyContainerFactory factory = GetFactory(status.Name);
-            IStatusPropertyContainer container = factory?.Create(status.Id, status.Name, status.Parent, status.Source);
 
-            if (container == null)
+            if (factory == null)
             {
-                throw new System.InvalidOperationException($"No status property factory can handle status '{status.Name}'.");
+                UnityEngine.Debug.LogError($"No StatusScript factory found for script <{status.Name}>. Status will be skipped.");
+                return;
             }
 
+            IStatusPropertyContainer container = factory.Create(status.Id, status.Name, status.Parent, status.Source);
             _statusRuntimeRegistry.Create(status.Id, container);
-            container.Apply();
+
+            if (!container.TryGetProperty(out BaseStatusCapabilties effect))
+            {
+                return;
+            }
+
+            effect.Apply();
         }
 
         public void Cleanup(StatusId id)
         {
-            if (_statusRuntimeRegistry.TryGet(id, out var properties))
+            if (!_statusRuntimeRegistry.TryGet(id, out IStatusPropertyContainer properties))
             {
-                properties.Remove();
+                return;
+            }
+
+            if (properties.TryGetProperty(out BaseStatusCapabilties effect))
+            {
+                effect.Expire();
             }
 
             _statusRuntimeRegistry.Remove(id);
         }
 
-        public void Expire(StatusId status)
+        public void Expire(StatusId id)
         {
-            if (_statusRuntimeRegistry.TryGet(status, out var properties))
+            if (!_statusRuntimeRegistry.TryGet(id, out IStatusPropertyContainer properties))
             {
-                properties.Expire();
+                return;
             }
+
+            if (!properties.TryGetProperty(out BaseStatusCapabilties effect))
+            {
+                return;
+            }
+
+            effect.Expire();
         }
 
         private IStatusPropertyContainerFactory GetFactory(StatusType name)
@@ -84,10 +104,17 @@ namespace Combat.Local.Scripting.Ports.Statuses
 
         public void Handle(StatusId statusId)
         {
-            if (_statusRuntimeRegistry.TryGet(statusId, out IStatusPropertyContainer properties))
+            if (!_statusRuntimeRegistry.TryGet(statusId, out IStatusPropertyContainer properties))
             {
-                properties.Tick();
+                return;
             }
+
+            if (!properties.TryGetProperty(out BaseStatusCapabilties effect))
+            {
+                return;
+            }
+
+            effect.Tick();
         }
     }
 }

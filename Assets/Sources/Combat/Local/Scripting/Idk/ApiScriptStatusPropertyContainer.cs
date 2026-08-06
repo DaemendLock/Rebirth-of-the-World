@@ -1,7 +1,7 @@
 ﻿using Combat.API.Scripting;
 using Combat.API.Statuses;
 using Combat.Local.Scripting.Adapters;
-using Combat.Local.Scripting.Idk.Capabilities.Statuses;
+using Combat.Local.Scripting.Capabilities.Statuses;
 using Combat.Local.Scripting.IDK;
 
 namespace Combat.Local.Gateways.Repositories.Statuses
@@ -61,15 +61,11 @@ namespace Combat.Local.Gateways.Repositories.Statuses
             }
         }
 
-        public bool DestroyOnExpire => true;
-
-        public void Apply() => _statusScript.OnCreate();
-
-        public void Expire() => _statusScript.OnExpire();
-
-        public void Remove() => _statusScript.OnRemove();
-
-        public void Tick() => _statusScript.OnTick();
+        public bool TryGetProperty(out BaseStatusCapabilties effect)
+        {
+            effect = new(_statusScript);
+            return true;
+        }
 
         public bool TryGetProperty(out HandleIncomingDamageCapability effect)
         {

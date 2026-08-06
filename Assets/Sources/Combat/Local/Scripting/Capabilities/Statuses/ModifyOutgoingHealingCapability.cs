@@ -2,7 +2,7 @@ using Combat.API.Statuses;
 using Combat.Local.Domain.ValueObjects;
 using Combat.Local.Scripting.Adapters;
 
-namespace Combat.Local.Scripting.Idk.Capabilities.Statuses
+namespace Combat.Local.Scripting.Capabilities.Statuses
 {
     public readonly ref struct ModifyOutgoingHealingCapability
     {

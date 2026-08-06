@@ -1,8 +1,7 @@
-﻿using Combat.API.Contexts;
-using Combat.Common.ValueObjects;
+﻿using Combat.Common.ValueObjects;
 using Combat.Local.Scripting.IDK;
 
-namespace Combat.API.API.IDK
+namespace Combat.Local.Scripting.Runtime
 {
     public interface ISkillRuntimeRegistry
     {

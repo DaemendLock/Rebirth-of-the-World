@@ -19,14 +19,14 @@ namespace Combat.Local.Domain.Facades
         private readonly AddMovementEffectUseCase _addMovementEffectUseCase;
 
         private readonly StatusOwnerFindStatusUseCase _findStatusUseCase;
-        private readonly StatusApplyUseCase _applyStatusUseCase;
+        private readonly StatusOwnerApplyUseCase _applyStatusUseCase;
         private readonly IAligmentRepository _aligmentRepository;
         private readonly IActorRepository _killableRepository;
         private readonly IPositionableRepository _positionableRepository;
         private readonly IResourceOwnerRepository _resourceRepository;
 
         public CharacterFacade(ResourceGiveUseCase giveResourceUseCase, ResourceSpendUseCase spendResourceUseCase, ActorForceKillUseCase killUnitUseCase, StatusOwnerFindStatusUseCase findStatusUseCase,
-            IAligmentRepository aligmentRepository, IActorRepository killableRepository, IPositionableRepository positionableRepository, IResourceOwnerRepository resourceRepository, StatusApplyUseCase applyStatusUseCase, DesireMoveInDirectionUseCase moveInDirectionUseCase, AddMovementEffectUseCase addMovementEffectUseCase, ActorReviveUseCase reviveUnitUseCase)
+            IAligmentRepository aligmentRepository, IActorRepository killableRepository, IPositionableRepository positionableRepository, IResourceOwnerRepository resourceRepository, StatusOwnerApplyUseCase applyStatusUseCase, DesireMoveInDirectionUseCase moveInDirectionUseCase, AddMovementEffectUseCase addMovementEffectUseCase, ActorReviveUseCase reviveUnitUseCase)
         {
             _giveResourceUseCase = giveResourceUseCase;
             _spendResourceUseCase = spendResourceUseCase;

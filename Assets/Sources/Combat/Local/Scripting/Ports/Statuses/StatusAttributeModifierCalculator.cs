@@ -1,8 +1,8 @@
-using Combat.API.API.IDK;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.ValueObjects;
-using Combat.Local.Scripting.Idk.Capabilities.Statuses;
+using Combat.Local.Scripting.Capabilities.Statuses;
+using Combat.Local.Scripting.Runtime;
 
 using System;
 

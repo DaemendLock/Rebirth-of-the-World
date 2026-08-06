@@ -1,8 +1,8 @@
-using Combat.API.API.IDK;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Endpoints.Skills;
 using Combat.Local.Domain.ValueObjects;
-using Combat.Local.Scripting.Idk.Capabilities.Skills;
+using Combat.Local.Scripting.Capabilities.Skills;
+using Combat.Local.Scripting.Runtime;
 
 using System.Collections.Generic;
 

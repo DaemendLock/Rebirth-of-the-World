@@ -1,6 +1,6 @@
 using Combat.API.Statuses;
 
-namespace Combat.Local.Scripting.Idk.Capabilities.Statuses
+namespace Combat.Local.Scripting.Capabilities.Statuses
 {
     public readonly ref struct ModifyTimeScaleCapability
     {

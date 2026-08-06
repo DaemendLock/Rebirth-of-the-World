@@ -4,7 +4,7 @@ using Combat.API.ValueObjects;
 using Combat.Local.Domain.ValueObjects;
 using Combat.Local.Scripting.Adapters;
 
-namespace Combat.Local.Scripting.Idk.Capabilities.Statuses
+namespace Combat.Local.Scripting.Capabilities.Statuses
 {
     internal static class StatusCapabilityMapper
     {

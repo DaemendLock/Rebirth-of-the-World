@@ -1,4 +1,4 @@
-﻿namespace Combat.Local.Domain.ValueObjects
+﻿namespace Combat.Common
 {
     public struct Duration
     {
@@ -11,7 +11,7 @@
         public float ActiveTime { get; set; }
         public float FullDuration { get; set; }
 
-        public float Left => FullDuration - ActiveTime;
+        public readonly float Left => FullDuration - ActiveTime;
 
         public void Progress(float deltaTime)
         {

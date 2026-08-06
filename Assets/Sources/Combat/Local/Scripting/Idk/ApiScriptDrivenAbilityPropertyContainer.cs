@@ -2,7 +2,7 @@ using Combat.API.Scripting;
 using Combat.API.Skills;
 using Combat.Local.Scripting.Adapters;
 using Combat.Local.Scripting.IDK;
-using Combat.Local.Scripting.Idk.Capabilities.Skills;
+using Combat.Local.Scripting.Capabilities.Skills;
 
 namespace Combat.Local.Scripting.Idk
 {

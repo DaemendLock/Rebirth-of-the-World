@@ -3,7 +3,7 @@ using Combat.API.Skills;
 using Combat.Local.Domain.ValueObjects;
 using Combat.Local.Scripting.Adapters;
 
-namespace Combat.Local.Scripting.Idk.Capabilities.Skills
+namespace Combat.Local.Scripting.Capabilities.Skills
 {
     public readonly ref struct HandleSkillHitCapability
     {
@@ -20,7 +20,7 @@ namespace Combat.Local.Scripting.Idk.Capabilities.Skills
         {
             Unit source = _characterApiAdapter.Adaptee(record.HitboxOwner);
             Unit target = _characterApiAdapter.Adaptee(record.HurtboxOwner);
-            Combat.API.DTO.HitRecord apiRecord = new(source, record.HitboxType, target, record.HurtboxType, record.Location);
+            API.DTO.HitRecord apiRecord = new(source, record.HitboxType, target, record.HurtboxType, record.Location);
             return _handler.OnHit(apiRecord);
         }
     }
