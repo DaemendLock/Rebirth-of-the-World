@@ -22,7 +22,7 @@ namespace Combat.Local.Domain.UseCases
                 throw new System.InvalidOperationException("Not found");
             }
 
-            health.CurrentHealth = value;
+            health.Current = value;
             _healthOutput.Present(health);
         }
     }

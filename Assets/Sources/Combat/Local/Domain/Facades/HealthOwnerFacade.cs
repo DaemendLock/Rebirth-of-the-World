@@ -29,7 +29,7 @@ namespace Combat.Local.Domain.Facades
                 throw new System.InvalidOperationException();
             }
 
-            return new(value.CurrentHealth, value.MaxHealth);
+            return new(value.Current, value.MaxHealth);
         }
 
         public void SetHealth(UnitId target, float value)

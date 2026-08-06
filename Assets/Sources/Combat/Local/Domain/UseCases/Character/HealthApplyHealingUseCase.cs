@@ -39,7 +39,7 @@ namespace Combat.Local.Domain.UseCases
             //useCase._healthRepository.Update(health);
             _healthOutput.Present(health);
 
-            if (instance.Flags.HasFlag(HealingFlags.CanRevive) && health.CurrentHealth > 0)
+            if (instance.Flags.HasFlag(HealingFlags.CanRevive) && health.Current > 0)
             {
                 //Revive(new(data.Healer, data.Source, ReviveFlags.Healed));
             }

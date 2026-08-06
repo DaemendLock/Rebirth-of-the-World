@@ -69,14 +69,14 @@ namespace Combat.Local.Domain.UseCases
         {
             float finalDamage = instance.Damage;
 
-            if (finalDamage >= health.CurrentHealth && instance.Flags.HasFlag(DamageFlags.NonLethal))
+            if (finalDamage >= health.Current && instance.Flags.HasFlag(DamageFlags.NonLethal))
             {
-                finalDamage = health.CurrentHealth - 1;
+                finalDamage = health.Current - 1;
             }
 
             health.TakeDamage(finalDamage);
 
-            //_healthRepository.Update(health);
+            _healthRepository.Update(health);
             _healthOutput.Present(health);
 
             return finalDamage;
@@ -95,7 +95,7 @@ namespace Combat.Local.Domain.UseCases
 
         private void UpdateConsciosState(DamageInstance instance, ref Health health)
         {
-            if (health.CurrentHealth > 0)
+            if (health.Current > 0)
             {
                 return;
 

@@ -28,15 +28,7 @@ namespace Combat.Local.Gateways.Repositories
 
     public sealed class DictionaryHealthRepository : IHealthRepository
     {
-        public const int MaxGenerationCount = 1024;
-
-        private readonly Queue<int> _freeIndexes = new();
-        private int _count = 0;
-
         private readonly Dictionary<UnitId, HealthValue> _values;
-
-        private readonly HealthValue[] _valuesNew;
-        private readonly Dictionary<UnitId, int> _indexes;
 
         private readonly IAttributesRepository _attributesRepository;
 
@@ -45,26 +37,12 @@ namespace Combat.Local.Gateways.Repositories
             _attributesRepository = attributesRepository;
 
             _values = new();
-            _valuesNew = new HealthValue[128];
-            _indexes = new(128);
         }
 
-        public Health Create(UnitId id, HealthValue health)
+        public void Create(Health value)
         {
-            if (_freeIndexes.TryDequeue(out int index) == false)
-            {
-                index = _count;
-            }
-
-            if (index >= _valuesNew.Length)
-            {
-                throw new System.InvalidOperationException("Health component pool is full");
-            }
-
-            _indexes.Add(id, index);
-            _count++;
-            _valuesNew[index] = new();
-            return new(id, new(index, _valuesNew));
+            HealthValue data = new(value.Current, value.Default);
+            _values.Add(value.Id, data);
         }
 
         //public void Create(Health value) => _values.Add(value.Id, new(value.CurrentHealth, value.DefaultHealth));
@@ -73,11 +51,17 @@ namespace Combat.Local.Gateways.Repositories
 
         public bool TryGet(UnitId id, out Health health)
         {
+            if (_values.TryGetValue(id, out var data) == false)
+            {
+                health = default;
+                return false;
+            }
+
             AttributesOwner attributesOwner = _attributesRepository.Get(id);
-            health = new(id, new(_indexes[id], _valuesNew), attributesOwner.GetMaxHealthBonus());
+            health = new(id, data.Current, data.Default, attributesOwner.GetMaxHealthBonus());
             return true;
         }
 
-        public void Update(UnitId id, Health value) => _values[id] = new(value.CurrentHealth, value.DefaultHealth);
+        public void Update(Health value) => _values[value.Id] = new(value.Current, value.Default);
     }
 }
