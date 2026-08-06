@@ -1,10 +1,10 @@
-﻿using Combat.Common.ValueObjects;
+﻿using Combat.API;
+using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Facades;
-using Combat.Local.Scripting;
 
 using System.Collections.Generic;
 
-namespace Combat.API.Adapters
+namespace Combat.Local.Scripting.Adapters
 {
     public sealed class UnitNewAdapter
     {

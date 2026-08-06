@@ -1,14 +1,8 @@
-﻿using Combat.API;
-using Combat.API.Adapters;
 using Combat.API.API.IDK;
-using Combat.API.API.Skills;
-using Combat.API.Contexts;
-using Combat.API.DTO;
-using Combat.API.Statuses;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.ValueObjects;
-using Combat.Local.Scripting.Adapters;
+using Combat.Local.Scripting.Idk.Capabilities.Statuses;
 
 using System;
 
@@ -16,62 +10,46 @@ namespace Combat.Local.Scripting.Ports.Statuses
 {
     public sealed class StatusPropertyDamageResultHandler : IDamageResultHandler
     {
-        private readonly IStatusRuntimeRegistry _statusPropertyContainer;
-        private readonly CharacterApiAdapter _characterApiAdapter;
-        private readonly AbilityApiAdapter _abilityApiAdapter;
+        private readonly IStatusRuntimeRegistry _statusRuntimeRegistry;
 
-        public StatusPropertyDamageResultHandler(IStatusRuntimeRegistry statusPropertyContainer, CharacterApiAdapter characterApiAdapter, AbilityApiAdapter abilityApiAdapter)
+        public StatusPropertyDamageResultHandler(IStatusRuntimeRegistry statusRuntimeRegistry)
         {
-            _statusPropertyContainer = statusPropertyContainer;
-            _characterApiAdapter = characterApiAdapter;
-            _abilityApiAdapter = abilityApiAdapter;
+            _statusRuntimeRegistry = statusRuntimeRegistry;
         }
 
         public void HandleDamageDealth(ReadOnlySpan<StatusId> handlers, DamageResult @event)
         {
-            Unit target = _characterApiAdapter.Adaptee(@event.Target);
-            Unit attacker = @event.Attacker.HasValue ? _characterApiAdapter.Adaptee(@event.Attacker.Value) : null;
-            AbilityApi abilityApi = @event.Skill.HasValue ? _abilityApiAdapter.Adaptee(@event.Skill.Value) : null;
-            DamageRecord record = new(target, @event.OriginalDamage, @event.FinalDamage, @event.Flags, attacker, abilityApi);
-
             foreach (StatusId statusId in handlers)
             {
-                if (_statusPropertyContainer.TryGet(statusId, out var properties) == false)
+                if (_statusRuntimeRegistry.TryGet(statusId, out var properties) == false)
                 {
                     continue;
                 }
 
-                if (properties.TryGetProperty(out IOutgoingHealDamageHandler effect) == false)
+                if (properties.TryGetProperty(out HandleOutgoingDamageCapability effect) == false)
                 {
                     continue;
                 }
 
-                effect.OnDealDamage(record);
+                effect.Handle(@event);
             }
-
-            GameEvent<DealDamageEventData> gameEvent = new(new());
         }
 
         public void HandleDamageRecieved(ReadOnlySpan<StatusId> handlers, DamageResult @event)
         {
-            Unit target = _characterApiAdapter.Adaptee(@event.Target);
-            Unit attacker = @event.Attacker.HasValue ? _characterApiAdapter.Adaptee(@event.Attacker.Value) : null;
-            AbilityApi abilityApi = @event.Skill.HasValue ? _abilityApiAdapter.Adaptee(@event.Skill.Value) : null;
-            DamageRecord record = new(target, @event.OriginalDamage, @event.FinalDamage, @event.Flags, attacker, abilityApi);
-
             foreach (StatusId statusId in handlers)
             {
-                if (_statusPropertyContainer.TryGet(statusId, out var properties) == false)
+                if (_statusRuntimeRegistry.TryGet(statusId, out var properties) == false)
                 {
                     continue;
                 }
 
-                if (properties.TryGetProperty(out IIncomingHealDamageHandler effect) == false)
+                if (properties.TryGetProperty(out HandleIncomingDamageCapability effect) == false)
                 {
                     continue;
                 }
 
-                effect.OnTakeDamage(record);
+                effect.Handle(@event);
             }
         }
     }

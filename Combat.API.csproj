@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{7A9F157A-8D7C-2B2E-AFC2-2AA28809F24E}</ProjectGuid>
+    <ProjectGuid>{C9BF5BEB-DE0A-E85A-CAC2-2EA18DE6E29A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Combat.API</AssemblyName>
@@ -55,7 +55,7 @@
     <UnityVersion>6000.0.23f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
@@ -79,6 +79,7 @@
     <Compile Include="Assets\Sources\Combat\API\API\Entities\IActor.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Scripting\StatusScriptNameAttribute.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Adapters\ISceneApiAdapter.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Contexts\IStatusCapability.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\ApplyHealingInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Entities\AbilityApi.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Entities\EncounterApi.cs" />
@@ -92,13 +93,11 @@
     <Compile Include="Assets\Sources\Combat\API\API\Skills\ITargettableSkill.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\GiveResourceInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\New\TestScript.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\IDK\IStatusPropertyProvider.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Statuses\IOutgoingHealDamageHandler.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Contexts\ISkillContext.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Adapters\IStatusApiAdapter.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\SkillState.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\UnitCreationInfo.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Skills\IAbilityPropertyContainer.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Scripting\StatusScript.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Statuses\IStatusPropery.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\ValueObjects\DamageInstanceApi.cs" />
@@ -108,7 +107,6 @@
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\ApplyDamageInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\HitRecord.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Entities\Unit.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\IDK\IStatusRuntimeRegistry.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\IDK\AttributeSet.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\IHitHandler.cs" />
   </ItemGroup>
@@ -564,16 +562,8 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.WebGL.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WebGLSupport\UnityEditor.WebGL.Extensions.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.UWP.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MetroSupport\UnityEditor.UWP.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Zenject-usage">
@@ -1103,11 +1093,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="CastStateSkill.csproj">
-      <Project>{025DB029-4CAC-B653-1AFC-91B5BA790B5D}</Project>
+      <Project>{573D5C6D-59EB-BC50-87CC-10075518BC6E}</Project>
       <Name>CastStateSkill</Name>
     </ProjectReference>
     <ProjectReference Include="Combat.Common.csproj">
-      <Project>{8BD67BAE-4173-6632-3746-364F6C3EA823}</Project>
+      <Project>{29217AE8-78A8-CCC5-0256-54B8B8EF1E75}</Project>
       <Name>Combat.Common</Name>
     </ProjectReference>
   </ItemGroup>

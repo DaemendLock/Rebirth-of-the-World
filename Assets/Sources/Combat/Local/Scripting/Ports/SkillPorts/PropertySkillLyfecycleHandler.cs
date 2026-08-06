@@ -1,9 +1,9 @@
-﻿using Combat.API;
 using Combat.API.API.IDK;
-using Combat.API.Skills;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Endpoints.Skills;
 using Combat.Local.Scripting.Factories;
+using Combat.Local.Scripting.IDK;
+using Combat.Local.Scripting.Idk.Capabilities.Skills;
 
 using System.Collections.Generic;
 
@@ -17,7 +17,6 @@ namespace Combat.Local.Scripting.SkillPorts
         public PropertySkillLyfecycleHandler(ISkillRuntimeRegistry runtimeRegistry)
         {
             _runtimeRegistry = runtimeRegistry;
-
             _factories = new();
         }
 
@@ -36,7 +35,6 @@ namespace Combat.Local.Scripting.SkillPorts
             }
 
             _runtimeRegistry.Create(abilityKey, properties);
-            properties.Give();
         }
 
         public void Remove(AbilityKey abilityKey)
@@ -46,20 +44,17 @@ namespace Combat.Local.Scripting.SkillPorts
                 return;
             }
 
-            properties.Remove();
             _runtimeRegistry.Remove(abilityKey);
         }
 
         private ISkillPropertyContainerFactory GetFactory(SkillId id)
         {
-            foreach (var factory in _factories)
+            foreach (ISkillPropertyContainerFactory factory in _factories)
             {
-                if (factory.CanHandle(id) == false)
+                if (factory.CanHandle(id))
                 {
-                    continue;
+                    return factory;
                 }
-
-                return factory;
             }
 
             return null;
@@ -78,31 +73,12 @@ namespace Combat.Local.Scripting.SkillPorts
         public void Handle(AbilityKey abilityKey, ActionState newState)
         {
             if (_runtimeRegistry.TryGet(abilityKey, out IAbilityPropertyContainer properties) == false ||
-                properties.TryGet(out ICastStateChangeHandler handler) == false)
+                properties.TryGet(out HandleSkillActionStateChangeCapability handler) == false)
             {
                 return;
             }
 
-            switch (newState)
-            {
-                case ActionState.Startup:
-                    handler.OnStartup();
-                    break;
-                case ActionState.Active:
-                    handler.OnActive();
-                    break;
-                case ActionState.Gap:
-                    handler.OnGapStart();
-                    break;
-                case ActionState.Recovery:
-                    handler.OnRecovery();
-                    break;
-                case ActionState.Inactive:
-                    handler.OnEnds();
-                    break;
-                default:
-                    throw new System.ArgumentOutOfRangeException(nameof(newState), newState, null);
-            }
+            handler.Handle(newState);
         }
     }
 }

@@ -1,10 +1,10 @@
 ﻿using Combat.API.Adapters;
 using Combat.API.Scripting;
 using Combat.Common.ValueObjects;
-using Combat.Local.API.IDK;
 using Combat.Local.Gateways.Repositories.Statuses;
-using Combat.Local.Scripting.Factories;
+using Combat.Local.Scripting.Adapters;
 using Combat.Local.Scripting.Idk;
+using Combat.Local.Scripting.IDK;
 
 using System;
 using System.Linq;
@@ -15,13 +15,16 @@ namespace Combat.Local.Scripting.Factories
     public class CustomScriptStatusStrategyFactory : IStatusPropertyContainerFactory
     {
         private readonly IStatusScriptTypeProvider _statusApiTypeProvider;
-        private readonly IStatusApiAdapter _statusApiFactory;
+        private readonly AbilityApiAdapter _abilityApiAdapter;
+        private readonly CharacterApiAdapter _characterApiAdapter;
+        private readonly IStatusApiAdapter _statusApiAdapter;
 
-        public CustomScriptStatusStrategyFactory(IStatusApiAdapter statusApiFactory, IStatusScriptTypeProvider statusApiTypeProvider)
+        public CustomScriptStatusStrategyFactory(IStatusScriptTypeProvider statusApiTypeProvider, AbilityApiAdapter abilityApiAdapter, CharacterApiAdapter characterApiAdapter, IStatusApiAdapter statusApiAdapter)
         {
-
             _statusApiTypeProvider = statusApiTypeProvider;
-            _statusApiFactory = statusApiFactory;
+            _characterApiAdapter = characterApiAdapter;
+            _abilityApiAdapter = abilityApiAdapter;
+            _statusApiAdapter = statusApiAdapter;
 
             foreach (Type type in AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes()).Where(value => typeof(StatusScript).IsAssignableFrom(value)))
             {
@@ -38,8 +41,8 @@ namespace Combat.Local.Scripting.Factories
                 return null;
             }
 
-            script.Init(_statusApiFactory.Adaptee(id, parent, source));
-            return new ApiScriptStatusPropertyContainer(script);
+            script.Init(_statusApiAdapter.Adaptee(id, parent, source));
+            return new ApiScriptStatusPropertyContainer(script, _characterApiAdapter, _abilityApiAdapter);
         }
 
         public bool TryCreateEmpty(StatusType name, out StatusScript value)

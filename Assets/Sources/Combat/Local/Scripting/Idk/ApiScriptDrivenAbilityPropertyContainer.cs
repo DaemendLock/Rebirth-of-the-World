@@ -1,47 +1,31 @@
-﻿using Combat.API;
 using Combat.API.Scripting;
 using Combat.API.Skills;
+using Combat.Local.Scripting.Adapters;
+using Combat.Local.Scripting.IDK;
+using Combat.Local.Scripting.Idk.Capabilities.Skills;
 
 namespace Combat.Local.Scripting.Idk
 {
-
     public sealed class ApiScriptDrivenAbilityPropertyContainer : IAbilityPropertyContainer
     {
-        private readonly SkillScript _script;
+        private readonly CharacterApiAdapter _characterApiAdapter;
 
+        private readonly ICastableSkill _castableSkill;
         private readonly IHitHandler _hitStrategy;
         private readonly ICastStateChangeHandler _actionStateChangeStrategy;
         private readonly ITargettableSkill _lockTargetStrategy;
 
-        public ApiScriptDrivenAbilityPropertyContainer(SkillScript customSkillStrategy)
+        public ApiScriptDrivenAbilityPropertyContainer(SkillScript script, CharacterApiAdapter characterApiAdapter)
         {
-            _script = customSkillStrategy;
+            _characterApiAdapter = characterApiAdapter;
 
-            if (_script is IHitHandler hitHandler)
-            {
-                _hitStrategy = hitHandler;
-            }
-
-            if (_script is ICastStateChangeHandler actionStateChangeHandler)
-            {
-                _actionStateChangeStrategy = actionStateChangeHandler;
-            }
-
-            if (_script is ITargettableSkill lockTargetHandler)
-            {
-                _lockTargetStrategy = lockTargetHandler;
-            }
+            _hitStrategy = script as IHitHandler;
+            _actionStateChangeStrategy = script as ICastStateChangeHandler;
+            _lockTargetStrategy = script as ITargettableSkill;
+            _castableSkill = script as ICastableSkill;
         }
 
-        public void Give()
-        {
-        }
-
-        public void Remove()
-        {
-        }
-
-        public bool TryGet(out IHitHandler result)
+        public bool TryGet(out HandleSkillHitCapability result)
         {
             if (_hitStrategy == null)
             {
@@ -49,11 +33,11 @@ namespace Combat.Local.Scripting.Idk
                 return false;
             }
 
-            result = _hitStrategy;
+            result = new(_hitStrategy, _characterApiAdapter);
             return true;
         }
 
-        public bool TryGet(out ICastStateChangeHandler result)
+        public bool TryGet(out HandleSkillActionStateChangeCapability result)
         {
             if (_actionStateChangeStrategy == null)
             {
@@ -61,11 +45,11 @@ namespace Combat.Local.Scripting.Idk
                 return false;
             }
 
-            result = _actionStateChangeStrategy;
+            result = new(_actionStateChangeStrategy);
             return true;
         }
 
-        public bool TryGet(out ITargettableSkill result)
+        public bool TryGet(out EvaluateSkillTargetCapability result)
         {
             if (_lockTargetStrategy == null)
             {
@@ -73,47 +57,20 @@ namespace Combat.Local.Scripting.Idk
                 return false;
             }
 
-            result = _lockTargetStrategy;
+            result = new(_lockTargetStrategy, _characterApiAdapter);
             return true;
         }
 
-        //private class DataDrivenActionStateChangeStrategy : ISkillActionStateChangeHandler
-        //{
-        //    private readonly ICastStateChangeHandler _handler;
+        public bool TryGet(out ExecuteSkillCapability result)
+        {
+            if (_castableSkill == null)
+            {
+                result = default;
+                return false;
+            }
 
-        //    public DataDrivenActionStateChangeStrategy(ICastStateChangeHandler handler)
-        //    {
-        //        _handler = handler;
-        //    }
-
-        //    public void Handle(ActionState newState)
-        //    {
-        //        switch (newState)
-        //        {
-        //            case ActionState.Startup:
-        //                _handler.OnStartup();
-        //                break;
-
-        //            case ActionState.Active:
-        //                _handler.OnActive();
-        //                break;
-
-        //            case ActionState.Gap:
-        //                _handler.OnGapStart();
-        //                break;
-
-        //            case ActionState.Recovery:
-        //                _handler.OnRecovery();
-        //                break;
-
-        //            case ActionState.Inactive:
-        //                _handler.OnEnds();
-        //                break;
-
-        //            default:
-        //                throw new System.InvalidOperationException($"Can't find skill state \"{newState}\".");
-        //        }
-        //    }
-        //}
+            result = new(_castableSkill);
+            return true;
+        }
     }
 }

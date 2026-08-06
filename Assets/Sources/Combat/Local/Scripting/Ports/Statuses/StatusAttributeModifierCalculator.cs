@@ -1,10 +1,8 @@
-﻿using Combat.API.API.IDK;
-using Combat.API.DTO;
-using Combat.API.Statuses;
+using Combat.API.API.IDK;
 using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.ValueObjects;
+using Combat.Local.Scripting.Idk.Capabilities.Statuses;
 
 using System;
 
@@ -12,11 +10,11 @@ namespace Combat.Local.Scripting.Ports.Statuses
 {
     public sealed class StatusAttributeModifierCalculator : IStatusAttributeCalculator
     {
-        private readonly IStatusRuntimeRegistry _runtimeStatusRepository;
+        private readonly IStatusRuntimeRegistry _statusRuntimeRegistry;
 
         public StatusAttributeModifierCalculator(IStatusRuntimeRegistry statusRuntimeRegistry)
         {
-            _runtimeStatusRepository = statusRuntimeRegistry;
+            _statusRuntimeRegistry = statusRuntimeRegistry;
         }
 
         public AttributesModification Evaluate(ReadOnlySpan<StatusId> values)
@@ -28,42 +26,24 @@ namespace Combat.Local.Scripting.Ports.Statuses
 
             foreach (StatusId statusId in values)
             {
-                if (_runtimeStatusRepository.TryGet(statusId, out var properties) == false)
+                if (_statusRuntimeRegistry.TryGet(statusId, out var properties) == false)
                 {
                     continue;
                 }
 
-                if (properties.TryGetProperty(out IAttributesModifier attributeEffect))
+                if (properties.TryGetProperty(out ModifyAttributesCapability attributeEffect))
                 {
-                    AttributesModification modification = GetModification(attributeEffect);
-                    result += modification;
+                    AttributesModification modification = attributeEffect.GetModification();
+                    result.Attack += modification.Attack;
+                    result.Spellpower += modification.Spellpower;
+                    result.Speed += modification.Speed;
                 }
 
-                if (properties.TryGetProperty(out ITimeScaleModifier timeScaleEffect))
+                if (properties.TryGetProperty(out ModifyTimeScaleCapability timeScaleEffect))
                 {
-                    result.TimeScale += timeScaleEffect.GetTimeModification();
+                    result.TimeScale += timeScaleEffect.GetModification();
                 }
             }
-
-            return result;
-        }
-
-        private AttributesModification GetModification(IAttributesModifier modifier)
-        {
-            AttributesModification result = new();
-
-            System.Span<AttributeValue> baseValues = stackalloc AttributeValue[AttributesOwner.AttributeCount];
-            System.Span<AttributeValue> bonusValues = stackalloc AttributeValue[baseValues.Length];
-
-            baseValues.Clear();
-            bonusValues.Clear();
-
-            AttributesData attributesData = new(baseValues, bonusValues);
-            modifier.GetAttributesBonuses(attributesData);
-
-            result.Attack = new(bonusValues[(int)Common.ValueObjects.Attribute.Atk]);
-            result.Spellpower = new(bonusValues[(int)Common.ValueObjects.Attribute.Spellpower]);
-            result.Speed = new(bonusValues[(int)Common.ValueObjects.Attribute.Speed]);
 
             return result;
         }

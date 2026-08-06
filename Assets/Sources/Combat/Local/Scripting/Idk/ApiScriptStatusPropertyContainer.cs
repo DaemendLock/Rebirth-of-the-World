@@ -1,19 +1,15 @@
-﻿using Combat.API;
-using Combat.API.Adapters;
-using Combat.API.DTO;
-using Combat.API.Scripting;
+﻿using Combat.API.Scripting;
 using Combat.API.Statuses;
-using Combat.API.ValueObjects;
-using Combat.Common.ValueObjects;
-using Combat.Local.API.IDK;
-using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Repositories;
-using Combat.Local.Domain.ValueObjects;
+using Combat.Local.Scripting.Adapters;
+using Combat.Local.Scripting.Idk.Capabilities.Statuses;
+using Combat.Local.Scripting.IDK;
 
 namespace Combat.Local.Gateways.Repositories.Statuses
 {
     public class ApiScriptStatusPropertyContainer : IStatusPropertyContainer
     {
+        private readonly AbilityApiAdapter _abilityApiAdapter;
+        private readonly CharacterApiAdapter _characterApiAdapter;
         private readonly StatusScript _statusScript;
         private readonly IIncomingHealDamageHandler _takeDamageEffectStrategy;
         private readonly IOutgoingHealDamageHandler _dealDamageEffectStrategy;
@@ -23,9 +19,11 @@ namespace Combat.Local.Gateways.Repositories.Statuses
         private readonly IAttributesModifier _modifyAttributesStrategy;
         private readonly ITimeScaleModifier _modifyTimeScaleStrategy;
 
-        public ApiScriptStatusPropertyContainer(StatusScript script)
+        public ApiScriptStatusPropertyContainer(StatusScript script, CharacterApiAdapter characterApiAdapter, AbilityApiAdapter abilityApiAdapter)
         {
             _statusScript = script;
+            _characterApiAdapter = characterApiAdapter;
+            _abilityApiAdapter = abilityApiAdapter;
 
             if (script is IIncomingHealDamageHandler incomingHealDamageHandler)
             {
@@ -73,7 +71,7 @@ namespace Combat.Local.Gateways.Repositories.Statuses
 
         public void Tick() => _statusScript.OnTick();
 
-        public bool TryGetProperty(out IIncomingHealDamageHandler effect)
+        public bool TryGetProperty(out HandleIncomingDamageCapability effect)
         {
             if (_takeDamageEffectStrategy == null)
             {
@@ -81,11 +79,11 @@ namespace Combat.Local.Gateways.Repositories.Statuses
                 return false;
             }
 
-            effect = _takeDamageEffectStrategy;
+            effect = new(_takeDamageEffectStrategy, _characterApiAdapter, _abilityApiAdapter);
             return true;
         }
 
-        public bool TryGetProperty(out IOutgoingHealDamageHandler effect)
+        public bool TryGetProperty(out HandleOutgoingDamageCapability effect)
         {
             if (_dealDamageEffectStrategy == null)
             {
@@ -93,11 +91,11 @@ namespace Combat.Local.Gateways.Repositories.Statuses
                 return false;
             }
 
-            effect = _dealDamageEffectStrategy;
+            effect = new(_dealDamageEffectStrategy, _characterApiAdapter, _abilityApiAdapter);
             return true;
         }
 
-        public bool TryGetProperty(out IOutgoingDamageModifier effect)
+        public bool TryGetProperty(out ModifyOutgoingDamageCapability effect)
         {
             if (_modifyParentOutgoingDamageStrategy == null)
             {
@@ -105,23 +103,23 @@ namespace Combat.Local.Gateways.Repositories.Statuses
                 return false;
             }
 
-            effect = _modifyParentOutgoingDamageStrategy;
+            effect = new(_modifyParentOutgoingDamageStrategy, _characterApiAdapter, _abilityApiAdapter);
             return true;
         }
 
-        public bool TryGetProperty(out IOutgoingHealingModifier effect)
+        public bool TryGetProperty(out ModifyOutgoingHealingCapability effect)
         {
-            if (_modifyParentOutgoingDamageStrategy == null)
+            if (_modifyParentOutgoingHealingStrategy == null)
             {
                 effect = default;
                 return false;
             }
 
-            effect = _modifyParentOutgoingHealingStrategy;
+            effect = new(_modifyParentOutgoingHealingStrategy, _characterApiAdapter, _abilityApiAdapter);
             return true;
         }
 
-        public bool TryGetProperty(out IIncomingHealDamageModifier effect)
+        public bool TryGetProperty(out ModifyIncomingDamageCapability effect)
         {
             if (_modifyParentIncomingDamageStrategy == null)
             {
@@ -129,11 +127,11 @@ namespace Combat.Local.Gateways.Repositories.Statuses
                 return false;
             }
 
-            effect = _modifyParentIncomingDamageStrategy;
+            effect = new(_modifyParentIncomingDamageStrategy, _characterApiAdapter, _abilityApiAdapter);
             return true;
         }
 
-        public bool TryGetProperty(out IAttributesModifier effect)
+        public bool TryGetProperty(out ModifyAttributesCapability effect)
         {
             if (_modifyAttributesStrategy == null)
             {
@@ -141,11 +139,11 @@ namespace Combat.Local.Gateways.Repositories.Statuses
                 return false;
             }
 
-            effect = _modifyAttributesStrategy;
+            effect = new(_modifyAttributesStrategy);
             return true;
         }
 
-        public bool TryGetProperty(out ITimeScaleModifier effect)
+        public bool TryGetProperty(out ModifyTimeScaleCapability effect)
         {
             if (_modifyTimeScaleStrategy == null)
             {
@@ -153,7 +151,7 @@ namespace Combat.Local.Gateways.Repositories.Statuses
                 return false;
             }
 
-            effect = _modifyTimeScaleStrategy;
+            effect = new(_modifyTimeScaleStrategy);
             return true;
         }
     }

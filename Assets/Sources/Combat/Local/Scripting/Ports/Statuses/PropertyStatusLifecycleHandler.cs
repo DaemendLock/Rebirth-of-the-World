@@ -1,9 +1,9 @@
 ﻿using Combat.API.API.IDK;
 using Combat.Common.ValueObjects;
-using Combat.Local.API.IDK;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Scripting.Factories;
+using Combat.Local.Scripting.IDK;
 
 using System.Collections.Generic;
 

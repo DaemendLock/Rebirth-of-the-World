@@ -17,6 +17,7 @@ namespace Combat.API.API.Skills
             data.CastCount++;
             skillContext.SaveState<TestSkillData>(new(data));
 
+            UnityEngine.Debug.Log($"Test cast; Counter value: {data.CastCount}");
             //skillContext.Owner.SubscribeToEvent<DealDamageEvent>((@event) => { });
             return default;
         }

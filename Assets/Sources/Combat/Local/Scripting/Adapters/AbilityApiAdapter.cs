@@ -6,7 +6,7 @@ using Combat.Local.Scripting.Contexts;
 
 namespace Combat.Local.Scripting.Adapters
 {
-    public sealed class AbilityApiAdapter
+    public readonly struct AbilityApiAdapter
     {
         private readonly CharacterApiAdapter _characterApiProvider;
         private readonly ISceneApiAdapter _sceneApiProvider;

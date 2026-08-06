@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{1D788639-8353-ABFF-F872-C4D12F5F1352}</ProjectGuid>
+    <ProjectGuid>{5CB25FE3-E4E9-4009-F558-856DD2D3C91D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Combat.Local.Presentation</AssemblyName>
@@ -55,7 +55,7 @@
     <UnityVersion>6000.0.23f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
@@ -525,16 +525,8 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.WebGL.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WebGLSupport\UnityEditor.WebGL.Extensions.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.UWP.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MetroSupport\UnityEditor.UWP.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Zenject-usage">
@@ -1064,19 +1056,19 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DaeHitbox.csproj">
-      <Project>{F1B1C6F6-7B6F-D02E-D6C5-D8D36CD92BD7}</Project>
+      <Project>{3D0A4547-5B8A-C3A9-9D1B-9150CB1E9DE9}</Project>
       <Name>DaeHitbox</Name>
     </ProjectReference>
     <ProjectReference Include="DaeAnimator.csproj">
-      <Project>{A9FD6DE7-D9E5-E855-19DA-1F92951108BD}</Project>
+      <Project>{A4EC79AA-E12F-D92D-CEF4-29EF748545E9}</Project>
       <Name>DaeAnimator</Name>
     </ProjectReference>
     <ProjectReference Include="Combat.Common.csproj">
-      <Project>{8BD67BAE-4173-6632-3746-364F6C3EA823}</Project>
+      <Project>{29217AE8-78A8-CCC5-0256-54B8B8EF1E75}</Project>
       <Name>Combat.Common</Name>
     </ProjectReference>
     <ProjectReference Include="Combat.Local.Domain.csproj">
-      <Project>{84D51C1F-4A00-169F-B1F2-C7892886743B}</Project>
+      <Project>{F7CA571C-1268-0203-12B9-E5840C398121}</Project>
       <Name>Combat.Local.Domain</Name>
     </ProjectReference>
   </ItemGroup>

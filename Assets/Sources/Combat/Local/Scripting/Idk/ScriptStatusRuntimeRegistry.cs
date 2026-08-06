@@ -1,6 +1,6 @@
 ﻿using Combat.API.API.IDK;
 using Combat.Common.ValueObjects;
-using Combat.Local.API.IDK;
+using Combat.Local.Scripting.IDK;
 
 using System.Collections.Generic;
 

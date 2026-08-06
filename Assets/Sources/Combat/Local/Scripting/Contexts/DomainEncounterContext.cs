@@ -1,5 +1,4 @@
 ﻿using Combat.API;
-using Combat.API.Adapters;
 using Combat.API.Contexts;
 using Combat.API.DTO;
 using Combat.API.Skills;
@@ -7,6 +6,7 @@ using Combat.Common.ValueObjects;
 using Combat.Local.Domain.DTO;
 using Combat.Local.Domain.Facades;
 using Combat.Local.Domain.ValueObjects;
+using Combat.Local.Scripting.Adapters;
 
 namespace Combat.Local.Scripting.Contexts
 {

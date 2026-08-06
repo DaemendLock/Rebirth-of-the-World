@@ -3,10 +3,10 @@
 using Client.Testing.View;
 
 using Combat.API;
-using Combat.API.Adapters;
 using Combat.Common.Flags;
 using Combat.Local.Controllers;
 using Combat.Local.Gateways.Models;
+using Combat.Local.Scripting.Adapters;
 
 using UnityEngine;
 

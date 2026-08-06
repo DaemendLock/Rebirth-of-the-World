@@ -1,4 +1,5 @@
 ﻿using Combat.Local.Domain.Facades;
+using Combat.Local.Scripting.Adapters;
 using Combat.Local.Scripting.Contexts;
 
 namespace Combat.API.Adapters
