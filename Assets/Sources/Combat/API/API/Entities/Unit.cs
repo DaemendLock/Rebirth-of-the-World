@@ -2,8 +2,6 @@
 using Combat.API.DTO;
 using Combat.Common.ValueObjects;
 
-using UnityEngine;
-
 namespace Combat.API
 {
     public sealed class Unit

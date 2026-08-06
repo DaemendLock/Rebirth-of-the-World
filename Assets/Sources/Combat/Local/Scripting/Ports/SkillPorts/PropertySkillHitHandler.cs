@@ -13,11 +13,11 @@ namespace Combat.Local.Scripting.SkillPorts
     public sealed class PropertySkillHitHandler : ISkillHitHandler
     {
         private readonly ISkillRuntimeRegistry _runtimeRegistry;
-        private readonly ICharacterApiAdapter _characterApiAdapter;
+        private readonly CharacterApiAdapter _characterApiAdapter;
 
         private readonly Dictionary<AbilityKey, List<UnitId>> _hittedTargets;
 
-        public PropertySkillHitHandler(ISkillRuntimeRegistry runtimeRegistry, ICharacterApiAdapter characterApiAdapter)
+        public PropertySkillHitHandler(ISkillRuntimeRegistry runtimeRegistry, CharacterApiAdapter characterApiAdapter)
         {
             _runtimeRegistry = runtimeRegistry;
             _characterApiAdapter = characterApiAdapter;

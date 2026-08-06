@@ -111,8 +111,6 @@
     <Compile Include="Assets\Sources\Combat\API\API\IDK\IStatusRuntimeRegistry.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\IDK\AttributeSet.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\IHitHandler.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Adapters\ICharacterApiAdapter.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Adapters\IAbilityApiAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sources\Combat\API\API\Combat.API.asmdef" />

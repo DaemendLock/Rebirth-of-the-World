@@ -2,6 +2,7 @@
 using Combat.API.Adapters;
 using Combat.API.Scripting;
 using Combat.Common.ValueObjects;
+using Combat.Local.Scripting.Adapters;
 using Combat.Local.Scripting.Idk;
 
 using System.Runtime.Serialization;
@@ -11,9 +12,9 @@ namespace Combat.Local.Scripting.Factories
     public sealed class CustomScriptSkillStrategyFactory : ISkillPropertyContainerFactory
     {
         private readonly ISkillScriptTypeProvider _skillDataBase;
-        private readonly IAbilityApiAdapter _skillApiAdapter;
+        private readonly AbilityApiAdapter _skillApiAdapter;
 
-        public CustomScriptSkillStrategyFactory(ISkillScriptTypeProvider skillDataBase, IAbilityApiAdapter skillApiProvider)
+        public CustomScriptSkillStrategyFactory(ISkillScriptTypeProvider skillDataBase, AbilityApiAdapter skillApiProvider)
         {
             _skillDataBase = skillDataBase;
             _skillApiAdapter = skillApiProvider;

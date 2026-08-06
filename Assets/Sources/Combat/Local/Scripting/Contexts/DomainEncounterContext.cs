@@ -13,9 +13,9 @@ namespace Combat.Local.Scripting.Contexts
     public sealed class DomainEncounterContext : IEncounterContext
     {
         private readonly EncounterFacade _sceneFacade;
-        private readonly ICharacterApiAdapter _chracterApiAdapter;
+        private readonly CharacterApiAdapter _chracterApiAdapter;
 
-        public DomainEncounterContext(EncounterFacade sceneFacade, ICharacterApiAdapter chracterApiAdapter)
+        public DomainEncounterContext(EncounterFacade sceneFacade, CharacterApiAdapter chracterApiAdapter)
         {
             _sceneFacade = sceneFacade;
             _chracterApiAdapter = chracterApiAdapter;

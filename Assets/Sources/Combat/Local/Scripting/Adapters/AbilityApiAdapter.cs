@@ -6,13 +6,13 @@ using Combat.Local.Scripting.Contexts;
 
 namespace Combat.Local.Scripting.Adapters
 {
-    public sealed class AbilityApiAdapter : IAbilityApiAdapter
+    public sealed class AbilityApiAdapter
     {
-        private readonly ICharacterApiAdapter _characterApiProvider;
+        private readonly CharacterApiAdapter _characterApiProvider;
         private readonly ISceneApiAdapter _sceneApiProvider;
         private readonly AbilityFacade _skillFacade;
 
-        public AbilityApiAdapter(ICharacterApiAdapter characterApiProvider, ISceneApiAdapter sceneApiProvider, AbilityFacade skillFacade)
+        public AbilityApiAdapter(CharacterApiAdapter characterApiProvider, ISceneApiAdapter sceneApiProvider, AbilityFacade skillFacade)
         {
             _characterApiProvider = characterApiProvider;
             _sceneApiProvider = sceneApiProvider;

@@ -19,9 +19,9 @@ namespace Combat.API.Adapters
         {
             return new UnitNew(id, _healthOwnerFacade);
         }
-    } 
+    }
 
-    public readonly struct CharacterApiAdapter : ICharacterApiAdapter
+    public sealed class CharacterApiAdapter
     {
         private readonly CharacterFacade _characterFacade;
         private readonly HealthOwnerFacade _healthOwnerFacade;

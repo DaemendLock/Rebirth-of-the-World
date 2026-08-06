@@ -6,9 +6,9 @@ namespace Combat.API.Adapters
     public sealed class SceneApiAdapter : ISceneApiAdapter
     {
         private readonly EncounterFacade _sceneFacade;
-        private readonly ICharacterApiAdapter _characterApiAdapter;
+        private readonly CharacterApiAdapter _characterApiAdapter;
 
-        public SceneApiAdapter(EncounterFacade sceneFacade, ICharacterApiAdapter characterApiAdapter)
+        public SceneApiAdapter(EncounterFacade sceneFacade, CharacterApiAdapter characterApiAdapter)
         {
             _sceneFacade = sceneFacade;
             _characterApiAdapter = characterApiAdapter;

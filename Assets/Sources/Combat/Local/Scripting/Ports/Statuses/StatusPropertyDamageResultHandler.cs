@@ -8,6 +8,7 @@ using Combat.API.Statuses;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.ValueObjects;
+using Combat.Local.Scripting.Adapters;
 
 using System;
 
@@ -16,10 +17,10 @@ namespace Combat.Local.Scripting.Ports.Statuses
     public sealed class StatusPropertyDamageResultHandler : IDamageResultHandler
     {
         private readonly IStatusRuntimeRegistry _statusPropertyContainer;
-        private readonly ICharacterApiAdapter _characterApiAdapter;
-        private readonly IAbilityApiAdapter _abilityApiAdapter;
+        private readonly CharacterApiAdapter _characterApiAdapter;
+        private readonly AbilityApiAdapter _abilityApiAdapter;
 
-        public StatusPropertyDamageResultHandler(IStatusRuntimeRegistry statusPropertyContainer, ICharacterApiAdapter characterApiAdapter, IAbilityApiAdapter abilityApiAdapter)
+        public StatusPropertyDamageResultHandler(IStatusRuntimeRegistry statusPropertyContainer, CharacterApiAdapter characterApiAdapter, AbilityApiAdapter abilityApiAdapter)
         {
             _statusPropertyContainer = statusPropertyContainer;
             _characterApiAdapter = characterApiAdapter;

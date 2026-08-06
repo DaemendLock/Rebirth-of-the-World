@@ -4,6 +4,6 @@ namespace Combat.API.Statuses
 {
     public interface IIncomingHealDamageHandler : IStatusPropery
     {
-        void OnTakeDamage(DamageRecord record); 
+        void OnTakeDamage(DamageRecord record);
     }
 }

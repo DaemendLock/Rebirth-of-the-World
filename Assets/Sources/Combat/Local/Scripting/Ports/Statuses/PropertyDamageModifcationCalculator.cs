@@ -7,20 +7,19 @@ using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.ValueObjects;
+using Combat.Local.Scripting.Adapters;
 
 using System;
-
-using UnityEngine.SocialPlatforms;
 
 namespace Combat.Local.Scripting.Ports.Statuses
 {
     public sealed class PropertyDamageModifcationCalculator : IHealingDamageModifierCalculator
     {
         private readonly IStatusRuntimeRegistry _statusRegisrty;
-        private readonly ICharacterApiAdapter _unitApiAdapter;
-        private readonly IAbilityApiAdapter _skillApiProvider;
+        private readonly CharacterApiAdapter _unitApiAdapter;
+        private readonly AbilityApiAdapter _skillApiProvider;
 
-        public PropertyDamageModifcationCalculator(IStatusRuntimeRegistry statusRepository, ICharacterApiAdapter unitApiAdapter, IAbilityApiAdapter skillApiProvider)
+        public PropertyDamageModifcationCalculator(IStatusRuntimeRegistry statusRepository, CharacterApiAdapter unitApiAdapter, AbilityApiAdapter skillApiProvider)
         {
             _statusRegisrty = statusRepository;
             _unitApiAdapter = unitApiAdapter;
@@ -29,20 +28,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
 
         public DamageModification GetAttackerDamageModification(ReadOnlySpan<StatusId> values, in DamageInstance instance)
         {
-            Unit target = _unitApiAdapter.Adaptee(instance.Target);
-            Unit attacker = instance.Attacker.HasValue ? _unitApiAdapter.Adaptee(instance.Attacker.Value) : null;
-            AbilityApi source;
-
-            if (instance.Source.HasValue)
-            {
-                source = _skillApiProvider.Adaptee(instance.Source.Value);
-            }
-            else
-            {
-                source = null;
-            }
-
-            DamageInstanceApi damageInstanceApi = new(target, attacker, source, instance.OriginalDamage, instance.Flags);
+            DamageInstanceApi damageInstanceApi = AdaptDamageInstance(instance);
             DamageModification result = new(0, 0, 0, DamageFlags.None);
 
             foreach (StatusId id in values)
