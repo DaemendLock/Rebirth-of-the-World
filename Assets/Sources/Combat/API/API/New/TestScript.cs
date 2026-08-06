@@ -10,7 +10,7 @@ namespace Combat.API.API.Skills
 
     public sealed class TestScript : ISkillScriptNew
     {
-        public SkillTimeline OnCast(IActor actor, ISkillContext skillContext)
+        public bool OnCast(IActor actor, ISkillContext skillContext)
         {
             SkillState<TestSkillData> value = skillContext.GetState<TestSkillData>();
             TestSkillData data = value.DynamicState;

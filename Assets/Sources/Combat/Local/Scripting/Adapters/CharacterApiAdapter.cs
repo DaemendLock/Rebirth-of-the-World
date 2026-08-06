@@ -27,29 +27,19 @@ namespace Combat.Local.Scripting.Adapters
         private readonly HealthOwnerFacade _healthOwnerFacade;
         private readonly AttributeOwnerFacade _attributeOwnerFacade;
 
-        private readonly Dictionary<UnitId, OldDomainUnitContext> _cache;
-
         public CharacterApiAdapter(CharacterFacade characterFacade, HealthOwnerFacade healthFacade, AttributeOwnerFacade attributeOwnerFacade)
         {
             _characterFacade = characterFacade;
             _healthOwnerFacade = healthFacade;
             _attributeOwnerFacade = attributeOwnerFacade;
-
-            _cache = new();
         }
 
         public Unit Adaptee(UnitId id)
         {
-            if (_cache.TryGetValue(id, out OldDomainUnitContext result))
-            {
-                return new(result);
-            }
-
-            result = new(id,
+            OldDomainUnitContext result = new(id,
             _characterFacade,
             _healthOwnerFacade,
             _attributeOwnerFacade);
-            _cache.Add(id, result);
             return new(result);
         }
     }

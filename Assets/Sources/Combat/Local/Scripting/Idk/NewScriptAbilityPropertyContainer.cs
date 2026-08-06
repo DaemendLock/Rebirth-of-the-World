@@ -68,12 +68,7 @@ namespace Combat.Local.Scripting.Idk
             }
 
             public bool OnCast()
-            {
-                DomainSkillContext context = new(_memoryRepository, _abilityKey);
-
-                var timeline = _skillScript.OnCast(_unitNew, context);
-                return timeline.Startup + timeline.ActiveTime + timeline.Recovery > 0;
-            }
+                => _skillScript.OnCast(_unitNew, new DomainSkillContext(_memoryRepository, _abilityKey));
         }
     }
 }

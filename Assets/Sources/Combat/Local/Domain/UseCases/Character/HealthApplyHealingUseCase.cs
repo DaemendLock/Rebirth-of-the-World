@@ -5,6 +5,8 @@ using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
 
+using static UnityEngine.GraphicsBuffer;
+
 namespace Combat.Local.Domain.UseCases
 {
     public readonly struct HealthApplyHealingUseCase
@@ -54,34 +56,13 @@ namespace Combat.Local.Domain.UseCases
         private HealingInstance CreateHealingInstance(UnitId targetId, float healing, HealingFlags flags, UnitId? healer, AbilityKey? source)
         {
             HealingInstance result = new(targetId, healing, flags, healer, source);
-            HealingModification finalModification = new(0, 0, 0, HealingFlags.None);
-
-            //StatusOwner healerStatuses = _statusOwnerRepository.Get(healer.Value);
-
-            //foreach (StatusId id in healerStatuses.GetAll())
-            //{
-            //    if (_statusRepository.TryGet(id, out Status status) == false)
-            //    {
-            //        continue;
-            //    }
-
-            //    if (status.Strategy.TryGetEffect(out ModifyOutgoingHealingEffect effect) == false)
-            //    {
-            //        continue;
-            //    }
-
-            //    HealingModification modification = effect.GetModification(result);
-            //    finalModification = new(finalModification.BaseValue + modification.BaseValue,
-            //            finalModification.PercentModication + modification.PercentModication,
-            //            finalModification.BonusValue + modification.BonusValue,
-            //            finalModification.FlagsModification | modification.FlagsModification);
-            //}
+            HealingModification finalModification = new(0, 100f, 0, HealingFlags.None);
 
             if (healer.HasValue)
             {
                 StatusOwner ids = _statusOwnerRepository.Get(healer.Value);
                 var statuses = ids.GetAll();
-                _damageModifierCalculator.GetHealingModification(statuses, result);
+                finalModification += _damageModifierCalculator.GetHealingModification(statuses, result);
             }
 
             result.Healing = (result.OriginalHealing + finalModification.BaseValue) * 100f / (100 + finalModification.PercentModication) + finalModification.BonusValue;

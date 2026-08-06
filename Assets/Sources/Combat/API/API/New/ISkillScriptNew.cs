@@ -4,7 +4,7 @@ namespace Combat.API.API.Skills
 {
     public interface ISkillScriptNew // AbstractUseCase
     {
-        SkillTimeline OnCast(IActor actor, ISkillContext skillContext);
+        bool OnCast(IActor actor, ISkillContext skillContext);
         void OnEnterStartup(IActor actor, ISkillContext skillContext) { }
         void OnEnterActive(IActor actor, ISkillContext skillContext) { }
         void OnEnterRecovery(IActor actor, ISkillContext skillContext) { }

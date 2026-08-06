@@ -41,6 +41,7 @@ namespace Combat.Local.Domain.Entities
                 if (value > MaxHealth)
                 {
                     _currentValue = MaxHealth;
+                    return;
                 }
 
                 _currentValue = value;

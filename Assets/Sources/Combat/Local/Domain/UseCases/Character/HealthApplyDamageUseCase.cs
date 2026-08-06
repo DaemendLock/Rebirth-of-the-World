@@ -6,6 +6,8 @@ using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
 
+using static UnityEngine.GraphicsBuffer;
+
 namespace Combat.Local.Domain.UseCases
 {
     public readonly struct HealthApplyDamageUseCase
@@ -39,9 +41,9 @@ namespace Combat.Local.Domain.UseCases
 
             DamageInstance instance = CreateInstance(targetId, damage, flags, attacker, source);
 
-            float finalDamage = ApplyDamageInstance(instance, ref health);
+            float finalDamage = ApplyDamageInstance(instance, health);
             TriggerEffects(instance, finalDamage);
-            UpdateConsciosState(instance, ref health);
+            UpdateConsciosState(instance);
         }
 
         private DamageInstance CreateInstance(UnitId targetId, float damage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
@@ -65,7 +67,7 @@ namespace Combat.Local.Domain.UseCases
             return instance;
         }
 
-        private float ApplyDamageInstance(DamageInstance instance, ref Health health)
+        private float ApplyDamageInstance(DamageInstance instance, in Health health)
         {
             float finalDamage = instance.Damage;
 
@@ -93,8 +95,13 @@ namespace Combat.Local.Domain.UseCases
             HandleEvent(result);
         }
 
-        private void UpdateConsciosState(DamageInstance instance, ref Health health)
+        private void UpdateConsciosState(DamageInstance instance)
         {
+            if (_healthRepository.TryGet(instance.Target, out Health health) == false)
+            {
+                return;
+            }
+
             if (health.Current > 0)
             {
                 return;

@@ -56,7 +56,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
 
             if (properties.TryGetProperty(out BaseStatusCapabilties effect))
             {
-                effect.Expire();
+                effect.Remove();
             }
 
             _statusRuntimeRegistry.Remove(id);
