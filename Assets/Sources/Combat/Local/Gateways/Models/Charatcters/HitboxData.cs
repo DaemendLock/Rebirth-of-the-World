@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace Combat.Local.Data.Models
+namespace Combat.Local.Gateways.Models
 {
     public readonly struct NewHitData
     {

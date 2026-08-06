@@ -1,8 +1,8 @@
 ﻿using Combat.Common.ValueObjects;
-using Combat.Local.Controllers.Inputs;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
 using Combat.Local.Gateways.DataSources;
+using Combat.Local.Gateways.Models;
 
 using System.Collections.Generic;
 using System.Linq;

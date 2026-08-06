@@ -19,7 +19,7 @@ namespace TestSkillsPack.Paladin
             _spellPowerDamageRatio = 0.1f;
         }
 
-        public void OnCast()
+        public bool OnCast()
         {
             Unit[] targets = Scene.FindUnitsInRadius(Owner.Position, _radius);
             int targetCount = 0;
@@ -38,6 +38,7 @@ namespace TestSkillsPack.Paladin
 
             Scene.CreateStatus(new(Owner, "TankPaladin3Buff", 3f, 1, Instance));
             Owner.GiveResource(new(ResourceId.Custom, _energyPerTarget * targetCount, Instance));
+            return true;
         }
 
         private bool CanHit(Unit target)

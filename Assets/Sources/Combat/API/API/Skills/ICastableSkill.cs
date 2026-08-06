@@ -23,6 +23,6 @@ namespace Combat.API.Skills
         /// </summary>
         /// <returns><see cref="CastFailReason.Success"/> if cast is possible.</returns>
         CastFailReason CanCast() => CastFailReason.Success;
-        void OnCast() { }
+        bool OnCast() { return false; }
     }
 }

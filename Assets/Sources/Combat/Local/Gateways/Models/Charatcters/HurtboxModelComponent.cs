@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace Combat.Local.Controllers.Inputs
+namespace Combat.Local.Gateways.Models
 {
     public class HurtboxModelComponent : MonoBehaviour
     {

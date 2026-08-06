@@ -143,7 +143,7 @@ namespace Combat.Local.Domain.UseCases.Character
             //skill.StartCooldown(10);
             _abilityRepository.Update(skill);
 
-            if (requireAction)
+            if (requireAction == false)
             {
                 return;
             }

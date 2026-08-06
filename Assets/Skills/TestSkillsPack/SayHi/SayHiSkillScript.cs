@@ -13,10 +13,11 @@ namespace TestSkillsPack.SkillScripts
         {
         }
 
-        public void OnCast()
+        public bool OnCast()
         {
             UnityEngine.Debug.Log("Hi~~~!");
             Scene.CreateStatus(new(Owner, "HiStatus", 5, 1, Instance));
+            return true;
         }
 
         public void OnStartup()

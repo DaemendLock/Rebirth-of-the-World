@@ -1,7 +1,7 @@
 ﻿using Combat.Common.ValueObjects;
-using Combat.Local.Data.Models;
 using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.Repositories;
+using Combat.Local.Gateways.Models;
 
 using System.Collections.Generic;
 

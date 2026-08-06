@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace Combat.Local.Presentation.Components
+namespace Combat.Local.Gateways.Models
 {
     [RequireComponent(typeof(Camera))]
     public class PlayerModelComponent : MonoBehaviour

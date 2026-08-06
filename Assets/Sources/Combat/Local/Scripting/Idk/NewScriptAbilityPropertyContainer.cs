@@ -20,9 +20,9 @@ namespace Combat.Local.Scripting.Idk
             _id = id;
             UnitNew unitNew = null;
 
-            if (id.Owner.HasValue )
+            if (id.Owner.HasValue)
             {
-                unitNew = unitNewAdapter.Adaptee(id.Owner.Value) as UnitNew;
+                unitNew = unitNewAdapter.Adaptee(id.Owner.Value);
             }
 
             _castableSkill = new NewCast(id, skillMemoryRepository, script, unitNew);
@@ -67,11 +67,12 @@ namespace Combat.Local.Scripting.Idk
                 _unitNew = unitNew;
             }
 
-            public void OnCast()
+            public bool OnCast()
             {
                 DomainSkillContext context = new(_memoryRepository, _abilityKey);
 
-                _skillScript.OnCast(_unitNew, context);
+                var timeline = _skillScript.OnCast(_unitNew, context);
+                return timeline.Startup + timeline.ActiveTime + timeline.Recovery > 0;
             }
         }
     }

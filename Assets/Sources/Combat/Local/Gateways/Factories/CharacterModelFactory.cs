@@ -3,7 +3,7 @@ using Combat.Local.Gateways.DataSources;
 
 using UnityEngine;
 
-namespace Combat.Local.Data.Factories
+namespace Combat.Local.Gateways.Factories
 {
     public class CharacterModelFactory
     {

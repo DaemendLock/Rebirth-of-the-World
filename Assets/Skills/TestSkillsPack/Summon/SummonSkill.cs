@@ -8,7 +8,7 @@ namespace TestSkillPack.Assets.Skills.TestSkillsPack.Summon
     [SkillScriptName("summon_test")]
     public class SummonSkill : SkillScript, ICastableSkill
     {
-        public void OnCast()
+        public bool OnCast()
         {
             CreateUnitInfo unitCreationData = new()
             {
@@ -24,6 +24,7 @@ namespace TestSkillPack.Assets.Skills.TestSkillsPack.Summon
             };
 
             Scene.CreateUnit(unitCreationData);
+            return false;
         }
     }
 }

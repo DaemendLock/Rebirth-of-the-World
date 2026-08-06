@@ -1,7 +1,7 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities.Units;
 
-namespace Combat.Local.Data.Models
+namespace Combat.Local.Gateways.Models
 {
     public readonly struct AligmentData
     {

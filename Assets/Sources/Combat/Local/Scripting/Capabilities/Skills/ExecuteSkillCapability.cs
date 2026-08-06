@@ -14,6 +14,6 @@ namespace Combat.Local.Scripting.Capabilities.Skills
 
         public CastFailReason CanCast() => _skill.CanCast();
 
-        public void BeginCast() => _skill.OnCast();
+        public bool BeginCast() => _skill.OnCast();
     }
 }

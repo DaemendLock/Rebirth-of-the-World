@@ -1,13 +1,12 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
-using Combat.Local.Data.Models;
+using Combat.Local.Gateways.Models;
 
 using System;
 using System.Collections.Generic;
 
 namespace Combat.Local.Gateways.DataSources
 {
-
     public interface ISkillDataBase
     {
         bool TryGetActionData(ActionId id, out ActionData value);

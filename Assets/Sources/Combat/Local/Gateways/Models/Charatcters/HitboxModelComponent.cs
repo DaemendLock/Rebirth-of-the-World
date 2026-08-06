@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Combat.Local.Controllers.Inputs
+namespace Combat.Local.Gateways.Models
 {
     [RequireComponent(typeof(Collider))]
     public class HitboxModelComponent : MonoBehaviour

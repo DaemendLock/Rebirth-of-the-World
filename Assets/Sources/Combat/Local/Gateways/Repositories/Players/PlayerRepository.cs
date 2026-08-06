@@ -2,7 +2,7 @@
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Gateways.DataSources;
-using Combat.Local.Presentation.Components;
+using Combat.Local.Gateways.Models;
 
 using System;
 using System.Collections.Generic;

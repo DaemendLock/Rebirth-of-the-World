@@ -1,5 +1,5 @@
 ﻿using Combat.Common.ValueObjects;
-using Combat.Local.Data.Models;
+using Combat.Local.Gateways.Models;
 
 namespace Combat.Local.Gateways.DataSources
 {

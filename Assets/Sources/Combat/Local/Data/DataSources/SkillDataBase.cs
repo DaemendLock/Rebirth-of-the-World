@@ -1,8 +1,8 @@
 ﻿using Combat.API.Scripting;
 using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
-using Combat.Local.Data.Models;
 using Combat.Local.Gateways.DataSources;
+using Combat.Local.Gateways.Models;
 using Combat.Local.Scripting.Idk;
 
 using Data.Skills.Components;
