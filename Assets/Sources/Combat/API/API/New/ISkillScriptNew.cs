@@ -22,6 +22,6 @@ namespace Combat.API.API.Skills
 
     public readonly struct DealDamageEventData : IEventData
     {
-
+        public readonly float FinalDamage { get; }
     }
 }

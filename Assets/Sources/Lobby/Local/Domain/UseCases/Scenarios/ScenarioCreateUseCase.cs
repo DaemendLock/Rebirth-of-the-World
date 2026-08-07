@@ -18,11 +18,16 @@ namespace Lobby.Local.Domain.UseCases.Scenarios
             _scenarioCreateOutput = scenarioCreateOutput;
         }
 
-        public ScenarioId Execute(string name, int maxPlayerCount)
+        public ScenarioId Execute(string name, string locationName, int maxPlayerCount)
         {
             if (maxPlayerCount < 0)
             {
-                throw new ArgumentException();
+                throw new ArgumentOutOfRangeException(nameof(maxPlayerCount));
+            }
+
+            if (string.IsNullOrWhiteSpace(locationName))
+            {
+                throw new ArgumentException("A scenario location is required.", nameof(locationName));
             }
 
             Span<PlayerCharacterSelection?> playerCharacterSelection = stackalloc PlayerCharacterSelection?[maxPlayerCount];
@@ -31,6 +36,7 @@ namespace Lobby.Local.Domain.UseCases.Scenarios
             {
                 Id = new(Guid.NewGuid()),
                 Name = name,
+                LocationName = locationName,
                 SelectedCharacters = playerCharacterSelection
             };
 

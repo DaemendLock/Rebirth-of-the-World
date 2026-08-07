@@ -11,15 +11,18 @@ namespace Lobby.Local.Data.Models
         public ScenarioData(Scenario scenario)
         {
             Name = scenario.Name;
+            LocationName = scenario.LocationName;
             Characters = scenario.SelectedCharacters.ToArray();
         }
 
         public string Name { get; set; }
+        public string LocationName { get; set; }
 
         public void UpdateFrom(Scenario scenario)
         {
             scenario.SelectedCharacters.CopyTo(Characters);
             Name = scenario.Name;
+            LocationName = scenario.LocationName;
         }
 
         public Scenario ToScenario(ScenarioId id)
@@ -28,6 +31,7 @@ namespace Lobby.Local.Data.Models
             {
                 Id = id,
                 Name = Name,
+                LocationName = LocationName,
                 SelectedCharacters = Characters
             };
         }

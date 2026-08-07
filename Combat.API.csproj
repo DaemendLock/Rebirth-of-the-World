@@ -87,6 +87,7 @@
     <Compile Include="Assets\Sources\Combat\API\API\Scripting\SkillScript.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\New\ISkillScriptNew.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Contexts\IEncounterContext.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Tasks\ICombatObjective.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\ResourceChangeRecord.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\ICastStateChangeHandler.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Statuses\IIncomingHealDamageHandler.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Assets\Sources\Combat\API\API\Statuses\IOutgoingHealDamageHandler.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Contexts\ISkillContext.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Adapters\IStatusApiAdapter.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Contexts\IEventContext.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\SkillState.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\UnitCreationInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Scripting\StatusScript.cs" />

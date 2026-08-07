@@ -8,5 +8,6 @@
         void HalfHealth();
         void HealHealth();
         void Select();
+        void Leave();
     }
 }

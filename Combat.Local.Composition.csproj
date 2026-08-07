@@ -10,10 +10,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{55947E2F-7A68-7CEE-E629-8814D2BEF075}</ProjectGuid>
+    <ProjectGuid>{0EE2639A-6516-B031-50A9-B1D319BCF924}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Combat.Local.Scripting</AssemblyName>
+    <AssemblyName>Combat.Local.Composition</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -59,55 +59,26 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\AspectGenerator.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\JobEntityGenerator.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\Unity.Entities.Analyzer.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.LambdaJobs.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.SystemAPI.QueryBuilder.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.SystemAPI.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.SystemAPI.Query.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.Common.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\Common.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.EntityQueryBulkOperations.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\Unity.Entities.Analyzer.CodeFixes.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Idk\ApiScriptStatusPropertyContainer.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Capabilities\Skills\HandleSkillHitCapability.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Runtime\ScriptStatusRuntimeRegistry.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Contexts\DomainAbilityContext.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Capabilities\Statuses\ModifyTimeScaleCapability.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Idk\IStatusPropertyProvider.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Entities\UnitNew.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Adapters\CharacterApiAdapter.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Capabilities\Skills\ExecuteSkillCapability.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Ports\Statuses\PropertyDamageModifcationCalculator.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Adapters\StatusApiAdapter.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Idk\IAbilityPropertyContainer.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Contexts\DomainEncounterContext.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Capabilities\Skills\HandleSkillActionStateChangeCapability.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Idk\NewScriptAbilityPropertyContainer.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Idk\ISkillScriptTypeProvider.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Contexts\StatusContext.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Capabilities\Skills\EvaluateSkillTargetCapability.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Runtime\IStatusRuntimeRegistry.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Capabilities\Statuses\ModifyAttributesCapability.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Contexts\DomainSkillContext.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Ports\Statuses\PropertyStatusLifecycleHandler.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Factories\CustomScriptStatusStrategyFactory.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Capabilities\Statuses\HandleIncomingDamageCapability.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Adapters\AbilityApiAdapter.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Capabilities\Statuses\BaseStatusCapabilties.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Factories\IStatusPropertyContainerFactory.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Factories\CustomScriptSkillStrategyFactory.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Runtime\ScriptSkillRuntimeRegistry.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Ports\Statuses\StatusPropertyDamageResultHandler.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Adapters\SceneApiAdapter.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Ports\SkillPorts\SkillExecutionPort.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Capabilities\Statuses\ModifyOutgoingDamageCapability.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Idk\ApiScriptDrivenAbilityPropertyContainer.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Capabilities\Statuses\HandleOutgoingDamageCapability.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Ports\SkillPorts\PropertySkillLyfecycleHandler.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Ports\SkillPorts\PropertySkillHitHandler.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Capabilities\Statuses\ModifyOutgoingHealingCapability.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Capabilities\Statuses\ModifyIncomingDamageCapability.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Contexts\ObjectiveContext.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Capabilities\Statuses\StatusCapabilityMapper.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Contexts\OldDomainUnitContext.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Factories\NewScriptStrategyFactory.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Ports\Statuses\StatusAttributeModifierCalculator.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Composition\Installers\CombatDomainInstaller.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Composition\CombatBootstrap.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Composition\CombatSceneInstaller.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Sources\Combat\Local\Scripting\Combat.Local.Scripting.asmdef" />
+    <None Include="Assets\Sources\Combat\Local\Composition\Combat.Local.Composition.asmdef" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -1088,6 +1059,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Combat.Common.csproj">
+      <Project>{29217AE8-78A8-CCC5-0256-54B8B8EF1E75}</Project>
+      <Name>Combat.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="Zenject.csproj">
+      <Project>{6800A445-AE7C-5310-BCE4-D4229BF89ACB}</Project>
+      <Name>Zenject</Name>
+    </ProjectReference>
     <ProjectReference Include="Combat.Local.Domain.csproj">
       <Project>{F7CA571C-1268-0203-12B9-E5840C398121}</Project>
       <Name>Combat.Local.Domain</Name>
@@ -1096,9 +1075,25 @@
       <Project>{C9BF5BEB-DE0A-E85A-CAC2-2EA18DE6E29A}</Project>
       <Name>Combat.API</Name>
     </ProjectReference>
-    <ProjectReference Include="Combat.Common.csproj">
-      <Project>{29217AE8-78A8-CCC5-0256-54B8B8EF1E75}</Project>
-      <Name>Combat.Common</Name>
+    <ProjectReference Include="Combat.Local.Gateways.csproj">
+      <Project>{836C2E6F-3836-3DA5-0F43-12E4AD7E9BDA}</Project>
+      <Name>Combat.Local.Gateways</Name>
+    </ProjectReference>
+    <ProjectReference Include="Combat.Local.Presentation.csproj">
+      <Project>{5CB25FE3-E4E9-4009-F558-856DD2D3C91D}</Project>
+      <Name>Combat.Local.Presentation</Name>
+    </ProjectReference>
+    <ProjectReference Include="Combat.Local.Scripting.csproj">
+      <Project>{55947E2F-7A68-7CEE-E629-8814D2BEF075}</Project>
+      <Name>Combat.Local.Scripting</Name>
+    </ProjectReference>
+    <ProjectReference Include="Combat.Local.Data.csproj">
+      <Project>{B16C6301-09EA-5DE5-8E96-962DE14F1DE2}</Project>
+      <Name>Combat.Local.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="Global.Local.csproj">
+      <Project>{26C2BF16-237A-364C-CED5-989050F93CC4}</Project>
+      <Name>Global.Local</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

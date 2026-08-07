@@ -2,6 +2,7 @@ using Assets.Sources.Testing.Local.Lobby.Temp;
 
 using Lobby.Local.Data.DataSources;
 using Lobby.Local.Data.Repositories;
+using Lobby.Local.Domain.Outputs;
 using Lobby.Local.Domain.Repositories;
 using Lobby.Local.Domain.UseCases.Accounts;
 using Lobby.Local.Domain.UseCases.CharacterGallery;
@@ -14,6 +15,7 @@ using Zenject;
 
 namespace Testing.Local.Lobby
 {
+
     public sealed class LobbySceneInstaller : MonoInstaller
     {
         public override void InstallBindings()
@@ -35,6 +37,7 @@ namespace Testing.Local.Lobby
             Container.Bind<ScenarioWindowPresenter>().FromNew().AsSingle();
             Container.Bind<IScenarioCreateOutput>().To<ScenarioWindowPresenter>().FromResolve();
             Container.Bind<IScenarioCancelOutput>().To<ScenarioWindowPresenter>().FromResolve();
+            Container.Bind<IScenarioStartOutput>().To<ScenarioStartSceneOutput>().AsSingle();
 
             Container.Bind<AccountPresenter>().FromNew().AsSingle();
             Container.Bind<IAccountCreateOutput>().To<AccountPresenter>().FromResolve();

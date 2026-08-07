@@ -81,5 +81,10 @@ namespace Testing.Local
 
             //_cameraController.Follow(hit.collider.attachedRigidbody.transform);
         }
+
+        public void Leave()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

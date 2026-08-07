@@ -1470,6 +1470,10 @@
       <Project>{2744BD3B-C2C9-2E98-6B25-F9A2B963C78C}</Project>
       <Name>Lobby.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="Global.Local.csproj">
+      <Project>{26C2BF16-237A-364C-CED5-989050F93CC4}</Project>
+      <Name>Global.Local</Name>
+    </ProjectReference>
     <ProjectReference Include="Lobby.Local.Data.csproj">
       <Project>{9C637C8D-DFFA-F38D-9B50-BF620BF91AFC}</Project>
       <Name>Lobby.Local.Data</Name>
@@ -1509,6 +1513,10 @@
     <ProjectReference Include="Combat.API.csproj">
       <Project>{C9BF5BEB-DE0A-E85A-CAC2-2EA18DE6E29A}</Project>
       <Name>Combat.API</Name>
+    </ProjectReference>
+    <ProjectReference Include="Combat.Local.Composition.csproj">
+      <Project>{0EE2639A-6516-B031-50A9-B1D319BCF924}</Project>
+      <Name>Combat.Local.Composition</Name>
     </ProjectReference>
     <ProjectReference Include="Testing.Local.Lobby.csproj">
       <Project>{87E815BC-9D78-2B73-5F0E-E7A259C9FCC4}</Project>

@@ -15,13 +15,14 @@ namespace Testing.Local.Lobby
         [Zenject.Inject] private ScenarioCancelUseCase _scenarioCancelUseCase;
 
         [SerializeField] private string _scenarioName;
+        [SerializeField] private string _locationName = "test";
         [SerializeField] private int _maxPlayerCount;
 
         [SerializeField] private string _guid;
 
         private void Start()
         {
-            var val = _scenarioCreateUseCase.Execute(_scenarioName, _maxPlayerCount);
+            var val = _scenarioCreateUseCase.Execute(_scenarioName, _locationName, _maxPlayerCount);
             _guid = val.ToString();
             FindAnyObjectByType<ScenarioSelectionController>().Register(val, GetComponent<ScenarioCardWidget>());
         }

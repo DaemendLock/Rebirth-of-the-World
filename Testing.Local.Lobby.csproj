@@ -79,6 +79,7 @@
     <Compile Include="Assets\Sources\Testing\Local\Lobby\LazyInput\LazyJoinScenario.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Lobby\Temp\LazyAssetProvider.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Lobby\ScenarioProperties.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\Lobby\Implementations\ScenarioStartSceneOutput.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Lobby\Temp\LocalCharacterDatabase.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Lobby\LobbySceneInstaller.cs" />
   </ItemGroup>
@@ -1087,6 +1088,10 @@
     <ProjectReference Include="Data.csproj">
       <Project>{49EA9A10-6FA6-4B62-F53E-54FDEE1517F1}</Project>
       <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="Global.Local.csproj">
+      <Project>{26C2BF16-237A-364C-CED5-989050F93CC4}</Project>
+      <Name>Global.Local</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
