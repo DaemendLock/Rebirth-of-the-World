@@ -5,22 +5,22 @@ using Combat.Local.Gateways.DataSources;
 
 namespace Combat.Local.Gateways.Factories
 {
-    public class ActionStrategyFactory : IActionStrategyFactory
+    public class AbilityActionStrategyFactory : IAbilityActionStrategyFactory
     {
         private readonly ISkillDataBase _skillDataBase;
 
-        public ActionStrategyFactory(ISkillDataBase skillDataBase)
+        public AbilityActionStrategyFactory(ISkillDataBase skillDataBase)
         {
             _skillDataBase = skillDataBase;
         }
 
-        public IActionStrategy Create(ActionId id)
+        public IActionStrategy Create(ActionId id, SkillId source, bool holdable)
         {
             IActionStrategy result = null;
 
             if (_skillDataBase.TryGetActionData(id, out var actionData))
             {
-                result = new FrameDataActionStrategy(actionData.FrameData);
+                result = new FrameDataAbilityActionStrategy(actionData.FrameData, source, holdable);
             }
 
             return result;

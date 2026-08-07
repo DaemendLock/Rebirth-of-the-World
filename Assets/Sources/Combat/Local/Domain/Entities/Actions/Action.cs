@@ -15,29 +15,22 @@ namespace Combat.Local.Domain.Entities
     {
         private readonly IActionStrategy _strategy;
 
-        public Action(ActionId id, SkillId source, ActionFlags flags, IActionStrategy strategy)
+        public Action(ActionId id, ActionFlags flags, IActionStrategy strategy)
         {
             Id = id;
-            Source = source;
             Flags = flags;
-            _strategy = strategy;
+            _strategy = strategy ?? throw new System.ArgumentNullException(nameof(strategy));
 
             ActiveTime = 0;
         }
 
         public ActionId Id { get; }
 
-        public SkillId Source { get; }
-
         public ActionFlags Flags { get; }
-
-        public IActionStrategy Strategy => _strategy;
 
         public float ActiveTime { get; private set; }
 
-        public ActionState CurrentState => _strategy.State;
-
-        public bool CanChainInto(SkillId skillId) => _strategy.CanChainInto(skillId);
+        public bool IsComplete => _strategy.IsComplete;
 
         public void Start()
         {
@@ -52,11 +45,15 @@ namespace Combat.Local.Domain.Entities
 
         public void Interrupt(InterruptReason reason)
         {
-            _strategy.Interrupt();
+            _strategy.Interrupt(reason);
         }
 
         public bool AllowMovement => Flags.HasFlag(ActionFlags.AllowMovement);
-        public bool CanInterrupt => Flags.HasFlag(ActionFlags.CanInterrupt);
-        public bool IsActive => CurrentState != ActionState.Inactive;
+
+        public bool TryGet<T>(out T capability) where T : class
+        {
+            capability = _strategy as T;
+            return capability != null;
+        }
     }
 }

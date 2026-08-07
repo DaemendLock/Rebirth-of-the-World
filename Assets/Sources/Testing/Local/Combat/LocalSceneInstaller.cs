@@ -173,7 +173,7 @@ namespace Testing.Local.Combat
 
             Container.Bind<CharacterModelFactory>().FromNew().AsSingle();
             Container.Bind<ActionFactory>().FromNew().AsSingle();
-            Container.Bind<IActionStrategyFactory>().To<ActionStrategyFactory>().AsSingle();
+            Container.Bind<IAbilityActionStrategyFactory>().To<AbilityActionStrategyFactory>().AsSingle();
         }
 
         private void BindUseCases()
@@ -182,6 +182,7 @@ namespace Testing.Local.Combat
 
             Container.Bind<CharacterCreateUseCase>().FromNew().AsSingle();
             Container.Bind<DesireCastFromSlotUseCase>().FromNew().AsSingle();
+            Container.Bind<ReleaseSkillFromSlotUseCase>().FromNew().AsSingle();
             Container.Bind<ResourceGiveUseCase>().FromNew().AsSingle();
             Container.Bind<ResourceSpendUseCase>().FromNew().AsSingle();
             Container.Bind<HealthApplyDamageUseCase>().FromNew().AsSingle();

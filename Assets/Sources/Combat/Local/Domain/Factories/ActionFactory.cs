@@ -4,16 +4,16 @@ using Combat.Local.Domain.Entities;
 
 namespace Combat.Local.Domain.Factories
 {
-    public interface IActionStrategyFactory
+    public interface IAbilityActionStrategyFactory
     {
-        IActionStrategy Create(ActionId id);
+        IActionStrategy Create(ActionId id, SkillId source, bool holdable);
     }
 
     public class ActionFactory
     {
-        private readonly IActionStrategyFactory _actionStrategyFactory;
+        private readonly IAbilityActionStrategyFactory _actionStrategyFactory;
 
-        public ActionFactory(IActionStrategyFactory actionStrategyFactory)
+        public ActionFactory(IAbilityActionStrategyFactory actionStrategyFactory)
         {
             _actionStrategyFactory = actionStrategyFactory;
         }
@@ -32,9 +32,9 @@ namespace Combat.Local.Domain.Factories
                 flags |= ActionFlags.Holdable;
             }
 
-            IActionStrategy strategy = _actionStrategyFactory.Create(actionId);
+            IActionStrategy strategy = _actionStrategyFactory.Create(actionId, ability.SkillId, flags.HasFlag(ActionFlags.Holdable));
 
-            return new Action(actionId, ability.SkillId, flags, strategy);
+            return new Action(actionId, flags, strategy);
         }
     }
 }

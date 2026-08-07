@@ -54,24 +54,45 @@ namespace Assets.Sources.Testing.Local
                 _playerController.DesireCast(0);
             }
 
+            if (Keyboard.current.aKey.wasReleasedThisFrame)
+            {
+                _playerController.ReleaseCast(0);
+            }
+
             if (Keyboard.current.digit1Key.wasPressedThisFrame)
             {
                 _playerController.DesireCast(1);
+            }
+            if (Keyboard.current.digit1Key.wasReleasedThisFrame)
+            {
+                _playerController.ReleaseCast(1);
             }
 
             if (Keyboard.current.digit2Key.wasPressedThisFrame)
             {
                 _playerController.DesireCast(2);
             }
+            if (Keyboard.current.digit2Key.wasReleasedThisFrame)
+            {
+                _playerController.ReleaseCast(2);
+            }
 
             if (Keyboard.current.digit3Key.wasPressedThisFrame)
             {
                 _playerController.DesireCast(3);
             }
+            if (Keyboard.current.digit3Key.wasReleasedThisFrame)
+            {
+                _playerController.ReleaseCast(3);
+            }
 
             if (Keyboard.current.digit4Key.wasPressedThisFrame)
             {
                 _playerController.DesireCast(4);
+            }
+            if (Keyboard.current.digit4Key.wasReleasedThisFrame)
+            {
+                _playerController.ReleaseCast(4);
             }
 
             if (_cameraLock)

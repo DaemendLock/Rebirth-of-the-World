@@ -71,22 +71,31 @@ namespace Combat.Local.Domain.UseCases.Character
             if (actor.ConsciousState != ConsciousState.Alive)
             {
                 StopAction(actor);
-                _skillActionStateChangeHandler.Handle(new(actor.Id, action.Source), ActionState.Inactive);
+
+                if (action.TryGet(out IAbilityAction abilityAction))
+                {
+                    _skillActionStateChangeHandler.Handle(new(actor.Id, abilityAction.Source), ActionState.Inactive);
+                }
+
                 return;
             }
 
-            ActionState actionState = action.CurrentState;
-
-            if (actionState == ActionState.Inactive)
+            if (action.IsComplete)
             {
                 StopAction(actor);
                 return;
             }
 
+            bool isAbilityAction = action.TryGet(out IAbilityAction abilityActionStrategy);
+            ActionState oldState = isAbilityAction ? abilityActionStrategy.State : default;
+
             action.Progress(deltaTime);
             _actorRepository.Update(actor);
 
-            HandleStateChanges(actor.Id, action, actionState);
+            if (isAbilityAction)
+            {
+                HandleStateChanges(actor.Id, abilityActionStrategy, oldState);
+            }
         }
 
         private void Move(Actor actor, AttributesOwner attributesOwner)
@@ -161,14 +170,25 @@ namespace Combat.Local.Domain.UseCases.Character
                 return _skillExecutionPort.CanCast(abilityKey) == CastFailReason.Success;
             }
 
-            if (action.CurrentState == ActionState.Recovery)
+            if (action.TryGet(out IAbilityAction abilityAction) == false)
             {
-                if (action.CanChainInto(abilityKey.Skill) == false)
+                return false;
+            }
+
+            if (abilityAction.State != ActionState.Recovery)
+            {
+                if (abilityAction.State != ActionState.Inactive)
                 {
                     return false;
                 }
             }
-            else if (action.CurrentState != ActionState.Inactive)
+
+            if (action.TryGet(out IChainableAction chainableAction) == false)
+            {
+                return false;
+            }
+
+            if (chainableAction.CanChainInto(abilityKey.Skill) == false)
             {
                 return false;
             }
@@ -182,7 +202,11 @@ namespace Combat.Local.Domain.UseCases.Character
             {
                 Entities.Action oldAction = actor.CurrentAction;
                 oldAction.Interrupt(InterruptReason.Chained);
-                _skillActionStateChangeHandler.Handle(new(actor.Id, oldAction.Source), ActionState.Inactive);
+
+                if (oldAction.TryGet(out IAbilityAction oldAbilityAction))
+                {
+                    _skillActionStateChangeHandler.Handle(new(actor.Id, oldAbilityAction.Source), ActionState.Inactive);
+                }
             }
 
             actor.StartAction(_actionFactory.CreateCastAction(actionId, source));
@@ -196,9 +220,9 @@ namespace Combat.Local.Domain.UseCases.Character
             _actorRepository.Update(actor);
         }
 
-        private void HandleStateChanges(UnitId actorId, Action action, ActionState oldState)
+        private void HandleStateChanges(UnitId actorId, IAbilityAction action, ActionState oldState)
         {
-            if (action.CurrentState == oldState)
+            if (action.State == oldState)
             {
                 return;
             }
@@ -206,7 +230,7 @@ namespace Combat.Local.Domain.UseCases.Character
             AbilityKey key = new(actorId, action.Source);
             _skillHitHandler.Reset(key);
 
-            _skillActionStateChangeHandler.Handle(key, action.CurrentState);
+            _skillActionStateChangeHandler.Handle(key, action.State);
         }
     }
 }

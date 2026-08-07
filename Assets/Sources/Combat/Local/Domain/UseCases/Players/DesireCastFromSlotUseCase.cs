@@ -68,6 +68,54 @@ namespace Combat.Local.Domain.UseCases
         }
     }
 
+    public sealed class ReleaseSkillFromSlotUseCase
+    {
+        private readonly ISkillOwnerRepository _skillOwnerRepository;
+        private readonly IActorRepository _actorRepository;
+        private readonly IPlayerRepository _playerRepository;
+
+        public ReleaseSkillFromSlotUseCase(ISkillOwnerRepository skillOwnerRepository, IActorRepository actorRepository,
+            IPlayerRepository playerRepository)
+        {
+            _skillOwnerRepository = skillOwnerRepository;
+            _actorRepository = actorRepository;
+            _playerRepository = playerRepository;
+        }
+
+        public void Execute(PlayerId playerId, int slot)
+        {
+            Player player = _playerRepository.Get(playerId);
+
+            if (player.ControlledEntity.HasValue == false)
+            {
+                return;
+            }
+
+            UnitId caster = player.ControlledEntity.Value;
+            SkillId? skillId = _skillOwnerRepository.Get(caster).GetSkill(slot);
+
+            if (skillId.HasValue == false)
+            {
+                return;
+            }
+
+            Actor actor = _actorRepository.Get(caster);
+            Action action = actor.CurrentAction;
+
+            if (action == null || action.TryGet(out IAbilityAction abilityAction) == false ||
+                abilityAction.Source != skillId.Value)
+            {
+                return;
+            }
+
+            if (action != null && action.TryGet(out IReleasableAction releasable))
+            {
+                releasable.Release();
+            }
+            _actorRepository.Update(actor);
+        }
+    }
+
     public interface IDesireCastOutput
     {
         void Present(DesireCastFailReason failReason);

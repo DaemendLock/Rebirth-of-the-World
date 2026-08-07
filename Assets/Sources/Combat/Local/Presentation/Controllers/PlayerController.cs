@@ -11,6 +11,7 @@ namespace Combat.Local.Controllers
     public sealed class PlayerController : MonoBehaviour
     {
         [Zenject.Inject] private readonly DesireCastFromSlotUseCase _castSkillFromSlotUseCase;
+        [Zenject.Inject] private readonly ReleaseSkillFromSlotUseCase _releaseSkillFromSlotUseCase;
         [Zenject.Inject] private readonly CreatePlayerUseCase _createPlayerUseCase;
         [Zenject.Inject] private readonly DesireMoveInDirectionUseCase _moveUseCase;
         [Zenject.Inject] private readonly RotateUseCase _rotateUseCase;
@@ -47,6 +48,11 @@ namespace Combat.Local.Controllers
         public void DesireCast(int slot)
         {
             _castSkillFromSlotUseCase.Execute(_playerId, slot);
+        }
+
+        public void ReleaseCast(int slot)
+        {
+            _releaseSkillFromSlotUseCase.Execute(_playerId, slot);
         }
     }
 }

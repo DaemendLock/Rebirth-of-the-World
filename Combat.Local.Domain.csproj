@@ -70,8 +70,10 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\ActorReviveUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\AttributeOwnerGetHasteModifierUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\AddMovementEffectUseCase.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Actions\IChainableAction.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IResourceOwnerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\Aligment.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Actions\IReleasableAction.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\DesiredActions.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Encounter.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\StatusOwner.cs" />
@@ -111,6 +113,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Charcters\ISpendResourceOutput.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\SkillOwner.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Statuses\IStatusTickHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Actions\IAbilityAction.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IStateRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IStatusOwnerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Skills\ISkillExecutionPort.cs" />
@@ -149,6 +152,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\Facades\AttributeOwnerFacade.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Players\RotateUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Characters\Positionable.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Actions\FrameDataAbilityActionStrategy.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Skills\AbilityProgressAllUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\DamageInstance.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IHitboxOwnerRepository.cs" />

@@ -40,14 +40,15 @@ namespace Combat.Local.Domain.UseCases.Scene
                 return;
             }
 
-            if (actor.CurrentAction.CurrentState != Common.ValueObjects.ActionState.Active)
+            if (actor.CurrentAction.TryGet(out IAbilityAction abilityAction) == false ||
+                abilityAction.State != Common.ValueObjects.ActionState.Active)
             {
                 return;
             }
 
             foreach (var value in values)
             {
-                _skillHitHandler.HandleHits(new(actor.Id, actor.CurrentAction.Source), value);
+                _skillHitHandler.HandleHits(new(actor.Id, abilityAction.Source), value);
             }
         }
     }
