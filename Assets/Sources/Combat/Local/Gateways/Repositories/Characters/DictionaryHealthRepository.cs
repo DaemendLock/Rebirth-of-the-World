@@ -41,7 +41,7 @@ namespace Combat.Local.Gateways.Repositories
 
         public void Create(Health value)
         {
-            HealthValue data = new(value.Current, value.Default);
+            HealthValue data = new(value.CurrentValue, value.Default);
             _values.Add(value.Id, data);
         }
 
@@ -62,6 +62,6 @@ namespace Combat.Local.Gateways.Repositories
             return true;
         }
 
-        public void Update(Health value) => _values[value.Id] = new(value.Current, value.Default);
+        public void Update(Health value) => _values[value.Id] = new(value.CurrentValue, value.Default);
     }
 }

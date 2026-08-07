@@ -27,7 +27,7 @@ namespace Combat.Local.Presentation.Presenters
 
         void IHealthOutput.Present(Health value)
         {
-            Debug.Log($"Health updated for {value.Id}: {value.Current}/{value.MaxHealth}");
+            Debug.Log($"Health updated for {value.Id}: {value.CurrentValue}/{value.MaxHealth}");
         }
 
         void ICharacterConsciousStateOutput.Present(UnitId value, ConsciousState state)

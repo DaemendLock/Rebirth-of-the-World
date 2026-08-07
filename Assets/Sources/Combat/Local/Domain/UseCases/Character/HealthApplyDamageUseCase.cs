@@ -71,9 +71,9 @@ namespace Combat.Local.Domain.UseCases
         {
             float finalDamage = instance.Damage;
 
-            if (finalDamage >= health.Current && instance.Flags.HasFlag(DamageFlags.NonLethal))
+            if (finalDamage >= health.CurrentValue && instance.Flags.HasFlag(DamageFlags.NonLethal))
             {
-                finalDamage = health.Current - 1;
+                finalDamage = health.CurrentValue - 1;
             }
 
             health.TakeDamage(finalDamage);
@@ -102,7 +102,7 @@ namespace Combat.Local.Domain.UseCases
                 return;
             }
 
-            if (health.Current > 0)
+            if (health.CurrentValue > 0)
             {
                 return;
 

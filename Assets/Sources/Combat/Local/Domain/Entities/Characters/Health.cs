@@ -28,7 +28,7 @@ namespace Combat.Local.Domain.Entities
 
         public readonly float Default { get; }
 
-        public float Current
+        public float CurrentValue
         {
             readonly get => _currentValue;
             set
@@ -57,7 +57,7 @@ namespace Combat.Local.Domain.Entities
                 return;
             }
 
-            Current -= damage;
+            CurrentValue -= damage;
         }
 
         public void TakeHealing(float healing)
@@ -67,7 +67,7 @@ namespace Combat.Local.Domain.Entities
                 return;
             }
 
-            Current += healing;
+            CurrentValue += healing;
         }
     }
 }
