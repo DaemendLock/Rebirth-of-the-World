@@ -51,6 +51,8 @@ namespace DaeAnimator
         private float _castWeight;
         private float _castFadeIn;
         private float _castFadeOut;
+        private float _castLoopStartTime;
+        private float _castLoopEndTime;
         private bool _castIsStopping;
         private bool _castIsLooped;
 
@@ -125,6 +127,11 @@ namespace DaeAnimator
             StopCastAnimation();
         }
 
+        public void ReleaseCast()
+        {
+            ReleaseCastAnimation();
+        }
+
         public void InterruptCast()
         {
             DestroyCastPlayable();
@@ -141,18 +148,38 @@ namespace DaeAnimator
 
             _castPlayable = AnimationClipPlayable.Create(_graph, animation.Clip);
             _castPlayable.SetApplyFootIK(true);
-            _castPlayable.SetTime(NormalizeClipTime(animation.Clip, clipTime, animation.IsLooped));
+
+            _castLoopStartTime = Mathf.Clamp(animation.LoopStartTime, 0f, animation.Clip.length);
+            _castLoopEndTime = Mathf.Clamp(animation.LoopEndTime, _castLoopStartTime, animation.Clip.length);
+            _castIsLooped = animation.IsLooped;
+
+            _castPlayable.SetTime(NormalizeClipTime(
+                animation.Clip,
+                clipTime,
+                _castIsLooped,
+                _castLoopStartTime,
+                _castLoopEndTime));
 
             _graph.Connect(_castPlayable, 0, _aliveMixer, CastInput);
 
             _castFadeIn = Mathf.Max(0f, animation.FadeIn);
             _castFadeOut = Mathf.Max(0f, animation.FadeOut);
-            _castIsLooped = animation.IsLooped;
             _castIsStopping = false;
             _castWeight = _castFadeIn > 0f ? 0f : 1f;
 
             SetCastWeight(_castWeight);
             _castPlayable.Play();
+        }
+
+        public void ReleaseCastAnimation()
+        {
+            if (_castPlayable.IsValid() == false || _castIsLooped == false)
+            {
+                return;
+            }
+
+            _castIsLooped = false;
+            _castPlayable.SetTime(_castLoopEndTime);
         }
 
         public void StopCastAnimation()
@@ -315,7 +342,7 @@ namespace DaeAnimator
 
             if (_castIsLooped)
             {
-                LoopPlayable(_castPlayable);
+                LoopPlayable(_castPlayable, _castLoopStartTime, _castLoopEndTime);
             }
 
             float targetWeight = _castIsStopping ? 0f : 1f;
@@ -348,6 +375,8 @@ namespace DaeAnimator
             }
 
             _castWeight = 0f;
+            _castLoopStartTime = 0f;
+            _castLoopEndTime = 0f;
             _castIsStopping = false;
             _castIsLooped = false;
 
@@ -489,7 +518,12 @@ namespace DaeAnimator
             _consciousStateMixer.SetInputWeight(DeadInput, alive ? 0f : 1f);
         }
 
-        private static double NormalizeClipTime(AnimationClip clip, float clipTime, bool isLooped)
+        private static double NormalizeClipTime(
+            AnimationClip clip,
+            float clipTime,
+            bool isLooped,
+            float loopStartTime,
+            float loopEndTime)
         {
             double time = Math.Max(0d, clipTime);
 
@@ -498,7 +532,16 @@ namespace DaeAnimator
                 return 0d;
             }
 
-            return isLooped ? time % clip.length : Math.Min(time, clip.length);
+            if (isLooped && time >= loopEndTime)
+            {
+                double loopDuration = loopEndTime - loopStartTime;
+
+                return loopDuration > Mathf.Epsilon
+                    ? loopStartTime + (time - loopStartTime) % loopDuration
+                    : loopEndTime;
+            }
+
+            return Math.Min(time, clip.length);
         }
 
         private static void LoopPlayable(AnimationClipPlayable playable)
@@ -517,6 +560,23 @@ namespace DaeAnimator
                 playable.SetTime(time % clip.length);
             }
         }
+
+        private static void LoopPlayable(AnimationClipPlayable playable, float loopStartTime, float loopEndTime)
+        {
+            double time = playable.GetTime();
+
+            if (time < loopEndTime)
+            {
+                return;
+            }
+
+            double loopDuration = loopEndTime - loopStartTime;
+            double loopTime = loopDuration > Mathf.Epsilon
+                ? loopStartTime + (time - loopStartTime) % loopDuration
+                : loopEndTime;
+
+            playable.SetTime(loopTime);
+        }
     }
 
     public interface ICharacterAnimator
@@ -526,6 +586,7 @@ namespace DaeAnimator
         void SetSpeedVector(Vector2 value);
 
         void StartCast(CharacterAnimation animation);
+        void ReleaseCast();
         void StopCast();
         void InterruptCast();
     }

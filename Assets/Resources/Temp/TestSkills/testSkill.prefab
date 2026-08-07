@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 10012
-  <Flags>k__BackingField: 128
+  <Flags>k__BackingField: 32896
 --- !u!114 &122034387924800988
 MonoBehaviour:
   m_ObjectHideFlags: 0

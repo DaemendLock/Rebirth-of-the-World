@@ -1,4 +1,5 @@
 ﻿using Combat.Common.ValueObjects;
+using Combat.Common.Flags;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Gateways.DataSources;
@@ -57,6 +58,7 @@ namespace Combat.Local.Gateways.Repositories.Characters
             if (ReferenceEquals(value.CurrentAction, model.Action) == false)
                 UpdateAction(value.Id, value.CurrentAction);
 
+            UpdateActionState(value.Id, value.CurrentAction);
             model.Action = value.CurrentAction;
         }
 
@@ -94,7 +96,37 @@ namespace Combat.Local.Gateways.Repositories.Characters
                 return;
             }
 
-            casterView.PlayCastAnimation(new(data.Animation, 0, 0, false), action.ActiveTime);
+            bool isHoldable = action.Flags.HasFlag(ActionFlags.Holdable);
+            CharacterAnimation animation = isHoldable
+                ? new(
+                    data.Animation,
+                    0,
+                    0,
+                    true,
+                    data.FrameData.LastActiveEnterTime,
+                    data.FrameData.LastActiveExitTime)
+                : new(data.Animation, 0, 0, false);
+
+            casterView.PlayCastAnimation(animation, action.ActiveTime);
+        }
+
+        private void UpdateActionState(UnitId actor, Action action)
+        {
+            if (action == null || action.Flags.HasFlag(ActionFlags.Holdable) == false)
+            {
+                return;
+            }
+
+            if (action.TryGet(out IAbilityAction abilityAction) == false ||
+                abilityAction.State != ActionState.Recovery)
+            {
+                return;
+            }
+
+            if (_sceneObjectDataSource.TryGet(actor, out var view))
+            {
+                view.GetComponent<CharacterAnimator>().ReleaseCastAnimation();
+            }
         }
     }
 }

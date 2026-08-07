@@ -772,6 +772,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3483845843376956336, guid: 7c0dbc23619813244b53ca8bb06a106f, type: 3}
+      propertyPath: _animationPack.RunForwardAnimation
+      value: 
+      objectReference: {fileID: -203655887218126122, guid: 156c82b34aad27f46ab5c4209b657626, type: 3}
     - target: {fileID: 6373484391788517716, guid: 7c0dbc23619813244b53ca8bb06a106f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

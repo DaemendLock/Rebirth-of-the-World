@@ -32,6 +32,8 @@ namespace Combat.Local.Domain.Entities
 
         public bool IsComplete => _strategy.IsComplete;
 
+        public bool AllowMovement => Flags.HasFlag(ActionFlags.AllowMovement);
+
         public void Start()
         {
             _strategy.Start();
@@ -47,8 +49,6 @@ namespace Combat.Local.Domain.Entities
         {
             _strategy.Interrupt(reason);
         }
-
-        public bool AllowMovement => Flags.HasFlag(ActionFlags.AllowMovement);
 
         public bool TryGet<T>(out T capability) where T : class
         {

@@ -50,6 +50,27 @@ namespace CastStateSkill
             ? 0
             : _typeChangesTimeNormalized[^1];
 
+        public float LastActiveEnterTime => GetLastActiveTimeMark(0);
+
+        public float LastActiveExitTime => GetLastActiveTimeMark(1);
+
         public float RecoveryEnterTime => RecoveryEnterTimeNormalized * _duration;
+
+        private float GetLastActiveTimeMark(int offset)
+        {
+            if (_typeChangesTimeNormalized.Length < 2)
+            {
+                return RecoveryEnterTime;
+            }
+
+            int activeEnterIndex = _typeChangesTimeNormalized.Length - 2;
+
+            if ((activeEnterIndex & 1) != 0)
+            {
+                activeEnterIndex--;
+            }
+
+            return _typeChangesTimeNormalized[activeEnterIndex + offset] * _duration;
+        }
     }
 }
