@@ -67,7 +67,7 @@ namespace Combat.Local.Domain.UseCases
             return instance;
         }
 
-        private float ApplyDamageInstance(DamageInstance instance, in Health health)
+        private float ApplyDamageInstance(DamageInstance instance, Health health)
         {
             float finalDamage = instance.Damage;
 

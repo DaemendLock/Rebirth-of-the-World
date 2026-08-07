@@ -5,7 +5,7 @@ namespace Combat.Local.Domain.ValueObjects
 {
     public struct HealthValue
     {
-        public HealthValue(float @default, float current)
+        public HealthValue(float current, float @default)
         {
             if (float.IsNaN(current))
             {

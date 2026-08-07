@@ -25,6 +25,12 @@ namespace TestSkillsPack.SkillScripts
             UnityEngine.Debug.Log("Mei-san!");
         }
 
+        public void OnActive()
+        {
+
+            UnityEngine.Debug.Log("Active!");
+        }
+
         public void OnEnds()
         {
             UnityEngine.Debug.Log("Kiana-chan!");

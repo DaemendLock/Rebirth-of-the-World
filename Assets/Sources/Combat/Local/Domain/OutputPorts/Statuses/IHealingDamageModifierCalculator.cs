@@ -9,7 +9,6 @@ namespace Combat.Local.Domain.OutputPorts.Statuses
     {
         DamageModification GetAttackerDamageModification(ReadOnlySpan<StatusId> attackerModifier, in DamageInstance instance);
         DamageModification GetDefenderDamageModification(ReadOnlySpan<StatusId> defenderModifier, in DamageInstance instance);
-
         HealingModification GetHealingModification(ReadOnlySpan<StatusId> modifiers, in HealingInstance instance);
     }
 }
