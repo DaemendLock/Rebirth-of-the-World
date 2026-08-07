@@ -54,7 +54,7 @@ namespace Combat.Local.Gateways.Repositories.Characters
             if (value.ConsciousState != model.ConsciousState)
                 model.ConsciousState = value.ConsciousState;
 
-            if (value.CurrentAction?.Id != model.Action?.Id)
+            if (ReferenceEquals(value.CurrentAction, model.Action) == false)
                 UpdateAction(value.Id, value.CurrentAction);
 
             model.Action = value.CurrentAction;

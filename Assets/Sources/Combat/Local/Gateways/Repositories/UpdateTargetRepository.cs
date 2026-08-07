@@ -26,6 +26,11 @@ namespace Combat.Local.Data.Repositories
             if (_sceneCharacterModelDataSource.TryGet(value.Id, out var model))
             {
                 model.GetComponent<CharacterModelComponent>().TimeScale = value.TimeScale;
+
+                if (model.TryGetComponent(out DaeAnimator.CharacterAnimator animator))
+                {
+                    animator.SetTimeScale(value.TimeScale);
+                }
             }
         }
 
@@ -36,6 +41,11 @@ namespace Combat.Local.Data.Repositories
             if (_sceneCharacterModelDataSource.TryGet(value.Id, out var model))
             {
                 model.GetComponent<CharacterModelComponent>().TimeScale = value.TimeScale;
+
+                if (model.TryGetComponent(out DaeAnimator.CharacterAnimator animator))
+                {
+                    animator.SetTimeScale(value.TimeScale);
+                }
             }
         }
 
