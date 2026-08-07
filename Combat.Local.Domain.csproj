@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{F7CA571C-1268-0203-12B9-E5840C398121}</ProjectGuid>
+    <ProjectGuid>{84D51C1F-4A00-169F-B1F2-C7892886743B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Combat.Local.Domain</AssemblyName>
@@ -55,7 +55,7 @@
     <UnityVersion>6000.0.23f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
@@ -103,6 +103,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\IAbilityRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\DTO\ApplStatusDTO.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Players\AssumeControlOverCharacterUseCase.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Objective.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Players\DesireMoveInDirectionUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Facades\HealthOwnerFacade.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\ISkillOwnerRepository.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Actions\IAbilityAction.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IStateRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Objectives\IObjectiveMemoryRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Objectives\ObjectiveCreateUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IStatusOwnerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Skills\ISkillExecutionPort.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Players\IPlayerRepository.cs" />
@@ -139,6 +141,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Status\IStatusTimerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\DTO\CreateCharacterDTO.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Factories\UnitIdFactory.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\Factories\IObjectiveFactory.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Statuses\IDamageHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\ValueObjects\DamageResult.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IAttributesRepository.cs" />
@@ -628,8 +631,16 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WebGLSupport\UnityEditor.WebGL.Extensions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.UWP.Extensions">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MetroSupport\UnityEditor.UWP.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Zenject-usage">
@@ -1159,11 +1170,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="CastStateSkill.csproj">
-      <Project>{573D5C6D-59EB-BC50-87CC-10075518BC6E}</Project>
+      <Project>{025DB029-4CAC-B653-1AFC-91B5BA790B5D}</Project>
       <Name>CastStateSkill</Name>
     </ProjectReference>
     <ProjectReference Include="Combat.Common.csproj">
-      <Project>{29217AE8-78A8-CCC5-0256-54B8B8EF1E75}</Project>
+      <Project>{8BD67BAE-4173-6632-3746-364F6C3EA823}</Project>
       <Name>Combat.Common</Name>
     </ProjectReference>
   </ItemGroup>

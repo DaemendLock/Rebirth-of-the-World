@@ -5,6 +5,7 @@ using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Repositories.Objectives;
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Combat.Local.Scripting.Contexts
@@ -15,11 +16,18 @@ namespace Combat.Local.Scripting.Contexts
         private readonly IObjectiveMemoryRepository _memoryRepository;
         private readonly IEventContext _eventContext;
 
+        private readonly List<EventHandlerId> _subscriptions;
+
+        private bool _disposed;
+
         public ObjectiveContext(ObjectiveId id, IObjectiveMemoryRepository memoryRepository, IEventContext eventContext)
         {
             _id = id;
+            _disposed = false;
             _memoryRepository = memoryRepository;
             _eventContext = eventContext;
+
+            _subscriptions = new List<EventHandlerId>();
         }
 
         public ObjectiveId Id => _id;
@@ -28,29 +36,33 @@ namespace Combat.Local.Scripting.Contexts
 
         public void Complete()
         {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(nameof(ObjectiveContext));
+            }
+
             if (IsCompleted) return;
 
             IsCompleted = true;
-            _eventContext.Publish(new GameEvent<ObjectiveCompletedEventData>(new(_id)));
-        }
-
-        public TQuery GetCapability<TQuery>() where TQuery : class
-        {
-            if (typeof(TQuery) == typeof(IEventContext))
-            {
-                return _eventContext as TQuery;
-            }
-
-            return null;
         }
 
         public void Save<T>(T value) where T : unmanaged, IObjectiveData
         {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(nameof(ObjectiveContext));
+            }
+
             _memoryRepository.Save(_id, value);
         }
 
         public ObjectiveInfo<T> GetInfo<T>() where T : unmanaged, IObjectiveData
         {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(nameof(ObjectiveContext));
+            }
+
             if (_memoryRepository.TryGetRawData(_id, out ReadOnlySpan<byte> value) == false)
             {
                 return default;
@@ -60,6 +72,43 @@ namespace Combat.Local.Scripting.Contexts
             return new("todo", dynamicData);
         }
 
-        public void Dispose() => throw new NotImplementedException();
+        public void Dispose()
+        {
+            if (_disposed) return;
+
+            foreach (var item in _subscriptions)
+            {
+                _eventContext.Unsubscribe(item);
+            }
+
+            _subscriptions.Clear();
+            _memoryRepository.Delete(_id);
+            _disposed = true;
+        }
+
+        public EventHandlerId SubscribeToEvent<T>(IEventContext.EventHandler<T> handler) where T : unmanaged, IEventData
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(nameof(ObjectiveContext));
+            }
+
+            var id = _eventContext.Subscribe(handler);
+            _subscriptions.Add(id);
+            return id;
+        }
+
+        public void Unsubscribe(EventHandlerId id)
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(nameof(ObjectiveContext));
+            }
+
+            if (_eventContext.Unsubscribe(id))
+            {
+                _subscriptions.Remove(id);
+            }
+        }
     }
 }

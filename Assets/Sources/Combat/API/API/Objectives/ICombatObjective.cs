@@ -24,17 +24,19 @@ namespace Combat.API.Objectives
     {
         ObjectiveId Id { get; }
         bool IsCompleted { get; }
+
+        void Save<T>(T value) where T : unmanaged, IObjectiveData;
         ObjectiveInfo<T> GetInfo<T>() where T : unmanaged, IObjectiveData;
 
-        TQuery GetCapability<TQuery>() where TQuery : class;
-
         void Complete();
-        void Save<T>(T value) where T : unmanaged, IObjectiveData;
+
+        EventHandlerId SubscribeToEvent<T>(IEventContext.EventHandler<T> handler) where T : unmanaged, IEventData;
+        void Unsubscribe(EventHandlerId id);
     }
 
     public interface ICombatObjective
     {
-        void Start(ICombatObjective parent, IObjectiveContext context);
+        void OnStart(ICombatObjective parent, IObjectiveContext context);
         void OnComplete(IObjectiveContext context);
         void OnCancel(IObjectiveContext context);
     }
@@ -43,12 +45,10 @@ namespace Combat.API.Objectives
     {
         public readonly float Current;
         public readonly float Target;
-        public readonly EventHandlerId HandlerId;
 
-        public DealDamageObjectiveData(float current, float target, EventHandlerId handlerId)
+        public DealDamageObjectiveData(float current, float target)
         {
             Target = target;
-            HandlerId = handlerId;
             Current = current;
         }
     }
@@ -57,14 +57,12 @@ namespace Combat.API.Objectives
     {
         private float _targetProgress;
         private float _currentProgress;
-        private EventHandlerId _handlerId;
 
-        public void Start(ICombatObjective parent, IObjectiveContext context)
+        public void OnStart(ICombatObjective parent, IObjectiveContext context)
         {
             _targetProgress = context.GetInfo<DealDamageObjectiveData>().Data.Target;
 
-            IEventContext eventSystem = context.GetCapability<IEventContext>();
-            _handlerId = eventSystem.Subscribe<DealDamageEventData>(@event => UpdateProgress(@event, context));
+            context.SubscribeToEvent<DealDamageEventData>(@event => UpdateProgress(@event, context));
 
             UnityEngine.Debug.Log($"New objective started: Deal damage({_currentProgress}/{_targetProgress})");
         }
@@ -82,6 +80,11 @@ namespace Combat.API.Objectives
 
         private void UpdateProgress(GameEvent<DealDamageEventData> @event, IObjectiveContext context)
         {
+            var info = context.GetInfo<DealDamageObjectiveData>();
+
+            var data = info.Data;
+            data = new(data.Current + @event.Data.FinalDamage, data.Target);
+            info.Data = data;
             _currentProgress += @event.Data.FinalDamage;
 
             if (_currentProgress >= _targetProgress)
@@ -92,8 +95,7 @@ namespace Combat.API.Objectives
 
         private void Cleanup(IObjectiveContext context)
         {
-            IEventContext eventSystem = context.GetCapability<IEventContext>();
-            eventSystem.Unsubscribe(_handlerId);
+            
         }
     }
 }

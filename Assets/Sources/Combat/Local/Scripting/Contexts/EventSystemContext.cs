@@ -6,18 +6,18 @@ using System.Collections.Generic;
 
 namespace Combat.Local.Scripting.Contexts
 {
-    public readonly struct EventHandler
+    public sealed class EventHandler
     {
         public readonly EventHandlerId Id;
-        public readonly bool Dead;
         public readonly object Callback;
 
-        public EventHandler(EventHandlerId id, object callback, bool dead)
+        public EventHandler(EventHandlerId id, object callback)
         {
             Id = id;
             Callback = callback;
-            Dead = dead;
         }
+
+        public bool Dead { get; set; } = false;
     }
 
     public sealed class EventSystemContext : IEventContext
@@ -54,6 +54,8 @@ namespace Combat.Local.Scripting.Contexts
 
                 callback.Invoke(@event);
             }
+
+            callbacks.RemoveAll(value => value.Dead);
         }
 
         public EventHandlerId Subscribe<T>(IEventContext.EventHandler<T> callback) where T : unmanaged, IEventData
@@ -66,7 +68,7 @@ namespace Combat.Local.Scripting.Contexts
                 _callbacks.Add(typeof(T), values);
             }
 
-            values.Add(new(id, callback, false));
+            values.Add(new(id, callback));
             _cleanupTargets.Add(id, values);
             return id;
         }
@@ -82,12 +84,17 @@ namespace Combat.Local.Scripting.Contexts
             {
                 var oldValue = target[i];
 
-                if (target[i].Id != handler)
+                if (oldValue.Dead)
                 {
                     continue;
                 }
 
-                target[i] = new(oldValue.Id, oldValue.Callback, true);
+                if (oldValue.Id != handler)
+                {
+                    continue;
+                }
+
+                oldValue.Dead = true;
                 return true;
             }
 

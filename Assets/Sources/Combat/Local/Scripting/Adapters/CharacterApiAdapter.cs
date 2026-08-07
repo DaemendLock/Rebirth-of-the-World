@@ -2,8 +2,6 @@
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Facades;
 
-using System.Collections.Generic;
-
 namespace Combat.Local.Scripting.Adapters
 {
     public sealed class UnitNewAdapter

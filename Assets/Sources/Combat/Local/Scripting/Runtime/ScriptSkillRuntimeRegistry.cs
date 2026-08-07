@@ -10,7 +10,7 @@ namespace Combat.Local.Scripting.Runtime
     {
         private readonly Dictionary<ObjectiveId, RuntimeObjectiveContainer> _values = new();
 
-        public void Crate(ObjectiveId id, RuntimeObjectiveContainer value) => _values.Add(id, value);
+        public void Create(ObjectiveId id, RuntimeObjectiveContainer value) => _values.Add(id, value);
 
         public void Remove(ObjectiveId id) => _values.Remove(id);
 
