@@ -115,6 +115,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Statuses\IStatusTickHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Actions\IAbilityAction.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IStateRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Objectives\IObjectiveMemoryRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\IStatusOwnerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Skills\ISkillExecutionPort.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Players\IPlayerRepository.cs" />

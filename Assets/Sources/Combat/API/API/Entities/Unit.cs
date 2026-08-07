@@ -2,6 +2,8 @@
 using Combat.API.DTO;
 using Combat.Common.ValueObjects;
 
+using System;
+
 namespace Combat.API
 {
     public sealed class Unit
@@ -45,7 +47,7 @@ namespace Combat.API
 
         public bool Equals(Unit other) => _unitContext.Id == other._unitContext.Id;
 
-        public float GetAttributeValue(Attribute attribute) => _unitContext.GetAttributeValue(attribute);
+        public float GetAttributeValue(Common.ValueObjects.Attribute attribute) => _unitContext.GetAttributeValue(attribute);
 
         public float GetCooldown(SkillId skillId) => _unitContext.GetCooldown(skillId);
 

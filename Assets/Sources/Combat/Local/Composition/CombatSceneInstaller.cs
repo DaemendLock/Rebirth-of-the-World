@@ -1,4 +1,5 @@
 ﻿using Combat.API.Adapters;
+using Combat.API.Contexts;
 using Combat.API.Scripting;
 using Combat.Local.Controllers;
 using Combat.Local.Data.Databases;
@@ -10,6 +11,7 @@ using Combat.Local.Domain.Factories;
 using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
+using Combat.Local.Domain.Repositories.Objectives;
 using Combat.Local.Domain.Repositories.Skill;
 using Combat.Local.Domain.UseCases;
 using Combat.Local.Domain.UseCases.Character;
@@ -24,6 +26,7 @@ using Combat.Local.Gateways.Repositories.Players;
 using Combat.Local.Gateways.Repositories.Skills;
 using Combat.Local.Presentation.Presenters;
 using Combat.Local.Scripting.Adapters;
+using Combat.Local.Scripting.Contexts;
 using Combat.Local.Scripting.Factories;
 using Combat.Local.Scripting.Idk;
 using Combat.Local.Scripting.Ports.Statuses;
@@ -76,6 +79,7 @@ namespace Combat.Local.Composition
             Container.Bind<IMovementEffectOwnerRepository>().To<MovementEffectOwnerRepository>().AsSingle();
             Container.Bind<IPlayerRepository>().To<PlayerRepository>().AsSingle();
             Container.Bind<ISkillMemoryRepository>().To<FixedSizeArraySkillMemoryRepository>().AsSingle();
+            Container.Bind<IObjectiveMemoryRepository>().To<FixedSizeArrayObjectiveMemoryRepository>().AsSingle();
         }
 
         private void BindFactories()
@@ -167,6 +171,7 @@ namespace Combat.Local.Composition
             Container.Bind<IStatusAttributeCalculator>().To<StatusAttributeModifierCalculator>().AsSingle();
             Container.Bind<IHealingDamageModifierCalculator>().To<PropertyDamageModifcationCalculator>().AsSingle();
             Container.Bind<IDamageResultHandler>().To<StatusPropertyDamageResultHandler>().AsSingle();
+            Container.Bind<IEventContext>().To<EventSystemContext>().AsSingle();
 
             Container.Bind<UnitNewAdapter>().AsSingle();
         }

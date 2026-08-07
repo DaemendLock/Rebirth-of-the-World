@@ -1,3 +1,5 @@
+using Combat.API.Contexts;
+using Combat.API.Events;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.ValueObjects;
@@ -11,10 +13,12 @@ namespace Combat.Local.Scripting.Ports.Statuses
     public sealed class StatusPropertyDamageResultHandler : IDamageResultHandler
     {
         private readonly IStatusRuntimeRegistry _statusRuntimeRegistry;
+        private readonly IEventContext _eventContext;
 
-        public StatusPropertyDamageResultHandler(IStatusRuntimeRegistry statusRuntimeRegistry)
+        public StatusPropertyDamageResultHandler(IStatusRuntimeRegistry statusRuntimeRegistry, IEventContext eventContext)
         {
             _statusRuntimeRegistry = statusRuntimeRegistry;
+            _eventContext = eventContext;
         }
 
         public void HandleDamageDealth(ReadOnlySpan<StatusId> handlers, DamageResult @event)
@@ -33,6 +37,8 @@ namespace Combat.Local.Scripting.Ports.Statuses
 
                 effect.Handle(@event);
             }
+
+            _eventContext.Publish(new GameEvent<DealDamageEventData>(new(@event.FinalDamage)));
         }
 
         public void HandleDamageRecieved(ReadOnlySpan<StatusId> handlers, DamageResult @event)

@@ -11,7 +11,6 @@ namespace Combat.Local.Scripting.Contexts
     public class DomainSkillContext : ISkillContext // ?? Model
     {
         private readonly IEnvironmentContext _environmentContext;
-
         private readonly ISkillMemoryRepository _skillMemoryRepository;
         private readonly AbilityKey _key;
 

@@ -71,6 +71,7 @@
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\TransformEffectId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\Flags\HealingFlags.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\LocationId.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\ObjectiveId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\StatusId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\Attribute.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\SkillId.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\HurtboxType.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\Team.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\ProjectileId.cs" />
+    <Compile Include="Assets\Sources\Combat\Common\ValueObjects\EventHandlerId.cs" />
     <Compile Include="Assets\Sources\Combat\Common\ValueObjects\ActionId.cs" />
   </ItemGroup>
   <ItemGroup>

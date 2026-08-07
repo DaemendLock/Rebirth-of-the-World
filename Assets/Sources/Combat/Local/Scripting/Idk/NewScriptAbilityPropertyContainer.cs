@@ -1,5 +1,6 @@
 using Combat.API;
 using Combat.API.API.Skills;
+using Combat.API.Objectives;
 using Combat.API.Skills;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Repositories.Skill;
@@ -10,14 +11,28 @@ using Combat.Local.Scripting.IDK;
 
 namespace Combat.Local.Scripting.Idk
 {
+    public sealed class RuntimeObjectiveContainer
+    {
+        private readonly ICombatObjective _combatObjective;
+        private readonly IObjectiveContext _context;
+
+        public RuntimeObjectiveContainer(ICombatObjective combatObjective, IObjectiveContext context)
+        {
+            _combatObjective = combatObjective;
+            _context = context;
+        }
+
+        public ICombatObjective CombatObjective => _combatObjective;
+
+        public IObjectiveContext Context => _context;
+    }
+
     public sealed class NewScriptAbilityPropertyContainer : IAbilityPropertyContainer
     {
-        private readonly AbilityKey _id;
         private readonly ICastableSkill _castableSkill;
 
         public NewScriptAbilityPropertyContainer(AbilityKey id, ISkillScriptNew script, UnitNewAdapter unitNewAdapter, ISkillMemoryRepository skillMemoryRepository)
         {
-            _id = id;
             UnitNew unitNew = null;
 
             if (id.Owner.HasValue)

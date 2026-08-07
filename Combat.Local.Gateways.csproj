@@ -83,6 +83,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Gateways\DataSources\IActionDataContainer.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Charatcters\HealthData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Charatcters\AligmentData.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\FixedSizeArraySkillMemoryRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Models\Charatcters\HitboxData.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\Characters\StatusOwnerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Gateways\Repositories\ProjectileRepository.cs" />

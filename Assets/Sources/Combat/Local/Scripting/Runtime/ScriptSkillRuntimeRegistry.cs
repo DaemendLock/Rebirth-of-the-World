@@ -1,10 +1,22 @@
 using Combat.Common.ValueObjects;
+using Combat.Local.Scripting.Idk;
 using Combat.Local.Scripting.IDK;
 
 using System.Collections.Generic;
 
 namespace Combat.Local.Scripting.Runtime
 {
+    public sealed class ObjectiveRuntimeRegistry
+    {
+        private readonly Dictionary<ObjectiveId, RuntimeObjectiveContainer> _values = new();
+
+        public void Crate(ObjectiveId id, RuntimeObjectiveContainer value) => _values.Add(id, value);
+
+        public void Remove(ObjectiveId id) => _values.Remove(id);
+
+        public bool TryGet(ObjectiveId id, out RuntimeObjectiveContainer objective) => _values.TryGetValue(id, out objective);
+    }
+
     public sealed class ScriptSkillRuntimeRegistry : ISkillRuntimeRegistry
     {
         private readonly Dictionary<AbilityKey, IAbilityPropertyContainer> _values = new();

@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\HealingRecord.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Contexts\IEnvironmentContext.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Events\DealDamageEventData.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\ApplyDamageOptions.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\ApplyStatusInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\DamageRecord.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\DeathRecord.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Entities\StatusApi.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Entities\IActor.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Entities\EventHandler.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Scripting\StatusScriptNameAttribute.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Adapters\ISceneApiAdapter.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Contexts\IStatusCapability.cs" />
@@ -87,7 +89,6 @@
     <Compile Include="Assets\Sources\Combat\API\API\Scripting\SkillScript.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\New\ISkillScriptNew.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Contexts\IEncounterContext.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Tasks\ICombatObjective.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\ResourceChangeRecord.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\ICastStateChangeHandler.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Statuses\IIncomingHealDamageHandler.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Assets\Sources\Combat\API\API\Skills\SkillState.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\UnitCreationInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Scripting\StatusScript.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Objectives\ICombatObjective.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Statuses\IStatusPropery.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\ValueObjects\DamageInstanceApi.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\ISkillProperty.cs" />

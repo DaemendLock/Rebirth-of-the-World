@@ -12,16 +12,4 @@ namespace Combat.API.API.Skills
         void OnCancel(IActor actor, ISkillContext skillContext) { }
         void OnInterrupt(IActor actor, ISkillContext skillContext) { }
     }
-
-    public readonly struct SkillTimeline
-    {
-        public readonly float Startup;
-        public readonly float ActiveTime;
-        public readonly float Recovery;
-    }
-
-    public readonly struct DealDamageEventData : IEventData
-    {
-        public readonly float FinalDamage { get; }
-    }
 }
