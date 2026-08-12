@@ -87,14 +87,13 @@
     <Compile Include="Assets\Sources\Combat\API\API\Entities\EncounterApi.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\KillInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Scripting\SkillScript.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\New\ISkillScriptNew.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Test\TestScript.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Contexts\IEncounterContext.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\ResourceChangeRecord.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\ICastStateChangeHandler.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Statuses\IIncomingHealDamageHandler.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\ITargettableSkill.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\GiveResourceInfo.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\New\TestScript.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Statuses\IOutgoingHealDamageHandler.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Contexts\ISkillContext.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Adapters\IStatusApiAdapter.cs" />
@@ -107,10 +106,12 @@
     <Compile Include="Assets\Sources\Combat\API\API\ValueObjects\DamageInstanceApi.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\ISkillProperty.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\ValueObjects\HealingInstanceApi.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Test\ISkillScriptNew.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Scripting\SkillScriptNameAttribute.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\ApplyDamageInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\HitRecord.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Entities\Unit.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Test\Objectives.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\IDK\AttributeSet.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\IHitHandler.cs" />
   </ItemGroup>

@@ -3,6 +3,11 @@ using Combat.Local.Domain.ValueObjects;
 
 namespace Combat.Local.Domain.OutputPorts
 {
+    public interface ICharacterDeathHandler
+    {
+        void Handle(KillRecord record);
+    }
+
     public interface ICharacterConsciousStateOutput
     {
         void Present(UnitId value, ConsciousState state);

@@ -18,19 +18,25 @@ namespace Combat.Local.Scripting.Contexts
         private readonly IEventContext _eventContext;
         private readonly IObjectiveCompletionHandler _completionHandler;
 
+        private readonly IEncounterContext _encounterContext;
+
         private readonly List<EventHandlerId> _subscriptions;
 
         private bool _disposed;
 
-        public ObjectiveContext(ObjectiveId id, IObjectiveMemoryRepository memoryRepository, IEventContext eventContext, IObjectiveCompletionHandler completionHandler)
+        public ObjectiveContext(ObjectiveId id, IObjectiveMemoryRepository memoryRepository, IEventContext eventContext, IObjectiveCompletionHandler completionHandler,
+            IEncounterContext context)
         {
             _id = id;
             _disposed = false;
             _memoryRepository = memoryRepository;
             _eventContext = eventContext;
             _completionHandler = completionHandler;
+            _encounterContext = context;
 
             _subscriptions = new List<EventHandlerId>();
+
+            State = ObjectiveState.Running;
         }
 
         public ObjectiveId Id => _id;
@@ -102,18 +108,14 @@ namespace Combat.Local.Scripting.Contexts
             return new("todo", dynamicData);
         }
 
-        public void Dispose()
+        public T GetCapability<T>() where T : class
         {
-            if (_disposed) return;
-
-            foreach (EventHandlerId item in _subscriptions)
+            if (typeof(T) == typeof(IEncounterContext))
             {
-                _eventContext.Unsubscribe(item);
+                return (T)_encounterContext;
             }
 
-            _subscriptions.Clear();
-            _memoryRepository.Delete(_id);
-            _disposed = true;
+            return null;
         }
 
         public EventHandlerId SubscribeToEvent<T>(IEventContext.EventHandler<T> handler) where T : unmanaged, IEventData
@@ -139,6 +141,20 @@ namespace Combat.Local.Scripting.Contexts
             {
                 _subscriptions.Remove(id);
             }
+        }
+
+        public void Dispose()
+        {
+            if (_disposed) return;
+
+            foreach (EventHandlerId item in _subscriptions)
+            {
+                _eventContext.Unsubscribe(item);
+            }
+
+            _subscriptions.Clear();
+            _memoryRepository.Delete(_id);
+            _disposed = true;
         }
     }
 }

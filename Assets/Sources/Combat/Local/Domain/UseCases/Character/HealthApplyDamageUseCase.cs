@@ -19,7 +19,9 @@ namespace Combat.Local.Domain.UseCases
         private readonly IHealingDamageModifierCalculator _damageModifierCalculator;
         private readonly IDamageResultHandler _damageResultHandler;
 
-        public HealthApplyDamageUseCase(IHealthRepository healthRepository, IHealthOutput healthOutput, IActorRepository stateRepository, IStatusOwnerRepository statusOwnerRepository, ICharacterConsciousStateOutput characterConsciousStateOutput, IHealingDamageModifierCalculator damageModifierCalculator, IDamageResultHandler damageResultHandler)
+        private readonly ICharacterDeathHandler _characterDeathHandler;
+
+        public HealthApplyDamageUseCase(IHealthRepository healthRepository, IHealthOutput healthOutput, IActorRepository stateRepository, IStatusOwnerRepository statusOwnerRepository, ICharacterConsciousStateOutput characterConsciousStateOutput, IHealingDamageModifierCalculator damageModifierCalculator, IDamageResultHandler damageResultHandler, ICharacterDeathHandler characterDeathHandler)
         {
             _healthRepository = healthRepository;
             _healthOutput = healthOutput;
@@ -28,6 +30,7 @@ namespace Combat.Local.Domain.UseCases
             _characterConsciousStateOutput = characterConsciousStateOutput;
             _damageModifierCalculator = damageModifierCalculator;
             _damageResultHandler = damageResultHandler;
+            _characterDeathHandler = characterDeathHandler;
         }
 
         public void Execute(UnitId target, float damage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
@@ -140,6 +143,7 @@ namespace Combat.Local.Domain.UseCases
 
             actor.Kill();
             _actorRepository.Update(actor);
+            _characterDeathHandler.Handle(new(target));
             _characterConsciousStateOutput.Present(target, actor.ConsciousState);
             return;
         }

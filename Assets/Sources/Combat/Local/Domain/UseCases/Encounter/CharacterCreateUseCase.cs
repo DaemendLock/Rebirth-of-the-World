@@ -115,7 +115,7 @@ namespace Combat.Local.Domain.UseCases
                 }
             }
 
-            AttributesOwner attributes = new(id, context.DefaultAttributes);
+            AttributesOwner attributes = new(id, attributeValue);
             SkillOwner skillOwner = new(id, System.Span<SkillId>.Empty);
 
             _aligmentRepository.Create(aligment);

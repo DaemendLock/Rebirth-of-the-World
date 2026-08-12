@@ -22,13 +22,15 @@ namespace Combat.Local.Scripting.Ports
     {
         private readonly ObjectiveRuntimeRegistry _objectiveContainer;
         private readonly IObjectiveMemoryRepository _memoryRepository;
+        private readonly IEncounterContext _context;
         private readonly IEventContext _eventContext;
 
-        public ObjectiveDispatcher(ObjectiveRuntimeRegistry objectiveContainer, IObjectiveMemoryRepository memoryRepository, IEventContext eventContext)
+        public ObjectiveDispatcher(ObjectiveRuntimeRegistry objectiveContainer, IObjectiveMemoryRepository memoryRepository, IEventContext eventContext, IEncounterContext context)
         {
             _objectiveContainer = objectiveContainer;
             _memoryRepository = memoryRepository;
             _eventContext = eventContext;
+            _context = context;
         }
 
         public void Create(Objective value)
@@ -36,7 +38,7 @@ namespace Combat.Local.Scripting.Ports
             RuntimeObjectiveContainer objectiveRuntime = CreateRuntime(value);
 
             _objectiveContainer.Create(value.Id, objectiveRuntime);
-            objectiveRuntime.CombatObjective.OnStart(null, objectiveRuntime.Context);
+            objectiveRuntime.CombatObjective.OnStart(objectiveRuntime.Context);
         }
 
         public void Complete(ObjectiveId id)
@@ -93,9 +95,9 @@ namespace Combat.Local.Scripting.Ports
 
         private RuntimeObjectiveContainer CreateRuntime(Objective objective)
         {
-            ObjectiveContext objectiveContext = new(objective.Id, _memoryRepository, _eventContext, this);
+            ObjectiveContext objectiveContext = new(objective.Id, _memoryRepository, _eventContext, this, _context);
 
-            return new(new DealDamageObjective(), objectiveContext);
+            return new(new BasicKillUnitObjective(), objectiveContext);
         }
 
         private void DisposeAndRemove(ObjectiveId id, RuntimeObjectiveContainer value)

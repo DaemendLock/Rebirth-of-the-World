@@ -4,6 +4,16 @@ using UnityEngine;
 
 namespace Combat.Local.Domain.ValueObjects
 {
+    public readonly struct KillRecord
+    {
+        public readonly UnitId Victim;
+
+        public KillRecord(UnitId victim)
+        {
+            Victim = victim;
+        }
+    }
+
     public readonly struct HitRecord
     {
         public HitRecord(UnitId hitboxOwner, HitboxType hitboxType, UnitId hurtboxOwner, HurtboxType hurtboxType, Vector3 location)

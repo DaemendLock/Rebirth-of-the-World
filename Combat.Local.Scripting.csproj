@@ -69,6 +69,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Scripting\Contexts\EventSystemContext.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Scripting\Idk\IStatusPropertyProvider.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Scripting\Entities\UnitNew.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Scripting\Ports\CharacterPorts\DeathHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Scripting\Adapters\CharacterApiAdapter.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Scripting\Capabilities\Skills\ExecuteSkillCapability.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Scripting\Ports\Statuses\PropertyDamageModifcationCalculator.cs" />

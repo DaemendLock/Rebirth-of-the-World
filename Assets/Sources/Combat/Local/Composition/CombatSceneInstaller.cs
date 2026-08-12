@@ -31,6 +31,7 @@ using Combat.Local.Scripting.Contexts;
 using Combat.Local.Scripting.Factories;
 using Combat.Local.Scripting.Idk;
 using Combat.Local.Scripting.Ports;
+using Combat.Local.Scripting.Ports.CharacterPorts;
 using Combat.Local.Scripting.Ports.Statuses;
 using Combat.Local.Scripting.Runtime;
 using Combat.Local.Scripting.SkillPorts;
@@ -166,6 +167,7 @@ namespace Combat.Local.Composition
             Container.Bind<ObjectiveDispatcher>().AsSingle();
             Container.Bind<IObjectiveCreateHandler>().To<ObjectiveDispatcher>().FromResolve();
             Container.Bind<IObjectiveCompletionHandler>().To<ObjectiveDispatcher>().FromResolve();
+            Container.Bind<ICharacterDeathHandler>().To<DeathHandler>().AsSingle();
 
             Container.Bind<PropertySkillLyfecycleHandler>().AsSingle();
             Container.Bind<ISkillLyfecycleHandler>().To<PropertySkillLyfecycleHandler>().FromResolve();
@@ -180,6 +182,7 @@ namespace Combat.Local.Composition
             Container.Bind<IHealingDamageModifierCalculator>().To<PropertyDamageModifcationCalculator>().AsSingle();
             Container.Bind<IDamageResultHandler>().To<StatusPropertyDamageResultHandler>().AsSingle();
             Container.Bind<IEventContext>().To<EventSystemContext>().AsSingle();
+            Container.Bind<IEncounterContext>().To<DomainEncounterContext>().AsSingle();
 
             Container.Bind<UnitNewAdapter>().AsSingle();
         }
