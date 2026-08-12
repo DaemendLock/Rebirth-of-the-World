@@ -23,12 +23,14 @@ namespace Combat.API.Objectives
     public interface IObjectiveContext : IDisposable
     {
         ObjectiveId Id { get; }
-        bool IsCompleted { get; }
+        ObjectiveState State { get; }
 
         void Save<T>(T value) where T : unmanaged, IObjectiveData;
         ObjectiveInfo<T> GetInfo<T>() where T : unmanaged, IObjectiveData;
 
         void Complete();
+        void Cancel();
+        void Fail();
 
         EventHandlerId SubscribeToEvent<T>(IEventContext.EventHandler<T> handler) where T : unmanaged, IEventData;
         void Unsubscribe(EventHandlerId id);
@@ -37,8 +39,9 @@ namespace Combat.API.Objectives
     public interface ICombatObjective
     {
         void OnStart(ICombatObjective parent, IObjectiveContext context);
-        void OnComplete(IObjectiveContext context);
-        void OnCancel(IObjectiveContext context);
+        void OnComplete(IObjectiveContext context) { }
+        void OnCancel(IObjectiveContext context) { }
+        void OnFail(IObjectiveContext context) { }
     }
 
     public readonly struct DealDamageObjectiveData : IObjectiveData
@@ -60,7 +63,9 @@ namespace Combat.API.Objectives
 
         public void OnStart(ICombatObjective parent, IObjectiveContext context)
         {
-            _targetProgress = context.GetInfo<DealDamageObjectiveData>().Data.Target;
+            DealDamageObjectiveData data = context.GetInfo<DealDamageObjectiveData>().Data;
+            _targetProgress = data.Target;
+            _currentProgress = data.Current;
 
             context.SubscribeToEvent<DealDamageEventData>(@event => UpdateProgress(@event, context));
 
@@ -80,12 +85,8 @@ namespace Combat.API.Objectives
 
         private void UpdateProgress(GameEvent<DealDamageEventData> @event, IObjectiveContext context)
         {
-            var info = context.GetInfo<DealDamageObjectiveData>();
-
-            var data = info.Data;
-            data = new(data.Current + @event.Data.FinalDamage, data.Target);
-            info.Data = data;
             _currentProgress += @event.Data.FinalDamage;
+            context.Save(new DealDamageObjectiveData(_currentProgress, _targetProgress));
 
             if (_currentProgress >= _targetProgress)
             {
@@ -95,7 +96,7 @@ namespace Combat.API.Objectives
 
         private void Cleanup(IObjectiveContext context)
         {
-            
+
         }
     }
 }

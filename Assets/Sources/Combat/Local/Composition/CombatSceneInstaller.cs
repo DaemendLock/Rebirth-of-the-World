@@ -15,6 +15,7 @@ using Combat.Local.Domain.Repositories.Objectives;
 using Combat.Local.Domain.Repositories.Skill;
 using Combat.Local.Domain.UseCases;
 using Combat.Local.Domain.UseCases.Character;
+using Combat.Local.Domain.UseCases.Objectives;
 using Combat.Local.Domain.UseCases.Players;
 using Combat.Local.Domain.UseCases.Scene;
 using Combat.Local.Domain.UseCases.Skills;
@@ -29,6 +30,7 @@ using Combat.Local.Scripting.Adapters;
 using Combat.Local.Scripting.Contexts;
 using Combat.Local.Scripting.Factories;
 using Combat.Local.Scripting.Idk;
+using Combat.Local.Scripting.Ports;
 using Combat.Local.Scripting.Ports.Statuses;
 using Combat.Local.Scripting.Runtime;
 using Combat.Local.Scripting.SkillPorts;
@@ -85,6 +87,7 @@ namespace Combat.Local.Composition
         private void BindFactories()
         {
             Container.Bind<IAbilityFactory>().To<AbilityFactory>().AsSingle();
+            Container.Bind<IObjectiveFactory>().To<ObjectiveFactory>().AsSingle();
             Container.Bind<CustomScriptSkillStrategyFactory>().AsSingle();
             Container.Bind<NewScriptStrategyFactory>().AsSingle();
 
@@ -108,6 +111,7 @@ namespace Combat.Local.Composition
             Container.Bind<HealthApplyDamageUseCase>().AsSingle();
             Container.Bind<HealthApplyHealingUseCase>().AsSingle();
             Container.Bind<HealthSetUseCase>().AsSingle();
+            Container.Bind<ObjectiveCreateUseCase>().AsSingle();
 
             Container.Bind<ActorForceKillUseCase>().AsSingle();
             Container.Bind<ActorReviveUseCase>().AsSingle();
@@ -158,6 +162,10 @@ namespace Combat.Local.Composition
             Container.Bind<ISkillRuntimeRegistry>().To<ScriptSkillRuntimeRegistry>().FromResolve();
             Container.Bind<ScriptStatusRuntimeRegistry>().AsSingle();
             Container.Bind<IStatusRuntimeRegistry>().To<ScriptStatusRuntimeRegistry>().FromResolve();
+            Container.Bind<ObjectiveRuntimeRegistry>().AsSingle();
+            Container.Bind<ObjectiveDispatcher>().AsSingle();
+            Container.Bind<IObjectiveCreateHandler>().To<ObjectiveDispatcher>().FromResolve();
+            Container.Bind<IObjectiveCompletionHandler>().To<ObjectiveDispatcher>().FromResolve();
 
             Container.Bind<PropertySkillLyfecycleHandler>().AsSingle();
             Container.Bind<ISkillLyfecycleHandler>().To<PropertySkillLyfecycleHandler>().FromResolve();

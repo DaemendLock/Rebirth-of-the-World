@@ -1,4 +1,4 @@
-﻿using Combat.API.Contexts;
+using Combat.API.Contexts;
 using Combat.Common.ValueObjects;
 
 using System;
@@ -6,99 +6,131 @@ using System.Collections.Generic;
 
 namespace Combat.Local.Scripting.Contexts
 {
-    public sealed class EventHandler
-    {
-        public readonly EventHandlerId Id;
-        public readonly object Callback;
-
-        public EventHandler(EventHandlerId id, object callback)
-        {
-            Id = id;
-            Callback = callback;
-        }
-
-        public bool Dead { get; set; } = false;
-    }
-
     public sealed class EventSystemContext : IEventContext
     {
-        private readonly Dictionary<Type, List<EventHandler>> _callbacks;
-        private readonly Dictionary<EventHandlerId, List<EventHandler>> _cleanupTargets;
-
-        private int _nextId = 0;
-
-        public EventSystemContext()
+        private readonly struct EventHandler<T> : IEquatable<EventHandler<T>> where T : unmanaged, IEventData
         {
-            _callbacks = new();
-            _cleanupTargets = new();
+            public readonly EventHandlerId Id;
+            public readonly IEventContext.EventHandler<T> Callback;
+
+            public EventHandler(EventHandlerId id, IEventContext.EventHandler<T> callback)
+            {
+                Callback = callback;
+                Id = id;
+            }
+
+            public override bool Equals(object obj) => obj is EventHandler<T> handler && Equals(handler);
+            public bool Equals(EventHandler<T> other) => Id.Equals(other.Id);
+            public override int GetHashCode() => Id.GetHashCode();
+
+            public static bool operator ==(EventHandler<T> left, EventHandler<T> right) => left.Equals(right);
+
+            public static bool operator !=(EventHandler<T> left, EventHandler<T> right) => !(left == right);
         }
+
+        private interface IEventBucket
+        {
+            bool Remove(EventHandlerId id);
+        }
+
+        private sealed class EventBucket<T> : IEventBucket where T : unmanaged, IEventData
+        {
+            private EventHandler<T>[] _handlers;
+
+            public EventBucket()
+            {
+                _handlers = Array.Empty<EventHandler<T>>();
+            }
+
+            public void Publish(GameEvent<T> @event)
+            {
+                ReadOnlySpan<EventHandler<T>> subscriptions = _handlers.AsSpan();
+
+                foreach (var subscription in subscriptions)
+                {
+                    subscription.Callback(@event);
+                }
+            }
+
+            public void AddHandler(EventHandlerId id, IEventContext.EventHandler<T> callback)
+            {
+                EventHandler<T> subscription = new(id, callback);
+
+                Array.Resize(ref _handlers, _handlers.Length + 1);
+                _handlers[^1] = subscription;
+            }
+
+            public bool Remove(EventHandlerId id)
+            {
+                for (int i = 0; i < _handlers.Length; i++)
+                {
+                    if (_handlers[i].Id != id)
+                    {
+                        continue;
+                    }
+
+                    EventHandler<T>[] buffer = new EventHandler<T>[_handlers.Length - 1];
+                    Array.Copy(_handlers, 0, buffer, 0, i);
+
+                    if (i != buffer.Length)
+                        Array.Copy(_handlers, i + 1, buffer, i, buffer.Length - i);
+                    _handlers = buffer;
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        private readonly Dictionary<Type, IEventBucket> _buckets = new();
+        private readonly Dictionary<EventHandlerId, IEventBucket> _idToBucket = new();
+
+        private int _nextId;
 
         public void Publish<T>(GameEvent<T> @event) where T : unmanaged, IEventData
         {
-            if (_callbacks.TryGetValue(typeof(T), out var callbacks) == false)
+            if (_buckets.TryGetValue(typeof(T), out IEventBucket bucket) == false)
             {
                 return;
             }
 
-            foreach (EventHandler item in callbacks)
-            {
-                if (item.Dead)
-                {
-                    continue;
-                }
-
-                if (item.Callback is not IEventContext.EventHandler<T> callback)
-                {
-                    continue;
-                }
-
-                callback.Invoke(@event);
-            }
-
-            callbacks.RemoveAll(value => value.Dead);
+            ((EventBucket<T>)bucket).Publish(@event);
         }
 
         public EventHandlerId Subscribe<T>(IEventContext.EventHandler<T> callback) where T : unmanaged, IEventData
         {
-            EventHandlerId id = new(_nextId++);
-
-            if (_callbacks.TryGetValue(typeof(T), out var values) == false)
+            if (callback == null)
             {
-                values = new();
-                _callbacks.Add(typeof(T), values);
+                throw new ArgumentNullException(nameof(callback));
             }
 
-            values.Add(new(id, callback));
-            _cleanupTargets.Add(id, values);
+            EventHandlerId id = new(_nextId++);
+
+            if (_buckets.TryGetValue(typeof(T), out IEventBucket bucket) == false)
+            {
+                bucket = new EventBucket<T>();
+                _buckets.Add(typeof(T), bucket);
+            }
+
+            ((EventBucket<T>)bucket).AddHandler(id, callback);
+            _idToBucket.Add(id, bucket);
+
             return id;
         }
 
-        public bool Unsubscribe(EventHandlerId handler)
+        public bool Unsubscribe(EventHandlerId handlerId)
         {
-            if (_cleanupTargets.Remove(handler, out var target) == false)
+            if (_idToBucket.Remove(handlerId, out IEventBucket bucket) == false)
             {
                 return false;
             }
 
-            for (int i = 0; i < target.Count; i++)
+            if (bucket.Remove(handlerId) == false)
             {
-                var oldValue = target[i];
-
-                if (oldValue.Dead)
-                {
-                    continue;
-                }
-
-                if (oldValue.Id != handler)
-                {
-                    continue;
-                }
-
-                oldValue.Dead = true;
-                return true;
+                return false;
             }
 
-            return false;
+            return true;
         }
     }
 }

@@ -109,6 +109,7 @@
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Character\ISkillOwnerRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Entities\Statuses\Status.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Skill\ISkillActionsRepository.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\IObjectiveCreateHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\UseCases\Character\StatusOwnerApplyUseCase.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\Repositories\Skill\ISkillMemoryRepository.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Domain\OutputPorts\Charcters\ISpendResourceOutput.cs" />

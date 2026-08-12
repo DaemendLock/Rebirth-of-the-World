@@ -1,8 +1,9 @@
 ﻿using Combat.API.Contexts;
-using Combat.API.Events;
 using Combat.API.Objectives;
 using Combat.Common.ValueObjects;
+using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories.Objectives;
+using Combat.Local.Scripting.Ports;
 
 using System;
 using System.Collections.Generic;
@@ -15,24 +16,26 @@ namespace Combat.Local.Scripting.Contexts
         private readonly ObjectiveId _id;
         private readonly IObjectiveMemoryRepository _memoryRepository;
         private readonly IEventContext _eventContext;
+        private readonly IObjectiveCompletionHandler _completionHandler;
 
         private readonly List<EventHandlerId> _subscriptions;
 
         private bool _disposed;
 
-        public ObjectiveContext(ObjectiveId id, IObjectiveMemoryRepository memoryRepository, IEventContext eventContext)
+        public ObjectiveContext(ObjectiveId id, IObjectiveMemoryRepository memoryRepository, IEventContext eventContext, IObjectiveCompletionHandler completionHandler)
         {
             _id = id;
             _disposed = false;
             _memoryRepository = memoryRepository;
             _eventContext = eventContext;
+            _completionHandler = completionHandler;
 
             _subscriptions = new List<EventHandlerId>();
         }
 
         public ObjectiveId Id => _id;
 
-        public bool IsCompleted { get; private set; } = false;
+        public ObjectiveState State { get; private set; }
 
         public void Complete()
         {
@@ -41,9 +44,36 @@ namespace Combat.Local.Scripting.Contexts
                 throw new ObjectDisposedException(nameof(ObjectiveContext));
             }
 
-            if (IsCompleted) return;
+            if (State != ObjectiveState.Running) return;
 
-            IsCompleted = true;
+            State = ObjectiveState.Completed;
+            _completionHandler.Complete(_id);
+        }
+
+        public void Cancel()
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(nameof(ObjectiveContext));
+            }
+
+            if (State != ObjectiveState.Running) return;
+
+            State = ObjectiveState.Cancelled;
+            _completionHandler.Cancel(_id);
+        }
+
+        public void Fail()
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(nameof(ObjectiveContext));
+            }
+
+            if (State != ObjectiveState.Running) return;
+
+            State = ObjectiveState.Failed;
+            _completionHandler.Fail(_id);
         }
 
         public void Save<T>(T value) where T : unmanaged, IObjectiveData
@@ -76,7 +106,7 @@ namespace Combat.Local.Scripting.Contexts
         {
             if (_disposed) return;
 
-            foreach (var item in _subscriptions)
+            foreach (EventHandlerId item in _subscriptions)
             {
                 _eventContext.Unsubscribe(item);
             }

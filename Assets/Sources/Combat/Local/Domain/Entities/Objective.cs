@@ -7,13 +7,13 @@ namespace Combat.Local.Domain.Entities
         public readonly ObjectiveId Id { get; }
         //public readonly ObjectiveId? Parent { get; }
         public readonly string Name { get; }
-        public bool IsCompleted { get; set; }
+        public ObjectiveState State { get; set; }
 
-        public Objective(ObjectiveId id, string name, bool isCompleted)
+        public Objective(ObjectiveId id, string name, ObjectiveState state)
         {
             Id = id;
             Name = name;
-            IsCompleted = isCompleted;
+            State = state;
         }
     }
 }

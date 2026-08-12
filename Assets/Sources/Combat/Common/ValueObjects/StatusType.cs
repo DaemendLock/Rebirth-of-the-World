@@ -1,5 +1,13 @@
 ﻿namespace Combat.Common.ValueObjects
 {
+    public enum ObjectiveState
+    {
+        Running,
+        Completed,
+        Cancelled,
+        Failed
+    }
+
     public readonly struct StatusType
     {
         public readonly string Value;
