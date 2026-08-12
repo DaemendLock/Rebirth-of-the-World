@@ -38,9 +38,10 @@ namespace TestSkillsPack.SkillScripts
 
         public bool OnHit(HitRecord @event)
         {
-            if (@event.Target == @event.Source) { return false; }
-
-            UnityEngine.Debug.Log($"Handling hit;");
+            if (@event.Target == Instance.Owner)
+            {
+                return false;
+            }
 
             ApplyDamageOptions applyDamageOptions = new()
             {

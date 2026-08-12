@@ -9,11 +9,11 @@ namespace Combat.Local.Domain.Entities
         public readonly string Name { get; }
         public ObjectiveState State { get; set; }
 
-        public Objective(ObjectiveId id, string name, ObjectiveState state)
+        public Objective(ObjectiveId id, string name)
         {
             Id = id;
             Name = name;
-            State = state;
+            State = ObjectiveState.Running;
         }
     }
 }

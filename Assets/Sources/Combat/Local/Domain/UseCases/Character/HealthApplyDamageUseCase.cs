@@ -6,8 +6,6 @@ using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
 
-using static UnityEngine.GraphicsBuffer;
-
 namespace Combat.Local.Domain.UseCases
 {
     public readonly struct HealthApplyDamageUseCase
@@ -32,25 +30,25 @@ namespace Combat.Local.Domain.UseCases
             _damageResultHandler = damageResultHandler;
         }
 
-        public void Execute(UnitId targetId, float damage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
+        public void Execute(UnitId target, float damage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
         {
-            if (_healthRepository.TryGet(targetId, out Health health) == false)
+            if (_healthRepository.TryGet(target, out Health health) == false)
             {
                 throw new System.InvalidOperationException();
             }
 
-            DamageInstance instance = CreateInstance(targetId, damage, flags, attacker, source);
+            DamageInstance instance = CreateInstance(target, damage, flags, attacker, source);
 
             float finalDamage = ApplyDamageInstance(instance, health);
             TriggerEffects(instance, finalDamage);
             UpdateConsciosState(instance);
         }
 
-        private DamageInstance CreateInstance(UnitId targetId, float damage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
+        private DamageInstance CreateInstance(UnitId target, float damage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
         {
-            DamageInstance instance = new(targetId, damage, flags, attacker, source);
+            DamageInstance instance = new(target, damage, flags, attacker, source);
 
-            System.ReadOnlySpan<StatusId> defenderStatuses = _statusOwnerRepository.Get(targetId).GetAll();
+            System.ReadOnlySpan<StatusId> defenderStatuses = _statusOwnerRepository.Get(target).GetAll();
             DamageModification defenderModification = _damageModifierCalculator.GetDefenderDamageModification(defenderStatuses, instance);
             DamageModification attackerModification = default;
 
@@ -79,7 +77,7 @@ namespace Combat.Local.Domain.UseCases
             health.TakeDamage(finalDamage);
 
             _healthRepository.Update(health);
-            _healthOutput.Present(health);
+            _healthOutput.Present(instance);
 
             return finalDamage;
         }

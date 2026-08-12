@@ -2,11 +2,14 @@ using Assets.Sources.Testing.Local;
 
 using Client.Testing.View;
 
+using Combat.Local.Domain.OutputPorts;
+using Combat.Local.Scripting.Ports;
+
 using Zenject;
 
 namespace Testing.Local.Combat
 {
-    public sealed class LocalSceneInstaller : MonoInstaller
+    public sealed class TestLocalSceneInstaller : MonoInstaller
     {
         public override void InstallBindings()
         {
@@ -21,6 +24,8 @@ namespace Testing.Local.Combat
             Container.Bind<ITestMenuStrategy>()
                 .To<TestMenuStrategy>()
                 .AsSingle();
+
+            Container.Resolve<ObjectiveDispatcher>().Create(new(new(), "test"));
         }
     }
 }

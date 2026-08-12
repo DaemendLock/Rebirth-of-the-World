@@ -11,6 +11,6 @@ namespace Combat.Local.Domain.Factories
     {
         private int _nextId;
 
-        public Objective Create(string name) => new(new(_nextId++), name, Common.ValueObjects.ObjectiveState.Running);
+        public Objective Create(string name) => new(new(_nextId++), name);
     }
 }

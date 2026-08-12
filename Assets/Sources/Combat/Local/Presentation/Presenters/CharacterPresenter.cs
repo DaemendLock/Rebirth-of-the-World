@@ -34,5 +34,10 @@ namespace Combat.Local.Presentation.Presenters
         {
             Debug.Log($"Conscious State updated for {value}: {state}");
         }
+
+        void IHealthOutput.Present(DamageInstance value)
+        {
+            Debug.Log($"Damage taken by {value.Target} {value.Damage}; With {value.Source?.Skill} from {value.Source?.Owner}");
+        }
     }
 }

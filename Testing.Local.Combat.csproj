@@ -75,7 +75,7 @@
   <ItemGroup>
     <Compile Include="Assets\Sources\Testing\Local\Combat\Properties\EncounterProparties.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Combat\UpdateController.cs" />
-    <Compile Include="Assets\Sources\Testing\Local\Combat\LocalSceneInstaller.cs" />
+    <Compile Include="Assets\Sources\Testing\Local\Combat\TestLocalSceneInstaller.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Combat\TestMenuStrategy.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Combat\Temp\StatsTable.cs" />
     <Compile Include="Assets\Sources\Testing\Local\Combat\LazyData\LazyEnviromentDataSource.cs" />

@@ -63,9 +63,9 @@ namespace Combat.API.Objectives
 
         public void OnStart(ICombatObjective parent, IObjectiveContext context)
         {
-            DealDamageObjectiveData data = context.GetInfo<DealDamageObjectiveData>().Data;
-            _targetProgress = data.Target;
-            _currentProgress = data.Current;
+            _currentProgress = 0;
+            _targetProgress = 1000;
+            context.Save<DealDamageObjectiveData>(new(_currentProgress, _targetProgress));
 
             context.SubscribeToEvent<DealDamageEventData>(@event => UpdateProgress(@event, context));
 
@@ -75,12 +75,6 @@ namespace Combat.API.Objectives
         public void OnComplete(IObjectiveContext context)
         {
             UnityEngine.Debug.Log("Quest complete!");
-            Cleanup(context);
-        }
-
-        public void OnCancel(IObjectiveContext context)
-        {
-            Cleanup(context);
         }
 
         private void UpdateProgress(GameEvent<DealDamageEventData> @event, IObjectiveContext context)
@@ -92,11 +86,6 @@ namespace Combat.API.Objectives
             {
                 context.Complete();
             }
-        }
-
-        private void Cleanup(IObjectiveContext context)
-        {
-
         }
     }
 }

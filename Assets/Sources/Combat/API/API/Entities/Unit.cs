@@ -3,6 +3,7 @@ using Combat.API.DTO;
 using Combat.Common.ValueObjects;
 
 using System;
+using System.Collections.Generic;
 
 namespace Combat.API
 {
@@ -45,8 +46,6 @@ namespace Combat.API
 
         public bool CanHurt(Unit target) => _unitContext.CanHurt(target._unitContext);
 
-        public bool Equals(Unit other) => _unitContext.Id == other._unitContext.Id;
-
         public float GetAttributeValue(Common.ValueObjects.Attribute attribute) => _unitContext.GetAttributeValue(attribute);
 
         public float GetCooldown(SkillId skillId) => _unitContext.GetCooldown(skillId);
@@ -66,5 +65,13 @@ namespace Combat.API
         public void Revive(ReviveInfo data) => _unitContext.Revive(data);
 
         public void SpendResource(ResourceId resource, float value, AbilityApi source) => _unitContext.SpendResource(resource, value, source);
+
+        public bool Equals(Unit other) => _unitContext.Id == other._unitContext.Id;
+
+        public override int GetHashCode() => Id.GetHashCode();
+
+        public static bool operator ==(Unit left, Unit right) => left.Equals(right);
+
+        public static bool operator !=(Unit left, Unit right) => !(left == right);
     }
 }
