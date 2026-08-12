@@ -1,7 +1,6 @@
 ﻿using Combat.API.Contexts;
 using Combat.API.Objectives;
 using Combat.Common.ValueObjects;
-using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories.Objectives;
 using Combat.Local.Scripting.Ports;
 

@@ -57,6 +57,8 @@ namespace Combat.Local.Scripting.Ports.Statuses
 
                 effect.Handle(@event);
             }
+
+            _eventContext.Publish(new GameEvent<TakeDamageEventData>(new(@event.FinalDamage)));
         }
     }
 }

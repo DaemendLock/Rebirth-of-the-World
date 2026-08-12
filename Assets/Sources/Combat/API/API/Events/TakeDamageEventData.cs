@@ -2,10 +2,9 @@
 
 namespace Combat.API.Events
 {
-
-    public readonly struct DealDamageEventData : IEventData
+    public readonly struct TakeDamageEventData : IEventData
     {
-        public DealDamageEventData(float finalDamage)
+        public TakeDamageEventData(float finalDamage)
         {
             FinalDamage = finalDamage;
         }
