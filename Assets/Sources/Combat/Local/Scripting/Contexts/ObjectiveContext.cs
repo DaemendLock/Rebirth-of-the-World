@@ -124,6 +124,11 @@ namespace Combat.Local.Scripting.Contexts
                 throw new ObjectDisposedException(nameof(ObjectiveContext));
             }
 
+            if (State != ObjectiveState.Running)
+            {
+                throw new System.InvalidOperationException();
+            }
+
             var id = _eventContext.Subscribe(handler);
             _subscriptions.Add(id);
             return id;
@@ -152,7 +157,6 @@ namespace Combat.Local.Scripting.Contexts
             }
 
             _subscriptions.Clear();
-            _memoryRepository.Delete(_id);
             _disposed = true;
         }
     }

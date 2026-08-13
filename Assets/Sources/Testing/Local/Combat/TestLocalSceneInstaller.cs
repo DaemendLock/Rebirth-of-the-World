@@ -2,7 +2,6 @@ using Assets.Sources.Testing.Local;
 
 using Client.Testing.View;
 
-using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Scripting.Ports;
 
 using Zenject;
@@ -25,7 +24,7 @@ namespace Testing.Local.Combat
                 .To<TestMenuStrategy>()
                 .AsSingle();
 
-            Container.Resolve<ObjectiveDispatcher>().Create(new(new(), "test"));
+            Container.Resolve<ObjectiveDispatcher>().Create(new(new(), "kill"));
         }
     }
 }

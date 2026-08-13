@@ -9,9 +9,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
-    <ProjectGuid>{7A9F157A-8D7C-2B2E-AFC2-2AA28809F24E}</ProjectGuid>
+    <RootNamespace></RootNamespace>
+    <ProjectGuid>{C9BF5BEB-DE0A-E85A-CAC2-2EA18DE6E29A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Combat.API</AssemblyName>
@@ -56,7 +55,7 @@
     <UnityVersion>6000.0.23f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
@@ -64,14 +63,13 @@
   <ItemGroup>
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\HealingRecord.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Contexts\IEnvironmentContext.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Scripting\ICombatObjective.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Events\DealDamageEventData.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Events\TakeDamageEventData.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\ApplyDamageOptions.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\ApplyStatusInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\DamageRecord.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\ReviveInfo.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Events\ObjectiveCompletedEventData.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Events\TakeDamageEventData.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Events\UnitDiedEventData.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\IPassiveSkill.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\ICastableSkill.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Contexts\IStatusContext.cs" />
@@ -95,17 +93,19 @@
     <Compile Include="Assets\Sources\Combat\API\API\Contexts\IEncounterContext.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Records\ResourceChangeRecord.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\ICastStateChangeHandler.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Events\ObjectiveCompletedEventData.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Statuses\IIncomingHealDamageHandler.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\ITargettableSkill.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\GiveResourceInfo.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Statuses\IOutgoingHealDamageHandler.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Contexts\ISkillContext.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Adapters\IStatusApiAdapter.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Objectives\IObjectiveContext.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Contexts\IEventContext.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\SkillState.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\DTO\Infos\UnitCreationInfo.cs" />
+    <Compile Include="Assets\Sources\Combat\API\API\Events\UnitDiedEventData.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Scripting\StatusScript.cs" />
-    <Compile Include="Assets\Sources\Combat\API\API\Objectives\ICombatObjective.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Statuses\IStatusPropery.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\ValueObjects\DamageInstanceApi.cs" />
     <Compile Include="Assets\Sources\Combat\API\API\Skills\ISkillProperty.cs" />
@@ -571,16 +571,8 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.WebGL.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WebGLSupport\UnityEditor.WebGL.Extensions.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.UWP.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MetroSupport\UnityEditor.UWP.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Zenject-usage">
@@ -1110,11 +1102,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="CastStateSkill.csproj">
-      <Project>{025DB029-4CAC-B653-1AFC-91B5BA790B5D}</Project>
+      <Project>{573D5C6D-59EB-BC50-87CC-10075518BC6E}</Project>
       <Name>CastStateSkill</Name>
     </ProjectReference>
     <ProjectReference Include="Combat.Common.csproj">
-      <Project>{8BD67BAE-4173-6632-3746-364F6C3EA823}</Project>
+      <Project>{29217AE8-78A8-CCC5-0256-54B8B8EF1E75}</Project>
       <Name>Combat.Common</Name>
     </ProjectReference>
   </ItemGroup>

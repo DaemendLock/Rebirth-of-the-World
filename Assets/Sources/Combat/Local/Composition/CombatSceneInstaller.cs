@@ -1,5 +1,6 @@
 ﻿using Combat.API.Adapters;
 using Combat.API.Contexts;
+using Combat.API.Objectives;
 using Combat.API.Scripting;
 using Combat.Local.Controllers;
 using Combat.Local.Data.Databases;
@@ -185,6 +186,9 @@ namespace Combat.Local.Composition
             Container.Bind<IEncounterContext>().To<DomainEncounterContext>().AsSingle();
 
             Container.Bind<UnitNewAdapter>().AsSingle();
+
+            Container.Bind<ObjectiveScriptFactory>().FromNew().AsSingle();
+            Container.Bind<IObjectiveScriptFactory>().To<ObjectiveScriptFactory>().FromResolve();
         }
 
         private void BindControllers()
@@ -247,6 +251,10 @@ namespace Combat.Local.Composition
 
             PropertyStatusLifecycleHandler statusLifecycleHandler = Container.Resolve<PropertyStatusLifecycleHandler>();
             statusLifecycleHandler.RegisterStrategyFactory(Container.Resolve<CustomScriptStatusStrategyFactory>());
+
+            ObjectiveScriptFactory objectiveScriptFactory = Container.Resolve<ObjectiveScriptFactory>();
+            objectiveScriptFactory.Register<DealDamageObjective>();
+            objectiveScriptFactory.Register<BasicKillUnitObjective>();
         }
     }
 }

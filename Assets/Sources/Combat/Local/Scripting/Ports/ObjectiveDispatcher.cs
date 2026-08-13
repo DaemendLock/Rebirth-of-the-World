@@ -1,11 +1,13 @@
 ﻿using Combat.API.Contexts;
 using Combat.API.Events;
 using Combat.API.Objectives;
+using Combat.API.Scripting;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories.Objectives;
 using Combat.Local.Scripting.Contexts;
+using Combat.Local.Scripting.Factories;
 using Combat.Local.Scripting.Idk;
 using Combat.Local.Scripting.Runtime;
 
@@ -24,13 +26,15 @@ namespace Combat.Local.Scripting.Ports
         private readonly IObjectiveMemoryRepository _memoryRepository;
         private readonly IEncounterContext _context;
         private readonly IEventContext _eventContext;
+        private readonly IObjectiveScriptFactory _scriptFactory;
 
-        public ObjectiveDispatcher(ObjectiveRuntimeRegistry objectiveContainer, IObjectiveMemoryRepository memoryRepository, IEventContext eventContext, IEncounterContext context)
+        public ObjectiveDispatcher(ObjectiveRuntimeRegistry objectiveContainer, IObjectiveMemoryRepository memoryRepository, IEventContext eventContext, IEncounterContext context, IObjectiveScriptFactory scriptFactory)
         {
             _objectiveContainer = objectiveContainer;
             _memoryRepository = memoryRepository;
             _eventContext = eventContext;
             _context = context;
+            _scriptFactory = scriptFactory;
         }
 
         public void Create(Objective value)
@@ -95,9 +99,10 @@ namespace Combat.Local.Scripting.Ports
 
         private RuntimeObjectiveContainer CreateRuntime(Objective objective)
         {
-            ObjectiveContext objectiveContext = new(objective.Id, _memoryRepository, _eventContext, this, _context);
+            ICombatObjective script = _scriptFactory.Create(objective);
+            ObjectiveContext context = new(objective.Id, _memoryRepository, _eventContext, this, _context);
 
-            return new(new BasicKillUnitObjective(), objectiveContext);
+            return new(script, context);
         }
 
         private void DisposeAndRemove(ObjectiveId id, RuntimeObjectiveContainer value)
@@ -108,6 +113,7 @@ namespace Combat.Local.Scripting.Ports
             }
             finally
             {
+                _memoryRepository.Delete(id);
                 _objectiveContainer.Remove(id);
             }
         }

@@ -1,9 +1,11 @@
 ﻿using Combat.API.Contexts;
 using Combat.API.Events;
+using Combat.API.Scripting;
 using Combat.Common.ValueObjects;
 
 namespace Combat.API.Objectives
 {
+    [ObjectiveName("kill")]
     public sealed class BasicKillUnitObjective : ICombatObjective
     {
         private readonly struct KillTagret : IObjectiveData
@@ -49,6 +51,19 @@ namespace Combat.API.Objectives
         }
     }
 
+    public readonly struct DealDamageObjectiveData : IObjectiveData
+    {
+        public readonly float Current;
+        public readonly float Target;
+
+        public DealDamageObjectiveData(float current, float target)
+        {
+            Target = target;
+            Current = current;
+        }
+    }
+
+    [ObjectiveName("damage")]
     public sealed class DealDamageObjective : ICombatObjective
     {
         private float _targetProgress;

@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{4C0D9CC7-F0BF-A3E3-E7C9-77546A603E2A}</ProjectGuid>
+    <ProjectGuid>{87E815BC-9D78-2B73-5F0E-E7A259C9FCC4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Testing.Local.Lobby</AssemblyName>
@@ -55,22 +55,22 @@
     <UnityVersion>6000.0.23f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
-    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\AspectGenerator.dll" />
-    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\JobEntityGenerator.dll" />
-    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.dll" />
-    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\Unity.Entities.Analyzer.dll" />
-    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.LambdaJobs.dll" />
-    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.SystemAPI.QueryBuilder.dll" />
-    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.SystemAPI.dll" />
-    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.SystemAPI.Query.dll" />
-    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.Common.dll" />
-    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\Common.dll" />
-    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.EntityQueryBulkOperations.dll" />
-    <Analyzer Include="C:\Users\DaemendLock\Documents\RotW\Rebirth of the World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\Unity.Entities.Analyzer.CodeFixes.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\AspectGenerator.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\JobEntityGenerator.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\Unity.Entities.Analyzer.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.LambdaJobs.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.SystemAPI.QueryBuilder.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.SystemAPI.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.SystemAPI.Query.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.Common.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\Common.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\SystemGenerator.EntityQueryBulkOperations.dll" />
+    <Analyzer Include="C:\Users\artem.panchenko\Documents\GitHub\Rebirth-of-the-World\Library\PackageCache\com.unity.entities\Unity.Entities\SourceGenerators\Unity.Entities.Analyzer.CodeFixes.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Sources\Testing\Local\Lobby\Temp\LocalAccountDatabase.cs" />
@@ -535,16 +535,8 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.WebGL.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WebGLSupport\UnityEditor.WebGL.Extensions.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.UWP.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\MetroSupport\UnityEditor.UWP.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Zenject-usage">
@@ -1074,31 +1066,31 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Zenject.csproj">
-      <Project>{F4F6B480-C203-5F5A-A9BA-E3020CF82B48}</Project>
+      <Project>{6800A445-AE7C-5310-BCE4-D4229BF89ACB}</Project>
       <Name>Zenject</Name>
     </ProjectReference>
     <ProjectReference Include="Lobby.Common.csproj">
-      <Project>{52270EF4-7E47-2DC8-7039-33A4B3FA47A0}</Project>
+      <Project>{2744BD3B-C2C9-2E98-6B25-F9A2B963C78C}</Project>
       <Name>Lobby.Common</Name>
     </ProjectReference>
     <ProjectReference Include="Lobby.Local.Domain.csproj">
-      <Project>{93EBF88C-E936-D2CC-6409-D21D27A901D4}</Project>
+      <Project>{7E1D2A84-A55B-A70F-6A52-B046D0A37BCA}</Project>
       <Name>Lobby.Local.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="Lobby.Local.Data.csproj">
-      <Project>{EB333052-0C8D-844C-0B5D-26AFE179C859}</Project>
+      <Project>{9C637C8D-DFFA-F38D-9B50-BF620BF91AFC}</Project>
       <Name>Lobby.Local.Data</Name>
     </ProjectReference>
     <ProjectReference Include="Lobby.Local.Presentation.csproj">
-      <Project>{FF6530FC-143D-D9AA-0FFF-37C45A005B80}</Project>
+      <Project>{F7904531-AAC9-AC56-534E-ADDAD3540766}</Project>
       <Name>Lobby.Local.Presentation</Name>
     </ProjectReference>
     <ProjectReference Include="Data.csproj">
-      <Project>{FE06642D-D97E-6F45-E6BC-17F2C4BC433F}</Project>
+      <Project>{49EA9A10-6FA6-4B62-F53E-54FDEE1517F1}</Project>
       <Name>Data</Name>
     </ProjectReference>
     <ProjectReference Include="Global.Local.csproj">
-      <Project>{79F953C4-815C-1D87-DBD4-D111F109FA80}</Project>
+      <Project>{26C2BF16-237A-364C-CED5-989050F93CC4}</Project>
       <Name>Global.Local</Name>
     </ProjectReference>
   </ItemGroup>

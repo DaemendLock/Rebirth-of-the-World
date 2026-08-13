@@ -1,6 +1,7 @@
 using Combat.API;
 using Combat.API.API.Skills;
 using Combat.API.Objectives;
+using Combat.API.Scripting;
 using Combat.API.Skills;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Repositories.Skill;

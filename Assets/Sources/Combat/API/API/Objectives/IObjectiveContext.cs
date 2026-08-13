@@ -36,24 +36,4 @@ namespace Combat.API.Objectives
 
         T GetCapability<T>() where T : class;
     }
-
-    public interface ICombatObjective
-    {
-        void OnStart(IObjectiveContext context);
-        void OnComplete(IObjectiveContext context) { }
-        void OnCancel(IObjectiveContext context) { }
-        void OnFail(IObjectiveContext context) { }
-    }
-
-    public readonly struct DealDamageObjectiveData : IObjectiveData
-    {
-        public readonly float Current;
-        public readonly float Target;
-
-        public DealDamageObjectiveData(float current, float target)
-        {
-            Target = target;
-            Current = current;
-        }
-    }
 }
