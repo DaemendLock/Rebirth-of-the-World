@@ -49,7 +49,7 @@ namespace Combat.Local.Scripting.Ports
         }
     }
 
-    public sealed class ObjectiveCompleteHandler : IObjectiveCompleteHandler
+    public sealed class ObjectiveCompleteHandler : IObjectiveFinalizeHandler
     {
         private readonly ObjectiveRuntimeRegistry _objectiveContainer;
         private readonly IObjectiveMemoryRepository _memoryRepository;
@@ -62,7 +62,7 @@ namespace Combat.Local.Scripting.Ports
             _eventContext = eventContext;
         }
 
-        public void Complete(ObjectiveId id)
+        public void Finilize(ObjectiveId id, ObjectiveState state)
         {
             if (_objectiveContainer.TryGet(id, out var value) == false)
             {
@@ -71,42 +71,21 @@ namespace Combat.Local.Scripting.Ports
 
             try
             {
-                value.CombatObjective.OnComplete(value.Context);
-                _eventContext.Publish(new GameEvent<ObjectiveCompletedEventData>(new(id)));
-            }
-            finally
-            {
-                DisposeAndRemove(id, value);
-            }
-        }
-
-        public void Cancel(ObjectiveId id)
-        {
-            if (_objectiveContainer.TryGet(id, out var value) == false)
-            {
-                return;
-            }
-
-            try
-            {
-                value.CombatObjective.OnCancel(value.Context);
-            }
-            finally
-            {
-                DisposeAndRemove(id, value);
-            }
-        }
-
-        public void Fail(ObjectiveId id)
-        {
-            if (_objectiveContainer.TryGet(id, out var value) == false)
-            {
-                return;
-            }
-
-            try
-            {
-                value.CombatObjective.OnFail(value.Context);
+                switch (state)
+                {
+                    case ObjectiveState.Completed:
+                        value.CombatObjective.OnComplete(value.Context);
+                        _eventContext.Publish(new GameEvent<ObjectiveCompletedEventData>(new(id)));
+                        return;
+                    case ObjectiveState.Failed:
+                        value.CombatObjective.OnFail(value.Context);
+                        return;
+                    case ObjectiveState.Cancelled:
+                        value.CombatObjective.OnCancel(value.Context);
+                        return;
+                    default:
+                        return;
+                }
             }
             finally
             {

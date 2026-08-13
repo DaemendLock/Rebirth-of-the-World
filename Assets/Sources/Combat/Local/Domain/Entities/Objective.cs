@@ -17,18 +17,14 @@ namespace Combat.Local.Domain.Entities
             State = state;
         }
 
-        public bool TryComplete()
-            => TryTransition(ObjectiveState.Completed);
-
-        public bool TryFail()
-            => TryTransition(ObjectiveState.Failed);
-
-        public bool TryCancel()
-            => TryTransition(ObjectiveState.Cancelled);
-
-        private bool TryTransition(ObjectiveState target)
+        public bool TryTransition(ObjectiveState target)
         {
             if (State != ObjectiveState.Running)
+            {
+                return false;
+            }
+
+            if (target == ObjectiveState.Running)
             {
                 return false;
             }

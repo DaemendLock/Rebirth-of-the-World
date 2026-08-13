@@ -8,10 +8,8 @@ namespace Combat.Local.Domain.OutputPorts
         void Create(Objective objective);
     }
 
-    public interface IObjectiveCompleteHandler
+    public interface IObjectiveFinalizeHandler
     {
-        void Complete(ObjectiveId objectiveId);
-        void Cancel(ObjectiveId id);
-        void Fail(ObjectiveId id);
+        void Finilize(ObjectiveId objectiveId, ObjectiveState state);
     }
 }

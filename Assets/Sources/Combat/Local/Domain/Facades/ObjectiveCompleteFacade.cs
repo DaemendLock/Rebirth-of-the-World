@@ -5,21 +5,13 @@ namespace Combat.Local.Domain.Facades
 {
     public readonly struct ObjectiveCompleteFacade
     {
-        private readonly ObjectiveCompleteUseCase _completeUseCase;
-        private readonly ObjectiveCancelUseCase _cancelUseCase;
-        private readonly ObjectiveFailUseCase _failUseCase;
+        private readonly ObjectiveFinalizeUseCase _completeUseCase;
 
-        public ObjectiveCompleteFacade(ObjectiveCompleteUseCase completeUseCase, ObjectiveCancelUseCase cancelUseCase, ObjectiveFailUseCase failUseCase)
+        public ObjectiveCompleteFacade(ObjectiveFinalizeUseCase completeUseCase)
         {
             _completeUseCase = completeUseCase;
-            _cancelUseCase = cancelUseCase;
-            _failUseCase = failUseCase;
         }
 
-        public void Complete(ObjectiveId id) => _completeUseCase.Execute(id);
-
-        public void Cancel(ObjectiveId id) => _cancelUseCase.Execute(id);
-
-        public void Fail(ObjectiveId id) => _failUseCase.Execute(id);
+        public void Finalize(ObjectiveId id, ObjectiveState state) => _completeUseCase.Execute(id, state);
     }
 }

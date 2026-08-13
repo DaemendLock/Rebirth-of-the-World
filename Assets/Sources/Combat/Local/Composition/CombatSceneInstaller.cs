@@ -115,9 +115,7 @@ namespace Combat.Local.Composition
             Container.Bind<HealthApplyHealingUseCase>().AsSingle();
             Container.Bind<HealthSetUseCase>().AsSingle();
             Container.Bind<ObjectiveCreateUseCase>().AsSingle();
-            Container.Bind<ObjectiveCompleteUseCase>().AsSingle();
-            Container.Bind<ObjectiveFailUseCase>().AsSingle();
-            Container.Bind<ObjectiveCancelUseCase>().AsSingle();
+            Container.Bind<ObjectiveFinalizeUseCase>().AsSingle();
 
             Container.Bind<ActorForceKillUseCase>().AsSingle();
             Container.Bind<ActorReviveUseCase>().AsSingle();
@@ -170,7 +168,7 @@ namespace Combat.Local.Composition
             Container.Bind<IStatusRuntimeRegistry>().To<ScriptStatusRuntimeRegistry>().FromResolve();
             Container.Bind<ObjectiveRuntimeRegistry>().AsSingle();
             Container.Bind<IObjectiveCreateHandler>().To<ObjectiveCreateHandler>().AsSingle();
-            Container.Bind<IObjectiveCompleteHandler>().To<ObjectiveCompleteHandler>().AsSingle();
+            Container.Bind<IObjectiveFinalizeHandler>().To<ObjectiveCompleteHandler>().AsSingle();
             Container.Bind<ICharacterDeathHandler>().To<DeathHandler>().AsSingle();
 
             Container.Bind<PropertySkillLyfecycleHandler>().AsSingle();

@@ -47,7 +47,7 @@ namespace Combat.Local.Scripting.Contexts
                 throw new ObjectDisposedException(nameof(ObjectiveContext));
             }
 
-            _objectiveFacade.Complete(_id);
+            _objectiveFacade.Finalize(_id, ObjectiveState.Completed);
             State = ObjectiveState.Completed;
         }
 
@@ -58,7 +58,7 @@ namespace Combat.Local.Scripting.Contexts
                 throw new ObjectDisposedException(nameof(ObjectiveContext));
             }
 
-            _objectiveFacade.Cancel(_id);
+            _objectiveFacade.Finalize(_id, ObjectiveState.Cancelled);
             State = ObjectiveState.Cancelled;
         }
 
@@ -69,7 +69,7 @@ namespace Combat.Local.Scripting.Contexts
                 throw new ObjectDisposedException(nameof(ObjectiveContext));
             }
 
-            _objectiveFacade.Fail(_id);
+            _objectiveFacade.Finalize(_id, ObjectiveState.Failed);
             State = ObjectiveState.Failed;
         }
 
