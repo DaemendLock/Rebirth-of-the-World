@@ -84,6 +84,7 @@ namespace Combat.Local.Composition
             Container.Bind<IPlayerRepository>().To<PlayerRepository>().AsSingle();
             Container.Bind<ISkillMemoryRepository>().To<FixedSizeArraySkillMemoryRepository>().AsSingle();
             Container.Bind<IObjectiveMemoryRepository>().To<FixedSizeArrayObjectiveMemoryRepository>().AsSingle();
+            Container.Bind<IObjectiveRepository>().To<ObjectiveRepository>().AsSingle();
         }
 
         private void BindFactories()
@@ -114,6 +115,9 @@ namespace Combat.Local.Composition
             Container.Bind<HealthApplyHealingUseCase>().AsSingle();
             Container.Bind<HealthSetUseCase>().AsSingle();
             Container.Bind<ObjectiveCreateUseCase>().AsSingle();
+            Container.Bind<ObjectiveCompleteUseCase>().AsSingle();
+            Container.Bind<ObjectiveFailUseCase>().AsSingle();
+            Container.Bind<ObjectiveCancelUseCase>().AsSingle();
 
             Container.Bind<ActorForceKillUseCase>().AsSingle();
             Container.Bind<ActorReviveUseCase>().AsSingle();
@@ -165,9 +169,8 @@ namespace Combat.Local.Composition
             Container.Bind<ScriptStatusRuntimeRegistry>().AsSingle();
             Container.Bind<IStatusRuntimeRegistry>().To<ScriptStatusRuntimeRegistry>().FromResolve();
             Container.Bind<ObjectiveRuntimeRegistry>().AsSingle();
-            Container.Bind<ObjectiveDispatcher>().AsSingle();
-            Container.Bind<IObjectiveCreateHandler>().To<ObjectiveDispatcher>().FromResolve();
-            Container.Bind<IObjectiveCompletionHandler>().To<ObjectiveDispatcher>().FromResolve();
+            Container.Bind<IObjectiveCreateHandler>().To<ObjectiveCreateHandler>().AsSingle();
+            Container.Bind<IObjectiveCompleteHandler>().To<ObjectiveCompleteHandler>().AsSingle();
             Container.Bind<ICharacterDeathHandler>().To<DeathHandler>().AsSingle();
 
             Container.Bind<PropertySkillLyfecycleHandler>().AsSingle();
@@ -226,6 +229,7 @@ namespace Combat.Local.Composition
             Container.Bind<CharacterFacade>().AsSingle();
             Container.Bind<AbilityFacade>().AsSingle();
             Container.Bind<EncounterFacade>().AsSingle();
+            Container.Bind<ObjectiveCompleteFacade>().AsSingle();
         }
 
         private void BindStartup()

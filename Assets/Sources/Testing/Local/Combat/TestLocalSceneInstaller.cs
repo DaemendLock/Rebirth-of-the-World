@@ -2,7 +2,7 @@ using Assets.Sources.Testing.Local;
 
 using Client.Testing.View;
 
-using Combat.Local.Scripting.Ports;
+using Combat.Local.Domain.UseCases.Objectives;
 
 using Zenject;
 
@@ -24,7 +24,7 @@ namespace Testing.Local.Combat
                 .To<TestMenuStrategy>()
                 .AsSingle();
 
-            Container.Resolve<ObjectiveDispatcher>().Create(new(new(), "kill"));
+            Container.Resolve<ObjectiveCreateUseCase>().Execute("kill");
         }
     }
 }

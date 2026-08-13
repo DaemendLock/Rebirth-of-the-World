@@ -1,8 +1,8 @@
 ﻿using Combat.API.Contexts;
 using Combat.API.Objectives;
 using Combat.Common.ValueObjects;
+using Combat.Local.Domain.Facades;
 using Combat.Local.Domain.Repositories.Objectives;
-using Combat.Local.Scripting.Ports;
 
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace Combat.Local.Scripting.Contexts
         private readonly ObjectiveId _id;
         private readonly IObjectiveMemoryRepository _memoryRepository;
         private readonly IEventContext _eventContext;
-        private readonly IObjectiveCompletionHandler _completionHandler;
+        private readonly ObjectiveCompleteFacade _objectiveFacade;
 
         private readonly IEncounterContext _encounterContext;
 
@@ -23,18 +23,16 @@ namespace Combat.Local.Scripting.Contexts
 
         private bool _disposed;
 
-        public ObjectiveContext(ObjectiveId id, IObjectiveMemoryRepository memoryRepository, IEventContext eventContext, IObjectiveCompletionHandler completionHandler,
-            IEncounterContext context)
+        public ObjectiveContext(ObjectiveId id, IObjectiveMemoryRepository memoryRepository, IEventContext eventContext, IEncounterContext context, ObjectiveCompleteFacade objectiveFacade)
         {
             _id = id;
             _disposed = false;
             _memoryRepository = memoryRepository;
             _eventContext = eventContext;
-            _completionHandler = completionHandler;
+            _objectiveFacade = objectiveFacade;
             _encounterContext = context;
 
             _subscriptions = new List<EventHandlerId>();
-
             State = ObjectiveState.Running;
         }
 
@@ -49,10 +47,8 @@ namespace Combat.Local.Scripting.Contexts
                 throw new ObjectDisposedException(nameof(ObjectiveContext));
             }
 
-            if (State != ObjectiveState.Running) return;
-
+            _objectiveFacade.Complete(_id);
             State = ObjectiveState.Completed;
-            _completionHandler.Complete(_id);
         }
 
         public void Cancel()
@@ -62,10 +58,8 @@ namespace Combat.Local.Scripting.Contexts
                 throw new ObjectDisposedException(nameof(ObjectiveContext));
             }
 
-            if (State != ObjectiveState.Running) return;
-
+            _objectiveFacade.Cancel(_id);
             State = ObjectiveState.Cancelled;
-            _completionHandler.Cancel(_id);
         }
 
         public void Fail()
@@ -75,10 +69,8 @@ namespace Combat.Local.Scripting.Contexts
                 throw new ObjectDisposedException(nameof(ObjectiveContext));
             }
 
-            if (State != ObjectiveState.Running) return;
-
+            _objectiveFacade.Fail(_id);
             State = ObjectiveState.Failed;
-            _completionHandler.Fail(_id);
         }
 
         public void Save<T>(T value) where T : unmanaged, IObjectiveData

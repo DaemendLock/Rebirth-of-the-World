@@ -106,9 +106,9 @@
     <Compile Include="Assets\Sources\Combat\Local\Scripting\Capabilities\Statuses\ModifyIncomingDamageCapability.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Scripting\Contexts\ObjectiveContext.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Scripting\Capabilities\Statuses\StatusCapabilityMapper.cs" />
+    <Compile Include="Assets\Sources\Combat\Local\Scripting\Ports\ObjectiveCompleteHandler.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Scripting\Contexts\OldDomainUnitContext.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Scripting\Factories\NewScriptStrategyFactory.cs" />
-    <Compile Include="Assets\Sources\Combat\Local\Scripting\Ports\ObjectiveDispatcher.cs" />
     <Compile Include="Assets\Sources\Combat\Local\Scripting\Ports\Statuses\StatusAttributeModifierCalculator.cs" />
   </ItemGroup>
   <ItemGroup>

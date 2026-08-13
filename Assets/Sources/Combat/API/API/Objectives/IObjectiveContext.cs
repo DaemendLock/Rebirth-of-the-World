@@ -22,7 +22,6 @@ namespace Combat.API.Objectives
     public interface IObjectiveContext : IDisposable
     {
         ObjectiveId Id { get; }
-        ObjectiveState State { get; }
 
         void Complete();
         void Cancel();
