@@ -36,7 +36,9 @@ namespace Combat.API.Objectives
         public void OnComplete(IObjectiveContext context)
         {
             UnityEngine.Debug.Log("Kill quest complete!");
-            context.GetCapability<IEncounterContext>().RemoveUnit(context.GetInfo<KillTagret>().Data.Target);
+            var encounterApi = context.GetCapability<IEncounterContext>();
+            encounterApi.RemoveUnit(context.GetInfo<KillTagret>().Data.Target);
+            encounterApi.End();
         }
 
         private void HandleKill(GameEvent<UnitDiedEventData> @event, IObjectiveContext context)

@@ -37,15 +37,22 @@ namespace Combat.Local.Controllers
     public sealed class EncounterController
     {
         private readonly CharacterCreateUseCase _createUnitUseCase;
+        private readonly EncounterEndUseCase _endEncounterUseCase;
 
-        public EncounterController(CharacterCreateUseCase createUnitUseCase)
+        public EncounterController(CharacterCreateUseCase createUnitUseCase, EncounterEndUseCase endEncounterUseCase)
         {
             _createUnitUseCase = createUnitUseCase;
+            _endEncounterUseCase = endEncounterUseCase;
         }
 
         public void Start()
         {
 
+        }
+
+        public void End()
+        {
+            _endEncounterUseCase.Execute();
         }
 
         public UnitId CreateUnit(UnitCreationInfo data)

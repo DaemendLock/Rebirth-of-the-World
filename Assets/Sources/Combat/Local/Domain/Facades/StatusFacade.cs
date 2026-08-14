@@ -40,7 +40,8 @@ namespace Combat.Local.Domain.Facades
             }
 
             Duration value = target.Duration;
-            value.FullDuration += duration;
+            value = new(value.ActiveTime, value.FullDuration + duration);
+            target.Duration = value;
             _statusRepository.Update(target);
         }
 
@@ -69,11 +70,6 @@ namespace Combat.Local.Domain.Facades
         public void SetStackCount(StatusId id, int stackCount)
         {
             throw new System.NotImplementedException();
-        }
-
-        public void Update(StatusId id)
-        {
-
         }
     }
 }

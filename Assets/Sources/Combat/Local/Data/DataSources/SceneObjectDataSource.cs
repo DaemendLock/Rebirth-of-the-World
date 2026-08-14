@@ -43,7 +43,7 @@ namespace Combat.Local.Data.DataSources
 
         public void Destroy(UnitId id)
         {
-            if (_values.TryGetValue(id, out Transform value) == false)
+            if (_values.Remove(id, out Transform value) == false)
             {
                 return;
             }

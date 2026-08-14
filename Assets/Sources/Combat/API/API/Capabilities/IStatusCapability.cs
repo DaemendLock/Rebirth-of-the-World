@@ -1,4 +1,4 @@
-﻿namespace Combat.API.Contexts
+﻿namespace Combat.API.Capabilities
 {
     public interface IStatusCapability
     {

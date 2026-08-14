@@ -7,6 +7,6 @@ namespace Combat.Local.Domain.OutputPorts.Statuses
     {
         void Apply(Status status);
         void Expire(StatusId status);
-        void Cleanup(StatusId status);
+        void Remove(StatusId status);
     }
 }

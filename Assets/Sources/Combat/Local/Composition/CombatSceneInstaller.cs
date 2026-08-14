@@ -117,6 +117,7 @@ namespace Combat.Local.Composition
             Container.Bind<HealthSetUseCase>().AsSingle();
             Container.Bind<ObjectiveCreateUseCase>().AsSingle();
             Container.Bind<ObjectiveFinalizeUseCase>().AsSingle();
+            Container.Bind<EncounterEndUseCase>().AsSingle();
 
             Container.Bind<ActorForceKillUseCase>().AsSingle();
             Container.Bind<ActorReviveUseCase>().AsSingle();
@@ -196,7 +197,7 @@ namespace Combat.Local.Composition
         private void BindControllers()
         {
             Container.Bind<EncounterController>().AsSingle();
-            Container.Bind<PlayerController>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<PlayerController>().AsSingle();
         }
 
         private void BindPresenters()
@@ -243,6 +244,7 @@ namespace Combat.Local.Composition
             }
 
             Container.Bind<ILocationSceneLoader>().To<ZenjectLocationSceneLoader>().AsSingle();
+            Container.Bind<IEncounterEndOutput>().To<ZenjectEncounterEndSceneOutput>().AsSingle();
             Container.BindInterfacesTo<CombatBootstrap>().AsSingle();
         }
 
@@ -254,10 +256,6 @@ namespace Combat.Local.Composition
 
             PropertyStatusLifecycleHandler statusLifecycleHandler = Container.Resolve<PropertyStatusLifecycleHandler>();
             statusLifecycleHandler.RegisterStrategyFactory(Container.Resolve<CustomScriptStatusStrategyFactory>());
-
-            ObjectiveScriptFactory objectiveScriptFactory = Container.Resolve<ObjectiveScriptFactory>();
-            objectiveScriptFactory.Register<DealDamageObjective>();
-            objectiveScriptFactory.Register<BasicKillUnitObjective>();
         }
     }
 }

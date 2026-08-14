@@ -54,7 +54,11 @@ namespace Combat.Local.Gateways.Repositories.Characters
             _values.Add(value.Id, result);
         }
 
-        public void Delete(UnitId id) => _sceneObjectDataSource.Destroy(id);
+        public void Delete(UnitId id)
+        {
+            _sceneObjectDataSource.Destroy(id);
+            _values.Remove(id);
+        }
 
         public Positionable Get(UnitId id)
         {
@@ -80,6 +84,7 @@ namespace Combat.Local.Gateways.Repositories.Characters
             model.transform.SetPositionAndRotation(value.Position, value.Rotation);
             model.transform.localScale = value.Scale * Vector3.one;
             model.Velocity = value.Velocity;
+            model.TeamId = value.Team.Value;
         }
 
         public IReadOnlyCollection<UnitId> FindInRadius(Vector3 center, float radius)

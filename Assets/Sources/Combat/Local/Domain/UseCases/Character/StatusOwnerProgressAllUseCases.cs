@@ -59,7 +59,6 @@ namespace Combat.Local.Domain.UseCases
 
         private void ProgressStatus(float deltaTime, Status value)
         {
-
             value.Progreess(deltaTime);
 
             if (value.Duration.Left <= 0)
@@ -90,7 +89,7 @@ namespace Combat.Local.Domain.UseCases
                 return false;
             }
 
-            _statusLifecycleHandler.Cleanup(status.Id);
+            _statusLifecycleHandler.Remove(status.Id);
             _statusRepository.Delete(status.Id);
             _statusTimerRepository.Delete(status.Id);
             //_removeStatusEventHandler.HandleEvent(status.Id);

@@ -8,7 +8,7 @@ namespace Combat.Local.Scripting.Contexts
 {
     public sealed class EventSystemContext : IEventContext
     {
-        private readonly struct EventHandler<T> : IEquatable<EventHandler<T>> where T : unmanaged, IEventData
+        private readonly struct EventHandler<T> : IEquatable<EventHandler<T>> where T : IEventData
         {
             public readonly EventHandlerId Id;
             public readonly IEventContext.EventHandler<T> Callback;
@@ -33,7 +33,7 @@ namespace Combat.Local.Scripting.Contexts
             bool Remove(EventHandlerId id);
         }
 
-        private sealed class EventBucket<T> : IEventBucket where T : unmanaged, IEventData
+        private sealed class EventBucket<T> : IEventBucket where T : IEventData
         {
             private EventHandler<T>[] _handlers;
 
@@ -87,7 +87,7 @@ namespace Combat.Local.Scripting.Contexts
 
         private int _nextId;
 
-        public void Publish<T>(GameEvent<T> @event) where T : unmanaged, IEventData
+        public void Publish<T>(GameEvent<T> @event) where T : IEventData
         {
             if (_buckets.TryGetValue(typeof(T), out IEventBucket bucket) == false)
             {
@@ -97,7 +97,7 @@ namespace Combat.Local.Scripting.Contexts
             ((EventBucket<T>)bucket).Publish(@event);
         }
 
-        public EventHandlerId Subscribe<T>(IEventContext.EventHandler<T> callback) where T : unmanaged, IEventData
+        public EventHandlerId Subscribe<T>(IEventContext.EventHandler<T> callback) where T : IEventData
         {
             if (callback == null)
             {

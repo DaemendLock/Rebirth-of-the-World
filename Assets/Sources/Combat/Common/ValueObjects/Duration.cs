@@ -1,6 +1,7 @@
 ﻿namespace Combat.Common
 {
-    public struct Duration
+
+    public readonly struct Duration
     {
         public Duration(float activeTime, float fullDuration)
         {
@@ -8,14 +9,11 @@
             FullDuration = fullDuration;
         }
 
-        public float ActiveTime { get; set; }
-        public float FullDuration { get; set; }
+        public float ActiveTime { get; }
+        public float FullDuration { get; }
 
         public readonly float Left => FullDuration - ActiveTime;
 
-        public void Progress(float deltaTime)
-        {
-            ActiveTime += deltaTime;
-        }
+        public Duration Progress(float deltaTime) => new(ActiveTime + deltaTime, FullDuration);
     }
 }

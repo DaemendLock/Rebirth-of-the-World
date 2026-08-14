@@ -2,22 +2,23 @@
 
 namespace Combat.Common.ValueObjects
 {
+
     public readonly struct EventHandlerId : IEquatable<EventHandlerId>
     {
-        public readonly int Id;
+        public readonly int Value;
 
         public EventHandlerId(int id)
         {
-            Id = id;
+            Value = id;
         }
 
         public override bool Equals(object obj) => obj is EventHandlerId id && Equals(id);
 
-        public bool Equals(EventHandlerId other) => Id == other.Id;
+        public bool Equals(EventHandlerId other) => Value == other.Value;
 
-        public override int GetHashCode() => Id;
+        public override int GetHashCode() => Value;
 
-        public override string ToString() => Id.ToString();
+        public override string ToString() => Value.ToString();
 
         public static bool operator ==(EventHandlerId left, EventHandlerId right) => left.Equals(right);
 

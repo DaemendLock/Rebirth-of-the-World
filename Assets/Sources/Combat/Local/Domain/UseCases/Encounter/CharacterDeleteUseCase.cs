@@ -2,6 +2,7 @@
 using Combat.Local.Domain.Endpoints.Skills;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.OutputPorts;
+using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Domain.UseCases.Scene
@@ -22,8 +23,10 @@ namespace Combat.Local.Domain.UseCases.Scene
 
         private readonly IAbilityRepository _abilityRepository;
         private readonly IStatusRepository _statusRepository;
+        private readonly IStatusTimerRepository _statusTimerRepository;
 
         private readonly ISkillLyfecycleHandler _skillLyfecycleHandler;
+        private readonly IStatusLifecycleHandler _statusLifecycleHandler;
 
         private readonly IPlayerRepository _playerRepository;
         private readonly ICharacterRemoveOutput _outputPort;
@@ -34,7 +37,8 @@ namespace Combat.Local.Domain.UseCases.Scene
                                       IStatusOwnerRepository statusOwnerRepository, ICharacterUpdateRepository characterUpdateList,
                                       IHurtableRepository hurtableRepository, IHitboxOwnerRepository hitboxOwnerRepository,
                                       IAbilityRepository abilityRepository, IStatusRepository statusRepository,
-                                      ISkillLyfecycleHandler skillLyfecycleHandler, IPlayerRepository playerRepository)
+                                      IStatusTimerRepository statusTimerRepository, IPlayerRepository playerRepository,
+                                      ISkillLyfecycleHandler skillLyfecycleHandler, IStatusLifecycleHandler statusLifecycleHandler)
         {
             _healthRepository = healthRepository;
             _attributesRepository = attributesRepository;
@@ -48,8 +52,10 @@ namespace Combat.Local.Domain.UseCases.Scene
             _hitboxOwnerRepository = hitboxOwnerRepository;
             _abilityRepository = abilityRepository;
             _statusRepository = statusRepository;
-            _skillLyfecycleHandler = skillLyfecycleHandler;
+            _statusTimerRepository = statusTimerRepository;
             _playerRepository = playerRepository;
+            _skillLyfecycleHandler = skillLyfecycleHandler;
+            _statusLifecycleHandler = statusLifecycleHandler;
         }
 
         public void Execute(UnitId target)
@@ -79,6 +85,8 @@ namespace Combat.Local.Domain.UseCases.Scene
 
                 foreach (var item in owner.GetAll())
                 {
+                    _statusLifecycleHandler.Remove(item);
+                    _statusTimerRepository.Delete(item);
                     _statusRepository.Delete(item);
                 }
             }

@@ -4,6 +4,7 @@ using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Repositories.Skill;
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Combat.Local.Scripting.Contexts
@@ -13,6 +14,9 @@ namespace Combat.Local.Scripting.Contexts
         private readonly IEnvironmentContext _environmentContext;
         private readonly ISkillMemoryRepository _skillMemoryRepository;
         private readonly AbilityKey _key;
+
+        private readonly List<EventHandlerId> _eventHandlers;
+        private readonly IEventContext _eventContext;
 
         public DomainSkillContext(ISkillMemoryRepository skillMemoryRepository, AbilityKey key)
         {
@@ -46,9 +50,31 @@ namespace Combat.Local.Scripting.Contexts
             return null;
         }
 
-        public void SubscribeToEvent<TEventData>(Action<GameEvent<TEventData>> callback) where TEventData : unmanaged, IEventData
+        public EventHandlerId SubscribeToEvent<TEventData>(IEventContext.EventHandler<TEventData> callback) where TEventData : IEventData
         {
-            throw new NotImplementedException();
+            var id = _eventContext.Subscribe(callback);
+            _eventHandlers.Add(id);
+            return id;
+        }
+
+        public void Unsubscribe(EventHandlerId eventHandlerId)
+        {
+            if (_eventHandlers.Remove(eventHandlerId) == false)
+            {
+                return;
+            }
+
+            _eventContext.Unsubscribe(eventHandlerId);
+        }
+
+        public void Cleanup()
+        {
+            foreach (var id in _eventHandlers)
+            {
+                _eventContext.Unsubscribe(id);
+            }
+
+            _eventHandlers.Clear();
         }
     }
 }

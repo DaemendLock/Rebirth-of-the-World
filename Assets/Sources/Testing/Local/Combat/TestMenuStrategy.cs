@@ -17,13 +17,15 @@ namespace Testing.Local
         //private readonly ICameraController _cameraController;
 
         private readonly LocalInputReader _localInputReader;
+        private readonly EncounterController _encounterController;
         private readonly PlayerController _playerController;
         private readonly CharacterApiAdapter _chracterApiAdapter;
         private Unit _model;
         //private Temp.UnitViewInputReaderCompenent _readerCompenent;
 
-        public TestMenuStrategy( /*ICameraController cameraController, */PlayerController playerController, CharacterApiAdapter chracterApiAdapter, LocalInputReader localInputReader)
+        public TestMenuStrategy( /*ICameraController cameraController, */EncounterController encounterController, PlayerController playerController, CharacterApiAdapter chracterApiAdapter, LocalInputReader localInputReader)
         {
+            _encounterController = encounterController;
             _playerController = playerController;
             _chracterApiAdapter = chracterApiAdapter;
             _localInputReader = localInputReader;
@@ -84,7 +86,7 @@ namespace Testing.Local
 
         public void Leave()
         {
-            throw new System.NotImplementedException();
+            _encounterController.End();
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Combat.Local.Domain.UseCases
                 throw new InvalidOperationException();
             }
 
-            _statusLifecycleHandler.Cleanup(statusId);
+            _statusLifecycleHandler.Remove(statusId);
             _statusTimerRepository.Delete(statusId);
             _statusRepository.Delete(statusId);
 

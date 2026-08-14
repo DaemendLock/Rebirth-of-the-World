@@ -17,7 +17,7 @@ namespace Combat.Local.Domain.UseCases
 
         public void Execute(StatusId statusId, float period, float timePassed)
         {
-            if (_statusRepository.TryGet(statusId, out Status status) == false)
+            if (_statusRepository.TryGet(statusId, out _) == false)
             {
                 throw new System.InvalidOperationException();
             }

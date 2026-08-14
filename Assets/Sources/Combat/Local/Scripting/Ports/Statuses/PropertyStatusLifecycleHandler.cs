@@ -1,4 +1,6 @@
-﻿using Combat.Common.ValueObjects;
+﻿using Combat.API.Contexts;
+using Combat.API.Events;
+using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Scripting.Capabilities.Statuses;
@@ -14,11 +16,13 @@ namespace Combat.Local.Scripting.Ports.Statuses
     {
         private readonly List<IStatusPropertyContainerFactory> _statusStrategyFactories;
         private readonly IStatusRuntimeRegistry _statusRuntimeRegistry;
+        private readonly IEventContext _eventContext;
 
-        public PropertyStatusLifecycleHandler(IStatusRuntimeRegistry statusRuntimeRegistry)
+        public PropertyStatusLifecycleHandler(IStatusRuntimeRegistry statusRuntimeRegistry, IEventContext eventContext)
         {
             _statusRuntimeRegistry = statusRuntimeRegistry;
             _statusStrategyFactories = new();
+            _eventContext = eventContext;
         }
 
         public void RegisterStrategyFactory(IStatusPropertyContainerFactory factory)
@@ -37,17 +41,21 @@ namespace Combat.Local.Scripting.Ports.Statuses
             }
 
             IStatusPropertyContainer container = factory.Create(status.Id, status.Name, status.Parent, status.Source);
-            _statusRuntimeRegistry.Create(status.Id, container);
 
-            if (!container.TryGetProperty(out BaseStatusCapabilties effect))
+            if (container != null)
             {
-                return;
+                _statusRuntimeRegistry.Create(status.Id, container);
+
+                if (container.TryGetProperty(out BaseStatusCapabilties effect))
+                {
+                    effect.Apply();
+                }
             }
 
-            effect.Apply();
+            _eventContext.Publish<StatusAppliedEventData>(new(new(status.Id, status.Parent, status.Source)));
         }
 
-        public void Cleanup(StatusId id)
+        public void Remove(StatusId id)
         {
             if (!_statusRuntimeRegistry.TryGet(id, out IStatusPropertyContainer properties))
             {
@@ -60,6 +68,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
             }
 
             _statusRuntimeRegistry.Remove(id);
+            _eventContext.Publish<StatusRemovedEventData>(new(new(id)));
         }
 
         public void Expire(StatusId id)
@@ -69,12 +78,13 @@ namespace Combat.Local.Scripting.Ports.Statuses
                 return;
             }
 
-            if (!properties.TryGetProperty(out BaseStatusCapabilties effect))
+            if (properties.TryGetProperty(out BaseStatusCapabilties effect) == false)
             {
                 return;
             }
 
             effect.Expire();
+            _eventContext.Publish<StatusExpiredEventData>(new(new(id)));
         }
 
         private IStatusPropertyContainerFactory GetFactory(StatusType name)
