@@ -96,7 +96,7 @@ namespace Combat.Local.Scripting.Contexts
             }
 
             T dynamicData = MemoryMarshal.Read<T>(value);
-            return new("todo", dynamicData);
+            return new(dynamicData);
         }
 
         public T GetCapability<T>() where T : class

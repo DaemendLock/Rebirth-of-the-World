@@ -1,4 +1,5 @@
-﻿using Combat.Local.Domain.Entities;
+﻿using Combat.Common.ValueObjects;
+using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Factories;
 using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories.Objectives;
@@ -18,11 +19,12 @@ namespace Combat.Local.Domain.UseCases.Objectives
             _objectiveRepository = objectiveRepository;
         }
 
-        public void Execute(string objectiveName)
+        public ObjectiveId Execute(string objectiveName)
         {
             Objective objective = _factory.Create(objectiveName);
             _objectiveRepository.Create(objective);
             _handler.Create(objective);
+            return objective.Id;
         }
     }
 }

@@ -4,13 +4,11 @@
 
     public struct ObjectiveInfo<T> where T : unmanaged, IObjectiveData
     {
-        public ObjectiveInfo(string name, T data)
+        public ObjectiveInfo(T data)
         {
-            Name = name;
             Data = data;
         }
 
-        public string Name { get; }
         public T Data { get; set; }
     }
 }
