@@ -23,7 +23,7 @@ namespace Assets.Sources.Testing.Local
 
         private void Update()
         {
-            if (_playerController == null)
+            if (_playerController == null || _playerController.AcceptsInput == false)
             {
                 return;
             }

@@ -4,6 +4,7 @@ using Client.Testing.View;
 
 using Combat.API;
 using Combat.Common.Flags;
+using Combat.Common.ValueObjects;
 using Combat.Local.Controllers;
 using Combat.Local.Gateways.Models;
 using Combat.Local.Scripting.Adapters;
@@ -86,7 +87,7 @@ namespace Testing.Local
 
         public void Leave()
         {
-            _encounterController.End();
+            _encounterController.Finalize(EncounterState.Cancelled);
         }
     }
 }

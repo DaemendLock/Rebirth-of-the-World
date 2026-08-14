@@ -1,5 +1,6 @@
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.DTO;
+using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.UseCases;
 using Combat.Local.Domain.UseCases.Scene;
 using Combat.Local.Domain.ValueObjects;
@@ -37,22 +38,35 @@ namespace Combat.Local.Controllers
     public sealed class EncounterController
     {
         private readonly CharacterCreateUseCase _createUnitUseCase;
-        private readonly EncounterEndUseCase _endEncounterUseCase;
+        private readonly EncounterFilalizeUseCase _endEncounterUseCase;
+        private readonly IEncounterStateMachine _stateMachine;
 
-        public EncounterController(CharacterCreateUseCase createUnitUseCase, EncounterEndUseCase endEncounterUseCase)
+        public EncounterController(CharacterCreateUseCase createUnitUseCase,
+                                   EncounterFilalizeUseCase endEncounterUseCase,
+                                   IEncounterStateMachine stateMachine)
         {
             _createUnitUseCase = createUnitUseCase;
             _endEncounterUseCase = endEncounterUseCase;
+            _stateMachine = stateMachine;
         }
 
         public void Start()
         {
-
+            if (_stateMachine.TryStart() == false)
+            {
+                throw new InvalidOperationException($"Encounter cannot start from state {_stateMachine.State}.");
+            }
         }
 
-        public void End()
+        public EncounterState State => _stateMachine.State;
+
+        public bool Pause() => _stateMachine.TryPause();
+
+        public bool Resume() => _stateMachine.TryResume();
+
+        public void Finalize(EncounterState reason)
         {
-            _endEncounterUseCase.Execute();
+            _endEncounterUseCase.Execute(reason);
         }
 
         public UnitId CreateUnit(UnitCreationInfo data)

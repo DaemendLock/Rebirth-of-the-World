@@ -123,7 +123,7 @@ namespace Combat.Local.Domain.UseCases
             _hitboxOwnerRepository.Create(id);
             _hurtableRepository.Create(id);
             _characterUpdateList.Create(new(id, 1));
-            //_movementEffectOwnerRepository.Create(new(id, default));
+            _movementEffectOwnerRepository.Create(new(id, default));
         }
 
         private StatusOwner CreateStatusOwner(UnitId id) => new(id, System.Span<StatusId>.Empty);

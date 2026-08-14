@@ -7,6 +7,7 @@ using Combat.Local.Data.Databases;
 using Combat.Local.Data.DataSources;
 using Combat.Local.Data.Repositories;
 using Combat.Local.Domain.Endpoints.Skills;
+using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Facades;
 using Combat.Local.Domain.Factories;
 using Combat.Local.Domain.OutputPorts;
@@ -117,7 +118,8 @@ namespace Combat.Local.Composition
             Container.Bind<HealthSetUseCase>().AsSingle();
             Container.Bind<ObjectiveCreateUseCase>().AsSingle();
             Container.Bind<ObjectiveFinalizeUseCase>().AsSingle();
-            Container.Bind<EncounterEndUseCase>().AsSingle();
+            Container.Bind<ObjectiveFinalizeAllUseCase>().AsSingle();
+            Container.Bind<EncounterFilalizeUseCase>().AsSingle();
 
             Container.Bind<ActorForceKillUseCase>().AsSingle();
             Container.Bind<ActorReviveUseCase>().AsSingle();
@@ -234,6 +236,8 @@ namespace Combat.Local.Composition
 
         private void BindStartup()
         {
+            Container.Bind<IEncounterStateMachine>().To<EncounterStateMachine>().AsSingle();
+
             if (Container.HasBinding<StartCombatRequest>() == false)
             {
                 string locationName = string.IsNullOrWhiteSpace(_defaultLocationName)

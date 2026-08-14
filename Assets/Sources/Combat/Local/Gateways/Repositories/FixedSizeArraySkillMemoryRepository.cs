@@ -40,6 +40,8 @@ namespace Combat.Local.Gateways.Repositories
             return true;
         }
 
+        public IReadOnlyCollection<ObjectiveId> GetAllIds() => _values.Keys;
+
         public void Update(Objective value) => _values[value.Id] = new(value);
     }
 

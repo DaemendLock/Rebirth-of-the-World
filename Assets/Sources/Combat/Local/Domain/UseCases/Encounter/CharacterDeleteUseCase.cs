@@ -17,6 +17,7 @@ namespace Combat.Local.Domain.UseCases.Scene
         private readonly IActorRepository _actorRepository;
         private readonly IStatusOwnerRepository _statusOwnerRepository;
         private readonly ICharacterUpdateRepository _characterUpdateList;
+        private readonly IMovementEffectOwnerRepository _movementEffectOwnerRepository;
 
         private readonly IHurtableRepository _hurtableRepository;
         private readonly IHitboxOwnerRepository _hitboxOwnerRepository;
@@ -38,7 +39,8 @@ namespace Combat.Local.Domain.UseCases.Scene
                                       IHurtableRepository hurtableRepository, IHitboxOwnerRepository hitboxOwnerRepository,
                                       IAbilityRepository abilityRepository, IStatusRepository statusRepository,
                                       IStatusTimerRepository statusTimerRepository, IPlayerRepository playerRepository,
-                                      ISkillLyfecycleHandler skillLyfecycleHandler, IStatusLifecycleHandler statusLifecycleHandler)
+                                       ISkillLyfecycleHandler skillLyfecycleHandler, IStatusLifecycleHandler statusLifecycleHandler,
+                                       IMovementEffectOwnerRepository movementEffectOwnerRepository)
         {
             _healthRepository = healthRepository;
             _attributesRepository = attributesRepository;
@@ -56,6 +58,7 @@ namespace Combat.Local.Domain.UseCases.Scene
             _playerRepository = playerRepository;
             _skillLyfecycleHandler = skillLyfecycleHandler;
             _statusLifecycleHandler = statusLifecycleHandler;
+            _movementEffectOwnerRepository = movementEffectOwnerRepository;
         }
 
         public void Execute(UnitId target)
@@ -106,6 +109,7 @@ namespace Combat.Local.Domain.UseCases.Scene
             _hurtableRepository.Delete(target);
             _actorRepository.Delete(target);
             _resourceRepository.Delete(target);
+            _movementEffectOwnerRepository.Delete(target);
 
             _attributesRepository.Delete(target);
             _positionableRepository.Delete(target);

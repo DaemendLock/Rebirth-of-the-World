@@ -14,6 +14,6 @@ namespace Combat.API.Contexts
         void RemoveUnit(UnitId unitId);
         Unit[] FindUnitsInRadius(Vector3 center, float radius);
 
-        void End();
+        void Finalize(EncounterState reason);
     }
 }

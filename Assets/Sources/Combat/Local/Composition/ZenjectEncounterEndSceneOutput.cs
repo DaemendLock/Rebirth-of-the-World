@@ -1,3 +1,4 @@
+using Combat.Common.ValueObjects;
 using Combat.Local.Domain.OutputPorts;
 
 using UnityEngine.SceneManagement;
@@ -18,7 +19,7 @@ namespace Combat.Local.Composition
             _sceneLoader = sceneLoader;
         }
 
-        public void Present()
+        public void Present(EncounterState reason)
         {
             if (_isLoading)
             {
@@ -26,7 +27,10 @@ namespace Combat.Local.Composition
             }
 
             _isLoading = true;
-            _sceneLoader.LoadSceneAsync(LobbySceneName, LoadSceneMode.Single);
+            _sceneLoader.LoadSceneAsync(
+                LobbySceneName,
+                LoadSceneMode.Single,
+                container => container.BindInstance(reason).AsSingle());
         }
     }
 }

@@ -1,10 +1,11 @@
-﻿namespace Combat.Common
+namespace Combat.Common.ValueObjects
 {
     public enum EncounterState
     {
         Starting,
         Running,
-        Pause,
+        Paused,
+        Ending,
         Completed,
         Failed,
         Cancelled

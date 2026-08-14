@@ -16,13 +16,13 @@ namespace Combat.Local.Domain.Facades
         private readonly StatusOwnerApplyUseCase _applyStatusUseCase;
         private readonly FindCharactersInRadiusUseCase _findCharacterInRadiusUseCase;
 
-        private readonly EncounterEndUseCase _encounterEndUseCase;
+        private readonly EncounterFilalizeUseCase _encounterEndUseCase;
 
         private readonly ICharacterDeleteQueue _characterDeleteQueue;
 
         public EncounterFacade(CharacterCreateUseCase createUnitUseCase, StatusOwnerApplyUseCase applyStatusUseCase,
                                 FindCharactersInRadiusUseCase findCharacterInRadiusUseCase, ICharacterDeleteQueue characterDeleteUseCase,
-                                EncounterEndUseCase encounterEndUseCase)
+                                EncounterFilalizeUseCase encounterEndUseCase)
         {
             _createUnitUseCase = createUnitUseCase;
             _applyStatusUseCase = applyStatusUseCase;
@@ -37,7 +37,7 @@ namespace Combat.Local.Domain.Facades
 
         public void RemoveUnit(UnitId id) => _characterDeleteQueue.Enqueue(id);
 
-        public void End() => _encounterEndUseCase.Execute();
+        public void Finalize(EncounterState reason) => _encounterEndUseCase.Execute(reason);
 
         public IReadOnlyCollection<UnitId> FindCharactersInRadius(Vector3 position, float radius) => _findCharacterInRadiusUseCase.Execute(position, radius);
     }

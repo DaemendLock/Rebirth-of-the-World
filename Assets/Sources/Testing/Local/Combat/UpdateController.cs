@@ -1,4 +1,5 @@
 ﻿using Combat.Local.Domain.Entities.Units;
+using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
 using Combat.Local.Domain.UseCases.Character;
@@ -22,6 +23,7 @@ namespace Testing.Local
         private readonly ICharacterUpdateRepository _characterUpdateList;
         private readonly ICharacterDeleteQueue _characterDeleteQueue;
         private readonly CharacterDeleteUseCase _characterDeleteUseCase;
+        private readonly IEncounterStateMachine _encounterState;
         public UpdateController(AttributeOwnerUpdateAllUseCase updateCombatUseCase,
                                 StatusOwnerProgressAllUseCases updateStatusesUseCase,
                                 HitsHandleUseCase handleHitUseCase,
@@ -29,7 +31,8 @@ namespace Testing.Local
                                 ActorActAllUseCase actorActAllUseCase,
                                 AbilityProgressAllUseCase skillUpdateAllUseCase,
                                 ICharacterDeleteQueue characterDeleteQueue,
-                                CharacterDeleteUseCase characterDeleteUseCase)
+                                CharacterDeleteUseCase characterDeleteUseCase,
+                                IEncounterStateMachine encounterState)
         {
             _attributeOwnerUpdateAllUseCase = updateCombatUseCase;
             _updateStatusesUseCase = updateStatusesUseCase;
@@ -39,10 +42,16 @@ namespace Testing.Local
             _skillUpdateAllUseCase = skillUpdateAllUseCase;
             _characterDeleteQueue = characterDeleteQueue;
             _characterDeleteUseCase = characterDeleteUseCase;
+            _encounterState = encounterState;
         }
 
         public void Tick()
         {
+            if (_encounterState.IsRunning == false)
+            {
+                return;
+            }
+
             while (_characterDeleteQueue.TryDequeue(out var characterDelete))
             {
                 _characterDeleteUseCase.Execute(characterDelete);

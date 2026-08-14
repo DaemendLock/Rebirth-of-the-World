@@ -1,6 +1,10 @@
-﻿using Combat.Common.ValueObjects;
+using Combat.Common.ValueObjects;
 using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories.Objectives;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Combat.Local.Domain.UseCases.Objectives
 {
@@ -19,16 +23,61 @@ namespace Combat.Local.Domain.UseCases.Objectives
         {
             if (_objectiveRepository.TryGet(id, out var value) == false)
             {
-                throw new System.InvalidOperationException("Objective is not registered");
+                throw new InvalidOperationException("Objective is not registered");
             }
 
             if (value.TryTransition(state) == false)
             {
-                throw new System.InvalidOperationException("Unable to complete objective.");
+                throw new InvalidOperationException("Unable to finalize objective.");
             }
 
             _objectiveRepository.Update(value);
             _handler.Finilize(id, value.State);
+        }
+    }
+
+    public sealed class ObjectiveFinalizeAllUseCase
+    {
+        private readonly IObjectiveRepository _objectiveRepository;
+        private readonly ObjectiveFinalizeUseCase _finalizeObjective;
+
+        public ObjectiveFinalizeAllUseCase(IObjectiveRepository objectiveRepository,
+                                           ObjectiveFinalizeUseCase finalizeObjective)
+        {
+            _objectiveRepository = objectiveRepository;
+            _finalizeObjective = finalizeObjective;
+        }
+
+        public void Execute(ObjectiveState finalState)
+        {
+            ObjectiveId[] ids = _objectiveRepository.GetAllIds().ToArray();
+            List<Exception> errors = null;
+
+            foreach (ObjectiveId id in ids)
+            {
+                try
+                {
+                    if (_objectiveRepository.TryGet(id, out var objective) &&
+                        objective.State == ObjectiveState.Running)
+                    {
+                        _finalizeObjective.Execute(id, finalState);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    errors ??= new List<Exception>();
+                    errors.Add(exception);
+                }
+                finally
+                {
+                    _objectiveRepository.Delete(id);
+                }
+            }
+
+            if (errors != null)
+            {
+                throw new AggregateException("One or more objectives failed to finalize.", errors);
+            }
         }
     }
 }
