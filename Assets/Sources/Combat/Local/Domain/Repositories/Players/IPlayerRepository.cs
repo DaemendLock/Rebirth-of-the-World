@@ -10,6 +10,6 @@ namespace Combat.Local.Domain.Repositories
         void Update(Player player);
         void Delete(PlayerId player);
 
-        bool TryFindOnwer(UnitId entityId, out Player player);
+        bool TryFindOwner(UnitId entityId, out Player player);
     }
 }

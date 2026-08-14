@@ -19,7 +19,10 @@ namespace Combat.Local.Domain.UseCases
 
         public void Execute(UnitId target, AbilityKey? source)
         {
-            Actor actor = _actorRepository.Get(target);
+            if (_actorRepository.TryGet(target, out Actor actor) == false)
+            {
+                return;
+            }
 
             if (actor.ConsciousState == ConsciousState.Alive)
             {

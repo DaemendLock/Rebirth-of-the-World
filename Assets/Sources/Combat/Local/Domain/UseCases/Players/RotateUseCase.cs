@@ -30,7 +30,10 @@ namespace Combat.Local.Domain.UseCases
 
             UnitId entityId = player.ControlledEntity.Value;
 
-            Actor actor = _actorRepository.Get(entityId);
+            if (_actorRepository.TryGet(entityId, out Actor actor) == false)
+            {
+                return;
+            }
 
             if (actor.CanMove == false)
             {

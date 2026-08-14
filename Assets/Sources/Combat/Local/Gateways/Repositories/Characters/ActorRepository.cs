@@ -62,14 +62,16 @@ namespace Combat.Local.Gateways.Repositories.Characters
             model.Action = value.CurrentAction;
         }
 
-        public Actor Get(UnitId id)
+        public bool TryGet(UnitId id, out Actor result)
         {
             if (_values.TryGetValue(id, out ActorModelComponent data) == false)
             {
-                return default;
+                result = default;
+                return false;
             }
 
-            return new(id, data.State, data.Action, data.ConsciousState, data.DesiredActions);
+            result = new(id, data.State, data.Action, data.ConsciousState, data.DesiredActions);
+            return true;
         }
 
         public void Delete(UnitId id) => _values.Remove(id);

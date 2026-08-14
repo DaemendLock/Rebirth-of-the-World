@@ -50,11 +50,19 @@ namespace Combat.Local.Domain.UseCases.Character
 
         private void ExecuteFor(UnitId target, float deltaTime)
         {
-            Actor actor = _actorRepository.Get(target);
+            if (_actorRepository.TryGet(target, out Actor actor) == false)
+            {
+                return;
+            }
             AttributesOwner attributesOwner = _attributesRepository.Get(target);
 
             UpdateAction(actor, deltaTime);
-            actor = _actorRepository.Get(target);
+
+            if (_actorRepository.TryGet(target, out actor) == false)
+            {
+                return;
+            }
+
             Cast(actor);
             Move(actor, attributesOwner);
         }

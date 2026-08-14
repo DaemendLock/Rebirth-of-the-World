@@ -28,7 +28,16 @@ namespace Combat.Local.Domain.UseCases.Skills
 
         private void ProgressTarget(UnitId target, float deltaTime)
         {
-            SkillOwner skillOwner = _ownerRepository.Get(target);
+            SkillOwner skillOwner;
+
+            try
+            {
+                skillOwner = _ownerRepository.Get(target);
+            }
+            catch
+            {
+                return;
+            }
 
             Span<(SkillId, float)> cooldowns = skillOwner.Cooldowns;
 

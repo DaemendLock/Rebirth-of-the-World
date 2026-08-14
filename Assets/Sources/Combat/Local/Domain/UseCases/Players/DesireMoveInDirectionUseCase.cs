@@ -27,7 +27,12 @@ namespace Combat.Local.Domain.UseCases
             }
 
             UnitId id = player.ControlledEntity.Value;
-            Actor actor = _actorRepository.Get(id);
+
+            if (_actorRepository.TryGet(id, out Actor actor) == false)
+            {
+                return;
+            }
+
             actor.DesireMoveDirection(relativeDirection);
             _actorRepository.Update(actor);
         }

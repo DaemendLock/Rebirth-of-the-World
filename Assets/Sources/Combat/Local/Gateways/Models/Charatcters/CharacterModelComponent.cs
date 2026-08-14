@@ -32,6 +32,8 @@ namespace Combat.Local.Gateways.Models
 
         public float TimeScale { get; set; }
 
+        public byte TeamId { get; set; }
+
         public Vector3 Velocity
         {
             get => _rigidbody.linearVelocity;

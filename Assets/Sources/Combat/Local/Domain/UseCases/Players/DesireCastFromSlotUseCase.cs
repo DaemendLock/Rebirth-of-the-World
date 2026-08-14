@@ -2,6 +2,8 @@
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 
+using static UnityEngine.GraphicsBuffer;
+
 namespace Combat.Local.Domain.UseCases
 {
     public enum DesireCastFailReason
@@ -45,7 +47,10 @@ namespace Combat.Local.Domain.UseCases
                 return;
             }
 
-            Actor actor = _actorRepository.Get(caster);
+            if (_actorRepository.TryGet(caster, out Actor actor) == false)
+            {
+                return;
+            }
 
             actor.DesireCast(skillId);
             _actorRepository.Update(actor);
@@ -99,7 +104,11 @@ namespace Combat.Local.Domain.UseCases
                 return;
             }
 
-            Actor actor = _actorRepository.Get(caster);
+            if (_actorRepository.TryGet(caster, out Actor actor) == false)
+            {
+                return;
+            }
+
             Action action = actor.CurrentAction;
 
             if (action == null || action.TryGet(out IAbilityAction abilityAction) == false ||

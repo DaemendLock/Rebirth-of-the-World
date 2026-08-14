@@ -57,7 +57,7 @@ namespace Combat.Local.Gateways.Repositories.Players
             UpdateFollow(_values[player.Id], player.ControlledEntity);
         }
 
-        public bool TryFindOnwer(UnitId entityId, out Player player)
+        public bool TryFindOwner(UnitId entityId, out Player player)
         {
             foreach (var component in _values)
             {

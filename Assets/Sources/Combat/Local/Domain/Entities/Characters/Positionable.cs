@@ -6,7 +6,7 @@ namespace Combat.Local.Domain.Entities
 {
     public ref struct Positionable
     {
-        public Positionable(UnitId id, Vector3 position, Quaternion rotation, float scale, Quaternion lookDiration, ModelName modelName, Vector3 velocity)
+        public Positionable(UnitId id, Vector3 position, Quaternion rotation, float scale, Quaternion lookDiration, ModelName modelName, Vector3 velocity, Team team)
         {
             Id = id;
             ModelName = modelName;
@@ -16,6 +16,7 @@ namespace Combat.Local.Domain.Entities
             Rotation = rotation;
             LookDirection = lookDiration;
             Velocity = velocity;
+            Team = team;
         }
 
         public UnitId Id { get; }
@@ -31,5 +32,7 @@ namespace Combat.Local.Domain.Entities
         public Vector3 Velocity { get; set; }
 
         public float Scale { get; set; }
+
+        public Team Team { get; set; }
     }
 }

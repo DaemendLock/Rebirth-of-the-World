@@ -5,6 +5,8 @@ using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
 
+using System.Collections.Generic;
+
 namespace Combat.Local.Domain.UseCases
 {
     public sealed class AttributeOwnerUpdateAllUseCase
@@ -24,9 +26,8 @@ namespace Combat.Local.Domain.UseCases
             _statusAttributeCalculator = statusAttributeCalculator;
         }
 
-        public void Execute()
+        public void Execute(IReadOnlyCollection<Updatable> targets)
         {
-            System.Collections.Generic.IReadOnlyCollection<Updatable> targets = _characterUpdateList.GetAll();
             System.Span<UnitId> values = stackalloc UnitId[targets.Count];
             int i = 0;
 
@@ -48,14 +49,34 @@ namespace Combat.Local.Domain.UseCases
 
         private void ClearTarget(UnitId target)
         {
-            AttributesOwner attributesOwner = _attributesRepository.Get(target);
+            AttributesOwner attributesOwner;
+
+            try
+            {
+                attributesOwner = _attributesRepository.Get(target);
+            }
+            catch
+            {
+                return;
+            }
+
             attributesOwner = new(attributesOwner.Id, attributesOwner.GetAllBase());
             _attributesRepository.Update(attributesOwner);
         }
 
         private void UpdateTarget(UnitId target)
         {
-            AttributesOwner attributesOwner = _attributesRepository.Get(target);
+            AttributesOwner attributesOwner;
+
+            try
+            {
+                attributesOwner = _attributesRepository.Get(target);
+            }
+            catch
+            {
+                return;
+            }
+
             StatusOwner statusOwner = _statusOwnerRepository.Get(target);
 
             System.ReadOnlySpan<AttributeValue> baseValues = attributesOwner.GetAllBase();
@@ -63,7 +84,7 @@ namespace Combat.Local.Domain.UseCases
             attributesOwner = new(target, baseValues);
 
             var statuses = statusOwner.GetAll();
-            HandleModfication(statuses, out AttributesModification finalModification);
+            AttributesModification finalModification = GetModfication(statuses);
 
             System.Span<float> values = stackalloc float[baseValues.Length];
 
@@ -78,14 +99,6 @@ namespace Combat.Local.Domain.UseCases
             _characterUpdateList.Update(new(target, finalModification.TimeScale / 100f));
         }
 
-        private void HandleModfication(System.ReadOnlySpan<StatusId> statuses, out AttributesModification finalModification)
-        {
-            finalModification = new()
-            {
-                TimeScale = 100f
-            };
-
-            finalModification = _statusAttributeCalculator.Evaluate(statuses);
-        }
+        private AttributesModification GetModfication(System.ReadOnlySpan<StatusId> statuses) => _statusAttributeCalculator.Evaluate(statuses);
     }
 }

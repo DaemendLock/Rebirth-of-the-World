@@ -68,7 +68,6 @@ namespace Combat.Local.Composition
         {
             Container.Bind<IStatusRepository>().To<StatusRepository>().AsSingle();
             Container.Bind<IHealthRepository>().To<DictionaryHealthRepository>().AsSingle();
-            Container.Bind<IAligmentRepository>().To<AligmentRepository>().AsSingle();
             Container.Bind<IAttributesRepository>().To<AttributesRepository>().AsSingle();
             Container.Bind<IResourceOwnerRepository>().To<ResourceRepository>().AsSingle();
             Container.Bind<IHitboxOwnerRepository>().To<HitboxRepository>().AsSingle();
@@ -85,6 +84,7 @@ namespace Combat.Local.Composition
             Container.Bind<ISkillMemoryRepository>().To<FixedSizeArraySkillMemoryRepository>().AsSingle();
             Container.Bind<IObjectiveMemoryRepository>().To<FixedSizeArrayObjectiveMemoryRepository>().AsSingle();
             Container.Bind<IObjectiveRepository>().To<ObjectiveRepository>().AsSingle();
+            Container.Bind<ICharacterDeleteQueue>().To<CharacterDeleteQueue>().AsSingle();
         }
 
         private void BindFactories()
@@ -107,6 +107,7 @@ namespace Combat.Local.Composition
             Container.Bind<AttributeOwnerUpdateAllUseCase>().AsSingle();
 
             Container.Bind<CharacterCreateUseCase>().AsSingle();
+            Container.Bind<CharacterDeleteUseCase>().AsSingle();
             Container.Bind<DesireCastFromSlotUseCase>().AsSingle();
             Container.Bind<ReleaseSkillFromSlotUseCase>().AsSingle();
             Container.Bind<ResourceGiveUseCase>().AsSingle();

@@ -33,7 +33,10 @@ namespace Combat.Local.Domain.UseCases.Scene
 
         private void HandleRecord(UnitId target, IEnumerable<Queue<HitRecord>> values)
         {
-            Actor actor = _actorRepository.Get(target);
+            if (_actorRepository.TryGet(target, out Actor actor) == false)
+            {
+                return;
+            }
 
             if (actor.CurrentAction == null)
             {

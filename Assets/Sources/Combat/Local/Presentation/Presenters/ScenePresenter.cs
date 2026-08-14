@@ -3,7 +3,7 @@ using Combat.Local.Domain.OutputPorts;
 
 namespace Combat.Local.Presentation.Presenters
 {
-    public class ScenePresenter : ICharacterCreateOutput
+    public class ScenePresenter : ICharacterCreateOutput, ICharacterRemoveOutput
     {
 
         public ScenePresenter()
@@ -13,6 +13,11 @@ namespace Combat.Local.Presentation.Presenters
         void ICharacterCreateOutput.Present(UnitId value)
         {
             UnityEngine.Debug.Log($"Character created: Id - {value}");
+        }
+
+        void ICharacterRemoveOutput.Present(UnitId value)
+        {
+            UnityEngine.Debug.Log($"Character removed: Id - {value}");
         }
     }
 }

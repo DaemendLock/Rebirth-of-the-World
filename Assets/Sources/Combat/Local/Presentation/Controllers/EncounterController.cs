@@ -1,6 +1,7 @@
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.DTO;
 using Combat.Local.Domain.UseCases;
+using Combat.Local.Domain.UseCases.Scene;
 using Combat.Local.Domain.ValueObjects;
 
 using System;

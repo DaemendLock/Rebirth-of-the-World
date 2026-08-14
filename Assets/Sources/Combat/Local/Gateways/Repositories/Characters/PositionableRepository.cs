@@ -49,6 +49,7 @@ namespace Combat.Local.Gateways.Repositories.Characters
             result.transform.SetPositionAndRotation(value.Position, value.Rotation);
             result.transform.localScale = value.Scale * Vector3.one;
             result.Velocity = value.Velocity;
+            result.TeamId = value.Team.Value;
 
             _values.Add(value.Id, result);
         }
@@ -62,7 +63,7 @@ namespace Combat.Local.Gateways.Repositories.Characters
                 return default;
             }
 
-            return new(id, model.transform.position, model.transform.rotation, model.transform.localScale.x, model.LookDirection, model.ModelName, model.Velocity);
+            return new(id, model.transform.position, model.transform.rotation, model.transform.localScale.x, model.LookDirection, model.ModelName, model.Velocity, new(model.TeamId));
         }
 
         public void Update(Positionable value)

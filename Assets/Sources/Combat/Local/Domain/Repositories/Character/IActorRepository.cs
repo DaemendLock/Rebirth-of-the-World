@@ -6,7 +6,7 @@ namespace Combat.Local.Domain.Repositories
     public interface IActorRepository
     {
         void Create(Actor actor);
-        Actor Get(UnitId id);
+        bool TryGet(UnitId id, out Actor actor);
         void Update(Actor value);
         void Delete(UnitId id);
     }

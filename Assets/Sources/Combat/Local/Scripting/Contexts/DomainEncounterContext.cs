@@ -52,5 +52,7 @@ namespace Combat.Local.Scripting.Contexts
 
             return result;
         }
+
+        public void RemoveUnit(UnitId unitId) => _sceneFacade.RemoveUnit(unitId);
     }
 }

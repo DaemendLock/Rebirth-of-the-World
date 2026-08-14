@@ -6,4 +6,9 @@ namespace Combat.Local.Domain.OutputPorts
     {
         void Present(UnitId value);
     }
+
+    public interface ICharacterRemoveOutput
+    {
+        void Present(UnitId value);
+    }
 }

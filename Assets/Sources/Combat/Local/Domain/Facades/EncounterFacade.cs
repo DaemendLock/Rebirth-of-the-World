@@ -1,6 +1,8 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.DTO;
+using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
+using Combat.Local.Domain.UseCases.Scene;
 
 using System.Collections.Generic;
 
@@ -14,16 +16,22 @@ namespace Combat.Local.Domain.Facades
         private readonly StatusOwnerApplyUseCase _applyStatusUseCase;
         private readonly FindCharactersInRadiusUseCase _findCharacterInRadiusUseCase;
 
-        public EncounterFacade(CharacterCreateUseCase createUnitUseCase, StatusOwnerApplyUseCase applyStatusUseCase, FindCharactersInRadiusUseCase findCharacterInRadiusUseCase)
+        private readonly ICharacterDeleteQueue _characterDeleteQueue;
+
+        public EncounterFacade(CharacterCreateUseCase createUnitUseCase, StatusOwnerApplyUseCase applyStatusUseCase,
+                                FindCharactersInRadiusUseCase findCharacterInRadiusUseCase, ICharacterDeleteQueue characterDeleteUseCase)
         {
             _createUnitUseCase = createUnitUseCase;
             _applyStatusUseCase = applyStatusUseCase;
             _findCharacterInRadiusUseCase = findCharacterInRadiusUseCase;
+            _characterDeleteQueue = characterDeleteUseCase;
         }
 
         public UnitId CreateUnit(CreateCharacterDTO dto) => _createUnitUseCase.Execute(dto);
 
         public void CreateStatus(ApplStatusDTO dto) => _applyStatusUseCase.Execute(dto);
+
+        public void RemoveUnit(UnitId id) => _characterDeleteQueue.Enqueue(id);
 
         public IReadOnlyCollection<UnitId> FindCharactersInRadius(Vector3 position, float radius) => _findCharacterInRadiusUseCase.Execute(position, radius);
     }

@@ -20,19 +20,21 @@ namespace Combat.Local.Domain.Facades
 
         private readonly StatusOwnerFindStatusUseCase _findStatusUseCase;
         private readonly StatusOwnerApplyUseCase _applyStatusUseCase;
-        private readonly IAligmentRepository _aligmentRepository;
         private readonly IActorRepository _killableRepository;
         private readonly IPositionableRepository _positionableRepository;
         private readonly IResourceOwnerRepository _resourceRepository;
 
-        public CharacterFacade(ResourceGiveUseCase giveResourceUseCase, ResourceSpendUseCase spendResourceUseCase, ActorForceKillUseCase killUnitUseCase, StatusOwnerFindStatusUseCase findStatusUseCase,
-            IAligmentRepository aligmentRepository, IActorRepository killableRepository, IPositionableRepository positionableRepository, IResourceOwnerRepository resourceRepository, StatusOwnerApplyUseCase applyStatusUseCase, DesireMoveInDirectionUseCase moveInDirectionUseCase, AddMovementEffectUseCase addMovementEffectUseCase, ActorReviveUseCase reviveUnitUseCase)
+        public CharacterFacade(ResourceGiveUseCase giveResourceUseCase, ResourceSpendUseCase spendResourceUseCase,
+                               ActorForceKillUseCase killUnitUseCase, StatusOwnerFindStatusUseCase findStatusUseCase,
+                               IActorRepository killableRepository, IPositionableRepository positionableRepository,
+                               IResourceOwnerRepository resourceRepository, StatusOwnerApplyUseCase applyStatusUseCase,
+                               DesireMoveInDirectionUseCase moveInDirectionUseCase, AddMovementEffectUseCase addMovementEffectUseCase,
+                               ActorReviveUseCase reviveUnitUseCase)
         {
             _giveResourceUseCase = giveResourceUseCase;
             _spendResourceUseCase = spendResourceUseCase;
             _killUnitUseCase = killUnitUseCase;
             _findStatusUseCase = findStatusUseCase;
-            _aligmentRepository = aligmentRepository;
             _killableRepository = killableRepository;
             _positionableRepository = positionableRepository;
             _resourceRepository = resourceRepository;
@@ -53,7 +55,15 @@ namespace Combat.Local.Domain.Facades
             _spendResourceUseCase.Execute(target, resource, value, abilityId);
         }
 
-        public bool IsAlive(UnitId target) => _killableRepository.Get(target).ConsciousState == ConsciousState.Alive;
+        public bool IsAlive(UnitId target)
+        {
+            if (_killableRepository.TryGet(target, out var value))
+            {
+                return value.ConsciousState == ConsciousState.Alive;
+            }
+
+            return false;
+        }
 
         public void Kill(UnitId target, AbilityKey? source) => _killUnitUseCase.Execute(target, source);
 
@@ -61,7 +71,7 @@ namespace Combat.Local.Domain.Facades
 
         public bool HasStatus(UnitId target, StatusType statusName) => _findStatusUseCase.FindStatus(target, statusName).HasValue;
 
-        public Team GetTeam(UnitId target) => _aligmentRepository.Get(target).Team;
+        public Team GetTeam(UnitId target) => _positionableRepository.Get(target).Team;
 
         public PositionDTO GetPosition(UnitId target)
         {

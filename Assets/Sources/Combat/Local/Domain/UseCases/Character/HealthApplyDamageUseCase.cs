@@ -134,7 +134,10 @@ namespace Combat.Local.Domain.UseCases
 
         private void Kill(UnitId target, UnitId? attacker, AbilityKey? source)
         {
-            Actor actor = _actorRepository.Get(target);
+            if (_actorRepository.TryGet(target, out Actor actor) == false)
+            {
+                return;
+            }
 
             if (actor.ConsciousState == ConsciousState.Dead)
             {
