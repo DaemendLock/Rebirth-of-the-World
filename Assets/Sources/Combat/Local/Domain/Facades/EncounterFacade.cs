@@ -16,13 +16,13 @@ namespace Combat.Local.Domain.Facades
         private readonly StatusOwnerApplyUseCase _applyStatusUseCase;
         private readonly FindCharactersInRadiusUseCase _findCharacterInRadiusUseCase;
 
-        private readonly EncounterFilalizeUseCase _encounterEndUseCase;
+        private readonly EncounterFinalizeUseCase _encounterEndUseCase;
 
         private readonly ICharacterDeleteQueue _characterDeleteQueue;
 
         public EncounterFacade(CharacterCreateUseCase createUnitUseCase, StatusOwnerApplyUseCase applyStatusUseCase,
                                 FindCharactersInRadiusUseCase findCharacterInRadiusUseCase, ICharacterDeleteQueue characterDeleteUseCase,
-                                EncounterFilalizeUseCase encounterEndUseCase)
+                                EncounterFinalizeUseCase encounterEndUseCase)
         {
             _createUnitUseCase = createUnitUseCase;
             _applyStatusUseCase = applyStatusUseCase;

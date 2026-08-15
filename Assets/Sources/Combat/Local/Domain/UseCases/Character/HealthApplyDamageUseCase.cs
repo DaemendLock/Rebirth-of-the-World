@@ -50,15 +50,17 @@ namespace Combat.Local.Domain.UseCases
         private DamageInstance CreateInstance(UnitId target, float damage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
         {
             DamageInstance instance = new(target, damage, flags, attacker, source);
-
-            System.ReadOnlySpan<StatusId> defenderStatuses = _statusOwnerRepository.Get(target).GetAll();
-            DamageModification defenderModification = _damageModifierCalculator.GetDefenderDamageModification(defenderStatuses, instance);
+            DamageModification defenderModification = default;
             DamageModification attackerModification = default;
 
-            if (instance.Attacker.HasValue)
+            if (_statusOwnerRepository.TryGet(target, out StatusOwner defenderStatuses))
             {
-                System.ReadOnlySpan<StatusId> attackerStatuses = _statusOwnerRepository.Get(instance.Attacker.Value).GetAll();
-                attackerModification = _damageModifierCalculator.GetAttackerDamageModification(attackerStatuses, instance);
+                defenderModification = _damageModifierCalculator.GetDefenderDamageModification(defenderStatuses.GetAll(), instance);
+            }
+
+            if (instance.Attacker.HasValue && _statusOwnerRepository.TryGet(target, out StatusOwner attackerStatuses))
+            {
+                attackerModification = _damageModifierCalculator.GetAttackerDamageModification(attackerStatuses.GetAll(), instance);
             }
 
             DamageModification finalModification = defenderModification + attackerModification;
@@ -120,16 +122,15 @@ namespace Combat.Local.Domain.UseCases
 
         private void HandleEvent(DamageResult @event)
         {
-            StatusOwner targetStatuses = _statusOwnerRepository.Get(@event.Target);
-            _damageResultHandler.HandleDamageRecieved(targetStatuses.GetAll(), @event);
-
-            if (@event.Attacker.HasValue == false)
+            if (_statusOwnerRepository.TryGet(@event.Target, out StatusOwner statusOwner))
             {
-                return;
+                _damageResultHandler.HandleDamageRecieved(statusOwner.GetAll(), @event);
             }
 
-            StatusOwner attackerStatuses = _statusOwnerRepository.Get(@event.Attacker.Value);
-            _damageResultHandler.HandleDamageDealth(attackerStatuses.GetAll(), @event);
+            if (@event.Attacker.HasValue && _statusOwnerRepository.TryGet(@event.Attacker.Value, out StatusOwner attackerStatuses))
+            {
+                _damageResultHandler.HandleDamageDealth(attackerStatuses.GetAll(), @event);
+            }
         }
 
         private void Kill(UnitId target, UnitId? attacker, AbilityKey? source)

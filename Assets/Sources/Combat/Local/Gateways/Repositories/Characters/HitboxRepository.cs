@@ -13,6 +13,15 @@ using HitboxInfo = Data.Entities.Components.Hitbox;
 
 namespace Combat.Local.Gateways.Repositories.Characters
 {
+    public sealed class HitRecordQueue : IHitRecordQueue
+    {
+        private readonly Queue<HitRecord> _values = new();
+
+        public void Enqueue(HitRecord record) => _values.Enqueue(record);
+
+        public bool TryDequeue(out HitRecord record) => _values.TryDequeue(out record);
+    }
+
     public readonly struct HitboxOwnerData
     {
         public readonly List<HitboxModelComponent> Hitboxes;
@@ -66,7 +75,5 @@ namespace Combat.Local.Gateways.Repositories.Characters
 
             _values.Remove(id);
         }
-
-        public IEnumerable<Queue<HitRecord>> GetHits(UnitId id) => _values[id].Select(value => value.Records);
     }
 }

@@ -20,14 +20,16 @@ namespace Combat.Local.Gateways.Repositories.Characters
 
         public void Delete(UnitId id) => _statusRepository.Remove(id);
 
-        public StatusOwner Get(UnitId id)
+        public bool TryGet(UnitId id, out StatusOwner statusOwner)
         {
             if (_statusRepository.TryGetValue(id, out StatusId[] values) == false)
             {
-                return new(id, Array.Empty<StatusId>());
+                statusOwner = new(id, Array.Empty<StatusId>());
+                return false;
             }
 
-            return new(id, values);
+            statusOwner = new(id, values);
+            return true;
         }
 
         public void Update(StatusOwner statusOwner) => _statusRepository[statusOwner.Id] = statusOwner.GetAll().ToArray();

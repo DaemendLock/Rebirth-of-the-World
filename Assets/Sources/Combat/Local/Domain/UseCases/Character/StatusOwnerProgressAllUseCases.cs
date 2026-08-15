@@ -37,7 +37,10 @@ namespace Combat.Local.Domain.UseCases
 
         private void ProgressTarget(UnitId target, float deltaTime)
         {
-            StatusOwner statusOwner = _statusOwnerRepository.Get(target);
+            if (_statusOwnerRepository.TryGet(target, out StatusOwner statusOwner) == false)
+            {
+                return;
+            }
 
             ReadOnlySpan<StatusId> ids = statusOwner.GetAll();
 

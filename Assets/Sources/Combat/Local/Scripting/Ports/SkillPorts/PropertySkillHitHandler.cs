@@ -19,7 +19,7 @@ namespace Combat.Local.Scripting.SkillPorts
             _hittedTargets = new();
         }
 
-        public void HandleHits(AbilityKey abilityKey, Queue<HitRecord> hitRecords)
+        public void HandleHit(AbilityKey abilityKey, HitRecord hitRecord)
         {
             if (_runtimeRegistry.TryGet(abilityKey, out var properties) == false)
             {
@@ -37,10 +37,7 @@ namespace Combat.Local.Scripting.SkillPorts
                 _hittedTargets[abilityKey] = targets;
             }
 
-            while (hitRecords.TryDequeue(out HitRecord hitRecord))
-            {
-                HandleHit(handler, targets, hitRecord);
-            }
+            HandleHit(handler, targets, hitRecord);
         }
 
         public void Reset(AbilityKey abilityKey)

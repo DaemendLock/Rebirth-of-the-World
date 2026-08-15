@@ -26,7 +26,10 @@ namespace Combat.Local.Domain.UseCases
 
         public void Execute(ApplStatusDTO data)
         {
-            StatusOwner target = _statusOwnerRepository.Get(data.Target);
+            if (_statusOwnerRepository.TryGet(data.Target, out StatusOwner target) == false)
+            {
+                return;
+            }
 
             if (TryReapplyStatus(target, data))
             {

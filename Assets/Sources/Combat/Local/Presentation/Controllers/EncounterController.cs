@@ -38,11 +38,11 @@ namespace Combat.Local.Controllers
     public sealed class EncounterController
     {
         private readonly CharacterCreateUseCase _createUnitUseCase;
-        private readonly EncounterFilalizeUseCase _endEncounterUseCase;
+        private readonly EncounterFinalizeUseCase _endEncounterUseCase;
         private readonly IEncounterStateMachine _stateMachine;
 
         public EncounterController(CharacterCreateUseCase createUnitUseCase,
-                                   EncounterFilalizeUseCase endEncounterUseCase,
+                                   EncounterFinalizeUseCase endEncounterUseCase,
                                    IEncounterStateMachine stateMachine)
         {
             _createUnitUseCase = createUnitUseCase;

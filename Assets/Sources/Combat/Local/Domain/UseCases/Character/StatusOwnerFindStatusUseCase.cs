@@ -17,7 +17,10 @@ namespace Combat.Local.Domain.UseCases
 
         public StatusId? FindStatus(UnitId id, StatusType statusName)
         {
-            StatusOwner statusOwner = _statusOwnerRepository.Get(id);
+            if (_statusOwnerRepository.TryGet(id, out StatusOwner statusOwner) == false)
+            {
+                return default;
+            }
 
             foreach (StatusId item in statusOwner.GetAll())
             {

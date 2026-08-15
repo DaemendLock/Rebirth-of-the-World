@@ -58,7 +58,11 @@ namespace Combat.Local.Domain.UseCases
 
         private bool TryGetSkillId(UnitId owner, int slot, out SkillId result)
         {
-            SkillOwner skillOwner = _skillOwnerRepository.Get(owner);
+            if (_skillOwnerRepository.TryGet(owner, out SkillOwner skillOwner) == false)
+            {
+                result = default;
+                return false;
+            }
 
             SkillId? skillId = skillOwner.GetSkill(slot);
 
@@ -97,7 +101,13 @@ namespace Combat.Local.Domain.UseCases
             }
 
             UnitId caster = player.ControlledEntity.Value;
-            SkillId? skillId = _skillOwnerRepository.Get(caster).GetSkill(slot);
+
+            if (_skillOwnerRepository.TryGet(caster, out SkillOwner skillOwner) == false)
+            {
+                return;
+            }
+
+            SkillId? skillId = skillOwner.GetSkill(slot);
 
             if (skillId.HasValue == false)
             {

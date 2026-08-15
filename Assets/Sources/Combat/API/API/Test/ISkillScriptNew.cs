@@ -1,8 +1,8 @@
 ﻿using Combat.API.Contexts;
 
-namespace Combat.API.API.Skills
+namespace Combat.API.Scripting
 {
-    public interface ISkillScriptNew // AbstractUseCase
+    public interface ISkillScriptNew
     {
         bool OnCast(IActor actor, ISkillContext skillContext);
         void OnEnterStartup(IActor actor, ISkillContext skillContext) { }

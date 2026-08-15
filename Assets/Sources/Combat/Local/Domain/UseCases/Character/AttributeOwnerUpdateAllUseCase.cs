@@ -77,7 +77,10 @@ namespace Combat.Local.Domain.UseCases
                 return;
             }
 
-            StatusOwner statusOwner = _statusOwnerRepository.Get(target);
+            if (_statusOwnerRepository.TryGet(target, out StatusOwner statusOwner) == false)
+            {
+                return;
+            }
 
             System.ReadOnlySpan<AttributeValue> baseValues = attributesOwner.GetAllBase();
 

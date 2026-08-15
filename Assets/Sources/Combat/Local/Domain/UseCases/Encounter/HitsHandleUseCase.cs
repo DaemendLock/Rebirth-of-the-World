@@ -1,38 +1,36 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Endpoints.Skills;
 using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
 
-using System.Collections.Generic;
-
 namespace Combat.Local.Domain.UseCases.Scene
 {
+    public sealed class HitRecordUseCase
+    {
+        private readonly IHitRecordQueue _hitRecordQueue;
+
+        public void Execute(HitRecord hitRecord)
+        {
+            _hitRecordQueue.Enqueue(hitRecord);
+        }
+    }
+
     public class HitsHandleUseCase
     {
-        private readonly IHitboxOwnerRepository _hitboxRepository;
         private readonly IActorRepository _actorRepository;
         private readonly ISkillHitHandler _skillHitHandler;
 
-        public HitsHandleUseCase(IHitboxOwnerRepository hitboxRepository, IActorRepository actorRepository, ISkillHitHandler skillHitHandler)
+        public HitsHandleUseCase(IActorRepository actorRepository, ISkillHitHandler skillHitHandler)
         {
-            _hitboxRepository = hitboxRepository;
             _actorRepository = actorRepository;
             _skillHitHandler = skillHitHandler;
         }
 
-        public void Execute(System.ReadOnlySpan<Updatable> targets)
+        public void Execute(HitRecord record)
         {
-            foreach (var target in targets)
-            {
-                var val = _hitboxRepository.GetHits(target.Id);
-                HandleRecord(target.Id, val);
-            }
-        }
+            UnitId target = record.HitboxOwner;
 
-        private void HandleRecord(UnitId target, IEnumerable<Queue<HitRecord>> values)
-        {
             if (_actorRepository.TryGet(target, out Actor actor) == false)
             {
                 return;
@@ -49,10 +47,7 @@ namespace Combat.Local.Domain.UseCases.Scene
                 return;
             }
 
-            foreach (var value in values)
-            {
-                _skillHitHandler.HandleHits(new(actor.Id, abilityAction.Source), value);
-            }
+            _skillHitHandler.HandleHit(new(actor.Id, abilityAction.Source), record);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Combat.Local.Domain.Repositories
     public interface IStatusOwnerRepository
     {
         void Create(StatusOwner statusOwner);
-        StatusOwner Get(UnitId id);
+        bool TryGet(UnitId id, out StatusOwner statusOwner);
         void Update(StatusOwner statusOwner);
         void Delete(UnitId id);
     }

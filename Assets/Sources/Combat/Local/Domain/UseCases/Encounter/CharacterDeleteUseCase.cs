@@ -69,31 +69,25 @@ namespace Combat.Local.Domain.UseCases.Scene
                 _playerRepository.Update(player);
             }
 
-            try
+            if (_skillOwnerRepository.TryGet(target, out SkillOwner skillOwner))
             {
-                SkillOwner owner = _skillOwnerRepository.Get(target);
-
-                foreach (var item in owner.Skills)
+                foreach (var item in skillOwner.Skills)
                 {
                     AbilityKey abilityKey = new(target, item);
                     _skillLyfecycleHandler.Remove(abilityKey);
                     _abilityRepository.Delete(abilityKey);
                 }
             }
-            catch { }
 
-            try
+            if (_statusOwnerRepository.TryGet(target, out StatusOwner statusOwner))
             {
-                StatusOwner owner = _statusOwnerRepository.Get(target);
-
-                foreach (var item in owner.GetAll())
+                foreach (var item in statusOwner.GetAll())
                 {
                     _statusLifecycleHandler.Remove(item);
                     _statusTimerRepository.Delete(item);
                     _statusRepository.Delete(item);
                 }
             }
-            catch { }
 
             if (_actorRepository.TryGet(target, out Actor actor))
             {

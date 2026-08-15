@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace Combat.Local.Domain.UseCases.Scene
 {
-    public sealed class EncounterFilalizeUseCase
+    public sealed class EncounterFinalizeUseCase
     {
         private readonly IEncounterStateMachine _stateMachine;
         private readonly ObjectiveFinalizeAllUseCase _finalizeObjectives;
@@ -19,7 +19,7 @@ namespace Combat.Local.Domain.UseCases.Scene
         private readonly CharacterDeleteUseCase _deleteCharacter;
         private readonly IEncounterEndOutput _output;
 
-        public EncounterFilalizeUseCase(IEncounterStateMachine stateMachine, ObjectiveFinalizeAllUseCase finalizeObjectives,
+        public EncounterFinalizeUseCase(IEncounterStateMachine stateMachine, ObjectiveFinalizeAllUseCase finalizeObjectives,
                                    ICharacterDeleteQueue characterDeleteQueue, ICharacterUpdateRepository characterUpdateRepository,
                                    CharacterDeleteUseCase deleteCharacter, IEncounterEndOutput output)
         {
@@ -35,7 +35,7 @@ namespace Combat.Local.Domain.UseCases.Scene
         {
             ObjectiveState objectiveState = ToObjectiveState(reason);
 
-            if (_stateMachine.TryFinalize() == false)
+            if (_stateMachine.TryBeginFinalize() == false)
             {
                 return;
             }
@@ -66,6 +66,7 @@ namespace Combat.Local.Domain.UseCases.Scene
                 throw new AggregateException("Encounter cleanup failed. Scene transition was cancelled.", errors);
             }
 
+            _stateMachine.TryFinalize(reason);
             _output.Present(reason);
         }
 

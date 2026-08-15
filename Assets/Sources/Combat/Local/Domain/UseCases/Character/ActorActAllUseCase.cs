@@ -140,7 +140,11 @@ namespace Combat.Local.Domain.UseCases.Character
             UnitId caster = actor.Id;
             actor.DesireCast(default);
             _actorRepository.Update(actor);
-            SkillOwner skillOwner = _skillOwnerRepository.Get(caster);
+
+            if (_skillOwnerRepository.TryGet(caster, out SkillOwner skillOwner) == false)
+            {
+                return;
+            }
 
             if (skillOwner.GetCooldown(skillId) > 0)
             {
@@ -158,7 +162,6 @@ namespace Combat.Local.Domain.UseCases.Character
 
             bool requireAction = _skillExecutionPort.BeginCast(abilityKey);
             //skill.StartCooldown(10);
-            _abilityRepository.Update(skill);
 
             if (requireAction == false)
             {

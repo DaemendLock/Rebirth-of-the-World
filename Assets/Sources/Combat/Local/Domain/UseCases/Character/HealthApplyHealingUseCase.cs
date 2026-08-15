@@ -5,6 +5,7 @@ using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
 
+using static UnityEngine.Analytics.IAnalytic;
 using static UnityEngine.GraphicsBuffer;
 
 namespace Combat.Local.Domain.UseCases
@@ -60,9 +61,12 @@ namespace Combat.Local.Domain.UseCases
 
             if (healer.HasValue)
             {
-                StatusOwner ids = _statusOwnerRepository.Get(healer.Value);
-                var statuses = ids.GetAll();
-                finalModification += _damageModifierCalculator.GetHealingModification(statuses, result);
+                if (_statusOwnerRepository.TryGet(healer.Value, out StatusOwner healerStatuses) == false)
+                {
+                    return result;
+                }
+
+                finalModification += _damageModifierCalculator.GetHealingModification(healerStatuses.GetAll(), result);
             }
 
             result.Healing = (result.OriginalHealing + finalModification.BaseValue) * 100f / (100 + finalModification.PercentModication) + finalModification.BonusValue;

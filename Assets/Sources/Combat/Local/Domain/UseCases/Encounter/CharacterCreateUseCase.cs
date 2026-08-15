@@ -99,7 +99,7 @@ namespace Combat.Local.Domain.UseCases
 
         private Positionable CreatePositionable(UnitId id, CreateCharacterDTO context) => new(id, context.Position, default, 1f, default, context.Model, Vector3.zero, context.Team);
 
-        private SkillOwner CreateSkillOwner(UnitId id, CreateCharacterDTO context) => new(id, context.Skills);
+        private SkillOwner CreateSkillOwner(UnitId id, CreateCharacterDTO context) => new(id, context.Skills, System.Span<SkillCooldown>.Empty);
 
         private AttributesOwner CreateAttributesOwner(UnitId id, CreateCharacterDTO context)
         {

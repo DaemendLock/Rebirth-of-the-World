@@ -31,7 +31,8 @@ namespace Combat.Local.Domain.Entities
         bool TryStart();
         bool TryPause();
         bool TryResume();
-        bool TryFinalize();
+        bool TryBeginFinalize();
+        bool TryFinalize(EncounterState targetState);
     }
 
     public sealed class EncounterStateMachine : IEncounterStateMachine
@@ -46,7 +47,7 @@ namespace Combat.Local.Domain.Entities
 
         public bool TryResume() => TryTransition(EncounterState.Paused, EncounterState.Running);
 
-        public bool TryFinalize()
+        public bool TryBeginFinalize()
         {
             switch (State)
             {
@@ -64,6 +65,8 @@ namespace Combat.Local.Domain.Entities
                     throw new ArgumentOutOfRangeException(nameof(State), State, null);
             }
         }
+
+        public bool TryFinalize(EncounterState targetState) => TryTransition(EncounterState.Ending, targetState);
 
         private bool TryTransition(EncounterState expected, EncounterState target)
         {

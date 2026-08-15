@@ -22,6 +22,7 @@ namespace Testing.Local
         private readonly HitsHandleUseCase _handleHitUseCase;
         private readonly ICharacterUpdateRepository _characterUpdateList;
         private readonly ICharacterDeleteQueue _characterDeleteQueue;
+        private readonly IHitRecordQueue _hitRecordQueue;
         private readonly CharacterDeleteUseCase _characterDeleteUseCase;
         private readonly IEncounterStateMachine _encounterState;
         public UpdateController(AttributeOwnerUpdateAllUseCase updateCombatUseCase,
@@ -32,7 +33,8 @@ namespace Testing.Local
                                 AbilityProgressAllUseCase skillUpdateAllUseCase,
                                 ICharacterDeleteQueue characterDeleteQueue,
                                 CharacterDeleteUseCase characterDeleteUseCase,
-                                IEncounterStateMachine encounterState)
+                                IEncounterStateMachine encounterState,
+                                IHitRecordQueue hitRecordQueue)
         {
             _attributeOwnerUpdateAllUseCase = updateCombatUseCase;
             _updateStatusesUseCase = updateStatusesUseCase;
@@ -43,6 +45,7 @@ namespace Testing.Local
             _characterDeleteQueue = characterDeleteQueue;
             _characterDeleteUseCase = characterDeleteUseCase;
             _encounterState = encounterState;
+            _hitRecordQueue = hitRecordQueue;
         }
 
         public void Tick()
@@ -58,9 +61,12 @@ namespace Testing.Local
             }
 
             float deltaTime = UnityEngine.Time.deltaTime;
-
             Updatable[] updateList = _characterUpdateList.GetAll().ToArray();
-            _handleHitUseCase.Execute(updateList);
+
+            while (_hitRecordQueue.TryDequeue(out var hitRecord))
+            {
+                _handleHitUseCase.Execute(hitRecord);
+            }
 
             _skillUpdateAllUseCase.Execute(updateList, deltaTime);
             _updateStatusesUseCase.Execute(updateList, deltaTime);
@@ -71,31 +77,43 @@ namespace Testing.Local
 
         public void UpdateCombat()
         {
+            UpdateContext updateContext = new();
             List<ICombatPhase> steps = new();
 
             foreach (var step in steps)
             {
-                step.Execute();
+                step.Execute(updateContext);
             }
         }
     }
 
+    public readonly struct UpdateContext
+    {
+        public readonly Updatable[] Targets;
+    }
+
     public interface ICombatPhase
     {
-        void Execute();
+        void Execute(UpdateContext updateContext);
     }
 
     public sealed class PerformCleanup : ICombatPhase
     {
-        public void Execute()
-        {
+        private readonly ICharacterDeleteQueue _characterDeleteQueue;
+        private readonly CharacterDeleteUseCase _characterDeleteUseCase;
 
+        public void Execute(UpdateContext updateContext)
+        {
+            while (_characterDeleteQueue.TryDequeue(out var characterDelete))
+            {
+                _characterDeleteUseCase.Execute(characterDelete);
+            }
         }
     }
 
     public sealed class CacheAttributes : ICombatPhase
     {
-        public void Execute()
+        public void Execute(UpdateContext updateContext)
         {
 
         }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Combat.Local.Domain.ValueObjects
 {
+
     public readonly struct KillRecord
     {
         public readonly UnitId Victim;

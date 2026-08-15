@@ -72,6 +72,7 @@ namespace Combat.Local.Composition
             Container.Bind<IAttributesRepository>().To<AttributesRepository>().AsSingle();
             Container.Bind<IResourceOwnerRepository>().To<ResourceRepository>().AsSingle();
             Container.Bind<IHitboxOwnerRepository>().To<HitboxRepository>().AsSingle();
+            Container.Bind<IHitRecordQueue>().To<HitRecordQueue>().AsSingle();
             Container.Bind<IHurtableRepository>().To<HurtableRepository>().AsSingle();
             Container.Bind<IPositionableRepository>().To<PositionableRepository>().AsSingle();
             Container.Bind<ISkillOwnerRepository>().To<SkillOwnerRepository>().AsSingle();
@@ -119,7 +120,7 @@ namespace Combat.Local.Composition
             Container.Bind<ObjectiveCreateUseCase>().AsSingle();
             Container.Bind<ObjectiveFinalizeUseCase>().AsSingle();
             Container.Bind<ObjectiveFinalizeAllUseCase>().AsSingle();
-            Container.Bind<EncounterFilalizeUseCase>().AsSingle();
+            Container.Bind<EncounterFinalizeUseCase>().AsSingle();
 
             Container.Bind<ActorForceKillUseCase>().AsSingle();
             Container.Bind<ActorReviveUseCase>().AsSingle();
@@ -129,6 +130,7 @@ namespace Combat.Local.Composition
 
             Container.Bind<HitsHandleUseCase>().AsSingle();
             Container.Bind<AbilityProgressAllUseCase>().AsSingle();
+            Container.Bind<SkillStartCooldownUseCase>().AsSingle();
 
             Container.Bind<StatusOwnerApplyUseCase>().AsSingle();
             Container.Bind<StatusTimerStartUseCase>().AsSingle();

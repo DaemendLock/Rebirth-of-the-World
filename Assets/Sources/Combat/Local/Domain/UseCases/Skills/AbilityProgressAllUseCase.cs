@@ -2,6 +2,7 @@
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.Repositories;
+using Combat.Local.Domain.ValueObjects;
 
 using System;
 
@@ -28,32 +29,27 @@ namespace Combat.Local.Domain.UseCases.Skills
 
         private void ProgressTarget(UnitId target, float deltaTime)
         {
-            SkillOwner skillOwner;
-
-            try
-            {
-                skillOwner = _ownerRepository.Get(target);
-            }
-            catch
+            if (_ownerRepository.TryGet(target, out SkillOwner skillOwner) == false)
             {
                 return;
             }
 
-            Span<(SkillId, float)> cooldowns = skillOwner.Cooldowns;
+            Span<SkillCooldown> cooldowns = stackalloc SkillCooldown[skillOwner.Cooldowns.Length];
+            skillOwner.Cooldowns.CopyTo(cooldowns);
 
             for (int i = 0; i < cooldowns.Length; i++)
             {
-                var val = cooldowns[i];
+                SkillCooldown cooldown = cooldowns[i];
 
-                if (val.Item2 <= 0)
+                if (cooldown.Value <= 0)
                 {
                     continue;
                 }
 
-                cooldowns[i] = (val.Item1, val.Item2 - deltaTime);
+                cooldowns[i] = new(cooldown.Skill, cooldown.Value - deltaTime);
             }
 
-            _ownerRepository.Update(skillOwner);
+            _ownerRepository.Update(new(target, skillOwner.Skills, cooldowns));
         }
     }
 }

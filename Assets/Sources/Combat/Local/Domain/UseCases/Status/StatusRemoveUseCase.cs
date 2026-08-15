@@ -25,7 +25,10 @@ namespace Combat.Local.Domain.UseCases
 
         public void Execute(UnitId target, StatusId statusId)
         {
-            StatusOwner statusOwner = _statusOwnerRepository.Get(target);
+            if (_statusOwnerRepository.TryGet(target, out StatusOwner statusOwner) == false)
+            {
+                return;
+            }
 
             if (statusOwner.HasStatus(statusId) == false)
             {

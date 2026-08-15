@@ -1,4 +1,5 @@
 ﻿using Combat.Common.ValueObjects;
+using Combat.Local.Domain.ValueObjects;
 
 using System;
 
@@ -6,20 +7,18 @@ namespace Combat.Local.Domain.Entities
 {
     public readonly ref struct SkillOwner
     {
-        public SkillOwner(UnitId id, ReadOnlySpan<SkillId> skills)
+        public SkillOwner(UnitId id, ReadOnlySpan<SkillId> skills, ReadOnlySpan<SkillCooldown> cooldowns)
         {
             Id = id;
             Skills = skills;
-            Cooldowns = Span<(SkillId, float)>.Empty;
+            Cooldowns = cooldowns;
         }
 
         public UnitId Id { get; }
 
         public ReadOnlySpan<SkillId> Skills { get; }
 
-        public Span<(SkillId, float)> Cooldowns { get; }
-
-        public int SkillCount => Skills.Length;
+        public ReadOnlySpan<SkillCooldown> Cooldowns { get; }
 
         public SkillId? GetSkill(int index)
         {
@@ -42,38 +41,19 @@ namespace Combat.Local.Domain.Entities
             return false;
         }
 
-        public ReadOnlySpan<SkillId> GetAll() => Skills;
-
         public float GetCooldown(SkillId skillId)
         {
             foreach (var value in Cooldowns)
             {
-                if (value.Item1 != skillId)
+                if (value.Skill != skillId)
                 {
                     continue;
                 }
 
-                return value.Item2;
+                return value.Value;
             }
 
             return 0f;
-        }
-
-        public void SetCooldown(SkillId skillId, float cooldown)
-        {
-            var values = Cooldowns;
-
-            for (int i = 0; i < Cooldowns.Length; i++)
-            {
-                if (values[i].Item1 != skillId)
-                {
-                    continue;
-                }
-
-                values[i].Item2 = cooldown;
-            }
-
-
         }
     }
 }
