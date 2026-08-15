@@ -2,13 +2,13 @@
 using Combat.Common.ValueObjects;
 using Combat.Local.Scripting.Adapters;
 using Combat.Local.Scripting.Idk;
-using Combat.Local.Scripting.IDK;
+using Combat.Local.Scripting.Runtime;
 
 using System.Runtime.Serialization;
 
 namespace Combat.Local.Scripting.Factories
 {
-    public sealed class CustomScriptSkillStrategyFactory : ISkillPropertyContainerFactory
+    public sealed class CustomScriptSkillStrategyFactory : ISkillRuntimeFactory
     {
         private readonly ISkillScriptTypeProvider _skillDataBase;
         private readonly AbilityApiAdapter _skillApiAdapter;
@@ -23,15 +23,15 @@ namespace Combat.Local.Scripting.Factories
 
         public bool CanHandle(SkillId skillId) => _skillDataBase.GetScriptType(skillId) != null;
 
-        public IAbilityPropertyContainer Create(UnitId? owner, SkillId skillType)
+        public SkillRuntime Create(UnitId? owner, SkillId skillType)
         {
             if (TryCreateEmpty(skillType, out SkillScript script) == false)
             {
-                return null;
+                return default;
             }
 
             script.Init(_skillApiAdapter.Adaptee(new(owner, skillType)));
-            return new ApiScriptDrivenAbilityPropertyContainer(script, _characterApiAdapter);
+            return new(null, new ApiScriptDrivenSkillCapabilityProvider(script, _characterApiAdapter));
         }
 
         private bool TryCreateEmpty(SkillId id, out SkillScript value)

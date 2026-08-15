@@ -17,32 +17,36 @@ namespace Combat.Local.Scripting.SkillPorts
 
         public bool BeginCast(AbilityKey abilityKey)
         {
-            if (_runtimeRegistry.TryGet(abilityKey, out var oldScript) == false)
+            if (_runtimeRegistry.TryGet(abilityKey, out var skillRuntime) == false)
             {
                 return false;
             }
 
-            if (oldScript.TryGet(out ExecuteSkillCapability castable) == false)
+            var castable = skillRuntime.Container.GetCapability<ISkillExecuteCapability>();
+
+            if (castable == null)
             {
                 return false;
             }
 
-            return castable.BeginCast(); ;
+            return castable.BeginCast(skillRuntime.Context);
         }
 
         public CastFailReason CanCast(AbilityKey abilityKey)
         {
-            if (_runtimeRegistry.TryGet(abilityKey, out var oldScript) == false)
+            if (_runtimeRegistry.TryGet(abilityKey, out var skillRuntime) == false)
             {
                 return CastFailReason.UnknownSkill;
             }
 
-            if (oldScript.TryGet(out ExecuteSkillCapability castable) == false)
+            var castable = skillRuntime.Container.GetCapability<ISkillExecuteCapability>();
+
+            if (castable == null)
             {
-                return CastFailReason.CantCast;
+                return CastFailReason.NotCastable;
             }
 
-            return castable.CanCast();
+            return castable.CanCast(skillRuntime.Context);
         }
     }
 }

@@ -6,17 +6,7 @@ using Combat.Local.Domain.ValueObjects;
 
 namespace Combat.Local.Domain.UseCases.Scene
 {
-    public sealed class HitRecordUseCase
-    {
-        private readonly IHitRecordQueue _hitRecordQueue;
-
-        public void Execute(HitRecord hitRecord)
-        {
-            _hitRecordQueue.Enqueue(hitRecord);
-        }
-    }
-
-    public class HitsHandleUseCase
+    public sealed class HitsHandleUseCase
     {
         private readonly IActorRepository _actorRepository;
         private readonly ISkillHitHandler _skillHitHandler;
@@ -36,18 +26,23 @@ namespace Combat.Local.Domain.UseCases.Scene
                 return;
             }
 
+            if (_actorRepository.TryGet(record.HurtboxOwner, out _) == false)
+            {
+                return;
+            }
+
             if (actor.CurrentAction == null)
             {
                 return;
             }
 
-            if (actor.CurrentAction.TryGet(out IAbilityAction abilityAction) == false ||
-                abilityAction.State != Common.ValueObjects.ActionState.Active)
+            if (actor.CurrentAction.TryGet(out IAbilityAction currentAction) == false ||
+                currentAction.State != Common.ValueObjects.ActionState.Active)
             {
                 return;
             }
 
-            _skillHitHandler.HandleHit(new(actor.Id, abilityAction.Source), record);
+            _skillHitHandler.HandleHit(new(actor.Id, currentAction.Source), record);
         }
     }
 }

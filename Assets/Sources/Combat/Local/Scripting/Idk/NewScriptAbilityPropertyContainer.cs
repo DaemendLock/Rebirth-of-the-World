@@ -1,89 +1,35 @@
 using Combat.API;
-using Combat.API.Objectives;
 using Combat.API.Scripting;
-using Combat.API.Skills;
-using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Repositories.Skill;
-using Combat.Local.Scripting.Adapters;
 using Combat.Local.Scripting.Capabilities.Skills;
-using Combat.Local.Scripting.Contexts;
 using Combat.Local.Scripting.IDK;
 
 namespace Combat.Local.Scripting.Idk
 {
-    public sealed class RuntimeObjectiveContainer
-    {
-        private readonly ICombatObjective _combatObjective;
-        private readonly IObjectiveContext _context;
 
-        public RuntimeObjectiveContainer(ICombatObjective combatObjective, IObjectiveContext context)
+    public sealed class NewScriptAbilityPropertyContainer : ISkillCapabilityProvider
+    {
+        private readonly ISkillExecuteCapability _skillExecuteCapability;
+        private readonly ISkillHandleActionStateChangeCapability _skillHandleActionStateChangeCapability;
+
+        public NewScriptAbilityPropertyContainer(UnitNew owner, ISkillScriptNew script)
         {
-            _combatObjective = combatObjective;
-            _context = context;
+            _skillExecuteCapability = new NewSkillExecuteCapability(script, owner);
+            _skillHandleActionStateChangeCapability = new NewHandleSkillActionStateChangeCapability(script, owner);
         }
 
-        public ICombatObjective CombatObjective => _combatObjective;
-
-        public IObjectiveContext Context => _context;
-    }
-
-    public sealed class NewScriptAbilityPropertyContainer : IAbilityPropertyContainer
-    {
-        private readonly ICastableSkill _castableSkill;
-
-        public NewScriptAbilityPropertyContainer(AbilityKey id, ISkillScriptNew script, UnitNewAdapter unitNewAdapter, ISkillMemoryRepository skillMemoryRepository)
+        public T GetCapability<T>() where T : class
         {
-            UnitNew unitNew = null;
-
-            if (id.Owner.HasValue)
+            if (typeof(T) == typeof(ISkillExecuteCapability))
             {
-                unitNew = unitNewAdapter.Adaptee(id.Owner.Value);
+                return _skillExecuteCapability as T;
             }
 
-            _castableSkill = new NewCast(id, skillMemoryRepository, script, unitNew);
-        }
-
-        public bool TryGet(out HandleSkillHitCapability result)
-        {
-            result = default;
-            return false;
-        }
-
-        public bool TryGet(out HandleSkillActionStateChangeCapability result)
-        {
-            result = default;
-            return false;
-        }
-
-        public bool TryGet(out EvaluateSkillTargetCapability result)
-        {
-            result = default;
-            return false;
-        }
-
-        public bool TryGet(out ExecuteSkillCapability result)
-        {
-            result = new(_castableSkill);
-            return true;
-        }
-
-        private sealed class NewCast : ICastableSkill
-        {
-            private readonly AbilityKey _abilityKey;
-            private readonly ISkillMemoryRepository _memoryRepository;
-            private readonly ISkillScriptNew _skillScript;
-            private readonly UnitNew _unitNew;
-
-            public NewCast(AbilityKey abilityKey, ISkillMemoryRepository memoryRepository, ISkillScriptNew skillScript, UnitNew unitNew)
+            if (typeof(T) == typeof(ISkillHandleActionStateChangeCapability))
             {
-                _abilityKey = abilityKey;
-                _memoryRepository = memoryRepository;
-                _skillScript = skillScript;
-                _unitNew = unitNew;
+                return _skillHandleActionStateChangeCapability as T;
             }
 
-            public bool OnCast()
-                => _skillScript.OnCast(_unitNew, new DomainSkillContext(_memoryRepository, _abilityKey));
+            return null;
         }
     }
 }

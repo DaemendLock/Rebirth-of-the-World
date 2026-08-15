@@ -18,10 +18,14 @@ namespace Combat.Local.Scripting.Contexts
         private readonly List<EventHandlerId> _eventHandlers;
         private readonly IEventContext _eventContext;
 
-        public DomainSkillContext(ISkillMemoryRepository skillMemoryRepository, AbilityKey key)
+        public DomainSkillContext(AbilityKey key, ISkillMemoryRepository skillMemoryRepository, IEventContext eventContext)
         {
-            _skillMemoryRepository = skillMemoryRepository;
             _key = key;
+
+            _skillMemoryRepository = skillMemoryRepository;
+            _eventContext = eventContext;
+
+            _eventHandlers = new();
         }
 
         public SkillState<T> GetState<T>() where T : unmanaged, IDynamicSkillData

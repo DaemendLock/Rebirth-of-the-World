@@ -8,7 +8,6 @@ using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories.Objectives;
 using Combat.Local.Scripting.Contexts;
 using Combat.Local.Scripting.Factories;
-using Combat.Local.Scripting.Idk;
 using Combat.Local.Scripting.Runtime;
 
 namespace Combat.Local.Scripting.Ports

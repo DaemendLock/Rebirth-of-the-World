@@ -1,9 +1,17 @@
+using Combat.API;
+using Combat.API.Contexts;
+using Combat.API.Scripting;
 using Combat.API.Skills;
 using Combat.Common.ValueObjects;
 
 namespace Combat.Local.Scripting.Capabilities.Skills
 {
-    public readonly ref struct HandleSkillActionStateChangeCapability
+    public interface ISkillHandleActionStateChangeCapability
+    {
+        void Handle(ISkillContext skillContext, ActionState state);
+    }
+
+    public sealed class HandleSkillActionStateChangeCapability : ISkillHandleActionStateChangeCapability
     {
         private readonly ICastStateChangeHandler _handler;
 
@@ -12,25 +20,58 @@ namespace Combat.Local.Scripting.Capabilities.Skills
             _handler = handler;
         }
 
-        public void Handle(ActionState state)
+        public void Handle(ISkillContext skillContext, ActionState state)
         {
             switch (state)
             {
                 case ActionState.Startup:
                     _handler.OnStartup();
-                    break;
+                    return;
                 case ActionState.Active:
                     _handler.OnActive();
-                    break;
+                    return;
                 case ActionState.Gap:
                     _handler.OnGapStart();
-                    break;
+                    return;
                 case ActionState.Recovery:
                     _handler.OnRecovery();
-                    break;
+                    return;
                 case ActionState.Inactive:
                     _handler.OnEnds();
-                    break;
+                    return;
+                default:
+                    throw new System.ArgumentOutOfRangeException(nameof(state), state, null);
+            }
+        }
+    }
+
+    public sealed class NewHandleSkillActionStateChangeCapability : ISkillHandleActionStateChangeCapability
+    {
+        private readonly UnitNew _actor;
+        private readonly ISkillScriptNew _handler;
+
+        public NewHandleSkillActionStateChangeCapability(ISkillScriptNew handler, UnitNew actor)
+        {
+            _actor = actor;
+            _handler = handler;
+        }
+
+        public void Handle(ISkillContext skillContext, ActionState state)
+        {
+            switch (state)
+            {
+                case ActionState.Startup:
+                    _handler.OnEnterStartup(_actor, skillContext);
+                    return;
+                case ActionState.Active:
+                    _handler.OnEnterActive(_actor, skillContext);
+                    return;
+                case ActionState.Recovery:
+                    _handler.OnEnterRecovery(_actor, skillContext);
+                    return;
+                case ActionState.Inactive:
+                case ActionState.Gap:
+                    return;
                 default:
                     throw new System.ArgumentOutOfRangeException(nameof(state), state, null);
             }

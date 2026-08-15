@@ -1,7 +1,7 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.ValueObjects;
 
-using System.Collections.Generic;
+using System;
 
 using UnityEngine;
 
@@ -10,8 +10,6 @@ namespace Combat.Local.Gateways.Models
     [RequireComponent(typeof(Collider))]
     public class HitboxModelComponent : MonoBehaviour
     {
-        private readonly Queue<HitRecord> _hitRecords = new();
-
         private void Awake()
         {
             hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector | HideFlags.NotEditable | HideFlags.DontSaveInEditor;
@@ -19,14 +17,14 @@ namespace Combat.Local.Gateways.Models
 
         private void OnDestroy()
         {
-            _hitRecords.Clear();
+            Hitted = null;
         }
+
+        public event Action<HitRecord> Hitted;
 
         public HitboxType Type { get; set; }
 
         public UnitId Owner { get; set; }
-
-        public Queue<HitRecord> Records => _hitRecords;
 
         public void OnTriggerEnter(Collider other)
         {
@@ -45,7 +43,7 @@ namespace Combat.Local.Gateways.Models
                 return;
             }
 
-            _hitRecords.Enqueue(new(Owner, Type, hurtbox.Owner, hurtbox.Type, transform.position));
+            Hitted?.Invoke(new(Owner, Type, hurtbox.Owner, hurtbox.Type, transform.position));
         }
 
         public void OnCollisionEnter(Collision collision)
@@ -66,7 +64,7 @@ namespace Combat.Local.Gateways.Models
             }
 
             Vector3 location = collision.GetContact(0).point;
-            _hitRecords.Enqueue(new(Owner, Type, hurtbox.Owner, hurtbox.Type, location));
+            Hitted?.Invoke(new(Owner, Type, hurtbox.Owner, hurtbox.Type, location));
         }
     }
 }

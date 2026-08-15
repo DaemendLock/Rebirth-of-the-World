@@ -1,3 +1,4 @@
+using Combat.API.Contexts;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Endpoints.Skills;
 using Combat.Local.Domain.ValueObjects;
@@ -21,12 +22,14 @@ namespace Combat.Local.Scripting.SkillPorts
 
         public void HandleHit(AbilityKey abilityKey, HitRecord hitRecord)
         {
-            if (_runtimeRegistry.TryGet(abilityKey, out var properties) == false)
+            if (_runtimeRegistry.TryGet(abilityKey, out var skillRuntime) == false)
             {
                 return;
             }
 
-            if (properties.TryGet(out HandleSkillHitCapability handler) == false)
+            var handler = skillRuntime.Container.GetCapability<ISkillHitCapability>();
+
+            if (handler == null)
             {
                 return;
             }
@@ -37,7 +40,7 @@ namespace Combat.Local.Scripting.SkillPorts
                 _hittedTargets[abilityKey] = targets;
             }
 
-            HandleHit(handler, targets, hitRecord);
+            HandleHit(skillRuntime.Context, handler, targets, hitRecord);
         }
 
         public void Reset(AbilityKey abilityKey)
@@ -48,7 +51,7 @@ namespace Combat.Local.Scripting.SkillPorts
             }
         }
 
-        private static void HandleHit(HandleSkillHitCapability handler, List<UnitId> hittedTargets, in HitRecord record)
+        private static void HandleHit(ISkillContext context, ISkillHitCapability handler, List<UnitId> hittedTargets, in HitRecord record)
         {
             try
             {
@@ -58,7 +61,7 @@ namespace Combat.Local.Scripting.SkillPorts
                 }
 
                 hittedTargets.Add(record.HurtboxOwner);
-                handler.Handle(record);
+                handler.Handle(context, record);
             }
             catch (System.Exception exception)
             {

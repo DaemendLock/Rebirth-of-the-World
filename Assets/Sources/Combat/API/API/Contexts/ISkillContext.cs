@@ -24,5 +24,6 @@ namespace Combat.API.Contexts
         void Unsubscribe(EventHandlerId id);
 
         TQuery GetCapability<TQuery>() where TQuery : class;
+        void Cleanup();
     }
 }

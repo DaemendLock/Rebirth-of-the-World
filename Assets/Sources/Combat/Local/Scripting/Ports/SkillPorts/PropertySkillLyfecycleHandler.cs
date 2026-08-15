@@ -11,7 +11,7 @@ namespace Combat.Local.Scripting.SkillPorts
 {
     public sealed class PropertySkillLyfecycleHandler : ISkillLyfecycleHandler
     {
-        private readonly List<ISkillPropertyContainerFactory> _factories;
+        private readonly List<ISkillRuntimeFactory> _factories;
         private readonly ISkillRuntimeRegistry _runtimeRegistry;
 
         public PropertySkillLyfecycleHandler(ISkillRuntimeRegistry runtimeRegistry)
@@ -20,21 +20,21 @@ namespace Combat.Local.Scripting.SkillPorts
             _factories = new();
         }
 
-        public void RegisterStrategyFactory(ISkillPropertyContainerFactory factory)
+        public void RegisterStrategyFactory(ISkillRuntimeFactory factory)
         {
             _factories.Add(factory);
         }
 
         public void Give(AbilityKey abilityKey)
         {
-            IAbilityPropertyContainer properties = GetFactory(abilityKey.Skill)?.Create(abilityKey.Owner, abilityKey.Skill);
+            SkillRuntime? properties = GetFactory(abilityKey.Skill)?.Create(abilityKey.Owner, abilityKey.Skill);
 
-            if (properties == null)
+            if (properties.HasValue == false)
             {
                 throw new System.InvalidOperationException($"No skill property factory can handle skill '{abilityKey.Skill}'.");
             }
 
-            _runtimeRegistry.Create(abilityKey, properties);
+            _runtimeRegistry.Create(abilityKey, properties.Value);
         }
 
         public void Remove(AbilityKey abilityKey)
@@ -44,12 +44,13 @@ namespace Combat.Local.Scripting.SkillPorts
                 return;
             }
 
+            properties.Context.Cleanup();
             _runtimeRegistry.Remove(abilityKey);
         }
 
-        private ISkillPropertyContainerFactory GetFactory(SkillId id)
+        private ISkillRuntimeFactory GetFactory(SkillId id)
         {
-            foreach (ISkillPropertyContainerFactory factory in _factories)
+            foreach (ISkillRuntimeFactory factory in _factories)
             {
                 if (factory.CanHandle(id))
                 {
@@ -72,13 +73,12 @@ namespace Combat.Local.Scripting.SkillPorts
 
         public void Handle(AbilityKey abilityKey, ActionState newState)
         {
-            if (_runtimeRegistry.TryGet(abilityKey, out IAbilityPropertyContainer properties) == false ||
-                properties.TryGet(out HandleSkillActionStateChangeCapability handler) == false)
+            if (_runtimeRegistry.TryGet(abilityKey, out SkillRuntime properties) == false)
             {
                 return;
             }
 
-            handler.Handle(newState);
+            properties.Container.GetCapability<ISkillHandleActionStateChangeCapability>()?.Handle(properties.Context, newState);
         }
     }
 }

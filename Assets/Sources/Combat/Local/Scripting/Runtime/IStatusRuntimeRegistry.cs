@@ -3,12 +3,6 @@ using Combat.Local.Scripting.IDK;
 
 namespace Combat.Local.Scripting.Runtime
 {
-    public interface ISkillRuntimeRegistry
-    {
-        void Create(AbilityKey id, IAbilityPropertyContainer value);
-        void Remove(AbilityKey id);
-        bool TryGet(AbilityKey id, out IAbilityPropertyContainer container);
-    }
 
     public interface IStatusRuntimeRegistry
     {

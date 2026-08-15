@@ -1,12 +1,13 @@
 using Combat.Common.ValueObjects;
 using Combat.Local.Scripting.IDK;
+using Combat.Local.Scripting.Runtime;
 
 namespace Combat.Local.Scripting.Factories
 {
-    public interface ISkillPropertyContainerFactory
+    public interface ISkillRuntimeFactory
     {
         bool CanHandle(SkillId skillId);
-        IAbilityPropertyContainer Create(UnitId? owner, SkillId skillId);
+        SkillRuntime Create(UnitId? owner, SkillId skillId);
     }
 
     public interface IStatusPropertyContainerFactory
