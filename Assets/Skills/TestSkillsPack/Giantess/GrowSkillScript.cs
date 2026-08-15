@@ -1,7 +1,9 @@
-﻿using Combat.API.Scripting;
+﻿using Combat.API;
+using Combat.API.Contexts;
+using Combat.API.Scripting;
 using Combat.API.Skills;
 
-namespace Server.Combat.Domain.Implementations.Actions
+namespace TestSkillsPack.SkillScripts.Giantess
 {
     [SkillScriptName("growself")]
     public class GrowSkillScript : SkillScript, ICastableSkill, ICastStateChangeHandler
@@ -20,11 +22,17 @@ namespace Server.Combat.Domain.Implementations.Actions
             //_growRate = (_targetSize - Owner.Scale) / _duration;
         }
 
-        public void OnCast(CastEvent @event)
+        public bool OnCast()
         {
-            float currentSize = @event.Caster.Scale;
-            
-            _targetSize = currentSize + (_growPercent / 100);
+            float currentSize = Owner.Scale;
+
+            _targetSize = currentSize + _growPercent / 100;
+            return true;
         }
+    }
+
+    public sealed class GrowSelfSkillScript : ICastableNew, IActableNew
+    {
+        public bool OnCast(IActor actor, ISkillContext skillContext) => throw new System.NotImplementedException();
     }
 }

@@ -1,29 +1,30 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.UseCases;
-using Combat.Local.Presentation.Components;
 
 namespace Combat.Local.Presentation.Presenters
 {
-    public class PlayerPresenter : ITakeControllOutput
+    public class PlayerPresenter : ITakeControllOutput, IDesireCastOutput
     {
-        private readonly ICharacterViewContainer _container;
-        
-        private CameraView _cameraView;
-
-        public PlayerPresenter(ICharacterViewContainer container, CameraView cameraView)
+        public PlayerPresenter()
         {
-            _container = container;
-            _cameraView = cameraView;
         }
 
-        public void Present(EntityId id)
+        void ITakeControllOutput.Present(PlayerId playerId, UnitId? id)
         {
-            if (_container.TryGetValue(id, out var val) == false)
-            {
-                return;
-            }
+            UnityEngine.Debug.Log($"Player(Id: {playerId}) assumed control over character(Id: {id})");
+        }
 
-            _cameraView.Follow(val);
+        void IDesireCastOutput.Present(DesireCastFailReason failReason)
+        {
+            switch (failReason)
+            {
+                case DesireCastFailReason.NoSkillFound:
+                    UnityEngine.Debug.Log("No skill in slot");
+                    return;
+
+                default:
+                    return;
+            }
         }
     }
 }

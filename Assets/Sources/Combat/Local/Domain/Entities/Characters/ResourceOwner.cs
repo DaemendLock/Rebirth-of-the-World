@@ -9,104 +9,112 @@ namespace Combat.Local.Domain.Entities
     {
         private readonly Span<ResourceValue> _values;
 
-        public ResourceOwner(EntityId owner, Span<ResourceValue> values)
+        public ResourceOwner(UnitId owner, Span<ResourceValue> values)
         {
-            Owner = owner;
+            Id = owner;
             _values = values;
         }
 
-        public EntityId Owner { get; }
+        public UnitId Id { get; }
 
         public ResourceValue GetResource(ResourceId resource)
         {
-            Span<ResourceValue> values = _values;
+            int index = FindResourceIndex(resource);
 
-            for (int i = 0; i < values.Length; i++)
+            if (index == -1)
             {
-                if (values[i].ResourceId != resource)
-                {
-                    continue;
-                }
-
-                return values[i];
+                return new(resource, default, default);
             }
 
-            return new(resource, default, default);
+            return _values[index];
         }
 
         public void SetResourceValue(ResourceId resource, float value)
         {
-            Span<ResourceValue> values = _values;
+            int index = FindResourceIndex(resource);
 
-            for (int i = 0; i < values.Length; i++)
+            if (index == -1)
             {
-                ResourceValue currentValue = values[i];
+                return;
+            }
 
-                if (currentValue.ResourceId != resource)
+            ResourceValue currentValue = _values[index];
+            float maxValue = currentValue.MaxValue;
+
+            if (value > maxValue)
+            {
+                value = maxValue;
+            }
+
+            _values[index] = new(resource, value, maxValue);
+            return;
+        }
+
+        public bool TrySpendResource(ResourceId resourceId, float value)
+        {
+            if (value < 0)
+            {
+                return false;
+            }
+
+            int index = FindResourceIndex(resourceId);
+
+            if (index == -1)
+            {
+                return false;
+            }
+
+            ResourceValue resource = _values[index];
+
+            if (resource.Value < value)
+            {
+                return false;
+            }
+
+            _values[index] = new(resourceId, resource.Value - value, resource.MaxValue);
+            return true;
+        }
+
+        public void FillResource(ResourceId resourceId, float value)
+        {
+            if (value < 0)
+            {
+                return;
+            }
+
+            int index = FindResourceIndex(resourceId);
+
+            if (index == -1)
+            {
+                return;
+            }
+
+            ResourceValue resource = _values[index];
+
+            if (resource.Value + value > resource.MaxValue)
+            {
+                _values[index] = new(resourceId, resource.MaxValue, resource.MaxValue);
+                return;
+            }
+
+            _values[index] = new(resourceId, resource.Value + value, resource.MaxValue);
+        }
+
+        public ReadOnlySpan<ResourceValue> GetAll() => _values;
+
+        private int FindResourceIndex(ResourceId resourceId)
+        {
+            for (int i = 0; i < _values.Length; i++)
+            {
+                if (_values[i].ResourceId != resourceId)
                 {
                     continue;
                 }
 
-                float maxValue = currentValue.MaxValue;
-
-                if (value > maxValue)
-                {
-                    value = maxValue;
-                }
-
-                values[i] = new(resource, value, maxValue);
-                return;
-            }
-        }
-
-        public ReadOnlySpan<ResourceValue> GetAll() => _values;
-    }
-
-    public struct Resource
-    {
-        public Resource(EntityId owner, ResourceId resourceId, float maxValue, float currentValue)
-        {
-            Id = owner;
-            ResourceId = resourceId;
-            MaxValue = maxValue;
-            CurrentValue = currentValue;
-        }
-
-        public EntityId Id { get; }
-        public ResourceId ResourceId { get; }
-        public float MaxValue { get; set; }
-        public float CurrentValue { get; set; }
-
-        public void Spend(float value)
-        {
-            if (value < 0)
-            {
-                return;
+                return i;
             }
 
-            if (CurrentValue < value)
-            {
-                CurrentValue = 0;
-                return;
-            }
-
-            CurrentValue -= value;
-        }
-
-        public void Fill(float value)
-        {
-            if (value < 0)
-            {
-                return;
-            }
-
-            if (CurrentValue + value > MaxValue)
-            {
-                CurrentValue = MaxValue;
-                return;
-            }
-
-            CurrentValue += value;
+            return -1;
         }
     }
 }

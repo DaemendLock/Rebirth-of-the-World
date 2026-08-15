@@ -64,5 +64,8 @@ namespace Client.Testing.View
 
         [UsedImplicitly]
         public void SelectUnit() => _menuStrategy.Select();
+
+        [UsedImplicitly]
+        public void Leave() => _menuStrategy.Leave();
     }
 }

@@ -1,81 +1,54 @@
 ﻿using Combat.Common.ValueObjects;
+using Combat.Local.Domain.ValueObjects;
 
 namespace Combat.Local.Domain.Entities
 {
     public ref struct Health
     {
-        private readonly float _maxHealth;
-        private float _currentHealth;
-        private float _defaultHealth;
+        private readonly float _bonusHealth;
+        private float _currentValue;
 
-        public Health(EntityId id, float defaultHealth) : this(id, 0, defaultHealth, defaultHealth)
+        public Health(UnitId id, float currentHealth, float defaultHealth) : this(id, currentHealth, defaultHealth, 0f)
         { }
 
-        public Health(EntityId id, float currentHealth, float maxHealth, float defaultHealth)
+        public Health(UnitId id, float currentHealth, float defaultHealth, float bonusHealth)
         {
-            if (float.IsNaN(currentHealth))
+            if (float.IsNaN(bonusHealth))
             {
-                throw new System.InvalidOperationException($"{nameof(currentHealth)}: Value can't be NaN");
-            }
-
-            if (float.IsNaN(maxHealth))
-            {
-                throw new System.InvalidOperationException($"{nameof(maxHealth)}: Value can't be NaN");
-            }
-
-            if (float.IsNaN(defaultHealth))
-            {
-                throw new System.InvalidOperationException($"{nameof(defaultHealth)}: Value can't be NaN");
+                throw new System.InvalidOperationException($"{nameof(bonusHealth)}: Value can't be NaN");
             }
 
             Id = id;
-            _maxHealth = maxHealth;
-            _currentHealth = currentHealth;
-            _defaultHealth = defaultHealth;
+            _currentValue = currentHealth;
+            Default = defaultHealth;
+            _bonusHealth = bonusHealth;
         }
 
-        public EntityId Id { get; }
+        public UnitId Id { get; }
 
-        public float DefaultHealth
+        public readonly float Default { get; }
+
+        public float CurrentValue
         {
-            get => _defaultHealth;
+            readonly get => _currentValue;
             set
             {
                 if (float.IsNaN(value))
                 {
                     throw new System.InvalidOperationException($"Value can't be NaN");
-                }
-
-                _defaultHealth = value;
-            }
-        }
-
-        public float CurrentHealth
-        {
-            get => _currentHealth;
-            set
-            {
-                if (float.IsNaN(value))
-                {
-                    throw new System.InvalidOperationException($"Value can't be NaN");
-                }
-
-                if (value < 0)
-                {
-                    _currentHealth = 1;
-                    return;
                 }
 
                 if (value > MaxHealth)
                 {
-                    _currentHealth = MaxHealth;
+                    _currentValue = MaxHealth;
+                    return;
                 }
 
-                _currentHealth = value;
+                _currentValue = value;
             }
         }
 
-        public float MaxHealth => _maxHealth;
+        public readonly float MaxHealth => _bonusHealth + Default;
 
         public void TakeDamage(float damage)
         {
@@ -84,7 +57,7 @@ namespace Combat.Local.Domain.Entities
                 return;
             }
 
-            _currentHealth -= damage;
+            CurrentValue -= damage;
         }
 
         public void TakeHealing(float healing)
@@ -94,12 +67,7 @@ namespace Combat.Local.Domain.Entities
                 return;
             }
 
-            _currentHealth += healing;
-
-            if (_currentHealth > MaxHealth)
-            {
-                _currentHealth = MaxHealth;
-            }
+            CurrentValue += healing;
         }
     }
 }

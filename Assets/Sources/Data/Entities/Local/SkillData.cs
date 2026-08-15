@@ -1,12 +1,16 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
 
+using System.Collections.Generic;
+
 using UnityEngine;
 
 namespace Data.Entities
 {
     public class SkillData : MonoBehaviour//, ISkillData
     {
+        private readonly Dictionary<string, object?> _properties;
+
         [SerializeField] private int _id;
         [field: SerializeField] public SkillFlags Flags { get; private set; }
 
@@ -29,6 +33,5 @@ namespace Data.Entities
 
     public interface ISkillComponent
     {
-
     }
 }

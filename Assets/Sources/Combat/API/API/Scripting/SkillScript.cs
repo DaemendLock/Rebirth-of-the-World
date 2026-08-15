@@ -2,11 +2,13 @@
 {
     public class SkillScript : ISkillProperty
     {
-        protected SkillApi Instance { get; private set; }
+        protected AbilityApi Instance { get; private set; }
 
-        protected SceneApi Scene => Instance.Scene;
+        protected EncounterApi Scene => Instance.Scene;
 
-        public void Init(SkillApi instance)
+        protected Unit Owner => Instance.Owner;
+
+        public void Init(AbilityApi instance)
         {
             Instance = instance;
             OnInit();

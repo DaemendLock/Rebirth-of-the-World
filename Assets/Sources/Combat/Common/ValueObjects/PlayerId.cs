@@ -4,9 +4,9 @@ namespace Combat.Common.ValueObjects
 {
     public readonly struct PlayerId : IEquatable<PlayerId>
     {
-        public readonly int Value;
+        public readonly Guid Value;
 
-        public PlayerId(int id)
+        public PlayerId(Guid id)
         {
             Value = id;
         }

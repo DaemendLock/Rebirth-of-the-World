@@ -1,5 +1,7 @@
 ﻿using Combat.API.Statuses;
 using Combat.Common.ValueObjects;
+using Combat.Local.Gateways.DataSources;
+using Combat.Local.Scripting.Idk;
 
 using System;
 using System.Collections.Generic;
@@ -7,10 +9,10 @@ using System.Reflection;
 
 namespace Combat.Local.Data.Databases
 {
-    public class StatusScriptTypeDataSource
+    public class StatusScriptTypeDataSource : IStatusDataBase, IStatusScriptTypeProvider
     {
         private readonly Type _scriptType;
-        private readonly Dictionary<StatusName, Type> _typesByName;
+        private readonly Dictionary<StatusType, Type> _typesByName;
 
         public StatusScriptTypeDataSource(Type scriptType)
         {
@@ -57,6 +59,6 @@ namespace Combat.Local.Data.Databases
             //_constructorsByName[skillScriptNameAttribute.Name] = constructor;
         }
 
-        public bool TryGet(StatusName key, out Type type) => _typesByName.TryGetValue(key, out type);
+        public bool TryGet(StatusType key, out Type type) => _typesByName.TryGetValue(key, out type);
     }
 }

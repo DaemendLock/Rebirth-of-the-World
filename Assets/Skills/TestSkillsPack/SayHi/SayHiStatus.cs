@@ -5,7 +5,7 @@ using Combat.API.Statuses;
 namespace TestSkillPack.Assets.Skills.TestSkillsPack.SayHi
 {
     [StatusScriptName("HiStatus")]
-    public class SayHiStatus : CustomStatusStrategy, IAttributesModifier, ITimeScaleModifier
+    public class SayHiStatus : StatusScript, IAttributesModifier, ITimeScaleModifier
     {
         public override void OnCreate()
         {

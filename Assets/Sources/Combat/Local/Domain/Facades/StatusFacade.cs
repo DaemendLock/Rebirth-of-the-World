@@ -1,30 +1,25 @@
-﻿using Combat.Common.ValueObjects;
+﻿using Combat.Common;
+using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
-using Combat.Local.Domain.ValueObjects;
 
 namespace Combat.Local.Domain.Facades
 {
     public readonly struct StatusFacade
     {
-        private readonly StartStatusTimerUseCase _startStatusTimerUseCase;
-        private readonly StopStatusTimerUseCase _stopStatusTimerUseCase;
-        private readonly RemoveStatusUseCase _removeStatusUseCase;
+        private readonly StatusTimerStartUseCase _startStatusTimerUseCase;
+        private readonly StatusTimerStopUseCase _stopStatusTimerUseCase;
+        private readonly StatusRemoveUseCase _removeStatusUseCase;
 
         private readonly IStatusRepository _statusRepository;
 
-        public StatusFacade(StartStatusTimerUseCase startStatusTimerUseCase, StopStatusTimerUseCase stopStatusTimerUseCase, RemoveStatusUseCase removeStatusUseCase, IStatusRepository statusRepository)
+        public StatusFacade(StatusTimerStartUseCase startStatusTimerUseCase, StatusTimerStopUseCase stopStatusTimerUseCase, StatusRemoveUseCase removeStatusUseCase, IStatusRepository statusRepository)
         {
             _startStatusTimerUseCase = startStatusTimerUseCase;
             _stopStatusTimerUseCase = stopStatusTimerUseCase;
             _removeStatusUseCase = removeStatusUseCase;
             _statusRepository = statusRepository;
-        }
-
-        public void Remove(StatusId id)
-        {
-            _removeStatusUseCase.Execute(id);
         }
 
         public void StartPeriodicAction(StatusId target, float period, float startTime = 0)
@@ -45,7 +40,8 @@ namespace Combat.Local.Domain.Facades
             }
 
             Duration value = target.Duration;
-            value.FullDuration += duration;
+            value = new(value.ActiveTime, value.FullDuration + duration);
+            target.Duration = value;
             _statusRepository.Update(target);
         }
 
@@ -74,11 +70,6 @@ namespace Combat.Local.Domain.Facades
         public void SetStackCount(StatusId id, int stackCount)
         {
             throw new System.NotImplementedException();
-        }
-
-        public void Update(StatusId id)
-        {
-
         }
     }
 }

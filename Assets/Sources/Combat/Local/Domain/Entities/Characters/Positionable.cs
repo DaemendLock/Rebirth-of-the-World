@@ -1,8 +1,4 @@
 ﻿using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Entities.Units;
-
-using System;
-using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -10,51 +6,33 @@ namespace Combat.Local.Domain.Entities
 {
     public ref struct Positionable
     {
-        private readonly Quaternion _rotation;
-        private readonly Quaternion _lookDirection;
-        private readonly IReadOnlyCollection<MoveInDirectionEffect> _movementEffects;
-        private readonly Span<ScaleOverTimeEffect> _scaleEffects;
-
-        public Positionable(EntityId id, Vector3 position, Quaternion rotation, float scale, Quaternion lookDiration, ModelName modelName)
+        public Positionable(UnitId id, Vector3 position, Quaternion rotation, float scale, Quaternion lookDiration, ModelName modelName, Vector3 velocity, Team team)
         {
             Id = id;
             ModelName = modelName;
             Scale = scale;
 
             Position = position;
-            _rotation = rotation;
-            _lookDirection = lookDiration;
-            _movementEffects = Array.Empty<MoveInDirectionEffect>();
-            _scaleEffects = Span<ScaleOverTimeEffect>.Empty;
+            Rotation = rotation;
+            LookDirection = lookDiration;
+            Velocity = velocity;
+            Team = team;
         }
 
-        public Positionable(EntityId id, Vector3 position, Quaternion rotation, float scale, Quaternion lookDiration, ModelName modelName, IReadOnlyCollection<MoveInDirectionEffect> moveEffects)
-        {
-            Id = id;
-            ModelName = modelName;
-            Scale = scale;
-
-            Position = position;
-            _rotation = rotation;
-            _lookDirection = lookDiration;
-            _movementEffects = moveEffects;
-            _scaleEffects = Span<ScaleOverTimeEffect>.Empty;
-        }
-
-        public EntityId Id { get; }
+        public UnitId Id { get; }
 
         public Vector3 Position { get; set; }
 
-        public Quaternion Rotation => _rotation;
+        public Quaternion Rotation { get; set; }
 
-        public Quaternion LookDirection => _lookDirection;
+        public Quaternion LookDirection { get; set; }
 
         public ModelName ModelName { get; }
 
+        public Vector3 Velocity { get; set; }
+
         public float Scale { get; set; }
 
-        public IReadOnlyCollection<MoveInDirectionEffect> GetMoveInDirectionOverTimeEffects() => _movementEffects;
-
-        public Span<ScaleOverTimeEffect> GetScaleOverTimeEffects() => _scaleEffects;
+        public Team Team { get; set; }
     }
 }

@@ -4,6 +4,6 @@ namespace Combat.API.Skills
 {
     public interface IPassiveSkill : ISkillProperty
     {
-        StatusName PassiveStatusName { get; }
+        StatusType PassiveStatusName { get; }
     }
 }

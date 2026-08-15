@@ -1,4 +1,5 @@
 ﻿using Combat.Common.ValueObjects;
+using Combat.Local.Domain.ValueObjects;
 
 using System;
 
@@ -6,17 +7,18 @@ namespace Combat.Local.Domain.Entities
 {
     public readonly ref struct SkillOwner
     {
-        public SkillOwner(EntityId id, ReadOnlySpan<SkillId> skills)
+        public SkillOwner(UnitId id, ReadOnlySpan<SkillId> skills, ReadOnlySpan<SkillCooldown> cooldowns)
         {
             Id = id;
             Skills = skills;
+            Cooldowns = cooldowns;
         }
 
-        public EntityId Id { get; }
+        public UnitId Id { get; }
 
         public ReadOnlySpan<SkillId> Skills { get; }
 
-        public int SkillCount => Skills.Length;
+        public ReadOnlySpan<SkillCooldown> Cooldowns { get; }
 
         public SkillId? GetSkill(int index)
         {
@@ -39,6 +41,19 @@ namespace Combat.Local.Domain.Entities
             return false;
         }
 
-        public ReadOnlySpan<SkillId> GetAll() => Skills;
+        public float GetCooldown(SkillId skillId)
+        {
+            foreach (var value in Cooldowns)
+            {
+                if (value.Skill != skillId)
+                {
+                    continue;
+                }
+
+                return value.Value;
+            }
+
+            return 0f;
+        }
     }
 }

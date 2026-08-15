@@ -1,44 +1,40 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Domain.Factories
 {
-    public interface IActionStrategyFactory
+    public interface IAbilityActionStrategyFactory
     {
-        IActionStrategy Create(ActionId id);
+        IActionStrategy Create(ActionId id, SkillId source, bool holdable);
     }
 
     public class ActionFactory
     {
-        private readonly ISkillRepository _skillRepository;
-        private readonly IActionStrategyFactory _actionStrategyFactory;
+        private readonly IAbilityActionStrategyFactory _actionStrategyFactory;
 
-        public ActionFactory(ISkillRepository skillRepository, IActionStrategyFactory actionStrategyFactory)
+        public ActionFactory(IAbilityActionStrategyFactory actionStrategyFactory)
         {
-            _skillRepository = skillRepository;
             _actionStrategyFactory = actionStrategyFactory;
         }
 
-        public Action CreateCastAction(ActionId actionId, EntityId actorId, SkillId handerId)
+        public Action CreateCastAction(ActionId actionId, Ability ability)
         {
-            Skill skill = _skillRepository.Get(handerId, actorId);
             ActionFlags flags = ActionFlags.None;
 
-            if (skill.AllowMoment)
+            if (ability.AllowMoment)
             {
                 flags |= ActionFlags.AllowMovement;
             }
 
-            if (skill.Flags.HasFlag(SkillFlags.CanHold))
+            if (ability.Flags.HasFlag(SkillFlags.CanHold))
             {
                 flags |= ActionFlags.Holdable;
             }
 
-            IActionStrategy strategy = _actionStrategyFactory.Create(actionId);
+            IActionStrategy strategy = _actionStrategyFactory.Create(actionId, ability.SkillId, flags.HasFlag(ActionFlags.Holdable));
 
-            return new Action(actionId, skill.Id, flags, strategy);
+            return new Action(actionId, flags, strategy);
         }
     }
 }

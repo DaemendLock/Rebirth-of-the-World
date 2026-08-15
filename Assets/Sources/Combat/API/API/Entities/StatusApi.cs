@@ -1,48 +1,40 @@
-﻿using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Facades;
-using Combat.Local.Domain.ValueObjects;
+﻿using Combat.API.Contexts;
+using Combat.Common;
+using Combat.Common.ValueObjects;
 
 namespace Combat.API
 {
     public sealed class StatusApi
     {
-        private readonly StatusId _id;
+        private readonly IOldStatusContext _statusContext;
 
-        private readonly StatusFacade _statusFacade;
-
-        public StatusApi(StatusId id, Unit parent, SkillApi source, StatusFacade statusController)
+        public StatusApi(IOldStatusContext statusContext, Unit parent, AbilityApi source)
         {
-            _id = id;
-            _statusFacade = statusController;
+            _statusContext = statusContext;
             Parent = parent;
             Source = source;
         }
 
-        public StatusId Id => _id;
+        public Duration Duration => _statusContext.Duration;
+
+        public StatusId Id => _statusContext.Id;
 
         public Unit Parent { get; }
 
-        public SkillApi Source { get; }
+        public AbilityApi Source { get; }
 
-        public int StackCount { get => _statusFacade.GetStackCount(_id); set => _statusFacade.SetStackCount(_id, value); }
-
-        public Duration Duration => _statusFacade.GetDuration(_id);
-
-        public void StartPeriodicAction(float interval)
+        public int StackCount
         {
-            _statusFacade.StartPeriodicAction(Id, interval);
+            get => _statusContext.StackCount;
+            set => _statusContext.StackCount = value;
         }
 
-        public void StopPeriodocAction()
-        {
-            _statusFacade.StopPeriodicAction(Id);
-        }
+        public void ExtendDuration(float duration) => _statusContext.ExtendDuration(duration);
 
-        public void ExtendDuration(float duration)
-        {
-            _statusFacade.ExtendDuration(_id, duration);
-        }
+        public int GetHashCode() => _statusContext.GetHashCode();
 
-        public override int GetHashCode() => Id.GetHashCode();
+        public void StartPeriodicAction(float interval) => _statusContext.StartPeriodicAction(interval);
+
+        public void StopPeriodocAction() => _statusContext.StopPeriodocAction();
     }
 }

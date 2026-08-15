@@ -1,50 +1,59 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
 
-using System.Collections.Generic;
-
 namespace Combat.Local.Domain.Entities
 {
-    public class Action
+    public enum InterruptReason
+    {
+        None,
+        Chained,
+        Death,
+        Forced
+    }
+
+    public sealed class Action
     {
         private readonly IActionStrategy _strategy;
-        private readonly List<EntityId> _hittedTargets;
 
-        public Action(ActionId id, SkillId source, ActionFlags flags, IActionStrategy strategy)
+        public Action(ActionId id, ActionFlags flags, IActionStrategy strategy)
         {
             Id = id;
-            Source = source;
             Flags = flags;
-            _strategy = strategy;
+            _strategy = strategy ?? throw new System.ArgumentNullException(nameof(strategy));
 
-            _hittedTargets = new();
             ActiveTime = 0;
         }
 
         public ActionId Id { get; }
 
-        public SkillId Source { get; }
-
         public ActionFlags Flags { get; }
 
-        public float ActiveTime { get; set; }
+        public float ActiveTime { get; private set; }
 
-        public float EffectiveTime => _strategy.EffectiveTime;
+        public bool IsComplete => _strategy.IsComplete;
 
-        public ActionState CurrentState => _strategy.State;
+        public bool AllowMovement => Flags.HasFlag(ActionFlags.AllowMovement);
 
-        public ICollection<EntityId> HittedTargets => _hittedTargets;
+        public void Start()
+        {
+            _strategy.Start();
+        }
 
-        public void Start() => _strategy.Start();
-
-        public void Update(float deltaTime)
+        public void Progress(float deltaTime)
         {
             ActiveTime += deltaTime;
             _strategy.Progress(deltaTime);
         }
 
-        public bool AllowMovement => Flags.HasFlag(ActionFlags.AllowMovement);
-        public bool CanInterrupt => Flags.HasFlag(ActionFlags.CanInterrupt);
-        public bool IsActive => CurrentState != ActionState.Inactive;
+        public void Interrupt(InterruptReason reason)
+        {
+            _strategy.Interrupt(reason);
+        }
+
+        public bool TryGet<T>(out T capability) where T : class
+        {
+            capability = _strategy as T;
+            return capability != null;
+        }
     }
 }

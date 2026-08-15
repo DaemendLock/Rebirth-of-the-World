@@ -179,8 +179,6 @@ GameObject:
   - component: {fileID: 5618955526700877386}
   - component: {fileID: 3483845843376956336}
   - component: {fileID: 253743179129812799}
-  - component: {fileID: 4633861814933686942}
-  - component: {fileID: 5882583214907239232}
   m_Layer: 3
   m_Name: Katerina
   m_TagString: Untagged
@@ -270,30 +268,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &4633861814933686942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 45576070814726792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f090881d899b184dbb1fa5f93a76511, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5882583214907239232
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 45576070814726792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4d7bbd35b51a2747a90be0e8cda9998, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &52543763377944959
 GameObject:
   m_ObjectHideFlags: 0

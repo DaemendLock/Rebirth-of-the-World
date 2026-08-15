@@ -17,7 +17,7 @@ namespace Data.Items
     }
 
     [CreateAssetMenu(menuName = "Assets/Item/Item")]
-    public class Item : ScriptableObject, Loadable
+    public class Item : ScriptableObject, ILoadable
     {
         private static Dictionary<ItemId, Item> _items = new Dictionary<ItemId, Item>();
 

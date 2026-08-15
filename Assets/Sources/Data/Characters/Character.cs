@@ -12,7 +12,7 @@ using UnityEngine;
 namespace Data.Characters
 {
     [CreateAssetMenu(menuName = "Assets/Characters/Character")]
-    public class Character : ScriptableObject, Loadable
+    public class Character : ScriptableObject, ILoadable
     {
         private static Dictionary<int, Character> _characters = new Dictionary<int, Character>();
 

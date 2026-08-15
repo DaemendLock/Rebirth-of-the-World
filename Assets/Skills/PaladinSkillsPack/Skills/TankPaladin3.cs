@@ -1,6 +1,7 @@
 ﻿using Combat.API;
 using Combat.API.Scripting;
 using Combat.API.Skills;
+using Combat.Common.ValueObjects;
 
 namespace TestSkillsPack.Paladin
 {
@@ -8,19 +9,20 @@ namespace TestSkillsPack.Paladin
     public class TankPaladin3 : SkillScript, ICastableSkill
     {
         private float _radius;
+        private float _energyPerTarget;
         private float _spellPowerDamageRatio;
 
         protected override void OnInit()
         {
             _radius = 2f;
+            _energyPerTarget = 10f;
             _spellPowerDamageRatio = 0.1f;
         }
 
-        public void OnCast(CastEvent @event)
+        public bool OnCast()
         {
-            float energy = @event.Caster.GetResourceValue(new(2));
-
-            Unit[] targets = Scene.FindUnitsInRadius(@event.Caster.Position, _radius);
+            Unit[] targets = Scene.FindUnitsInRadius(Owner.Position, _radius);
+            int targetCount = 0;
 
             foreach (Unit target in targets)
             {
@@ -29,12 +31,14 @@ namespace TestSkillsPack.Paladin
                     continue;
                 }
 
-                float damage = energy * @event.Caster.GetAttributeValue(Combat.Common.ValueObjects.Attribute.Spellpower) * _spellPowerDamageRatio;
-                target.ApplyDamage(new(@event.Caster, Instance, damage, Combat.Common.Flags.DamageFlags.None));
+                float damage = Owner.GetAttributeValue(Attribute.Spellpower) * _spellPowerDamageRatio;
+                target.ApplyDamage(new(Owner, Instance, damage, Combat.Common.Flags.DamageFlags.None));
+                targetCount++;
             }
 
-            @event.Scene.CreateStatus(new(@event.Caster, "TankPaladin3Buff", 3f, 1, @event.Skill));
-            @event.Caster.SpendResource(new(2), energy, @event.Skill);
+            Scene.CreateStatus(new(Owner, "TankPaladin3Buff", 3f, 1, Instance));
+            Owner.GiveResource(new(ResourceId.Custom, _energyPerTarget * targetCount, Instance));
+            return true;
         }
 
         private bool CanHit(Unit target)

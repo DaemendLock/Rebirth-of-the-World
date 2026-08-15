@@ -1,0 +1,24 @@
+{
+    "name": "Combat.Local.Composition",
+    "rootNamespace": "",
+    "references": [
+        "GUID:dc965a8580913f84294fa92f59afdf35",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:8651ed9d0dea994419fbeebf6b549ef2",
+        "GUID:42ee2425d96a97649a605b8a9aa87e8f",
+        "GUID:acec19dd566e4414b96c09862c7350b8",
+        "GUID:ef0378ff5322d6744b2be5755e568683",
+        "GUID:010685c63d73af04bb1638e65feea0ce",
+        "GUID:4378eeac20bd190438cf49cb31406b64",
+        "GUID:f8f308abac3ab0c45b524f1b6464ee54"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

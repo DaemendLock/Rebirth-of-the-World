@@ -1,0 +1,22 @@
+{
+    "name": "Testing.Local.Lobby",
+    "rootNamespace": "",
+    "references": [
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:44579ed5de1535940a8742f86e7eb710",
+        "GUID:47a379848eb3d4741b98639809c930ea",
+        "GUID:d3472c00b14087846a0a9621c1c117e4",
+        "GUID:a7a2a458655073448a2f0522d43c6c8c",
+        "GUID:56f9f1a8f61c8a2408ed99359b9cdc4e",
+        "GUID:f8f308abac3ab0c45b524f1b6464ee54"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,27 +1,23 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.OutputPorts;
-using Combat.Local.Presentation.Components;
 
 namespace Combat.Local.Presentation.Presenters
 {
-    public class ScenePresenter : ICreateUnitOutput
+    public class ScenePresenter : ICharacterCreateOutput, ICharacterRemoveOutput
     {
-        private readonly ICharacterViewContainer _container;
 
-        public ScenePresenter(ICharacterViewContainer container)
+        public ScenePresenter()
         {
-            _container = container;
         }
 
-        public void Present(EntityId value)
+        void ICharacterCreateOutput.Present(UnitId value)
         {
-            if (_container.TryGetValue(value, out var transform) == false)
-            {
-                return;
-            }
+            UnityEngine.Debug.Log($"Character created: Id - {value}");
+        }
 
-            CharacterView view = transform.GetComponent<CharacterView>() ?? transform.gameObject.AddComponent<CharacterView>();
-            view.Id = value;
+        void ICharacterRemoveOutput.Present(UnitId value)
+        {
+            UnityEngine.Debug.Log($"Character removed: Id - {value}");
         }
     }
 }

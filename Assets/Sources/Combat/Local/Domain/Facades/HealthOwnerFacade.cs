@@ -1,48 +1,54 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
+using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
 
 namespace Combat.Local.Domain.Facades
 {
     public readonly struct HealthOwnerFacade
     {
-        private readonly SetHealthUseCase _setHealthUseCase;
-        private readonly ApplyDamageUseCase _applyDamageUseCase;
-        private readonly ApplyHealingUseCase _applyHealingUseCase;
-        private readonly GetHealthUseCase _getHealthUseCase;
+        private readonly HealthSetUseCase _setHealthUseCase;
+        private readonly HealthApplyDamageUseCase _applyDamageUseCase;
+        private readonly HealthApplyHealingUseCase _applyHealingUseCase;
 
-        public HealthOwnerFacade(SetHealthUseCase setHealthUseCase, ApplyDamageUseCase applyDamageUseCase, ApplyHealingUseCase applyHealingUseCase, GetHealthUseCase getHealthUseCase)
+        private readonly IHealthRepository _healthRepository;
+
+        public HealthOwnerFacade(HealthSetUseCase setHealthUseCase, HealthApplyDamageUseCase applyDamageUseCase, HealthApplyHealingUseCase applyHealingUseCase, IHealthRepository healthRepository)
         {
             _setHealthUseCase = setHealthUseCase;
             _applyDamageUseCase = applyDamageUseCase;
             _applyHealingUseCase = applyHealingUseCase;
-            _getHealthUseCase = getHealthUseCase;
+            _healthRepository = healthRepository;
         }
 
-        public HealthValueDTO GetHealth(EntityId entityId)
+        public HealthValueDTO GetHealth(UnitId entityId)
         {
-            Health value = _getHealthUseCase.Execute(entityId);
-            return new(value.CurrentHealth, value.MaxHealth);
+            if (_healthRepository.TryGet(entityId, out Health value) == false)
+            {
+                throw new System.InvalidOperationException();
+            }
+
+            return new(value.CurrentValue, value.MaxHealth);
         }
 
-        public void SetHealth(EntityId target, float value)
+        public void SetHealth(UnitId target, float value)
         {
             _setHealthUseCase.Execute(target, value);
         }
 
         public void ApplyDamage(ApplyDamageInfo info)
         {
-            _applyDamageUseCase.Execute(info.Target, info.OriginalDamage, info.Flags, info.Attacker, new(info.Caster, info.Source));
+            _applyDamageUseCase.Execute(info.Target, info.OriginalDamage, info.Flags, info.Attacker, info.Source);
         }
 
         public void ApplyHealing(ApplyHealingInfo info)
         {
-            _applyHealingUseCase.Execute(info.Target, info.OriginalHealing, info.Flags, info.Healer, new(info.Caster, info.Source));
+            _applyHealingUseCase.Execute(info.Target, info.OriginalHealing, info.Flags, info.Healer, info.Source);
         }
     }
 
-    public readonly ref struct HealthValueDTO
+    public readonly struct HealthValueDTO
     {
         public HealthValueDTO(float currentHealth, float maxHealth)
         {
@@ -56,41 +62,37 @@ namespace Combat.Local.Domain.Facades
 
     public readonly ref struct ApplyDamageInfo
     {
-        public ApplyDamageInfo(EntityId target, float originalDamage, DamageFlags flags, EntityId? attacker, SkillId? source, EntityId? caster)
+        public ApplyDamageInfo(UnitId target, float originalDamage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
         {
             Target = target;
             OriginalDamage = originalDamage;
             Flags = flags;
             Attacker = attacker;
             Source = source;
-            Caster = caster;
         }
 
-        public EntityId Target { get; }
+        public UnitId Target { get; }
         public float OriginalDamage { get; }
         public DamageFlags Flags { get; }
-        public EntityId? Attacker { get; }
-        public SkillId? Source { get; }
-        public EntityId? Caster { get; }
+        public UnitId? Attacker { get; }
+        public AbilityKey? Source { get; }
     }
 
     public readonly ref struct ApplyHealingInfo
     {
-        public ApplyHealingInfo(EntityId target, float originalHealing, HealingFlags flags, EntityId? healer, SkillId? source, EntityId? caster)
+        public ApplyHealingInfo(UnitId target, float originalHealing, HealingFlags flags, UnitId? healer, AbilityKey? source)
         {
             Target = target;
             OriginalHealing = originalHealing;
             Flags = flags;
             Healer = healer;
             Source = source;
-            Caster = caster;
         }
 
-        public EntityId Target { get; }
+        public UnitId Target { get; }
         public float OriginalHealing { get; }
         public HealingFlags Flags { get; }
-        public EntityId? Healer { get; }
-        public SkillId? Source { get; }
-        public EntityId? Caster { get; }
+        public UnitId? Healer { get; }
+        public AbilityKey? Source { get; }
     }
 }

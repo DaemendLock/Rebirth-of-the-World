@@ -1,7 +1,8 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
-using Combat.Local.Data.Models;
+using Combat.Local.Gateways.Models;
 
+using System;
 using System.Collections.Generic;
 
 namespace Combat.Local.Gateways.DataSources
@@ -13,5 +14,7 @@ namespace Combat.Local.Gateways.DataSources
         IReadOnlyCollection<ActionId> GetAssociatedActions(SkillId id);
 
         SkillFlags GetDefaultFlags(SkillId id);
+        Type GetScriptType(SkillId id);
+        global::Data.Entities.SkillData Get(SkillId id);
     }
 }

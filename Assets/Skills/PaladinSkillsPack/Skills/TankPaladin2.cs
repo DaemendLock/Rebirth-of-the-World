@@ -6,9 +6,11 @@ using Combat.Common.ValueObjects;
 namespace TestSkillsPack.Paladin
 {
     [SkillScriptName("TankPaladin2")]
-    public class TankPaladin2 : SkillScript, ICastableSkill, ICastStateChangeHandler
+    public class TankPaladin2 : SkillScript, ICastableSkill, ICastStateChangeHandler, IPassiveSkill
     {
         private float _spellPowerHealRatio;
+
+        public StatusType PassiveStatusName { get; } = new("TankPaladinPassive");
 
         protected override void OnInit()
         {

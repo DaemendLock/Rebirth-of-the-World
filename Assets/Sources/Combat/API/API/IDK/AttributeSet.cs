@@ -14,7 +14,7 @@ namespace Combat.Domain.OldAttributes
         public float Speed { get; set; }
         public float Endurance { get; set; }
 
-        public AttributeValue[] ToAttributesArray()
+        public readonly AttributeValue[] ToAttributesArray()
         {
             AttributeValue[] attributeValue = new AttributeValue[(int)Attribute.PARRY + 1];
 

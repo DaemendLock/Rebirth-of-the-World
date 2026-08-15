@@ -1,5 +1,4 @@
-﻿using Combat.API;
-using Combat.API.DTO;
+﻿using Combat.API.DTO;
 using Combat.API.Scripting;
 using Combat.API.Skills;
 using Combat.API.Utils;
@@ -14,17 +13,22 @@ namespace TestSkillsPack.SkillScripts
         {
         }
 
-        public void OnCast(CastEvent @event)
+        public bool OnCast()
         {
             UnityEngine.Debug.Log("Hi~~~!");
-            Scene.CreateStatus(new(@event.Caster, "HiStatus", 5, 1, Instance));
-
-            Unit owner = @event.Caster;
+            Scene.CreateStatus(new(Owner, "HiStatus", 5, 1, Instance));
+            return true;
         }
 
         public void OnStartup()
         {
             UnityEngine.Debug.Log("Mei-san!");
+        }
+
+        public void OnActive()
+        {
+
+            UnityEngine.Debug.Log("Active!");
         }
 
         public void OnEnds()
@@ -34,16 +38,17 @@ namespace TestSkillsPack.SkillScripts
 
         public bool OnHit(HitRecord @event)
         {
-            if (@event.Target == @event.Source) { return false; }
-
-            UnityEngine.Debug.Log($"Handling hit;");
+            if (@event.Target == Instance.Owner)
+            {
+                return false;
+            }
 
             ApplyDamageOptions applyDamageOptions = new()
             {
                 Attacker = @event.Source,
                 Target = @event.Target,
                 Source = Instance,
-                OriginalDamage = 5,
+                OriginalDamage = 500,
                 Flags = DamageFlags.None,
             };
 

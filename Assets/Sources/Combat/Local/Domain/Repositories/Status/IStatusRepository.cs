@@ -1,7 +1,7 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 
-using System.Collections.Generic;
+using System;
 
 namespace Combat.Local.Domain.Repositories
 {
@@ -11,6 +11,13 @@ namespace Combat.Local.Domain.Repositories
         void Update(Status effect);
         void Delete(StatusId effect);
         bool TryGet(StatusId id, out Status effect);
-        ICollection<Status> GetAll();
+    }
+
+    public interface IStatusDynamicMemoryRepository
+    {
+        void Create(StatusId abilityKey, int size);
+        void Save<T>(StatusId abilityKey, T value) where T : unmanaged;
+        bool TryGetRawData(StatusId abilityKey, out ReadOnlySpan<byte> result);
+        void Delete(StatusId abilityKey);
     }
 }

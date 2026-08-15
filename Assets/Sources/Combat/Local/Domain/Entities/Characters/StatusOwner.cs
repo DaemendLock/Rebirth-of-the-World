@@ -8,14 +8,27 @@ namespace Combat.Local.Domain.Entities
     {
         private readonly ReadOnlySpan<StatusId> _statuses;
 
-        public StatusOwner(EntityId id, ReadOnlySpan<StatusId> statuses)
+        public StatusOwner(UnitId id, ReadOnlySpan<StatusId> statuses)
         {
             Id = id;
             _statuses = statuses;
         }
 
-        public EntityId Id { get; }
+        public UnitId Id { get; }
 
         public ReadOnlySpan<StatusId> GetAll() => _statuses;
+
+        public bool HasStatus(StatusId id)
+        {
+            foreach (StatusId status in _statuses)
+            {
+                if (status != id)
+                    continue;
+
+                return true;
+            }
+
+            return false;
+        }
     }
 }

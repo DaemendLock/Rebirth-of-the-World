@@ -4,7 +4,7 @@ namespace Combat.API.DTO
 {
     public readonly ref struct DamageRecord
     {
-        public DamageRecord(Unit target, float originalDamage, float finalDamage, DamageFlags flags, Unit attacker, SkillApi source)
+        public DamageRecord(Unit target, float originalDamage, float finalDamage, DamageFlags flags, Unit attacker, AbilityApi source)
         {
             Attacker = attacker;
             Target = target;
@@ -18,7 +18,7 @@ namespace Combat.API.DTO
         public Unit Attacker { get; }
         public float OriginalDamage { get; }
         public float FinalDamage { get; }
-        public SkillApi Source { get; }
+        public AbilityApi Source { get; }
         public DamageFlags Flags { get; }
     }
 }

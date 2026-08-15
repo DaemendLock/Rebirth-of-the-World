@@ -7,7 +7,7 @@ namespace Combat.Local.Domain.Repositories
     {
         void Create(SkillOwner value);
         void Update(SkillOwner value);
-        void Delete(EntityId id);
-        SkillOwner Get(EntityId id);
+        void Delete(UnitId id);
+        bool TryGet(UnitId id, out SkillOwner skillOwner);
     }
 }

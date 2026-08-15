@@ -1,10 +1,15 @@
 ﻿using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Entities;
+using Combat.Local.Domain.ValueObjects;
 
 namespace Combat.Local.Domain.OutputPorts
 {
+    public interface ICharacterDeathHandler
+    {
+        void Handle(KillRecord record);
+    }
+
     public interface ICharacterConsciousStateOutput
     {
-        void Present(EntityId value, ConsciousState state);
+        void Present(UnitId value, ConsciousState state);
     }
 }

@@ -6,33 +6,36 @@ namespace CastStateSkill
     {
         public const int FrameRate = 60;
 
-        private readonly float[] _typeChangesTime;
+        private readonly float[] _typeChangesTimeNormalized;
         private readonly float _duration;
 
         public FrameData(float duration, float[] timeMarks)
         {
             _duration = duration;
-            _typeChangesTime = timeMarks.OrderBy(value => value).Select(value => value * _duration).ToArray();
+            _typeChangesTimeNormalized = timeMarks.OrderBy(value => value).ToArray();
         }
 
         public int TotalFrames => (int)(_duration * FrameRate);
+
         public float FullDuration => _duration;
 
         public SkillCastState GetCastState(float time)
         {
-            if (time > _duration)
+            if (_duration <= 0 || time > _duration)
             {
                 return SkillCastState.Inactive;
             }
 
-            if (_typeChangesTime.Length == 0 || time > _typeChangesTime[^1])
+            time /= _duration;
+
+            if (_typeChangesTimeNormalized.Length == 0 || time > _typeChangesTimeNormalized[^1])
             {
                 return SkillCastState.Recovery;
             }
 
-            for (int i = _typeChangesTime.Length - 2; i >= 0; i--)
+            for (int i = _typeChangesTimeNormalized.Length - 2; i >= 0; i--)
             {
-                if (time <= _typeChangesTime[i])
+                if (time <= _typeChangesTimeNormalized[i])
                 {
                     continue;
                 }
@@ -41,6 +44,33 @@ namespace CastStateSkill
             }
 
             return SkillCastState.Startup;
+        }
+
+        public float RecoveryEnterTimeNormalized => _typeChangesTimeNormalized.Length == 0
+            ? 0
+            : _typeChangesTimeNormalized[^1];
+
+        public float LastActiveEnterTime => GetLastActiveTimeMark(0);
+
+        public float LastActiveExitTime => GetLastActiveTimeMark(1);
+
+        public float RecoveryEnterTime => RecoveryEnterTimeNormalized * _duration;
+
+        private float GetLastActiveTimeMark(int offset)
+        {
+            if (_typeChangesTimeNormalized.Length < 2)
+            {
+                return RecoveryEnterTime;
+            }
+
+            int activeEnterIndex = _typeChangesTimeNormalized.Length - 2;
+
+            if ((activeEnterIndex & 1) != 0)
+            {
+                activeEnterIndex--;
+            }
+
+            return _typeChangesTimeNormalized[activeEnterIndex + offset] * _duration;
         }
     }
 }

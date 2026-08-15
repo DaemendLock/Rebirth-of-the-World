@@ -21,6 +21,8 @@ namespace Combat.Local.Gateways.Repositories
 
         public void Delete(StatusId statusId) => _values.Remove(statusId);
 
+        public bool TryGet(StatusId id, out StatusTimer value) => _values.TryGetValue(id, out value);
+
         public ICollection<StatusTimer> GetAll() => _values.Values;
 
         public void Update(StatusTimer value) => _values[value.StatusId] = value;

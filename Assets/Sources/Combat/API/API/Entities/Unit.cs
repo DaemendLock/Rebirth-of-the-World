@@ -1,93 +1,77 @@
+﻿using Combat.API.Contexts;
 using Combat.API.DTO;
 using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Facades;
+
+using System;
+using System.Collections.Generic;
 
 namespace Combat.API
 {
     public sealed class Unit
     {
-        private readonly EntityId _id;
-        private readonly CharacterFacade _characterFacade;
-        private readonly HealthOwnerFacade _healthOwnerFacade;
-        private readonly AttributeOwnerFacade _attributeOwnerFacade;
+        private readonly IOldUnitContext _unitContext;
 
-        public Unit(EntityId id,
-            CharacterFacade characterController,
-            HealthOwnerFacade healthOwnerController,
-            AttributeOwnerFacade attributeOwnerController)
+        public Unit(IOldUnitContext unitContext)
         {
-            _id = id;
-
-            _characterFacade = characterController;
-            _healthOwnerFacade = healthOwnerController;
-            _attributeOwnerFacade = attributeOwnerController;
+            _unitContext = unitContext;
         }
 
-        public EntityId Id => _id;
-
-        public Team Team => _characterFacade.GetTeam(_id);
-
-        public ModelName ModelName => _characterFacade.GetPosition(_id).ModelName;
-
-        public float Scale
-        {
-            get => _characterFacade.GetPosition(_id).Scale;
-            set
-            {
-                throw new System.NotImplementedException();
-            }
-        }
-
-        public UnityEngine.Vector3 Position => _characterFacade.GetPosition(_id).Position;
-
-        public bool Alive => _characterFacade.IsAlive(_id);
+        public bool Alive => _unitContext.Alive;
 
         public float CurrentHealth
         {
-            get => _healthOwnerFacade.GetHealth(_id).CurrentHealth;
-            set => _healthOwnerFacade.SetHealth(_id, value);
+            get => _unitContext.CurrentHealth;
+            set => _unitContext.CurrentHealth = value;
         }
 
-        public float MaxHealth => _healthOwnerFacade.GetHealth(_id).MaxHealth;
+        public UnitId Id => _unitContext.Id;
 
-        public float GetCooldown(SkillId skillId) => 0;
+        public float MaxHealth => _unitContext.MaxHealth;
 
-        public float GetAttributeValue(Attribute attribute) => _attributeOwnerFacade.GetAttributeValue(_id, attribute);
+        public ModelName ModelName => _unitContext.ModelName;
 
-        public float GetVersalityModifier() => _attributeOwnerFacade.GetVersalityModifier(_id);
+        public UnityEngine.Vector3 Position => _unitContext.Position;
 
-        public float GetHasteModifier() => _attributeOwnerFacade.GetHasteModifier(_id);
+        public float Scale => _unitContext.Scale;
 
-        public bool CanHurt(Unit target) => Team != target.Team;
+        public Team Team => _unitContext.Team;
 
-        public void ApplyStatus(ApplyStatusInfo info) => _characterFacade.ApplyStatus(_id, info.Name, info.StackCount, info.Duration, info.Source?.SkillId, info.Source?.OwnerId);
+        public void AddMovement(UnityEngine.Vector3 direction, float speed, bool isRelative) => _unitContext.AddMovement(direction, speed, isRelative);
 
-        public bool HasStatus(StatusName name) => _characterFacade.HasStatus(_id, name);
+        public void ApplyDamage(ApplyDamageInfo info) => _unitContext.ApplyDamage(info);
 
-        public float GetResourceValue(ResourceId resource) => _characterFacade.GetResourceValue(_id, resource);
+        public void ApplyHealing(ApplyHealingInfo info) => _unitContext.ApplyHealing(info);
 
-        public void GiveResource(GiveResourceInfo info) => _characterFacade.GiveResource(_id, info.Resource, info.Value, info.Source?.SkillId, info.Source?.OwnerId);
+        public void ApplyStatus(ApplyStatusInfo info) => _unitContext.ApplyStatus(info);
 
-        public void SpendResource(ResourceId resource, float value, SkillApi source) => _characterFacade.SpendResource(_id, resource, value, source?.SkillId, source?.OwnerId);
+        public bool CanHurt(Unit target) => _unitContext.CanHurt(target._unitContext);
 
-        public void ApplyDamage(DTO.ApplyDamageInfo info)
-        {
-            Local.Domain.Facades.ApplyDamageInfo applyDamageInfo = new(_id, info.Damage, info.Flags, info.Attacker?.Id, info.Source?.SkillId, info.Source?.OwnerId);
-            _healthOwnerFacade.ApplyDamage(applyDamageInfo);
-        }
+        public float GetAttributeValue(Common.ValueObjects.Attribute attribute) => _unitContext.GetAttributeValue(attribute);
 
-        public void ApplyHealing(DTO.ApplyHealingInfo info)
-        {
-            Local.Domain.Facades.ApplyHealingInfo applyHealingInfo = new(_id, info.Healing, info.Flags, info.Healer?.Id, info.Source?.SkillId, info.Source?.OwnerId);
-            _healthOwnerFacade.ApplyHealing(applyHealingInfo);
-        }
+        public float GetCooldown(SkillId skillId) => _unitContext.GetCooldown(skillId);
 
-        public void AddMovement(UnityEngine.Vector3 direction, float speed, bool isRelative) => _characterFacade.AddMoveInDirectionEffect(Id, direction, speed, isRelative);
+        public float GetHasteModifier() => _unitContext.GetHasteModifier();
 
-        public void Kill(KillInfo data) => _characterFacade.Kill(_id, data.Source?.SkillId, data.Source?.OwnerId);
+        public float GetResourceValue(ResourceId resource) => _unitContext.GetResourceValue(resource);
 
-        public void Revive(ReviveInfo data) => _characterFacade.Revive(_id, data.Source?.SkillId, data.Source?.OwnerId);
+        public float GetVersalityModifier() => _unitContext.GetVersalityModifier();
 
-        public bool Equals(Unit other) => other.Id == _id;
+        public void GiveResource(GiveResourceInfo info) => _unitContext.GiveResource(info);
+
+        public bool HasStatus(StatusType name) => _unitContext.HasStatus(name);
+
+        public void Kill(KillInfo data) => _unitContext.Kill(data);
+
+        public void Revive(ReviveInfo data) => _unitContext.Revive(data);
+
+        public void SpendResource(ResourceId resource, float value, AbilityApi source) => _unitContext.SpendResource(resource, value, source);
+
+        public bool Equals(Unit other) => _unitContext.Id == other._unitContext.Id;
+
+        public override int GetHashCode() => Id.GetHashCode();
+
+        public static bool operator ==(Unit left, Unit right) => left.Equals(right);
+
+        public static bool operator !=(Unit left, Unit right) => !(left == right);
     }
 }

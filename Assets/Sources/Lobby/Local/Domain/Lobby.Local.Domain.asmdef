@@ -1,0 +1,17 @@
+{
+    "name": "Lobby.Local.Domain",
+    "rootNamespace": "",
+    "references": [
+        "GUID:44579ed5de1535940a8742f86e7eb710",
+        "GUID:f8f308abac3ab0c45b524f1b6464ee54"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

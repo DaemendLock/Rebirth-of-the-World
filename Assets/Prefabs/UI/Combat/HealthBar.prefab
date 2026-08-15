@@ -31,7 +31,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8882998032504190225}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -107,7 +106,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8882998031298677369}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -185,7 +183,6 @@ RectTransform:
   m_Children:
   - {fileID: 8882998031114903924}
   m_Father: {fileID: 8882998031765325407}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -239,10 +236,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8882998031298677368}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 781257a9e34ff624e8625cfbaa00992b, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a56fdea8885a8d49b328d0e2285335f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _filler: {fileID: 8882998031114903925}
+  _background: {fileID: 8882998031298677375}
 --- !u!1 &8882998031765325406
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,7 +250,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8882998031765325407}
-  - component: {fileID: 8882998031765325404}
+  - component: {fileID: 6121284748044143196}
   m_Layer: 0
   m_Name: HealthBar
   m_TagString: Untagged
@@ -275,14 +273,13 @@ RectTransform:
   - {fileID: 8882998032504190225}
   - {fileID: 8882998031298677369}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 600, y: 79}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8882998031765325404
+--- !u!114 &6121284748044143196
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -291,11 +288,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8882998031765325406}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6885ad74e7443034e9646b4fe5303926, type: 3}
+  m_Script: {fileID: 11500000, guid: 3be03878255522c4a84c63ff98459809, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: {fileID: 8882998032504190230}
-  _absorption: {fileID: 8882998031298677374}
+  _healthBar: {fileID: 8882998032504190230}
+  _absorptionBar: {fileID: 8882998031298677374}
 --- !u!1 &8882998032504190224
 GameObject:
   m_ObjectHideFlags: 0
@@ -329,7 +326,6 @@ RectTransform:
   m_Children:
   - {fileID: 8882998030434051050}
   m_Father: {fileID: 8882998031765325407}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -383,7 +379,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 8882998032504190224}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 781257a9e34ff624e8625cfbaa00992b, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a56fdea8885a8d49b328d0e2285335f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _filler: {fileID: 8882998030434051051}
+  _background: {fileID: 8882998032504190231}
