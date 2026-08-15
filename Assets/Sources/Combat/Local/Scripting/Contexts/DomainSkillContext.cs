@@ -1,4 +1,5 @@
 ﻿using Combat.API.Contexts;
+using Combat.API.Events;
 using Combat.API.Skills;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Repositories.Skill;
@@ -9,7 +10,7 @@ using System.Runtime.InteropServices;
 
 namespace Combat.Local.Scripting.Contexts
 {
-    public class DomainSkillContext : ISkillContext // ?? Model
+    public sealed class DomainSkillContext : ISkillContext // ?? Model
     {
         private readonly IEnvironmentContext _environmentContext;
         private readonly ISkillMemoryRepository _skillMemoryRepository;

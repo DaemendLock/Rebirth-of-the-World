@@ -1,4 +1,5 @@
 using Combat.API.Contexts;
+using Combat.API.Events;
 using Combat.Common.ValueObjects;
 
 using System;

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 namespace Combat.Local.Scripting.Runtime
 {
-
     public sealed class ScriptSkillRuntimeRegistry : ISkillRuntimeRegistry
     {
         private readonly Dictionary<AbilityKey, SkillRuntime> _values = new();

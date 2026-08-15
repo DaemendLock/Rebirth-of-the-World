@@ -1,4 +1,5 @@
 ﻿using Combat.API.Contexts;
+using Combat.API.Events;
 using Combat.API.Objectives;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Facades;

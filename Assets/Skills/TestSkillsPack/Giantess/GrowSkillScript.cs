@@ -1,4 +1,6 @@
-﻿using Combat.API.Scripting;
+﻿using Combat.API;
+using Combat.API.Contexts;
+using Combat.API.Scripting;
 using Combat.API.Skills;
 
 namespace Server.Combat.Domain.Implementations.Actions
@@ -27,5 +29,10 @@ namespace Server.Combat.Domain.Implementations.Actions
             _targetSize = currentSize + (_growPercent / 100);
             return true;
         }
+    }
+
+    public sealed class GrowSelfSkillScript : ICastableNew, IActableNew
+    {
+        public bool OnCast(IActor actor, ISkillContext skillContext) => throw new System.NotImplementedException();
     }
 }

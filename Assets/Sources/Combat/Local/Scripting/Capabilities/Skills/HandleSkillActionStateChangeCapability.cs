@@ -48,9 +48,9 @@ namespace Combat.Local.Scripting.Capabilities.Skills
     public sealed class NewHandleSkillActionStateChangeCapability : ISkillHandleActionStateChangeCapability
     {
         private readonly UnitNew _actor;
-        private readonly ISkillScriptNew _handler;
+        private readonly IActableNew _handler;
 
-        public NewHandleSkillActionStateChangeCapability(ISkillScriptNew handler, UnitNew actor)
+        public NewHandleSkillActionStateChangeCapability(IActableNew handler, UnitNew actor)
         {
             _actor = actor;
             _handler = handler;
@@ -66,11 +66,14 @@ namespace Combat.Local.Scripting.Capabilities.Skills
                 case ActionState.Active:
                     _handler.OnEnterActive(_actor, skillContext);
                     return;
+                case ActionState.Gap:
+                    _handler.OnEnterGap(_actor, skillContext);
+                    return;
                 case ActionState.Recovery:
                     _handler.OnEnterRecovery(_actor, skillContext);
                     return;
                 case ActionState.Inactive:
-                case ActionState.Gap:
+                    _handler.OnEnded(_actor, skillContext);
                     return;
                 default:
                     throw new System.ArgumentOutOfRangeException(nameof(state), state, null);

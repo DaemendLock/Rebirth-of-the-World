@@ -1,4 +1,5 @@
-﻿using Combat.Common.ValueObjects;
+﻿using Combat.API.Events;
+using Combat.Common.ValueObjects;
 
 namespace Combat.API.Contexts
 {

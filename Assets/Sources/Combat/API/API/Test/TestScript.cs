@@ -9,7 +9,7 @@ namespace Combat.API.API.Skills
         public int CastCount;
     }
 
-    public sealed class TestScript : ISkillScriptNew
+    public sealed class TestScript : ISkillScriptNew, ICastableNew
     {
         public bool OnCast(IActor actor, ISkillContext skillContext)
         {
@@ -20,7 +20,7 @@ namespace Combat.API.API.Skills
 
             UnityEngine.Debug.Log($"Test cast; Counter value: {data.CastCount}");
             //skillContext.Owner.SubscribeToEvent<DealDamageEvent>((@event) => { });
-            return default;
+            return false;
         }
     }
 }

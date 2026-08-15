@@ -44,7 +44,7 @@ namespace Combat.Local.Scripting.SkillPorts
                 return;
             }
 
-            properties.Context.Cleanup();
+            properties.Context?.Cleanup();
             _runtimeRegistry.Remove(abilityKey);
         }
 

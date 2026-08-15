@@ -5,7 +5,6 @@ using Combat.Local.Scripting.IDK;
 
 namespace Combat.Local.Scripting.Idk
 {
-
     public sealed class NewScriptAbilityPropertyContainer : ISkillCapabilityProvider
     {
         private readonly ISkillExecuteCapability _skillExecuteCapability;
@@ -13,8 +12,15 @@ namespace Combat.Local.Scripting.Idk
 
         public NewScriptAbilityPropertyContainer(UnitNew owner, ISkillScriptNew script)
         {
-            _skillExecuteCapability = new NewSkillExecuteCapability(script, owner);
-            _skillHandleActionStateChangeCapability = new NewHandleSkillActionStateChangeCapability(script, owner);
+            if (script is ICastableNew castable)
+            {
+                _skillExecuteCapability = new NewSkillExecuteCapability(castable, owner);
+            }
+
+            if (script is IActableNew actable)
+            {
+                _skillHandleActionStateChangeCapability = new NewHandleSkillActionStateChangeCapability(actable, owner);
+            }
         }
 
         public T GetCapability<T>() where T : class

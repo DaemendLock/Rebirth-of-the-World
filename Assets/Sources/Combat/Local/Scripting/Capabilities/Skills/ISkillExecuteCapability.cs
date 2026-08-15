@@ -28,16 +28,16 @@ namespace Combat.Local.Scripting.Capabilities.Skills
 
     public sealed class NewSkillExecuteCapability : ISkillExecuteCapability
     {
-        private readonly ISkillScriptNew _skillScript;
+        private readonly ICastableNew _script;
         private readonly UnitNew _unitNew;
 
-        public NewSkillExecuteCapability(ISkillScriptNew skillScript, UnitNew unitNew)
+        public NewSkillExecuteCapability(ICastableNew script, UnitNew unitNew)
         {
-            _skillScript = skillScript;
+            _script = script;
             _unitNew = unitNew;
         }
 
-        public bool BeginCast(ISkillContext skillContext) => _skillScript.OnCast(_unitNew, skillContext);
+        public bool BeginCast(ISkillContext skillContext) => _script.OnCast(_unitNew, skillContext);
         public CastFailReason CanCast(ISkillContext context) => CastFailReason.Success;
     }
 }
