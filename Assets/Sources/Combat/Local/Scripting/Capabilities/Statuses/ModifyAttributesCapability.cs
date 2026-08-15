@@ -30,9 +30,9 @@ namespace Combat.Local.Scripting.Capabilities.Statuses
             bonusValues.Clear();
             _modifier.GetAttributesBonuses(new AttributesData(baseValues, bonusValues));
 
-            result.Attack = new(bonusValues[(int)Common.ValueObjects.UnitAttribute.Atk]);
-            result.Spellpower = new(bonusValues[(int)Common.ValueObjects.UnitAttribute.Spellpower]);
-            result.Speed = new(bonusValues[(int)Common.ValueObjects.UnitAttribute.Speed]);
+            result.Attack = new(bonusValues[(int)UnitAttribute.Atk]);
+            result.Spellpower = new(bonusValues[(int)UnitAttribute.Spellpower]);
+            result.Speed = new(bonusValues[(int)UnitAttribute.Speed]);
             return result;
         }
     }

@@ -1,5 +1,5 @@
 using Combat.API.Skills;
-using Combat.Common.ValueObjects;
+using Combat.Common.Primitives;
 using Combat.Local.Scripting.Adapters;
 
 namespace Combat.Local.Scripting.Capabilities.Skills

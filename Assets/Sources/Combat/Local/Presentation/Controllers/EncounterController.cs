@@ -1,3 +1,4 @@
+using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.DTO;
 using Combat.Local.Domain.Entities;
@@ -37,11 +38,11 @@ namespace Combat.Local.Controllers
 
     public sealed class EncounterController
     {
-        private readonly CharacterCreateUseCase _createUnitUseCase;
+        private readonly UnitCreateUseCase _createUnitUseCase;
         private readonly EncounterFinalizeUseCase _endEncounterUseCase;
         private readonly IEncounterStateMachine _stateMachine;
 
-        public EncounterController(CharacterCreateUseCase createUnitUseCase,
+        public EncounterController(UnitCreateUseCase createUnitUseCase,
                                    EncounterFinalizeUseCase endEncounterUseCase,
                                    IEncounterStateMachine stateMachine)
         {
@@ -71,13 +72,13 @@ namespace Combat.Local.Controllers
 
         public UnitId CreateUnit(UnitCreationInfo data)
         {
-            CreateCharacterDTO unitCreationDTO = new(data.ModelName, data.Team, data.Position, data.CurrentHealth, data.BaseHealth, data.DefaultAttributes, data.DefaultResources, data.Skills);
+            Domain.DTO.UnitCreationInfo unitCreationDTO = new(data.ModelName, data.Team, data.Position, data.CurrentHealth, data.BaseHealth, data.DefaultAttributes, data.DefaultResources, data.Skills);
             return _createUnitUseCase.Execute(unitCreationDTO);
         }
 
         public void CreateUnit(UnitId targetId, UnitCreationInfo data)
         {
-            CreateCharacterDTO unitCreationDTO = new(data.ModelName, data.Team, data.Position, data.CurrentHealth, data.BaseHealth, data.DefaultAttributes, data.DefaultResources, data.Skills);
+            Domain.DTO.UnitCreationInfo unitCreationDTO = new(data.ModelName, data.Team, data.Position, data.CurrentHealth, data.BaseHealth, data.DefaultAttributes, data.DefaultResources, data.Skills);
             _createUnitUseCase.Execute(targetId, unitCreationDTO);
         }
     }

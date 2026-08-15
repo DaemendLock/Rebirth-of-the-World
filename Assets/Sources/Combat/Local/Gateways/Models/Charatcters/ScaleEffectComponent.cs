@@ -9,7 +9,14 @@ namespace Combat.Local.Gateways.Models
     [RequireComponent(typeof(CharacterModelComponent))]
     public sealed class ScaleEffectComponent : MonoBehaviour
     {
+        private CharacterModelComponent _characterModel;
+
         public ScaleOverTimeEffect[] Values { get; set; } = Array.Empty<ScaleOverTimeEffect>();
+
+        private void Start()
+        {
+            _characterModel = GetComponent<CharacterModelComponent>();
+        }
 
         private void Update()
         {
@@ -21,7 +28,7 @@ namespace Combat.Local.Gateways.Models
                 rate += value.Rate;
             }
 
-            currentScale += rate * Time.deltaTime;
+            currentScale += rate * Time.deltaTime * _characterModel.TimeScale;
             transform.localScale = Vector3.one * currentScale;
         }
     }

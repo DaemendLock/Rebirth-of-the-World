@@ -1,6 +1,6 @@
 ﻿using CastStateSkill;
 
-using Combat.Common.ValueObjects;
+using Combat.Common.Primitives;
 
 using System;
 

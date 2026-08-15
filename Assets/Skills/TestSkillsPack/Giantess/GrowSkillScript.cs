@@ -2,7 +2,7 @@
 using Combat.API.Contexts;
 using Combat.API.Scripting;
 using Combat.API.Skills;
-using Combat.Common.ValueObjects;
+using Combat.Common.Primitives;
 
 namespace TestSkillsPack.SkillScripts.Giantess
 {

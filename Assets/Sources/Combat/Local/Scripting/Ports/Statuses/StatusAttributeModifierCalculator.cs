@@ -1,4 +1,4 @@
-using Combat.Common.ValueObjects;
+using Combat.Common.Primitives;
 using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.ValueObjects;
 using Combat.Local.Scripting.Capabilities.Statuses;

@@ -1,4 +1,4 @@
-﻿using Combat.Common.ValueObjects;
+﻿using Combat.Common.Primitives;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Factories;
 using Combat.Local.Domain.OutputPorts;

@@ -1,5 +1,5 @@
 ﻿using Combat.Common.Flags;
-using Combat.Common.ValueObjects;
+using Combat.Common.Primitives;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
@@ -24,7 +24,7 @@ namespace Combat.Local.Domain.Facades
 
         public HealthValueDTO GetHealth(UnitId entityId)
         {
-            if (_healthRepository.TryGet(entityId, out Health value) == false)
+            if (_healthRepository.TryGet(entityId, out HealthOwner value) == false)
             {
                 throw new System.InvalidOperationException();
             }

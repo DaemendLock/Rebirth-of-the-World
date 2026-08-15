@@ -1,4 +1,4 @@
-﻿using Combat.Common.ValueObjects;
+﻿using Combat.Common.Primitives;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Gateways.DataSources;
@@ -53,6 +53,7 @@ namespace Combat.Local.Gateways.Repositories.Characters
             if (model == null)
             {
                 _values.Remove(id);
+                throw new System.InvalidOperationException($"Key {id} does not exists");
             }
 
             return new(id, model.Effects);
@@ -93,6 +94,7 @@ namespace Combat.Local.Gateways.Repositories.Characters
             if (model == null)
             {
                 _values.Remove(id);
+                throw new System.InvalidOperationException($"Key {id} does not exists");
             }
 
             return new(id, model.Values);
@@ -108,6 +110,7 @@ namespace Combat.Local.Gateways.Repositories.Characters
             if (model == null)
             {
                 _values.Remove(value.Id);
+                return;
             }
 
             model.Values = value.Values.ToArray();

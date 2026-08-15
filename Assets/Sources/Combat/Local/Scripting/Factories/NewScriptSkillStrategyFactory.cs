@@ -1,6 +1,6 @@
 using Combat.API.API.Skills;
 using Combat.API.Contexts;
-using Combat.Common.ValueObjects;
+using Combat.Common.Primitives;
 using Combat.Local.Domain.Repositories.Skill;
 using Combat.Local.Scripting.Adapters;
 using Combat.Local.Scripting.Contexts;
@@ -42,7 +42,7 @@ namespace Combat.Local.Scripting.Factories
             }
 
             DomainSkillContext context = new(new(owner, skillId), _skillMemoryRepository, _eventContext);
-            NewScriptCapabilityContainer container = new(unitNew, new GrowSelfSkillScript());
+            NewScriptCapabilityContainer container = new(unitNew, new TestScript());
             return new(context, container);
         }
     }

@@ -4,6 +4,7 @@ using Combat.API.Scripting;
 using Combat.API.Statuses;
 using Combat.API.Utils;
 using Combat.Common.Flags;
+using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 
 namespace TestSkillsPack.Paladin

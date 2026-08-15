@@ -23,7 +23,7 @@ namespace Testing.Local
         private readonly ICharacterUpdateRepository _characterUpdateList;
         private readonly ICharacterDeleteQueue _characterDeleteQueue;
         private readonly IHitRecordQueue _hitRecordQueue;
-        private readonly CharacterDeleteUseCase _characterDeleteUseCase;
+        private readonly UnitDeleteUseCase _characterDeleteUseCase;
         private readonly IEncounterStateMachine _encounterState;
         public UpdateController(AttributeOwnerUpdateAllUseCase updateCombatUseCase,
                                 StatusOwnerProgressAllUseCases updateStatusesUseCase,
@@ -32,7 +32,7 @@ namespace Testing.Local
                                 ActorActAllUseCase actorActAllUseCase,
                                 SkillOwnerProgressAllUseCase skillUpdateAllUseCase,
                                 ICharacterDeleteQueue characterDeleteQueue,
-                                CharacterDeleteUseCase characterDeleteUseCase,
+                                UnitDeleteUseCase characterDeleteUseCase,
                                 IEncounterStateMachine encounterState,
                                 IHitRecordQueue hitRecordQueue)
         {
@@ -100,7 +100,7 @@ namespace Testing.Local
     public sealed class PerformCleanup : ICombatPhase
     {
         private readonly ICharacterDeleteQueue _characterDeleteQueue;
-        private readonly CharacterDeleteUseCase _characterDeleteUseCase;
+        private readonly UnitDeleteUseCase _characterDeleteUseCase;
 
         public void Execute(UpdateContext updateContext)
         {

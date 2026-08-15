@@ -1,4 +1,4 @@
-﻿using Combat.Common.ValueObjects;
+﻿using Combat.Common.Primitives;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
@@ -18,7 +18,7 @@ namespace Combat.Local.Domain.UseCases
 
         public void Execute(UnitId target, float value)
         {
-            if (_healthRepository.TryGet(target, out Health health) == false)
+            if (_healthRepository.TryGet(target, out HealthOwner health) == false)
             {
                 throw new System.InvalidOperationException("Not found");
             }
@@ -31,7 +31,7 @@ namespace Combat.Local.Domain.UseCases
 
     public interface IHealthOutput
     {
-        void Present(Health health);
+        void Present(HealthOwner health);
         void Present(DamageInstance instance);
     }
 }

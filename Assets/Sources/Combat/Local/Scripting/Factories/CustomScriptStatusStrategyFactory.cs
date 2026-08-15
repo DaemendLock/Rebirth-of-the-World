@@ -1,5 +1,5 @@
 ﻿using Combat.API.Scripting;
-using Combat.Common.ValueObjects;
+using Combat.Common.Primitives;
 using Combat.Local.Scripting.Adapters;
 using Combat.Local.Scripting.Idk;
 using Combat.Local.Scripting.Runtime;

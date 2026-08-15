@@ -1,4 +1,5 @@
-﻿using Combat.Common.ValueObjects;
+﻿using Combat.Common.Primitives;
+using Combat.Common.ValueObjects;
 using Combat.Local.Domain.DTO;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
@@ -12,7 +13,7 @@ namespace Combat.Local.Domain.Facades
 {
     public readonly struct EncounterFacade
     {
-        private readonly CharacterCreateUseCase _createUnitUseCase;
+        private readonly UnitCreateUseCase _createUnitUseCase;
         private readonly StatusOwnerApplyUseCase _applyStatusUseCase;
         private readonly FindCharactersInRadiusUseCase _findCharacterInRadiusUseCase;
 
@@ -20,7 +21,7 @@ namespace Combat.Local.Domain.Facades
 
         private readonly ICharacterDeleteQueue _characterDeleteQueue;
 
-        public EncounterFacade(CharacterCreateUseCase createUnitUseCase, StatusOwnerApplyUseCase applyStatusUseCase,
+        public EncounterFacade(UnitCreateUseCase createUnitUseCase, StatusOwnerApplyUseCase applyStatusUseCase,
                                 FindCharactersInRadiusUseCase findCharacterInRadiusUseCase, ICharacterDeleteQueue characterDeleteUseCase,
                                 EncounterFinalizeUseCase encounterEndUseCase)
         {
@@ -31,7 +32,7 @@ namespace Combat.Local.Domain.Facades
             _encounterEndUseCase = encounterEndUseCase;
         }
 
-        public UnitId CreateUnit(CreateCharacterDTO dto) => _createUnitUseCase.Execute(dto);
+        public UnitId CreateUnit(UnitCreationInfo dto) => _createUnitUseCase.Execute(dto);
 
         public void CreateStatus(ApplStatusDTO dto) => _applyStatusUseCase.Execute(dto);
 

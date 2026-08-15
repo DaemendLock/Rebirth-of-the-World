@@ -1,7 +1,7 @@
 ﻿using Combat.API.Scripting;
 using Combat.API.Statuses;
 using Combat.API.ValueObjects;
-using Combat.Common.ValueObjects;
+using Combat.Common.Primitives;
 
 namespace TestSkillsPack.Paladin
 {

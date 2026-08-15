@@ -1,4 +1,4 @@
-﻿using Combat.Common.ValueObjects;
+﻿using Combat.Common.Primitives;
 
 namespace Combat.API.Skills
 {

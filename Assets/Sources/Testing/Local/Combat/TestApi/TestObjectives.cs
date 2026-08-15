@@ -1,6 +1,7 @@
 ﻿using Combat.API.Contexts;
 using Combat.API.Events;
 using Combat.API.Scripting;
+using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 
 namespace Combat.API.Objectives

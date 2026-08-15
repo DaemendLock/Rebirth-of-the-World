@@ -1,6 +1,7 @@
 using Combat.API;
 using Combat.API.Contexts;
 using Combat.API.DTO;
+using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Facades;
 

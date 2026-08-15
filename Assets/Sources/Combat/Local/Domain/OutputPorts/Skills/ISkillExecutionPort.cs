@@ -1,4 +1,5 @@
-﻿using Combat.Common.ValueObjects;
+﻿using Combat.Common.Primitives;
+using Combat.Common.ValueObjects;
 
 namespace Combat.Local.Domain.Endpoints.Skills
 {

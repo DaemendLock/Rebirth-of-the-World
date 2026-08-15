@@ -1,4 +1,4 @@
-﻿using Combat.Common.ValueObjects;
+﻿using Combat.Common.Primitives;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
@@ -39,7 +39,7 @@ namespace Combat.Local.Gateways.Repositories
             _values = new();
         }
 
-        public void Create(Health value)
+        public void Create(HealthOwner value)
         {
             HealthValue data = new(value.CurrentValue, value.Default);
             _values.Add(value.Id, data);
@@ -49,7 +49,7 @@ namespace Combat.Local.Gateways.Repositories
 
         public void Delete(UnitId id) => _values.Remove(id);
 
-        public bool TryGet(UnitId id, out Health health)
+        public bool TryGet(UnitId id, out HealthOwner health)
         {
             if (_values.TryGetValue(id, out var data) == false)
             {
@@ -62,6 +62,6 @@ namespace Combat.Local.Gateways.Repositories
             return true;
         }
 
-        public void Update(Health value) => _values[value.Id] = new(value.CurrentValue, value.Default);
+        public void Update(HealthOwner value) => _values[value.Id] = new(value.CurrentValue, value.Default);
     }
 }

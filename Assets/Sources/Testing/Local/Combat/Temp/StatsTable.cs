@@ -8,7 +8,7 @@ namespace Temp.Domain.Implementations
     [Serializable]
     public class StatsTable
     {
-        public const int AttributesCount = (int)Combat.Common.ValueObjects.UnitAttribute.PARRY + 1;
+        public const int AttributesCount = (int)UnitAttribute.PARRY + 1;
 
         public static StatsTable UnitDefault => new(new AttributeValue[]
         {
@@ -52,7 +52,7 @@ namespace Temp.Domain.Implementations
             set => _values[stat] = value;
         }
 
-        public AttributeValue this[Combat.Common.ValueObjects.UnitAttribute stat]
+        public AttributeValue this[UnitAttribute stat]
         {
             get => _values[(int)stat];
             set => _values[(int)stat] = value;
@@ -76,7 +76,7 @@ namespace Temp.Domain.Implementations
 
             for (int i = 0; i < attributeValue.Length; i++)
             {
-                attributeValue[i] = this[(Combat.Common.ValueObjects.UnitAttribute)i];
+                attributeValue[i] = this[(UnitAttribute)i];
             }
 
             return attributeValue;

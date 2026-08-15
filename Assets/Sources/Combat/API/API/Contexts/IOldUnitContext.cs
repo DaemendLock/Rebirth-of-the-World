@@ -1,4 +1,5 @@
 ﻿using Combat.API.DTO;
+using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 
 using System;
@@ -21,7 +22,7 @@ namespace Combat.API.Contexts
         void ApplyHealing(ApplyHealingInfo info);
         void ApplyStatus(ApplyStatusInfo info);
         bool CanHurt(IOldUnitContext target);
-        float GetAttributeValue(Common.ValueObjects.UnitAttribute attribute);
+        float GetAttributeValue(UnitAttribute attribute);
         float GetCooldown(SkillId skillId);
         float GetHasteModifier();
         float GetResourceValue(ResourceId resource);

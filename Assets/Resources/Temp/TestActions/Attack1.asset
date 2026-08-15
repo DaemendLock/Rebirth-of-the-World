@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 0
   _frameData:
-  - 0.256
+  - 0.322
   - 0.702
   <Animation>k__BackingField: {fileID: -203655887218126122, guid: 5e2782e5088bb4b4bbbac929a4d9b7aa, type: 3}

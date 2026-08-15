@@ -1,6 +1,6 @@
 using Combat.API.Contexts;
 using Combat.API.Events;
-using Combat.Common.ValueObjects;
+using Combat.Common.Primitives;
 
 using System;
 using System.Collections.Generic;

@@ -2,6 +2,7 @@
 using Combat.API.Contexts;
 using Combat.API.DTO;
 using Combat.API.Skills;
+using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.DTO;
 using Combat.Local.Domain.Facades;
@@ -28,7 +29,7 @@ namespace Combat.Local.Scripting.Contexts
 
         public Unit CreateUnit(CreateUnitInfo data)
         {
-            CreateCharacterDTO dto = new(data.ModelName, data.Team, data.Position, -1, data.BaseHealth, data.Attributes, System.Array.Empty<ResourceValue>(), System.Array.Empty<SkillId>());
+            UnitCreationInfo dto = new(data.ModelName, data.Team, data.Position, -1, data.BaseHealth, data.Attributes, System.Array.Empty<ResourceValue>(), System.Array.Empty<SkillId>());
             return _chracterApiAdapter.Adaptee(_sceneFacade.CreateUnit(dto));
         }
 

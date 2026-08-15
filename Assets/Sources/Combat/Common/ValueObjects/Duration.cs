@@ -1,4 +1,4 @@
-﻿namespace Combat.Common
+﻿namespace Combat.Common.ValueObjects
 {
 
     public readonly struct Duration

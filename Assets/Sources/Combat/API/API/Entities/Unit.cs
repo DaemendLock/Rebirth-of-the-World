@@ -1,5 +1,6 @@
 ﻿using Combat.API.Contexts;
 using Combat.API.DTO;
+using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 
 using System;
@@ -46,7 +47,7 @@ namespace Combat.API
 
         public bool CanHurt(Unit target) => _unitContext.CanHurt(target._unitContext);
 
-        public float GetAttributeValue(Common.ValueObjects.UnitAttribute attribute) => _unitContext.GetAttributeValue(attribute);
+        public float GetAttributeValue(UnitAttribute attribute) => _unitContext.GetAttributeValue(attribute);
 
         public float GetCooldown(SkillId skillId) => _unitContext.GetCooldown(skillId);
 

@@ -1,25 +1,5 @@
 ﻿namespace Combat.Common.ValueObjects
 {
-    public enum ActionState : byte
-    {
-        Inactive,
-        Startup,
-        Active,
-        Gap,
-        Recovery,
-    }
-
-    public enum CastFailReason
-    {
-        Success = 0,
-        UnknownSkill,
-        OnCooldown,
-        CastInProgress,
-        NotCastable,
-        CantCast,
-        Custom
-    }
-
     public enum UnitAttribute : int
     {
         Atk,

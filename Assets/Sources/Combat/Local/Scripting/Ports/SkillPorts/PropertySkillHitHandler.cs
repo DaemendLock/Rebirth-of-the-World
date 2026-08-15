@@ -1,5 +1,5 @@
 using Combat.API.Contexts;
-using Combat.Common.ValueObjects;
+using Combat.Common.Primitives;
 using Combat.Local.Domain.Endpoints.Skills;
 using Combat.Local.Domain.ValueObjects;
 using Combat.Local.Scripting.Capabilities.Skills;

@@ -117,8 +117,8 @@ namespace Combat.Local.Composition
         {
             Container.Bind<AttributeOwnerUpdateAllUseCase>().AsSingle();
 
-            Container.Bind<CharacterCreateUseCase>().AsSingle();
-            Container.Bind<CharacterDeleteUseCase>().AsSingle();
+            Container.Bind<UnitCreateUseCase>().AsSingle();
+            Container.Bind<UnitDeleteUseCase>().AsSingle();
             Container.Bind<PlayerDesireCastFromSlotUseCase>().AsSingle();
             Container.Bind<PlayerReleaseSkillFromSlotUseCase>().AsSingle();
             Container.Bind<ResourceGiveUseCase>().AsSingle();

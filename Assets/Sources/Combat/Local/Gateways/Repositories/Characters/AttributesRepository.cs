@@ -1,4 +1,4 @@
-﻿using Combat.Common.ValueObjects;
+﻿using Combat.Common.Primitives;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Gateways.Models;
@@ -18,9 +18,9 @@ namespace Combat.Local.Gateways.Repositories.Characters
 
         public void Create(AttributesOwner value)
         {
-            float[] values = new float[value.GetAllBase().Length];
+            float[] values = new float[value.BaseValues.Length];
 
-            _values[value.Id] = new(value.GetAllBase().ToArray(), values);
+            _values[value.Id] = new(value.BaseValues.ToArray(), values);
         }
 
         public AttributesOwner Get(UnitId id)
@@ -40,7 +40,7 @@ namespace Combat.Local.Gateways.Repositories.Characters
                 throw new System.ArgumentException();
             }
 
-            value.GetAllBase().CopyTo(data.BaseValues);
+            value.BaseValues.CopyTo(data.BaseValues);
 
             if (value.GetAll().Length == 0)
             {

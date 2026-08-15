@@ -1,6 +1,6 @@
 ﻿using Combat.API.Events;
 using Combat.API.Skills;
-using Combat.Common.ValueObjects;
+using Combat.Common.Primitives;
 
 namespace Combat.API.Contexts
 {

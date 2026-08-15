@@ -1,5 +1,5 @@
 ﻿using Combat.API;
-using Combat.Common.ValueObjects;
+using Combat.Common.Primitives;
 using Combat.Local.Domain.Facades;
 
 namespace Combat.Local.Scripting

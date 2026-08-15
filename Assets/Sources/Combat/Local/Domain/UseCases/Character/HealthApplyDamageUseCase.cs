@@ -1,5 +1,5 @@
 ﻿using Combat.Common.Flags;
-using Combat.Common.ValueObjects;
+using Combat.Common.Primitives;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.OutputPorts.Statuses;
@@ -35,7 +35,7 @@ namespace Combat.Local.Domain.UseCases
 
         public void Execute(UnitId target, float damage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
         {
-            if (_healthRepository.TryGet(target, out Health health) == false)
+            if (_healthRepository.TryGet(target, out HealthOwner health) == false)
             {
                 throw new System.InvalidOperationException();
             }
@@ -70,7 +70,7 @@ namespace Combat.Local.Domain.UseCases
             return instance;
         }
 
-        private float ApplyDamageInstance(DamageInstance instance, Health health)
+        private float ApplyDamageInstance(DamageInstance instance, HealthOwner health)
         {
             float finalDamage = instance.Damage;
 
@@ -100,7 +100,7 @@ namespace Combat.Local.Domain.UseCases
 
         private void UpdateConsciosState(DamageInstance instance)
         {
-            if (_healthRepository.TryGet(instance.Target, out Health health) == false)
+            if (_healthRepository.TryGet(instance.Target, out HealthOwner health) == false)
             {
                 return;
             }

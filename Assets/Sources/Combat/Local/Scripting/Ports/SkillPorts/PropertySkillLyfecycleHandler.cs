@@ -1,4 +1,4 @@
-using Combat.Common.ValueObjects;
+using Combat.Common.Primitives;
 using Combat.Local.Domain.Endpoints.Skills;
 using Combat.Local.Scripting.Factories;
 using Combat.Local.Scripting.IDK;
@@ -6,6 +6,7 @@ using Combat.Local.Scripting.IDK;
 using System.Collections.Generic;
 using Combat.Local.Scripting.Runtime;
 using Combat.Local.Scripting.Capabilities.Skills;
+using Combat.Common.ValueObjects;
 
 namespace Combat.Local.Scripting.SkillPorts
 {

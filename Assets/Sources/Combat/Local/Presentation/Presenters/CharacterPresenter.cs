@@ -1,4 +1,4 @@
-﻿using Combat.Common.ValueObjects;
+﻿using Combat.Common.Primitives;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.UseCases;
@@ -25,7 +25,7 @@ namespace Combat.Local.Presentation.Presenters
             Debug.Log($"Resource update for {value.Id}: {value.CurrentValue}/{value.MaxValue}");
         }
 
-        void IHealthOutput.Present(Health value)
+        void IHealthOutput.Present(HealthOwner value)
         {
             Debug.Log($"Health updated for {value.Id}: {value.CurrentValue}/{value.MaxHealth}");
         }

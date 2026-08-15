@@ -1,7 +1,7 @@
 ﻿using Combat.API;
 using Combat.API.Contexts;
 using Combat.Common.Flags;
-using Combat.Common.ValueObjects;
+using Combat.Common.Primitives;
 
 namespace Combat.Local.Scripting.Contexts
 {

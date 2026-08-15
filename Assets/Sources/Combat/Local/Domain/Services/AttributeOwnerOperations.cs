@@ -16,13 +16,13 @@ namespace Combat.Local.Domain.Services.Skills
 
         public void Clear(AttributesOwner attributesOwner)
         {
-            attributesOwner = new(attributesOwner.Id, attributesOwner.GetAllBase());
+            attributesOwner = new(attributesOwner.Id, attributesOwner.BaseValues);
             _attributesRepository.Update(attributesOwner);
         }
 
         public void Cache(AttributesOwner target, AttributesModification finalModification)
         {
-            System.ReadOnlySpan<AttributeValue> baseValues = target.GetAllBase();
+            System.ReadOnlySpan<AttributeValue> baseValues = target.BaseValues;
             System.Span<float> values = stackalloc float[baseValues.Length];
 
             for (int i = 0; i < baseValues.Length; i++)

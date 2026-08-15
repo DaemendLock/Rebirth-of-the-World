@@ -1,4 +1,4 @@
-﻿using Combat.Common.ValueObjects;
+﻿using Combat.Common.Primitives;
 using Combat.Common.Flags;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
@@ -10,6 +10,7 @@ using DaeAnimator;
 using System.Collections.Generic;
 
 using UnityEngine;
+using Combat.Common.ValueObjects;
 
 namespace Combat.Local.Gateways.Repositories.Characters
 {

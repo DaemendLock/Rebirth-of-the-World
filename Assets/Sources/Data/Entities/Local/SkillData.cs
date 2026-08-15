@@ -1,5 +1,5 @@
 ﻿using Combat.Common.Flags;
-using Combat.Common.ValueObjects;
+using Combat.Common.Primitives;
 
 using System.Collections.Generic;
 

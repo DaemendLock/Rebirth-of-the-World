@@ -1,4 +1,5 @@
-﻿using Combat.Common.ValueObjects;
+﻿using Combat.Common.Primitives;
+using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Endpoints.Skills;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
@@ -37,7 +38,7 @@ namespace Combat.Local.Domain.UseCases.Scene
             }
 
             if (actor.CurrentAction.TryGet(out IAbilityAction currentAction) == false ||
-                currentAction.State != Common.ValueObjects.ActionState.Active)
+                currentAction.State != ActionState.Active)
             {
                 return;
             }

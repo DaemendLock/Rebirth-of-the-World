@@ -1,9 +1,15 @@
-using Combat.Common.ValueObjects;
+using Combat.Common.Primitives;
 
 using System;
+using System.Collections.Generic;
 
 namespace Global.Local.DTO
 {
+    public readonly struct CharacterId
+    {
+        public readonly int Value;
+    }
+
     public sealed class StartCombatRequest
     {
         public StartCombatRequest(string locationName)
@@ -17,11 +23,13 @@ namespace Global.Local.DTO
         }
 
         public string LocationName { get; }
+        public IReadOnlyCollection<CombatCharacterInfo> Characters { get; }
+    }
 
-        public sealed class CombatCharacterInfo
-        {
-            public PlayerId Owner { get; }
-            public int CharacterId { get; }
-        }
+    public readonly struct CombatCharacterInfo
+    {
+        public PlayerId Owner { get; }
+        public CharacterId Id { get; }
+        public byte TeamId { get; }
     }
 }

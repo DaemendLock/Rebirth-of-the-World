@@ -1,3 +1,4 @@
+using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.OutputPorts;
@@ -16,12 +17,12 @@ namespace Combat.Local.Domain.UseCases.Scene
         private readonly ObjectiveFinalizeAllUseCase _finalizeObjectives;
         private readonly ICharacterDeleteQueue _characterDeleteQueue;
         private readonly ICharacterUpdateRepository _characterUpdateRepository;
-        private readonly CharacterDeleteUseCase _deleteCharacter;
+        private readonly UnitDeleteUseCase _deleteCharacter;
         private readonly IEncounterEndOutput _output;
 
         public EncounterFinalizeUseCase(IEncounterStateMachine stateMachine, ObjectiveFinalizeAllUseCase finalizeObjectives,
                                    ICharacterDeleteQueue characterDeleteQueue, ICharacterUpdateRepository characterUpdateRepository,
-                                   CharacterDeleteUseCase deleteCharacter, IEncounterEndOutput output)
+                                   UnitDeleteUseCase deleteCharacter, IEncounterEndOutput output)
         {
             _stateMachine = stateMachine;
             _finalizeObjectives = finalizeObjectives;

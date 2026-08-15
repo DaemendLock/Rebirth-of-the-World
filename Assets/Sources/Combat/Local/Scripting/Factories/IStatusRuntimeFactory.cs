@@ -1,4 +1,4 @@
-using Combat.Common.ValueObjects;
+using Combat.Common.Primitives;
 using Combat.Local.Scripting.Runtime;
 
 namespace Combat.Local.Scripting.Factories

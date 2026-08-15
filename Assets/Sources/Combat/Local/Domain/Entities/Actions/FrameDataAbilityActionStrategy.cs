@@ -1,5 +1,6 @@
 using CastStateSkill;
 
+using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 
 using System.Linq;

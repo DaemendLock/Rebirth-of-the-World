@@ -1,7 +1,7 @@
 ﻿using Combat.API.Contexts;
 using Combat.API.Events;
 using Combat.API.Skills;
-using Combat.Common.ValueObjects;
+using Combat.Common.Primitives;
 using Combat.Local.Domain.Repositories.Skill;
 
 using System;

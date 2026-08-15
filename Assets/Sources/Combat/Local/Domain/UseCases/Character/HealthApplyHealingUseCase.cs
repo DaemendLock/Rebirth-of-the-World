@@ -1,5 +1,5 @@
 ﻿using Combat.Common.Flags;
-using Combat.Common.ValueObjects;
+using Combat.Common.Primitives;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
@@ -29,7 +29,7 @@ namespace Combat.Local.Domain.UseCases
 
         public void Execute(UnitId target, float healing, HealingFlags flags, UnitId? healer, AbilityKey? source)
         {
-            if (_healthRepository.TryGet(target, out Health health) == false)
+            if (_healthRepository.TryGet(target, out HealthOwner health) == false)
             {
                 throw new System.InvalidOperationException();
             }

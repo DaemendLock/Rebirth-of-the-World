@@ -1,4 +1,4 @@
-﻿using Combat.Common;
+﻿using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 
 namespace Combat.Local.Domain.Entities

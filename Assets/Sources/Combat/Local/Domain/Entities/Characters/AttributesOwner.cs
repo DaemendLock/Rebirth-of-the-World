@@ -1,4 +1,5 @@
-﻿using Combat.Common.ValueObjects;
+﻿using Combat.Common.Primitives;
+using Combat.Common.ValueObjects;
 
 using System;
 
@@ -6,7 +7,7 @@ namespace Combat.Local.Domain.Entities
 {
     public readonly ref struct AttributesOwner
     {
-        public const int AttributeCount = (int)(Common.ValueObjects.UnitAttribute.PARRY + 1);
+        public const int AttributeCount = (int)(UnitAttribute.PARRY + 1);
 
         private readonly ReadOnlySpan<AttributeValue> _baseValues;
         private readonly ReadOnlySpan<float> _values;
@@ -24,7 +25,9 @@ namespace Combat.Local.Domain.Entities
 
         public UnitId Id { get; }
 
-        public readonly float this[Common.ValueObjects.UnitAttribute attribute]
+        public ReadOnlySpan<AttributeValue> BaseValues => _baseValues;
+
+        public readonly float this[UnitAttribute attribute]
         {
             get
             {
@@ -44,14 +47,13 @@ namespace Combat.Local.Domain.Entities
             }
         }
 
-        public readonly AttributeValue GetBaseValue(Common.ValueObjects.UnitAttribute attribute) => _baseValues[(int)attribute];
+        public readonly AttributeValue GetBaseValue(UnitAttribute attribute) => _baseValues[(int)attribute];
 
-        public readonly float GetAttributeValue(Common.ValueObjects.UnitAttribute attribute) => this[attribute];
-        public readonly float GetHasteModifier() => 1f + GetAttributeValue(Common.ValueObjects.UnitAttribute.Haste) * 0.007f;
-        public readonly float GetVersalityModifier() => 1f + GetAttributeValue(Common.ValueObjects.UnitAttribute.Versality) * 0.007f;
-        public readonly float GetMaxHealthBonus() => GetAttributeValue(Common.ValueObjects.UnitAttribute.Endurance) * 10f;
+        public readonly float GetAttributeValue(UnitAttribute attribute) => this[attribute];
+        public readonly float GetHasteModifier() => 1f + GetAttributeValue(UnitAttribute.Haste) * 0.007f;
+        public readonly float GetVersalityModifier() => 1f + GetAttributeValue(UnitAttribute.Versality) * 0.007f;
+        public readonly float GetMaxHealthBonus() => GetAttributeValue(UnitAttribute.Endurance) * 10f;
 
-        public readonly ReadOnlySpan<AttributeValue> GetAllBase() => _baseValues;
         public readonly ReadOnlySpan<float> GetAll() => _values;
     }
 }
