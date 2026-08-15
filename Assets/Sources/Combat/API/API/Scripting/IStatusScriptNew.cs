@@ -1,8 +1,6 @@
 ﻿namespace Combat.API.Scripting
 {
-    public interface IStatusScriptNew { }
-
-    public interface IStatusLifecycleNew : IStatusScriptNew
+    public interface IStatusScriptNew
     {
         void OnApply(IActor parent, Contexts.IStatusContext statusContext) { }
         void OnExpire(IActor parent, Contexts.IStatusContext statusContext) { }

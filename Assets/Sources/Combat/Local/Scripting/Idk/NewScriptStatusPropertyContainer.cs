@@ -7,12 +7,12 @@ namespace Combat.Local.Scripting.Idk
 {
     public sealed class NewScriptStatusCapabilityProvider : IStatusCapabilityProvider
     {
-        private readonly IStatusLifecycleCapability _lifecycleCapability;
+        private readonly IStatusScriptNew _lifecycleCapability;
         private readonly IStatusTickCapability _tickCapability;
 
         public NewScriptStatusCapabilityProvider(UnitNew parent, IStatusScriptNew script)
         {
-            if (script is IStatusLifecycleNew lifecycle)
+            if (script is IStatusScriptNew lifecycle)
             {
                 _lifecycleCapability = new NewStatusLifecycleCapability(lifecycle, parent);
             }
@@ -25,7 +25,7 @@ namespace Combat.Local.Scripting.Idk
 
         public T GetCapability<T>() where T : class
         {
-            if (typeof(T) == typeof(IStatusLifecycleCapability))
+            if (typeof(T) == typeof(IStatusScriptNew))
             {
                 return _lifecycleCapability as T;
             }

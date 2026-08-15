@@ -11,11 +11,6 @@ namespace Combat.Local.Scripting.Capabilities.Statuses
         void Remove(IStatusContext statusContext);
     }
 
-    public interface IStatusTickCapability
-    {
-        void Tick(IStatusContext statusContext);
-    }
-
     public sealed class OldStatusLifecycleCapability : IStatusLifecycleCapability
     {
         private readonly StatusScript _script;
@@ -30,24 +25,12 @@ namespace Combat.Local.Scripting.Capabilities.Statuses
         public void Remove(IStatusContext statusContext) => _script.OnRemove();
     }
 
-    public sealed class OldStatusTickCapability : IStatusTickCapability
+    public sealed class NewStatusLifecycleCapability : IStatusScriptNew
     {
-        private readonly StatusScript _script;
-
-        public OldStatusTickCapability(StatusScript script)
-        {
-            _script = script;
-        }
-
-        public void Tick(IStatusContext context) => _script.OnTick();
-    }
-
-    public sealed class NewStatusLifecycleCapability : IStatusLifecycleCapability
-    {
-        private readonly IStatusLifecycleNew _script;
+        private readonly IStatusScriptNew _script;
         private readonly IActor _parent;
 
-        public NewStatusLifecycleCapability(IStatusLifecycleNew script, IActor parent)
+        public NewStatusLifecycleCapability(IStatusScriptNew script, IActor parent)
         {
             _script = script;
             _parent = parent;
@@ -56,19 +39,5 @@ namespace Combat.Local.Scripting.Capabilities.Statuses
         public void Apply(IStatusContext context) => _script.OnApply(_parent, context);
         public void Expire(IStatusContext context) => _script.OnExpire(_parent, context);
         public void Remove(IStatusContext context) => _script.OnRemove(_parent, context);
-    }
-
-    public sealed class NewStatusTickCapability : IStatusTickCapability
-    {
-        private readonly IStatusTickableNew _script;
-        private readonly IActor _parent;
-
-        public NewStatusTickCapability(IStatusTickableNew script, IActor parent)
-        {
-            _script = script;
-            _parent = parent;
-        }
-
-        public void Tick(IStatusContext context) => _script.OnTick(_parent, context);
     }
 }
