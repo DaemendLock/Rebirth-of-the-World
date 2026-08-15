@@ -3,7 +3,7 @@ using Combat.API.Contexts;
 using Combat.API.Scripting;
 using Combat.API.Skills;
 
-namespace Server.Combat.Domain.Implementations.Actions
+namespace TestSkillsPack.SkillScripts.Giantess
 {
     [SkillScriptName("growself")]
     public class GrowSkillScript : SkillScript, ICastableSkill, ICastStateChangeHandler
@@ -26,7 +26,7 @@ namespace Server.Combat.Domain.Implementations.Actions
         {
             float currentSize = Owner.Scale;
 
-            _targetSize = currentSize + (_growPercent / 100);
+            _targetSize = currentSize + _growPercent / 100;
             return true;
         }
     }
