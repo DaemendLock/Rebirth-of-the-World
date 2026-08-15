@@ -23,8 +23,6 @@ namespace Combat.Local.Domain.UseCases
         private readonly IStatusOwnerRepository _statusOwnerRepository;
         private readonly IPositionableRepository _positionableRepository;
         private readonly IActorRepository _actorRepository;
-        private readonly IAbilityRepository _abilityRepository;
-        private readonly IAbilityFactory _abilityFactory;
         private readonly ISkillLyfecycleHandler _skillLyfecycleHandler;
         private readonly IHitboxOwnerRepository _hitboxOwnerRepository;
         private readonly IHurtableRepository _hurtableRepository;
@@ -37,7 +35,7 @@ namespace Combat.Local.Domain.UseCases
             IHealthRepository healthRepository, IAttributesRepository attributesRepository,
             IResourceOwnerRepository resourceRepository, ISkillOwnerRepository skillOwnerRepository,
             IPositionableRepository positionableRepository, IActorRepository actorRepository,
-            ICharacterCreateOutput outputPort, IAbilityRepository skillRepository, IAbilityFactory skillFactory,
+            ICharacterCreateOutput outputPort,
             ISkillLyfecycleHandler skillLyfecycleHandler, ICharacterUpdateRepository characterUpdateList,
             IStatusOwnerRepository statusOwnerRepository, IMovementEffectOwnerRepository movementEffectOwnerRepository,
             IHitboxOwnerRepository hitboxOwnerRepository, IHurtableRepository hurtableRepository)
@@ -50,8 +48,6 @@ namespace Combat.Local.Domain.UseCases
             _actorRepository = actorRepository;
 
             _idFactory = new(characterUpdateList);
-            _abilityRepository = skillRepository;
-            _abilityFactory = skillFactory;
             _skillLyfecycleHandler = skillLyfecycleHandler;
             _characterUpdateList = characterUpdateList;
             _outputPort = outputPort;
@@ -82,8 +78,6 @@ namespace Combat.Local.Domain.UseCases
 
             foreach (SkillId skillId in skillOwner.Skills)
             {
-                Ability ability = _abilityFactory.Create(skillId, id);
-                _abilityRepository.Create(ability);
                 _skillLyfecycleHandler.Give(new(id, skillId));
             }
 

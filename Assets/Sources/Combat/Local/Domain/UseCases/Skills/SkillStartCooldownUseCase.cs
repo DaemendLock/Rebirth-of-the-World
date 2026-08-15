@@ -1,20 +1,18 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
-using Combat.Local.Domain.ValueObjects;
-
-using System;
+using Combat.Local.Domain.Services.Skills;
 
 namespace Combat.Local.Domain.UseCases.Skills
 {
     public sealed class SkillStartCooldownUseCase
     {
-        private readonly IAbilityRepository _abilityRepository;
         private readonly ISkillOwnerRepository _skillOwnerRepository;
+        private readonly SkillOwnerOperations _skillService;
 
-        public SkillStartCooldownUseCase(IAbilityRepository abilityRepository, ISkillOwnerRepository skillOwnerRepository)
+        public SkillStartCooldownUseCase(SkillOwnerOperations skillService, ISkillOwnerRepository skillOwnerRepository)
         {
-            _abilityRepository = abilityRepository;
+            _skillService = skillService;
             _skillOwnerRepository = skillOwnerRepository;
         }
 
@@ -30,23 +28,7 @@ namespace Combat.Local.Domain.UseCases.Skills
                 return;
             }
 
-            Span<SkillCooldown> skillCooldowns = stackalloc SkillCooldown[skillOwner.Cooldowns.Length + 1];
-            skillOwner.Cooldowns.CopyTo(skillCooldowns);
-
-            for (int i = 0; i < skillCooldowns.Length - 1; i++)
-            {
-                if (skillCooldowns[i].Skill != abilityId.Skill)
-                {
-                    continue;
-                }
-
-                skillCooldowns[i] = new(skillCooldowns[i].Skill, cooldown);
-                _skillOwnerRepository.Update(new(skillOwner.Id, skillOwner.Skills, skillCooldowns[..^1]));
-                return;
-            }
-
-            skillCooldowns[^1] = new(abilityId.Skill, cooldown);
-            _skillOwnerRepository.Update(new(skillOwner.Id, skillOwner.Skills, skillCooldowns));
+            _skillService.SetCooldown(skillOwner, abilityId.Skill, cooldown);
         }
     }
 }

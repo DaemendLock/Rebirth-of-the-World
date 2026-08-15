@@ -18,21 +18,21 @@ namespace Combat.Local.Domain.Factories
             _actionStrategyFactory = actionStrategyFactory;
         }
 
-        public Action CreateCastAction(ActionId actionId, Ability ability)
+        public Action CreateCastAction(ActionId actionId, SkillId skillId, SkillFlags skillFlags)
         {
             ActionFlags flags = ActionFlags.None;
 
-            if (ability.AllowMoment)
+            if (skillFlags.HasFlag(SkillFlags.DontRestrictMovement))
             {
                 flags |= ActionFlags.AllowMovement;
             }
 
-            if (ability.Flags.HasFlag(SkillFlags.CanHold))
+            if (skillFlags.HasFlag(SkillFlags.CanHold))
             {
                 flags |= ActionFlags.Holdable;
             }
 
-            IActionStrategy strategy = _actionStrategyFactory.Create(actionId, ability.SkillId, flags.HasFlag(ActionFlags.Holdable));
+            IActionStrategy strategy = _actionStrategyFactory.Create(actionId, skillId, flags.HasFlag(ActionFlags.Holdable));
 
             return new Action(actionId, flags, strategy);
         }

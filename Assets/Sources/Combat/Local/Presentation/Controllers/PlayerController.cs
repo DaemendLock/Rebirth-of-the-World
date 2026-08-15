@@ -11,8 +11,8 @@ namespace Combat.Local.Controllers
 {
     public sealed class PlayerController
     {
-        private readonly DesireCastFromSlotUseCase _castSkillFromSlotUseCase;
-        private readonly ReleaseSkillFromSlotUseCase _releaseSkillFromSlotUseCase;
+        private readonly PlayerDesireCastFromSlotUseCase _castSkillFromSlotUseCase;
+        private readonly PlayerReleaseSkillFromSlotUseCase _releaseSkillFromSlotUseCase;
         private readonly CreatePlayerUseCase _createPlayerUseCase;
         private readonly DesireMoveInDirectionUseCase _moveUseCase;
         private readonly RotateUseCase _rotateUseCase;
@@ -21,8 +21,8 @@ namespace Combat.Local.Controllers
 
         private PlayerId _playerId;
 
-        public PlayerController(DesireCastFromSlotUseCase castSkillFromSlotUseCase,
-                                ReleaseSkillFromSlotUseCase releaseSkillFromSlotUseCase,
+        public PlayerController(PlayerDesireCastFromSlotUseCase castSkillFromSlotUseCase,
+                                PlayerReleaseSkillFromSlotUseCase releaseSkillFromSlotUseCase,
                                 CreatePlayerUseCase createPlayerUseCase,
                                 DesireMoveInDirectionUseCase moveUseCase,
                                 RotateUseCase rotateUseCase,

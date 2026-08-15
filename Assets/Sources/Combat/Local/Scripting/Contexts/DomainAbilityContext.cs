@@ -2,20 +2,18 @@
 using Combat.API.Contexts;
 using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Facades;
 
 namespace Combat.Local.Scripting.Contexts
 {
     public sealed class DomainAbilityContext : IAbilityContext
     {
-        private readonly AbilityFacade _skillFacade;
+        private readonly SkillFlags _flags;
 
-        public DomainAbilityContext(SkillId id, Unit owner, AbilityFacade skillFacede, EncounterApi scene)
+        public DomainAbilityContext(SkillId id, Unit owner, SkillFlags flags, EncounterApi scene)
         {
-            _skillFacade = skillFacede;
             SkillId = id;
-
             Owner = owner;
+            _flags = flags;
             Scene = scene;
         }
 
@@ -25,6 +23,6 @@ namespace Combat.Local.Scripting.Contexts
 
         public EncounterApi Scene { get; }
 
-        public bool HasFlag(SkillFlags skillFlags) => _skillFacade.GetFlags(Owner.Id, SkillId).HasFlag(skillFlags);
+        public bool HasFlag(SkillFlags skillFlags) => _flags.HasFlag(skillFlags);
     }
 }

@@ -1,5 +1,5 @@
-﻿using Combat.Local.Domain.Entities.Units;
-using Combat.Local.Domain.Entities;
+﻿using Combat.Local.Domain.Entities;
+using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
 using Combat.Local.Domain.UseCases.Character;
@@ -17,7 +17,7 @@ namespace Testing.Local
     {
         private readonly AttributeOwnerUpdateAllUseCase _attributeOwnerUpdateAllUseCase;
         private readonly StatusOwnerProgressAllUseCases _updateStatusesUseCase;
-        private readonly AbilityProgressAllUseCase _skillUpdateAllUseCase;
+        private readonly SkillOwnerProgressAllUseCase _skillUpdateAllUseCase;
         private readonly ActorActAllUseCase _actorUpdateAllUseCase;
         private readonly HitsHandleUseCase _handleHitUseCase;
         private readonly ICharacterUpdateRepository _characterUpdateList;
@@ -30,7 +30,7 @@ namespace Testing.Local
                                 HitsHandleUseCase handleHitUseCase,
                                 ICharacterUpdateRepository characterUpdateList,
                                 ActorActAllUseCase actorActAllUseCase,
-                                AbilityProgressAllUseCase skillUpdateAllUseCase,
+                                SkillOwnerProgressAllUseCase skillUpdateAllUseCase,
                                 ICharacterDeleteQueue characterDeleteQueue,
                                 CharacterDeleteUseCase characterDeleteUseCase,
                                 IEncounterStateMachine encounterState,

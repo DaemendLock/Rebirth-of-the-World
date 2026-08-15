@@ -22,7 +22,6 @@ namespace Combat.Local.Domain.UseCases.Scene
         private readonly IHurtableRepository _hurtableRepository;
         private readonly IHitboxOwnerRepository _hitboxOwnerRepository;
 
-        private readonly IAbilityRepository _abilityRepository;
         private readonly IStatusRepository _statusRepository;
         private readonly IStatusTimerRepository _statusTimerRepository;
 
@@ -37,10 +36,9 @@ namespace Combat.Local.Domain.UseCases.Scene
                                       IPositionableRepository positionableRepository, IActorRepository actorRepository,
                                       IStatusOwnerRepository statusOwnerRepository, ICharacterUpdateRepository characterUpdateList,
                                       IHurtableRepository hurtableRepository, IHitboxOwnerRepository hitboxOwnerRepository,
-                                      IAbilityRepository abilityRepository, IStatusRepository statusRepository,
-                                      IStatusTimerRepository statusTimerRepository, IPlayerRepository playerRepository,
-                                       ISkillLyfecycleHandler skillLyfecycleHandler, IStatusLifecycleHandler statusLifecycleHandler,
-                                       IMovementEffectOwnerRepository movementEffectOwnerRepository)
+                                      IStatusRepository statusRepository, IStatusTimerRepository statusTimerRepository,
+                                      IPlayerRepository playerRepository, ISkillLyfecycleHandler skillLyfecycleHandler,
+                                      IStatusLifecycleHandler statusLifecycleHandler, IMovementEffectOwnerRepository movementEffectOwnerRepository)
         {
             _healthRepository = healthRepository;
             _attributesRepository = attributesRepository;
@@ -52,7 +50,6 @@ namespace Combat.Local.Domain.UseCases.Scene
             _characterUpdateList = characterUpdateList;
             _hurtableRepository = hurtableRepository;
             _hitboxOwnerRepository = hitboxOwnerRepository;
-            _abilityRepository = abilityRepository;
             _statusRepository = statusRepository;
             _statusTimerRepository = statusTimerRepository;
             _playerRepository = playerRepository;
@@ -75,7 +72,6 @@ namespace Combat.Local.Domain.UseCases.Scene
                 {
                     AbilityKey abilityKey = new(target, item);
                     _skillLyfecycleHandler.Remove(abilityKey);
-                    _abilityRepository.Delete(abilityKey);
                 }
             }
 

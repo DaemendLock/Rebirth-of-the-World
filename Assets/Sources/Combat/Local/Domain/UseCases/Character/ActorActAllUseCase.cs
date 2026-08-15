@@ -16,8 +16,8 @@ namespace Combat.Local.Domain.UseCases.Character
         private readonly IAttributesRepository _attributesRepository;
         private readonly IPositionableRepository _positionableRepository;
         private readonly IActorRepository _actorRepository;
-        private readonly IAbilityRepository _abilityRepository;
         private readonly ISkillOwnerRepository _skillOwnerRepository;
+        private readonly IAbilityFactory _abilityFactory;
         private readonly ActionFactory _actionFactory;
 
         private readonly ISkillExecutionPort _skillExecutionPort;
@@ -25,15 +25,15 @@ namespace Combat.Local.Domain.UseCases.Character
         private readonly ISkillHitHandler _skillHitHandler;
 
         public ActorActAllUseCase(IAttributesRepository attributesRepository, IPositionableRepository positionableRepository,
-            IActorRepository actorRepository, IAbilityRepository skillRepository, ISkillOwnerRepository skillOwnerRepository,
-            ActionFactory actionFactory, ISkillExecutionPort skillExecutionPort,
+            IActorRepository actorRepository, ISkillOwnerRepository skillOwnerRepository,
+            IAbilityFactory abilityFactory, ActionFactory actionFactory, ISkillExecutionPort skillExecutionPort,
             ISkillActionStateChangeHandler skillActionStateChangeHandler, ISkillHitHandler skillHitHandler)
         {
             _attributesRepository = attributesRepository;
             _positionableRepository = positionableRepository;
             _actorRepository = actorRepository;
-            _abilityRepository = skillRepository;
             _skillOwnerRepository = skillOwnerRepository;
+            _abilityFactory = abilityFactory;
             _actionFactory = actionFactory;
             _skillExecutionPort = skillExecutionPort;
             _skillActionStateChangeHandler = skillActionStateChangeHandler;
@@ -44,21 +44,22 @@ namespace Combat.Local.Domain.UseCases.Character
         {
             foreach (Updatable target in targets)
             {
-                ExecuteFor(target.Id, deltaTime * target.TimeScale);
+                if (_actorRepository.TryGet(target.Id, out Actor actor) == false)
+                {
+                    continue;
+                }
+
+                ExecuteFor(actor, deltaTime * target.TimeScale);
             }
         }
 
-        private void ExecuteFor(UnitId target, float deltaTime)
+        private void ExecuteFor(Actor actor, float deltaTime)
         {
-            if (_actorRepository.TryGet(target, out Actor actor) == false)
-            {
-                return;
-            }
-            AttributesOwner attributesOwner = _attributesRepository.Get(target);
+            AttributesOwner attributesOwner = _attributesRepository.Get(actor.Id);
 
             UpdateAction(actor, deltaTime);
 
-            if (_actorRepository.TryGet(target, out actor) == false)
+            if (_actorRepository.TryGet(actor.Id, out actor) == false)
             {
                 return;
             }
@@ -152,62 +153,61 @@ namespace Combat.Local.Domain.UseCases.Character
             }
 
             AbilityKey abilityKey = new(caster, skillId);
-            Ability skill = _abilityRepository.Get(abilityKey);
+            Ability ability = _abilityFactory.Create(skillId, caster);
 
-            if (CanCast(actor, skill.Flags, abilityKey) == false)
+            if (CanCast(actor, ability.Flags, abilityKey) != CastFailReason.Success)
             {
                 UnityEngine.Debug.Log("Can't cast - cast forbidden");
                 return;
             }
 
-            bool requireAction = _skillExecutionPort.BeginCast(abilityKey);
-            //skill.StartCooldown(10);
-
-            if (requireAction == false)
+            if (_skillExecutionPort.BeginCast(abilityKey) == false)
             {
                 return;
             }
 
-            ActionId actionId = skill.Actions.First();
-            StartCastAction(actor, actionId, skill);
+            if (ability.Actions != null && ability.Actions.Count > 0)
+            {
+                StartCastAction(actor, ability.Actions.First(), skillId, ability.Flags);
+            }
         }
 
-        private bool CanCast(Actor actor, SkillFlags skillFlags, AbilityKey abilityKey)
+        private CastFailReason CanCast(Actor actor, SkillFlags skillFlags, AbilityKey abilityKey)
         {
             Action action = actor.CurrentAction;
 
             if (skillFlags.HasFlag(Common.Flags.SkillFlags.Instant) || action == null)
             {
-                return _skillExecutionPort.CanCast(abilityKey) == CastFailReason.Success;
+                return _skillExecutionPort.CanCast(abilityKey);
             }
 
             if (action.TryGet(out IAbilityAction abilityAction) == false)
             {
-                return false;
+                return CastFailReason.CastInProgress;
             }
 
             if (abilityAction.State != ActionState.Recovery)
             {
                 if (abilityAction.State != ActionState.Inactive)
                 {
-                    return false;
+                    return CastFailReason.CastInProgress;
                 }
             }
 
             if (action.TryGet(out IChainableAction chainableAction) == false)
             {
-                return false;
+                return CastFailReason.CastInProgress;
             }
 
             if (chainableAction.CanChainInto(abilityKey.Skill) == false)
             {
-                return false;
+                return CastFailReason.CastInProgress;
             }
 
-            return _skillExecutionPort.CanCast(abilityKey) == CastFailReason.Success;
+            return _skillExecutionPort.CanCast(abilityKey);
         }
 
-        private void StartCastAction(Actor actor, ActionId actionId, Ability source)
+        private void StartCastAction(Actor actor, ActionId actionId, SkillId skillId, SkillFlags skillFlags)
         {
             if (actor.CurrentAction != null)
             {
@@ -220,9 +220,9 @@ namespace Combat.Local.Domain.UseCases.Character
                 }
             }
 
-            actor.StartAction(_actionFactory.CreateCastAction(actionId, source));
+            actor.StartAction(_actionFactory.CreateCastAction(actionId, skillId, skillFlags));
             _actorRepository.Update(actor);
-            _skillActionStateChangeHandler.Handle(new(actor.Id, source.SkillId), ActionState.Startup);
+            _skillActionStateChangeHandler.Handle(new(actor.Id, skillId), ActionState.Startup);
         }
 
         private void StopAction(Actor actor)

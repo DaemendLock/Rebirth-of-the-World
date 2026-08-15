@@ -1,6 +1,5 @@
 ﻿using Combat.API.Adapters;
 using Combat.API.Contexts;
-using Combat.API.Objectives;
 using Combat.API.Scripting;
 using Combat.Local.Controllers;
 using Combat.Local.Data.Databases;
@@ -15,6 +14,7 @@ using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.Repositories.Objectives;
 using Combat.Local.Domain.Repositories.Skill;
+using Combat.Local.Domain.Services.Skills;
 using Combat.Local.Domain.UseCases;
 using Combat.Local.Domain.UseCases.Character;
 using Combat.Local.Domain.UseCases.Objectives;
@@ -54,6 +54,7 @@ namespace Combat.Local.Composition
         {
             BindRepositories();
             BindFactories();
+            BindServices();
             BindUseCases();
             BindDataSources();
             BindScripting();
@@ -79,7 +80,6 @@ namespace Combat.Local.Composition
             Container.Bind<IActorRepository>().To<ActorRepository>().AsSingle();
             Container.Bind<IStatusTimerRepository>().To<StatusTimerRepository>().AsSingle();
             Container.Bind<ICharacterUpdateRepository>().To<UpdateTargetRepository>().AsSingle();
-            Container.Bind<IAbilityRepository>().To<AbilityRepository>().AsSingle();
             Container.Bind<IStatusOwnerRepository>().To<StatusOwnerRepository>().AsSingle();
             Container.Bind<IMovementEffectOwnerRepository>().To<MovementEffectOwnerRepository>().AsSingle();
             Container.Bind<IPlayerRepository>().To<PlayerRepository>().AsSingle();
@@ -106,14 +106,19 @@ namespace Combat.Local.Composition
             Container.Bind<IAbilityActionStrategyFactory>().To<AbilityActionStrategyFactory>().AsSingle();
         }
 
+
+        private void BindServices()
+        {
+            Container.Bind<SkillOwnerOperations>().AsSingle();
+        }
         private void BindUseCases()
         {
             Container.Bind<AttributeOwnerUpdateAllUseCase>().AsSingle();
 
             Container.Bind<CharacterCreateUseCase>().AsSingle();
             Container.Bind<CharacterDeleteUseCase>().AsSingle();
-            Container.Bind<DesireCastFromSlotUseCase>().AsSingle();
-            Container.Bind<ReleaseSkillFromSlotUseCase>().AsSingle();
+            Container.Bind<PlayerDesireCastFromSlotUseCase>().AsSingle();
+            Container.Bind<PlayerReleaseSkillFromSlotUseCase>().AsSingle();
             Container.Bind<ResourceGiveUseCase>().AsSingle();
             Container.Bind<ResourceSpendUseCase>().AsSingle();
             Container.Bind<HealthApplyDamageUseCase>().AsSingle();
@@ -131,7 +136,7 @@ namespace Combat.Local.Composition
             Container.Bind<AddMovementEffectUseCase>().AsSingle();
 
             Container.Bind<HitsHandleUseCase>().AsSingle();
-            Container.Bind<AbilityProgressAllUseCase>().AsSingle();
+            Container.Bind<SkillOwnerProgressAllUseCase>().AsSingle();
             Container.Bind<SkillStartCooldownUseCase>().AsSingle();
 
             Container.Bind<StatusOwnerApplyUseCase>().AsSingle();
@@ -233,7 +238,6 @@ namespace Combat.Local.Composition
             Container.Bind<HealthOwnerFacade>().AsSingle();
             Container.Bind<AttributeOwnerFacade>().AsSingle();
             Container.Bind<CharacterFacade>().AsSingle();
-            Container.Bind<AbilityFacade>().AsSingle();
             Container.Bind<EncounterFacade>().AsSingle();
             Container.Bind<ObjectiveCompleteFacade>().AsSingle();
         }

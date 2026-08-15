@@ -2,8 +2,6 @@
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 
-using static UnityEngine.GraphicsBuffer;
-
 namespace Combat.Local.Domain.UseCases
 {
     public enum DesireCastFailReason
@@ -12,20 +10,18 @@ namespace Combat.Local.Domain.UseCases
         NoSkillFound,
     }
 
-    public class DesireCastFromSlotUseCase
+    public class PlayerDesireCastFromSlotUseCase
     {
         private readonly ISkillOwnerRepository _skillOwnerRepository;
-        private readonly IAbilityRepository _abilityRepository;
         private readonly IActorRepository _actorRepository;
         private readonly IPlayerRepository _playerRepository;
         private readonly IDesireCastOutput _desireCastOutput;
 
-        public DesireCastFromSlotUseCase(ISkillOwnerRepository skillOwnerRepository, IActorRepository actorRepository, IPlayerRepository playerRepository, IAbilityRepository abilityRepository, IDesireCastOutput desireCastOutput)
+        public PlayerDesireCastFromSlotUseCase(ISkillOwnerRepository skillOwnerRepository, IActorRepository actorRepository, IPlayerRepository playerRepository, IDesireCastOutput desireCastOutput)
         {
             _skillOwnerRepository = skillOwnerRepository;
             _actorRepository = actorRepository;
             _playerRepository = playerRepository;
-            _abilityRepository = abilityRepository;
             _desireCastOutput = desireCastOutput;
         }
 
@@ -77,13 +73,13 @@ namespace Combat.Local.Domain.UseCases
         }
     }
 
-    public sealed class ReleaseSkillFromSlotUseCase
+    public sealed class PlayerReleaseSkillFromSlotUseCase
     {
         private readonly ISkillOwnerRepository _skillOwnerRepository;
         private readonly IActorRepository _actorRepository;
         private readonly IPlayerRepository _playerRepository;
 
-        public ReleaseSkillFromSlotUseCase(ISkillOwnerRepository skillOwnerRepository, IActorRepository actorRepository,
+        public PlayerReleaseSkillFromSlotUseCase(ISkillOwnerRepository skillOwnerRepository, IActorRepository actorRepository,
             IPlayerRepository playerRepository)
         {
             _skillOwnerRepository = skillOwnerRepository;
