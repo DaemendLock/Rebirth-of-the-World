@@ -5,6 +5,9 @@ namespace Combat.API
     public interface IActor
     {
         UnitId Id { get; }
+
+        ScaleEffectId StartScaleOverTime(float rate);
+        void StopScaleOverTime(ScaleEffectId id);
         //TODO: Prob tags
     }
 

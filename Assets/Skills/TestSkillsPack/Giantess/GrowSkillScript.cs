@@ -2,6 +2,7 @@
 using Combat.API.Contexts;
 using Combat.API.Scripting;
 using Combat.API.Skills;
+using Combat.Common.ValueObjects;
 
 namespace TestSkillsPack.SkillScripts.Giantess
 {
@@ -29,10 +30,5 @@ namespace TestSkillsPack.SkillScripts.Giantess
             _targetSize = currentSize + _growPercent / 100;
             return true;
         }
-    }
-
-    public sealed class GrowSelfSkillScript : ICastableNew, IActableNew
-    {
-        public bool OnCast(IActor actor, ISkillContext skillContext) => throw new System.NotImplementedException();
     }
 }

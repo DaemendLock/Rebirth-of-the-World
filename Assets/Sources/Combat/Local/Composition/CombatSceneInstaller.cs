@@ -82,6 +82,7 @@ namespace Combat.Local.Composition
             Container.Bind<ICharacterUpdateRepository>().To<UpdateTargetRepository>().AsSingle();
             Container.Bind<IStatusOwnerRepository>().To<StatusOwnerRepository>().AsSingle();
             Container.Bind<IMovementEffectOwnerRepository>().To<MovementEffectOwnerRepository>().AsSingle();
+            Container.Bind<IScaleEffectOwnerRepository>().To<ScaleEffectOwnerRepository>().AsSingle();
             Container.Bind<IPlayerRepository>().To<PlayerRepository>().AsSingle();
             Container.Bind<ISkillDynamicMemoryRepository>().To<FixedSizeArraySkillMemoryRepository>().AsSingle();
             Container.Bind<IStatusDynamicMemoryRepository>().To<FixedSizeArrayStatusMemoryRepository>().AsSingle();
@@ -95,9 +96,10 @@ namespace Combat.Local.Composition
             Container.Bind<IAbilityFactory>().To<AbilityFactory>().AsSingle();
             Container.Bind<IObjectiveFactory>().To<ObjectiveFactory>().AsSingle();
             Container.Bind<CustomScriptSkillStrategyFactory>().AsSingle();
-            Container.Bind<NewScriptStrategyFactory>().AsSingle();
+            Container.Bind<NewScriptSkillStrategyFactory>().AsSingle();
 
             Container.Bind<StatusFactory>().AsSingle();
+            Container.Bind<ScaleEffectFactory>().AsSingle();
             Container.Bind<CustomScriptStatusStrategyFactory>().AsSingle();
             Container.Bind<NewScriptStatusStrategyFactory>().AsSingle();
 
@@ -105,7 +107,6 @@ namespace Combat.Local.Composition
             Container.Bind<ActionFactory>().AsSingle();
             Container.Bind<IAbilityActionStrategyFactory>().To<AbilityActionStrategyFactory>().AsSingle();
         }
-
 
         private void BindServices()
         {
@@ -135,6 +136,8 @@ namespace Combat.Local.Composition
             Container.Bind<ActorActAllUseCase>().AsSingle();
             Container.Bind<StatusOwnerFindStatusUseCase>().AsSingle();
             Container.Bind<AddMovementEffectUseCase>().AsSingle();
+            Container.Bind<PositionableStartScaleUseCase>().AsSingle();
+            Container.Bind<PositionableStopScaleUseCase>().AsSingle();
 
             Container.Bind<HitsHandleUseCase>().AsSingle();
             Container.Bind<SkillOwnerProgressAllUseCase>().AsSingle();
@@ -265,7 +268,7 @@ namespace Combat.Local.Composition
         {
             PropertySkillLyfecycleHandler skillLifecycleHandler = Container.Resolve<PropertySkillLyfecycleHandler>();
             skillLifecycleHandler.RegisterStrategyFactory(Container.Resolve<CustomScriptSkillStrategyFactory>());
-            skillLifecycleHandler.RegisterStrategyFactory(Container.Resolve<NewScriptStrategyFactory>());
+            skillLifecycleHandler.RegisterStrategyFactory(Container.Resolve<NewScriptSkillStrategyFactory>());
 
             PropertyStatusLifecycleHandler statusLifecycleHandler = Container.Resolve<PropertyStatusLifecycleHandler>();
             statusLifecycleHandler.RegisterStrategyFactory(Container.Resolve<CustomScriptStatusStrategyFactory>());

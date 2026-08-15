@@ -50,7 +50,78 @@ namespace Combat.Local.Gateways.Repositories.Characters
                 throw new System.InvalidOperationException($"Key {id} does not exists");
             }
 
+            if (model == null)
+            {
+                _values.Remove(id);
+            }
+
             return new(id, model.Effects);
+        }
+    }
+
+    public sealed class ScaleEffectOwnerRepository : IScaleEffectOwnerRepository
+    {
+        private readonly Dictionary<UnitId, ScaleEffectComponent> _values;
+        private readonly ISceneObjectDataSource _characterModelDataSource;
+
+        public ScaleEffectOwnerRepository(ISceneObjectDataSource characterModelDataSource)
+        {
+            _characterModelDataSource = characterModelDataSource;
+            _values = new();
+        }
+
+        public void Create(ScaleEffectOwner value)
+        {
+            if (_values.ContainsKey(value.Id))
+            {
+                throw new System.InvalidOperationException($"Key {value.Id} already exists");
+            }
+
+            Transform transform = _characterModelDataSource.GetOrCreate(value.Id);
+            ScaleEffectComponent model = transform.gameObject.AddComponent<ScaleEffectComponent>();
+            model.Values = value.Values.ToArray();
+            _values[value.Id] = model;
+        }
+
+        public ScaleEffectOwner Get(UnitId id)
+        {
+            if (_values.TryGetValue(id, out var model) == false)
+            {
+                throw new System.InvalidOperationException($"Key {id} does not exists");
+            }
+
+            if (model == null)
+            {
+                _values.Remove(id);
+            }
+
+            return new(id, model.Values);
+        }
+
+        public void Update(ScaleEffectOwner value)
+        {
+            if (_values.TryGetValue(value.Id, out var model) == false)
+            {
+                throw new System.InvalidOperationException($"Key {value.Id} does not exists");
+            }
+
+            if (model == null)
+            {
+                _values.Remove(value.Id);
+            }
+
+            model.Values = value.Values.ToArray();
+        }
+
+        public void Delete(UnitId target)
+        {
+            if (_values.TryGetValue(target, out var model) == false)
+            {
+                return;
+            }
+
+            UnityEngine.Object.Destroy(model);
+            _values.Remove(target);
         }
     }
 }

@@ -1,4 +1,3 @@
-using Combat.API;
 using Combat.API.API.Skills;
 using Combat.API.Contexts;
 using Combat.Common.ValueObjects;
@@ -8,15 +7,19 @@ using Combat.Local.Scripting.Contexts;
 using Combat.Local.Scripting.Idk;
 using Combat.Local.Scripting.Runtime;
 
+using NUnit.Framework;
+
+using System.Collections.Generic;
+
 namespace Combat.Local.Scripting.Factories
 {
-    public sealed class NewScriptStrategyFactory : ISkillRuntimeFactory
+    public sealed class NewScriptSkillStrategyFactory : ISkillRuntimeFactory
     {
         private readonly ISkillDynamicMemoryRepository _skillMemoryRepository;
         private readonly IEventContext _eventContext;
         private readonly UnitNewAdapter _unitNewAdapter;
 
-        public NewScriptStrategyFactory(ISkillDynamicMemoryRepository skillMemoryRepository, UnitNewAdapter unitNewAdapter, IEventContext eventContext)
+        public NewScriptSkillStrategyFactory(ISkillDynamicMemoryRepository skillMemoryRepository, UnitNewAdapter unitNewAdapter, IEventContext eventContext)
         {
             _skillMemoryRepository = skillMemoryRepository;
             _unitNewAdapter = unitNewAdapter;
@@ -39,7 +42,7 @@ namespace Combat.Local.Scripting.Factories
             }
 
             DomainSkillContext context = new(new(owner, skillId), _skillMemoryRepository, _eventContext);
-            NewScriptCapabilityContainer container = new(unitNew, new TestScript());
+            NewScriptCapabilityContainer container = new(unitNew, new GrowSelfSkillScript());
             return new(context, container);
         }
     }

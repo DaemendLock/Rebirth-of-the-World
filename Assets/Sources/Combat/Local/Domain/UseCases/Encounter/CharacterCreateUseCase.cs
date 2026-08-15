@@ -9,6 +9,7 @@ using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
 
 using UnityEngine;
+using System;
 
 namespace Combat.Local.Domain.UseCases
 {
@@ -27,6 +28,7 @@ namespace Combat.Local.Domain.UseCases
         private readonly IHitboxOwnerRepository _hitboxOwnerRepository;
         private readonly IHurtableRepository _hurtableRepository;
         private readonly IMovementEffectOwnerRepository _movementEffectOwnerRepository;
+        private readonly IScaleEffectOwnerRepository _scaleEffectOwnerRepository;
         private readonly ICharacterUpdateRepository _characterUpdateList;
 
         private readonly ICharacterCreateOutput _outputPort;
@@ -38,7 +40,7 @@ namespace Combat.Local.Domain.UseCases
             ICharacterCreateOutput outputPort,
             ISkillLyfecycleHandler skillLyfecycleHandler, ICharacterUpdateRepository characterUpdateList,
             IStatusOwnerRepository statusOwnerRepository, IMovementEffectOwnerRepository movementEffectOwnerRepository,
-            IHitboxOwnerRepository hitboxOwnerRepository, IHurtableRepository hurtableRepository)
+            IHitboxOwnerRepository hitboxOwnerRepository, IHurtableRepository hurtableRepository, IScaleEffectOwnerRepository scaleEffectOwnerRepository)
         {
             _healthRepository = healthRepository;
             _attributesRepository = attributesRepository;
@@ -55,6 +57,7 @@ namespace Combat.Local.Domain.UseCases
             _movementEffectOwnerRepository = movementEffectOwnerRepository;
             _hitboxOwnerRepository = hitboxOwnerRepository;
             _hurtableRepository = hurtableRepository;
+            _scaleEffectOwnerRepository = scaleEffectOwnerRepository;
         }
 
         public void Execute(UnitId id, CreateCharacterDTO context)
@@ -118,6 +121,7 @@ namespace Combat.Local.Domain.UseCases
             _hurtableRepository.Create(id);
             _characterUpdateList.Create(new(id, 1));
             _movementEffectOwnerRepository.Create(new(id, default));
+            _scaleEffectOwnerRepository.Create(new(id, Span<ScaleOverTimeEffect>.Empty));
         }
 
         private StatusOwner CreateStatusOwner(UnitId id) => new(id, System.Span<StatusId>.Empty);

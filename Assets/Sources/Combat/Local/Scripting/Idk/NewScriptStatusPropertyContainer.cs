@@ -1,5 +1,4 @@
-﻿using Combat.API;
-using Combat.API.Scripting;
+﻿using Combat.API.Scripting;
 using Combat.Local.Scripting.Capabilities.Statuses;
 using Combat.Local.Scripting.IDK;
 

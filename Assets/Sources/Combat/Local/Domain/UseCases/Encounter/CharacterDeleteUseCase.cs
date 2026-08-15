@@ -18,6 +18,7 @@ namespace Combat.Local.Domain.UseCases.Scene
         private readonly IStatusOwnerRepository _statusOwnerRepository;
         private readonly ICharacterUpdateRepository _characterUpdateList;
         private readonly IMovementEffectOwnerRepository _movementEffectOwnerRepository;
+        private readonly IScaleEffectOwnerRepository _scaleEffectOwnerRepository;
 
         private readonly IHurtableRepository _hurtableRepository;
         private readonly IHitboxOwnerRepository _hitboxOwnerRepository;
@@ -38,7 +39,7 @@ namespace Combat.Local.Domain.UseCases.Scene
                                       IHurtableRepository hurtableRepository, IHitboxOwnerRepository hitboxOwnerRepository,
                                       IStatusRepository statusRepository, IStatusTimerRepository statusTimerRepository,
                                       IPlayerRepository playerRepository, ISkillLyfecycleHandler skillLyfecycleHandler,
-                                      IStatusLifecycleHandler statusLifecycleHandler, IMovementEffectOwnerRepository movementEffectOwnerRepository)
+                                      IStatusLifecycleHandler statusLifecycleHandler, IMovementEffectOwnerRepository movementEffectOwnerRepository, IScaleEffectOwnerRepository scaleEffectOwnerRepository)
         {
             _healthRepository = healthRepository;
             _attributesRepository = attributesRepository;
@@ -56,6 +57,7 @@ namespace Combat.Local.Domain.UseCases.Scene
             _skillLyfecycleHandler = skillLyfecycleHandler;
             _statusLifecycleHandler = statusLifecycleHandler;
             _movementEffectOwnerRepository = movementEffectOwnerRepository;
+            _scaleEffectOwnerRepository = scaleEffectOwnerRepository;
         }
 
         public void Execute(UnitId target)
@@ -100,6 +102,7 @@ namespace Combat.Local.Domain.UseCases.Scene
             _actorRepository.Delete(target);
             _resourceRepository.Delete(target);
             _movementEffectOwnerRepository.Delete(target);
+            _scaleEffectOwnerRepository.Delete(target);
 
             _attributesRepository.Delete(target);
             _positionableRepository.Delete(target);

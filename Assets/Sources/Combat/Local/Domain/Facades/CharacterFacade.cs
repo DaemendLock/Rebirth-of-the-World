@@ -17,6 +17,8 @@ namespace Combat.Local.Domain.Facades
         private readonly ActorForceKillUseCase _killUnitUseCase;
         private readonly ActorReviveUseCase _reviveUnitUseCase;
         private readonly AddMovementEffectUseCase _addMovementEffectUseCase;
+        private readonly PositionableStartScaleUseCase _startScaleUseCase;
+        private readonly PositionableStopScaleUseCase _stopScaleUseCase;
 
         private readonly StatusOwnerFindStatusUseCase _findStatusUseCase;
         private readonly StatusOwnerApplyUseCase _applyStatusUseCase;
@@ -29,7 +31,8 @@ namespace Combat.Local.Domain.Facades
                                IActorRepository killableRepository, IPositionableRepository positionableRepository,
                                IResourceOwnerRepository resourceRepository, StatusOwnerApplyUseCase applyStatusUseCase,
                                DesireMoveInDirectionUseCase moveInDirectionUseCase, AddMovementEffectUseCase addMovementEffectUseCase,
-                               ActorReviveUseCase reviveUnitUseCase)
+                               ActorReviveUseCase reviveUnitUseCase,
+                               PositionableStartScaleUseCase startScaleUseCase, PositionableStopScaleUseCase stopScaleUseCase)
         {
             _giveResourceUseCase = giveResourceUseCase;
             _spendResourceUseCase = spendResourceUseCase;
@@ -41,6 +44,8 @@ namespace Combat.Local.Domain.Facades
             _applyStatusUseCase = applyStatusUseCase;
             _addMovementEffectUseCase = addMovementEffectUseCase;
             _reviveUnitUseCase = reviveUnitUseCase;
+            _startScaleUseCase = startScaleUseCase;
+            _stopScaleUseCase = stopScaleUseCase;
         }
 
         public float GetResourceValue(UnitId target, ResourceId resource) => _resourceRepository.Get(target).GetResource(resource).Value;
@@ -89,6 +94,10 @@ namespace Combat.Local.Domain.Facades
         {
             _addMovementEffectUseCase.Execute(target, direction, speed, isRelative, maxDuration);
         }
+
+        public ScaleEffectId StartScaleOverTime(UnitId target, float rate) => _startScaleUseCase.Execute(target, rate);
+
+        public void StopScaleOverTime(ScaleEffectId effectId) => _stopScaleUseCase.Execute(effectId);
     }
 
     public readonly ref struct PositionDTO

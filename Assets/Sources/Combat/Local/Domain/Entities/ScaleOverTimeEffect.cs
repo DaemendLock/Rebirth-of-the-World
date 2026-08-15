@@ -4,8 +4,13 @@ namespace Combat.Local.Domain.Entities.Units
 {
     public readonly struct ScaleOverTimeEffect
     {
-        public UnitId Target { get; }
+        public readonly ScaleEffectId Id;
+        public readonly float Rate;
 
-        public float Rate { get; }
+        public ScaleOverTimeEffect(ScaleEffectId id, float rate)
+        {
+            Id = id;
+            Rate = rate;
+        }
     }
 }

@@ -7,15 +7,17 @@ namespace Combat.Local.Scripting.Adapters
     public sealed class UnitNewAdapter
     {
         private readonly HealthOwnerFacade _healthOwnerFacade;
+        private readonly CharacterFacade _characterFacade;
 
-        public UnitNewAdapter(HealthOwnerFacade healthOwnerFacade)
+        public UnitNewAdapter(HealthOwnerFacade healthOwnerFacade, CharacterFacade characterFacade)
         {
             _healthOwnerFacade = healthOwnerFacade;
+            _characterFacade = characterFacade;
         }
 
         public UnitNew Adaptee(UnitId id)
         {
-            return new UnitNew(id, _healthOwnerFacade);
+            return new UnitNew(id, _healthOwnerFacade, _characterFacade);
         }
     }
 
