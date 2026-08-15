@@ -14,7 +14,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
 {
     public sealed class PropertyStatusLifecycleHandler : IStatusLifecycleHandler
     {
-        private readonly List<IStatusPropertyContainerFactory> _statusStrategyFactories;
+        private readonly List<IStatusRuntimeFactory> _statusStrategyFactories;
         private readonly IStatusRuntimeRegistry _statusRuntimeRegistry;
         private readonly IEventContext _eventContext;
 
@@ -25,14 +25,14 @@ namespace Combat.Local.Scripting.Ports.Statuses
             _eventContext = eventContext;
         }
 
-        public void RegisterStrategyFactory(IStatusPropertyContainerFactory factory)
+        public void RegisterStrategyFactory(IStatusRuntimeFactory factory)
         {
             _statusStrategyFactories.Add(factory);
         }
 
         public void Apply(Status status)
         {
-            IStatusPropertyContainerFactory factory = GetFactory(status.Name);
+            IStatusRuntimeFactory factory = GetFactory(status.Name);
 
             if (factory == null)
             {
@@ -40,11 +40,12 @@ namespace Combat.Local.Scripting.Ports.Statuses
                 return;
             }
 
-            IStatusPropertyContainer container = factory.Create(status.Id, status.Name, status.Parent, status.Source);
+            StatusRuntime runtime = factory.Create(status.Id, status.Name, status.Parent, status.Source);
+            IStatusPropertyContainer container = runtime.Container;
 
             if (container != null)
             {
-                _statusRuntimeRegistry.Create(status.Id, container);
+                _statusRuntimeRegistry.Create(status.Id, runtime);
 
                 if (container.TryGetProperty(out BaseStatusCapabilties effect))
                 {
@@ -57,26 +58,31 @@ namespace Combat.Local.Scripting.Ports.Statuses
 
         public void Remove(StatusId id)
         {
-            if (!_statusRuntimeRegistry.TryGet(id, out IStatusPropertyContainer properties))
+            if (!_statusRuntimeRegistry.TryGet(id, out StatusRuntime runtime))
             {
                 return;
             }
+
+            IStatusPropertyContainer properties = runtime.Container;
 
             if (properties.TryGetProperty(out BaseStatusCapabilties effect))
             {
                 effect.Remove();
             }
 
+            runtime.Context.Cleanup();
             _statusRuntimeRegistry.Remove(id);
             _eventContext.Publish<StatusRemovedEventData>(new(new(id)));
         }
 
         public void Expire(StatusId id)
         {
-            if (!_statusRuntimeRegistry.TryGet(id, out IStatusPropertyContainer properties))
+            if (!_statusRuntimeRegistry.TryGet(id, out StatusRuntime runtime))
             {
                 return;
             }
+
+            IStatusPropertyContainer properties = runtime.Container;
 
             if (properties.TryGetProperty(out BaseStatusCapabilties effect) == false)
             {
@@ -87,9 +93,9 @@ namespace Combat.Local.Scripting.Ports.Statuses
             _eventContext.Publish<StatusExpiredEventData>(new(new(id)));
         }
 
-        private IStatusPropertyContainerFactory GetFactory(StatusType name)
+        private IStatusRuntimeFactory GetFactory(StatusType name)
         {
-            foreach (IStatusPropertyContainerFactory factory in _statusStrategyFactories)
+            foreach (IStatusRuntimeFactory factory in _statusStrategyFactories)
             {
                 if (factory.CanHandle(name) == false)
                 {
@@ -114,10 +120,12 @@ namespace Combat.Local.Scripting.Ports.Statuses
 
         public void Handle(StatusId statusId)
         {
-            if (!_statusRuntimeRegistry.TryGet(statusId, out IStatusPropertyContainer properties))
+            if (!_statusRuntimeRegistry.TryGet(statusId, out StatusRuntime runtime))
             {
                 return;
             }
+
+            IStatusPropertyContainer properties = runtime.Container;
 
             if (!properties.TryGetProperty(out BaseStatusCapabilties effect))
             {

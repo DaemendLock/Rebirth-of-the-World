@@ -1,13 +1,25 @@
 ﻿using Combat.Common.ValueObjects;
+using Combat.Local.Scripting.Contexts;
 using Combat.Local.Scripting.IDK;
 
 namespace Combat.Local.Scripting.Runtime
 {
+    public readonly struct StatusRuntime
+    {
+        public readonly DomainStatusContext Context;
+        public readonly IStatusPropertyContainer Container;
+
+        public StatusRuntime(DomainStatusContext context, IStatusPropertyContainer container)
+        {
+            Context = context;
+            Container = container;
+        }
+    }
 
     public interface IStatusRuntimeRegistry
     {
-        void Create(StatusId id, IStatusPropertyContainer value);
+        void Create(StatusId id, StatusRuntime value);
         void Remove(StatusId id);
-        bool TryGet(StatusId id, out IStatusPropertyContainer container);
+        bool TryGet(StatusId id, out StatusRuntime runtime);
     }
 }

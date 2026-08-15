@@ -24,12 +24,12 @@ namespace Combat.Local.Scripting.Ports.Statuses
 
             foreach (StatusId id in values)
             {
-                if (_statusRegistry.TryGet(id, out var properties) == false)
+                if (_statusRegistry.TryGet(id, out StatusRuntime runtime) == false)
                 {
                     continue;
                 }
 
-                if (properties.TryGetProperty(out ModifyOutgoingDamageCapability effect) == false)
+                if (runtime.Container.TryGetProperty(out ModifyOutgoingDamageCapability effect) == false)
                 {
                     continue;
                 }
@@ -46,12 +46,12 @@ namespace Combat.Local.Scripting.Ports.Statuses
 
             foreach (StatusId id in values)
             {
-                if (_statusRegistry.TryGet(id, out var properties) == false)
+                if (_statusRegistry.TryGet(id, out StatusRuntime runtime) == false)
                 {
                     continue;
                 }
 
-                if (properties.TryGetProperty(out ModifyIncomingDamageCapability effect) == false)
+                if (runtime.Container.TryGetProperty(out ModifyIncomingDamageCapability effect) == false)
                 {
                     continue;
                 }
@@ -68,12 +68,12 @@ namespace Combat.Local.Scripting.Ports.Statuses
 
             foreach (StatusId id in values)
             {
-                if (_statusRegistry.TryGet(id, out var properties) == false)
+                if (_statusRegistry.TryGet(id, out StatusRuntime runtime) == false)
                 {
                     continue;
                 }
 
-                if (properties.TryGetProperty(out ModifyOutgoingHealingCapability effect) == false)
+                if (runtime.Container.TryGetProperty(out ModifyOutgoingHealingCapability effect) == false)
                 {
                     continue;
                 }

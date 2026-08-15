@@ -10,9 +10,9 @@ namespace Combat.Local.Scripting.Factories
         SkillRuntime Create(UnitId? owner, SkillId skillId);
     }
 
-    public interface IStatusPropertyContainerFactory
+    public interface IStatusRuntimeFactory
     {
         bool CanHandle(StatusType statusName);
-        IStatusPropertyContainer Create(StatusId id, StatusType name, UnitId parent, AbilityKey? source);
+        StatusRuntime Create(StatusId id, StatusType name, UnitId parent, AbilityKey? source);
     }
 }

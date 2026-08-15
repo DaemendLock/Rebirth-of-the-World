@@ -25,12 +25,12 @@ namespace Combat.Local.Scripting.Ports.Statuses
         {
             foreach (StatusId statusId in handlers)
             {
-                if (_statusRuntimeRegistry.TryGet(statusId, out var properties) == false)
+                if (_statusRuntimeRegistry.TryGet(statusId, out StatusRuntime runtime) == false)
                 {
                     continue;
                 }
 
-                if (properties.TryGetProperty(out HandleOutgoingDamageCapability effect) == false)
+                if (runtime.Container.TryGetProperty(out HandleOutgoingDamageCapability effect) == false)
                 {
                     continue;
                 }
@@ -45,12 +45,12 @@ namespace Combat.Local.Scripting.Ports.Statuses
         {
             foreach (StatusId statusId in handlers)
             {
-                if (_statusRuntimeRegistry.TryGet(statusId, out var properties) == false)
+                if (_statusRuntimeRegistry.TryGet(statusId, out StatusRuntime runtime) == false)
                 {
                     continue;
                 }
 
-                if (properties.TryGetProperty(out HandleIncomingDamageCapability effect) == false)
+                if (runtime.Container.TryGetProperty(out HandleIncomingDamageCapability effect) == false)
                 {
                     continue;
                 }

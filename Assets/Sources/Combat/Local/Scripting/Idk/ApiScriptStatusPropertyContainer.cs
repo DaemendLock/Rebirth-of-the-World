@@ -4,7 +4,7 @@ using Combat.Local.Scripting.Adapters;
 using Combat.Local.Scripting.Capabilities.Statuses;
 using Combat.Local.Scripting.IDK;
 
-namespace Combat.Local.Gateways.Repositories.Statuses
+namespace Combat.Local.Scripting.Idk
 {
     public class ApiScriptStatusPropertyContainer : IStatusPropertyContainer
     {

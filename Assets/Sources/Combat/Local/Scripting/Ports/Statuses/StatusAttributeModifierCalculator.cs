@@ -26,12 +26,12 @@ namespace Combat.Local.Scripting.Ports.Statuses
 
             foreach (StatusId statusId in values)
             {
-                if (_statusRuntimeRegistry.TryGet(statusId, out var properties) == false)
+                if (_statusRuntimeRegistry.TryGet(statusId, out StatusRuntime runtime) == false)
                 {
                     continue;
                 }
 
-                if (properties.TryGetProperty(out ModifyAttributesCapability attributeEffect))
+                if (runtime.Container.TryGetProperty(out ModifyAttributesCapability attributeEffect))
                 {
                     AttributesModification modification = attributeEffect.GetModification();
                     result.Attack += modification.Attack;
@@ -39,7 +39,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
                     result.Speed += modification.Speed;
                 }
 
-                if (properties.TryGetProperty(out ModifyTimeScaleCapability timeScaleEffect))
+                if (runtime.Container.TryGetProperty(out ModifyTimeScaleCapability timeScaleEffect))
                 {
                     result.TimeScale += timeScaleEffect.GetModification();
                 }

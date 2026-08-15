@@ -19,6 +19,15 @@ namespace Combat.Local.Scripting.Contexts
 
         private readonly List<EventHandlerId> _eventHandlers;
 
+        public DomainStatusContext(StatusId id, IStatusDynamicMemoryRepository memoryRepository, IEventContext eventContext)
+        {
+            _id = id;
+            _memoryRepository = memoryRepository;
+            _eventContext = eventContext;
+            _environmentContext = null;
+            _eventHandlers = new();
+        }
+
         public StatusState<T> GetState<T>() where T : unmanaged, IDynamicStatusData
         {
             if (_memoryRepository.TryGetRawData(_id, out ReadOnlySpan<byte> value) == false)
@@ -60,6 +69,17 @@ namespace Combat.Local.Scripting.Contexts
             }
 
             return null;
+        }
+
+        public void Cleanup()
+        {
+            foreach (EventHandlerId id in _eventHandlers)
+            {
+                _eventContext.Unsubscribe(id);
+            }
+
+            _eventHandlers.Clear();
+            _memoryRepository.Delete(_id);
         }
     }
 }

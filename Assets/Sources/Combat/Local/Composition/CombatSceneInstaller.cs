@@ -84,6 +84,7 @@ namespace Combat.Local.Composition
             Container.Bind<IMovementEffectOwnerRepository>().To<MovementEffectOwnerRepository>().AsSingle();
             Container.Bind<IPlayerRepository>().To<PlayerRepository>().AsSingle();
             Container.Bind<ISkillDynamicMemoryRepository>().To<FixedSizeArraySkillMemoryRepository>().AsSingle();
+            Container.Bind<IStatusDynamicMemoryRepository>().To<FixedSizeArrayStatusMemoryRepository>().AsSingle();
             Container.Bind<IObjectiveMemoryRepository>().To<FixedSizeArrayObjectiveMemoryRepository>().AsSingle();
             Container.Bind<IObjectiveRepository>().To<ObjectiveRepository>().AsSingle();
             Container.Bind<ICharacterDeleteQueue>().To<CharacterDeleteQueue>().AsSingle();
@@ -98,6 +99,7 @@ namespace Combat.Local.Composition
 
             Container.Bind<StatusFactory>().AsSingle();
             Container.Bind<CustomScriptStatusStrategyFactory>().AsSingle();
+            Container.Bind<NewScriptStatusStrategyFactory>().AsSingle();
 
             Container.Bind<CharacterModelFactory>().AsSingle();
             Container.Bind<ActionFactory>().AsSingle();
@@ -262,6 +264,7 @@ namespace Combat.Local.Composition
 
             PropertyStatusLifecycleHandler statusLifecycleHandler = Container.Resolve<PropertyStatusLifecycleHandler>();
             statusLifecycleHandler.RegisterStrategyFactory(Container.Resolve<CustomScriptStatusStrategyFactory>());
+            statusLifecycleHandler.RegisterStrategyFactory(Container.Resolve<NewScriptStatusStrategyFactory>());
         }
     }
 }
