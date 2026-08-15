@@ -25,6 +25,6 @@ namespace Combat.Local.Domain.Entities
 
         public void Progreess(float time) => Duration = Duration.Progress(time);
 
-        public void RefreshDuration(float duration) => Duration = new(Duration.ActiveTime, duration);
+        public void RefreshDuration(float duration) => Duration = new(0, duration);
     }
 }

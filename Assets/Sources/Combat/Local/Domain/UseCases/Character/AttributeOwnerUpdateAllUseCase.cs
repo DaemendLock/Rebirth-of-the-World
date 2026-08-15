@@ -3,8 +3,10 @@ using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
+using Combat.Local.Domain.Services.Skills;
 using Combat.Local.Domain.ValueObjects;
 
+using System;
 using System.Collections.Generic;
 
 namespace Combat.Local.Domain.UseCases
@@ -17,6 +19,8 @@ namespace Combat.Local.Domain.UseCases
         private readonly ICharacterUpdateRepository _characterUpdateList;
         private readonly IStatusAttributeCalculator _statusAttributeCalculator;
 
+        private readonly AttributeOwnerOperations _attributeOwnerOperations;
+
         public AttributeOwnerUpdateAllUseCase(IAttributesRepository attributesRepository, IStatusOwnerRepository statusOwnerRepository, IStatusRepository statusRepository, ICharacterUpdateRepository characterUpdateList, IStatusAttributeCalculator statusAttributeCalculator)
         {
             _attributesRepository = attributesRepository;
@@ -24,6 +28,8 @@ namespace Combat.Local.Domain.UseCases
             _statusRepository = statusRepository;
             _characterUpdateList = characterUpdateList;
             _statusAttributeCalculator = statusAttributeCalculator;
+
+            _attributeOwnerOperations = new(_attributesRepository);
         }
 
         public void Execute(IReadOnlyCollection<Updatable> targets)
@@ -38,70 +44,42 @@ namespace Combat.Local.Domain.UseCases
 
             foreach (UnitId value in values)
             {
-                ClearTarget(value);
+                AttributesOwner attributesOwner;
+
+                try
+                {
+                    attributesOwner = _attributesRepository.Get(value);
+                }
+                catch
+                {
+                    continue;
+                }
+
+                _attributeOwnerOperations.Clear(attributesOwner);
             }
 
             foreach (UnitId value in values)
             {
-                UpdateTarget(value);
+                AttributesOwner attributesOwner;
+
+                try
+                {
+                    attributesOwner = _attributesRepository.Get(value);
+                }
+                catch
+                {
+                    continue;
+                }
+
+                if (_statusOwnerRepository.TryGet(value, out StatusOwner statusOwner) == false)
+                {
+                    continue;
+                }
+
+                AttributesModification finalModification = _statusAttributeCalculator.Evaluate(statusOwner.GetAll());
+                _attributeOwnerOperations.Cache(attributesOwner, finalModification);
+                _characterUpdateList.Update(new(value, Math.Max(1 + (finalModification.TimeScale / 100f), 0f)));
             }
         }
-
-        private void ClearTarget(UnitId target)
-        {
-            AttributesOwner attributesOwner;
-
-            try
-            {
-                attributesOwner = _attributesRepository.Get(target);
-            }
-            catch
-            {
-                return;
-            }
-
-            attributesOwner = new(attributesOwner.Id, attributesOwner.GetAllBase());
-            _attributesRepository.Update(attributesOwner);
-        }
-
-        private void UpdateTarget(UnitId target)
-        {
-            AttributesOwner attributesOwner;
-
-            try
-            {
-                attributesOwner = _attributesRepository.Get(target);
-            }
-            catch
-            {
-                return;
-            }
-
-            if (_statusOwnerRepository.TryGet(target, out StatusOwner statusOwner) == false)
-            {
-                return;
-            }
-
-            System.ReadOnlySpan<AttributeValue> baseValues = attributesOwner.GetAllBase();
-
-            attributesOwner = new(target, baseValues);
-
-            var statuses = statusOwner.GetAll();
-            AttributesModification finalModification = GetModfication(statuses);
-
-            System.Span<float> values = stackalloc float[baseValues.Length];
-
-            for (int i = 0; i < baseValues.Length; i++)
-            {
-                AttributeModifier modifier = finalModification[(UnitAttribute)i];
-                values[i] = (baseValues[i].BaseValue + modifier.BaseValue) * (baseValues[i].Percent + modifier.Percent) / 100f + modifier.BonusValue;
-            }
-
-            AttributesOwner newOwner = new(target, baseValues, values);
-            _attributesRepository.Update(newOwner);
-            _characterUpdateList.Update(new(target, finalModification.TimeScale / 100f));
-        }
-
-        private AttributesModification GetModfication(System.ReadOnlySpan<StatusId> statuses) => _statusAttributeCalculator.Evaluate(statuses);
     }
 }

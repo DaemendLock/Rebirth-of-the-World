@@ -110,6 +110,7 @@ namespace Combat.Local.Composition
         private void BindServices()
         {
             Container.Bind<SkillOwnerOperations>().AsSingle();
+            Container.Bind<ActorOperations>().AsSingle();
         }
         private void BindUseCases()
         {

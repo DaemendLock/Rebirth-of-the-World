@@ -58,7 +58,7 @@ namespace Combat.Local.Domain.UseCases
                 defenderModification = _damageModifierCalculator.GetDefenderDamageModification(defenderStatuses.GetAll(), instance);
             }
 
-            if (instance.Attacker.HasValue && _statusOwnerRepository.TryGet(target, out StatusOwner attackerStatuses))
+            if (instance.Attacker.HasValue && _statusOwnerRepository.TryGet(instance.Attacker.Value, out StatusOwner attackerStatuses))
             {
                 attackerModification = _damageModifierCalculator.GetAttackerDamageModification(attackerStatuses.GetAll(), instance);
             }

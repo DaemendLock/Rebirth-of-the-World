@@ -60,6 +60,7 @@ namespace Combat.Local.Domain.UseCases
 
                 status.RefreshDuration(data.InitialDuration);
                 _statusRepository.Update(status);
+                _statusLyfecycleHandler.Reapply(status.Id, status.Duration.FullDuration, data.Ability);
                 return true;
             }
 

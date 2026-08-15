@@ -85,6 +85,23 @@ namespace Combat.Local.Scripting.Ports.Statuses
             _eventContext.Publish<StatusExpiredEventData>(new(new(id)));
         }
 
+        public void Reapply(StatusId id, float duration, AbilityKey? source)
+        {
+            if (!_statusRuntimeRegistry.TryGet(id, out StatusRuntime runtime))
+            {
+                return;
+            }
+
+            IStatusLifecycleCapability lifecycle = runtime.Container.GetCapability<IStatusLifecycleCapability>();
+
+            if (lifecycle == null)
+            {
+                return;
+            }
+
+            lifecycle.Reapply(runtime.Context);
+        }
+
         private IStatusRuntimeFactory GetFactory(StatusType name)
         {
             foreach (IStatusRuntimeFactory factory in _statusStrategyFactories)

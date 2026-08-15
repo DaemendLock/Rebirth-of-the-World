@@ -11,5 +11,6 @@ namespace Combat.Common.Flags
         NonReactable = 4,
         IgnorTargetDef = 8,
         InstantKill = 16,
+        WeaponAttack = 32,
     }
 }

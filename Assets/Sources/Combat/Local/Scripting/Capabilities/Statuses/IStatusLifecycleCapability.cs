@@ -9,6 +9,7 @@ namespace Combat.Local.Scripting.Capabilities.Statuses
         void Apply(IStatusContext statusContext);
         void Expire(IStatusContext statusContext);
         void Remove(IStatusContext statusContext);
+        void Reapply(IStatusContext statusContext);
     }
 
     public sealed class OldStatusLifecycleCapability : IStatusLifecycleCapability
@@ -23,9 +24,10 @@ namespace Combat.Local.Scripting.Capabilities.Statuses
         public void Apply(IStatusContext statusContext) => _script.OnCreate();
         public void Expire(IStatusContext statusContext) => _script.OnExpire();
         public void Remove(IStatusContext statusContext) => _script.OnRemove();
+        public void Reapply(IStatusContext context) { }
     }
 
-    public sealed class NewStatusLifecycleCapability : IStatusScriptNew
+    public sealed class NewStatusLifecycleCapability : IStatusLifecycleCapability
     {
         private readonly IStatusScriptNew _script;
         private readonly IActor _parent;
@@ -39,5 +41,6 @@ namespace Combat.Local.Scripting.Capabilities.Statuses
         public void Apply(IStatusContext context) => _script.OnApply(_parent, context);
         public void Expire(IStatusContext context) => _script.OnExpire(_parent, context);
         public void Remove(IStatusContext context) => _script.OnRemove(_parent, context);
+        public void Reapply(IStatusContext statusContext) { }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Combat.API;
-using Combat.API.Contexts;
 using Combat.API.DTO;
 using Combat.API.Scripting;
 using Combat.API.Statuses;
@@ -26,7 +25,7 @@ namespace TestSkillsPack.Paladin
 
         public void OnDealDamage(DamageRecord @event)
         {
-            if (@event.Source.HasFlag(SkillFlags.WeaponAttack) == false)
+            if (@event.Flags.HasFlag(DamageFlags.WeaponAttack) == false)
             {
                 return;
             }

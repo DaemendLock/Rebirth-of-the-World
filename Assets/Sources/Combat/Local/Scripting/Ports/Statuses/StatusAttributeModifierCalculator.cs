@@ -19,10 +19,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
 
         public AttributesModification Evaluate(ReadOnlySpan<StatusId> values)
         {
-            AttributesModification result = new()
-            {
-                TimeScale = 100f
-            };
+            AttributesModification result = new();
 
             foreach (StatusId statusId in values)
             {

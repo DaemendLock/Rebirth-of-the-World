@@ -7,7 +7,7 @@ namespace Combat.Local.Scripting.Idk
 {
     public sealed class NewScriptStatusCapabilityProvider : IStatusCapabilityProvider
     {
-        private readonly IStatusScriptNew _lifecycleCapability;
+        private readonly IStatusLifecycleCapability _lifecycleCapability;
         private readonly IStatusTickCapability _tickCapability;
 
         public NewScriptStatusCapabilityProvider(UnitNew parent, IStatusScriptNew script)

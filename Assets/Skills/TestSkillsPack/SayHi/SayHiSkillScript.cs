@@ -49,7 +49,7 @@ namespace TestSkillsPack.SkillScripts
                 Target = @event.Target,
                 Source = Instance,
                 OriginalDamage = 500,
-                Flags = DamageFlags.None,
+                Flags = DamageFlags.WeaponAttack,
             };
 
             applyDamageOptions.Target = @event.Target;

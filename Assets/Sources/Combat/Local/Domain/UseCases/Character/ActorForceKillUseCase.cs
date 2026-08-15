@@ -2,6 +2,7 @@
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories;
+using Combat.Local.Domain.Services.Skills;
 using Combat.Local.Domain.ValueObjects;
 
 namespace Combat.Local.Domain.UseCases
@@ -9,12 +10,14 @@ namespace Combat.Local.Domain.UseCases
     public sealed class ActorForceKillUseCase
     {
         private readonly IActorRepository _actorRepository;
+        private readonly ActorOperations _actorOperations;
         private readonly ICharacterConsciousStateOutput _characterStateOutput;
 
-        public ActorForceKillUseCase(IActorRepository stateRepository, ICharacterConsciousStateOutput characterStateOutput)
+        public ActorForceKillUseCase(IActorRepository stateRepository, ICharacterConsciousStateOutput characterStateOutput, ActorOperations actorOperations)
         {
             _actorRepository = stateRepository;
             _characterStateOutput = characterStateOutput;
+            _actorOperations = actorOperations;
         }
 
         public void Execute(UnitId target, AbilityKey? source)
@@ -24,14 +27,12 @@ namespace Combat.Local.Domain.UseCases
                 return;
             }
 
-            if (actor.ConsciousState == ConsciousState.Dead)
+            if (_actorOperations.TryKill(actor) == false)
             {
                 return;
             }
 
-            actor.Kill();
-            _actorRepository.Update(actor);
-            _characterStateOutput.Present(target, actor.ConsciousState);
+            _characterStateOutput.Present(target, ConsciousState.Dead);
         }
     }
 }

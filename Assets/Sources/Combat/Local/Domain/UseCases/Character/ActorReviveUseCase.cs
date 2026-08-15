@@ -2,6 +2,7 @@
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.Repositories;
+using Combat.Local.Domain.Services.Skills;
 using Combat.Local.Domain.ValueObjects;
 
 namespace Combat.Local.Domain.UseCases
@@ -9,11 +10,13 @@ namespace Combat.Local.Domain.UseCases
     public readonly struct ActorReviveUseCase
     {
         private readonly IActorRepository _actorRepository;
+        private readonly ActorOperations _actorOperations;
         private readonly ICharacterConsciousStateOutput _characterStateOutput;
 
-        public ActorReviveUseCase(IActorRepository stateRepository, ICharacterConsciousStateOutput characterStateOutput)
+        public ActorReviveUseCase(IActorRepository stateRepository, ICharacterConsciousStateOutput characterStateOutput, ActorOperations actorOperations)
         {
             _actorRepository = stateRepository;
+            _actorOperations = actorOperations;
             _characterStateOutput = characterStateOutput;
         }
 
