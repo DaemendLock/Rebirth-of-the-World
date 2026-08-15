@@ -2,7 +2,12 @@ using Combat.API.Statuses;
 
 namespace Combat.Local.Scripting.Capabilities.Statuses
 {
-    public readonly ref struct ModifyTimeScaleCapability
+    public interface IStatusModifyTimeScaleCapability
+    {
+        float GetModification();
+    }
+
+    public sealed class ModifyTimeScaleCapability : IStatusModifyTimeScaleCapability
     {
         private readonly ITimeScaleModifier _modifier;
 

@@ -1,10 +1,16 @@
+using Combat.API.Contexts;
 using Combat.API.Statuses;
 using Combat.Local.Domain.ValueObjects;
 using Combat.Local.Scripting.Adapters;
 
 namespace Combat.Local.Scripting.Capabilities.Statuses
 {
-    public readonly ref struct HandleIncomingDamageCapability
+    public interface IStatusHandleIncomingDamageCapability
+    {
+        void Handle(IStatusContext context, in DamageResult result);
+    }
+
+    public sealed class HandleIncomingDamageCapability : IStatusHandleIncomingDamageCapability
     {
         private readonly IIncomingHealDamageHandler _handler;
         private readonly CharacterApiAdapter _unitApiAdapter;
@@ -17,7 +23,7 @@ namespace Combat.Local.Scripting.Capabilities.Statuses
             _skillApiProvider = skillApiProvider;
         }
 
-        public void Handle(in DamageResult result) =>
+        public void Handle(IStatusContext context, in DamageResult result) =>
             _handler.OnTakeDamage(StatusCapabilityMapper.Adapt(result, _unitApiAdapter, _skillApiProvider));
     }
 }

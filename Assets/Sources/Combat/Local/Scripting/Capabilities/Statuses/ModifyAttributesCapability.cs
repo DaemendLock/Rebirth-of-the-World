@@ -6,7 +6,12 @@ using Combat.Local.Domain.ValueObjects;
 
 namespace Combat.Local.Scripting.Capabilities.Statuses
 {
-    public readonly ref struct ModifyAttributesCapability
+    public interface IStatusModifyAttributesCapability
+    {
+        AttributesModification GetModification();
+    }
+
+    public sealed class ModifyAttributesCapability : IStatusModifyAttributesCapability
     {
         private readonly IAttributesModifier _modifier;
 

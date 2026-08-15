@@ -30,12 +30,14 @@ namespace Combat.Local.Scripting.Ports.Statuses
                     continue;
                 }
 
-                if (runtime.Container.TryGetProperty(out HandleOutgoingDamageCapability effect) == false)
+                IStatusHandleOutgoingDamageCapability effect = runtime.Container.GetCapability<IStatusHandleOutgoingDamageCapability>();
+
+                if (effect == null)
                 {
                     continue;
                 }
 
-                effect.Handle(@event);
+                effect.Handle(runtime.Context, @event);
             }
 
             _eventContext.Publish(new GameEvent<DealDamageEventData>(new(@event.FinalDamage)));
@@ -50,12 +52,14 @@ namespace Combat.Local.Scripting.Ports.Statuses
                     continue;
                 }
 
-                if (runtime.Container.TryGetProperty(out HandleIncomingDamageCapability effect) == false)
+                IStatusHandleIncomingDamageCapability effect = runtime.Container.GetCapability<IStatusHandleIncomingDamageCapability>();
+
+                if (effect == null)
                 {
                     continue;
                 }
 
-                effect.Handle(@event);
+                effect.Handle(runtime.Context, @event);
             }
 
             _eventContext.Publish(new GameEvent<TakeDamageEventData>(new(@event.FinalDamage)));

@@ -41,16 +41,12 @@ namespace Combat.Local.Scripting.Ports.Statuses
             }
 
             StatusRuntime runtime = factory.Create(status.Id, status.Name, status.Parent, status.Source);
-            IStatusPropertyContainer container = runtime.Container;
+            IStatusCapabilityProvider container = runtime.Container;
 
             if (container != null)
             {
                 _statusRuntimeRegistry.Create(status.Id, runtime);
-
-                if (container.TryGetProperty(out BaseStatusCapabilties effect))
-                {
-                    effect.Apply();
-                }
+                container.GetCapability<IStatusLifecycleCapability>()?.Apply(runtime.Context);
             }
 
             _eventContext.Publish<StatusAppliedEventData>(new(new(status.Id, status.Parent, status.Source)));
@@ -63,12 +59,8 @@ namespace Combat.Local.Scripting.Ports.Statuses
                 return;
             }
 
-            IStatusPropertyContainer properties = runtime.Container;
-
-            if (properties.TryGetProperty(out BaseStatusCapabilties effect))
-            {
-                effect.Remove();
-            }
+            IStatusCapabilityProvider capabilities = runtime.Container;
+            capabilities.GetCapability<IStatusLifecycleCapability>()?.Remove(runtime.Context);
 
             runtime.Context.Cleanup();
             _statusRuntimeRegistry.Remove(id);
@@ -82,14 +74,14 @@ namespace Combat.Local.Scripting.Ports.Statuses
                 return;
             }
 
-            IStatusPropertyContainer properties = runtime.Container;
+            IStatusLifecycleCapability lifecycle = runtime.Container.GetCapability<IStatusLifecycleCapability>();
 
-            if (properties.TryGetProperty(out BaseStatusCapabilties effect) == false)
+            if (lifecycle == null)
             {
                 return;
             }
 
-            effect.Expire();
+            lifecycle.Expire(runtime.Context);
             _eventContext.Publish<StatusExpiredEventData>(new(new(id)));
         }
 
@@ -125,14 +117,14 @@ namespace Combat.Local.Scripting.Ports.Statuses
                 return;
             }
 
-            IStatusPropertyContainer properties = runtime.Container;
+            IStatusTickCapability tick = runtime.Container.GetCapability<IStatusTickCapability>();
 
-            if (!properties.TryGetProperty(out BaseStatusCapabilties effect))
+            if (tick == null)
             {
                 return;
             }
 
-            effect.Tick();
+            tick.Tick(runtime.Context);
         }
     }
 }

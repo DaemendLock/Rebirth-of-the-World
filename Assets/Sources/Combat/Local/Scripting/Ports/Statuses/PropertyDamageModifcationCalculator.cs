@@ -29,7 +29,9 @@ namespace Combat.Local.Scripting.Ports.Statuses
                     continue;
                 }
 
-                if (runtime.Container.TryGetProperty(out ModifyOutgoingDamageCapability effect) == false)
+                IStatusModifyOutgoingDamageCapability effect = runtime.Container.GetCapability<IStatusModifyOutgoingDamageCapability>();
+
+                if (effect == null)
                 {
                     continue;
                 }
@@ -51,7 +53,9 @@ namespace Combat.Local.Scripting.Ports.Statuses
                     continue;
                 }
 
-                if (runtime.Container.TryGetProperty(out ModifyIncomingDamageCapability effect) == false)
+                IStatusModifyIncomingDamageCapability effect = runtime.Container.GetCapability<IStatusModifyIncomingDamageCapability>();
+
+                if (effect == null)
                 {
                     continue;
                 }
@@ -73,7 +77,9 @@ namespace Combat.Local.Scripting.Ports.Statuses
                     continue;
                 }
 
-                if (runtime.Container.TryGetProperty(out ModifyOutgoingHealingCapability effect) == false)
+                IStatusModifyOutgoingHealingCapability effect = runtime.Container.GetCapability<IStatusModifyOutgoingHealingCapability>();
+
+                if (effect == null)
                 {
                     continue;
                 }

@@ -31,7 +31,9 @@ namespace Combat.Local.Scripting.Ports.Statuses
                     continue;
                 }
 
-                if (runtime.Container.TryGetProperty(out ModifyAttributesCapability attributeEffect))
+                IStatusModifyAttributesCapability attributeEffect = runtime.Container.GetCapability<IStatusModifyAttributesCapability>();
+
+                if (attributeEffect != null)
                 {
                     AttributesModification modification = attributeEffect.GetModification();
                     result.Attack += modification.Attack;
@@ -39,7 +41,9 @@ namespace Combat.Local.Scripting.Ports.Statuses
                     result.Speed += modification.Speed;
                 }
 
-                if (runtime.Container.TryGetProperty(out ModifyTimeScaleCapability timeScaleEffect))
+                IStatusModifyTimeScaleCapability timeScaleEffect = runtime.Container.GetCapability<IStatusModifyTimeScaleCapability>();
+
+                if (timeScaleEffect != null)
                 {
                     result.TimeScale += timeScaleEffect.GetModification();
                 }

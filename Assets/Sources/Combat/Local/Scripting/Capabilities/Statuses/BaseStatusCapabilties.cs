@@ -4,56 +4,71 @@ using Combat.API.Scripting;
 
 namespace Combat.Local.Scripting.Capabilities.Statuses
 {
-    public readonly ref struct BaseStatusCapabilties
+    public interface IStatusLifecycleCapability
     {
-        private readonly StatusScript _statusScript;
-        private readonly IStatusLifecycleNew _lifecycle;
-        private readonly IStatusTickableNew _tickable;
+        void Apply(IStatusContext statusContext);
+        void Expire(IStatusContext statusContext);
+        void Remove(IStatusContext statusContext);
+    }
+
+    public interface IStatusTickCapability
+    {
+        void Tick(IStatusContext statusContext);
+    }
+
+    public sealed class OldStatusLifecycleCapability : IStatusLifecycleCapability
+    {
+        private readonly StatusScript _script;
+
+        public OldStatusLifecycleCapability(StatusScript script)
+        {
+            _script = script;
+        }
+
+        public void Apply(IStatusContext statusContext) => _script.OnCreate();
+        public void Expire(IStatusContext statusContext) => _script.OnExpire();
+        public void Remove(IStatusContext statusContext) => _script.OnRemove();
+    }
+
+    public sealed class OldStatusTickCapability : IStatusTickCapability
+    {
+        private readonly StatusScript _script;
+
+        public OldStatusTickCapability(StatusScript script)
+        {
+            _script = script;
+        }
+
+        public void Tick(IStatusContext context) => _script.OnTick();
+    }
+
+    public sealed class NewStatusLifecycleCapability : IStatusLifecycleCapability
+    {
+        private readonly IStatusLifecycleNew _script;
         private readonly IActor _parent;
-        private readonly IStatusContext _context;
 
-        public BaseStatusCapabilties(StatusScript statusScript)
+        public NewStatusLifecycleCapability(IStatusLifecycleNew script, IActor parent)
         {
-            _statusScript = statusScript;
-            _lifecycle = null;
-            _tickable = null;
-            _parent = null;
-            _context = null;
-        }
-
-        public BaseStatusCapabilties(IActor parent, IStatusContext context, IStatusLifecycleNew lifecycle, IStatusTickableNew tickable)
-        {
-            _statusScript = null;
-            _lifecycle = lifecycle;
-            _tickable = tickable;
+            _script = script;
             _parent = parent;
-            _context = context;
         }
 
-        public bool DestroyOnExpire => true;
+        public void Apply(IStatusContext context) => _script.OnApply(_parent, context);
+        public void Expire(IStatusContext context) => _script.OnExpire(_parent, context);
+        public void Remove(IStatusContext context) => _script.OnRemove(_parent, context);
+    }
 
-        public void Apply()
+    public sealed class NewStatusTickCapability : IStatusTickCapability
+    {
+        private readonly IStatusTickableNew _script;
+        private readonly IActor _parent;
+
+        public NewStatusTickCapability(IStatusTickableNew script, IActor parent)
         {
-            _statusScript?.OnCreate();
-            _lifecycle?.OnApply(_parent, _context);
+            _script = script;
+            _parent = parent;
         }
 
-        public void Expire()
-        {
-            _statusScript?.OnExpire();
-            _lifecycle?.OnExpire(_parent, _context);
-        }
-
-        public void Remove()
-        {
-            _statusScript?.OnRemove();
-            _lifecycle?.OnRemove(_parent, _context);
-        }
-
-        public void Tick()
-        {
-            _statusScript?.OnTick();
-            _tickable?.OnTick(_parent, _context);
-        }
+        public void Tick(IStatusContext context) => _script.OnTick(_parent, context);
     }
 }

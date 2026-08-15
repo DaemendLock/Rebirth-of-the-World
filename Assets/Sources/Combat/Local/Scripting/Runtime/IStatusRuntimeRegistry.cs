@@ -7,9 +7,9 @@ namespace Combat.Local.Scripting.Runtime
     public readonly struct StatusRuntime
     {
         public readonly DomainStatusContext Context;
-        public readonly IStatusPropertyContainer Container;
+        public readonly IStatusCapabilityProvider Container;
 
-        public StatusRuntime(DomainStatusContext context, IStatusPropertyContainer container)
+        public StatusRuntime(DomainStatusContext context, IStatusCapabilityProvider container)
         {
             Context = context;
             Container = container;

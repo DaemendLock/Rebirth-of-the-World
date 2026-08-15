@@ -1,71 +1,41 @@
 ﻿using Combat.API;
-using Combat.API.Contexts;
 using Combat.API.Scripting;
 using Combat.Local.Scripting.Capabilities.Statuses;
 using Combat.Local.Scripting.IDK;
 
 namespace Combat.Local.Scripting.Idk
 {
-    public sealed class NewScriptStatusPropertyContainer : IStatusPropertyContainer
+    public sealed class NewScriptStatusCapabilityProvider : IStatusCapabilityProvider
     {
-        private readonly UnitNew _parent;
-        private readonly IStatusContext _context;
-        private readonly IStatusLifecycleNew _lifecycle;
-        private readonly IStatusTickableNew _tickable;
+        private readonly IStatusLifecycleCapability _lifecycleCapability;
+        private readonly IStatusTickCapability _tickCapability;
 
-        public NewScriptStatusPropertyContainer(UnitNew parent, IStatusContext context, IStatusScriptNew script)
+        public NewScriptStatusCapabilityProvider(UnitNew parent, IStatusScriptNew script)
         {
-            _context = context;
-            _lifecycle = script as IStatusLifecycleNew;
-            _tickable = script as IStatusTickableNew;
+            if (script is IStatusLifecycleNew lifecycle)
+            {
+                _lifecycleCapability = new NewStatusLifecycleCapability(lifecycle, parent);
+            }
+
+            if (script is IStatusTickableNew tickable)
+            {
+                _tickCapability = new NewStatusTickCapability(tickable, parent);
+            }
         }
 
-        public bool TryGetProperty(out BaseStatusCapabilties effect)
+        public T GetCapability<T>() where T : class
         {
-            effect = new(_parent, _context, _lifecycle, _tickable);
-            return true;
-        }
+            if (typeof(T) == typeof(IStatusLifecycleCapability))
+            {
+                return _lifecycleCapability as T;
+            }
 
-        public bool TryGetProperty(out HandleIncomingDamageCapability property)
-        {
-            property = default;
-            return false;
-        }
+            if (typeof(T) == typeof(IStatusTickCapability))
+            {
+                return _tickCapability as T;
+            }
 
-        public bool TryGetProperty(out HandleOutgoingDamageCapability property)
-        {
-            property = default;
-            return false;
-        }
-
-        public bool TryGetProperty(out ModifyOutgoingDamageCapability property)
-        {
-            property = default;
-            return false;
-        }
-
-        public bool TryGetProperty(out ModifyOutgoingHealingCapability property)
-        {
-            property = default;
-            return false;
-        }
-
-        public bool TryGetProperty(out ModifyIncomingDamageCapability property)
-        {
-            property = default;
-            return false;
-        }
-
-        public bool TryGetProperty(out ModifyAttributesCapability property)
-        {
-            property = default;
-            return false;
-        }
-
-        public bool TryGetProperty(out ModifyTimeScaleCapability property)
-        {
-            property = default;
-            return false;
+            return null;
         }
     }
 }

@@ -52,7 +52,7 @@ namespace Combat.Local.Scripting.Factories
 
             script.Init(_statusApiAdapter.Adaptee(id, parent, source));
             DomainStatusContext context = new(id, _memoryRepository, _eventContext);
-            return new(context, new ApiScriptStatusPropertyContainer(script, _characterApiAdapter, _abilityApiAdapter));
+            return new(context, new OldStatusCapabilityProvider(script, _characterApiAdapter, _abilityApiAdapter));
         }
 
         public bool TryCreateEmpty(StatusType name, out StatusScript value)
@@ -65,30 +65,6 @@ namespace Combat.Local.Scripting.Factories
 
             value = (StatusScript)FormatterServices.GetUninitializedObject(targetType);
             return true;
-        }
-    }
-
-    public sealed class NewScriptStatusStrategyFactory : IStatusRuntimeFactory
-    {
-        private readonly UnitNewAdapter _unitAdapter;
-        private readonly IStatusDynamicMemoryRepository _memoryRepository;
-        private readonly IEventContext _eventContext;
-
-        public NewScriptStatusStrategyFactory(UnitNewAdapter unitAdapter,
-            IStatusDynamicMemoryRepository memoryRepository, IEventContext eventContext)
-        {
-            _unitAdapter = unitAdapter;
-            _memoryRepository = memoryRepository;
-            _eventContext = eventContext;
-        }
-
-        public bool CanHandle(StatusType name) => true;
-
-        public StatusRuntime Create(StatusId id, StatusType name, UnitId parent, AbilityKey? source)
-        {
-            DomainStatusContext context = new(id, _memoryRepository, _eventContext);
-            NewScriptStatusPropertyContainer container = new(_unitAdapter.Adaptee(parent), context, null);
-            return new(context, container);
         }
     }
 }

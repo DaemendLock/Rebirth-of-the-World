@@ -5,12 +5,12 @@ using Combat.Local.Scripting.IDK;
 
 namespace Combat.Local.Scripting.Idk
 {
-    public sealed class NewScriptAbilityPropertyContainer : ISkillCapabilityProvider
+    public sealed class NewScriptCapabilityContainer : ISkillCapabilityProvider
     {
         private readonly ISkillExecuteCapability _skillExecuteCapability;
         private readonly ISkillHandleActionStateChangeCapability _skillHandleActionStateChangeCapability;
 
-        public NewScriptAbilityPropertyContainer(UnitNew owner, ISkillScriptNew script)
+        public NewScriptCapabilityContainer(UnitNew owner, ISkillScriptNew script)
         {
             if (script is ICastableNew castable)
             {

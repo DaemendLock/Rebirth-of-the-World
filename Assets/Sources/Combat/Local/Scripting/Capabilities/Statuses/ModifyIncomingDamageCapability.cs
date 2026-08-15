@@ -4,7 +4,12 @@ using Combat.Local.Scripting.Adapters;
 
 namespace Combat.Local.Scripting.Capabilities.Statuses
 {
-    public readonly ref struct ModifyIncomingDamageCapability
+    public interface IStatusModifyIncomingDamageCapability
+    {
+        DamageModification GetModification(in DamageInstance instance);
+    }
+
+    public sealed class ModifyIncomingDamageCapability : IStatusModifyIncomingDamageCapability
     {
         private readonly IIncomingHealDamageModifier _modifier;
         private readonly CharacterApiAdapter _unitApiAdapter;

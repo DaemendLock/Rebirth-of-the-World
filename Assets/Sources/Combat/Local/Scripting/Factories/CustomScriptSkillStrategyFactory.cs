@@ -31,7 +31,7 @@ namespace Combat.Local.Scripting.Factories
             }
 
             script.Init(_skillApiAdapter.Adaptee(new(owner, skillType)));
-            return new(null, new ApiScriptDrivenSkillCapabilityProvider(script, _characterApiAdapter));
+            return new(null, new OldSkillCapabilityProvider(script, _characterApiAdapter));
         }
 
         private bool TryCreateEmpty(SkillId id, out SkillScript value)

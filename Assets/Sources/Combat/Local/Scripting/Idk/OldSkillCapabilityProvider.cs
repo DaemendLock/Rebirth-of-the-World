@@ -6,7 +6,7 @@ using Combat.Local.Scripting.Capabilities.Skills;
 
 namespace Combat.Local.Scripting.Idk
 {
-    public sealed class ApiScriptDrivenSkillCapabilityProvider : ISkillCapabilityProvider
+    public sealed class OldSkillCapabilityProvider : ISkillCapabilityProvider
     {
         private readonly CharacterApiAdapter _characterApiAdapter;
 
@@ -16,7 +16,7 @@ namespace Combat.Local.Scripting.Idk
 
         private readonly ITargettableSkill _lockTargetStrategy;
 
-        public ApiScriptDrivenSkillCapabilityProvider(SkillScript script, CharacterApiAdapter characterApiAdapter)
+        public OldSkillCapabilityProvider(SkillScript script, CharacterApiAdapter characterApiAdapter)
         {
             _characterApiAdapter = characterApiAdapter;
 

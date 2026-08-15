@@ -39,7 +39,7 @@ namespace Combat.Local.Scripting.Factories
             }
 
             DomainSkillContext context = new(new(owner, skillId), _skillMemoryRepository, _eventContext);
-            NewScriptAbilityPropertyContainer container = new(unitNew, new TestScript());
+            NewScriptCapabilityContainer container = new(unitNew, new TestScript());
             return new(context, container);
         }
     }
