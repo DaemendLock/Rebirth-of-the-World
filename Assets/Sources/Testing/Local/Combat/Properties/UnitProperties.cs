@@ -60,8 +60,8 @@ namespace Testing.Local
         private UnitCreationInfo GetUnitCreationData()
         {
             StatsTable statsTable = StatsTable.UnitDefault;
-            statsTable[Attribute.Speed] = new(MoveSpeed, 100);
-            statsTable[Attribute.Haste] = new(0, 100);
+            statsTable[UnitAttribute.Speed] = new(MoveSpeed, 100);
+            statsTable[UnitAttribute.Haste] = new(0, 100);
 
             SkillId[] skills = new SkillId[Skills.Length];
 

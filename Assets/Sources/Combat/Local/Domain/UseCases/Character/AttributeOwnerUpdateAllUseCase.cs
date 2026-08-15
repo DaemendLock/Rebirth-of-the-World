@@ -93,7 +93,7 @@ namespace Combat.Local.Domain.UseCases
 
             for (int i = 0; i < baseValues.Length; i++)
             {
-                AttributeModifier modifier = finalModification[(Attribute)i];
+                AttributeModifier modifier = finalModification[(UnitAttribute)i];
                 values[i] = (baseValues[i].BaseValue + modifier.BaseValue) * (baseValues[i].Percent + modifier.Percent) / 100f + modifier.BonusValue;
             }
 

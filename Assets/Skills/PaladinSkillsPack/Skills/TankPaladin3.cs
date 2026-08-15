@@ -31,7 +31,7 @@ namespace TestSkillsPack.Paladin
                     continue;
                 }
 
-                float damage = Owner.GetAttributeValue(Attribute.Spellpower) * _spellPowerDamageRatio;
+                float damage = Owner.GetAttributeValue(UnitAttribute.Spellpower) * _spellPowerDamageRatio;
                 target.ApplyDamage(new(Owner, Instance, damage, Combat.Common.Flags.DamageFlags.None));
                 targetCount++;
             }

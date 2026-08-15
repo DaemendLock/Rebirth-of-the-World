@@ -16,7 +16,7 @@ namespace Combat.Local.Domain.Facades
             _getAttributeValueUseCase = getAttributeValueUseCase;
         }
 
-        public float GetAttributeValue(UnitId target, Attribute attribute) => _getAttributeValueUseCase.GetAttributeValue(target, attribute);
+        public float GetAttributeValue(UnitId target, UnitAttribute attribute) => _getAttributeValueUseCase.GetAttributeValue(target, attribute);
 
         public float GetVersalityModifier(UnitId target) => _getVersalityModifierUseCase.Execute(target);
 

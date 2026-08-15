@@ -22,7 +22,7 @@ namespace TestSkillsPack.Paladin
             Unit owner = Instance.Owner;
 
             float energy = owner.GetResourceValue(new(2));
-            float healing = energy * owner.GetAttributeValue(Attribute.Spellpower) * _spellPowerHealRatio;
+            float healing = energy * owner.GetAttributeValue(UnitAttribute.Spellpower) * _spellPowerHealRatio;
 
             owner.ApplyHealing(new(healing, Combat.Common.Flags.HealingFlags.None, Instance, owner));
             owner.SpendResource(new ResourceId(2), energy, Instance);

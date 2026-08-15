@@ -54,7 +54,7 @@ namespace Combat.Local.Scripting
 
         public float GetCooldown(SkillId skillId) => 0;
 
-        public float GetAttributeValue(Attribute attribute) => _attributeOwnerFacade.GetAttributeValue(_id, attribute);
+        public float GetAttributeValue(UnitAttribute attribute) => _attributeOwnerFacade.GetAttributeValue(_id, attribute);
 
         public float GetVersalityModifier() => _attributeOwnerFacade.GetVersalityModifier(_id);
 

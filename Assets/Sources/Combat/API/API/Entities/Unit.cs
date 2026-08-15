@@ -46,7 +46,7 @@ namespace Combat.API
 
         public bool CanHurt(Unit target) => _unitContext.CanHurt(target._unitContext);
 
-        public float GetAttributeValue(Common.ValueObjects.Attribute attribute) => _unitContext.GetAttributeValue(attribute);
+        public float GetAttributeValue(Common.ValueObjects.UnitAttribute attribute) => _unitContext.GetAttributeValue(attribute);
 
         public float GetCooldown(SkillId skillId) => _unitContext.GetCooldown(skillId);
 

@@ -13,7 +13,7 @@ namespace Combat.Local.Domain.UseCases
             _attributesRepository = attributesRepository;
         }
 
-        public float GetAttributeValue(UnitId target, Attribute attributes)
+        public float GetAttributeValue(UnitId target, UnitAttribute attributes)
         {
             return _attributesRepository.Get(target)[attributes];
         }

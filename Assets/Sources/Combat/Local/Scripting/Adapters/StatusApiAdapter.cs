@@ -6,7 +6,7 @@ using Combat.Local.Scripting.Contexts;
 
 namespace Combat.Local.Scripting.Adapters
 {
-    public sealed class StatusApiAdapter : IStatusApiAdapter
+    public sealed class StatusApiAdapter
     {
         private readonly CharacterApiAdapter _unitApiProvider;
         private readonly AbilityApiAdapter _skillApiProvider;

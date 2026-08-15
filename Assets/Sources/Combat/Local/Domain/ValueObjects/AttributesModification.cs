@@ -38,11 +38,11 @@ namespace Combat.Local.Domain.ValueObjects
 
         public float TimeScale { get; set; }
 
-        public readonly AttributeModifier this[Attribute attribute] => attribute switch
+        public readonly AttributeModifier this[UnitAttribute attribute] => attribute switch
         {
-            Attribute.Atk => Attack,
-            Attribute.Spellpower => Spellpower,
-            Attribute.Speed => Speed,
+            UnitAttribute.Atk => Attack,
+            UnitAttribute.Spellpower => Spellpower,
+            UnitAttribute.Speed => Speed,
             _ => default,
         };
 

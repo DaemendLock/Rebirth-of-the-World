@@ -2,6 +2,7 @@
 using Combat.API.Events;
 using Combat.API.Statuses;
 using Combat.Common.ValueObjects;
+using Combat.Local.Domain.Facades;
 using Combat.Local.Domain.Repositories;
 
 using System;
@@ -16,17 +17,24 @@ namespace Combat.Local.Scripting.Contexts
         private readonly IEnvironmentContext _environmentContext;
         private readonly IEventContext _eventContext;
         private readonly IStatusDynamicMemoryRepository _memoryRepository;
+        private readonly StatusFacade _statusFacade;
 
         private readonly List<EventHandlerId> _eventHandlers;
 
-        public DomainStatusContext(StatusId id, IStatusDynamicMemoryRepository memoryRepository, IEventContext eventContext)
+        public DomainStatusContext(StatusId id, IStatusDynamicMemoryRepository memoryRepository, IEventContext eventContext, StatusFacade statusFacade)
         {
             _id = id;
             _memoryRepository = memoryRepository;
             _eventContext = eventContext;
             _environmentContext = null;
+            _statusFacade = statusFacade;
+
             _eventHandlers = new();
         }
+
+        public void StartPeriodicAction(float interval) => _statusFacade.StartPeriodicAction(_id, interval, 0);
+
+        public void StopPeriodocAction() => _statusFacade.StopPeriodicAction(_id);
 
         public StatusState<T> GetState<T>() where T : unmanaged, IDynamicStatusData
         {

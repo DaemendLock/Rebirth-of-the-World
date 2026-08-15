@@ -6,7 +6,7 @@ namespace Combat.Local.Domain.Entities
 {
     public readonly ref struct AttributesOwner
     {
-        public const int AttributeCount = (int)(Common.ValueObjects.Attribute.PARRY + 1);
+        public const int AttributeCount = (int)(Common.ValueObjects.UnitAttribute.PARRY + 1);
 
         private readonly ReadOnlySpan<AttributeValue> _baseValues;
         private readonly ReadOnlySpan<float> _values;
@@ -24,7 +24,7 @@ namespace Combat.Local.Domain.Entities
 
         public UnitId Id { get; }
 
-        public readonly float this[Common.ValueObjects.Attribute attribute]
+        public readonly float this[Common.ValueObjects.UnitAttribute attribute]
         {
             get
             {
@@ -44,12 +44,12 @@ namespace Combat.Local.Domain.Entities
             }
         }
 
-        public readonly AttributeValue GetBaseValue(Common.ValueObjects.Attribute attribute) => _baseValues[(int)attribute];
+        public readonly AttributeValue GetBaseValue(Common.ValueObjects.UnitAttribute attribute) => _baseValues[(int)attribute];
 
-        public readonly float GetAttributeValue(Common.ValueObjects.Attribute attribute) => this[attribute];
-        public readonly float GetHasteModifier() => 1f + GetAttributeValue(Common.ValueObjects.Attribute.Haste) * 0.007f;
-        public readonly float GetVersalityModifier() => 1f + GetAttributeValue(Common.ValueObjects.Attribute.Versality) * 0.007f;
-        public readonly float GetMaxHealthBonus() => GetAttributeValue(Common.ValueObjects.Attribute.Endurance) * 10f;
+        public readonly float GetAttributeValue(Common.ValueObjects.UnitAttribute attribute) => this[attribute];
+        public readonly float GetHasteModifier() => 1f + GetAttributeValue(Common.ValueObjects.UnitAttribute.Haste) * 0.007f;
+        public readonly float GetVersalityModifier() => 1f + GetAttributeValue(Common.ValueObjects.UnitAttribute.Versality) * 0.007f;
+        public readonly float GetMaxHealthBonus() => GetAttributeValue(Common.ValueObjects.UnitAttribute.Endurance) * 10f;
 
         public readonly ReadOnlySpan<AttributeValue> GetAllBase() => _baseValues;
         public readonly ReadOnlySpan<float> GetAll() => _values;

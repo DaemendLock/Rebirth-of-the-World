@@ -62,7 +62,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
             IStatusCapabilityProvider capabilities = runtime.Container;
             capabilities.GetCapability<IStatusLifecycleCapability>()?.Remove(runtime.Context);
 
-            runtime.Context.Cleanup();
+            runtime.Context?.Cleanup();
             _statusRuntimeRegistry.Remove(id);
             _eventContext.Publish<StatusRemovedEventData>(new(new(id)));
         }

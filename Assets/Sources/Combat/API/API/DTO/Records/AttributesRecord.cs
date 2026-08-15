@@ -13,9 +13,9 @@ namespace Combat.API.DTO
             _bonusValues = bonusValues;
         }
 
-        public AttributeValue GetBaseValue(Attribute attribute) => _baseValues[(int)attribute];
+        public AttributeValue GetBaseValue(UnitAttribute attribute) => _baseValues[(int)attribute];
 
-        public AttributeValue this[Attribute attribute]
+        public AttributeValue this[UnitAttribute attribute]
         {
             get => _bonusValues[(int)attribute];
             set => _bonusValues[(int)attribute] = value;

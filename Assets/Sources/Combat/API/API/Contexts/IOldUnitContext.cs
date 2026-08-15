@@ -21,7 +21,7 @@ namespace Combat.API.Contexts
         void ApplyHealing(ApplyHealingInfo info);
         void ApplyStatus(ApplyStatusInfo info);
         bool CanHurt(IOldUnitContext target);
-        float GetAttributeValue(Common.ValueObjects.Attribute attribute);
+        float GetAttributeValue(Common.ValueObjects.UnitAttribute attribute);
         float GetCooldown(SkillId skillId);
         float GetHasteModifier();
         float GetResourceValue(ResourceId resource);

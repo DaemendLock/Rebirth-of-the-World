@@ -120,7 +120,7 @@ namespace Combat.Local.Domain.UseCases.Character
                 relativeDirection = relativeDirection.normalized;
             }
 
-            float speed = attributesOwner.GetAttributeValue(Attribute.Speed);
+            float speed = attributesOwner.GetAttributeValue(UnitAttribute.Speed);
 
             Positionable positionable = _positionableRepository.Get(actor.Id);
 

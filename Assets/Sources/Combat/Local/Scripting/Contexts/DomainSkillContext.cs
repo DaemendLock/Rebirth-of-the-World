@@ -10,8 +10,7 @@ using System.Runtime.InteropServices;
 
 namespace Combat.Local.Scripting.Contexts
 {
-
-    public sealed class DomainSkillContext : ISkillContext // ?? Model
+    public sealed class DomainSkillContext : ISkillContext
     {
         private readonly AbilityKey _key;
         private readonly IEnvironmentContext _environmentContext;
@@ -29,6 +28,8 @@ namespace Combat.Local.Scripting.Contexts
 
             _eventHandlers = new();
         }
+
+        public void StartCooldown(float value) { }
 
         public SkillState<T> GetState<T>() where T : unmanaged, IDynamicSkillData
         {

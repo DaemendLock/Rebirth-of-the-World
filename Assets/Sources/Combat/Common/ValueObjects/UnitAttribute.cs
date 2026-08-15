@@ -20,7 +20,7 @@
         Custom
     }
 
-    public enum Attribute : int
+    public enum UnitAttribute : int
     {
         Atk,
         Spellpower,

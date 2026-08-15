@@ -227,7 +227,7 @@ namespace Combat.Local.Composition
             Container.Bind<ISceneApiAdapter>().To<SceneApiAdapter>().AsSingle();
             Container.Bind<CharacterApiAdapter>().AsSingle();
             Container.Bind<AbilityApiAdapter>().AsSingle();
-            Container.Bind<IStatusApiAdapter>().To<StatusApiAdapter>().AsSingle();
+            Container.Bind<StatusApiAdapter>().AsSingle();
 
             Container.Bind<StatusFacade>().AsSingle();
             Container.Bind<HealthOwnerFacade>().AsSingle();

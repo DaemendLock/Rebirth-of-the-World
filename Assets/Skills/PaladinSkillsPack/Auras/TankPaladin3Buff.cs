@@ -10,7 +10,7 @@ namespace TestSkillsPack.Paladin
     {
         public void GetAttributesBonuses(AttributesData data)
         {
-            data[Attribute.Speed] += new AttributeValue(0, 20f, 0);
+            data[UnitAttribute.Speed] += new AttributeValue(0, 20f, 0);
         }
     }
 }
