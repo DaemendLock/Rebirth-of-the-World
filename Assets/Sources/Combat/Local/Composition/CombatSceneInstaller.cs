@@ -83,7 +83,7 @@ namespace Combat.Local.Composition
             Container.Bind<IStatusOwnerRepository>().To<StatusOwnerRepository>().AsSingle();
             Container.Bind<IMovementEffectOwnerRepository>().To<MovementEffectOwnerRepository>().AsSingle();
             Container.Bind<IPlayerRepository>().To<PlayerRepository>().AsSingle();
-            Container.Bind<ISkillMemoryRepository>().To<FixedSizeArraySkillMemoryRepository>().AsSingle();
+            Container.Bind<ISkillDynamicMemoryRepository>().To<FixedSizeArraySkillMemoryRepository>().AsSingle();
             Container.Bind<IObjectiveMemoryRepository>().To<FixedSizeArrayObjectiveMemoryRepository>().AsSingle();
             Container.Bind<IObjectiveRepository>().To<ObjectiveRepository>().AsSingle();
             Container.Bind<ICharacterDeleteQueue>().To<CharacterDeleteQueue>().AsSingle();

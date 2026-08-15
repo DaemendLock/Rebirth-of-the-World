@@ -4,6 +4,7 @@ using Combat.Common.Flags;
 
 namespace Combat.API.Statuses
 {
+
     public interface IStatusPropery { }
 
     public interface IOutgoingDamageModifier : IStatusPropery

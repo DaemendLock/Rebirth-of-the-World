@@ -12,11 +12,11 @@ namespace Combat.Local.Scripting.Factories
 {
     public sealed class NewScriptStrategyFactory : ISkillRuntimeFactory
     {
-        private readonly ISkillMemoryRepository _skillMemoryRepository;
+        private readonly ISkillDynamicMemoryRepository _skillMemoryRepository;
         private readonly IEventContext _eventContext;
         private readonly UnitNewAdapter _unitNewAdapter;
 
-        public NewScriptStrategyFactory(ISkillMemoryRepository skillMemoryRepository, UnitNewAdapter unitNewAdapter, IEventContext eventContext)
+        public NewScriptStrategyFactory(ISkillDynamicMemoryRepository skillMemoryRepository, UnitNewAdapter unitNewAdapter, IEventContext eventContext)
         {
             _skillMemoryRepository = skillMemoryRepository;
             _unitNewAdapter = unitNewAdapter;

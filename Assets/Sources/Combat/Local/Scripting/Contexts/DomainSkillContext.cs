@@ -10,20 +10,21 @@ using System.Runtime.InteropServices;
 
 namespace Combat.Local.Scripting.Contexts
 {
+
     public sealed class DomainSkillContext : ISkillContext // ?? Model
     {
-        private readonly IEnvironmentContext _environmentContext;
-        private readonly ISkillMemoryRepository _skillMemoryRepository;
         private readonly AbilityKey _key;
+        private readonly IEnvironmentContext _environmentContext;
+        private readonly IEventContext _eventContext;
+        private readonly ISkillDynamicMemoryRepository _memoryRepository;
 
         private readonly List<EventHandlerId> _eventHandlers;
-        private readonly IEventContext _eventContext;
 
-        public DomainSkillContext(AbilityKey key, ISkillMemoryRepository skillMemoryRepository, IEventContext eventContext)
+        public DomainSkillContext(AbilityKey key, ISkillDynamicMemoryRepository skillMemoryRepository, IEventContext eventContext)
         {
             _key = key;
 
-            _skillMemoryRepository = skillMemoryRepository;
+            _memoryRepository = skillMemoryRepository;
             _eventContext = eventContext;
 
             _eventHandlers = new();
@@ -31,7 +32,7 @@ namespace Combat.Local.Scripting.Contexts
 
         public SkillState<T> GetState<T>() where T : unmanaged, IDynamicSkillData
         {
-            if (_skillMemoryRepository.TryGetRawData(_key, out Span<byte> value) == false)
+            if (_memoryRepository.TryGetRawData(_key, out ReadOnlySpan<byte> value) == false)
             {
                 return default;
             }
@@ -42,7 +43,7 @@ namespace Combat.Local.Scripting.Contexts
 
         public void SaveState<T>(SkillState<T> value) where T : unmanaged, IDynamicSkillData
         {
-            _skillMemoryRepository.Save(_key, value);
+            _memoryRepository.Save(_key, value);
         }
 
         public TQuery GetCapability<TQuery>() where TQuery : class

@@ -1,17 +1,12 @@
-﻿using Combat.Common;
-using Combat.Common.ValueObjects;
+﻿using Combat.API.Skills;
+using Combat.API.Statuses;
 
 namespace Combat.API.Contexts
 {
     public interface IStatusContext
     {
-        Duration Duration { get; }
-        StatusId Id { get; }
-        int StackCount { get; set; }
-
-        void ExtendDuration(float duration);
-        int GetHashCode();
-        void StartPeriodicAction(float interval);
-        void StopPeriodocAction();
+        TQuery GetCapability<TQuery>() where TQuery : class;
+        StatusState<T> GetState<T>() where T : unmanaged, IDynamicStatusData;
+        void SaveState<T>(StatusState<T> value) where T : unmanaged, IDynamicStatusData;
     }
 }

@@ -6,9 +6,9 @@ namespace Combat.API
 {
     public sealed class StatusApi
     {
-        private readonly IStatusContext _statusContext;
+        private readonly IOldStatusContext _statusContext;
 
-        public StatusApi(IStatusContext statusContext, Unit parent, AbilityApi source)
+        public StatusApi(IOldStatusContext statusContext, Unit parent, AbilityApi source)
         {
             _statusContext = statusContext;
             Parent = parent;

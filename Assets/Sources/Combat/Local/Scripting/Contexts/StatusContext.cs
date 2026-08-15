@@ -5,7 +5,7 @@ using Combat.Local.Domain.Facades;
 
 namespace Combat.Local.Scripting.Contexts
 {
-    public sealed class StatusContext : IStatusContext
+    public sealed class StatusContext : IOldStatusContext
     {
         private readonly StatusId _id;
 

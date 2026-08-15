@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace Combat.Local.Gateways.Repositories.Skills
 {
-    public sealed class FixedSizeArraySkillMemoryRepository : ISkillMemoryRepository
+    public sealed class FixedSizeArraySkillMemoryRepository : ISkillDynamicMemoryRepository
     {
         private readonly Dictionary<AbilityKey, byte[]> _values = new();
 
@@ -26,7 +26,7 @@ namespace Combat.Local.Gateways.Repositories.Skills
             MemoryMarshal.Write(memory, ref value);
         }
 
-        public bool TryGetRawData(AbilityKey abilityKey, out Span<byte> result)
+        public bool TryGetRawData(AbilityKey abilityKey, out ReadOnlySpan<byte> result)
         {
             if (_values.TryGetValue(abilityKey, out var val) == false)
             {
