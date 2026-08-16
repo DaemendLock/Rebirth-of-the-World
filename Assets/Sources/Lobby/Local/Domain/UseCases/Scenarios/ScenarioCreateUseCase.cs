@@ -30,7 +30,7 @@ namespace Lobby.Local.Domain.UseCases.Scenarios
                 throw new ArgumentException("A scenario location is required.", nameof(locationName));
             }
 
-            Span<PlayerCharacterSelection?> playerCharacterSelection = stackalloc PlayerCharacterSelection?[maxPlayerCount];
+            PlayerCharacterSelection?[] playerCharacterSelection = new PlayerCharacterSelection?[maxPlayerCount];
 
             Scenario scenario = new()
             {

@@ -2,17 +2,13 @@ using Combat.Common.Primitives;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Global.Local.DTO
 {
-    public readonly struct CharacterId
-    {
-        public readonly int Value;
-    }
-
     public sealed class StartCombatRequest
     {
-        public StartCombatRequest(string locationName)
+        public StartCombatRequest(string locationName, IReadOnlyCollection<CombatCharacterInfo> characters)
         {
             if (string.IsNullOrWhiteSpace(locationName))
             {
@@ -20,6 +16,7 @@ namespace Global.Local.DTO
             }
 
             LocationName = locationName;
+            Characters = characters;
         }
 
         public string LocationName { get; }
@@ -28,8 +25,13 @@ namespace Global.Local.DTO
 
     public readonly struct CombatCharacterInfo
     {
-        public PlayerId Owner { get; }
-        public CharacterId Id { get; }
+        public CombatCharacterInfo(string character, byte teamId)
+        {
+            Character = new(character);
+            TeamId = teamId;
+        }
+
+        public CharacterKey Character { get; }
         public byte TeamId { get; }
     }
 }

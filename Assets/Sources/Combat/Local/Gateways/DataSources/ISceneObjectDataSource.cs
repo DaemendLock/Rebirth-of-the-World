@@ -7,6 +7,18 @@ using UnityEngine.SceneManagement;
 
 namespace Combat.Local.Gateways.DataSources
 {
+    public readonly struct SpawnpointModel
+    {
+        public readonly Vector3 Position;
+        public readonly Quaternion Rotation;
+
+        public SpawnpointModel(Vector3 position, Quaternion rotation)
+        {
+            Position = position;
+            Rotation = rotation;
+        }
+    }
+
     public interface ISceneObjectDataSource
     {
         Scene? Scene { get; set; }
@@ -19,5 +31,7 @@ namespace Combat.Local.Gateways.DataSources
 
         IReadOnlyCollection<UnitId> FindCharactersInCone(Vector3 origin, Quaternion direction, float angle, float maxDistance);
         void Register(UnitId entityId, Transform transform);
+
+        SpawnpointModel[] GetSpawnpoints();
     }
 }

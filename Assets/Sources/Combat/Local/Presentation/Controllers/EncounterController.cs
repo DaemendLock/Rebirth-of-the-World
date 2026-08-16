@@ -3,6 +3,7 @@ using Combat.Common.ValueObjects;
 using Combat.Local.Domain.DTO;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.UseCases;
+using Combat.Local.Domain.UseCases.Encounter;
 using Combat.Local.Domain.UseCases.Scene;
 using Combat.Local.Domain.ValueObjects;
 
@@ -39,16 +40,19 @@ namespace Combat.Local.Controllers
     public sealed class EncounterController
     {
         private readonly UnitCreateUseCase _createUnitUseCase;
+        private readonly CreateCharacterUseCase _createCharacterUseCase;
         private readonly EncounterFinalizeUseCase _endEncounterUseCase;
         private readonly IEncounterStateMachine _stateMachine;
 
         public EncounterController(UnitCreateUseCase createUnitUseCase,
                                    EncounterFinalizeUseCase endEncounterUseCase,
-                                   IEncounterStateMachine stateMachine)
+                                   IEncounterStateMachine stateMachine,
+                                   CreateCharacterUseCase createCharacterUseCase)
         {
             _createUnitUseCase = createUnitUseCase;
             _endEncounterUseCase = endEncounterUseCase;
             _stateMachine = stateMachine;
+            _createCharacterUseCase = createCharacterUseCase;
         }
 
         public void Start()
@@ -80,6 +84,11 @@ namespace Combat.Local.Controllers
         {
             Domain.DTO.UnitCreationInfo unitCreationDTO = new(data.ModelName, data.Team, data.Position, data.CurrentHealth, data.BaseHealth, data.DefaultAttributes, data.DefaultResources, data.Skills);
             _createUnitUseCase.Execute(targetId, unitCreationDTO);
+        }
+
+        public UnitId CreateCharacter(CharacterKey charcterKey, Team team, UnityEngine.Vector3 position, float? baseHealth = null)
+        {
+            return _createCharacterUseCase.Execute(charcterKey, team, position, baseHealth);
         }
     }
 }

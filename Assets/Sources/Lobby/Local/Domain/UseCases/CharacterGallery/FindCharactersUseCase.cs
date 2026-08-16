@@ -6,15 +6,15 @@ namespace Lobby.Local.Domain.UseCases.CharacterGallery
 {
     public interface ICharacterRepository
     {
-        Character Get(CharacterId id);
-        Character Get(AccountId owner, CharacterId id);
+        Character Get(CharacterKey id);
+        Character Get(AccountId owner, CharacterKey id);
     }
 
     public sealed class FindCharactersUseCase
     {
-        public CharacterId[] Execute(CharacterFilter characterFilter)
+        public CharacterKey[] Execute(CharacterFilter characterFilter)
         {
-            return new CharacterId[] { new(0), new(1) };
+            return new CharacterKey[] { new("katerina"), new("florence") };
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Lobby.Local.Domain.UseCases.Scenarios
     {
         private readonly IScenarioRepository _scenarioRepository;
 
-        public bool Execute(AccountId accountId, CharacterId? characterId)
+        public bool Execute(AccountId accountId, CharacterKey? characterId)
         {
             ScenarioId scenarioId = new();
 
@@ -22,7 +22,7 @@ namespace Lobby.Local.Domain.UseCases.Scenarios
             return false;
         }
 
-        private bool TrySelect(Scenario scenario, AccountId accountId, CharacterId? characterId)
+        private bool TrySelect(Scenario scenario, AccountId accountId, CharacterKey? characterId)
         {
             foreach (var selection in scenario.SelectedCharacters)
             {
@@ -31,7 +31,7 @@ namespace Lobby.Local.Domain.UseCases.Scenarios
                     continue;
                 }
 
-                if (selection.Value.CharacterId != characterId)
+                if (selection.Value.CharacterKey != characterId)
                 {
                     continue;
                 }

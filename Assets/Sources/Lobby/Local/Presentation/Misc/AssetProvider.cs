@@ -6,6 +6,6 @@ namespace Lobby.Local.Presentation.Misc
 {
     public interface IAssetProvider
     {
-        Sprite GetCharacterIcon(CharacterId id);
+        Sprite GetCharacterIcon(CharacterKey id);
     }
 }

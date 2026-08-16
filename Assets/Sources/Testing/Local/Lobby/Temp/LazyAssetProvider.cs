@@ -9,7 +9,7 @@ namespace Assets.Sources.Testing.Local.Lobby.Temp
     {
         [SerializeField] private LocalCharacterDatabase _characterDatabase;
 
-        public Sprite GetCharacterIcon(CharacterId id)
+        public Sprite GetCharacterIcon(CharacterKey id)
         {
             foreach (CharacteData val in _characterDatabase.CharactersData)
             {

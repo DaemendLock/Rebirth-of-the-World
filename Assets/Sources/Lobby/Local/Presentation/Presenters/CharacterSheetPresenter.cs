@@ -10,7 +10,7 @@ namespace Lobby.Local.Presentation.Presenters
         private readonly CharacterSheetView _view;
         private readonly GetCharacterInfoUseCase _getCharacterInfoUseCase;
 
-        public void Present(CharacterId characterId)
+        public void Present(CharacterKey characterId)
         {
             CharacterInfo characterInfo = _getCharacterInfoUseCase.Execute(characterId, default);
 

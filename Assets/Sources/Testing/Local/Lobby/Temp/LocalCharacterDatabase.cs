@@ -9,7 +9,7 @@ namespace Assets.Sources.Testing.Local.Lobby.Temp
     [Serializable]
     public sealed class CharacteData
     {
-        public int Id;
+        public string Id;
         public string Name;
         public Sprite Icon;
         public GameObject ModelPrefab;

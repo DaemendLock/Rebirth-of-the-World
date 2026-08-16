@@ -2,8 +2,11 @@
 using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Models;
 
+using Data.Levels;
+
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -90,6 +93,17 @@ namespace Combat.Local.Data.DataSources
             }
 
             return result;
+        }
+
+        public SpawnpointModel[] GetSpawnpoints()
+        {
+            if (Scene == null)
+            {
+                return Array.Empty<SpawnpointModel>();
+            }
+
+            var items = UnityEngine.Object.FindObjectsByType<PlayerSpawnpoint>(FindObjectsSortMode.None);
+            return items.Select(value => new SpawnpointModel(value.transform.position, value.transform.rotation)).ToArray();
         }
     }
 }

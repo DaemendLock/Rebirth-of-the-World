@@ -5,6 +5,8 @@ using Lobby.Local.Domain.Entities;
 using Lobby.Local.Domain.Outputs;
 using Lobby.Local.Domain.Repositories;
 
+using System.Collections.Generic;
+
 namespace Lobby.Local.Domain.UseCases.Scenarios
 {
     public sealed class ScenarioStartUseCase
@@ -23,6 +25,7 @@ namespace Lobby.Local.Domain.UseCases.Scenarios
         public void Execute(ScenarioId scenarioId)
         {
             Scenario scenario = _scenarioRepository.Get(scenarioId);
+            List<CombatCharacterInfo> characters = new();
 
             foreach (var selection in scenario.SelectedCharacters)
             {
@@ -31,15 +34,19 @@ namespace Lobby.Local.Domain.UseCases.Scenarios
                     continue;
                 }
 
-                if (selection.Value.CharacterId.HasValue)
+                CharacterKey? characterKey = selection.Value.CharacterKey;
+
+                if (characterKey.HasValue == false)
                 {
-                    continue;
+                    characterKey = new("katerina");
+                    //UnityEngine.Debug.LogError($"Failed start: Player {selection.Value.Player} is starting without a selected character.");
+                    //return;
                 }
 
-                UnityEngine.Debug.LogWarning($"Player {selection.Value.Player} is starting without a selected character.");
+                characters.Add(new(characterKey.Value.Value, 0));
             }
 
-            _output.Present(new StartCombatRequest(scenario.LocationName));
+            _output.Present(new(scenario.LocationName, characters));
         }
     }
 }

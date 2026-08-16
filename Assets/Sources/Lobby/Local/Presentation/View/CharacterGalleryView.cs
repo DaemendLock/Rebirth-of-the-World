@@ -15,7 +15,7 @@ namespace Lobby.Local.Presentation.View
         [Zenject.Inject] private readonly CharacterGalleryController _controller;
         [Zenject.Inject] private readonly IAssetProvider _assetProvider;
 
-        private readonly Dictionary<CharacterId, CharacterCardWidget> _widgets = new();
+        private readonly Dictionary<CharacterKey, CharacterCardWidget> _widgets = new();
 
         [SerializeField] private Transform _charcterBoxParent;
         [SerializeField] private CharacterCardWidget _widgetPrefab;
@@ -45,7 +45,7 @@ namespace Lobby.Local.Presentation.View
 
         void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
         {
-            CharacterId? characterId = GetClickedCharacter(eventData);
+            CharacterKey? characterId = GetClickedCharacter(eventData);
 
             if (characterId.HasValue == false)
             {
@@ -55,7 +55,7 @@ namespace Lobby.Local.Presentation.View
             _controller.OpenCharacterSheet(characterId.Value);
         }
 
-        private CharacterId? GetClickedCharacter(PointerEventData eventData)
+        private CharacterKey? GetClickedCharacter(PointerEventData eventData)
         {
             foreach (var widget in _widgets)
             {

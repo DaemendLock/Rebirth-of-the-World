@@ -74,6 +74,14 @@ namespace Combat.Local.Composition
         private void OnLocationLoaded(Scene locationScene)
         {
             _sceneObjects.Scene = locationScene;
+            var spawnpoint = _sceneObjects.GetSpawnpoints();
+            int spawnpointCursor = 0;
+
+            foreach (var item in _request.Characters)
+            {
+                _encounterController.CreateCharacter(item.Character, new(item.TeamId), spawnpoint[spawnpointCursor++].Position);
+            }
+
             _encounterController.Start();
         }
     }

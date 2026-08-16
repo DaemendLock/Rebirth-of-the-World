@@ -53,6 +53,11 @@ namespace Testing.Local
 
         private void Start()
         {
+            while (_sceneObjectlDataSource.TryGet(new(_targetId), out _))
+            {
+                _targetId++;
+            }
+
             _sceneObjectlDataSource.Register(new(_targetId), transform);
             _combatController.CreateUnit(new(_targetId), GetUnitCreationData());
             Destroy(this);

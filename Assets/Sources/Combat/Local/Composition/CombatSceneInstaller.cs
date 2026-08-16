@@ -262,7 +262,7 @@ namespace Combat.Local.Composition
                     ? "test"
                     : _defaultLocationName;
 
-                Container.BindInstance(new StartCombatRequest(locationName)).AsSingle();
+                Container.BindInstance(new StartCombatRequest(locationName, System.Array.Empty<CombatCharacterInfo>())).AsSingle();
             }
 
             Container.Bind<ILocationSceneLoader>().To<ZenjectLocationSceneLoader>().AsSingle();

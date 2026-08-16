@@ -32,7 +32,6 @@ namespace Testing.Local.Combat
             objectiveScriptFactory.Register<BasicKillUnitObjective>();
 
             Container.Resolve<ObjectiveCreateUseCase>().Execute("kill");
-            Container.Resolve<CreateCharacterUseCase>().Execute(new("test_character"), new(2), new(0, 0, 4));
         }
     }
 }

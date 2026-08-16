@@ -5,12 +5,12 @@ namespace Lobby.Local.Domain.ValueObjects
     public readonly struct PlayerCharacterSelection
     {
         public readonly AccountId Player;
-        public readonly CharacterId? CharacterId;
+        public readonly CharacterKey? CharacterKey;
 
-        public PlayerCharacterSelection(AccountId player, CharacterId? characterId)
+        public PlayerCharacterSelection(AccountId player, CharacterKey? characterId)
         {
             Player = player;
-            CharacterId = characterId;
+            CharacterKey = characterId;
         }
     }
 }

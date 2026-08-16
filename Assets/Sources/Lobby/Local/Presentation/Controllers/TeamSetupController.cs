@@ -62,7 +62,7 @@ namespace Lobby.Local.Presentation.View
                 view.Show(new()
                 {
                     LocalizedName = value.HasValue ? _accountRepository.Get(value.Value.Player).Name : "No player",
-                    CharacterIcon = value.Value.CharacterId.HasValue ? throw new System.NotImplementedException() : _defaultIcon,
+                    CharacterIcon = value.Value.CharacterKey.HasValue ? throw new System.NotImplementedException() : _defaultIcon,
                 });
             }
             _values.Add(view);

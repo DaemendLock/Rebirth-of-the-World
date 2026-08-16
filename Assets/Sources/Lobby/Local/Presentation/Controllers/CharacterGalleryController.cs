@@ -18,7 +18,7 @@ namespace Lobby.Local.Presentation.Controllers
             _chracterRepository = chracterRepository;
         }
 
-        public void OpenCharacterSheet(CharacterId characterId)
+        public void OpenCharacterSheet(CharacterKey characterId)
         {
             UnityEngine.Debug.Log("Open sheet for " + characterId);
 
@@ -29,7 +29,7 @@ namespace Lobby.Local.Presentation.Controllers
             });
         }
 
-        public CharacterId[] LoadAll()
+        public CharacterKey[] LoadAll()
         {
             return _findCharactersOfRoleUseCase.Execute(default);
         }

@@ -9,7 +9,7 @@ namespace Lobby.Local.Presentation.Presenters
     {
         [Zenject.Inject] private CharacterGalleryView _view;
 
-        public void Present(Span<CharacterId> characters)
+        public void Present(Span<CharacterKey> characters)
         {
             foreach (var character in characters)
             {

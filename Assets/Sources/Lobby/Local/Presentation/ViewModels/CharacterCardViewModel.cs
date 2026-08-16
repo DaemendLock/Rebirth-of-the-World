@@ -4,10 +4,10 @@ namespace Lobby.Local.Presentation.ViewModels
 {
     public sealed class CharacterCardViewModel
     {
-        public CharacterId CharacterId;
+        public CharacterKey CharacterId;
         public bool IsAvailable;
 
-        public CharacterCardViewModel(CharacterId characterId)
+        public CharacterCardViewModel(CharacterKey characterId)
         {
             CharacterId = characterId;
         }
