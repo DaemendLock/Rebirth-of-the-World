@@ -10426,6 +10426,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cac08eef422696f40bd7d4107d2fc5f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _name: Player
+  _title: Adventurer
+  _level: 1
+  _avatarCharacterId: 
   <Guid>k__BackingField: 0
 --- !u!114 &843618265
 MonoBehaviour:

@@ -96,7 +96,7 @@ namespace Lobby.Local.Presentation.View
             }
 
             _scenarioJoinUse.Execute(scenarioId.Value);
-            _teamSetupController.SetupScenario(scenarioId.Value);
+            _teamSetupController.SetupScenario();
         }
     }
 }

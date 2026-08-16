@@ -13,18 +13,18 @@ namespace Lobby.Local.Domain.UseCases.Scenarios
     {
         private readonly IScenarioRepository _scenarioRepository;
         private readonly IScenarioStartOutput _output;
+        private readonly LobbySession _session;
 
-        public ScenarioStartUseCase(
-            IScenarioRepository scenarioRepository,
-            IScenarioStartOutput output)
+        public ScenarioStartUseCase(IScenarioRepository scenarioRepository, IScenarioStartOutput output, LobbySession session)
         {
             _scenarioRepository = scenarioRepository;
             _output = output;
+            _session = session;
         }
 
-        public void Execute(ScenarioId scenarioId)
+        public void Execute()
         {
-            Scenario scenario = _scenarioRepository.Get(scenarioId);
+            Scenario scenario = _scenarioRepository.Get(_session.ActiveScenarioId);
             List<CombatCharacterInfo> characters = new();
 
             foreach (var selection in scenario.SelectedCharacters)

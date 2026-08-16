@@ -30,11 +30,26 @@ namespace Lobby.Local.Domain.UseCases.Scenarios
                 }
 
                 scenario.SelectedCharacters[i] = new(accountId, default);
+                _session.SetActiveScenario(scenarioId);
 
                 return;
             }
 
             throw new InvalidOperationException($"Player(Id: {accountId}) can't join scenario(Id:{scenario.Id}): Scenario is full");
         }
+    }
+
+    public sealed class ScenarioGetActiveUseCase
+    {
+        private readonly LobbySession _session;
+        private readonly IScenarioRepository _scenarioRepository;
+
+        public ScenarioGetActiveUseCase(IScenarioRepository scenarioRepository, LobbySession session)
+        {
+            _scenarioRepository = scenarioRepository;
+            _session = session;
+        }
+
+        public Scenario Execute() => _scenarioRepository.Get(_session.ActiveScenarioId);
     }
 }

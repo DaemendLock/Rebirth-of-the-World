@@ -48,7 +48,8 @@ namespace Lobby.Local.Presentation.View
             {
                 if (_selectButton.activeSelf)
                 {
-                    _scenarioSelectCharacterUseCase.Execute(default, default);
+                    //TODO: Sheet session
+                    _scenarioSelectCharacterUseCase.Execute(default);
                 }
             }
         }

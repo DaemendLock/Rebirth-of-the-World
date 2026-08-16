@@ -15,12 +15,12 @@ namespace Lobby.Local.Domain.UseCases.Scenarios
             _session = session;
         }
 
-        public bool Execute(ScenarioId scenarioId, CharacterKey? characterId)
+        public bool Execute(CharacterKey? characterId)
         {
             AccountId accountId = _session.ActiveAccountId;
-            Scenario scenario = _scenarioRepository.Get(scenarioId);
+            Scenario scenario = _scenarioRepository.Get(_session.ActiveScenarioId);
 
-            if (TrySelect(scenario, accountId, characterId))
+            if (TrySelect(scenario, characterId))
             {
                 for (int i = 0; i < scenario.SelectedCharacters.Length; i++)
                 {
@@ -45,7 +45,7 @@ namespace Lobby.Local.Domain.UseCases.Scenarios
             return false;
         }
 
-        private bool TrySelect(Scenario scenario, AccountId accountId, CharacterKey? characterId)
+        private bool TrySelect(Scenario scenario, CharacterKey? characterId)
         {
             if (characterId.HasValue == false)
             {

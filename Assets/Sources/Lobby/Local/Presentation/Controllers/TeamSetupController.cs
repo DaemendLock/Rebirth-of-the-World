@@ -14,9 +14,9 @@ namespace Lobby.Local.Presentation.View
 {
     public sealed class TeamSetupController : MonoBehaviour, IPointerClickHandler
     {
-        [Zenject.Inject] private readonly IScenarioRepository _scenarioRepository;
         [Zenject.Inject] private readonly IAccountRepository _accountRepository;
         [Zenject.Inject] private readonly UiNavigationService _lobbyController;
+        [Zenject.Inject] private readonly ScenarioGetActiveUseCase _getActiveScenarioUseCase;
         [Zenject.Inject] private readonly ScenarioStartUseCase _scenarioStartUseCase;
         [Zenject.Inject] private readonly ScenarioSelectCharacterUseCase _scenarioSelectCharacterUseCase;
 
@@ -27,17 +27,10 @@ namespace Lobby.Local.Presentation.View
 
         private readonly List<CharacterSlotView> _values = new();
 
-        private ScenarioId? _id;
-
-        public void SetupScenario(ScenarioId scenarioId)
+        public void SetupScenario()
         {
-            if (_id.HasValue)
-            {
-                return;
-            }
-
-            _id = scenarioId;
-            Scenario scenario = _scenarioRepository.Get(scenarioId);
+            ClearSlots();
+            Scenario scenario = _getActiveScenarioUseCase.Execute();
 
             foreach (var val in scenario.SelectedCharacters)
             {
@@ -47,18 +40,28 @@ namespace Lobby.Local.Presentation.View
             _lobbyController.OpenTab(GetComponent<LobbyTabWidget>());
         }
 
+        private void ClearSlots()
+        {
+            foreach (CharacterSlotView view in _values)
+            {
+                Destroy(view.gameObject);
+            }
+
+            _values.Clear();
+        }
+
         public void OnPointerClick(PointerEventData eventData)
         {
             if (eventData.hovered.Contains(_startButton))
             {
-                _scenarioStartUseCase.Execute(_id.Value);
+                _scenarioStartUseCase.Execute();
             }
 
             foreach (var slot in _values)
             {
                 if (eventData.hovered.Contains(slot.gameObject))
                 {
-                    _scenarioSelectCharacterUseCase.Execute(_id.Value, new("katerina"));
+                    _scenarioSelectCharacterUseCase.Execute(new("katerina"));
                 }
             }
         }

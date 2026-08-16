@@ -23,7 +23,7 @@ namespace Testing.Local.Lobby
     {
         public override void InstallBindings()
         {
-            Container.Bind<LobbySession>().To<LobbySession>().AsSingle();
+            Container.Bind<LobbySession>().AsSingle();
 
             BindRepositories();
 
@@ -65,6 +65,7 @@ namespace Testing.Local.Lobby
             Container.Bind<ScenarioCreateUseCase>().FromNew().AsSingle();
             Container.Bind<ScenarioCancelUseCase>().FromNew().AsSingle();
             Container.Bind<ScenarioJoinUseCase>().FromNew().AsSingle();
+            Container.Bind<ScenarioGetActiveUseCase>().FromNew().AsSingle();
             Container.Bind<ScenarioSelectCharacterUseCase>().FromNew().AsSingle();
             Container.Bind<ScenarioStartUseCase>().FromNew().AsSingle();
 
