@@ -2,17 +2,15 @@
 
 using UnityEngine;
 
-namespace Combat.Local.Gateways.Models
+namespace Combat.Local.Presentation.Views
 {
     [RequireComponent(typeof(Camera))]
-    public class PlayerModelComponent : MonoBehaviour
+    public class PlayerViewComponent : MonoBehaviour
     {
         [SerializeField] private float _distance = 1.0f;
         [SerializeField] private float _height = 2.0f;
 
         [field: SerializeField] public Transform FollowTarget { get; set; }
-
-        public UnitId? FollowId { get; set; }
 
         private void OnValidate()
         {
@@ -38,7 +36,7 @@ namespace Combat.Local.Gateways.Models
             }
 
             Vector3 shift = new(0, _height, -_distance);
-            transform.position = target.position + (target.rotation * shift);
+            transform.position = target.position + target.rotation * shift;
         }
 
         private void LateUpdate()
@@ -48,7 +46,7 @@ namespace Combat.Local.Gateways.Models
                 return;
             }
 
-            transform.position = FollowTarget.position + (FollowTarget.rotation * new Vector3(0, _height, -_distance));
+            transform.position = FollowTarget.position + FollowTarget.rotation * new Vector3(0, _height, -_distance);
         }
     }
 }

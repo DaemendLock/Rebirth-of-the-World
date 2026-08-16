@@ -1,6 +1,7 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Models;
+using Combat.Local.Presentation.Presenters;
 
 using Data.Levels;
 
@@ -13,7 +14,7 @@ using UnityEngine.SceneManagement;
 
 namespace Combat.Local.Data.DataSources
 {
-    public sealed class SceneObjectDataSource : ISceneObjectDataSource
+    public sealed class SceneObjectDataSource : ISceneObjectDataSource, ITransformProvider
     {
         private readonly Dictionary<UnitId, Transform> _values;
 

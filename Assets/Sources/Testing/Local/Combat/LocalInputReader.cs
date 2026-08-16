@@ -1,6 +1,7 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Local.Controllers;
 using Combat.Local.Domain.UseCases;
+using Combat.Local.Gateways.DataSources;
 
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,9 +10,10 @@ using Zenject;
 
 namespace Assets.Sources.Testing.Local
 {
-    public class LocalInputReader : MonoBehaviour, ITakeControllOutput
+    public class LocalInputReader : MonoBehaviour
     {
         [Inject] private readonly PlayerController _playerController;
+        [Inject] private readonly ISceneObjectDataSource _sceneObjectDataSource;
 
         [SerializeField] private int _unitId;
         [SerializeField, Min(0.1f)] private float _sensitivity = 1;
@@ -135,7 +137,5 @@ namespace Assets.Sources.Testing.Local
             UnityEngine.Cursor.lockState = CursorLockMode.None;
             _cameraLock = false;
         }
-
-        public void Present(UnitId? id) => _unitId = id.HasValue ? id.Value.Value : 0;
     }
 }

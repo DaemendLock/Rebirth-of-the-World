@@ -176,6 +176,7 @@ namespace Combat.Local.Composition
 
             Container.Bind<SceneObjectDataSource>().AsSingle();
             Container.Bind<ISceneObjectDataSource>().To<SceneObjectDataSource>().FromResolve();
+            Container.Bind<ITransformProvider>().To<SceneObjectDataSource>().FromResolve();
             Container.Bind<ICharacterPrefabDataSource>().To<CharacterPrefabDataSource>().AsSingle();
         }
 
@@ -229,8 +230,8 @@ namespace Combat.Local.Composition
             Container.Bind<IHealthOutput>().To<CharacterPresenter>().FromResolve();
             Container.Bind<ICharacterConsciousStateOutput>().To<CharacterPresenter>().FromResolve();
 
-            Container.Bind<ITakeControllOutput>().To<PlayerPresenter>().FromResolve();
             Container.Bind<IDesireCastOutput>().To<PlayerPresenter>().FromResolve();
+            Container.Bind<ITakeControllOutput>().To<PlayerPresenter>().FromResolve();
         }
 
         private void BindApi()
