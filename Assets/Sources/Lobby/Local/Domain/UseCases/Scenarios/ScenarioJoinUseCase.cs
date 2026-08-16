@@ -8,15 +8,18 @@ namespace Lobby.Local.Domain.UseCases.Scenarios
 {
     public sealed class ScenarioJoinUseCase
     {
+        private readonly LobbySession _session;
         private readonly IScenarioRepository _scenarioRepository;
 
-        public ScenarioJoinUseCase(IScenarioRepository scenarioRepository)
+        public ScenarioJoinUseCase(IScenarioRepository scenarioRepository, LobbySession session)
         {
             _scenarioRepository = scenarioRepository;
+            _session = session;
         }
 
-        public void Execute(ScenarioId scenarioId, AccountId accountId)
+        public void Execute(ScenarioId scenarioId)
         {
+            AccountId accountId = _session.ActiveAccountId;
             Scenario scenario = _scenarioRepository.Get(scenarioId);
 
             for (int i = 0; i < scenario.PlayerCount; i++)

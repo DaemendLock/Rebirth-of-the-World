@@ -27,11 +27,9 @@ namespace Lobby.Local.Presentation.View
 
         [SerializeField] private TeamSetupController _teamSetupController;
 
-        private AccountId _accountId = new();
-
         private void Start()
         {
-            var values = _getAvailableScenariosUseCase.Execute(_accountId);
+            var values = _getAvailableScenariosUseCase.Execute();
 
             foreach (ScenarioId scenario in values)
             {
@@ -97,7 +95,7 @@ namespace Lobby.Local.Presentation.View
                 return;
             }
 
-            _scenarioJoinUse.Execute(scenarioId.Value, _accountId);
+            _scenarioJoinUse.Execute(scenarioId.Value);
             _teamSetupController.SetupScenario(scenarioId.Value);
         }
     }

@@ -17,10 +17,16 @@ namespace Lobby.Local.Domain.Entities
         {
             Id = accountId;
             Name = "Player" + accountId.ToString();
+            Title = "No Title";
+            Level = 1;
+            AvatarCharacterId = null;
             CurrentEncounter = default;
         }
 
         public string Name { get; set; }
+        public string Title { get; set; }
+        public int Level { get; set; }
+        public CharacterKey? AvatarCharacterId { get; set; }
 
         public EncounterId? CurrentEncounter { get; set; }
     }

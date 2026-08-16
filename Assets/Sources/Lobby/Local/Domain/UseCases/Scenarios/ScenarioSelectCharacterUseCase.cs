@@ -6,15 +6,18 @@ namespace Lobby.Local.Domain.UseCases.Scenarios
 {
     public sealed class ScenarioSelectCharacterUseCase
     {
+        private readonly LobbySession _session;
         private readonly IScenarioRepository _scenarioRepository;
 
-        public ScenarioSelectCharacterUseCase(IScenarioRepository scenarioRepository)
+        public ScenarioSelectCharacterUseCase(IScenarioRepository scenarioRepository, LobbySession session)
         {
             _scenarioRepository = scenarioRepository;
+            _session = session;
         }
 
-        public bool Execute(ScenarioId scenarioId, AccountId accountId, CharacterKey? characterId)
+        public bool Execute(ScenarioId scenarioId, CharacterKey? characterId)
         {
+            AccountId accountId = _session.ActiveAccountId;
             Scenario scenario = _scenarioRepository.Get(scenarioId);
 
             if (TrySelect(scenario, accountId, characterId))

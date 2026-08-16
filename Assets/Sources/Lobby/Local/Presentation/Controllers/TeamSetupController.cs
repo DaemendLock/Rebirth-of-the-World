@@ -58,7 +58,7 @@ namespace Lobby.Local.Presentation.View
             {
                 if (eventData.hovered.Contains(slot.gameObject))
                 {
-                    _scenarioSelectCharacterUseCase.Execute(_id.Value, _scenarioRepository.Get(_id.Value).SelectedCharacters[0].Value.Player, new("katerina"));
+                    _scenarioSelectCharacterUseCase.Execute(_id.Value, new("katerina"));
                 }
             }
         }

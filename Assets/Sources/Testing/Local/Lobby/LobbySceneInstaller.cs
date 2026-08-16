@@ -2,6 +2,7 @@ using Assets.Sources.Testing.Local.Lobby.Temp;
 
 using Lobby.Local.Data.DataSources;
 using Lobby.Local.Data.Repositories;
+using Lobby.Local.Domain.Entities;
 using Lobby.Local.Domain.Outputs;
 using Lobby.Local.Domain.Repositories;
 using Lobby.Local.Domain.UseCases.Accounts;
@@ -11,6 +12,7 @@ using Lobby.Local.Presentation.Controllers;
 using Lobby.Local.Presentation.Misc;
 using Lobby.Local.Presentation.Presenters;
 using Lobby.Local.Presentation.View;
+using Lobby.Local.Presentation.View.MainMenu;
 
 using Zenject;
 
@@ -21,6 +23,8 @@ namespace Testing.Local.Lobby
     {
         public override void InstallBindings()
         {
+            Container.Bind<LobbySession>().To<LobbySession>().AsSingle();
+
             BindRepositories();
 
             BindUseCases();
@@ -32,6 +36,7 @@ namespace Testing.Local.Lobby
             Container.Bind<UiNavigationService>().FromComponentInHierarchy().AsSingle();
             Container.Bind<CharacterGalleryController>().AsSingle();
             Container.Bind<CharacterSheetView>().FromComponentInHierarchy(true).AsSingle();
+            Container.Bind<ProfileView>().FromComponentInHierarchy(true).AsSingle();
         }
 
         private void BindPresenters()

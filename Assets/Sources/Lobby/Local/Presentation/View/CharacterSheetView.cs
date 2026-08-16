@@ -48,7 +48,7 @@ namespace Lobby.Local.Presentation.View
             {
                 if (_selectButton.activeSelf)
                 {
-                    _scenarioSelectCharacterUseCase.Execute(default, default, default);
+                    _scenarioSelectCharacterUseCase.Execute(default, default);
                 }
             }
         }

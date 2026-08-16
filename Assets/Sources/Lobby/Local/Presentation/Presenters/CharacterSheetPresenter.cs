@@ -10,9 +10,15 @@ namespace Lobby.Local.Presentation.Presenters
         private readonly CharacterSheetView _view;
         private readonly GetCharacterInfoUseCase _getCharacterInfoUseCase;
 
-        public void Present(CharacterKey characterId)
+        public CharacterSheetPresenter(CharacterSheetView view, GetCharacterInfoUseCase getCharacterInfoUseCase)
         {
-            CharacterInfo characterInfo = _getCharacterInfoUseCase.Execute(characterId, default);
+            _view = view;
+            _getCharacterInfoUseCase = getCharacterInfoUseCase;
+        }
+
+        public void Present(CharacterKey characterId, AccountId accountId)
+        {
+            CharacterInfo characterInfo = _getCharacterInfoUseCase.Execute(characterId, accountId);
 
             CharacterViewModel viewModel = new()
             {

@@ -14,12 +14,14 @@ namespace Lobby.Local.Presentation.View.MainMenu
         [SerializeField] private TMP_Text _levelField;
         [SerializeField] private Image _image;
 
+        public Sprite CurrentAvatar => _image.sprite;
+
         public void Show(ProfileViewModel viewModel)
         {
             _nameField.text = viewModel.Name;
             _titleField.text = viewModel.LocalizedTitle;
             _levelField.text = $"Lv.{viewModel.Level}";
-            //_image.sprite = viewModel.Avatar;
+            _image.sprite = viewModel.Avatar;
         }
     }
 }
