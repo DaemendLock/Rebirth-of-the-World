@@ -1,22 +1,17 @@
-﻿using Lobby.Local.Domain.Entities.Characters;
+﻿using Lobby.Common.Primitives;
 using Lobby.Local.Domain.UseCases.Scenarios;
-
-using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Lobby.Local.Presentation.Controllers
 {
-    public sealed class CharacterSheetController : MonoBehaviour
+    public sealed class CharacterSheetController
     {
+        private readonly ScenarioSelectCharacterUseCase _scenarioSelectCharacterUseCase;
 
-        public void Show(Character character)
+        public CharacterSheetController(ScenarioSelectCharacterUseCase scenarioSelectCharacterUseCase)
         {
-
+            _scenarioSelectCharacterUseCase = scenarioSelectCharacterUseCase;
         }
 
-        public void Select()
-        {
-
-        }
+        public bool Select(CharacterKey? character) => _scenarioSelectCharacterUseCase.Execute(character);
     }
 }

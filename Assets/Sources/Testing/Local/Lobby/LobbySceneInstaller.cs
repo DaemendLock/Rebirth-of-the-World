@@ -18,7 +18,6 @@ using Zenject;
 
 namespace Testing.Local.Lobby
 {
-
     public sealed class LobbySceneInstaller : MonoInstaller
     {
         public override void InstallBindings()
@@ -35,6 +34,7 @@ namespace Testing.Local.Lobby
 
             Container.Bind<UiNavigationService>().FromComponentInHierarchy().AsSingle();
             Container.Bind<CharacterGalleryController>().AsSingle();
+            Container.Bind<CharacterSheetController>().AsSingle();
             Container.Bind<CharacterSheetView>().FromComponentInHierarchy(true).AsSingle();
             Container.Bind<ProfileView>().FromComponentInHierarchy(true).AsSingle();
         }
@@ -68,6 +68,7 @@ namespace Testing.Local.Lobby
             Container.Bind<ScenarioGetActiveUseCase>().FromNew().AsSingle();
             Container.Bind<ScenarioSelectCharacterUseCase>().FromNew().AsSingle();
             Container.Bind<ScenarioStartUseCase>().FromNew().AsSingle();
+            Container.Bind<ScenarioLeaveUseCase>().FromNew().AsSingle();
 
             //Accounts
             Container.Bind<AccountGetAvailableScenariosUseCase>().FromNew().AsSingle();

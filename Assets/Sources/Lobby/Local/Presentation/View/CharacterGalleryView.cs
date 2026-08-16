@@ -39,7 +39,7 @@ namespace Lobby.Local.Presentation.View
                 _widgets.Add(viewModel.CharacterId, widget);
             }
 
-            widget.Name = "Charater" + viewModel.CharacterId;
+            widget.Name = viewModel.CharacterId.ToString();
             widget.CharacterArt = _assetProvider.GetCharacterIcon(viewModel.CharacterId);
         }
 

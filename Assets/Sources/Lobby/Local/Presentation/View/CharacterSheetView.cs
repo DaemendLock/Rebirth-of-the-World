@@ -1,6 +1,10 @@
-﻿using Lobby.Local.Domain.UseCases.Scenarios;
+﻿using Lobby.Common.Primitives;
+using Lobby.Local.Domain.UseCases.Scenarios;
 using Lobby.Local.Domain.ValueObjects;
+using Lobby.Local.Presentation.Controllers;
+using Lobby.Local.Presentation.Misc;
 using Lobby.Local.Presentation.ViewModels;
+using Lobby.Local.Presentation.Widgets.CharacterSheet;
 
 using TMPro;
 
@@ -13,28 +17,29 @@ namespace Lobby.Local.Presentation.View
 {
     public sealed class CharacterSheetView : MonoBehaviour, IPointerClickHandler
     {
+        [Inject] private readonly CharacterSheetController _controller;
+        [Inject] private readonly UiNavigationService _navigationService;
+
         [SerializeField] private TMP_Text _characterName;
+        [SerializeField] private CharacterPhotoWidget _photo;
         [SerializeField] private LevelWidget _levelWidget;
         [SerializeField] private GameObject _selectButton;
+        [SerializeField] private LobbyTabWidget _openOnSelect;
 
-        [Inject] private ScenarioSelectCharacterUseCase _scenarioSelectCharacterUseCase;
+        private CharacterKey? _characterId;
 
-        private void Start()
+        public void Show(CharacterViewModel viewModel, bool allowSelect)
         {
-            Show(new()
-            {
-                LocalizedName = "Katkat",
-                Level = new(20, 80, 50, 100)
-            });
-        }
-
-        public void Show(CharacterViewModel viewModel)
-        {
+            _characterId = viewModel.CharacterKey;
             _characterName.text = viewModel.LocalizedName;
+
+            _photo.Model = viewModel.CardPhoto;
 
             Level level = viewModel.Level;
             _levelWidget.Level = (level.CurrentValue, level.MaxValue);
             _levelWidget.Progress = (level.CurrentProgress, level.TargetProgress);
+
+            SetEnableSeletion(allowSelect);
         }
 
         public void SetEnableSeletion(bool enabled)
@@ -49,7 +54,10 @@ namespace Lobby.Local.Presentation.View
                 if (_selectButton.activeSelf)
                 {
                     //TODO: Sheet session
-                    _scenarioSelectCharacterUseCase.Execute(default);
+                    if (_controller.Select(_characterId))
+                    {
+                        _navigationService.OpenTab(_openOnSelect);
+                    }
                 }
             }
         }

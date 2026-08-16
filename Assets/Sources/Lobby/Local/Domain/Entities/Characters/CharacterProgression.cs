@@ -3,9 +3,9 @@ using Lobby.Local.Domain.ValueObjects;
 
 namespace Lobby.Local.Domain.Entities.Characters
 {
-    public ref struct Character
+    public ref struct CharacterProgression
     {
-        public Character(CharacterKey id, Level level, bool isAvailable)
+        public CharacterProgression(CharacterKey id, Level level, bool isAvailable)
         {
             Id = id;
             Level = level;

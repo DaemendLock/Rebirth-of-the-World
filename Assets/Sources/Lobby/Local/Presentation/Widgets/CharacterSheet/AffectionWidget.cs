@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace Lobby.Local.Presentation.Widgets.CharacterSheet
 {
+
     public sealed class AffectionWidget : MonoBehaviour
     {
         [SerializeField] private TMP_Text _levelText;

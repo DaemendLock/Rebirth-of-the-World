@@ -6,8 +6,8 @@ namespace Lobby.Local.Data.Repositories
 {
     public sealed class CharacterRepository : ICharacterRepository
     {
-        public Character Get(CharacterKey id) => new(id, default, true);
+        public CharacterProgression Get(CharacterKey id) => new(id, default, true);
 
-        public Character Get(AccountId owner, CharacterKey id) => new(id, default, false);
+        public CharacterProgression Get(AccountId owner, CharacterKey id) => new(id, default, false);
     }
 }

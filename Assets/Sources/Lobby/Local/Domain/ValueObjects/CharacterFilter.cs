@@ -22,7 +22,7 @@ namespace Lobby.Local.Domain.ValueObjects
     {
         public bool IsOwned { get; }
 
-        public bool Validate(Character character)
+        public bool Validate(CharacterProgression character)
         {
             if (IsOwned && (character.IsAvailable == false))
             {

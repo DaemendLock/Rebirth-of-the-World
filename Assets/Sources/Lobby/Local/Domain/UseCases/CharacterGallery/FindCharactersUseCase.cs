@@ -7,8 +7,8 @@ namespace Lobby.Local.Domain.UseCases.CharacterGallery
 {
     public interface ICharacterRepository
     {
-        Character Get(CharacterKey id);
-        Character Get(AccountId owner, CharacterKey id);
+        CharacterProgression Get(CharacterKey id);
+        CharacterProgression Get(AccountId owner, CharacterKey id);
     }
 
     public sealed class FindCharactersUseCase
