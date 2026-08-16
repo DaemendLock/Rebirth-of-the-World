@@ -12,10 +12,12 @@ namespace Lobby.Local.Presentation.Controllers
         private readonly ICharacterRepository _chracterRepository;
         private readonly CharacterSheetView _characterSheetView;
 
-        public CharacterGalleryController(FindCharactersUseCase findCharactersOfRoleUseCase, ICharacterRepository chracterRepository)
+        public CharacterGalleryController(FindCharactersUseCase findCharactersOfRoleUseCase, ICharacterRepository chracterRepository, CharacterSheetView characterSheetView, UiNavigationService uiNavigationService)
         {
             _findCharactersOfRoleUseCase = findCharactersOfRoleUseCase;
             _chracterRepository = chracterRepository;
+            _characterSheetView = characterSheetView;
+            _uiNavigationService = uiNavigationService;
         }
 
         public void OpenCharacterSheet(CharacterKey characterId)
@@ -27,11 +29,10 @@ namespace Lobby.Local.Presentation.Controllers
                 LocalizedName = "Character" + characterId,
                 Level = new()
             });
+
+            _uiNavigationService.OpenTab(_characterSheetView.GetComponent<LobbyTabWidget>());
         }
 
-        public CharacterKey[] LoadAll()
-        {
-            return _findCharactersOfRoleUseCase.Execute(default);
-        }
+        public CharacterKey[] LoadAll() => _findCharactersOfRoleUseCase.Execute(default);
     }
 }

@@ -8,15 +8,35 @@ namespace Lobby.Local.Domain.UseCases.Scenarios
     {
         private readonly IScenarioRepository _scenarioRepository;
 
-        public bool Execute(AccountId accountId, CharacterKey? characterId)
+        public ScenarioSelectCharacterUseCase(IScenarioRepository scenarioRepository)
         {
-            ScenarioId scenarioId = new();
+            _scenarioRepository = scenarioRepository;
+        }
 
+        public bool Execute(ScenarioId scenarioId, AccountId accountId, CharacterKey? characterId)
+        {
             Scenario scenario = _scenarioRepository.Get(scenarioId);
 
             if (TrySelect(scenario, accountId, characterId))
             {
-                return false;
+                for (int i = 0; i < scenario.SelectedCharacters.Length; i++)
+                {
+                    var item = scenario.SelectedCharacters[i];
+
+                    if (item.HasValue == false)
+                    {
+                        continue;
+                    }
+
+                    if (item.Value.Player != accountId)
+                    {
+                        continue;
+                    }
+
+                    scenario.SelectedCharacters[i] = new(accountId, characterId);
+                }
+
+                return true;
             }
 
             return false;
@@ -24,6 +44,11 @@ namespace Lobby.Local.Domain.UseCases.Scenarios
 
         private bool TrySelect(Scenario scenario, AccountId accountId, CharacterKey? characterId)
         {
+            if (characterId.HasValue == false)
+            {
+                return true;
+            }
+
             foreach (var selection in scenario.SelectedCharacters)
             {
                 if (selection.HasValue == false)
@@ -31,12 +56,7 @@ namespace Lobby.Local.Domain.UseCases.Scenarios
                     continue;
                 }
 
-                if (selection.Value.CharacterKey != characterId)
-                {
-                    continue;
-                }
-
-                if (selection.Value.Player != accountId)
+                if (selection.Value.CharacterKey == characterId)
                 {
                     return false;
                 }

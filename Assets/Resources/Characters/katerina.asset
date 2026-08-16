@@ -12,8 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 167d8ea1de6b19c408dc872ce87c655f, type: 3}
   m_Name: katerina
   m_EditorClassIdentifier: 
-  _modelName: 
-  <BaseHealth>k__BackingField: 0
-  <AttributeInfo>k__BackingField: []
-  <Resources>k__BackingField: []
-  <Skills>k__BackingField: []
+  _modelName: Katerina
+  <BaseHealth>k__BackingField: 2000
+  <AttributeInfo>k__BackingField:
+  - <Attribute>k__BackingField: 2
+    <Value>k__BackingField: 0
+  <Resources>k__BackingField:
+  - _id: 0
+    <MaxValue>k__BackingField: 1000
+  <Skills>k__BackingField:
+  - {fileID: 4635443917247608688, guid: 86de2475993beb946b3465fe50b7729d, type: 3}
+  - {fileID: 4635443917247608688, guid: 7d32522860a7c37499c13c66a413b63c, type: 3}
+  - {fileID: 4635443917247608688, guid: edc8ac2b09fb2a648a6cb520b11ec481, type: 3}
+  - {fileID: 4635443917247608688, guid: 1b65f772a651c554eb7d45795249b208, type: 3}

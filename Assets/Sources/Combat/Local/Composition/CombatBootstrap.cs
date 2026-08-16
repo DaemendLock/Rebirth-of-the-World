@@ -1,4 +1,6 @@
-﻿using Combat.Local.Controllers;
+﻿using Combat.Common.Primitives;
+using Combat.Local.Controllers;
+using Combat.Local.Domain.Repositories;
 using Combat.Local.Gateways.DataSources;
 
 using Global.Local.DTO;
@@ -79,7 +81,7 @@ namespace Combat.Local.Composition
 
             foreach (var item in _request.Characters)
             {
-                _encounterController.CreateCharacter(item.Character, new(item.TeamId), spawnpoint[spawnpointCursor++].Position);
+                UnitId character = _encounterController.CreateCharacter(item.Character, new(item.TeamId), spawnpoint[spawnpointCursor++].Position);
             }
 
             _encounterController.Start();

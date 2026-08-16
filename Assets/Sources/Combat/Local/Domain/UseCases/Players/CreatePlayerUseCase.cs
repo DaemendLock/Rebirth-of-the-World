@@ -2,6 +2,8 @@
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 
+using System;
+
 namespace Combat.Local.Domain.UseCases.Players
 {
     public sealed class CreatePlayerUseCase
@@ -15,11 +17,13 @@ namespace Combat.Local.Domain.UseCases.Players
             _playerCreateOutput = new UnityDebugLogPlayerOutput();
         }
 
-        public void Execute(PlayerId playerId)
+        public PlayerId Execute()
         {
+            PlayerId playerId = new(Guid.NewGuid());
             Player player = new(playerId);
             _playerRepository.Create(player);
             _playerCreateOutput.Present(player);
+            return playerId;
         }
     }
 

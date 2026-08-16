@@ -10,6 +10,7 @@ using Lobby.Local.Domain.UseCases.Scenarios;
 using Lobby.Local.Presentation.Controllers;
 using Lobby.Local.Presentation.Misc;
 using Lobby.Local.Presentation.Presenters;
+using Lobby.Local.Presentation.View;
 
 using Zenject;
 
@@ -29,7 +30,8 @@ namespace Testing.Local.Lobby
             Container.Bind<IAssetProvider>().To<LazyAssetProvider>().FromComponentInHierarchy().AsSingle();
 
             Container.Bind<UiNavigationService>().FromComponentInHierarchy().AsSingle();
-            Container.Bind<CharacterGalleryController>().FromNew().AsSingle();
+            Container.Bind<CharacterGalleryController>().AsSingle();
+            Container.Bind<CharacterSheetView>().FromComponentInHierarchy(true).AsSingle();
         }
 
         private void BindPresenters()
@@ -58,6 +60,7 @@ namespace Testing.Local.Lobby
             Container.Bind<ScenarioCreateUseCase>().FromNew().AsSingle();
             Container.Bind<ScenarioCancelUseCase>().FromNew().AsSingle();
             Container.Bind<ScenarioJoinUseCase>().FromNew().AsSingle();
+            Container.Bind<ScenarioSelectCharacterUseCase>().FromNew().AsSingle();
             Container.Bind<ScenarioStartUseCase>().FromNew().AsSingle();
 
             //Accounts

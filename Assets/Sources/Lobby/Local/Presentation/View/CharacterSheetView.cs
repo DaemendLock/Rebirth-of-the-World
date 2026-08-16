@@ -1,16 +1,23 @@
-﻿using Lobby.Local.Domain.ValueObjects;
+﻿using Lobby.Local.Domain.UseCases.Scenarios;
+using Lobby.Local.Domain.ValueObjects;
 using Lobby.Local.Presentation.ViewModels;
 
 using TMPro;
 
 using UnityEngine;
+using UnityEngine.EventSystems;
+
+using Zenject;
 
 namespace Lobby.Local.Presentation.View
 {
-    public sealed class CharacterSheetView : MonoBehaviour
+    public sealed class CharacterSheetView : MonoBehaviour, IPointerClickHandler
     {
         [SerializeField] private TMP_Text _characterName;
         [SerializeField] private LevelWidget _levelWidget;
+        [SerializeField] private GameObject _selectButton;
+
+        [Inject] private ScenarioSelectCharacterUseCase _scenarioSelectCharacterUseCase;
 
         private void Start()
         {
@@ -28,6 +35,22 @@ namespace Lobby.Local.Presentation.View
             Level level = viewModel.Level;
             _levelWidget.Level = (level.CurrentValue, level.MaxValue);
             _levelWidget.Progress = (level.CurrentProgress, level.TargetProgress);
+        }
+
+        public void SetEnableSeletion(bool enabled)
+        {
+            _selectButton.SetActive(enabled);
+        }
+
+        void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
+        {
+            if (eventData.hovered.Contains(_selectButton))
+            {
+                if (_selectButton.activeSelf)
+                {
+                    _scenarioSelectCharacterUseCase.Execute(default, default, default);
+                }
+            }
         }
     }
 }

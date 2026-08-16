@@ -67,7 +67,7 @@ namespace Lobby.Local.Presentation.View
                 return widget.Key;
             }
 
-            return default;
+            return null;
         }
     }
 }

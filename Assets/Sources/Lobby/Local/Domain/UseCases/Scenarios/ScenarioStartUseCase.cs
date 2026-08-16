@@ -38,9 +38,8 @@ namespace Lobby.Local.Domain.UseCases.Scenarios
 
                 if (characterKey.HasValue == false)
                 {
-                    characterKey = new("katerina");
-                    //UnityEngine.Debug.LogError($"Failed start: Player {selection.Value.Player} is starting without a selected character.");
-                    //return;
+                    UnityEngine.Debug.LogError($"Failed start: Player {selection.Value.Player} is starting without a selected character.");
+                    return;
                 }
 
                 characters.Add(new(characterKey.Value.Value, 0));

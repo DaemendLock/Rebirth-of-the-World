@@ -18,6 +18,7 @@ namespace Lobby.Local.Presentation.View
         [Zenject.Inject] private readonly IAccountRepository _accountRepository;
         [Zenject.Inject] private readonly UiNavigationService _lobbyController;
         [Zenject.Inject] private readonly ScenarioStartUseCase _scenarioStartUseCase;
+        [Zenject.Inject] private readonly ScenarioSelectCharacterUseCase _scenarioSelectCharacterUseCase;
 
         [SerializeField] private GameObject _startButton;
         [SerializeField] private CharacterSlotView _prefab;
@@ -51,6 +52,14 @@ namespace Lobby.Local.Presentation.View
             if (eventData.hovered.Contains(_startButton))
             {
                 _scenarioStartUseCase.Execute(_id.Value);
+            }
+
+            foreach (var slot in _values)
+            {
+                if (eventData.hovered.Contains(slot.gameObject))
+                {
+                    _scenarioSelectCharacterUseCase.Execute(_id.Value, _scenarioRepository.Get(_id.Value).SelectedCharacters[0].Value.Player, new("katerina"));
+                }
             }
         }
 

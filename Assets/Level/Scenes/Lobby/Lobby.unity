@@ -10453,11 +10453,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _values:
-  - Id: 0
+  - Id: katerina
     Name: Katerina
     Icon: {fileID: 21300000, guid: bf1ec474afbdd17478f0f1eb97e29c35, type: 3}
     ModelPrefab: {fileID: 1254012197}
-  - Id: 1
+  - Id: florence
     Name: Florence
     Icon: {fileID: 21300000, guid: ccccba1452ede90479173ca212efc0e9, type: 3}
     ModelPrefab: {fileID: 984497872}
@@ -14866,6 +14866,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scenarioName: Solo Target Test
+  _locationName: test
   _maxPlayerCount: 1
   _guid: 
 --- !u!1 &1465242584
@@ -15252,6 +15253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterName: {fileID: 1158382182}
   _levelWidget: {fileID: 672716464}
+  _selectButton: {fileID: 1261533763}
 --- !u!1 &1518699200
 GameObject:
   m_ObjectHideFlags: 0
@@ -23517,6 +23519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scenarioName: MultiTargetTest
+  _locationName: test
   _maxPlayerCount: 2
   _guid: 
 --- !u!114 &2138186296
@@ -23531,8 +23534,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1c6144e6a9048845896934a40f28b63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _icon: {fileID: 2138186293}
-  _nameField: {fileID: 549122133}
 --- !u!114 &2138186297
 MonoBehaviour:
   m_ObjectHideFlags: 0
