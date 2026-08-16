@@ -159,7 +159,7 @@ namespace Combat.Local.Composition
 
             Container.Bind<AssumeControlOverCharacterUseCase>().AsSingle();
             Container.Bind<RotateUseCase>().AsSingle();
-            Container.Bind<DesireMoveInDirectionUseCase>().AsSingle();
+            Container.Bind<ActorDesireMoveInDirectionUseCase>().AsSingle();
         }
 
         private void BindDataSources()

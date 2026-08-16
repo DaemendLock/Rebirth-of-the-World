@@ -30,7 +30,7 @@ namespace Combat.Local.Domain.Facades
                                ActorForceKillUseCase killUnitUseCase, StatusOwnerFindStatusUseCase findStatusUseCase,
                                IActorRepository killableRepository, IPositionableRepository positionableRepository,
                                IResourceOwnerRepository resourceRepository, StatusOwnerApplyUseCase applyStatusUseCase,
-                               DesireMoveInDirectionUseCase moveInDirectionUseCase, AddMovementEffectUseCase addMovementEffectUseCase,
+                               ActorDesireMoveInDirectionUseCase moveInDirectionUseCase, AddMovementEffectUseCase addMovementEffectUseCase,
                                ActorReviveUseCase reviveUnitUseCase,
                                PositionableStartScaleUseCase startScaleUseCase, PositionableStopScaleUseCase stopScaleUseCase)
         {

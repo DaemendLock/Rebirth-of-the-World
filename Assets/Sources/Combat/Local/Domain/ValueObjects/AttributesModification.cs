@@ -2,7 +2,7 @@
 
 namespace Combat.Local.Domain.ValueObjects
 {
-    public readonly ref struct AttributeModifier
+    public readonly struct AttributeModifier
     {
         public readonly float BaseValue;
         public readonly float Percent;

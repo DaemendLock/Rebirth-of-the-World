@@ -6,11 +6,11 @@ using System.Numerics;
 
 namespace Combat.Local.Domain.UseCases
 {
-    public class DesireMoveInDirectionUseCase
+    public class ActorDesireMoveInDirectionUseCase
     {
         private readonly IActorRepository _actorRepository;
 
-        public DesireMoveInDirectionUseCase(IActorRepository actorRepository)
+        public ActorDesireMoveInDirectionUseCase(IActorRepository actorRepository)
         {
             _actorRepository = actorRepository;
         }

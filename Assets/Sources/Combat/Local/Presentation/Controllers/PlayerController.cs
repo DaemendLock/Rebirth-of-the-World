@@ -11,14 +11,14 @@ namespace Combat.Local.Controllers
     public sealed class PlayerController
     {
         private readonly ActorReleaseSkillFromSlotUseCase _releaseSkillFromSlotUseCase;
-        private readonly DesireMoveInDirectionUseCase _moveUseCase;
+        private readonly ActorDesireMoveInDirectionUseCase _moveUseCase;
         private readonly ActorDesireCastFromSlotUseCase _desireCastFromSlotUseCase;
         private readonly RotateUseCase _rotateUseCase;
         private readonly AssumeControlOverCharacterUseCase _assumeControllOverCharacterUseCase;
         private readonly IEncounterStateMachine _encounterState;
         private readonly PlayerSession _playerSession;
 
-        public PlayerController(ActorReleaseSkillFromSlotUseCase releaseSkillFromSlotUseCase, DesireMoveInDirectionUseCase moveUseCase,
+        public PlayerController(ActorReleaseSkillFromSlotUseCase releaseSkillFromSlotUseCase, ActorDesireMoveInDirectionUseCase moveUseCase,
                                 RotateUseCase rotateUseCase, AssumeControlOverCharacterUseCase assumeControllOverCharacterUseCase,
                                 IEncounterStateMachine encounterState, PlayerSession playerSession, ActorDesireCastFromSlotUseCase desireCastFromSlotUseCase)
         {

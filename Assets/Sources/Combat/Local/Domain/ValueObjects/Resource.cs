@@ -2,6 +2,7 @@
 
 namespace Combat.Local.Domain.ValueObjects
 {
+
     public struct Resource
     {
         public Resource(UnitId owner, ResourceId resourceId, float maxValue, float currentValue)
