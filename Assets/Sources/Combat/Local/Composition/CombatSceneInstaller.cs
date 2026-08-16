@@ -14,12 +14,11 @@ using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.Repositories.Objectives;
 using Combat.Local.Domain.Repositories.Skill;
+using Combat.Local.Domain.Services;
 using Combat.Local.Domain.Services.Skills;
 using Combat.Local.Domain.UseCases;
-using Combat.Local.Domain.UseCases.Character;
 using Combat.Local.Domain.UseCases.Encounter;
 using Combat.Local.Domain.UseCases.Objectives;
-using Combat.Local.Domain.UseCases.Players;
 using Combat.Local.Domain.UseCases.Scene;
 using Combat.Local.Domain.UseCases.Skills;
 using Combat.Local.Gateways.DataSources;
@@ -27,7 +26,6 @@ using Combat.Local.Gateways.Factories;
 using Combat.Local.Gateways.Repositories;
 using Combat.Local.Gateways.Repositories.Characters;
 using Combat.Local.Gateways.Repositories.Encounter;
-using Combat.Local.Gateways.Repositories.Players;
 using Combat.Local.Gateways.Repositories.Skills;
 using Combat.Local.Presentation.Presenters;
 using Combat.Local.Scripting.Adapters;
@@ -85,7 +83,6 @@ namespace Combat.Local.Composition
             Container.Bind<IStatusOwnerRepository>().To<StatusOwnerRepository>().AsSingle();
             Container.Bind<IMovementEffectOwnerRepository>().To<MovementEffectOwnerRepository>().AsSingle();
             Container.Bind<IScaleEffectOwnerRepository>().To<ScaleEffectOwnerRepository>().AsSingle();
-            Container.Bind<IPlayerRepository>().To<PlayerRepository>().AsSingle();
             Container.Bind<ISkillDynamicMemoryRepository>().To<FixedSizeArraySkillMemoryRepository>().AsSingle();
             Container.Bind<IStatusDynamicMemoryRepository>().To<FixedSizeArrayStatusMemoryRepository>().AsSingle();
             Container.Bind<IObjectiveMemoryRepository>().To<FixedSizeArrayObjectiveMemoryRepository>().AsSingle();
@@ -123,8 +120,8 @@ namespace Combat.Local.Composition
 
             Container.Bind<UnitCreateUseCase>().AsSingle();
             Container.Bind<UnitDeleteUseCase>().AsSingle();
-            Container.Bind<PlayerDesireCastFromSlotUseCase>().AsSingle();
-            Container.Bind<PlayerReleaseSkillFromSlotUseCase>().AsSingle();
+            Container.Bind<ActorDesireCastFromSlotUseCase>().AsSingle();
+            Container.Bind<ActorReleaseSkillFromSlotUseCase>().AsSingle();
             Container.Bind<ResourceGiveUseCase>().AsSingle();
             Container.Bind<ResourceSpendUseCase>().AsSingle();
             Container.Bind<HealthApplyDamageUseCase>().AsSingle();
@@ -163,7 +160,6 @@ namespace Combat.Local.Composition
             Container.Bind<AssumeControlOverCharacterUseCase>().AsSingle();
             Container.Bind<RotateUseCase>().AsSingle();
             Container.Bind<DesireMoveInDirectionUseCase>().AsSingle();
-            Container.Bind<CreatePlayerUseCase>().AsSingle();
         }
 
         private void BindDataSources()
@@ -255,6 +251,7 @@ namespace Combat.Local.Composition
         private void BindStartup()
         {
             Container.Bind<IEncounterStateMachine>().To<EncounterStateMachine>().AsSingle();
+            Container.Bind<PlayerSession>().AsSingle();
 
             if (Container.HasBinding<StartCombatRequest>() == false)
             {

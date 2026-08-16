@@ -1,32 +1,29 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Repositories;
+using Combat.Local.Domain.Services;
 
 namespace Combat.Local.Domain.UseCases
 {
     public class AssumeControlOverCharacterUseCase
     {
-        private readonly IPlayerRepository _playerRepository;
+        private readonly PlayerSession _playerSession;
         private readonly ITakeControllOutput _takeControllOutput;
 
-        public AssumeControlOverCharacterUseCase(IPlayerRepository playerRepository, ITakeControllOutput takeControllOutput)
+        public AssumeControlOverCharacterUseCase(ITakeControllOutput takeControllOutput, PlayerSession playerSession)
         {
-            _playerRepository = playerRepository;
             _takeControllOutput = takeControllOutput;
+            _playerSession = playerSession;
         }
 
-        public void Execute(PlayerId playerId, UnitId? id)
+        public void Execute(UnitId? id)
         {
-            Player player = _playerRepository.Get(playerId);
-            player.ControlledEntity = id;
-            _playerRepository.Update(player);
+            _playerSession.ControlledUnitId = id;
 
-            _takeControllOutput.Present(playerId, id);
+            _takeControllOutput.Present(id);
         }
     }
 
     public interface ITakeControllOutput
     {
-        void Present(PlayerId playerId, UnitId? id);
+        void Present(UnitId? id);
     }
 }

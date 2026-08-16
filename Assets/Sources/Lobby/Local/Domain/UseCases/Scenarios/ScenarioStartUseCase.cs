@@ -43,7 +43,7 @@ namespace Lobby.Local.Domain.UseCases.Scenarios
                     return;
                 }
 
-                characters.Add(new(characterKey.Value.Value, 0));
+                characters.Add(new(characterKey.Value.Value, 0, selection.Value.Player == _session.ActiveAccountId));
             }
 
             _output.Present(new(scenario.LocationName, characters));

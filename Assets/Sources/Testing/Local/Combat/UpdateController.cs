@@ -2,7 +2,6 @@
 using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
-using Combat.Local.Domain.UseCases.Character;
 using Combat.Local.Domain.UseCases.Scene;
 using Combat.Local.Domain.UseCases.Skills;
 

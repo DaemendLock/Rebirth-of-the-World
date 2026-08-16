@@ -59,13 +59,15 @@ namespace Combat.Local.Composition
         private readonly ILocationSceneLoader _locationLoader;
         private readonly ISceneObjectDataSource _sceneObjects;
         private readonly EncounterController _encounterController;
+        private readonly PlayerController _playerController;
 
-        public CombatBootstrap(StartCombatRequest request, ILocationSceneLoader locationLoader, ISceneObjectDataSource sceneObjects, EncounterController encounterController)
+        public CombatBootstrap(StartCombatRequest request, ILocationSceneLoader locationLoader, ISceneObjectDataSource sceneObjects, EncounterController encounterController, PlayerController playerController)
         {
             _request = request;
             _locationLoader = locationLoader;
             _sceneObjects = sceneObjects;
             _encounterController = encounterController;
+            _playerController = playerController;
         }
 
         public void Initialize()
@@ -78,11 +80,20 @@ namespace Combat.Local.Composition
             _sceneObjects.Scene = locationScene;
             var spawnpoint = _sceneObjects.GetSpawnpoints();
             int spawnpointCursor = 0;
+            UnitId? inputTarget = default;
 
             foreach (var item in _request.Characters)
             {
                 UnitId character = _encounterController.CreateCharacter(item.Character, new(item.TeamId), spawnpoint[spawnpointCursor++].Position);
+
+                if (item.IsControllable)
+                {
+                    inputTarget = character;
+                }
             }
+
+            if (inputTarget.HasValue)
+                _playerController.TakeControll(inputTarget.Value);
 
             _encounterController.Start();
         }

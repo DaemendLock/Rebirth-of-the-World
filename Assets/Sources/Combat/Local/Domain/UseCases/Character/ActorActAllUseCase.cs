@@ -10,7 +10,7 @@ using Combat.Local.Domain.ValueObjects;
 
 using System.Linq;
 
-namespace Combat.Local.Domain.UseCases.Character
+namespace Combat.Local.Domain.UseCases
 {
     public sealed class ActorActAllUseCase
     {

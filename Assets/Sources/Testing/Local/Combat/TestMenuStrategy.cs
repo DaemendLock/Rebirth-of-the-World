@@ -62,7 +62,7 @@ namespace Testing.Local
             }
 
             UnityEngine.Debug.Log("Let the darkness take control");
-            _playerController.TakeControll(_localInputReader.Player, model.Id);
+            _playerController.TakeControll(model.Id);
             _model = _chracterApiAdapter.Adaptee(model.Id);
 
             //if (hurtbox.Owner is not IHurtboxOwner<Unit> hurtboxOwner || hurtboxOwner.Owner == _model)

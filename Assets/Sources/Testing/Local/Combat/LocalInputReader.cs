@@ -1,5 +1,6 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Local.Controllers;
+using Combat.Local.Domain.UseCases;
 
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,7 +9,7 @@ using Zenject;
 
 namespace Assets.Sources.Testing.Local
 {
-    public class LocalInputReader : MonoBehaviour
+    public class LocalInputReader : MonoBehaviour, ITakeControllOutput
     {
         [Inject] private readonly PlayerController _playerController;
 
@@ -16,12 +17,10 @@ namespace Assets.Sources.Testing.Local
         [SerializeField, Min(0.1f)] private float _sensitivity = 1;
 
         private bool _cameraLock;
-        public PlayerId Player { get; private set; }
 
-        private void Start()
+        private void OnValidate()
         {
-            Player = _playerController.Create();
-            _playerController.TakeControll(Player, new(_unitId));
+            _playerController?.TakeControll(new(_unitId));
         }
 
         private void Update()
@@ -50,58 +49,58 @@ namespace Assets.Sources.Testing.Local
                 movement += (Vector2.right);
             }
 
-            _playerController.MoveInDirection(Player, movement);
+            _playerController.MoveInDirection(movement);
 
             if (Keyboard.current.aKey.wasPressedThisFrame)
             {
-                _playerController.DesireCast(Player, 0);
+                _playerController.DesireCast(0);
             }
 
             if (Keyboard.current.aKey.wasReleasedThisFrame)
             {
-                _playerController.ReleaseCast(Player, 0);
+                _playerController.ReleaseCast(0);
             }
 
             if (Keyboard.current.digit1Key.wasPressedThisFrame)
             {
-                _playerController.DesireCast(Player, 1);
+                _playerController.DesireCast(1);
             }
             if (Keyboard.current.digit1Key.wasReleasedThisFrame)
             {
-                _playerController.ReleaseCast(Player, 1);
+                _playerController.ReleaseCast(1);
             }
 
             if (Keyboard.current.digit2Key.wasPressedThisFrame)
             {
-                _playerController.DesireCast(Player, 2);
+                _playerController.DesireCast(2);
             }
             if (Keyboard.current.digit2Key.wasReleasedThisFrame)
             {
-                _playerController.ReleaseCast(Player, 2);
+                _playerController.ReleaseCast(2);
             }
 
             if (Keyboard.current.digit3Key.wasPressedThisFrame)
             {
-                _playerController.DesireCast(Player, 3);
+                _playerController.DesireCast(3);
             }
             if (Keyboard.current.digit3Key.wasReleasedThisFrame)
             {
-                _playerController.ReleaseCast(Player, 3);
+                _playerController.ReleaseCast(3);
             }
 
             if (Keyboard.current.digit4Key.wasPressedThisFrame)
             {
-                _playerController.DesireCast(Player, 4);
+                _playerController.DesireCast(4);
             }
             if (Keyboard.current.digit4Key.wasReleasedThisFrame)
             {
-                _playerController.ReleaseCast(Player, 4);
+                _playerController.ReleaseCast(4);
             }
 
             if (_cameraLock)
             {
                 Vector2 rotation = Input.mousePositionDelta;
-                _playerController.Rotate(Player, rotation * _sensitivity);
+                _playerController.Rotate(rotation * _sensitivity);
             }
 
             if (Mouse.current.middleButton.wasPressedThisFrame)
@@ -136,5 +135,7 @@ namespace Assets.Sources.Testing.Local
             UnityEngine.Cursor.lockState = CursorLockMode.None;
             _cameraLock = false;
         }
+
+        public void Present(UnitId? id) => _unitId = id.HasValue ? id.Value.Value : 0;
     }
 }

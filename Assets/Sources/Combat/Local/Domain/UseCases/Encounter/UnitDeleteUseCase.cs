@@ -4,6 +4,7 @@ using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
+using Combat.Local.Domain.Services;
 
 namespace Combat.Local.Domain.UseCases.Scene
 {
@@ -29,7 +30,8 @@ namespace Combat.Local.Domain.UseCases.Scene
         private readonly ISkillLyfecycleHandler _skillLyfecycleHandler;
         private readonly IStatusLifecycleHandler _statusLifecycleHandler;
 
-        private readonly IPlayerRepository _playerRepository;
+        private readonly PlayerSession _playerSession;
+
         private readonly ICharacterRemoveOutput _outputPort;
 
         public UnitDeleteUseCase(IHealthRepository healthRepository, IAttributesRepository attributesRepository,
@@ -38,8 +40,8 @@ namespace Combat.Local.Domain.UseCases.Scene
                                       IStatusOwnerRepository statusOwnerRepository, ICharacterUpdateRepository characterUpdateList,
                                       IHurtableRepository hurtableRepository, IHitboxOwnerRepository hitboxOwnerRepository,
                                       IStatusRepository statusRepository, IStatusTimerRepository statusTimerRepository,
-                                      IPlayerRepository playerRepository, ISkillLyfecycleHandler skillLyfecycleHandler,
-                                      IStatusLifecycleHandler statusLifecycleHandler, IMovementEffectOwnerRepository movementEffectOwnerRepository, IScaleEffectOwnerRepository scaleEffectOwnerRepository)
+                                      ISkillLyfecycleHandler skillLyfecycleHandler, IStatusLifecycleHandler statusLifecycleHandler,
+                                      IMovementEffectOwnerRepository movementEffectOwnerRepository, IScaleEffectOwnerRepository scaleEffectOwnerRepository, PlayerSession playerSession)
         {
             _healthRepository = healthRepository;
             _attributesRepository = attributesRepository;
@@ -53,19 +55,18 @@ namespace Combat.Local.Domain.UseCases.Scene
             _hitboxOwnerRepository = hitboxOwnerRepository;
             _statusRepository = statusRepository;
             _statusTimerRepository = statusTimerRepository;
-            _playerRepository = playerRepository;
             _skillLyfecycleHandler = skillLyfecycleHandler;
             _statusLifecycleHandler = statusLifecycleHandler;
             _movementEffectOwnerRepository = movementEffectOwnerRepository;
             _scaleEffectOwnerRepository = scaleEffectOwnerRepository;
+            _playerSession = playerSession;
         }
 
         public void Execute(UnitId target)
         {
-            if (_playerRepository.TryFindOwner(target, out Player player))
+            if (_playerSession.ControlledUnitId.HasValue && _playerSession.ControlledUnitId.Value == target)
             {
-                player.ControlledEntity = default;
-                _playerRepository.Update(player);
+                _playerSession.ControlledUnitId = default;
             }
 
             if (_skillOwnerRepository.TryGet(target, out SkillOwner skillOwner))

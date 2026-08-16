@@ -9,9 +9,9 @@ namespace Combat.Local.Presentation.Presenters
         {
         }
 
-        void ITakeControllOutput.Present(PlayerId playerId, UnitId? id)
+        void ITakeControllOutput.Present(UnitId? id)
         {
-            UnityEngine.Debug.Log($"Player(Id: {playerId}) assumed control over character(Id: {id})");
+            UnityEngine.Debug.Log($"Assumed control over character(Id: {id})");
         }
 
         void IDesireCastOutput.Present(DesireCastFailReason failReason)

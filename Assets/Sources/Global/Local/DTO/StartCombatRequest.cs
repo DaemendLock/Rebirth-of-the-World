@@ -25,13 +25,15 @@ namespace Global.Local.DTO
 
     public readonly struct CombatCharacterInfo
     {
-        public CombatCharacterInfo(string character, byte teamId)
+        public CombatCharacterInfo(string character, byte teamId, bool controllable)
         {
             Character = new(character);
             TeamId = teamId;
+            IsControllable = controllable;
         }
 
         public CharacterKey Character { get; }
         public byte TeamId { get; }
+        public bool IsControllable { get; }
     }
 }

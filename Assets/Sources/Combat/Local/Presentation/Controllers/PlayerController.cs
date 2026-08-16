@@ -1,10 +1,8 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
+using Combat.Local.Domain.Services;
 using Combat.Local.Domain.UseCases;
-using Combat.Local.Domain.UseCases.Players;
-
-using System;
 
 using UnityEngine;
 
@@ -12,71 +10,82 @@ namespace Combat.Local.Controllers
 {
     public sealed class PlayerController
     {
-        private readonly PlayerDesireCastFromSlotUseCase _castSkillFromSlotUseCase;
-        private readonly PlayerReleaseSkillFromSlotUseCase _releaseSkillFromSlotUseCase;
-        private readonly CreatePlayerUseCase _createPlayerUseCase;
+        private readonly ActorReleaseSkillFromSlotUseCase _releaseSkillFromSlotUseCase;
         private readonly DesireMoveInDirectionUseCase _moveUseCase;
+        private readonly ActorDesireCastFromSlotUseCase _desireCastFromSlotUseCase;
         private readonly RotateUseCase _rotateUseCase;
         private readonly AssumeControlOverCharacterUseCase _assumeControllOverCharacterUseCase;
         private readonly IEncounterStateMachine _encounterState;
+        private readonly PlayerSession _playerSession;
 
-        public PlayerController(PlayerDesireCastFromSlotUseCase castSkillFromSlotUseCase,
-                                PlayerReleaseSkillFromSlotUseCase releaseSkillFromSlotUseCase,
-                                CreatePlayerUseCase createPlayerUseCase,
-                                DesireMoveInDirectionUseCase moveUseCase,
-                                RotateUseCase rotateUseCase,
-                                AssumeControlOverCharacterUseCase assumeControllOverCharacterUseCase,
-                                IEncounterStateMachine encounterState)
+        public PlayerController(ActorReleaseSkillFromSlotUseCase releaseSkillFromSlotUseCase, DesireMoveInDirectionUseCase moveUseCase,
+                                RotateUseCase rotateUseCase, AssumeControlOverCharacterUseCase assumeControllOverCharacterUseCase,
+                                IEncounterStateMachine encounterState, PlayerSession playerSession, ActorDesireCastFromSlotUseCase desireCastFromSlotUseCase)
         {
-            _castSkillFromSlotUseCase = castSkillFromSlotUseCase;
             _releaseSkillFromSlotUseCase = releaseSkillFromSlotUseCase;
-            _createPlayerUseCase = createPlayerUseCase;
             _moveUseCase = moveUseCase;
             _rotateUseCase = rotateUseCase;
             _assumeControllOverCharacterUseCase = assumeControllOverCharacterUseCase;
             _encounterState = encounterState;
+            _playerSession = playerSession;
+            _desireCastFromSlotUseCase = desireCastFromSlotUseCase;
         }
 
         public bool AcceptsInput => _encounterState.IsRunning;
 
-        public PlayerId Create()
-        {
-            return _createPlayerUseCase.Execute();
-        }
-
-        public void TakeControll(PlayerId playerId, UnitId id)
+        public void TakeControll(UnitId id)
         {
             if (_encounterState.State != EncounterState.Starting && AcceptsInput == false) return;
 
-            _assumeControllOverCharacterUseCase.Execute(playerId, id);
+            _assumeControllOverCharacterUseCase.Execute(id);
         }
 
-        public void MoveInDirection(PlayerId playerId, Vector2 relativeDirection)
+        public void MoveInDirection(Vector2 relativeDirection)
         {
             if (AcceptsInput == false) return;
 
-            _moveUseCase.Execute(playerId, new(relativeDirection.x, relativeDirection.y));
+            if (_playerSession.ControlledUnitId.HasValue == false)
+            {
+                return;
+            }
+
+            _moveUseCase.Execute(_playerSession.ControlledUnitId.Value, new(relativeDirection.x, relativeDirection.y));
         }
 
-        public void Rotate(PlayerId playerId, Vector2 angle)
+        public void Rotate(Vector2 angle)
         {
             if (AcceptsInput == false) return;
 
-            _rotateUseCase.Execute(playerId, angle);
+            if (_playerSession.ControlledUnitId.HasValue == false)
+            {
+                return;
+            }
+
+            _rotateUseCase.Execute(_playerSession.ControlledUnitId.Value, angle);
         }
 
-        public void DesireCast(PlayerId playerId, int slot)
+        public void DesireCast(int slot)
         {
             if (AcceptsInput == false) return;
 
-            _castSkillFromSlotUseCase.Execute(playerId, slot);
+            if (_playerSession.ControlledUnitId.HasValue == false)
+            {
+                return;
+            }
+
+            _desireCastFromSlotUseCase.Execute(_playerSession.ControlledUnitId.Value, slot);
         }
 
-        public void ReleaseCast(PlayerId playerId, int slot)
+        public void ReleaseCast(int slot)
         {
             if (AcceptsInput == false) return;
 
-            _releaseSkillFromSlotUseCase.Execute(playerId, slot);
+            if (_playerSession.ControlledUnitId.HasValue == false)
+            {
+                return;
+            }
+
+            _releaseSkillFromSlotUseCase.Execute(_playerSession.ControlledUnitId.Value, slot);
         }
     }
 }
