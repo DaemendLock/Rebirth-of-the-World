@@ -23,7 +23,7 @@ namespace Combat.Local.Data.DataSources
             _skillDataBase = skillDataBase;
             _values = new();
 
-            foreach (var data in Resources.LoadAll<CombatCharacter>("Characters"))
+            foreach (var data in Resources.LoadAll<CombatCharacter>("CombatCharacters"))
             {
                 Load(data);
             }

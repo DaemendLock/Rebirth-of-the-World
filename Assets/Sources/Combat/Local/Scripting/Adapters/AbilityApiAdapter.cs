@@ -23,7 +23,7 @@ namespace Combat.Local.Scripting.Adapters
 
         public AbilityApi Adaptee(AbilityKey abilityKey)
         {
-            Ability ability = _abilityFactory.Create(abilityKey.Skill, abilityKey.Owner);
+            SkillInfo ability = _abilityFactory.Create(abilityKey.Skill);
             var context = new DomainAbilityContext(abilityKey.Skill,
                 abilityKey.Owner.HasValue ? _characterApiProvider.Adaptee(abilityKey.Owner.Value) : null,
                 ability.Flags,

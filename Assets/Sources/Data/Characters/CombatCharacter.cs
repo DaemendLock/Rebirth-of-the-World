@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Data.Characters
 {
-    [CreateAssetMenu(menuName = "Assets/Characters/Comabt Character")]
+    [CreateAssetMenu(menuName = "Assets/Characters/Combat Character")]
     public sealed class CombatCharacter : ScriptableObject
     {
         [SerializeField] private string _modelName;

@@ -10599,8 +10599,6 @@ GameObject:
   - component: {fileID: 843618259}
   - component: {fileID: 843618263}
   - component: {fileID: 843618264}
-  - component: {fileID: 843618265}
-  - component: {fileID: 843618266}
   - component: {fileID: 843618267}
   m_Layer: 0
   m_Name: Temp
@@ -10657,40 +10655,6 @@ MonoBehaviour:
   _level: 1
   _avatarCharacterId: 
   <Guid>k__BackingField: 0
---- !u!114 &843618265
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 843618258}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46d334de8980f02499399e3ee485c73a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _scenarioId: 
---- !u!114 &843618266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 843618258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c49530be4dc2b2a4590e592327797d8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _values:
-  - Id: katerina
-    Name: Katerina
-    Icon: {fileID: 21300000, guid: bf1ec474afbdd17478f0f1eb97e29c35, type: 3}
-    ModelPrefab: {fileID: 1254012197}
-  - Id: florence
-    Name: Florence
-    Icon: {fileID: 21300000, guid: ccccba1452ede90479173ca212efc0e9, type: 3}
-    ModelPrefab: {fileID: 984497872}
 --- !u!114 &843618267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10703,7 +10667,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d98009671a36dca4db4fc0fbeb60bd4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterDatabase: {fileID: 843618266}
 --- !u!1 &858795049
 GameObject:
   m_ObjectHideFlags: 0
@@ -11684,11 +11647,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 980502272}
   m_CullTransparentMesh: 1
---- !u!1 &984497872 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2128a043998096a4aa871fd2d5b1515b, type: 3}
-  m_PrefabInstance: {fileID: 2025940112}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1022809554
 GameObject:
   m_ObjectHideFlags: 0

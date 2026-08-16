@@ -17,9 +17,10 @@ namespace Combat.Local.Gateways.Factories
             _skillDataBase = skillDataBase;
         }
 
-        public Ability Create(SkillId skillId, UnitId? owner)
+        public SkillInfo Create(SkillId skillId)
         {
             SkillFlags flags = _skillDataBase.GetDefaultFlags(skillId);
+            float cooldown = _skillDataBase.GetBaseCooldown(skillId);
             IReadOnlyCollection<ActionId> actions = _skillDataBase.GetAssociatedActions(skillId);
 
             if (actions == null || actions.Count == 0)
@@ -27,7 +28,7 @@ namespace Combat.Local.Gateways.Factories
                 flags |= SkillFlags.Instant;
             }
 
-            return new(skillId, flags, owner, actions);
+            return new(skillId, flags, cooldown, actions);
         }
     }
 }

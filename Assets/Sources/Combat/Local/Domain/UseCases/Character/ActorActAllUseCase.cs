@@ -6,6 +6,7 @@ using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.Factories;
 using Combat.Local.Domain.Repositories;
+using Combat.Local.Domain.Services.Skills;
 using Combat.Local.Domain.ValueObjects;
 
 using System.Linq;
@@ -25,6 +26,8 @@ namespace Combat.Local.Domain.UseCases
         private readonly ISkillActionStateChangeHandler _skillActionStateChangeHandler;
         private readonly ISkillHitHandler _skillHitHandler;
 
+        private readonly SkillOwnerOperations _skillOwnerOperations;
+
         public ActorActAllUseCase(IAttributesRepository attributesRepository, IPositionableRepository positionableRepository,
             IActorRepository actorRepository, ISkillOwnerRepository skillOwnerRepository,
             IAbilityFactory abilityFactory, ActionFactory actionFactory, ISkillExecutionPort skillExecutionPort,
@@ -39,6 +42,8 @@ namespace Combat.Local.Domain.UseCases
             _skillExecutionPort = skillExecutionPort;
             _skillActionStateChangeHandler = skillActionStateChangeHandler;
             _skillHitHandler = skillHitHandler;
+
+            _skillOwnerOperations = new(_skillOwnerRepository);
         }
 
         public void Execute(System.ReadOnlySpan<Updatable> targets, float deltaTime)
@@ -154,7 +159,7 @@ namespace Combat.Local.Domain.UseCases
             }
 
             AbilityKey abilityKey = new(caster, skillId);
-            Ability ability = _abilityFactory.Create(skillId, caster);
+            SkillInfo ability = _abilityFactory.Create(skillId);
 
             if (CanCast(actor, ability.Flags, abilityKey) != CastFailReason.Success)
             {
@@ -164,6 +169,8 @@ namespace Combat.Local.Domain.UseCases
 
             if (_skillExecutionPort.BeginCast(abilityKey) == false)
             {
+                if (ability.BaseCooldown > 0)
+                    _skillOwnerOperations.SetCooldown(skillOwner, skillId, ability.BaseCooldown);
                 return;
             }
 
@@ -171,6 +178,9 @@ namespace Combat.Local.Domain.UseCases
             {
                 StartCastAction(actor, ability.Actions.First(), skillId, ability.Flags);
             }
+
+            if (ability.BaseCooldown > 0)
+                _skillOwnerOperations.SetCooldown(skillOwner, skillId, ability.BaseCooldown);
         }
 
         private CastFailReason CanCast(Actor actor, SkillFlags skillFlags, AbilityKey abilityKey)

@@ -71,6 +71,21 @@ namespace Combat.Local.Data.Databases
 
         public SkillFlags GetDefaultFlags(SkillId id) => _values[id].Flags;
 
+        public float GetBaseCooldown(SkillId id)
+        {
+            if (_values.TryGetValue(id, out var data) == false)
+            {
+                return 0f;
+            }
+
+            if (data.TryGetComponent<global::Data.Entities.SkillCooldownComponent>(out var cooldown) == false)
+            {
+                return 0f;
+            }
+
+            return cooldown.Value;
+        }
+
         public Type GetScriptType(SkillId id)
         {
             if (_skillScripts.TryGetValue(id, out string name) == false)

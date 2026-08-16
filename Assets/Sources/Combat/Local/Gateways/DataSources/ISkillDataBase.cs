@@ -14,6 +14,7 @@ namespace Combat.Local.Gateways.DataSources
         IReadOnlyCollection<ActionId> GetAssociatedActions(SkillId id);
 
         SkillFlags GetDefaultFlags(SkillId id);
+        float GetBaseCooldown(SkillId skillId);
         Type GetScriptType(SkillId id);
         global::Data.Entities.SkillData Get(SkillId id);
     }

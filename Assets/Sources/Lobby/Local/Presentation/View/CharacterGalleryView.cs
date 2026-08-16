@@ -24,9 +24,14 @@ namespace Lobby.Local.Presentation.View
         {
             foreach (var val in _controller.LoadAll())
             {
+                var icon = _assetProvider.GetCharacterIcon(val);
+                var name = _assetProvider.GetCharacterName(val);
+
                 Show(new(val)
                 {
-                    IsAvailable = true,
+                    Icon = icon,
+                    Name = name,
+                    IsAvailable = true
                 });
             }
         }
@@ -39,7 +44,7 @@ namespace Lobby.Local.Presentation.View
                 _widgets.Add(viewModel.CharacterId, widget);
             }
 
-            widget.Name = viewModel.CharacterId.ToString();
+            widget.Name = viewModel.Name;
             widget.CharacterArt = _assetProvider.GetCharacterIcon(viewModel.CharacterId);
         }
 

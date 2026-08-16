@@ -10,15 +10,13 @@ namespace Lobby.Local.Presentation.Controllers
     {
         private readonly UiNavigationService _uiNavigationService;
         private readonly FindCharactersUseCase _findCharactersOfRoleUseCase;
-        private readonly ICharacterRepository _chracterRepository;
         private readonly CharacterSheetView _characterSheetView;
         private readonly IAssetProvider _assetProvider;
         private readonly LobbySession _lobbySession;
 
-        public CharacterGalleryController(FindCharactersUseCase findCharactersOfRoleUseCase, ICharacterRepository chracterRepository, CharacterSheetView characterSheetView, UiNavigationService uiNavigationService, IAssetProvider assetProvider, LobbySession lobbySession)
+        public CharacterGalleryController(FindCharactersUseCase findCharactersOfRoleUseCase, CharacterSheetView characterSheetView, UiNavigationService uiNavigationService, IAssetProvider assetProvider, LobbySession lobbySession)
         {
             _findCharactersOfRoleUseCase = findCharactersOfRoleUseCase;
-            _chracterRepository = chracterRepository;
             _characterSheetView = characterSheetView;
             _uiNavigationService = uiNavigationService;
             _assetProvider = assetProvider;
@@ -32,9 +30,9 @@ namespace Lobby.Local.Presentation.Controllers
             _characterSheetView.Show(new()
             {
                 CharacterKey = characterId,
-                LocalizedName = characterId.ToString(),
+                LocalizedName = _assetProvider.GetCharacterName(characterId),
                 Level = new(),
-                CardPhoto = _assetProvider.GetCharacterIcon(characterId)
+                CardPhoto = _assetProvider.GetCharacterPhoto(characterId)
             }, _lobbySession.HasActiveScenario);
 
             _uiNavigationService.OpenTab(_characterSheetView.GetComponent<LobbyTabWidget>());

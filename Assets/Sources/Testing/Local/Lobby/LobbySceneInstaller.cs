@@ -29,7 +29,6 @@ namespace Testing.Local.Lobby
             BindUseCases();
             BindPresenters();
 
-            Container.Bind<ICharacterListDataSource>().To<LocalCharacterDatabase>().FromComponentInHierarchy().AsSingle();
             Container.Bind<IAssetProvider>().To<LazyAssetProvider>().FromComponentInHierarchy().AsSingle();
 
             Container.Bind<UiNavigationService>().FromComponentInHierarchy().AsSingle();

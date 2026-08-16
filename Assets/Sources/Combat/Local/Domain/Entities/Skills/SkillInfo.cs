@@ -5,13 +5,13 @@ using System.Collections.Generic;
 
 namespace Combat.Local.Domain.Entities
 {
-    public readonly ref struct Ability
+    public readonly struct SkillInfo
     {
-        public Ability(SkillId skillId, SkillFlags flags, UnitId? owner, IReadOnlyCollection<ActionId> actions)
+        public SkillInfo(SkillId skillId, SkillFlags flags, float baseCooldown, IReadOnlyCollection<ActionId> actions)
         {
             SkillId = skillId;
             Flags = flags;
-            Owner = owner;
+            BaseCooldown = baseCooldown;
             Actions = actions;
         }
 
@@ -19,10 +19,8 @@ namespace Combat.Local.Domain.Entities
 
         public SkillFlags Flags { get; }
 
-        public UnitId? Owner { get; }
+        public float BaseCooldown { get; }
 
         public IReadOnlyCollection<ActionId> Actions { get; }
-
-        public readonly bool AllowMoment => Flags.HasFlag(SkillFlags.DontRestrictMovement);
     }
 }

@@ -5,6 +5,6 @@ namespace Combat.Local.Domain.Factories
 {
     public interface IAbilityFactory
     {
-        Ability Create(SkillId skill, UnitId? owner);
+        SkillInfo Create(SkillId skill);
     }
 }
