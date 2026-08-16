@@ -1,4 +1,4 @@
-﻿using Combat.Local.Gateways.Repositories.Encounter;
+﻿using Combat.Local.Gateways.DataSources;
 
 using Data.Levels;
 

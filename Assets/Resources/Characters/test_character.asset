@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 167d8ea1de6b19c408dc872ce87c655f, type: 3}
-  m_Name: Test Character
+  m_Name: test_character
   m_EditorClassIdentifier: 
-  _characterName: 
-  _modelName: 
-  <BaseHealth>k__BackingField: 0
+  _modelName: Katerina
+  <BaseHealth>k__BackingField: 1000
+  <Resources>k__BackingField:
+  - _id: 0
+    <MaxValue>k__BackingField: 1000
   <Skills>k__BackingField: []
-  <Resources>k__BackingField: []

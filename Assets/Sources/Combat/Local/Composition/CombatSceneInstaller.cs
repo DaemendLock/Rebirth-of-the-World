@@ -17,6 +17,7 @@ using Combat.Local.Domain.Repositories.Skill;
 using Combat.Local.Domain.Services.Skills;
 using Combat.Local.Domain.UseCases;
 using Combat.Local.Domain.UseCases.Character;
+using Combat.Local.Domain.UseCases.Encounter;
 using Combat.Local.Domain.UseCases.Objectives;
 using Combat.Local.Domain.UseCases.Players;
 using Combat.Local.Domain.UseCases.Scene;
@@ -25,6 +26,7 @@ using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Factories;
 using Combat.Local.Gateways.Repositories;
 using Combat.Local.Gateways.Repositories.Characters;
+using Combat.Local.Gateways.Repositories.Encounter;
 using Combat.Local.Gateways.Repositories.Players;
 using Combat.Local.Gateways.Repositories.Skills;
 using Combat.Local.Presentation.Presenters;
@@ -89,6 +91,8 @@ namespace Combat.Local.Composition
             Container.Bind<IObjectiveMemoryRepository>().To<FixedSizeArrayObjectiveMemoryRepository>().AsSingle();
             Container.Bind<IObjectiveRepository>().To<ObjectiveRepository>().AsSingle();
             Container.Bind<ICharacterDeleteQueue>().To<CharacterDeleteQueue>().AsSingle();
+
+            Container.Bind<ICharacterDefinitionProvider>().To<CharacterDefinitionProvider>().AsSingle();
         }
 
         private void BindFactories()
@@ -130,6 +134,7 @@ namespace Combat.Local.Composition
             Container.Bind<ObjectiveFinalizeUseCase>().AsSingle();
             Container.Bind<ObjectiveFinalizeAllUseCase>().AsSingle();
             Container.Bind<EncounterFinalizeUseCase>().AsSingle();
+            Container.Bind<CreateCharacterUseCase>().AsSingle();
 
             Container.Bind<ActorForceKillUseCase>().AsSingle();
             Container.Bind<ActorReviveUseCase>().AsSingle();
@@ -167,6 +172,7 @@ namespace Combat.Local.Composition
             Container.Bind<ISkillDataBase>().To<SkillDataBase>().FromResolve();
             Container.Bind<IActionDataContainer>().To<SkillDataBase>().FromResolve();
             Container.Bind<ISkillScriptTypeProvider>().To<SkillDataBase>().FromResolve();
+            Container.Bind<ICombatCharacterDataBase>().To<CombatCharacterDefinitionDataBase>().AsSingle();
 
             StatusScriptTypeDataSource statusDataSource = new(typeof(StatusScript));
             Container.Bind<IStatusDataBase>().FromInstance(statusDataSource);

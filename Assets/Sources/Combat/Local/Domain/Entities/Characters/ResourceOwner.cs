@@ -1,5 +1,5 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Local.Domain.ValueObjects;
+using Combat.Common.ValueObjects;
 
 using System;
 

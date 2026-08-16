@@ -1,6 +1,6 @@
 ﻿using Combat.Common.Primitives;
 
-namespace Combat.Local.Domain.ValueObjects
+namespace Combat.Common.ValueObjects
 {
     public readonly struct ResourceValue
     {

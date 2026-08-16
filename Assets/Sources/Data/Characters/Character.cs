@@ -14,7 +14,7 @@ namespace Data.Characters
     [CreateAssetMenu(menuName = "Assets/Characters/Character")]
     public class Character : ScriptableObject, ILoadable
     {
-        private static Dictionary<int, Character> _characters = new Dictionary<int, Character>();
+        private readonly static Dictionary<int, Character> _characters = new Dictionary<int, Character>();
 
         [SerializeField] private int _id;
         [SerializeField] private string _name;
@@ -22,8 +22,6 @@ namespace Data.Characters
         [SerializeField] private CharacterRole[] _roles;
         [SerializeField] private List<WeaponType> _allowedWeapon;
         [SerializeField] private List<Specialization> _specializations;
-
-        public static Dictionary<int, Character>.ValueCollection Values => _characters.Values;
 
         public int Id { get => _id; }
         public string Name { get => _name; set => _name = value; }
@@ -44,11 +42,6 @@ namespace Data.Characters
         public Sprite GetCardSprite(int viewSet) => _npc.GetCharacterCard(viewSet);
 
         public int[] GetSpells(int activeSpec) => _specializations[activeSpec].Spells;
-
-        public static Character Get(int id)
-        {
-            return _characters[id];
-        }
     }
 
     [Serializable]

@@ -2,7 +2,7 @@
 
 using UnityEngine.SceneManagement;
 
-namespace Combat.Local.Gateways.Repositories.Encounter
+namespace Combat.Local.Gateways.DataSources
 {
     public interface ILocationDataSource
     {
