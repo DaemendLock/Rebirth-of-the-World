@@ -19,8 +19,6 @@ namespace Combat.Local.Domain.UseCases
         private readonly ICharacterUpdateRepository _characterUpdateList;
         private readonly IStatusAttributeCalculator _statusAttributeCalculator;
 
-        private readonly AttributeOwnerOperations _attributeOwnerOperations;
-
         public AttributeOwnerUpdateAllUseCase(IAttributesRepository attributesRepository, IStatusOwnerRepository statusOwnerRepository, IStatusRepository statusRepository, ICharacterUpdateRepository characterUpdateList, IStatusAttributeCalculator statusAttributeCalculator)
         {
             _attributesRepository = attributesRepository;
@@ -28,56 +26,30 @@ namespace Combat.Local.Domain.UseCases
             _statusRepository = statusRepository;
             _characterUpdateList = characterUpdateList;
             _statusAttributeCalculator = statusAttributeCalculator;
-
-            _attributeOwnerOperations = new(_attributesRepository);
         }
 
         public void Execute(IReadOnlyCollection<Updatable> targets)
         {
-            System.Span<UnitId> values = stackalloc UnitId[targets.Count];
-            int i = 0;
+            Span<AttributesOwner> values = _attributesRepository.GetAll();
 
-            foreach (var target in targets)
+            for (int i = 0; i < targets.Count; i++)
             {
-                values[i++] = target.Id;
+                ref AttributesOwner target = ref values[i];
+                target.Clear();
             }
 
-            foreach (UnitId value in values)
+            for (int i = 0; i < targets.Count; i++)
             {
-                AttributesOwner attributesOwner;
-
-                try
-                {
-                    attributesOwner = _attributesRepository.Get(value);
-                }
-                catch
-                {
-                    continue;
-                }
-
-                _attributeOwnerOperations.Clear(attributesOwner);
-            }
-
-            foreach (UnitId value in values)
-            {
-                AttributesOwner attributesOwner;
-
-                try
-                {
-                    attributesOwner = _attributesRepository.Get(value);
-                }
-                catch
-                {
-                    continue;
-                }
+                UnitId value = values[i].Id;
 
                 if (_statusOwnerRepository.TryGet(value, out StatusOwner statusOwner) == false)
                 {
                     continue;
                 }
 
+                ref AttributesOwner attributesOwner = ref values[i];
                 AttributesModification finalModification = _statusAttributeCalculator.Evaluate(statusOwner.GetAll());
-                _attributeOwnerOperations.Cache(attributesOwner, finalModification);
+                attributesOwner.ApplyModifications(finalModification);
                 _characterUpdateList.Update(new(value, Math.Max(1 + (finalModification.TimeScale / 100f), 0f)));
             }
         }
