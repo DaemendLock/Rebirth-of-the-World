@@ -24,10 +24,6 @@ namespace Temp.Domain.Implementations
             new(0, 100),
             new(0, 100),
             new(0, 100),
-            new(0, 100),
-            new(0, 100),
-            new(0, 100),
-            new(0, 100),
         });
 
         private readonly AttributeValue[] _values;

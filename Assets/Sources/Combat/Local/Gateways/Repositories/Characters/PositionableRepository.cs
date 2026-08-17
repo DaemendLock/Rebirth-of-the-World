@@ -1,5 +1,6 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Local.Domain.Entities;
+using Combat.Local.Domain.Queries;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Factories;
@@ -11,7 +12,7 @@ using UnityEngine;
 
 namespace Combat.Local.Gateways.Repositories.Characters
 {
-    public sealed class PositionableRepository : IPositionableRepository
+    public sealed class PositionableRepository : IPositionableRepository, IUnitSpatialQuery
     {
         private readonly Dictionary<UnitId, CharacterModelComponent> _values;
         private readonly ISceneObjectDataSource _sceneObjectDataSource;

@@ -9,7 +9,7 @@
         Utility
     }
 
-    public enum ItemSlotType
+    public enum EquipmentSlotType
     {
         MainHand,
         OffHand,

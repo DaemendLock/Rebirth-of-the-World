@@ -1,5 +1,5 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Local.Domain.Repositories;
+using Combat.Local.Domain.Queries;
 
 using System.Collections.Generic;
 
@@ -9,9 +9,9 @@ namespace Combat.Local.Domain.UseCases
 {
     public readonly struct FindCharactersInRadiusUseCase
     {
-        private readonly IPositionableRepository _positionableRepository;
+        private readonly IUnitSpatialQuery _positionableRepository;
 
-        public FindCharactersInRadiusUseCase(IPositionableRepository positionableRepository)
+        public FindCharactersInRadiusUseCase(IUnitSpatialQuery positionableRepository)
         {
             _positionableRepository = positionableRepository;
         }

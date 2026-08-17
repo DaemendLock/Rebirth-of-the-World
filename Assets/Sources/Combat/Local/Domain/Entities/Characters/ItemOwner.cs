@@ -1,17 +1,20 @@
 ﻿using Combat.Common.Primitives;
+using Combat.Local.Domain.ValueObjects;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Assets.Sources.Combat.Local.Domain.Entities.Characters
+namespace Combat.Local.Domain.Entities.Characters
 {
     public readonly ref struct ItemOwner
     {
+        public ItemOwner(UnitId id, ReadOnlySpan<ItemSlot?> items)
+        {
+            Id = id;
+            Items = items;
+        }
+
         public readonly UnitId Id { get; }
 
-        public readonly int ItemId { get; }
+        public readonly ReadOnlySpan<ItemSlot?> Items { get; }
     }
 }

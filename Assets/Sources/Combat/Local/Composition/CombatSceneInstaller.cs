@@ -11,6 +11,7 @@ using Combat.Local.Domain.Facades;
 using Combat.Local.Domain.Factories;
 using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.OutputPorts.Statuses;
+using Combat.Local.Domain.Queries;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.Repositories.Objectives;
 using Combat.Local.Domain.Repositories.Skill;
@@ -75,7 +76,9 @@ namespace Combat.Local.Composition
             Container.Bind<IHitboxOwnerRepository>().To<HitboxRepository>().AsSingle();
             Container.Bind<IHitRecordQueue>().To<HitRecordQueue>().AsSingle();
             Container.Bind<IHurtableRepository>().To<HurtableRepository>().AsSingle();
-            Container.Bind<IPositionableRepository>().To<PositionableRepository>().AsSingle();
+            Container.Bind<PositionableRepository>().AsSingle();
+            Container.Bind<IPositionableRepository>().To<PositionableRepository>().FromResolve();
+            Container.Bind<IUnitSpatialQuery>().To<PositionableRepository>().FromResolve();
             Container.Bind<ISkillOwnerRepository>().To<SkillOwnerRepository>().AsSingle();
             Container.Bind<IActorRepository>().To<ActorRepository>().AsSingle();
             Container.Bind<IStatusTimerRepository>().To<StatusTimerRepository>().AsSingle();
