@@ -63,7 +63,7 @@ namespace Combat.Local.Scripting
 
         public bool CanHurt(IOldUnitContext target) => Team != target.Team;
 
-        public void ApplyStatus(ApplyStatusInfo info) => _characterFacade.ApplyStatus(_id, info.Name, info.StackCount, info.Duration, info.Source?.AbilityKey);
+        public void ApplyStatus(ApplyStatusInfo info) => _characterFacade.ApplyStatus(_id, info.Name, info.StackCount, info.Duration, info.Source);
 
         public bool HasStatus(StatusType name) => _characterFacade.HasStatus(_id, name);
 

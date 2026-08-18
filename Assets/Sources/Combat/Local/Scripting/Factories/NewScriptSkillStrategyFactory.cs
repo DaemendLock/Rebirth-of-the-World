@@ -1,3 +1,4 @@
+using Combat.API.Adapters;
 using Combat.API.API.Skills;
 using Combat.API.Contexts;
 using Combat.Common.Primitives;
@@ -7,10 +8,6 @@ using Combat.Local.Scripting.Contexts;
 using Combat.Local.Scripting.Idk;
 using Combat.Local.Scripting.Runtime;
 
-using NUnit.Framework;
-
-using System.Collections.Generic;
-
 namespace Combat.Local.Scripting.Factories
 {
     public sealed class NewScriptSkillStrategyFactory : ISkillRuntimeFactory
@@ -18,12 +15,14 @@ namespace Combat.Local.Scripting.Factories
         private readonly ISkillDynamicMemoryRepository _skillMemoryRepository;
         private readonly IEventContext _eventContext;
         private readonly UnitNewAdapter _unitNewAdapter;
+        private readonly ISceneApiAdapter _sceneApiAdapter;
 
-        public NewScriptSkillStrategyFactory(ISkillDynamicMemoryRepository skillMemoryRepository, UnitNewAdapter unitNewAdapter, IEventContext eventContext)
+        public NewScriptSkillStrategyFactory(ISkillDynamicMemoryRepository skillMemoryRepository, UnitNewAdapter unitNewAdapter, IEventContext eventContext, ISceneApiAdapter sceneApiAdapter)
         {
             _skillMemoryRepository = skillMemoryRepository;
             _unitNewAdapter = unitNewAdapter;
             _eventContext = eventContext;
+            _sceneApiAdapter = sceneApiAdapter;
         }
 
         public bool CanHandle(SkillId skillId) => true;
@@ -41,7 +40,7 @@ namespace Combat.Local.Scripting.Factories
                 unitNew = null;
             }
 
-            DomainSkillContext context = new(new(owner, skillId), _skillMemoryRepository, _eventContext);
+            DomainSkillContext context = new(new(owner, skillId), _skillMemoryRepository, _eventContext, _sceneApiAdapter.Get().Context);
             NewScriptCapabilityContainer container = new(unitNew, new TestScript());
             return new(context, container);
         }

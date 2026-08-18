@@ -6,6 +6,7 @@ using Combat.Local.Scripting.Adapters;
 
 namespace Combat.Local.Scripting.Capabilities.Statuses
 {
+
     internal static class StatusCapabilityMapper
     {
         public static DamageInstanceApi Adapt(in DamageInstance instance, CharacterApiAdapter units, AbilityApiAdapter abilities)

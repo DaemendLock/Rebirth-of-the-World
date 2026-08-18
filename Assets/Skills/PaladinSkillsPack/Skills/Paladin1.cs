@@ -1,4 +1,6 @@
-﻿using Combat.API.Scripting;
+﻿using Combat.API;
+using Combat.API.Contexts;
+using Combat.API.Scripting;
 using Combat.API.Skills;
 
 namespace TestSkillsPack.Paladin
@@ -8,7 +10,16 @@ namespace TestSkillsPack.Paladin
     {
         public bool OnCast()
         {
-            Scene.CreateStatus(new(Owner, "Paladin1Aura", 1f, 1, Instance));
+            Scene.CreateStatus(new(Owner.Id, "Paladin1Aura", 1f, 1, Instance.AbilityKey));
+            return false;
+        }
+    }
+
+    public sealed class Paladin_1New : ICastableNew
+    {
+        public bool OnCast(IActor actor, ISkillContext skillContext)
+        {
+            skillContext.GetCapability<IEncounterContext>().CreateStatus(new(actor.Id, "Paladin1Aura", 1f, 1, skillContext.Key));
             return false;
         }
     }

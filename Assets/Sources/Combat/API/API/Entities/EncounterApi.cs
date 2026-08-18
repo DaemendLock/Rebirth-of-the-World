@@ -7,21 +7,23 @@ namespace Combat.API
 {
     public sealed class EncounterApi
     {
-        private readonly IEncounterContext _conext;
+        private readonly IEncounterContext _context;
 
         public EncounterApi(IEncounterContext conext)
         {
-            _conext = conext;
+            _context = conext;
         }
 
-        public object CreateProjectile(object from, object speed, IHitHandler hitHandler) => _conext.CreateProjectile(from, speed, hitHandler);
+        public IEncounterContext Context => _context;
 
-        public void CreateStatus(ApplyStatusInfo info) => _conext.CreateStatus(info);
+        public object CreateProjectile(object from, object speed, IHitHandler hitHandler) => _context.CreateProjectile(from, speed, hitHandler);
 
-        public Unit CreateUnit(CreateUnitInfo data) => _conext.CreateUnit(data);
+        public void CreateStatus(ApplyStatusInfo info) => _context.CreateStatus(info);
 
-        public Unit[] FindUnitsInRadius(UnityEngine.Vector3 center, float radius) => _conext.FindUnitsInRadius(center, radius);
+        public Unit CreateUnit(CreateUnitInfo data) => _context.CreateUnit(data);
 
-        public void Finalize(EncounterState reason) => _conext.Finalize(reason);
+        public Unit[] FindUnitsInRadius(UnityEngine.Vector3 center, float radius) => _context.FindUnitsInRadius(center, radius);
+
+        public void Finalize(EncounterState reason) => _context.Finalize(reason);
     }
 }

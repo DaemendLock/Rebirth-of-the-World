@@ -1,6 +1,7 @@
 ﻿using Combat.API;
 using Combat.Common.Primitives;
 using Combat.Local.Domain.Facades;
+using Combat.Local.Domain.UseCases;
 
 namespace Combat.Local.Scripting.Adapters
 {
@@ -8,16 +9,20 @@ namespace Combat.Local.Scripting.Adapters
     {
         private readonly HealthOwnerFacade _healthOwnerFacade;
         private readonly CharacterFacade _characterFacade;
+        private readonly StatusOwnerApplyUseCase _statusOwnerApplyUseCase;
+        private readonly StatusRemoveUseCase _statusRemoveUseCase;
 
-        public UnitNewAdapter(HealthOwnerFacade healthOwnerFacade, CharacterFacade characterFacade)
+        public UnitNewAdapter(HealthOwnerFacade healthOwnerFacade, CharacterFacade characterFacade, StatusOwnerApplyUseCase statusOwnerApplyUseCase, StatusRemoveUseCase statusRemoveUseCase)
         {
             _healthOwnerFacade = healthOwnerFacade;
             _characterFacade = characterFacade;
+            _statusOwnerApplyUseCase = statusOwnerApplyUseCase;
+            _statusRemoveUseCase = statusRemoveUseCase;
         }
 
         public UnitNew Adaptee(UnitId id)
         {
-            return new UnitNew(id, _healthOwnerFacade, _characterFacade);
+            return new UnitNew(id, _healthOwnerFacade, _characterFacade, _statusOwnerApplyUseCase, _statusRemoveUseCase);
         }
     }
 

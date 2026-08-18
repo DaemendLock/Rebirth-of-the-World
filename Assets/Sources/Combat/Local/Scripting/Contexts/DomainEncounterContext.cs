@@ -35,7 +35,7 @@ namespace Combat.Local.Scripting.Contexts
 
         public void CreateStatus(ApplyStatusInfo info)
         {
-            ApplStatusDTO dto = new(info.Target.Id, info.Name, info.Duration, info.StackCount, info.Source?.AbilityKey);
+            ApplStatusDTO dto = new(info.Target, info.Name, info.Duration, info.StackCount, info.Source);
             _sceneFacade.CreateStatus(dto);
         }
 

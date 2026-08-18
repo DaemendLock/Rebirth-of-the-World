@@ -13,13 +13,13 @@ namespace Combat.Local.Scripting.Contexts
     public sealed class DomainSkillContext : ISkillContext
     {
         private readonly AbilityKey _key;
-        private readonly IEnvironmentContext _environmentContext;
+        private readonly IEncounterContext _environmentContext;
         private readonly IEventContext _eventContext;
         private readonly ISkillDynamicMemoryRepository _memoryRepository;
 
         private readonly List<EventHandlerId> _eventHandlers;
 
-        public DomainSkillContext(AbilityKey key, ISkillDynamicMemoryRepository skillMemoryRepository, IEventContext eventContext)
+        public DomainSkillContext(AbilityKey key, ISkillDynamicMemoryRepository skillMemoryRepository, IEventContext eventContext, IEncounterContext environmentContext)
         {
             _key = key;
 
@@ -27,7 +27,10 @@ namespace Combat.Local.Scripting.Contexts
             _eventContext = eventContext;
 
             _eventHandlers = new();
+            _environmentContext = environmentContext;
         }
+
+        public AbilityKey Key => _key;
 
         public void StartCooldown(float value) { }
 

@@ -37,7 +37,7 @@ namespace TestSkillsPack.Paladin
                 targetCount++;
             }
 
-            Scene.CreateStatus(new(Owner, "TankPaladin3Buff", 3f, 1, Instance));
+            Scene.CreateStatus(new(Owner.Id, "TankPaladin3Buff", 3f, 1, Instance.AbilityKey));
             Owner.GiveResource(new(ResourceId.Custom, _energyPerTarget * targetCount, Instance));
             return true;
         }

@@ -12,16 +12,17 @@ namespace Combat.Local.Scripting.Runtime
 
         public void Remove(AbilityKey id) => _values.Remove(id);
 
-        public bool TryGet(AbilityKey id, out SkillRuntime container)
-        {
-            if (_values.TryGetValue(id, out var result) == false)
-            {
-                container = default;
-                return false;
-            }
+        public bool TryGet(AbilityKey id, out SkillRuntime container) => _values.TryGetValue(id, out container);
+    }
 
-            container = result;
-            return true;
-        }
+    public sealed class UnitRuntimeRegistry : IUnitRuntimeRegistry
+    {
+        private readonly Dictionary<UnitId, UnitNew> _values = new();
+
+        public void Create(UnitNew unitNew) => _values.Add(unitNew.Id, unitNew);
+
+        public void Remove(UnitId id) => _values.Remove(id);
+
+        public bool TryGet(UnitId id, out UnitNew unitNew) => _values.TryGetValue(id, out unitNew);
     }
 }

@@ -6,6 +6,8 @@ namespace Combat.API.Contexts
 {
     public interface ISkillContext
     {
+        AbilityKey Key { get; }
+
         void StartCooldown(float value);
 
         SkillState<T> GetState<T>() where T : unmanaged, IDynamicSkillData;
