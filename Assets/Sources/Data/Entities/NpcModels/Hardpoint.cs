@@ -2,7 +2,14 @@
 
 namespace Data.Entities.NpcModels
 {
-    internal class Hardpoint : MonoBehaviour
+    public sealed class Hardpoint : MonoBehaviour
     {
+        [field: SerializeField] public HardpointType Name { get; private set; }
+    }
+
+    public enum HardpointType
+    {
+        None,
+        MainHand
     }
 }

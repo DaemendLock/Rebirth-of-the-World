@@ -11,7 +11,7 @@ namespace Combat.Local.Data.Databases
 {
     public class CharacterPrefabDataSource : ICharacterPrefabDataSource
     {
-        private readonly Dictionary<ModelName, GameObject> _values;
+        private readonly Dictionary<ModelName, CharacterModel> _values;
 
         public CharacterPrefabDataSource()
         {
@@ -23,8 +23,8 @@ namespace Combat.Local.Data.Databases
             }
         }
 
-        public void Register(CharacterModel value) => _values.Add(value.Name, value.Prefab);
+        public void Register(CharacterModel value) => _values.Add(value.Name, value);
 
-        public GameObject Get(ModelName model) => _values.GetValueOrDefault(model, null);
+        public GameObject Get(ModelName model) => _values.GetValueOrDefault(model, null)?.Prefab;
     }
 }

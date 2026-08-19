@@ -1,15 +1,21 @@
 ﻿using Combat.Common.Primitives;
 
+using Data.Entities.NpcModels;
+
 using UnityEngine;
 
 namespace Data.Entities
 {
-    [CreateAssetMenu(menuName = "Assets/Characters/Model")]
-    public class CharacterModel : ScriptableObject
+    public class CharacterModel : MonoBehaviour
     {
-        [SerializeField] private GameObject _prefab;
+        [SerializeField] private Hardpoint[] _hardpoints;
 
-        public GameObject Prefab => _prefab;
+        private void Awake()
+        {
+            _hardpoints = GetComponentsInChildren<Hardpoint>();
+        }
+
+        public GameObject Prefab => gameObject;
         public ModelName Name => new(name);
     }
 }

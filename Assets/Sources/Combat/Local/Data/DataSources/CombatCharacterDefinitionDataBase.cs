@@ -5,6 +5,7 @@ using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Models;
 
 using Data.Characters;
+using Data.Entities;
 
 using System.Collections.Generic;
 
@@ -33,6 +34,8 @@ namespace Combat.Local.Data.DataSources
         {
             _values[combatCharacter.CharacterKey] = Adapt(combatCharacter);
         }
+
+        public void Register(CharacterModel value) => throw new System.NotImplementedException();
 
         public bool TryGet(CharacterKey key, out CharacterDefinitionModel result) => _values.TryGetValue(key, out result);
 

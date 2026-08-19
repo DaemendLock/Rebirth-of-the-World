@@ -12,6 +12,7 @@ namespace Combat.Local.Scripting.Ports.CharacterPorts
         private readonly IUnitRuntimeRegistry _runtimeRegistry;
 
         public void Create(UnitId unitId) { }
+
         public void Remove(UnitId unitId) => _runtimeRegistry.Remove(unitId);
     }
 
