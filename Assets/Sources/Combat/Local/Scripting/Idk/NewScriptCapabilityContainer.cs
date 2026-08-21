@@ -7,18 +7,18 @@ namespace Combat.Local.Scripting.Idk
     public sealed class NewScriptCapabilityContainer : ISkillCapabilityProvider
     {
         private readonly ISkillExecuteCapability _skillExecuteCapability;
-        private readonly ISkillHandleActionStateChangeCapability _skillHandleActionStateChangeCapability;
+        private readonly IHandleActionPhaseChangeCapability _skillHandleActionStateChangeCapability;
 
-        public NewScriptCapabilityContainer(UnitNew owner, ISkillScriptNew script)
+        public NewScriptCapabilityContainer(ISkillScriptNew script)
         {
             if (script is ICastableNew castable)
             {
-                _skillExecuteCapability = new NewSkillExecuteCapability(castable, owner);
+                _skillExecuteCapability = new NewSkillExecuteCapability(castable);
             }
 
             if (script is IActableNew actable)
             {
-                _skillHandleActionStateChangeCapability = new NewHandleSkillActionStateChangeCapability(actable, owner);
+                _skillHandleActionStateChangeCapability = new NewHandleSkillActionStateChangeCapability(actable);
             }
         }
 
@@ -29,7 +29,7 @@ namespace Combat.Local.Scripting.Idk
                 return _skillExecuteCapability as T;
             }
 
-            if (typeof(T) == typeof(ISkillHandleActionStateChangeCapability))
+            if (typeof(T) == typeof(IHandleActionPhaseChangeCapability))
             {
                 return _skillHandleActionStateChangeCapability as T;
             }

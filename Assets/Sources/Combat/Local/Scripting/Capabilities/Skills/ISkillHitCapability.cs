@@ -8,7 +8,7 @@ namespace Combat.Local.Scripting.Capabilities.Skills
 {
     public interface ISkillHitCapability
     {
-        bool Handle(ISkillContext context, in HitRecord record);
+        bool Handle(ISkillContext context, ICastContext castContext, in HitRecord record);
     }
 
     public sealed class OldHandleSkillHitCapability : ISkillHitCapability
@@ -22,7 +22,7 @@ namespace Combat.Local.Scripting.Capabilities.Skills
             _characterApiAdapter = characterApiAdapter;
         }
 
-        public bool Handle(ISkillContext context, in HitRecord record)
+        public bool Handle(ISkillContext context, ICastContext castContext, in HitRecord record)
         {
             Unit source = _characterApiAdapter.Adaptee(record.HitboxOwner);
             Unit target = _characterApiAdapter.Adaptee(record.HurtboxOwner);

@@ -5,21 +5,21 @@ using Combat.Common.ValueObjects;
 
 namespace Combat.Local.Scripting.Capabilities.Skills
 {
-    public interface ISkillHandleActionStateChangeCapability
+    public interface IHandleActionPhaseChangeCapability
     {
-        void Handle(ISkillContext skillContext, ActionState state);
+        void Handle(ISkillContext skillContext, ICastContext castContext, ActionState state);
     }
 
-    public sealed class HandleSkillActionStateChangeCapability : ISkillHandleActionStateChangeCapability
+    public sealed class HandleActionPhaseChangeCapability : IHandleActionPhaseChangeCapability
     {
         private readonly ICastStateChangeHandler _handler;
 
-        public HandleSkillActionStateChangeCapability(ICastStateChangeHandler handler)
+        public HandleActionPhaseChangeCapability(ICastStateChangeHandler handler)
         {
             _handler = handler;
         }
 
-        public void Handle(ISkillContext skillContext, ActionState state)
+        public void Handle(ISkillContext skillContext, ICastContext castContext, ActionState state)
         {
             switch (state)
             {
@@ -44,35 +44,33 @@ namespace Combat.Local.Scripting.Capabilities.Skills
         }
     }
 
-    public sealed class NewHandleSkillActionStateChangeCapability : ISkillHandleActionStateChangeCapability
+    public sealed class NewHandleSkillActionStateChangeCapability : IHandleActionPhaseChangeCapability
     {
-        private readonly UnitNew _actor;
         private readonly IActableNew _handler;
 
-        public NewHandleSkillActionStateChangeCapability(IActableNew handler, UnitNew actor)
+        public NewHandleSkillActionStateChangeCapability(IActableNew handler)
         {
-            _actor = actor;
             _handler = handler;
         }
 
-        public void Handle(ISkillContext skillContext, ActionState state)
+        public void Handle(ISkillContext skillContext, ICastContext castContext, ActionState state)
         {
             switch (state)
             {
                 case ActionState.Startup:
-                    _handler.OnEnterStartup(_actor, skillContext);
+                    _handler.OnEnterStartup(skillContext, castContext);
                     return;
                 case ActionState.Active:
-                    _handler.OnEnterActive(_actor, skillContext);
+                    _handler.OnEnterActive(skillContext, castContext);
                     return;
                 case ActionState.Gap:
-                    _handler.OnEnterGap(_actor, skillContext);
+                    _handler.OnEnterGap(skillContext, castContext);
                     return;
                 case ActionState.Recovery:
-                    _handler.OnEnterRecovery(_actor, skillContext);
+                    _handler.OnEnterRecovery(skillContext, castContext);
                     return;
                 case ActionState.Inactive:
-                    _handler.OnEnded(_actor, skillContext);
+                    _handler.OnEnded(skillContext, castContext);
                     return;
                 default:
                     throw new System.ArgumentOutOfRangeException(nameof(state), state, null);

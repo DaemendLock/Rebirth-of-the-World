@@ -46,6 +46,7 @@ namespace Combat.Local.Scripting.SkillPorts
             }
 
             properties.Context?.Cleanup();
+            properties.CastContexts.Cleanup();
             _runtimeRegistry.Remove(abilityKey);
         }
 
@@ -79,7 +80,24 @@ namespace Combat.Local.Scripting.SkillPorts
                 return;
             }
 
-            properties.Container.GetCapability<ISkillHandleActionStateChangeCapability>()?.Handle(properties.Context, newState);
+            var handler = properties.Container.GetCapability<IHandleActionPhaseChangeCapability>();
+
+            if (newState == ActionState.Startup)
+            {
+                properties.CastContexts.PromotePending();
+            }
+
+            try
+            {
+                handler?.Handle(properties.Context, properties.CastContexts.Current, newState);
+            }
+            finally
+            {
+                if (newState == ActionState.Inactive)
+                {
+                    properties.CastContexts.CompleteActive();
+                }
+            }
         }
     }
 }

@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8235ff18f90bcd247afbf2248f110167, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: 10012
+  _id: 100121
   <Flags>k__BackingField: 32896
 --- !u!114 &122034387924800988
 MonoBehaviour:
@@ -74,4 +74,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0c052f854d536e49a2c438c809d9ce9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ScriptName>k__BackingField: sayHi
+  <ScriptName>k__BackingField: sayHia

@@ -40,7 +40,7 @@ namespace Combat.Local.Scripting.SkillPorts
                 _hittedTargets[abilityKey] = targets;
             }
 
-            HandleHit(skillRuntime.Context, handler, targets, hitRecord);
+            HandleHit(skillRuntime.Context, skillRuntime.CastContexts.Current, handler, targets, hitRecord);
         }
 
         public void Reset(AbilityKey abilityKey)
@@ -51,7 +51,7 @@ namespace Combat.Local.Scripting.SkillPorts
             }
         }
 
-        private static void HandleHit(ISkillContext context, ISkillHitCapability handler, List<UnitId> hittedTargets, in HitRecord record)
+        private static void HandleHit(ISkillContext context, ICastContext castContext, ISkillHitCapability handler, List<UnitId> hittedTargets, in HitRecord record)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace Combat.Local.Scripting.SkillPorts
                 }
 
                 hittedTargets.Add(record.HurtboxOwner);
-                handler.Handle(context, record);
+                handler.Handle(context, castContext, record);
             }
             catch (System.Exception exception)
             {

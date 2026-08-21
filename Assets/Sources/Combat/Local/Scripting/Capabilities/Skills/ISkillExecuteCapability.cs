@@ -8,7 +8,7 @@ namespace Combat.Local.Scripting.Capabilities.Skills
     public interface ISkillExecuteCapability
     {
         CastFailReason CanCast(ISkillContext context);
-        bool BeginCast(ISkillContext skillContext);
+        bool BeginCast(ISkillContext skillContext, ICastContext castContext);
     }
 
     public sealed class OldScriptSkillExecuteContext : ISkillExecuteCapability
@@ -22,21 +22,19 @@ namespace Combat.Local.Scripting.Capabilities.Skills
 
         public CastFailReason CanCast(ISkillContext context) => _castableSkill.CanCast();
 
-        public bool BeginCast(ISkillContext skillContext) => _castableSkill.OnCast();
+        public bool BeginCast(ISkillContext skillContext, ICastContext castContext) => _castableSkill.OnCast();
     }
 
     public sealed class NewSkillExecuteCapability : ISkillExecuteCapability
     {
         private readonly ICastableNew _script;
-        private readonly UnitNew _unitNew;
 
-        public NewSkillExecuteCapability(ICastableNew script, UnitNew unitNew)
+        public NewSkillExecuteCapability(ICastableNew script)
         {
             _script = script;
-            _unitNew = unitNew;
         }
 
-        public bool BeginCast(ISkillContext skillContext) => _script.OnCast(_unitNew, skillContext);
+        public bool BeginCast(ISkillContext skillContext, ICastContext castContext) => _script.OnCast(skillContext, castContext);
         public CastFailReason CanCast(ISkillContext context) => CastFailReason.Success;
     }
 }

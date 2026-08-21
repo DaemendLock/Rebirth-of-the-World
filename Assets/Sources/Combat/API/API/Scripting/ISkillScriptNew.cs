@@ -8,18 +8,18 @@ namespace Combat.API.Scripting
 
     public interface ICastableNew : ISkillScriptNew
     {
-        bool OnCast(IActor actor, ISkillContext skillContext);
+        bool OnCast(ISkillContext skillContext, ICastContext castContext) => false;
     }
 
     public interface IActableNew : ISkillScriptNew
     {
-        void OnEnterStartup(IActor actor, ISkillContext skillContext) { }
-        void OnEnterActive(IActor actor, ISkillContext skillContext) { }
-        void OnEnterGap(IActor actor, ISkillContext context) { }
-        void OnEnterRecovery(IActor actor, ISkillContext skillContext) { }
+        void OnEnterStartup(ISkillContext skillContext, ICastContext castContext) { }
+        void OnEnterActive(ISkillContext skillContext, ICastContext castContext) { }
+        void OnEnterGap(ISkillContext skillContext, ICastContext castContext) { }
+        void OnEnterRecovery(ISkillContext skillContext, ICastContext castContext) { }
 
-        void OnEnded(IActor actor, ISkillContext skillContext) { }
-        void OnCancel(IActor actor, ISkillContext skillContext) { }
-        void OnInterrupt(IActor actor, ISkillContext skillContext) { }
+        void OnEnded(ISkillContext skillContext, ICastContext castContext) { }
+        void OnCancel(ISkillContext skillContext, ICastContext castContext) { }
+        void OnInterrupt(ISkillContext skillContext, ICastContext castContext) { }
     }
 }

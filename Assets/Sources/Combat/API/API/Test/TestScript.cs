@@ -12,7 +12,7 @@ namespace Combat.API.API.Skills
 
     public sealed class TestScript : ISkillScriptNew, ICastableNew
     {
-        public bool OnCast(IActor actor, ISkillContext skillContext)
+        public bool OnCast(ISkillContext skillContext, ICastContext castable)
         {
             SkillState<TestSkillData> value = skillContext.GetState<TestSkillData>();
             TestSkillData data = value.DynamicState;
@@ -39,30 +39,29 @@ namespace Combat.API.API.Skills
             }
         }
 
-        public bool OnCast(IActor actor, ISkillContext skillContext)
+        public bool OnCast(ISkillContext skillContext, ICastContext castContext)
         {
             skillContext.SaveState<GrowModifier>(new(new()));
             UnityEngine.Debug.Log("Grow!");
             return true;
         }
 
-        public void OnEnterStartup(IActor actor, ISkillContext skillContext)
+        public void OnEnterStartup(ISkillContext skillContext, ICastContext castContext)
         {
-            ScaleEffectId effectId = actor.StartScaleOverTime(GrowthRate);
+            ScaleEffectId effectId = castContext.Caster.StartScaleOverTime(GrowthRate);
             skillContext.SaveState<GrowModifier>(new(new(effectId)));
         }
 
-        public void OnEnded(IActor actor, ISkillContext skillContext)
+        public void OnEnded(ISkillContext skillContext, ICastContext castContext)
         {
             var data = skillContext.GetState<GrowModifier>().DynamicState;
-            skillContext.SaveState<GrowModifier>(new(default));
 
             if (data.ScaleEffectId.HasValue == false)
             {
                 return;
             }
 
-            actor.StopScaleOverTime(data.ScaleEffectId.Value);
+            castContext.Caster.StopScaleOverTime(data.ScaleEffectId.Value);
         }
     }
 }
