@@ -1,6 +1,7 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
+using Combat.Local.Domain.ValueObjects;
 
 namespace Combat.Local.Domain.UseCases
 {
@@ -17,24 +18,16 @@ namespace Combat.Local.Domain.UseCases
 
         public StatusId? FindStatus(UnitId id, StatusType statusName)
         {
-            if (_statusOwnerRepository.TryGet(id, out StatusOwner statusOwner) == false)
-            {
-                return default;
-            }
+            StatusOwner statusOwner = _statusOwnerRepository.Get(id);
 
-            foreach (StatusId item in statusOwner.GetAll())
+            foreach (StatusInstance item in statusOwner.GetAll())
             {
-                if (_statusRepository.TryGet(item, out Status status) == false)
+                if (item.Type != statusName)
                 {
                     continue;
                 }
 
-                if (status.Name != statusName)
-                {
-                    continue;
-                }
-
-                return item;
+                return item.StatusId;
             }
 
             return default;

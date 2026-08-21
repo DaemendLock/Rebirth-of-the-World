@@ -21,11 +21,11 @@ namespace Combat.Local.Scripting.Ports.Statuses
             _eventContext = eventContext;
         }
 
-        public void HandleDamageDealth(ReadOnlySpan<StatusId> handlers, DamageResult @event)
+        public void HandleDamageDealth(ReadOnlySpan<StatusInstance> handlers, DamageResult @event)
         {
-            foreach (StatusId statusId in handlers)
+            foreach (StatusInstance instance in handlers)
             {
-                if (_statusRuntimeRegistry.TryGet(statusId, out StatusRuntime runtime) == false)
+                if (_statusRuntimeRegistry.TryGet(instance.StatusId, out StatusRuntime runtime) == false)
                 {
                     continue;
                 }
@@ -43,11 +43,11 @@ namespace Combat.Local.Scripting.Ports.Statuses
             _eventContext.Publish(new GameEvent<DealDamageEventData>(new(@event.FinalDamage)));
         }
 
-        public void HandleDamageRecieved(ReadOnlySpan<StatusId> handlers, DamageResult @event)
+        public void HandleDamageRecieved(ReadOnlySpan<StatusInstance> handlers, DamageResult @event)
         {
-            foreach (StatusId statusId in handlers)
+            foreach (StatusInstance instance in handlers)
             {
-                if (_statusRuntimeRegistry.TryGet(statusId, out StatusRuntime runtime) == false)
+                if (_statusRuntimeRegistry.TryGet(instance.StatusId, out StatusRuntime runtime) == false)
                 {
                     continue;
                 }

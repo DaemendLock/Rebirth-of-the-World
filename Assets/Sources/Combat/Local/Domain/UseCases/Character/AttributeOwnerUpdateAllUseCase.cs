@@ -3,7 +3,6 @@ using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
-using Combat.Local.Domain.Services.Skills;
 using Combat.Local.Domain.ValueObjects;
 
 using System;
@@ -15,15 +14,13 @@ namespace Combat.Local.Domain.UseCases
     {
         private readonly IAttributesRepository _attributesRepository;
         private readonly IStatusOwnerRepository _statusOwnerRepository;
-        private readonly IStatusRepository _statusRepository;
         private readonly ICharacterUpdateRepository _characterUpdateList;
         private readonly IStatusAttributeCalculator _statusAttributeCalculator;
 
-        public AttributeOwnerUpdateAllUseCase(IAttributesRepository attributesRepository, IStatusOwnerRepository statusOwnerRepository, IStatusRepository statusRepository, ICharacterUpdateRepository characterUpdateList, IStatusAttributeCalculator statusAttributeCalculator)
+        public AttributeOwnerUpdateAllUseCase(IAttributesRepository attributesRepository, IStatusOwnerRepository statusOwnerRepository, ICharacterUpdateRepository characterUpdateList, IStatusAttributeCalculator statusAttributeCalculator)
         {
             _attributesRepository = attributesRepository;
             _statusOwnerRepository = statusOwnerRepository;
-            _statusRepository = statusRepository;
             _characterUpdateList = characterUpdateList;
             _statusAttributeCalculator = statusAttributeCalculator;
         }
@@ -41,11 +38,7 @@ namespace Combat.Local.Domain.UseCases
             for (int i = 0; i < targets.Count; i++)
             {
                 UnitId value = values[i].Id;
-
-                if (_statusOwnerRepository.TryGet(value, out StatusOwner statusOwner) == false)
-                {
-                    continue;
-                }
+                StatusOwner statusOwner = _statusOwnerRepository.Get(value);
 
                 ref AttributesOwner attributesOwner = ref values[i];
                 AttributesModification finalModification = _statusAttributeCalculator.Evaluate(statusOwner.GetAll());

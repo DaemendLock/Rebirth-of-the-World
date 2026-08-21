@@ -128,6 +128,6 @@ namespace Combat.Local.Domain.UseCases
             _scaleEffectOwnerRepository.Create(new(id, Span<ScaleOverTimeEffect>.Empty));
         }
 
-        private StatusOwner CreateStatusOwner(UnitId id) => new(id, Span<StatusId>.Empty);
+        private StatusOwner CreateStatusOwner(UnitId id) => new(id, Array.Empty<StatusInstance>());
     }
 }

@@ -61,10 +61,7 @@ namespace Combat.Local.Domain.UseCases
 
             if (healer.HasValue)
             {
-                if (_statusOwnerRepository.TryGet(healer.Value, out StatusOwner healerStatuses) == false)
-                {
-                    return result;
-                }
+                StatusOwner healerStatuses = _statusOwnerRepository.Get(healer.Value);
 
                 finalModification += _damageModifierCalculator.GetHealingModification(healerStatuses.GetAll(), result);
             }

@@ -1,4 +1,3 @@
-using Combat.Common.Primitives;
 using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.ValueObjects;
 using Combat.Local.Scripting.Capabilities.Statuses;
@@ -17,13 +16,13 @@ namespace Combat.Local.Scripting.Ports.Statuses
             _statusRuntimeRegistry = statusRuntimeRegistry;
         }
 
-        public AttributesModification Evaluate(ReadOnlySpan<StatusId> values)
+        public AttributesModification Evaluate(ReadOnlySpan<StatusInstance> values)
         {
             AttributesModification result = new();
 
-            foreach (StatusId statusId in values)
+            foreach (var instance in values)
             {
-                if (_statusRuntimeRegistry.TryGet(statusId, out StatusRuntime runtime) == false)
+                if (_statusRuntimeRegistry.TryGet(instance.StatusId, out StatusRuntime runtime) == false)
                 {
                     continue;
                 }

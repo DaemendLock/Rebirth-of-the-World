@@ -7,7 +7,7 @@ namespace Combat.Local.Domain.OutputPorts.Statuses
 {
     public interface IDamageResultHandler
     {
-        void HandleDamageDealth(ReadOnlySpan<StatusId> handlers, DamageResult @event);
-        void HandleDamageRecieved(ReadOnlySpan<StatusId> handlers, DamageResult @event);
+        void HandleDamageDealth(ReadOnlySpan<StatusInstance> handlers, DamageResult @event);
+        void HandleDamageRecieved(ReadOnlySpan<StatusInstance> handlers, DamageResult @event);
     }
 }

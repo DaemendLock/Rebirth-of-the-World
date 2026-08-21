@@ -53,13 +53,12 @@ namespace Combat.Local.Domain.UseCases
             DamageModification defenderModification = default;
             DamageModification attackerModification = default;
 
-            if (_statusOwnerRepository.TryGet(target, out StatusOwner defenderStatuses))
-            {
-                defenderModification = _damageModifierCalculator.GetDefenderDamageModification(defenderStatuses.GetAll(), instance);
-            }
+            StatusOwner statusOwner = _statusOwnerRepository.Get(target);
+            defenderModification = _damageModifierCalculator.GetDefenderDamageModification(statusOwner.GetAll(), instance);
 
-            if (instance.Attacker.HasValue && _statusOwnerRepository.TryGet(instance.Attacker.Value, out StatusOwner attackerStatuses))
+            if (attacker.HasValue)
             {
+                StatusOwner attackerStatuses = _statusOwnerRepository.Get(attacker.Value);
                 attackerModification = _damageModifierCalculator.GetAttackerDamageModification(attackerStatuses.GetAll(), instance);
             }
 
@@ -122,13 +121,12 @@ namespace Combat.Local.Domain.UseCases
 
         private void HandleEvent(DamageResult @event)
         {
-            if (_statusOwnerRepository.TryGet(@event.Target, out StatusOwner statusOwner))
-            {
-                _damageResultHandler.HandleDamageRecieved(statusOwner.GetAll(), @event);
-            }
+            StatusOwner statusOwner = _statusOwnerRepository.Get(@event.Target);
+            _damageResultHandler.HandleDamageRecieved(statusOwner.GetAll(), @event);
 
-            if (@event.Attacker.HasValue && _statusOwnerRepository.TryGet(@event.Attacker.Value, out StatusOwner attackerStatuses))
+            if (@event.Attacker.HasValue)
             {
+                StatusOwner attackerStatuses = _statusOwnerRepository.Get(@event.Attacker.Value);
                 _damageResultHandler.HandleDamageDealth(attackerStatuses.GetAll(), @event);
             }
         }

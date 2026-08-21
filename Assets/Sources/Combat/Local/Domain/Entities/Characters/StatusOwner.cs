@@ -1,28 +1,31 @@
 ﻿using Combat.Common.Primitives;
+using Combat.Local.Domain.ValueObjects;
 
 using System;
 
 namespace Combat.Local.Domain.Entities
 {
-    public readonly ref struct StatusOwner
+    public readonly struct StatusOwner : IUnitComponent
     {
-        private readonly ReadOnlySpan<StatusId> _statuses;
+        private readonly StatusInstance[] _statuses;
 
-        public StatusOwner(UnitId id, ReadOnlySpan<StatusId> statuses)
+        public StatusOwner(UnitId id, StatusInstance[] statuses, bool needCleanup = false)
         {
             Id = id;
             _statuses = statuses;
+            NeedCleanup = needCleanup;
         }
 
         public UnitId Id { get; }
+        public bool NeedCleanup { get; }
 
-        public ReadOnlySpan<StatusId> GetAll() => _statuses;
+        public Span<StatusInstance> GetAll() => _statuses;
 
         public bool HasStatus(StatusId id)
         {
-            foreach (StatusId status in _statuses)
+            foreach (var status in _statuses)
             {
-                if (status != id)
+                if (status.StatusId != id)
                     continue;
 
                 return true;
@@ -30,5 +33,9 @@ namespace Combat.Local.Domain.Entities
 
             return false;
         }
+
+        public StatusOwner MarkDirty() => new(Id, _statuses, true);
+
+        public StatusOwner Cleared() => new(Id, _statuses, false);
     }
 }

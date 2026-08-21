@@ -67,22 +67,23 @@ namespace Combat.Local.Scripting.Ports.Statuses
             _eventContext.Publish<StatusRemovedEventData>(new(new(id)));
         }
 
-        public void Expire(StatusId id)
+        public bool Expire(StatusId id)
         {
             if (!_statusRuntimeRegistry.TryGet(id, out StatusRuntime runtime))
             {
-                return;
+                return true;
             }
 
             IStatusLifecycleCapability lifecycle = runtime.Container.GetCapability<IStatusLifecycleCapability>();
 
             if (lifecycle == null)
             {
-                return;
+                return true;
             }
 
             lifecycle.Expire(runtime.Context);
             _eventContext.Publish<StatusExpiredEventData>(new(new(id)));
+            return true;
         }
 
         public void Reapply(StatusId id, float duration, AbilityKey? source)

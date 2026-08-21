@@ -7,8 +7,8 @@ namespace Combat.Local.Domain.OutputPorts.Statuses
 {
     public interface IHealingDamageModifierCalculator
     {
-        DamageModification GetAttackerDamageModification(ReadOnlySpan<StatusId> attackerModifier, in DamageInstance instance);
-        DamageModification GetDefenderDamageModification(ReadOnlySpan<StatusId> defenderModifier, in DamageInstance instance);
-        HealingModification GetHealingModification(ReadOnlySpan<StatusId> modifiers, in HealingInstance instance);
+        DamageModification GetAttackerDamageModification(ReadOnlySpan<StatusInstance> attackerModifier, in DamageInstance instance);
+        DamageModification GetDefenderDamageModification(ReadOnlySpan<StatusInstance> defenderModifier, in DamageInstance instance);
+        HealingModification GetHealingModification(ReadOnlySpan<StatusInstance> modifiers, in HealingInstance instance);
     }
 }

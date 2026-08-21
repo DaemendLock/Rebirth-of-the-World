@@ -18,13 +18,13 @@ namespace Combat.Local.Scripting.Ports.Statuses
             _statusRegistry = statusRegistry;
         }
 
-        public DamageModification GetAttackerDamageModification(ReadOnlySpan<StatusId> values, in DamageInstance instance)
+        public DamageModification GetAttackerDamageModification(ReadOnlySpan<StatusInstance> values, in DamageInstance instance)
         {
             DamageModification result = new(0, 0, 0, DamageFlags.None);
 
-            foreach (StatusId id in values)
+            foreach (var info in values)
             {
-                if (_statusRegistry.TryGet(id, out StatusRuntime runtime) == false)
+                if (_statusRegistry.TryGet(info.StatusId, out StatusRuntime runtime) == false)
                 {
                     continue;
                 }
@@ -42,13 +42,13 @@ namespace Combat.Local.Scripting.Ports.Statuses
             return result;
         }
 
-        public DamageModification GetDefenderDamageModification(ReadOnlySpan<StatusId> values, in DamageInstance instance)
+        public DamageModification GetDefenderDamageModification(ReadOnlySpan<StatusInstance> values, in DamageInstance instance)
         {
             DamageModification result = new(0, 0, 0, DamageFlags.None);
 
-            foreach (StatusId id in values)
+            foreach (var info in values)
             {
-                if (_statusRegistry.TryGet(id, out StatusRuntime runtime) == false)
+                if (_statusRegistry.TryGet(info.StatusId, out StatusRuntime runtime) == false)
                 {
                     continue;
                 }
@@ -66,13 +66,13 @@ namespace Combat.Local.Scripting.Ports.Statuses
             return result;
         }
 
-        public HealingModification GetHealingModification(ReadOnlySpan<StatusId> values, in HealingInstance instance)
+        public HealingModification GetHealingModification(ReadOnlySpan<StatusInstance> values, in HealingInstance instance)
         {
             HealingModification result = new(0, 0, 0, HealingFlags.None);
 
-            foreach (StatusId id in values)
+            foreach (StatusInstance info in values)
             {
-                if (_statusRegistry.TryGet(id, out StatusRuntime runtime) == false)
+                if (_statusRegistry.TryGet(info.StatusId, out StatusRuntime runtime) == false)
                 {
                     continue;
                 }

@@ -78,15 +78,18 @@ namespace Combat.Local.Domain.UseCases.Scene
                 }
             }
 
-            if (_statusOwnerRepository.TryGet(target, out StatusOwner statusOwner))
+            try
             {
-                foreach (var item in statusOwner.GetAll())
+                StatusOwner statusOwner = _statusOwnerRepository.Get(target);
+
+                foreach (var instance in statusOwner.GetAll())
                 {
-                    _statusLifecycleHandler.Remove(item);
-                    _statusTimerRepository.Delete(item);
-                    _statusRepository.Delete(item);
+                    _statusLifecycleHandler.Remove(instance.StatusId);
+                    _statusTimerRepository.Delete(instance.StatusId);
+                    _statusRepository.Delete(instance.StatusId);
                 }
             }
+            catch { }
 
             if (_actorRepository.TryGet(target, out Actor actor))
             {

@@ -1,8 +1,10 @@
 ﻿using Combat.Common.Primitives;
+using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Entities.Units;
 using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
+using Combat.Local.Domain.ValueObjects;
 
 using System;
 
@@ -10,19 +12,15 @@ namespace Combat.Local.Domain.UseCases
 {
     public sealed class StatusOwnerProgressAllUseCases
     {
-        private readonly IStatusRepository _statusRepository;
         private readonly IStatusTimerRepository _statusTimerRepository;
         private readonly IStatusOwnerRepository _statusOwnerRepository;
-        private readonly ICharacterUpdateRepository _characterUpdateList;
         private readonly IStatusLifecycleHandler _statusLifecycleHandler;
         private readonly IStatusTickHandler _statusTickHandler;
 
-        public StatusOwnerProgressAllUseCases(IStatusRepository statusRepository, IStatusTimerRepository statusTimerRepository, IStatusOwnerRepository statusOwnerRepository, ICharacterUpdateRepository characterUpdateList, IStatusTickHandler statusTickHandler, IStatusLifecycleHandler statusLifecycleHandler)
+        public StatusOwnerProgressAllUseCases(IStatusTimerRepository statusTimerRepository, IStatusOwnerRepository statusOwnerRepository, IStatusTickHandler statusTickHandler, IStatusLifecycleHandler statusLifecycleHandler)
         {
-            _statusRepository = statusRepository;
             _statusTimerRepository = statusTimerRepository;
             _statusOwnerRepository = statusOwnerRepository;
-            _characterUpdateList = characterUpdateList;
             _statusLifecycleHandler = statusLifecycleHandler;
             _statusTickHandler = statusTickHandler;
         }
@@ -37,83 +35,62 @@ namespace Combat.Local.Domain.UseCases
 
         private void ProgressTarget(UnitId target, float deltaTime)
         {
-            if (_statusOwnerRepository.TryGet(target, out StatusOwner statusOwner) == false)
+            ref StatusOwner statusOwner = ref _statusOwnerRepository.Get(target);
+
+            Span<StatusInstance> instances = statusOwner.GetAll();
+
+            for (int i = 0; i < instances.Length; i++)
             {
-                return;
+                ProgressStatus(ref instances[i], deltaTime);
             }
 
-            ReadOnlySpan<StatusId> ids = statusOwner.GetAll();
-
-            foreach (StatusId statusId in ids)
+            for (int i = 0; i < instances.Length; i++)
             {
-                if (_statusRepository.TryGet(statusId, out Status value) == false)
+                ProgressTimer(instances[i].StatusId, deltaTime);
+            }
+
+            for (int i = 0; i < instances.Length; ++i)
+            {
+                StatusInstance instance = instances[i];
+
+                if (instance.Duration.Left > 0)
                 {
                     continue;
                 }
 
-                if (TryExpireStatus(statusOwner, value))
+                if (_statusLifecycleHandler.Expire(instance.StatusId))
                 {
-                    continue;
-                }
+                    instances[i] = instance.MarkDead();
 
-                ProgressStatus(deltaTime, value);
+                    if (statusOwner.NeedCleanup == false)
+                    {
+                        statusOwner = statusOwner.MarkDirty();
+                    }
+                }
             }
         }
 
-        private void ProgressStatus(float deltaTime, Status value)
+        private void ProgressStatus(ref StatusInstance instance, float deltaTime)
         {
-            value.Progreess(deltaTime);
+            Duration duration = instance.Duration.Progress(deltaTime);
+            StatusInstance newInstance = new(instance.StatusId, instance.Type, duration);
+            instance = newInstance;
+        }
 
-            if (value.Duration.Left <= 0)
-            {
-                _statusLifecycleHandler.Expire(value.Id);
-            }
-
-            if (_statusTimerRepository.TryGet(value.Id, out StatusTimer timer))
+        private void ProgressTimer(StatusId id, float deltaTime)
+        {
+            if (_statusTimerRepository.TryGet(id, out StatusTimer timer))
             {
                 timer.TimePassed += deltaTime;
 
                 if (timer.TimePassed > timer.Priod)
                 {
-                    _statusTickHandler.Handle(value.Id);
+                    _statusTickHandler.Handle(id);
                     timer.TimePassed -= timer.Priod;
                 }
 
                 _statusTimerRepository.Update(timer);
             }
-
-            _statusRepository.Update(value);
-        }
-
-        private bool TryExpireStatus(StatusOwner statusOwner, Status status)
-        {
-            if (status.Duration.Left > 0)
-            {
-                return false;
-            }
-
-            _statusLifecycleHandler.Remove(status.Id);
-            _statusRepository.Delete(status.Id);
-            _statusTimerRepository.Delete(status.Id);
-            //_removeStatusEventHandler.HandleEvent(status.Id);
-
-            var buffer = statusOwner.GetAll();
-            Span<StatusId> newValues = stackalloc StatusId[buffer.Length - 1];
-
-            int i = 0;
-            foreach (StatusId value in buffer)
-            {
-                if (value == status.Id)
-                {
-                    continue;
-                }
-
-                newValues[i++] = value;
-            }
-
-            _statusOwnerRepository.Update(new(statusOwner.Id, newValues));
-
-            return true;
         }
     }
 

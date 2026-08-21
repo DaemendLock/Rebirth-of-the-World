@@ -24,6 +24,8 @@ namespace Testing.Local
         private readonly IHitRecordQueue _hitRecordQueue;
         private readonly UnitDeleteUseCase _characterDeleteUseCase;
         private readonly IEncounterStateMachine _encounterState;
+        private readonly StatusOwnerCleanupUseCase _statusCleanupUseCase;
+
         public UpdateController(AttributeOwnerUpdateAllUseCase updateCombatUseCase,
                                 StatusOwnerProgressAllUseCases updateStatusesUseCase,
                                 HitsHandleUseCase handleHitUseCase,
@@ -33,7 +35,8 @@ namespace Testing.Local
                                 ICharacterDeleteQueue characterDeleteQueue,
                                 UnitDeleteUseCase characterDeleteUseCase,
                                 IEncounterStateMachine encounterState,
-                                IHitRecordQueue hitRecordQueue)
+                                IHitRecordQueue hitRecordQueue,
+                                StatusOwnerCleanupUseCase statusCleanupUseCase)
         {
             _attributeOwnerUpdateAllUseCase = updateCombatUseCase;
             _updateStatusesUseCase = updateStatusesUseCase;
@@ -45,6 +48,7 @@ namespace Testing.Local
             _characterDeleteUseCase = characterDeleteUseCase;
             _encounterState = encounterState;
             _hitRecordQueue = hitRecordQueue;
+            _statusCleanupUseCase = statusCleanupUseCase;
         }
 
         public void Tick()
@@ -58,6 +62,8 @@ namespace Testing.Local
             {
                 _characterDeleteUseCase.Execute(characterDelete);
             }
+
+            _statusCleanupUseCase.Execute();
 
             float deltaTime = UnityEngine.Time.deltaTime;
             Updatable[] updateList = _characterUpdateList.GetAll().ToArray();

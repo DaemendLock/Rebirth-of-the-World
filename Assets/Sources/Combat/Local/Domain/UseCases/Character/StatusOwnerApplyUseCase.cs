@@ -1,9 +1,11 @@
 ﻿using Combat.Common.Primitives;
+using Combat.Common.ValueObjects;
 using Combat.Local.Domain.DTO;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Factories;
 using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
+using Combat.Local.Domain.ValueObjects;
 
 using System;
 
@@ -26,54 +28,48 @@ namespace Combat.Local.Domain.UseCases
 
         public void Execute(ApplStatusDTO data)
         {
-            if (_statusOwnerRepository.TryGet(data.Target, out StatusOwner target) == false)
-            {
-                return;
-            }
+            ref StatusOwner target = ref _statusOwnerRepository.Get(data.Target);
 
-            if (TryReapplyStatus(target, data))
+            if (TryReapplyStatus(ref target, data))
             {
                 return;
             }
 
             Status status = _statusFactory.Create(data.StatusName, data.Target, data.InitialDuration, data.InitialStackCount, data.Ability);
-            RegisterStatus(target, status);
+            RegisterStatus(ref target, status);
         }
 
-        private bool TryReapplyStatus(StatusOwner target, ApplStatusDTO data)
+        private bool TryReapplyStatus(ref StatusOwner target, ApplStatusDTO data)
         {
-            ReadOnlySpan<StatusId> ids = target.GetAll();
+            Span<StatusInstance> instances = target.GetAll();
 
             StatusType name = data.StatusName;
 
-            foreach (StatusId id in ids)
+            for (int i = 0; i < instances.Length; i++)
             {
-                if (_statusRepository.TryGet(id, out Status status) == false)
+                StatusInstance instance = instances[i];
+
+                if (instance.Type != name)
                 {
                     continue;
                 }
 
-                if (status.Name != name)
-                {
-                    continue;
-                }
-
-                status.RefreshDuration(data.InitialDuration);
-                _statusRepository.Update(status);
-                _statusLyfecycleHandler.Reapply(status.Id, status.Duration.FullDuration, data.Ability);
+                Duration duration = new(0, data.InitialDuration);
+                instances[i] = new(instance.StatusId, instance.Type, duration);
+                _statusLyfecycleHandler.Reapply(instance.StatusId, duration.FullDuration, data.Ability);
                 return true;
             }
 
             return false;
         }
 
-        private void RegisterStatus(StatusOwner target, Status status)
+        private void RegisterStatus(ref StatusOwner target, Status status)
         {
             var buffer = target.GetAll();
-            System.Span<StatusId> values = stackalloc StatusId[buffer.Length + 1];
+            StatusInstance[] values = new StatusInstance[buffer.Length + 1];
             buffer.CopyTo(values);
-            values[^1] = status.Id;
-            _statusOwnerRepository.Update(new(target.Id, values));
+            values[^1] = new(status.Id, status.Name, status.Duration);
+            target = new(target.Id, values);
             _statusRepository.Create(status);
             _statusLyfecycleHandler.Apply(status);
         }

@@ -148,11 +148,12 @@ namespace Combat.Local.Composition
             Container.Bind<SkillOwnerProgressAllUseCase>().AsSingle();
             Container.Bind<SkillStartCooldownUseCase>().AsSingle();
 
-            Container.Bind<StatusOwnerApplyUseCase>().AsSingle();
             Container.Bind<StatusTimerStartUseCase>().AsSingle();
             Container.Bind<StatusTimerStopUseCase>().AsSingle();
-            Container.Bind<StatusRemoveUseCase>().AsSingle();
+            Container.Bind<StatusOwnerApplyUseCase>().AsSingle();
+            Container.Bind<StatusOwnerRemoveUseCase>().AsSingle();
             Container.Bind<StatusOwnerProgressAllUseCases>().AsSingle();
+            Container.Bind<StatusOwnerCleanupUseCase>().AsSingle();
 
             Container.Bind<AttributeOwnerGetAttributeValueUseCase>().AsSingle();
             Container.Bind<AttributeOwnerGetHasteModifierUseCase>().AsSingle();

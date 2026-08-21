@@ -10,11 +10,11 @@ namespace Combat.Local.Domain.Facades
     {
         private readonly StatusTimerStartUseCase _startStatusTimerUseCase;
         private readonly StatusTimerStopUseCase _stopStatusTimerUseCase;
-        private readonly StatusRemoveUseCase _removeStatusUseCase;
+        private readonly StatusOwnerRemoveUseCase _removeStatusUseCase;
 
         private readonly IStatusRepository _statusRepository;
 
-        public StatusFacade(StatusTimerStartUseCase startStatusTimerUseCase, StatusTimerStopUseCase stopStatusTimerUseCase, StatusRemoveUseCase removeStatusUseCase, IStatusRepository statusRepository)
+        public StatusFacade(StatusTimerStartUseCase startStatusTimerUseCase, StatusTimerStopUseCase stopStatusTimerUseCase, StatusOwnerRemoveUseCase removeStatusUseCase, IStatusRepository statusRepository)
         {
             _startStatusTimerUseCase = startStatusTimerUseCase;
             _stopStatusTimerUseCase = stopStatusTimerUseCase;

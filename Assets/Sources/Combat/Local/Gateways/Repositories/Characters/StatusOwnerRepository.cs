@@ -1,37 +1,27 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
+using Combat.Local.Gateways.DataSources;
 
 using System;
-using System.Collections.Generic;
 
 namespace Combat.Local.Gateways.Repositories.Characters
 {
     public class StatusOwnerRepository : IStatusOwnerRepository
     {
-        private readonly Dictionary<UnitId, StatusId[]> _statusRepository;
+        private readonly ComponentPool<StatusOwner> _values;
 
         public StatusOwnerRepository()
         {
-            _statusRepository = new();
+            _values = new();
         }
 
-        public void Create(StatusOwner statusOwner) => _statusRepository.Add(statusOwner.Id, statusOwner.GetAll().ToArray());
+        public void Create(StatusOwner statusOwner) => _values.Add(statusOwner);
 
-        public void Delete(UnitId id) => _statusRepository.Remove(id);
+        public void Delete(UnitId id) => _values.Remove(id);
 
-        public bool TryGet(UnitId id, out StatusOwner statusOwner)
-        {
-            if (_statusRepository.TryGetValue(id, out StatusId[] values) == false)
-            {
-                statusOwner = new(id, Array.Empty<StatusId>());
-                return false;
-            }
+        public ref StatusOwner Get(UnitId id) => ref _values.Get(id);
 
-            statusOwner = new(id, values);
-            return true;
-        }
-
-        public void Update(StatusOwner statusOwner) => _statusRepository[statusOwner.Id] = statusOwner.GetAll().ToArray();
+        public Span<StatusOwner> GetAll() => _values.GetAll();
     }
 }
