@@ -24,10 +24,11 @@ namespace Combat.Local.Scripting.Factories
 
         public bool CanHandle(SkillId skillId) => true;
 
-        public SkillRuntime Create(UnitId? owner, SkillId skillId)
+        public SkillRuntime Create(AbilityKey abilityKey)
         {
-            DomainSkillContext context = new(new(owner, skillId), _skillMemoryRepository, _eventContext, _sceneApiAdapter.Get().Context);
+            DomainSkillContext context = new(abilityKey, _skillMemoryRepository, _eventContext, _sceneApiAdapter.Get().Context);
             NewScriptCapabilityContainer container = new(new GrowSelfSkillScript());
+
             return new(context, container);
         }
     }

@@ -1,12 +1,11 @@
 using Combat.Common.Primitives;
+using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Endpoints.Skills;
+using Combat.Local.Scripting.Capabilities.Skills;
 using Combat.Local.Scripting.Factories;
-using Combat.Local.Scripting.IDK;
+using Combat.Local.Scripting.Runtime;
 
 using System.Collections.Generic;
-using Combat.Local.Scripting.Runtime;
-using Combat.Local.Scripting.Capabilities.Skills;
-using Combat.Common.ValueObjects;
 
 namespace Combat.Local.Scripting.SkillPorts
 {
@@ -28,7 +27,7 @@ namespace Combat.Local.Scripting.SkillPorts
 
         public void Give(AbilityKey abilityKey)
         {
-            SkillRuntime? properties = GetFactory(abilityKey.Skill)?.Create(abilityKey.Owner, abilityKey.Skill);
+            SkillRuntime? properties = GetFactory(abilityKey.Skill)?.Create(abilityKey);
 
             if (properties.HasValue == false)
             {
@@ -80,23 +79,18 @@ namespace Combat.Local.Scripting.SkillPorts
                 return;
             }
 
-            var handler = properties.Container.GetCapability<IHandleActionPhaseChangeCapability>();
+            var handler = properties.Container.GetCapability<ISkillHandleActionCapability>();
 
             if (newState == ActionState.Startup)
             {
                 properties.CastContexts.PromotePending();
             }
 
-            try
+            handler?.HandlePhaseChange(properties.CastContexts.Current, properties.Context, newState);
+
+            if (newState == ActionState.Inactive)
             {
-                handler?.Handle(properties.Context, properties.CastContexts.Current, newState);
-            }
-            finally
-            {
-                if (newState == ActionState.Inactive)
-                {
-                    properties.CastContexts.CompleteActive();
-                }
+                properties.CastContexts.CompleteActive();
             }
         }
     }

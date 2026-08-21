@@ -18,7 +18,7 @@ namespace Combat.Local.Scripting.Capabilities.Units
             _statusRemoveUseCase = statusRemoveUseCase;
         }
 
-        public void ApplyStatus(ApplyStatusInfo applyStatusInfo) => _statusOwnerApplyUseCase.Execute(new(_owner, applyStatusInfo.Name, applyStatusInfo.Duration, applyStatusInfo.StackCount, applyStatusInfo.Source));
+        public StatusId ApplyStatus(ApplyStatusInfo applyStatusInfo) => _statusOwnerApplyUseCase.Execute(new(_owner, applyStatusInfo.Name, applyStatusInfo.Duration, applyStatusInfo.StackCount, applyStatusInfo.Source));
 
         public void RemoveStatus(StatusId statusId) => _statusRemoveUseCase.Execute(_owner, statusId);
     }

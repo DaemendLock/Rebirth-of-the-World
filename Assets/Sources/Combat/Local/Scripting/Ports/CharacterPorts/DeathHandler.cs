@@ -25,9 +25,6 @@ namespace Combat.Local.Scripting.Ports.CharacterPorts
             _eventContext = eventContext;
         }
 
-        public void Handle(KillRecord record)
-        {
-            _eventContext.Publish<UnitDiedEventData>(new(new(record.Victim)));
-        }
+        public void Handle(KillRecord record) => _eventContext.Publish<UnitDiedEventData>(new(new(record.Victim)));
     }
 }

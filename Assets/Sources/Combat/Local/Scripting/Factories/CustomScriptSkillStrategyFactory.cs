@@ -23,14 +23,14 @@ namespace Combat.Local.Scripting.Factories
 
         public bool CanHandle(SkillId skillId) => _skillDataBase.GetScriptType(skillId) != null;
 
-        public SkillRuntime Create(UnitId? owner, SkillId skillType)
+        public SkillRuntime Create(AbilityKey abilityKey)
         {
-            if (TryCreateEmpty(skillType, out SkillScript script) == false)
+            if (TryCreateEmpty(abilityKey.Skill, out SkillScript script) == false)
             {
                 return default;
             }
 
-            script.Init(_skillApiAdapter.Adaptee(new(owner, skillType)));
+            script.Init(_skillApiAdapter.Adaptee(abilityKey));
             return new(null, new OldSkillCapabilityProvider(script, _characterApiAdapter));
         }
 

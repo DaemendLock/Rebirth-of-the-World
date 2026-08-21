@@ -7,7 +7,8 @@ namespace Combat.Local.Scripting.Idk
     public sealed class NewScriptCapabilityContainer : ISkillCapabilityProvider
     {
         private readonly ISkillExecuteCapability _skillExecuteCapability;
-        private readonly IHandleActionPhaseChangeCapability _skillHandleActionStateChangeCapability;
+
+        private readonly ISkillHandleActionCapability _skillHandleActionStateChangeCapability;
 
         public NewScriptCapabilityContainer(ISkillScriptNew script)
         {
@@ -29,7 +30,7 @@ namespace Combat.Local.Scripting.Idk
                 return _skillExecuteCapability as T;
             }
 
-            if (typeof(T) == typeof(IHandleActionPhaseChangeCapability))
+            if (typeof(T) == typeof(ISkillHandleActionCapability))
             {
                 return _skillHandleActionStateChangeCapability as T;
             }

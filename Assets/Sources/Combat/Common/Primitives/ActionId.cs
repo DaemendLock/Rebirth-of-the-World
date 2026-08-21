@@ -2,6 +2,7 @@
 
 namespace Combat.Common.Primitives
 {
+
     public readonly struct ActionId : IEquatable<ActionId>
     {
         public readonly int Value;

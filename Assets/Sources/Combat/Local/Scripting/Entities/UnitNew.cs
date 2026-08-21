@@ -1,9 +1,12 @@
 ﻿using Combat.API;
 using Combat.API.Capabilities;
+using Combat.API.Contexts;
 using Combat.Common.Primitives;
 using Combat.Local.Domain.Facades;
 using Combat.Local.Domain.UseCases;
 using Combat.Local.Scripting.Capabilities.Units;
+
+using System.Collections.Generic;
 
 namespace Combat.Local.Scripting
 {
@@ -15,6 +18,8 @@ namespace Combat.Local.Scripting
 
         private readonly IStatusCapability _statusCapability;
 
+        private readonly List<ScaleEffectId> _scaleEffectIds;
+
         public UnitNew(UnitId id, HealthOwnerFacade healthOwnerFacade, CharacterFacade characterFacade, StatusOwnerApplyUseCase statusApplyUseCase, StatusRemoveUseCase statusRemoveUse)
         {
             _id = id;
@@ -22,6 +27,7 @@ namespace Combat.Local.Scripting
             _characterFacade = characterFacade;
 
             _statusCapability = new StatusApplyRemoveCapabilty(_id, statusApplyUseCase, statusRemoveUse);
+            _scaleEffectIds = new();
         }
 
         public UnitId Id => _id;
@@ -56,6 +62,16 @@ namespace Combat.Local.Scripting
             }
 
             return null;
+        }
+
+        public void Cleanup()
+        {
+            foreach (var id in _scaleEffectIds)
+            {
+                _characterFacade.StopScaleOverTime(id);
+            }
+
+            _scaleEffectIds.Clear();
         }
     }
 }

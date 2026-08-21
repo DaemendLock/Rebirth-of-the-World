@@ -17,9 +17,9 @@ namespace TestSkillsPack.Paladin
 
     public sealed class Paladin_1New : ICastableNew
     {
-        public bool OnCast(IActor actor, ISkillContext skillContext)
+        public bool OnCast(ICastContext actor, ISkillContext skillContext)
         {
-            skillContext.GetCapability<IEncounterContext>().CreateStatus(new(actor.Id, "Paladin1Aura", 1f, 1, skillContext.Key));
+            skillContext.GetCapability<IEncounterContext>().CreateStatus(new(actor.Caster.Id, "Paladin1Aura", 1f, 1, skillContext.Key));
             return false;
         }
     }

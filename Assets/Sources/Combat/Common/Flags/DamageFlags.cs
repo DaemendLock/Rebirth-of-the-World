@@ -2,6 +2,7 @@
 
 namespace Combat.Common.Flags
 {
+
     [Flags]
     public enum DamageFlags
     {

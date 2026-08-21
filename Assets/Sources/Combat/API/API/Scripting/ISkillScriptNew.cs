@@ -1,4 +1,5 @@
 ﻿using Combat.API.Contexts;
+using Combat.Common.ValueObjects;
 
 namespace Combat.API.Scripting
 {
@@ -20,6 +21,6 @@ namespace Combat.API.Scripting
 
         void OnEnded(ISkillContext skillContext, ICastContext castContext) { }
         void OnCancel(ISkillContext skillContext, ICastContext castContext) { }
-        void OnInterrupt(ISkillContext skillContext, ICastContext castContext) { }
+        void OnInterrupt(ISkillContext skillContext, ICastContext castContext, InterruptReason reason) { }
     }
 }

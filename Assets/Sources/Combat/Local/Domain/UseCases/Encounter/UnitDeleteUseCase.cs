@@ -1,4 +1,5 @@
 ﻿using Combat.Common.Primitives;
+using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Endpoints.Skills;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.OutputPorts;

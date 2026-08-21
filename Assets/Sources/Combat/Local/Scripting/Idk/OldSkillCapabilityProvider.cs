@@ -12,7 +12,7 @@ namespace Combat.Local.Scripting.Idk
 
         private readonly ISkillExecuteCapability _skillExecuteCapability;
         private readonly ISkillHitCapability _skillHitHandleCapability;
-        private readonly IHandleActionPhaseChangeCapability _skillHandleActionStateChangeCapability;
+        private readonly ISkillHandleActionCapability _skillHandleActionStateChangeCapability;
 
         private readonly ITargettableSkill _lockTargetStrategy;
 
@@ -27,7 +27,7 @@ namespace Combat.Local.Scripting.Idk
 
             if (script is ICastStateChangeHandler castStateChangeHandler)
             {
-                _skillHandleActionStateChangeCapability = new HandleActionPhaseChangeCapability(castStateChangeHandler);
+                _skillHandleActionStateChangeCapability = new HandleSkillActionStateChangeCapability(castStateChangeHandler);
             }
 
             if (script is IHitHandler hitHandler)
@@ -50,7 +50,7 @@ namespace Combat.Local.Scripting.Idk
                 return _skillHitHandleCapability as T;
             }
 
-            if (typeof(T) == typeof(IHandleActionPhaseChangeCapability))
+            if (typeof(T) == typeof(ISkillHandleActionCapability))
             {
                 return _skillHandleActionStateChangeCapability as T;
             }

@@ -6,6 +6,6 @@ namespace Combat.Local.Scripting.Factories
     public interface ISkillRuntimeFactory
     {
         bool CanHandle(SkillId skillId);
-        SkillRuntime Create(UnitId? owner, SkillId skillId);
+        SkillRuntime Create(AbilityKey abilityKey);
     }
 }

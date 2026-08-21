@@ -24,23 +24,24 @@ namespace Combat.Local.Domain.UseCases
             _statusLyfecycleHandler = statusInitCleanupPort;
         }
 
-        public void Execute(ApplStatusDTO data)
+        public StatusId Execute(ApplStatusDTO data)
         {
             if (_statusOwnerRepository.TryGet(data.Target, out StatusOwner target) == false)
             {
-                return;
+                throw new System.InvalidOperationException("No status owner found");
             }
 
-            if (TryReapplyStatus(target, data))
+            if (TryReapplyStatus(target, data, out StatusId id))
             {
-                return;
+                return id;
             }
 
             Status status = _statusFactory.Create(data.StatusName, data.Target, data.InitialDuration, data.InitialStackCount, data.Ability);
             RegisterStatus(target, status);
+            return status.Id;
         }
 
-        private bool TryReapplyStatus(StatusOwner target, ApplStatusDTO data)
+        private bool TryReapplyStatus(StatusOwner target, ApplStatusDTO data, out StatusId result)
         {
             ReadOnlySpan<StatusId> ids = target.GetAll();
 
@@ -61,9 +62,11 @@ namespace Combat.Local.Domain.UseCases
                 status.RefreshDuration(data.InitialDuration);
                 _statusRepository.Update(status);
                 _statusLyfecycleHandler.Reapply(status.Id, status.Duration.FullDuration, data.Ability);
+                result = id;
                 return true;
             }
 
+            result = default;
             return false;
         }
 

@@ -68,6 +68,25 @@ namespace Combat.Local.Scripting.Runtime
         }
     }
 
+    public readonly struct CastRuntime
+    {
+        public readonly DomainCastContext Context;
+        public readonly ISkillCapabilityProvider Container;
+
+        public CastRuntime(DomainCastContext context, ISkillCapabilityProvider container)
+        {
+            Context = context;
+            Container = container;
+        }
+    }
+
+    public interface ICastRuntimeRegistry
+    {
+        void Create(AbilityKey key, CastRuntime castRuntime);
+        void Remove(AbilityKey key);
+        bool TryGet(AbilityKey key, out CastRuntime castRuntime);
+    }
+
     public interface ISkillRuntimeRegistry
     {
         void Create(AbilityKey id, SkillRuntime value);

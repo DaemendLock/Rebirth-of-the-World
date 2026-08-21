@@ -1,16 +1,9 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.Primitives;
+using Combat.Common.ValueObjects;
 
 namespace Combat.Local.Domain.Entities
 {
-    public enum InterruptReason
-    {
-        None,
-        Chained,
-        Death,
-        Forced
-    }
-
     public sealed class Action
     {
         private readonly IActionStrategy _strategy;
@@ -45,10 +38,7 @@ namespace Combat.Local.Domain.Entities
             _strategy.Progress(deltaTime);
         }
 
-        public void Interrupt(InterruptReason reason)
-        {
-            _strategy.Interrupt(reason);
-        }
+        public void Interrupt(InterruptReason reason) => _strategy.Interrupt(reason);
 
         public bool TryGet<T>(out T capability) where T : class
         {

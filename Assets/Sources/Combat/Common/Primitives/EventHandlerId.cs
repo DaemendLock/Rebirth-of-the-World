@@ -2,7 +2,6 @@
 
 namespace Combat.Common.Primitives
 {
-
     public readonly struct EventHandlerId : IEquatable<EventHandlerId>
     {
         public readonly int Value;

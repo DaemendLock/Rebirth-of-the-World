@@ -2,6 +2,7 @@
 
 namespace Combat.Common.ValueObjects
 {
+
     [Serializable]
     public struct AttributeValue
     {
