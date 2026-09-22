@@ -1,6 +1,7 @@
-﻿using Lobby.Common.Primitives;
+﻿using Combat.Common.Primitives;
+
+using Lobby.Common.Primitives;
 using Lobby.Local.Domain.Entities;
-using Lobby.Local.Domain.Repositories;
 
 using System;
 
@@ -10,7 +11,7 @@ namespace Lobby.Local.Domain.UseCases.Accounts
     {
         private long _lastAccountId;
 
-        public Account Create(string name, string title, int level, CharacterKey? avatarCharacterId)
+        public AccountInfo Create(string name, string title, int level, CharacterKey? avatarCharacterId)
         {
             AccountId accountId = new(++_lastAccountId);
 
@@ -27,13 +28,11 @@ namespace Lobby.Local.Domain.UseCases.Accounts
     public sealed class AccountCreateUseCase
     {
         private readonly AccountFactory _factory;
-        private readonly IAccountRepository _accountRepository;
         private readonly IAccountCreateOutput _accountCreateOutput;
         private readonly LobbySession _lobbySession;
 
-        public AccountCreateUseCase(IAccountRepository accountRepository, IAccountCreateOutput accountCreateOutput, LobbySession lobbySession)
+        public AccountCreateUseCase(IAccountCreateOutput accountCreateOutput, LobbySession lobbySession)
         {
-            _accountRepository = accountRepository;
             _accountCreateOutput = accountCreateOutput;
             _lobbySession = lobbySession;
             _factory = new();
@@ -62,7 +61,7 @@ namespace Lobby.Local.Domain.UseCases.Accounts
 
             var account = _factory.Create(name, title, level, avatarCharacterId);
 
-            _accountRepository.Create(account);
+            //_accountRepository.Create(account);
             _lobbySession.SetActiveAccount(account.Id);
             _accountCreateOutput.Present(account);
             return account.Id;
@@ -71,6 +70,6 @@ namespace Lobby.Local.Domain.UseCases.Accounts
 
     public interface IAccountCreateOutput
     {
-        void Present(Account account);
+        void Present(AccountInfo account);
     }
 }

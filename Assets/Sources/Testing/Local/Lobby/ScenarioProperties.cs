@@ -1,4 +1,5 @@
-using Lobby.Local.Domain.UseCases.Scenarios;
+using Game.Application.UseCases.Scenarios;
+
 using Lobby.Local.Presentation.View;
 using Lobby.Local.Presentation.Widgets;
 

@@ -1,7 +1,5 @@
 ﻿using Lobby.Local.Domain.Entities;
 using Lobby.Local.Domain.UseCases.Accounts;
-
-using Lobby.Local.Domain.Repositories;
 using Lobby.Local.Presentation.Misc;
 using Lobby.Local.Presentation.View.MainMenu;
 using Lobby.Local.Presentation.ViewModels.MainMenu;
@@ -21,7 +19,7 @@ namespace Lobby.Local.Presentation.Presenters
             _view = view;
         }
 
-        public void PresentCurrent(Account account)
+        public void PresentCurrent(AccountInfo account)
         {
             Sprite avatar = _view.CurrentAvatar;
 
@@ -40,7 +38,7 @@ namespace Lobby.Local.Presentation.Presenters
             });
         }
 
-        void IAccountCreateOutput.Present(Account account)
+        void IAccountCreateOutput.Present(AccountInfo account)
         {
             PresentCurrent(account);
         }

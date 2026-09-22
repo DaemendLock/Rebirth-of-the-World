@@ -1,4 +1,5 @@
-﻿using Lobby.Common.Primitives;
+﻿using Combat.Common.Primitives;
+
 using Lobby.Local.Domain.ValueObjects;
 
 namespace Lobby.Local.Domain.Entities.Characters

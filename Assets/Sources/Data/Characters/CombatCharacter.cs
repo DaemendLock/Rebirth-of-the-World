@@ -25,15 +25,6 @@ namespace Data.Characters
     }
 
     [Serializable]
-    public sealed class CharacterResourceInfo
-    {
-        [SerializeField] private int _id;
-        [field: SerializeField, Min(0)] public float MaxValue { get; private set; }
-
-        public ResourceId ResourceId => new(_id);
-    }
-
-    [Serializable]
     public sealed class AttributeInfo
     {
         [field: SerializeField] public UnitAttribute Attribute { get; private set; }

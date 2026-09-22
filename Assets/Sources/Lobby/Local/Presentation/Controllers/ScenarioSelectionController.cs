@@ -1,8 +1,8 @@
-﻿using Lobby.Common.Primitives;
-using Lobby.Local.Domain.Entities;
-using Lobby.Local.Domain.Repositories;
-using Lobby.Local.Domain.UseCases.Accounts;
-using Lobby.Local.Domain.UseCases.Scenarios;
+﻿using Game.Application.DTO;
+using Game.Application.Outputs;
+
+using Lobby.Common.Primitives;
+using Lobby.Local.Application.UseCases.Scenarios;
 using Lobby.Local.Presentation.ViewModels.ScenarioSelection;
 using Lobby.Local.Presentation.Widgets;
 
@@ -13,25 +13,28 @@ using UnityEngine.EventSystems;
 
 namespace Lobby.Local.Presentation.View
 {
-    public sealed class ScenarioSelectionController : MonoBehaviour, IPointerClickHandler
+    public sealed class ScenarioSelectionController : MonoBehaviour, IPointerClickHandler, IAccountAvailableScenariosOutput
     {
-        [Zenject.Inject] private readonly AccountGetAvailableScenariosUseCase _getAvailableScenariosUseCase;
-        [Zenject.Inject] private readonly ScenarioJoinUseCase _scenarioJoinUse;
-        [Zenject.Inject] private readonly IScenarioRepository _scenarioRepository;
+        [Zenject.Inject] private readonly ScenarioRequestJoinUseCase _scenarioJoinUse;
 
         private readonly Dictionary<ScenarioId, ScenarioCardWidget> _views = new();
+        private readonly Stack<ScenarioCardWidget> _objectPool = new();
 
         [SerializeField] private Transform _scenarioContainer;
         [SerializeField] private ScenarioCardWidget _prefab;
         [SerializeField] private Sprite _defaultScenarioIcon;
 
-        [SerializeField] private TeamSetupController _teamSetupController;
-
-        private void Start()
+        void IAccountAvailableScenariosOutput.Notify(AccountId accountId, ScenarioInfo[] scenarios)
         {
-            var values = _getAvailableScenariosUseCase.Execute();
+            foreach (var item in _views.Values)
+            {
+                item.Hide();
+                _objectPool.Push(item);
+            }
 
-            foreach (ScenarioId scenario in values)
+            _views.Clear();
+
+            foreach (var scenario in scenarios)
             {
                 AddScenario(scenario);
             }
@@ -43,42 +46,52 @@ namespace Lobby.Local.Presentation.View
             {
                 return;
             }
+
             _views.Add(id, view);
         }
 
-        public void AddScenario(ScenarioId id)
+        public void AddScenario(ScenarioInfo info)
         {
-            if (_views.ContainsKey(id))
+            if (_views.ContainsKey(info.Id))
             {
                 return;
             }
 
-            Scenario data = _scenarioRepository.Get(id);
-
             ScenarioViewModel viewModel = new()
             {
-                Icon = GetIcon(data),
-                LocalizedName = data.Name,
+                Icon = GetIcon(info),
+                LocalizedName = info.Name,
             };
 
-            if (_views.TryGetValue(id, out ScenarioCardWidget widget) == false)
+            if (_views.TryGetValue(info.Id, out ScenarioCardWidget widget) == false)
             {
-                widget = Instantiate(_prefab, _scenarioContainer);
-                _views.Add(id, widget);
+                if (_objectPool.TryPop(out widget) == false)
+                {
+                    widget = Instantiate(_prefab, _scenarioContainer);
+                }
+
+                _views.Add(info.Id, widget);
             }
 
-            //widget.Show(viewModel);
+            widget.Show(viewModel);
         }
 
-        private Sprite GetIcon(Scenario scenario)
+        private Sprite GetIcon(ScenarioInfo scenario)
         {
             return _defaultScenarioIcon;
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            ScenarioId? scenarioId = default;
+            if (TryGetClickedScenario(eventData, out ScenarioId scenarioId))
+            {
+                _scenarioJoinUse.Execute(scenarioId);
+                return;
+            }
+        }
 
+        private bool TryGetClickedScenario(PointerEventData eventData, out ScenarioId result)
+        {
             foreach (var val in _views)
             {
                 if (eventData.hovered.Contains(val.Value.gameObject) == false)
@@ -86,17 +99,12 @@ namespace Lobby.Local.Presentation.View
                     continue;
                 }
 
-                scenarioId = val.Key;
-                break;
+                result = val.Key;
+                return true;
             }
 
-            if (scenarioId == null)
-            {
-                return;
-            }
-
-            _scenarioJoinUse.Execute(scenarioId.Value);
-            _teamSetupController.SetupScenario();
+            result = default;
+            return false;
         }
     }
 }

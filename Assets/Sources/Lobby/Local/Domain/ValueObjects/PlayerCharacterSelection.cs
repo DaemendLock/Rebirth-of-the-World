@@ -1,4 +1,6 @@
-﻿using Lobby.Common.Primitives;
+﻿using Combat.Common.Primitives;
+
+using Lobby.Common.Primitives;
 
 namespace Lobby.Local.Domain.ValueObjects
 {

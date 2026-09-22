@@ -48,7 +48,7 @@ namespace Combat.Local.Domain.UseCases.Encounter
             _characterDefinitionProvider = characterDefinitionProvider;
         }
 
-        public UnitId Execute(CharacterKey charcterKey, Team team, UnityEngine.Vector3 position, float? baseHealth = null)
+        public UnitId Execute(CharacterKey charcterKey, Team team, UnityEngine.Vector3 position, float? baseHealth = null, SkillId[] skills = null)
         {
             CharacterDefinition characterDefinition = _characterDefinitionProvider.Get(charcterKey);
             Span<ResourceValue> resources = stackalloc ResourceValue[characterDefinition.Resources.Length];
@@ -67,7 +67,7 @@ namespace Combat.Local.Domain.UseCases.Encounter
                     baseHealth ?? characterDefinition.BaseHealth,
                     characterDefinition.BaseAttributes,
                     resources,
-                    characterDefinition.Skills
+                    skills ?? characterDefinition.Skills
                 );
 
             return _unitCreateUseCase.Execute(unitInfo);

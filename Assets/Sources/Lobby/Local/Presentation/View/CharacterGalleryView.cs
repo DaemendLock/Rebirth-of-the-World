@@ -1,4 +1,5 @@
-﻿using Lobby.Common.Primitives;
+﻿using Combat.Common.Primitives;
+
 using Lobby.Local.Presentation.Controllers;
 using Lobby.Local.Presentation.Misc;
 using Lobby.Local.Presentation.ViewModels;

@@ -1,5 +1,5 @@
-﻿using Lobby.Common.Primitives;
-using Lobby.Local.Domain.UseCases.Scenarios;
+﻿using Combat.Common.Primitives;
+
 using Lobby.Local.Domain.ValueObjects;
 using Lobby.Local.Presentation.Controllers;
 using Lobby.Local.Presentation.Misc;
@@ -54,7 +54,7 @@ namespace Lobby.Local.Presentation.View
                 if (_selectButton.activeSelf)
                 {
                     //TODO: Sheet session
-                    if (_controller.Select(_characterId))
+                    if (_controller.Pick(_characterId))
                     {
                         _navigationService.OpenTab(_openOnSelect);
                     }

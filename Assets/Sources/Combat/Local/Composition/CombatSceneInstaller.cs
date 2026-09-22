@@ -39,7 +39,7 @@ using Combat.Local.Scripting.Ports.Statuses;
 using Combat.Local.Scripting.Runtime;
 using Combat.Local.Scripting.SkillPorts;
 
-using Global.Local.DTO;
+using Game.Application.DTO;
 
 using UnityEngine;
 

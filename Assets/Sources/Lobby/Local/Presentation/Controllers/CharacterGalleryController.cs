@@ -1,4 +1,6 @@
-﻿using Lobby.Common.Primitives;
+﻿using Combat.Common.Primitives;
+
+using Lobby.Common.Primitives;
 using Lobby.Local.Domain.Entities;
 using Lobby.Local.Domain.UseCases.CharacterGallery;
 using Lobby.Local.Presentation.Misc;

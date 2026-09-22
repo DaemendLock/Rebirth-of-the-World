@@ -26,5 +26,12 @@ namespace Lobby.Local.Presentation.Widgets
         {
             gameObject.SetActive(false);
         }
+
+        public void Show(ScenarioViewModel scenarioViewModel)
+        {
+            _icon.sprite = scenarioViewModel.Icon;
+            _nameField.text = scenarioViewModel.LocalizedName;
+            gameObject.SetActive(true);
+        }
     }
 }

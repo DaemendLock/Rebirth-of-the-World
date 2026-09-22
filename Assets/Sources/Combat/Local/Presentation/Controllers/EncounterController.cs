@@ -8,6 +8,8 @@ using Combat.Local.Domain.UseCases.Scene;
 using Combat.Local.Domain.ValueObjects;
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using UnityEngine;
 
@@ -69,10 +71,7 @@ namespace Combat.Local.Controllers
 
         public bool Resume() => _stateMachine.TryResume();
 
-        public void Finalize(EncounterState reason)
-        {
-            _endEncounterUseCase.Execute(reason);
-        }
+        public void Finalize(EncounterState reason) => _endEncounterUseCase.Execute(reason);
 
         public UnitId CreateUnit(UnitCreationInfo data)
         {
@@ -86,9 +85,12 @@ namespace Combat.Local.Controllers
             _createUnitUseCase.Execute(targetId, unitCreationDTO);
         }
 
-        public UnitId CreateCharacter(CharacterKey charcterKey, Team team, UnityEngine.Vector3 position, float? baseHealth = null)
+        public UnitId CreateCharacter(CharacterKey charcterKey, Team team, UnityEngine.Vector3 position, float? baseHealth = null,
+            IReadOnlyCollection<int> skills = null)
         {
-            return _createCharacterUseCase.Execute(charcterKey, team, position, baseHealth);
+            SkillId[] skillIds = skills?.Select(value => new SkillId(value)).ToArray();
+
+            return _createCharacterUseCase.Execute(charcterKey, team, position, baseHealth, skillIds);
         }
     }
 }

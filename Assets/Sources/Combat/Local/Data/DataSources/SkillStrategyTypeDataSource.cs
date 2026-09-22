@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Combat.Local.Data.Databases
 {
-    public class SkillStrategyTypeDataSource
+    public sealed class SkillStrategyTypeDataSource
     {
         private readonly Type _targetType;
         private readonly Dictionary<string, Type> _typesByName;

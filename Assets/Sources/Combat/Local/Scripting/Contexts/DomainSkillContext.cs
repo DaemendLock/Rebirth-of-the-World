@@ -10,7 +10,6 @@ using System.Runtime.InteropServices;
 
 namespace Combat.Local.Scripting.Contexts
 {
-
     public sealed class DomainSkillContext : ISkillContext
     {
         private readonly AbilityKey _key;

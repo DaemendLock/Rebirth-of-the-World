@@ -1,4 +1,4 @@
-﻿using Lobby.Common.Primitives;
+﻿using Combat.Common.Primitives;
 
 using UnityEngine;
 

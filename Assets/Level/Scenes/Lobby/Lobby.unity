@@ -14481,7 +14481,6 @@ MonoBehaviour:
   _scenarioContainer: {fileID: 207924650}
   _prefab: {fileID: 5513003755560695670, guid: f0aa76185d20b35498be8b903e487c0d, type: 3}
   _defaultScenarioIcon: {fileID: 21300000, guid: ccccba1452ede90479173ca212efc0e9, type: 3}
-  _teamSetupController: {fileID: 1958639287}
 --- !u!114 &1343733991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18181,8 +18180,8 @@ GameObject:
   - component: {fileID: 1958639285}
   - component: {fileID: 1958639284}
   - component: {fileID: 1958639283}
-  - component: {fileID: 1958639287}
   - component: {fileID: 1958639288}
+  - component: {fileID: 1958639289}
   m_Layer: 5
   m_Name: TeamSetup
   m_TagString: Untagged
@@ -18278,24 +18277,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1958639287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1958639282}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13460f2029d951849a1ead7d6a89141d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _startButton: {fileID: 1868282352}
-  _leaveButton: {fileID: 318016377}
-  _prefab: {fileID: 2536108215678262229, guid: d6b0719e3c3db3a43b8f995bec6db886, type: 3}
-  _slotParent: {fileID: 2029397198}
-  _defaultIcon: {fileID: 0}
-  _galleryTab: {fileID: 511210937}
 --- !u!114 &1958639288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18309,6 +18290,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 3
+--- !u!114 &1958639289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958639282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df63b5e06e1797047ac875a4039ba59e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _startButton: {fileID: 1868282352}
+  _leaveButton: {fileID: 318016377}
+  _prefab: {fileID: 2536108215678262229, guid: d6b0719e3c3db3a43b8f995bec6db886, type: 3}
+  _slotParent: {fileID: 2029397198}
+  _defaultIcon: {fileID: 21300000, guid: ccccba1452ede90479173ca212efc0e9, type: 3}
+  _galleryTab: {fileID: 511210937}
 --- !u!1 &1959284428
 GameObject:
   m_ObjectHideFlags: 0

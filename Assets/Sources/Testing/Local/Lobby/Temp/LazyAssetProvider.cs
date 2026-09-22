@@ -1,6 +1,7 @@
-﻿using Data.Characters;
+﻿using Combat.Common.Primitives;
 
-using Lobby.Common.Primitives;
+using Data.Characters;
+
 using Lobby.Local.Presentation.Misc;
 
 using System.Collections.Generic;
@@ -12,16 +13,16 @@ namespace Assets.Sources.Testing.Local.Lobby.Temp
 {
     public sealed class LazyAssetProvider : MonoBehaviour, IAssetProvider
     {
-        private Dictionary<CharacterKey, LobbyCharacter> _values;
+        private Dictionary<CharacterKey, CharacterDefinitionAsset> _values;
 
         private void Start()
         {
-            _values = Resources.LoadAll<LobbyCharacter>("LobbyCharacters").ToDictionary(value => value.Id);
+            _values = Resources.LoadAll<CharacterDefinitionAsset>("CharacterDefinitions").ToDictionary(value => value.Id);
         }
 
         public string GetCharacterName(CharacterKey id)
         {
-            if (!_values.TryGetValue(id, out LobbyCharacter character))
+            if (!_values.TryGetValue(id, out CharacterDefinitionAsset character))
             {
                 return null;
             }
@@ -31,7 +32,7 @@ namespace Assets.Sources.Testing.Local.Lobby.Temp
 
         public Sprite GetCharacterIcon(CharacterKey id)
         {
-            if (!_values.TryGetValue(id, out LobbyCharacter character))
+            if (!_values.TryGetValue(id, out CharacterDefinitionAsset character))
             {
                 return null;
             }
@@ -41,7 +42,7 @@ namespace Assets.Sources.Testing.Local.Lobby.Temp
 
         public Sprite GetCharacterPhoto(CharacterKey id)
         {
-            if (!_values.TryGetValue(id, out LobbyCharacter character))
+            if (!_values.TryGetValue(id, out CharacterDefinitionAsset character))
             {
                 return null;
             }
