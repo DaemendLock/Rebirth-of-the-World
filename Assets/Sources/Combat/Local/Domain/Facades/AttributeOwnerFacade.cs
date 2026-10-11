@@ -2,7 +2,7 @@
 using Combat.Common.ValueObjects;
 using Combat.Local.Domain.UseCases;
 
-namespace Combat.Local.Domain.Facades
+namespace Combat.Local.Application.Facades
 {
     public readonly struct AttributeOwnerFacade
     {

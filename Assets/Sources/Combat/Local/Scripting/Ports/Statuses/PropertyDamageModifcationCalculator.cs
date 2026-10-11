@@ -1,6 +1,6 @@
 using Combat.Common.Flags;
 using Combat.Common.Primitives;
-using Combat.Local.Domain.OutputPorts.Statuses;
+using Combat.Local.Application.Queries.Statuses;
 using Combat.Local.Domain.ValueObjects;
 using Combat.Local.Scripting.Capabilities.Statuses;
 using Combat.Local.Scripting.Runtime;
@@ -9,7 +9,7 @@ using System;
 
 namespace Combat.Local.Scripting.Ports.Statuses
 {
-    public sealed class PropertyDamageModifcationCalculator : IHealingDamageModifierCalculator
+    public sealed class PropertyDamageModifcationCalculator : IHealingDamageModificationCalculator
     {
         private readonly IStatusRuntimeRegistry _statusRegistry;
 
@@ -66,7 +66,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
             return result;
         }
 
-        public HealingModification GetHealingModification(ReadOnlySpan<StatusId> values, in HealingInstance instance)
+        public HealingModification GetHealerModification(ReadOnlySpan<StatusId> values, in HealingInstance instance)
         {
             HealingModification result = new(0, 0, 0, HealingFlags.None);
 

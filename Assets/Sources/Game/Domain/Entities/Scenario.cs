@@ -8,13 +8,13 @@ namespace Game.Domain.Entities
 {
     public sealed class Scenario
     {
-        private readonly ScenarioMemberInfo?[] _members;
+        public ScenarioMemberInfo?[] Members { get; }
 
         public Scenario(ScenarioId id, string locationName, ScenarioMemberInfo?[] members)
         {
             Id = id;
             LocationName = locationName;
-            _members = members;
+            Members = members;
         }
 
         public ScenarioId Id { get; }
@@ -23,14 +23,14 @@ namespace Game.Domain.Entities
 
         public void Join(AccountId accountId)
         {
-            for (int i = 0; i < _members.Length; i++)
+            for (int i = 0; i < Members.Length; i++)
             {
-                if (_members[i].HasValue)
+                if (Members[i].HasValue)
                 {
                     continue;
                 }
 
-                _members[i] = new(accountId, default, default);
+                Members[i] = new(accountId, default, default);
                 return;
             }
 
@@ -39,9 +39,9 @@ namespace Game.Domain.Entities
 
         public void Leave(AccountId accountId)
         {
-            for (int i = 0; i < _members.Length; i++)
+            for (int i = 0; i < Members.Length; i++)
             {
-                ScenarioMemberInfo? member = _members[i];
+                ScenarioMemberInfo? member = Members[i];
 
                 if (member.HasValue == false)
                 {
@@ -53,7 +53,7 @@ namespace Game.Domain.Entities
                     continue;
                 }
 
-                _members[i] = null;
+                Members[i] = null;
                 return;
             }
 
@@ -67,9 +67,9 @@ namespace Game.Domain.Entities
                 throw new InvalidOperationException($"Player(Id: {accountId}) can't select character: Not allowed");
             }
 
-            for (int i = 0; i < _members.Length; i++)
+            for (int i = 0; i < Members.Length; i++)
             {
-                var item = _members[i];
+                var item = Members[i];
 
                 if (item.HasValue == false)
                 {
@@ -81,7 +81,7 @@ namespace Game.Domain.Entities
                     continue;
                 }
 
-                _members[i] = new(accountId, characterSelection?.CharacterKey, item.Value.TeamId);
+                Members[i] = new(accountId, characterSelection?.CharacterKey, item.Value.TeamId);
                 return;
             }
         }
@@ -92,7 +92,7 @@ namespace Game.Domain.Entities
                 return true;
             }
 
-            foreach (var selection in _members)
+            foreach (var selection in Members)
             {
                 if (selection.HasValue == false)
                 {

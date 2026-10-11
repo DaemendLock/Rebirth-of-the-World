@@ -15,7 +15,7 @@ namespace Lobby.Local.Gateways.Models
         {
             Name = scenario.Name;
             LocationName = scenario.LocationName;
-            Members = scenario._members.ToArray();
+            Members = scenario.Members.ToArray();
         }
 
         public string Name { get; set; }
@@ -23,7 +23,7 @@ namespace Lobby.Local.Gateways.Models
 
         public void UpdateFrom(Scenario scenario)
         {
-            scenario._members.CopyTo(Members, 0);
+            scenario.Members.CopyTo(Members, 0);
             Name = scenario.Name;
             LocationName = scenario.LocationName;
         }

@@ -20,7 +20,7 @@ namespace Lobby.Local.Gateways.Repositories
         public Scenario Get(ScenarioId id) => _values[id];
 
         public ScenarioId? GetScenarioByAccount(AccountId accountId) =>
-            _values.Values.FirstOrDefault(value => value._members.Any(
+            _values.Values.FirstOrDefault(value => value.Members.Any(
                 member => member.HasValue && member.Value.AccountId == accountId))?.Id;
     }
 }

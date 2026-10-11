@@ -1,7 +1,7 @@
 ﻿using Combat.API.Contexts;
 using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Facades;
+using Combat.Local.Application.Facades;
 
 namespace Combat.Local.Scripting.Contexts
 {

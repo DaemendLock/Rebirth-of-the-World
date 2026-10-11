@@ -2,6 +2,21 @@
 
 namespace Combat.Domain.OldAttributes
 {
+    public interface IAttribute
+    {
+        public UnitAttribute Value { get; }
+    }
+
+    public readonly struct AtkAttributeType : IAttribute
+    {
+        public UnitAttribute Value => UnitAttribute.Atk;
+    }
+
+    public ref struct NewAttributesSet
+    {
+
+    }
+
     public ref struct AttributeSet
     {
         public float Attack { get; set; }

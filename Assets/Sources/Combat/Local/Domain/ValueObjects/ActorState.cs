@@ -5,6 +5,7 @@ namespace Combat.Local.Domain.ValueObjects
     public enum ConsciousState
     {
         Alive,
+        Downed,
         Dead,
     }
 

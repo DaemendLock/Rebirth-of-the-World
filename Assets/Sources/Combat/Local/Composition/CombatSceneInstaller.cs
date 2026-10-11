@@ -1,6 +1,8 @@
 ﻿using Combat.API.Adapters;
 using Combat.API.Contexts;
 using Combat.API.Scripting;
+using Combat.Local.Application.Facades;
+using Combat.Local.Application.Queries.Statuses;
 using Combat.Local.Controllers;
 using Combat.Local.Data.Databases;
 using Combat.Local.Data.DataSources;
@@ -203,8 +205,8 @@ namespace Combat.Local.Composition
             Container.Bind<PropertyStatusLifecycleHandler>().AsSingle();
             Container.Bind<IStatusLifecycleHandler>().To<PropertyStatusLifecycleHandler>().FromResolve();
             Container.Bind<IStatusTickHandler>().To<StatusPropertyTickHandler>().AsSingle();
-            Container.Bind<IStatusAttributeCalculator>().To<StatusAttributeModifierCalculator>().AsSingle();
-            Container.Bind<IHealingDamageModifierCalculator>().To<PropertyDamageModifcationCalculator>().AsSingle();
+            Container.Bind<IAttributesModificationCalculator>().To<PropertyAttributesModificationCalculator>().AsSingle();
+            Container.Bind<IHealingDamageModificationCalculator>().To<PropertyDamageModifcationCalculator>().AsSingle();
             Container.Bind<IDamageResultHandler>().To<StatusPropertyDamageResultHandler>().AsSingle();
             Container.Bind<IEventContext>().To<EventSystemContext>().AsSingle();
             Container.Bind<IEncounterContext>().To<DomainEncounterContext>().AsSingle();

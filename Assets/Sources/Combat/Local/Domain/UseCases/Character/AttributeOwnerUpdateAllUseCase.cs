@@ -1,7 +1,7 @@
 ﻿using Combat.Common.Primitives;
+using Combat.Local.Application.Queries.Statuses;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Entities.Units;
-using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.Services.Skills;
 using Combat.Local.Domain.ValueObjects;
@@ -17,11 +17,11 @@ namespace Combat.Local.Domain.UseCases
         private readonly IStatusOwnerRepository _statusOwnerRepository;
         private readonly IStatusRepository _statusRepository;
         private readonly ICharacterUpdateRepository _characterUpdateList;
-        private readonly IStatusAttributeCalculator _statusAttributeCalculator;
+        private readonly IAttributesModificationCalculator _statusAttributeCalculator;
 
         private readonly AttributeOwnerOperations _attributeOwnerOperations;
 
-        public AttributeOwnerUpdateAllUseCase(IAttributesRepository attributesRepository, IStatusOwnerRepository statusOwnerRepository, IStatusRepository statusRepository, ICharacterUpdateRepository characterUpdateList, IStatusAttributeCalculator statusAttributeCalculator)
+        public AttributeOwnerUpdateAllUseCase(IAttributesRepository attributesRepository, IStatusOwnerRepository statusOwnerRepository, IStatusRepository statusRepository, ICharacterUpdateRepository characterUpdateList, IAttributesModificationCalculator statusAttributeCalculator)
         {
             _attributesRepository = attributesRepository;
             _statusOwnerRepository = statusOwnerRepository;

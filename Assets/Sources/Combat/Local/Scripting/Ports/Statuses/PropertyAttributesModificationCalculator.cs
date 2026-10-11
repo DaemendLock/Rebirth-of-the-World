@@ -1,5 +1,5 @@
 using Combat.Common.Primitives;
-using Combat.Local.Domain.OutputPorts.Statuses;
+using Combat.Local.Application.Queries.Statuses;
 using Combat.Local.Domain.ValueObjects;
 using Combat.Local.Scripting.Capabilities.Statuses;
 using Combat.Local.Scripting.Runtime;
@@ -8,11 +8,11 @@ using System;
 
 namespace Combat.Local.Scripting.Ports.Statuses
 {
-    public sealed class StatusAttributeModifierCalculator : IStatusAttributeCalculator
+    public sealed class PropertyAttributesModificationCalculator : IAttributesModificationCalculator
     {
         private readonly IStatusRuntimeRegistry _statusRuntimeRegistry;
 
-        public StatusAttributeModifierCalculator(IStatusRuntimeRegistry statusRuntimeRegistry)
+        public PropertyAttributesModificationCalculator(IStatusRuntimeRegistry statusRuntimeRegistry)
         {
             _statusRuntimeRegistry = statusRuntimeRegistry;
         }

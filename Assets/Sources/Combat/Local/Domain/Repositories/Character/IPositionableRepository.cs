@@ -1,10 +1,6 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Local.Domain.Entities;
 
-using System.Collections.Generic;
-
-using UnityEngine;
-
 namespace Combat.Local.Domain.Repositories
 {
     public interface IPositionableRepository

@@ -1,13 +1,14 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Local.Domain.DTO;
 using Combat.Local.Domain.Entities;
+using Combat.Local.Domain.Facades;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
 using Combat.Local.Domain.ValueObjects;
 
 using UnityEngine;
 
-namespace Combat.Local.Domain.Facades
+namespace Combat.Local.Application.Facades
 {
     public readonly struct CharacterFacade
     {
@@ -99,7 +100,10 @@ namespace Combat.Local.Domain.Facades
 
         public void StopScaleOverTime(ScaleEffectId effectId) => _stopScaleUseCase.Execute(effectId);
     }
+}
 
+namespace Combat.Local.Domain.Facades
+{
     public readonly ref struct PositionDTO
     {
         public PositionDTO(Vector3 position, Quaternion roation, float scale, ModelName modelName)

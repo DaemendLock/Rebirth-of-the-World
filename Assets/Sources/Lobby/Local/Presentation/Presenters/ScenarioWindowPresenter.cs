@@ -18,7 +18,7 @@ namespace Lobby.Local.Presentation.Presenters
         private readonly ScenarioWindowView _scenarioSelectionView;
 
         void IScenarioCreateOutput.Present(Scenario scenario) =>
-            UnityEngine.Debug.Log($"Created scenario: Id - {scenario.Id}; Name - {scenario.Name}; Max Player Count: {scenario._members.Length}");
+            UnityEngine.Debug.Log($"Created scenario: Id - {scenario.Id}; Name - {scenario.Name}; Max Player Count: {scenario.Members.Length}");
         void IScenarioCancelOutput.Present(ScenarioId scenarioId) =>
             UnityEngine.Debug.Log($"Scenario canceled: Id - {scenarioId}");
     }

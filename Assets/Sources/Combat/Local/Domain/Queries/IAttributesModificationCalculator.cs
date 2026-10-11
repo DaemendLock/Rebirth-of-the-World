@@ -3,9 +3,9 @@ using Combat.Local.Domain.ValueObjects;
 
 using System;
 
-namespace Combat.Local.Domain.OutputPorts.Statuses
+namespace Combat.Local.Application.Queries.Statuses
 {
-    public interface IStatusAttributeCalculator
+    public interface IAttributesModificationCalculator
     {
         AttributesModification Evaluate(ReadOnlySpan<StatusId> values);
     }

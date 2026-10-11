@@ -23,7 +23,7 @@ namespace Game.Application.UseCases.Scenarios
             AccountId accountId = command.RequestedBy;
             Scenario scenario = _scenarioRepository.Get(command.ScenarioId);
             scenario.Join(accountId);
-            _accountScenarioJoinOutput.Present(command.RequestedBy, scenario.Id, scenario._members);
+            _accountScenarioJoinOutput.Present(command.RequestedBy, scenario.Id, scenario.Members);
         }
     }
 }

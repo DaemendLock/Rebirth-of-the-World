@@ -2,7 +2,7 @@
 using Combat.API.Events;
 using Combat.API.Statuses;
 using Combat.Common.Primitives;
-using Combat.Local.Domain.Facades;
+using Combat.Local.Application.Facades;
 using Combat.Local.Domain.Repositories;
 
 using System;

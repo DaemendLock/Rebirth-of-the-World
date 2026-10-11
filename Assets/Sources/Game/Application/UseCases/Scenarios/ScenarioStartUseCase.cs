@@ -48,10 +48,10 @@ namespace Game.Application.UseCases
                 throw new InvalidOperationException($"Scenario '{scenarioId}' has no combat location.");
             }
 
-            List<CombatParticipant> participants = new(scenario._members.Length);
+            List<CombatParticipant> participants = new(scenario.Members.Length);
             HashSet<CharacterKey> selectedCharacters = new();
 
-            foreach (ScenarioMemberInfo member in scenario._members.Where(value => value.HasValue)
+            foreach (ScenarioMemberInfo member in scenario.Members.Where(value => value.HasValue)
                                                                   .Select(value => value.Value))
             {
                 if (member.Character.HasValue == false)
@@ -79,6 +79,6 @@ namespace Game.Application.UseCases
             //_accountJoinCombatOutput.Present(command.RequestedBy, encounterId);
         }
 
-        private bool CanStart(AccountId player, Scenario scenario) => scenario._members.Any(value => value?.AccountId == player);
+        private bool CanStart(AccountId player, Scenario scenario) => scenario.Members.Any(value => value?.AccountId == player);
     }
 }

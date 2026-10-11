@@ -1,5 +1,6 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.Primitives;
+using Combat.Local.Application.Queries.Statuses;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.OutputPorts;
 using Combat.Local.Domain.OutputPorts.Statuses;
@@ -16,12 +17,12 @@ namespace Combat.Local.Domain.UseCases
 
         private readonly IHealthOutput _healthOutput;
         private readonly ICharacterConsciousStateOutput _characterConsciousStateOutput;
-        private readonly IHealingDamageModifierCalculator _damageModifierCalculator;
+        private readonly IHealingDamageModificationCalculator _damageModifierCalculator;
         private readonly IDamageResultHandler _damageResultHandler;
 
         private readonly ICharacterDeathHandler _characterDeathHandler;
 
-        public HealthApplyDamageUseCase(IHealthRepository healthRepository, IHealthOutput healthOutput, IActorRepository stateRepository, IStatusOwnerRepository statusOwnerRepository, ICharacterConsciousStateOutput characterConsciousStateOutput, IHealingDamageModifierCalculator damageModifierCalculator, IDamageResultHandler damageResultHandler, ICharacterDeathHandler characterDeathHandler)
+        public HealthApplyDamageUseCase(IHealthRepository healthRepository, IHealthOutput healthOutput, IActorRepository stateRepository, IStatusOwnerRepository statusOwnerRepository, ICharacterConsciousStateOutput characterConsciousStateOutput, IHealingDamageModificationCalculator damageModifierCalculator, IDamageResultHandler damageResultHandler, ICharacterDeathHandler characterDeathHandler)
         {
             _healthRepository = healthRepository;
             _healthOutput = healthOutput;

@@ -1,10 +1,11 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.Primitives;
 using Combat.Local.Domain.Entities;
+using Combat.Local.Domain.Facades;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
 
-namespace Combat.Local.Domain.Facades
+namespace Combat.Local.Application.Facades
 {
     public readonly struct HealthOwnerFacade
     {
@@ -47,7 +48,10 @@ namespace Combat.Local.Domain.Facades
             _applyHealingUseCase.Execute(info.Target, info.OriginalHealing, info.Flags, info.Healer, info.Source);
         }
     }
+}
 
+namespace Combat.Local.Domain.Facades
+{
     public readonly struct HealthValueDTO
     {
         public HealthValueDTO(float currentHealth, float maxHealth)

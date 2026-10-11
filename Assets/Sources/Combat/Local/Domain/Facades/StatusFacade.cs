@@ -4,7 +4,7 @@ using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.UseCases;
 
-namespace Combat.Local.Domain.Facades
+namespace Combat.Local.Application.Facades
 {
     public readonly struct StatusFacade
     {

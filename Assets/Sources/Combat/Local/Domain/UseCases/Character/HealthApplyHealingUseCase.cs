@@ -1,7 +1,7 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.Primitives;
+using Combat.Local.Application.Queries.Statuses;
 using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
 
@@ -17,9 +17,9 @@ namespace Combat.Local.Domain.UseCases
 
         private readonly IStatusOwnerRepository _statusOwnerRepository;
 
-        private readonly IHealingDamageModifierCalculator _damageModifierCalculator;
+        private readonly IHealingDamageModificationCalculator _damageModifierCalculator;
 
-        public HealthApplyHealingUseCase(IHealthRepository healthRepository, IHealthOutput healthOutput, IStatusOwnerRepository statusOwnerRepository, IHealingDamageModifierCalculator damageModifierCalculator)
+        public HealthApplyHealingUseCase(IHealthRepository healthRepository, IHealthOutput healthOutput, IStatusOwnerRepository statusOwnerRepository, IHealingDamageModificationCalculator damageModifierCalculator)
         {
             _healthRepository = healthRepository;
             _healthOutput = healthOutput;
@@ -66,7 +66,7 @@ namespace Combat.Local.Domain.UseCases
                     return result;
                 }
 
-                finalModification += _damageModifierCalculator.GetHealingModification(healerStatuses.GetAll(), result);
+                finalModification += _damageModifierCalculator.GetHealerModification(healerStatuses.GetAll(), result);
             }
 
             result.Healing = (result.OriginalHealing + finalModification.BaseValue) * 100f / (100 + finalModification.PercentModication) + finalModification.BonusValue;
