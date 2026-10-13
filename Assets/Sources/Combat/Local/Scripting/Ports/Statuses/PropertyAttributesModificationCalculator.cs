@@ -5,6 +5,7 @@ using Combat.Local.Scripting.Capabilities.Statuses;
 using Combat.Local.Scripting.Runtime;
 
 using System;
+using System.Collections.Generic;
 
 namespace Combat.Local.Scripting.Ports.Statuses
 {
@@ -17,7 +18,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
             _statusRuntimeRegistry = statusRuntimeRegistry;
         }
 
-        public AttributesModification Evaluate(ReadOnlySpan<StatusId> values)
+        public AttributesModification Evaluate(IReadOnlyCollection<StatusId> values)
         {
             AttributesModification result = new();
 

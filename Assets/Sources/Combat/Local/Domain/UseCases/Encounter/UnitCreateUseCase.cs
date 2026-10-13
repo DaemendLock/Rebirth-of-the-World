@@ -78,7 +78,7 @@ namespace Combat.Local.Domain.UseCases
 
             SkillOwner skillOwner = CreateSkillOwner(id, context);
             _skillOwnerRepository.Create(skillOwner);
-            _statusOwnerRepository.Create(CreateStatusOwner(id));
+            _statusOwnerRepository.Create(new(id));
 
             foreach (SkillId skillId in skillOwner.Skills)
             {
@@ -127,7 +127,5 @@ namespace Combat.Local.Domain.UseCases
             _movementEffectOwnerRepository.Create(new(id, default));
             _scaleEffectOwnerRepository.Create(new(id, Span<ScaleOverTimeEffect>.Empty));
         }
-
-        private StatusOwner CreateStatusOwner(UnitId id) => new(id, Span<StatusId>.Empty);
     }
 }

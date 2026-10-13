@@ -25,11 +25,7 @@ namespace Combat.Local.Application.Facades
 
         public HealthValueDTO GetHealth(UnitId entityId)
         {
-            if (_healthRepository.TryGet(entityId, out HealthOwner value) == false)
-            {
-                throw new System.InvalidOperationException();
-            }
-
+            var value = _healthRepository.Get(entityId);
             return new(value.CurrentValue, value.MaxHealth);
         }
 

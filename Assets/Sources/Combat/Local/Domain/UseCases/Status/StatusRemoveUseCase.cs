@@ -7,7 +7,7 @@ using System;
 
 namespace Combat.Local.Domain.UseCases
 {
-    public class StatusRemoveUseCase
+    public sealed class StatusRemoveUseCase
     {
         private readonly IStatusRepository _statusRepository;
         private readonly IStatusTimerRepository _statusTimerRepository;
@@ -25,12 +25,9 @@ namespace Combat.Local.Domain.UseCases
 
         public void Execute(UnitId target, StatusId statusId)
         {
-            if (_statusOwnerRepository.TryGet(target, out StatusOwner statusOwner) == false)
-            {
-                return;
-            }
+            ref StatusOwner statusOwner = ref _statusOwnerRepository.Get(target);
 
-            if (statusOwner.HasStatus(statusId) == false)
+            if (statusOwner.RemoveStatus(statusId) == false)
             {
                 throw new InvalidOperationException();
             }
@@ -38,22 +35,6 @@ namespace Combat.Local.Domain.UseCases
             _statusLifecycleHandler.Remove(statusId);
             _statusTimerRepository.Delete(statusId);
             _statusRepository.Delete(statusId);
-
-            ReadOnlySpan<StatusId> buffer = statusOwner.GetAll();
-            Span<StatusId> newValues = stackalloc StatusId[buffer.Length - 1];
-
-            int i = 0;
-            foreach (StatusId value in buffer)
-            {
-                if (value == statusId)
-                {
-                    continue;
-                }
-
-                newValues[i++] = value;
-            }
-
-            _statusOwnerRepository.Update(new(statusOwner.Id, newValues));
         }
     }
 }

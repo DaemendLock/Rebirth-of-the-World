@@ -8,6 +8,7 @@ using System.Collections.Generic;
 
 namespace Combat.Local.Gateways.Repositories
 {
+
     public sealed class ProjectileRepository : IProjectileRepository
     {
         private readonly Dictionary<ProjectileId, ProjectileModel> _values;

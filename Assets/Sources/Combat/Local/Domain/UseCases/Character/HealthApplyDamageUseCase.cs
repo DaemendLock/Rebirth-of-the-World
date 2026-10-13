@@ -17,7 +17,7 @@ namespace Combat.Local.Domain.UseCases
 
         private readonly IHealthOutput _healthOutput;
         private readonly ICharacterConsciousStateOutput _characterConsciousStateOutput;
-        private readonly IHealingDamageModificationCalculator _damageModifierCalculator;
+        private readonly IHealingDamageModificationCalculator _damageModificationCalculator;
         private readonly IDamageResultHandler _damageResultHandler;
 
         private readonly ICharacterDeathHandler _characterDeathHandler;
@@ -29,26 +29,25 @@ namespace Combat.Local.Domain.UseCases
             _actorRepository = stateRepository;
             _statusOwnerRepository = statusOwnerRepository;
             _characterConsciousStateOutput = characterConsciousStateOutput;
-            _damageModifierCalculator = damageModifierCalculator;
+            _damageModificationCalculator = damageModifierCalculator;
             _damageResultHandler = damageResultHandler;
             _characterDeathHandler = characterDeathHandler;
         }
 
         public void Execute(UnitId target, float damage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
         {
-            if (_healthRepository.TryGet(target, out HealthOwner health) == false)
+            DamageInstance instance = CreateDamageInstance(target, damage, flags, attacker, source);
+            DamageResult finalDamage = ApplyDamageInstance(instance);
+
+            if (finalDamage.Flags.HasFlag(DamageFlags.NonReactable) == false)
             {
-                throw new System.InvalidOperationException();
+                PostDamageEvent(finalDamage);
             }
 
-            DamageInstance instance = CreateInstance(target, damage, flags, attacker, source);
-
-            float finalDamage = ApplyDamageInstance(instance, health);
-            TriggerEffects(instance, finalDamage);
             UpdateConsciosState(instance);
         }
 
-        private DamageInstance CreateInstance(UnitId target, float damage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
+        private DamageInstance CreateDamageInstance(UnitId target, float damage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
         {
             DamageInstance instance = new(target, damage, flags, attacker, source);
             DamageModification defenderModification = default;
@@ -56,12 +55,12 @@ namespace Combat.Local.Domain.UseCases
 
             if (_statusOwnerRepository.TryGet(target, out StatusOwner defenderStatuses))
             {
-                defenderModification = _damageModifierCalculator.GetDefenderDamageModification(defenderStatuses.GetAll(), instance);
+                defenderModification = _damageModificationCalculator.GetIncomingDamageModification(defenderStatuses.GetAll(), instance);
             }
 
             if (instance.Attacker.HasValue && _statusOwnerRepository.TryGet(instance.Attacker.Value, out StatusOwner attackerStatuses))
             {
-                attackerModification = _damageModifierCalculator.GetAttackerDamageModification(attackerStatuses.GetAll(), instance);
+                attackerModification = _damageModificationCalculator.GetOutgoingDamageModification(attackerStatuses.GetAll(), instance);
             }
 
             DamageModification finalModification = defenderModification + attackerModification;
@@ -71,8 +70,10 @@ namespace Combat.Local.Domain.UseCases
             return instance;
         }
 
-        private float ApplyDamageInstance(DamageInstance instance, HealthOwner health)
+        private DamageResult ApplyDamageInstance(DamageInstance instance)
         {
+            ref HealthOwner health = ref _healthRepository.Get(instance.Target);
+
             float finalDamage = instance.Damage;
 
             if (finalDamage >= health.CurrentValue && instance.Flags.HasFlag(DamageFlags.NonLethal))
@@ -81,30 +82,15 @@ namespace Combat.Local.Domain.UseCases
             }
 
             health.TakeDamage(finalDamage);
-
-            _healthRepository.Update(health);
             _healthOutput.Present(instance);
 
-            return finalDamage;
-        }
+            return new(instance.Target, instance.OriginalDamage, finalDamage, instance.Flags, instance.Attacker, instance.Source);
 
-        private void TriggerEffects(DamageInstance instance, float finalDamage)
-        {
-            if (instance.Flags.HasFlag(DamageFlags.NonReactable))
-            {
-                return;
-            }
-
-            DamageResult result = new(instance.Target, instance.OriginalDamage, finalDamage, instance.Flags, instance.Attacker, instance.Source);
-            HandleEvent(result);
         }
 
         private void UpdateConsciosState(DamageInstance instance)
         {
-            if (_healthRepository.TryGet(instance.Target, out HealthOwner health) == false)
-            {
-                return;
-            }
+            ref HealthOwner health = ref _healthRepository.Get(instance.Target);
 
             if (health.CurrentValue > 0)
             {
@@ -121,16 +107,16 @@ namespace Combat.Local.Domain.UseCases
             //}
         }
 
-        private void HandleEvent(DamageResult @event)
+        private void PostDamageEvent(DamageResult @event)
         {
             if (_statusOwnerRepository.TryGet(@event.Target, out StatusOwner statusOwner))
             {
-                _damageResultHandler.HandleDamageRecieved(statusOwner.GetAll(), @event);
+                _damageResultHandler.NotifyDamageRecieved(@event, statusOwner.GetAll());
             }
 
             if (@event.Attacker.HasValue && _statusOwnerRepository.TryGet(@event.Attacker.Value, out StatusOwner attackerStatuses))
             {
-                _damageResultHandler.HandleDamageDealth(attackerStatuses.GetAll(), @event);
+                _damageResultHandler.NotifyDamageDealth(@event, attackerStatuses.GetAll());
             }
         }
 

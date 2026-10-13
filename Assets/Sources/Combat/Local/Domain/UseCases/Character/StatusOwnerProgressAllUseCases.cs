@@ -37,14 +37,9 @@ namespace Combat.Local.Domain.UseCases
 
         private void ProgressTarget(UnitId target, float deltaTime)
         {
-            if (_statusOwnerRepository.TryGet(target, out StatusOwner statusOwner) == false)
-            {
-                return;
-            }
+            ref StatusOwner statusOwner = ref _statusOwnerRepository.Get(target);
 
-            ReadOnlySpan<StatusId> ids = statusOwner.GetAll();
-
-            foreach (StatusId statusId in ids)
+            foreach (StatusId statusId in statusOwner.GetAll())
             {
                 if (_statusRepository.TryGet(statusId, out Status value) == false)
                 {
@@ -97,21 +92,7 @@ namespace Combat.Local.Domain.UseCases
             _statusTimerRepository.Delete(status.Id);
             //_removeStatusEventHandler.HandleEvent(status.Id);
 
-            var buffer = statusOwner.GetAll();
-            Span<StatusId> newValues = stackalloc StatusId[buffer.Length - 1];
-
-            int i = 0;
-            foreach (StatusId value in buffer)
-            {
-                if (value == status.Id)
-                {
-                    continue;
-                }
-
-                newValues[i++] = value;
-            }
-
-            _statusOwnerRepository.Update(new(statusOwner.Id, newValues));
+            statusOwner.RemoveStatus(status.Id);
 
             return true;
         }

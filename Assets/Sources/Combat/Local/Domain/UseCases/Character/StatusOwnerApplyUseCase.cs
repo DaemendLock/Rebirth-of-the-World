@@ -5,8 +5,6 @@ using Combat.Local.Domain.Factories;
 using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
 
-using System;
-
 namespace Combat.Local.Domain.UseCases
 {
     public readonly struct StatusOwnerApplyUseCase
@@ -26,10 +24,7 @@ namespace Combat.Local.Domain.UseCases
 
         public StatusId Execute(ApplStatusDTO data)
         {
-            if (_statusOwnerRepository.TryGet(data.Target, out StatusOwner target) == false)
-            {
-                throw new System.InvalidOperationException("No status owner found");
-            }
+            ref StatusOwner target = ref _statusOwnerRepository.Get(data.Target);
 
             if (TryReapplyStatus(target, data, out StatusId id))
             {
@@ -43,11 +38,9 @@ namespace Combat.Local.Domain.UseCases
 
         private bool TryReapplyStatus(StatusOwner target, ApplStatusDTO data, out StatusId result)
         {
-            ReadOnlySpan<StatusId> ids = target.GetAll();
-
             StatusType name = data.StatusName;
 
-            foreach (StatusId id in ids)
+            foreach (StatusId id in target.GetAll())
             {
                 if (_statusRepository.TryGet(id, out Status status) == false)
                 {
@@ -72,11 +65,7 @@ namespace Combat.Local.Domain.UseCases
 
         private void RegisterStatus(StatusOwner target, Status status)
         {
-            var buffer = target.GetAll();
-            System.Span<StatusId> values = stackalloc StatusId[buffer.Length + 1];
-            buffer.CopyTo(values);
-            values[^1] = status.Id;
-            _statusOwnerRepository.Update(new(target.Id, values));
+            target.AddStatus(status.Id);
             _statusRepository.Create(status);
             _statusLyfecycleHandler.Apply(status);
         }

@@ -2,10 +2,10 @@
 
 namespace Combat.Local.Domain.Entities
 {
-    public ref struct HealthOwner
+    public struct HealthOwner
     {
-        private readonly float _bonusHealth;
         private float _currentValue;
+        private float _bonusHealth;
 
         public HealthOwner(UnitId id, float currentHealth, float defaultHealth) : this(id, currentHealth, defaultHealth, 0f)
         { }
@@ -25,7 +25,7 @@ namespace Combat.Local.Domain.Entities
 
         public UnitId Id { get; }
 
-        public readonly float Default { get; }
+        public float Default { get; set; }
 
         public float CurrentValue
         {
@@ -44,6 +44,20 @@ namespace Combat.Local.Domain.Entities
                 }
 
                 _currentValue = value;
+            }
+        }
+
+        public float BonusHealth
+        {
+            readonly get => _bonusHealth;
+            set
+            {
+                if (value < 0)
+                {
+                    throw new System.InvalidOperationException();
+                }
+
+                _bonusHealth = value;
             }
         }
 

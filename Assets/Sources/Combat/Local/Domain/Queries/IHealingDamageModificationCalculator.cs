@@ -2,6 +2,7 @@
 using Combat.Local.Domain.ValueObjects;
 
 using System;
+using System.Collections.Generic;
 
 namespace Combat.Local.Application.Queries.Statuses
 {
@@ -11,13 +12,13 @@ namespace Combat.Local.Application.Queries.Statuses
 
     public interface IDamageModificationCalculator : IHealingModificationCalculator
     {
-        DamageModification GetAttackerDamageModification(ReadOnlySpan<StatusId> attackerModifier, in DamageInstance instance);
-        DamageModification GetDefenderDamageModification(ReadOnlySpan<StatusId> defenderModifier, in DamageInstance instance);
+        DamageModification GetOutgoingDamageModification(IReadOnlyCollection<StatusId> attackerModifier, in DamageInstance instance);
+        DamageModification GetIncomingDamageModification(IReadOnlyCollection<StatusId> defenderModifier, in DamageInstance instance);
     }
 
     public interface IHealingModificationCalculator
     {
-        HealingModification GetHealerModification(ReadOnlySpan<StatusId> modifiers, in HealingInstance instance);
+        HealingModification GetOutgoingHealingModification(IReadOnlyCollection<StatusId> modifiers, in HealingInstance instance);
         //HealingModification GetHealeeModification(ReadOnlySpan<StatusId> modifiers, in HealingInstance instance);
     }
 }

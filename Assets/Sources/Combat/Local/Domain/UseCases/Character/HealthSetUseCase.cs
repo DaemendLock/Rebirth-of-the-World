@@ -18,14 +18,9 @@ namespace Combat.Local.Domain.UseCases
 
         public void Execute(UnitId target, float value)
         {
-            if (_healthRepository.TryGet(target, out HealthOwner health) == false)
-            {
-                throw new System.InvalidOperationException("Not found");
-            }
-
-            health.CurrentValue = value;
-            _healthRepository.Update(health);
-            _healthOutput.Present(health);
+            ref HealthOwner healthOwner = ref _healthRepository.Get(target);
+            healthOwner.CurrentValue = value;
+            _healthOutput.Present(healthOwner);
         }
     }
 

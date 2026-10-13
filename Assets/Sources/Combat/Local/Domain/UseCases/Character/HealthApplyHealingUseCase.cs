@@ -29,17 +29,13 @@ namespace Combat.Local.Domain.UseCases
 
         public void Execute(UnitId target, float healing, HealingFlags flags, UnitId? healer, AbilityKey? source)
         {
-            if (_healthRepository.TryGet(target, out HealthOwner health) == false)
-            {
-                throw new System.InvalidOperationException();
-            }
+            ref HealthOwner health = ref _healthRepository.Get(target);
 
             HealingInstance instance = CreateHealingInstance(target, healing, flags, healer, source);
             healing = instance.Healing;
 
             health.TakeHealing(healing);
 
-            _healthRepository.Update(health);
             _healthOutput.Present(health);
 
             if (instance.Flags.HasFlag(HealingFlags.CanRevive) && health.CurrentValue > 0)
@@ -66,7 +62,7 @@ namespace Combat.Local.Domain.UseCases
                     return result;
                 }
 
-                finalModification += _damageModifierCalculator.GetHealerModification(healerStatuses.GetAll(), result);
+                finalModification += _damageModifierCalculator.GetOutgoingHealingModification(healerStatuses.GetAll(), result);
             }
 
             result.Healing = (result.OriginalHealing + finalModification.BaseValue) * 100f / (100 + finalModification.PercentModication) + finalModification.BonusValue;

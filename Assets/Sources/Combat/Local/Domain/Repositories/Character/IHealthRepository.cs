@@ -6,8 +6,7 @@ namespace Combat.Local.Domain.Repositories
     public interface IHealthRepository
     {
         void Create(HealthOwner value);
-        bool TryGet(UnitId id, out HealthOwner health);
-        void Update(HealthOwner health);
+        ref HealthOwner Get(UnitId id);
         void Delete(UnitId id);
     }
 }

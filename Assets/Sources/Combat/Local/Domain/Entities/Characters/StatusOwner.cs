@@ -1,26 +1,28 @@
-﻿using Combat.Common.Primitives;
+﻿using System.Collections.Generic;
 
-using System;
+using Combat.Common.Primitives;
 
 namespace Combat.Local.Domain.Entities
 {
-    public readonly ref struct StatusOwner
+    public readonly struct StatusOwner
     {
-        private readonly ReadOnlySpan<StatusId> _statuses;
+        private readonly List<StatusId> _values;
 
-        public StatusOwner(UnitId id, ReadOnlySpan<StatusId> statuses)
+        public StatusOwner(UnitId id)
         {
             Id = id;
-            _statuses = statuses;
+            _values = new();
         }
 
         public UnitId Id { get; }
 
-        public ReadOnlySpan<StatusId> GetAll() => _statuses;
+        public void AddStatus(StatusId statusId) => _values.Add(statusId);
+
+        public bool RemoveStatus(StatusId statusId) => _values.Remove(statusId);
 
         public bool HasStatus(StatusId id)
         {
-            foreach (StatusId status in _statuses)
+            foreach (StatusId status in _values)
             {
                 if (status != id)
                     continue;
@@ -30,5 +32,7 @@ namespace Combat.Local.Domain.Entities
 
             return false;
         }
+
+        public IReadOnlyCollection<StatusId> GetAll() => _values;
     }
 }

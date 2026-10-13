@@ -7,6 +7,7 @@ using Combat.Local.Scripting.Capabilities.Statuses;
 using Combat.Local.Scripting.Runtime;
 
 using System;
+using System.Collections.Generic;
 
 namespace Combat.Local.Scripting.Ports.Statuses
 {
@@ -21,7 +22,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
             _eventContext = eventContext;
         }
 
-        public void HandleDamageDealth(ReadOnlySpan<StatusId> handlers, DamageResult @event)
+        public void NotifyDamageDealth(DamageResult @event, IReadOnlyCollection<StatusId> handlers)
         {
             foreach (StatusId statusId in handlers)
             {
@@ -43,7 +44,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
             _eventContext.Publish(new GameEvent<DealDamageEventData>(new(@event.FinalDamage)));
         }
 
-        public void HandleDamageRecieved(ReadOnlySpan<StatusId> handlers, DamageResult @event)
+        public void NotifyDamageRecieved(DamageResult @event, IReadOnlyCollection<StatusId> handlers)
         {
             foreach (StatusId statusId in handlers)
             {

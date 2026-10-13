@@ -1,8 +1,8 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
-using Combat.Local.Domain.ValueObjects;
 
+using System;
 using System.Collections.Generic;
 
 namespace Combat.Local.Gateways.Repositories
@@ -28,40 +28,58 @@ namespace Combat.Local.Gateways.Repositories
 
     public sealed class DictionaryHealthRepository : IHealthRepository
     {
-        private readonly Dictionary<UnitId, HealthValue> _values;
+        private readonly Dictionary<UnitId, int> _indexes;
+        private readonly Stack<int> _freeIndexes;
+        private HealthOwner[] _values;
+        private int _cursor;
 
-        private readonly IAttributesRepository _attributesRepository;
-
-        public DictionaryHealthRepository(IAttributesRepository attributesRepository)
+        public DictionaryHealthRepository()
         {
-            _attributesRepository = attributesRepository;
-
-            _values = new();
+            _indexes = new();
+            _freeIndexes = new();
+            _values = System.Array.Empty<HealthOwner>();
+            _cursor = 0;
         }
 
         public void Create(HealthOwner value)
         {
-            HealthValue data = new(value.CurrentValue, value.Default);
-            _values.Add(value.Id, data);
-        }
-
-        //public void Create(Health value) => _values.Add(value.Id, new(value.CurrentHealth, value.DefaultHealth));
-
-        public void Delete(UnitId id) => _values.Remove(id);
-
-        public bool TryGet(UnitId id, out HealthOwner health)
-        {
-            if (_values.TryGetValue(id, out var data) == false)
+            if (_indexes.ContainsKey(value.Id))
             {
-                health = default;
-                return false;
+                throw new System.InvalidOperationException();
             }
 
-            AttributesOwner attributesOwner = _attributesRepository.Get(id);
-            health = new(id, data.Current, data.Default, attributesOwner.GetMaxHealthBonus());
-            return true;
+            if (_cursor == _values.Length)
+            {
+                Array.Resize(ref _values, Math.Max(2, _values.Length * 3 / 2));
+            }
+
+            if (_freeIndexes.TryPop(out int index) == false)
+            {
+                index = _cursor++;
+            }
+
+            _values[index] = value;
+            _indexes[value.Id] = index;
         }
 
-        public void Update(HealthOwner value) => _values[value.Id] = new(value.CurrentValue, value.Default);
+        public void Delete(UnitId id)
+        {
+            if (_indexes.Remove(id, out int index) == false)
+            {
+                return;
+            }
+
+            _freeIndexes.Push(index);
+        }
+
+        public ref HealthOwner Get(UnitId id)
+        {
+            if (_indexes.TryGetValue(id, out var index) == false)
+            {
+                throw new KeyNotFoundException($"Entity {id} not found.");
+            }
+
+            return ref _values[index];
+        }
     }
 }

@@ -6,6 +6,7 @@ using Combat.Local.Scripting.Capabilities.Statuses;
 using Combat.Local.Scripting.Runtime;
 
 using System;
+using System.Collections.Generic;
 
 namespace Combat.Local.Scripting.Ports.Statuses
 {
@@ -18,7 +19,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
             _statusRegistry = statusRegistry;
         }
 
-        public DamageModification GetAttackerDamageModification(ReadOnlySpan<StatusId> values, in DamageInstance instance)
+        public DamageModification GetOutgoingDamageModification(IReadOnlyCollection<StatusId> values, in DamageInstance instance)
         {
             DamageModification result = new(0, 0, 0, DamageFlags.None);
 
@@ -42,7 +43,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
             return result;
         }
 
-        public DamageModification GetDefenderDamageModification(ReadOnlySpan<StatusId> values, in DamageInstance instance)
+        public DamageModification GetIncomingDamageModification(IReadOnlyCollection<StatusId> values, in DamageInstance instance)
         {
             DamageModification result = new(0, 0, 0, DamageFlags.None);
 
@@ -66,7 +67,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
             return result;
         }
 
-        public HealingModification GetHealerModification(ReadOnlySpan<StatusId> values, in HealingInstance instance)
+        public HealingModification GetOutgoingHealingModification(IReadOnlyCollection<StatusId> values, in HealingInstance instance)
         {
             HealingModification result = new(0, 0, 0, HealingFlags.None);
 
