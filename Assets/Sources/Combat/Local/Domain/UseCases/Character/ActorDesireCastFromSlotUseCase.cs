@@ -1,15 +1,10 @@
 ﻿using Combat.Common.Primitives;
+using Combat.Common.ValueObjects;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Domain.UseCases
 {
-    public enum DesireCastFailReason
-    {
-        None,
-        NoSkillFound,
-    }
-
     public class ActorDesireCastFromSlotUseCase
     {
         private readonly ISkillOwnerRepository _skillOwnerRepository;

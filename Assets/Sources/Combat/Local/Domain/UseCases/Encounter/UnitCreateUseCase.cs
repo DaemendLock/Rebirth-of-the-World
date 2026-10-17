@@ -97,7 +97,17 @@ namespace Combat.Local.Domain.UseCases
 
         private Positionable CreatePositionable(UnitId id, UnitCreationInfo context) => new(id, context.Position, default, 1f, default, context.Model, Vector3.zero, context.Team);
 
-        private SkillOwner CreateSkillOwner(UnitId id, UnitCreationInfo context) => new(id, context.Skills, System.Span<SkillCooldown>.Empty);
+        private SkillOwner CreateSkillOwner(UnitId id, UnitCreationInfo context)
+        {
+            SkillOwner skillOwner = new(id);
+
+            foreach (var item in context.Skills)
+            {
+                skillOwner.GiveSkill(item);
+            }
+
+            return skillOwner;
+        }
 
         private AttributesOwner CreateAttributesOwner(UnitId id, UnitCreationInfo context)
         {
@@ -116,10 +126,7 @@ namespace Combat.Local.Domain.UseCases
 
         private void UnsortedCreate(UnitId id, UnitCreationInfo context)
         {
-            Span<ResourceValue> resourceValues = stackalloc ResourceValue[context.DefaultResources.Length];
-            context.DefaultResources.CopyTo(resourceValues);
-
-            _resourceRepository.Create(new(id, resourceValues));
+            _resourceRepository.Create(new(id, context.DefaultResources.ToArray()));
             _actorRepository.Create(new(id, ActorState.None, null, ConsciousState.Alive, new(default, System.Numerics.Vector2.Zero)));
             _hitboxOwnerRepository.Create(id);
             _hurtableRepository.Create(id);

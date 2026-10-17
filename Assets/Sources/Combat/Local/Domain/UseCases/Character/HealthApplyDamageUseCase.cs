@@ -7,6 +7,8 @@ using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
 
+using System;
+using System.Buffers;
 using System.Linq;
 
 namespace Combat.Local.Domain.UseCases
@@ -113,12 +115,44 @@ namespace Combat.Local.Domain.UseCases
         {
             if (_statusOwnerRepository.TryGet(@event.Target, out StatusOwner statusOwner))
             {
-                _damageResultHandler.NotifyDamageRecieved(@event, statusOwner.GetAll().Select(value => value.Id));
+                var statuses = statusOwner.GetAll();
+                StatusId[] ids = ArrayPool<StatusId>.Shared.Rent(statuses.Count);
+                int i = 0;
+
+                foreach (var item in statuses)
+                {
+                    ids[i++] = item.Id;
+                }
+
+                try
+                {
+                    _damageResultHandler.NotifyDamageRecieved(@event, ids.Take(i));
+                }
+                finally
+                {
+                    ArrayPool<StatusId>.Shared.Return(ids);
+                }
             }
 
             if (@event.Attacker.HasValue && _statusOwnerRepository.TryGet(@event.Attacker.Value, out StatusOwner attackerStatuses))
             {
-                _damageResultHandler.NotifyDamageDealth(@event, attackerStatuses.GetAll().Select(value => value.Id));
+                var statuses = attackerStatuses.GetAll();
+                StatusId[] ids = ArrayPool<StatusId>.Shared.Rent(statuses.Count);
+                int i = 0;
+
+                foreach (var item in statuses)
+                {
+                    ids[i++] = item.Id;
+                }
+
+                try
+                {
+                    _damageResultHandler.NotifyDamageDealth(@event, ids.Take(i));
+                }
+                finally
+                {
+                    ArrayPool<StatusId>.Shared.Return(ids);
+                }
             }
         }
 

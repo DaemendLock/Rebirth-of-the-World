@@ -12,5 +12,7 @@ namespace Combat.Local.Domain.ValueObjects
 
         public SkillId Skill { get; }
         public float Value { get; }
+
+        public SkillCooldown Progress(float deltaTime) => new(Skill, Value - deltaTime);
     }
 }

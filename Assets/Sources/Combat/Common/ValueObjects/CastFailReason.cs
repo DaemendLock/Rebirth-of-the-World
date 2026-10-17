@@ -1,5 +1,11 @@
 ﻿namespace Combat.Common.ValueObjects
 {
+    public enum DesireCastFailReason
+    {
+        None,
+        NoSkillFound,
+    }
+
     public enum CastFailReason
     {
         Success = 0,

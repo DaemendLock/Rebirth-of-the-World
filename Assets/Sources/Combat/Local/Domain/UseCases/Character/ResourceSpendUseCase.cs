@@ -20,7 +20,6 @@ namespace Combat.Local.Domain.UseCases
         {
             ResourceOwner resourceOwner = _resourceRepository.Get(target);
             resourceOwner.TrySpendResource(resource, value);
-            _resourceRepository.Update(resourceOwner);
 
             _spendResourceOutput.Present(new(target, resource, resourceOwner.GetResource(resource).MaxValue, resourceOwner.GetResource(resource).Value));
         }

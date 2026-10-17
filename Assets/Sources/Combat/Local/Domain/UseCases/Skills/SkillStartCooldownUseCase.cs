@@ -1,18 +1,15 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
-using Combat.Local.Domain.Services.Skills;
 
 namespace Combat.Local.Domain.UseCases.Skills
 {
     public sealed class SkillStartCooldownUseCase
     {
         private readonly ISkillOwnerRepository _skillOwnerRepository;
-        private readonly SkillOwnerOperations _skillService;
 
-        public SkillStartCooldownUseCase(SkillOwnerOperations skillService, ISkillOwnerRepository skillOwnerRepository)
+        public SkillStartCooldownUseCase(ISkillOwnerRepository skillOwnerRepository)
         {
-            _skillService = skillService;
             _skillOwnerRepository = skillOwnerRepository;
         }
 
@@ -28,7 +25,7 @@ namespace Combat.Local.Domain.UseCases.Skills
                 return;
             }
 
-            _skillService.SetCooldown(skillOwner, abilityId.Skill, cooldown);
+            skillOwner.SetCooldown(abilityId.Skill, cooldown);
         }
     }
 }

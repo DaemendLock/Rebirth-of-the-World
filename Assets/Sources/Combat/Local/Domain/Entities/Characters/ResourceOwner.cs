@@ -5,11 +5,11 @@ using System;
 
 namespace Combat.Local.Domain.Entities
 {
-    public readonly ref struct ResourceOwner
+    public readonly struct ResourceOwner
     {
-        private readonly Span<ResourceValue> _values;
+        private readonly ResourceValue[] _values;
 
-        public ResourceOwner(UnitId owner, Span<ResourceValue> values)
+        public ResourceOwner(UnitId owner, ResourceValue[] values)
         {
             Id = owner;
             _values = values;
