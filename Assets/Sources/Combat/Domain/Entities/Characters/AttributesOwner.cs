@@ -1,26 +1,24 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
+using Combat.Local.Application.ValueObjects;
 
 using System;
 
 namespace Combat.Domain.Entities
 {
-    public readonly ref struct AttributesOwner
+    public readonly struct AttributesOwner
     {
         public const int AttributeCount = (int)(UnitAttribute.PARRY + 1);
 
-        private readonly ReadOnlySpan<AttributeValue> _baseValues;
-        private readonly ReadOnlySpan<float> _values;
+        private readonly AttributeValue[] _baseValues;
+        private readonly float?[] _cachedValues;
 
-        public AttributesOwner(UnitId id, ReadOnlySpan<AttributeValue> baseValues) : this(id, baseValues, Span<float>.Empty)
-        { }
-
-        public AttributesOwner(UnitId id, ReadOnlySpan<AttributeValue> baseValues, ReadOnlySpan<float> finalValues)
+        public AttributesOwner(UnitId id, ReadOnlySpan<AttributeValue> baseValues)
         {
             Id = id;
 
-            _baseValues = baseValues;
-            _values = finalValues;
+            _baseValues = baseValues.ToArray();
+            _cachedValues = new float?[_baseValues.Length];
         }
 
         public UnitId Id { get; }
@@ -33,18 +31,34 @@ namespace Combat.Domain.Entities
             {
                 int index = (int)attribute;
 
-                if (index < 0 || index > _values.Length)
+                if (index < 0 || index > _baseValues.Length)
                 {
                     throw new ArgumentOutOfRangeException(nameof(attribute));
                 }
 
-                if (_values == default)
+                if (_cachedValues[index].HasValue == false)
                 {
                     return _baseValues[index].CalculatedValue;
                 }
 
-                return _values[index];
+                return _cachedValues[index].Value;
             }
+        }
+
+        public void Clear() => Array.Clear(_cachedValues, 0, _cachedValues.Length);
+
+        public void SetModification(UnitAttribute attribute, AttributeModifcation modifcation)
+        {
+            int index = (int)attribute;
+
+            if (index < 0 || index > _baseValues.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(attribute));
+            }
+
+            AttributeValue baseValue = _baseValues[index];
+            AttributeValue value = new(baseValue.BaseValue + modifcation.BaseValue, baseValue.Percent + modifcation.Percent, baseValue.Bonus + modifcation.BonusValue);
+            _cachedValues[index] = value.CalculatedValue;
         }
 
         public readonly AttributeValue GetBaseValue(UnitAttribute attribute) => _baseValues[(int)attribute];
@@ -53,7 +67,5 @@ namespace Combat.Domain.Entities
         public readonly float GetHasteModifier() => 1f + GetAttributeValue(UnitAttribute.Haste) * 0.007f;
         public readonly float GetVersalityModifier() => 1f + GetAttributeValue(UnitAttribute.Versality) * 0.007f;
         public readonly float GetMaxHealthBonus() => GetAttributeValue(UnitAttribute.Endurance) * 10f;
-
-        public readonly ReadOnlySpan<float> GetAll() => _values;
     }
 }

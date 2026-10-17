@@ -12,14 +12,14 @@ namespace Combat.Local.Application.UseCases
 {
     public sealed class HealthApplyHealingUseCase
     {
-        private readonly IHealthRepository _healthRepository;
+        private readonly IHealthOwnerRepository _healthRepository;
         private readonly IHealthOutput _healthOutput;
 
         private readonly IStatusOwnerRepository _statusOwnerRepository;
 
         private readonly IHealingDamageModificationCalculator _damageModifierCalculator;
 
-        public HealthApplyHealingUseCase(IHealthRepository healthRepository, IHealthOutput healthOutput, IStatusOwnerRepository statusOwnerRepository, IHealingDamageModificationCalculator damageModifierCalculator)
+        public HealthApplyHealingUseCase(IHealthOwnerRepository healthRepository, IHealthOutput healthOutput, IStatusOwnerRepository statusOwnerRepository, IHealingDamageModificationCalculator damageModifierCalculator)
         {
             _healthRepository = healthRepository;
             _healthOutput = healthOutput;

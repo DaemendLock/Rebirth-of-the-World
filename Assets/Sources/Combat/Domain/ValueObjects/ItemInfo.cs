@@ -33,6 +33,6 @@ namespace Combat.Local.Application.ValueObjects
     public readonly struct ItemAttributeBonus
     {
         public readonly UnitAttribute Attribute;
-        public readonly AttributeModifier Modification;
+        public readonly AttributeModifcation Modification;
     }
 }

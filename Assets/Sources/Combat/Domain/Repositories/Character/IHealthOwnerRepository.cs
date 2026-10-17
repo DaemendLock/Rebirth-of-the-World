@@ -3,7 +3,7 @@ using Combat.Domain.Entities;
 
 namespace Combat.Domain.Repositories
 {
-    public interface IHealthRepository
+    public interface IHealthOwnerRepository
     {
         void Create(HealthOwner value);
         ref HealthOwner Get(UnitId id);

@@ -1,6 +1,6 @@
 using Combat.Common.Primitives;
+using Combat.Local.Application.DTO;
 using Combat.Local.Application.Queries.Statuses;
-using Combat.Local.Application.ValueObjects;
 using Combat.Local.Scripting.Capabilities.Statuses;
 using Combat.Local.Scripting.Runtime;
 
@@ -18,9 +18,9 @@ namespace Combat.Local.Scripting.Ports.Statuses
             _statusRuntimeRegistry = statusRuntimeRegistry;
         }
 
-        public AttributesModification Evaluate(IEnumerable<StatusId> values)
+        public AttributesBonuses Evaluate(IEnumerable<StatusId> values)
         {
-            AttributesModification result = new();
+            AttributesBonuses result = new();
 
             foreach (StatusId statusId in values)
             {
@@ -33,7 +33,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
 
                 if (attributeEffect != null)
                 {
-                    AttributesModification modification = attributeEffect.GetModification();
+                    AttributesBonuses modification = attributeEffect.GetModification();
                     result.Attack += modification.Attack;
                     result.Spellpower += modification.Spellpower;
                     result.Speed += modification.Speed;

@@ -17,7 +17,7 @@ namespace Combat.Local.Application.UseCases
     {
         private readonly UnitIdFactory _idFactory;
 
-        private readonly IHealthRepository _healthRepository;
+        private readonly IHealthOwnerRepository _healthRepository;
         private readonly IAttributesRepository _attributesRepository;
         private readonly IResourceOwnerRepository _resourceRepository;
         private readonly ISkillOwnerRepository _skillOwnerRepository;
@@ -34,7 +34,7 @@ namespace Combat.Local.Application.UseCases
         private readonly ICharacterCreateOutput _outputPort;
 
         public UnitCreateUseCase(
-            IHealthRepository healthRepository, IAttributesRepository attributesRepository,
+            IHealthOwnerRepository healthRepository, IAttributesRepository attributesRepository,
             IResourceOwnerRepository resourceRepository, ISkillOwnerRepository skillOwnerRepository,
             IPositionableRepository positionableRepository, IActorRepository actorRepository,
             ICharacterCreateOutput outputPort,

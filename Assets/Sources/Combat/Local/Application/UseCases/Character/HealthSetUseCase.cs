@@ -8,10 +8,10 @@ namespace Combat.Local.Application.UseCases
 {
     public readonly struct HealthSetUseCase
     {
-        private readonly IHealthRepository _healthRepository;
+        private readonly IHealthOwnerRepository _healthRepository;
         private readonly IHealthOutput _healthOutput;
 
-        public HealthSetUseCase(IHealthRepository healthRepository, IHealthOutput healthOutput)
+        public HealthSetUseCase(IHealthOwnerRepository healthRepository, IHealthOutput healthOutput)
         {
             _healthRepository = healthRepository;
             _healthOutput = healthOutput;

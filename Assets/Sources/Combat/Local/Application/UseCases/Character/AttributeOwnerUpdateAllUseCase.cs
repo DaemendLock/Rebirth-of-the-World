@@ -1,11 +1,11 @@
 ﻿using Combat.Common.Primitives;
+using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
 using Combat.Domain.Entities.Units;
 using Combat.Domain.Repositories;
+using Combat.Local.Application.DTO;
 using Combat.Local.Application.Queries.Statuses;
 using Combat.Local.Application.Repositories;
-using Combat.Local.Application.Services.Skills;
-using Combat.Local.Application.ValueObjects;
 
 using System;
 using System.Collections.Generic;
@@ -17,10 +17,9 @@ namespace Combat.Local.Application.UseCases
     {
         private readonly IAttributesRepository _attributesRepository;
         private readonly IStatusOwnerRepository _statusOwnerRepository;
+        private readonly IHealthOwnerRepository _healthOwnerRepository;
         private readonly ICharacterUpdateRepository _characterUpdateList;
         private readonly IAttributesModificationCalculator _statusAttributeCalculator;
-
-        private readonly AttributeOwnerOperations _attributeOwnerOperations;
 
         public AttributeOwnerUpdateAllUseCase(IAttributesRepository attributesRepository, IStatusOwnerRepository statusOwnerRepository, ICharacterUpdateRepository characterUpdateList, IAttributesModificationCalculator statusAttributeCalculator)
         {
@@ -28,8 +27,6 @@ namespace Combat.Local.Application.UseCases
             _statusOwnerRepository = statusOwnerRepository;
             _characterUpdateList = characterUpdateList;
             _statusAttributeCalculator = statusAttributeCalculator;
-
-            _attributeOwnerOperations = new(_attributesRepository);
         }
 
         public void Execute(IReadOnlyCollection<Updatable> targets)
@@ -55,7 +52,7 @@ namespace Combat.Local.Application.UseCases
                     continue;
                 }
 
-                _attributeOwnerOperations.Clear(attributesOwner);
+                attributesOwner.Clear();
             }
 
             foreach (UnitId value in values)
@@ -76,9 +73,16 @@ namespace Combat.Local.Application.UseCases
                     continue;
                 }
 
-                AttributesModification finalModification = _statusAttributeCalculator.Evaluate(statusOwner.GetAll().Select(value => value.Id));
-                _attributeOwnerOperations.Cache(attributesOwner, finalModification);
+                AttributesBonuses finalModification = _statusAttributeCalculator.Evaluate(statusOwner.GetAll().Select(value => value.Id));
+
+                for (int j = 0; j < attributesOwner.BaseValues.Length; j++)
+                {
+                    attributesOwner.SetModification((UnitAttribute)i, finalModification[(UnitAttribute)i]);
+                }
+
                 _characterUpdateList.Update(new(value, Math.Max(1 + (finalModification.TimeScale / 100f), 0f)));
+                ref HealthOwner healthOwner = ref _healthOwnerRepository.Get(value);
+                healthOwner.BonusHealth = attributesOwner.GetMaxHealthBonus();
             }
         }
     }

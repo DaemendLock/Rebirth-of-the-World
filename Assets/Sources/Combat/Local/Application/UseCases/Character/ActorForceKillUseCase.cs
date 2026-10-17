@@ -3,21 +3,18 @@ using Combat.Common.Primitives;
 using Combat.Domain.Entities;
 using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.Repositories;
-using Combat.Local.Application.Services.Skills;
 
 namespace Combat.Local.Application.UseCases
 {
     public sealed class ActorForceKillUseCase
     {
         private readonly IActorRepository _actorRepository;
-        private readonly ActorOperations _actorOperations;
         private readonly ICharacterConsciousStateOutput _characterStateOutput;
 
-        public ActorForceKillUseCase(IActorRepository stateRepository, ICharacterConsciousStateOutput characterStateOutput, ActorOperations actorOperations)
+        public ActorForceKillUseCase(IActorRepository stateRepository, ICharacterConsciousStateOutput characterStateOutput)
         {
             _actorRepository = stateRepository;
             _characterStateOutput = characterStateOutput;
-            _actorOperations = actorOperations;
         }
 
         public void Execute(UnitId target, AbilityKey? source)
@@ -27,10 +24,13 @@ namespace Combat.Local.Application.UseCases
                 return;
             }
 
-            if (_actorOperations.TryKill(actor) == false)
+            if (actor.ConsciousState == ConsciousState.Dead)
             {
                 return;
             }
+
+            actor.Kill();
+            _actorRepository.Update(actor);
 
             _characterStateOutput.Present(target, ConsciousState.Dead);
         }

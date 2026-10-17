@@ -13,9 +13,9 @@ namespace Combat.Local.Application.Facades
         private readonly HealthApplyDamageUseCase _applyDamageUseCase;
         private readonly HealthApplyHealingUseCase _applyHealingUseCase;
 
-        private readonly IHealthRepository _healthRepository;
+        private readonly IHealthOwnerRepository _healthRepository;
 
-        public HealthOwnerFacade(HealthSetUseCase setHealthUseCase, HealthApplyDamageUseCase applyDamageUseCase, HealthApplyHealingUseCase applyHealingUseCase, IHealthRepository healthRepository)
+        public HealthOwnerFacade(HealthSetUseCase setHealthUseCase, HealthApplyDamageUseCase applyDamageUseCase, HealthApplyHealingUseCase applyHealingUseCase, IHealthOwnerRepository healthRepository)
         {
             _setHealthUseCase = setHealthUseCase;
             _applyDamageUseCase = applyDamageUseCase;

@@ -2,13 +2,13 @@ using Combat.API.DTO;
 using Combat.API.Statuses;
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
-using Combat.Local.Application.ValueObjects;
+using Combat.Local.Application.DTO;
 
 namespace Combat.Local.Scripting.Capabilities.Statuses
 {
     public interface IStatusModifyAttributesCapability
     {
-        AttributesModification GetModification();
+        AttributesBonuses GetModification();
     }
 
     public sealed class ModifyAttributesCapability : IStatusModifyAttributesCapability
@@ -20,9 +20,9 @@ namespace Combat.Local.Scripting.Capabilities.Statuses
             _modifier = modifier;
         }
 
-        public AttributesModification GetModification()
+        public AttributesBonuses GetModification()
         {
-            AttributesModification result = new();
+            AttributesBonuses result = new();
             System.Span<AttributeValue> baseValues = stackalloc AttributeValue[AttributesOwner.AttributeCount];
             System.Span<AttributeValue> bonusValues = stackalloc AttributeValue[baseValues.Length];
 

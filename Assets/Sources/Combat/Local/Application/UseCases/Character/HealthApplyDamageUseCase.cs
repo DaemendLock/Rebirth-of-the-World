@@ -18,7 +18,7 @@ namespace Combat.Local.Application.UseCases
 {
     public readonly struct HealthApplyDamageUseCase
     {
-        private readonly IHealthRepository _healthRepository;
+        private readonly IHealthOwnerRepository _healthRepository;
         private readonly IActorRepository _actorRepository;
         private readonly IStatusOwnerRepository _statusOwnerRepository;
 
@@ -29,7 +29,7 @@ namespace Combat.Local.Application.UseCases
 
         private readonly ICharacterDeathHandler _characterDeathHandler;
 
-        public HealthApplyDamageUseCase(IHealthRepository healthRepository, IHealthOutput healthOutput, IActorRepository stateRepository, IStatusOwnerRepository statusOwnerRepository, ICharacterConsciousStateOutput characterConsciousStateOutput, IHealingDamageModificationCalculator damageModifierCalculator, IDamageResultHandler damageResultHandler, ICharacterDeathHandler characterDeathHandler)
+        public HealthApplyDamageUseCase(IHealthOwnerRepository healthRepository, IHealthOutput healthOutput, IActorRepository stateRepository, IStatusOwnerRepository statusOwnerRepository, ICharacterConsciousStateOutput characterConsciousStateOutput, IHealingDamageModificationCalculator damageModifierCalculator, IDamageResultHandler damageResultHandler, ICharacterDeathHandler characterDeathHandler)
         {
             _healthRepository = healthRepository;
             _healthOutput = healthOutput;

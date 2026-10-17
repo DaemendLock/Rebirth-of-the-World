@@ -26,7 +26,7 @@ namespace Combat.Local.Gateways.Repositories
         public int CurrentGeneration { get; }
     }
 
-    public sealed class DictionaryHealthRepository : IHealthRepository
+    public sealed class DictionaryHealthRepository : IHealthOwnerRepository
     {
         private readonly Dictionary<UnitId, int> _indexes;
         private readonly Stack<int> _freeIndexes;

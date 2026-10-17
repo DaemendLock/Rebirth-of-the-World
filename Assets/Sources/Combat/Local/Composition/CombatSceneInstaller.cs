@@ -10,13 +10,11 @@ using Combat.Local.Data.Databases;
 using Combat.Local.Data.DataSources;
 using Combat.Local.Data.Repositories;
 using Combat.Local.Application.Endpoints.Skills;
-using Combat.Local.Application.Facades;
 using Combat.Local.Application.Factories;
 using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.OutputPorts.Statuses;
 using Combat.Local.Application.Queries;
 using Combat.Local.Application.Repositories;
-using Combat.Local.Application.Services.Skills;
 using Combat.Local.Application.UseCases;
 using Combat.Local.Application.UseCases.Encounter;
 using Combat.Local.Application.UseCases.Objectives;
@@ -56,7 +54,6 @@ namespace Combat.Local.Composition
         {
             BindRepositories();
             BindFactories();
-            BindServices();
             BindUseCases();
             BindDataSources();
             BindScripting();
@@ -70,7 +67,7 @@ namespace Combat.Local.Composition
 
         private void BindRepositories()
         {
-            Container.Bind<IHealthRepository>().To<DictionaryHealthRepository>().AsSingle();
+            Container.Bind<IHealthOwnerRepository>().To<DictionaryHealthRepository>().AsSingle();
             Container.Bind<IAttributesRepository>().To<AttributesRepository>().AsSingle();
             Container.Bind<IResourceOwnerRepository>().To<ResourceRepository>().AsSingle();
             Container.Bind<IHitboxOwnerRepository>().To<HitboxRepository>().AsSingle();
@@ -110,11 +107,6 @@ namespace Combat.Local.Composition
             Container.Bind<CharacterModelFactory>().AsSingle();
             Container.Bind<ActionFactory>().AsSingle();
             Container.Bind<IAbilityActionStrategyFactory>().To<AbilityActionStrategyFactory>().AsSingle();
-        }
-
-        private void BindServices()
-        {
-            Container.Bind<ActorOperations>().AsSingle();
         }
         private void BindUseCases()
         {

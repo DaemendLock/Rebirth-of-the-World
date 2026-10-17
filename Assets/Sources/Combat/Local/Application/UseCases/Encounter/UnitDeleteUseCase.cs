@@ -12,7 +12,7 @@ namespace Combat.Local.Application.UseCases.Scene
 {
     public sealed class UnitDeleteUseCase
     {
-        private readonly IHealthRepository _healthRepository;
+        private readonly IHealthOwnerRepository _healthRepository;
         private readonly IAttributesRepository _attributesRepository;
         private readonly IResourceOwnerRepository _resourceRepository;
         private readonly ISkillOwnerRepository _skillOwnerRepository;
@@ -35,7 +35,7 @@ namespace Combat.Local.Application.UseCases.Scene
 
         private readonly ICharacterRemoveOutput _outputPort;
 
-        public UnitDeleteUseCase(IHealthRepository healthRepository, IAttributesRepository attributesRepository,
+        public UnitDeleteUseCase(IHealthOwnerRepository healthRepository, IAttributesRepository attributesRepository,
                                       IResourceOwnerRepository resourceRepository, ISkillOwnerRepository skillOwnerRepository,
                                       IPositionableRepository positionableRepository, IActorRepository actorRepository,
                                       IStatusOwnerRepository statusOwnerRepository, ICharacterUpdateRepository characterUpdateList,

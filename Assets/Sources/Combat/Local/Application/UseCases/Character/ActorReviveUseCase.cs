@@ -3,20 +3,17 @@ using Combat.Common.Primitives;
 using Combat.Domain.Entities;
 using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.Repositories;
-using Combat.Local.Application.Services.Skills;
 
 namespace Combat.Local.Application.UseCases
 {
     public readonly struct ActorReviveUseCase
     {
         private readonly IActorRepository _actorRepository;
-        private readonly ActorOperations _actorOperations;
         private readonly ICharacterConsciousStateOutput _characterStateOutput;
 
-        public ActorReviveUseCase(IActorRepository stateRepository, ICharacterConsciousStateOutput characterStateOutput, ActorOperations actorOperations)
+        public ActorReviveUseCase(IActorRepository stateRepository, ICharacterConsciousStateOutput characterStateOutput)
         {
             _actorRepository = stateRepository;
-            _actorOperations = actorOperations;
             _characterStateOutput = characterStateOutput;
         }
 
