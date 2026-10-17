@@ -1,4 +1,4 @@
-﻿using Combat.Local.Domain.ValueObjects;
+﻿using Combat.Local.Application.ValueObjects;
 
 using System.Collections.Generic;
 

@@ -1,7 +1,7 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Common.Flags;
-using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Repositories;
+using Combat.Local.Application.Entities;
+using Combat.Local.Application.Repositories;
 using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Models;
 
@@ -11,6 +11,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using Combat.Common.ValueObjects;
+using Combat.Domain.Entities;
 
 namespace Combat.Local.Gateways.Repositories.Characters
 {

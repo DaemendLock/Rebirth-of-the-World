@@ -3,7 +3,7 @@ using Combat.Common.ValueObjects;
 using Combat.Local.Controllers;
 using Combat.Local.Data.Databases;
 using Combat.Local.Data.DataSources;
-using Combat.Local.Domain.ValueObjects;
+using Combat.Local.Application.ValueObjects;
 
 using Data.Entities;
 

@@ -1,7 +1,7 @@
 using Combat.Common.Flags;
 using Combat.Common.Primitives;
 using Combat.Local.Application.Queries.Statuses;
-using Combat.Local.Domain.ValueObjects;
+using Combat.Local.Application.ValueObjects;
 using Combat.Local.Scripting.Capabilities.Statuses;
 using Combat.Local.Scripting.Runtime;
 

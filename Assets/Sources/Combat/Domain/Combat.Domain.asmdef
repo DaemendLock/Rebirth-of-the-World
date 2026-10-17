@@ -1,0 +1,17 @@
+{
+    "name": "Combat.Domain",
+    "rootNamespace": "",
+    "references": [
+        "GUID:dc965a8580913f84294fa92f59afdf35",
+        "GUID:183c83d7bd836a44c95975655413768f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

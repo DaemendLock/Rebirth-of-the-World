@@ -1,6 +1,6 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Repositories;
+using Combat.Local.Application.Entities;
+using Combat.Local.Application.Repositories;
 using Combat.Local.Gateways.Factories;
 using Combat.Local.Gateways.Models;
 
@@ -8,7 +8,6 @@ using System.Collections.Generic;
 
 namespace Combat.Local.Gateways.Repositories
 {
-
     public sealed class ProjectileRepository : IProjectileRepository
     {
         private readonly Dictionary<ProjectileId, ProjectileModel> _values;

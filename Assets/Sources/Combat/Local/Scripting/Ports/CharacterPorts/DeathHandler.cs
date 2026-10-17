@@ -1,8 +1,8 @@
 ﻿using Combat.API.Contexts;
 using Combat.API.Events;
 using Combat.Common.Primitives;
-using Combat.Local.Domain.OutputPorts;
-using Combat.Local.Domain.ValueObjects;
+using Combat.Local.Application.DTO;
+using Combat.Local.Application.OutputPorts;
 using Combat.Local.Scripting.Runtime;
 
 namespace Combat.Local.Scripting.Ports.CharacterPorts

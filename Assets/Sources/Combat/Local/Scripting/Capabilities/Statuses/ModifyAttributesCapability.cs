@@ -1,8 +1,8 @@
 using Combat.API.DTO;
 using Combat.API.Statuses;
 using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.ValueObjects;
+using Combat.Domain.Entities;
+using Combat.Local.Application.ValueObjects;
 
 namespace Combat.Local.Scripting.Capabilities.Statuses
 {

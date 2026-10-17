@@ -1,8 +1,8 @@
 using Combat.API.Contexts;
 using Combat.API.Events;
 using Combat.Common.Primitives;
-using Combat.Local.Domain.OutputPorts.Statuses;
-using Combat.Local.Domain.ValueObjects;
+using Combat.Local.Application.DTO;
+using Combat.Local.Application.OutputPorts.Statuses;
 using Combat.Local.Scripting.Capabilities.Statuses;
 using Combat.Local.Scripting.Runtime;
 
@@ -21,7 +21,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
             _eventContext = eventContext;
         }
 
-        public void NotifyDamageDealth(DamageResult @event, IEnumerable<StatusId> handlers)
+        public void NotifyDamageDealth(DamageRecord @event, IEnumerable<StatusId> handlers)
         {
             foreach (StatusId statusId in handlers)
             {
@@ -43,7 +43,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
             _eventContext.Publish(new GameEvent<DealDamageEventData>(new(@event.FinalDamage)));
         }
 
-        public void NotifyDamageRecieved(DamageResult @event, IEnumerable<StatusId> handlers)
+        public void NotifyDamageRecieved(DamageRecord @event, IEnumerable<StatusId> handlers)
         {
             foreach (StatusId statusId in handlers)
             {

@@ -2,8 +2,8 @@
 using Combat.API.Events;
 using Combat.API.Statuses;
 using Combat.Common.Primitives;
+using Combat.Domain.Repositories;
 using Combat.Local.Application.Facades;
-using Combat.Local.Domain.Repositories;
 
 using System;
 using System.Collections.Generic;

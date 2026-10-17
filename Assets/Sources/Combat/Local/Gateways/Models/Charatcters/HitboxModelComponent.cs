@@ -1,5 +1,5 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Local.Domain.ValueObjects;
+using Combat.Local.Application.Repositories;
 
 using System;
 
@@ -20,7 +20,7 @@ namespace Combat.Local.Gateways.Models
             Hitted = null;
         }
 
-        public event Action<HitRecord> Hitted;
+        public event Action<HitInfo> Hitted;
 
         public HitboxType Type { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Local.Domain.Entities.Units;
-using Combat.Local.Domain.Repositories;
+using Combat.Domain.Entities.Units;
+using Combat.Local.Application.Repositories;
 using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Models;
 

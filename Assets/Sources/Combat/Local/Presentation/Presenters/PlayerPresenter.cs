@@ -1,6 +1,6 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
-using Combat.Local.Domain.UseCases;
+using Combat.Local.Application.UseCases;
 using Combat.Local.Presentation.Views;
 
 using UnityEngine;

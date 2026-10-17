@@ -1,5 +1,5 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Local.Domain.Repositories.Skill;
+using Combat.Domain.Repositories;
 
 using System;
 using System.Collections.Generic;

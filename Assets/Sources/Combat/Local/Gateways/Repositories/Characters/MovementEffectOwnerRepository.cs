@@ -1,6 +1,7 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Repositories;
+using Combat.Domain.Entities;
+using Combat.Local.Application.Entities;
+using Combat.Local.Application.Repositories;
 using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Models;
 
@@ -80,7 +81,7 @@ namespace Combat.Local.Gateways.Repositories.Characters
 
             Transform transform = _characterModelDataSource.GetOrCreate(value.Id);
             ScaleEffectComponent model = transform.gameObject.AddComponent<ScaleEffectComponent>();
-            model.Values = value.Values.ToArray();
+            model.Data = value;
             _values[value.Id] = model;
         }
 
@@ -97,23 +98,7 @@ namespace Combat.Local.Gateways.Repositories.Characters
                 throw new System.InvalidOperationException($"Key {id} does not exists");
             }
 
-            return new(id, model.Values);
-        }
-
-        public void Update(ScaleEffectOwner value)
-        {
-            if (_values.TryGetValue(value.Id, out var model) == false)
-            {
-                throw new System.InvalidOperationException($"Key {value.Id} does not exists");
-            }
-
-            if (model == null)
-            {
-                _values.Remove(value.Id);
-                return;
-            }
-
-            model.Values = value.Values.ToArray();
+            return model.Data.Value;
         }
 
         public void Delete(UnitId target)

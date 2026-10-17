@@ -1,7 +1,7 @@
 using Combat.API.Contexts;
 using Combat.Common.Primitives;
-using Combat.Local.Domain.Endpoints.Skills;
-using Combat.Local.Domain.ValueObjects;
+using Combat.Local.Application.DTO;
+using Combat.Local.Application.Endpoints.Skills;
 using Combat.Local.Scripting.Capabilities.Skills;
 using Combat.Local.Scripting.Runtime;
 

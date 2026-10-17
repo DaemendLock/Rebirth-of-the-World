@@ -1,8 +1,8 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Services;
-using Combat.Local.Domain.UseCases;
+using Combat.Domain.Entities;
+using Combat.Domain.ValueObjects;
+using Combat.Local.Application.UseCases;
 
 using UnityEngine;
 

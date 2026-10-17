@@ -1,6 +1,4 @@
-﻿using Combat.Local.Domain.Entities.Units;
-
-using System;
+﻿using Combat.Domain.Entities;
 
 using UnityEngine;
 
@@ -11,19 +9,23 @@ namespace Combat.Local.Gateways.Models
     {
         private CharacterModelComponent _characterModel;
 
-        public ScaleOverTimeEffect[] Values { get; set; } = Array.Empty<ScaleOverTimeEffect>();
-
         private void Start()
         {
             _characterModel = GetComponent<CharacterModelComponent>();
         }
+        public ScaleEffectOwner? Data { get; set; }
 
         private void Update()
         {
+            if (Data.HasValue == false)
+            {
+                return;
+            }
+
             float currentScale = transform.localScale.x;
             float rate = 0;
 
-            foreach (var value in Values)
+            foreach (var value in Data.Value.Values)
             {
                 rate += value.Rate;
             }

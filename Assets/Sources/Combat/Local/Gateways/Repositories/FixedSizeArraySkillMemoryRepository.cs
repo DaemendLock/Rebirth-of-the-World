@@ -1,7 +1,7 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Repositories.Objectives;
+using Combat.Domain.Entities;
+using Combat.Domain.Repositories;
 
 using System;
 using System.Collections.Generic;
@@ -46,7 +46,7 @@ namespace Combat.Local.Gateways.Repositories
         public void Update(Objective value) => _values[value.Id] = new(value);
     }
 
-    public sealed class FixedSizeArrayObjectiveMemoryRepository : IObjectiveMemoryRepository
+    public sealed class FixedSizeArrayObjectiveMemoryRepository : IObjectiveDynamicMemoryRepository
     {
         private readonly Dictionary<ObjectiveId, byte[]> _values = new();
 

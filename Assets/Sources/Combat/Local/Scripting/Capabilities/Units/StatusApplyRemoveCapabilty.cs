@@ -1,7 +1,7 @@
 using Combat.API.Capabilities;
 using Combat.API.DTO;
 using Combat.Common.Primitives;
-using Combat.Local.Domain.UseCases;
+using Combat.Local.Application.UseCases;
 
 namespace Combat.Local.Scripting.Capabilities.Units
 {

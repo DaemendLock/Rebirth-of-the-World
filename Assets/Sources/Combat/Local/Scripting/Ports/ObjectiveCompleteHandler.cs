@@ -3,10 +3,10 @@ using Combat.API.Events;
 using Combat.API.Scripting;
 using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Facades;
-using Combat.Local.Domain.OutputPorts;
-using Combat.Local.Domain.Repositories.Objectives;
+using Combat.Domain.Entities;
+using Combat.Domain.Repositories;
+using Combat.Local.Application.Facades;
+using Combat.Local.Application.OutputPorts;
 using Combat.Local.Scripting.Contexts;
 using Combat.Local.Scripting.Factories;
 using Combat.Local.Scripting.Runtime;
@@ -17,12 +17,12 @@ namespace Combat.Local.Scripting.Ports
     {
         private readonly ObjectiveRuntimeRegistry _objectiveContainer;
         private readonly IObjectiveScriptFactory _scriptFactory;
-        private readonly IObjectiveMemoryRepository _memoryRepository;
+        private readonly IObjectiveDynamicMemoryRepository _memoryRepository;
         private readonly ObjectiveCompleteFacade _facade;
         private readonly IEncounterContext _context;
         private readonly IEventContext _eventContext;
 
-        public ObjectiveCreateHandler(ObjectiveRuntimeRegistry objectiveContainer, IObjectiveScriptFactory scriptFactory, IObjectiveMemoryRepository memoryRepository, ObjectiveCompleteFacade facade, IEncounterContext context, IEventContext eventContext)
+        public ObjectiveCreateHandler(ObjectiveRuntimeRegistry objectiveContainer, IObjectiveScriptFactory scriptFactory, IObjectiveDynamicMemoryRepository memoryRepository, ObjectiveCompleteFacade facade, IEncounterContext context, IEventContext eventContext)
         {
             _objectiveContainer = objectiveContainer;
             _scriptFactory = scriptFactory;
@@ -52,10 +52,10 @@ namespace Combat.Local.Scripting.Ports
     public sealed class ObjectiveCompleteHandler : IObjectiveFinalizeHandler
     {
         private readonly ObjectiveRuntimeRegistry _objectiveContainer;
-        private readonly IObjectiveMemoryRepository _memoryRepository;
+        private readonly IObjectiveDynamicMemoryRepository _memoryRepository;
         private readonly IEventContext _eventContext;
 
-        public ObjectiveCompleteHandler(ObjectiveRuntimeRegistry objectiveContainer, IObjectiveMemoryRepository memoryRepository, IEventContext eventContext)
+        public ObjectiveCompleteHandler(ObjectiveRuntimeRegistry objectiveContainer, IObjectiveDynamicMemoryRepository memoryRepository, IEventContext eventContext)
         {
             _objectiveContainer = objectiveContainer;
             _memoryRepository = memoryRepository;

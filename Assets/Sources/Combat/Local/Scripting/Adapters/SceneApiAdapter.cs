@@ -1,4 +1,4 @@
-﻿using Combat.Local.Domain.Facades;
+﻿using Combat.Local.Application.Facades;
 using Combat.Local.Scripting.Adapters;
 using Combat.Local.Scripting.Contexts;
 

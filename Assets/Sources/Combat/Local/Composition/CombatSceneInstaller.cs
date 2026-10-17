@@ -1,29 +1,27 @@
 ﻿using Combat.API.Adapters;
 using Combat.API.Contexts;
 using Combat.API.Scripting;
+using Combat.Domain.Entities;
+using Combat.Domain.ValueObjects;
 using Combat.Local.Application.Facades;
 using Combat.Local.Application.Queries.Statuses;
 using Combat.Local.Controllers;
 using Combat.Local.Data.Databases;
 using Combat.Local.Data.DataSources;
 using Combat.Local.Data.Repositories;
-using Combat.Local.Domain.Endpoints.Skills;
-using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Facades;
-using Combat.Local.Domain.Factories;
-using Combat.Local.Domain.OutputPorts;
-using Combat.Local.Domain.OutputPorts.Statuses;
-using Combat.Local.Domain.Queries;
-using Combat.Local.Domain.Repositories;
-using Combat.Local.Domain.Repositories.Objectives;
-using Combat.Local.Domain.Repositories.Skill;
-using Combat.Local.Domain.Services;
-using Combat.Local.Domain.Services.Skills;
-using Combat.Local.Domain.UseCases;
-using Combat.Local.Domain.UseCases.Encounter;
-using Combat.Local.Domain.UseCases.Objectives;
-using Combat.Local.Domain.UseCases.Scene;
-using Combat.Local.Domain.UseCases.Skills;
+using Combat.Local.Application.Endpoints.Skills;
+using Combat.Local.Application.Facades;
+using Combat.Local.Application.Factories;
+using Combat.Local.Application.OutputPorts;
+using Combat.Local.Application.OutputPorts.Statuses;
+using Combat.Local.Application.Queries;
+using Combat.Local.Application.Repositories;
+using Combat.Local.Application.Services.Skills;
+using Combat.Local.Application.UseCases;
+using Combat.Local.Application.UseCases.Encounter;
+using Combat.Local.Application.UseCases.Objectives;
+using Combat.Local.Application.UseCases.Scene;
+using Combat.Local.Application.UseCases.Skills;
 using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Factories;
 using Combat.Local.Gateways.Repositories;
@@ -46,6 +44,7 @@ using Game.Application.DTO;
 using UnityEngine;
 
 using Zenject;
+using Combat.Domain.Repositories;
 
 namespace Combat.Local.Composition
 {
@@ -89,7 +88,7 @@ namespace Combat.Local.Composition
             Container.Bind<IScaleEffectOwnerRepository>().To<ScaleEffectOwnerRepository>().AsSingle();
             Container.Bind<ISkillDynamicMemoryRepository>().To<FixedSizeArraySkillMemoryRepository>().AsSingle();
             Container.Bind<IStatusDynamicMemoryRepository>().To<FixedSizeArrayStatusMemoryRepository>().AsSingle();
-            Container.Bind<IObjectiveMemoryRepository>().To<FixedSizeArrayObjectiveMemoryRepository>().AsSingle();
+            Container.Bind<IObjectiveDynamicMemoryRepository>().To<FixedSizeArrayObjectiveMemoryRepository>().AsSingle();
             Container.Bind<IObjectiveRepository>().To<ObjectiveRepository>().AsSingle();
             Container.Bind<ICharacterDeleteQueue>().To<CharacterDeleteQueue>().AsSingle();
 

@@ -1,6 +1,6 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Factories;
+using Combat.Local.Application.Entities;
+using Combat.Local.Application.Factories;
 using Combat.Local.Gateways.DataSources;
 
 namespace Combat.Local.Gateways.Factories

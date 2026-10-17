@@ -2,7 +2,7 @@ using Combat.API.Adapters;
 using Combat.API.API.Skills;
 using Combat.API.Contexts;
 using Combat.Common.Primitives;
-using Combat.Local.Domain.Repositories.Skill;
+using Combat.Domain.Repositories;
 using Combat.Local.Scripting.Contexts;
 using Combat.Local.Scripting.Idk;
 using Combat.Local.Scripting.Runtime;

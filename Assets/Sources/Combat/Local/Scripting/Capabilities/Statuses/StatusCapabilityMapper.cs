@@ -1,7 +1,8 @@
 using Combat.API;
 using Combat.API.DTO;
 using Combat.API.ValueObjects;
-using Combat.Local.Domain.ValueObjects;
+using Combat.Local.Application.DTO;
+using Combat.Local.Application.ValueObjects;
 using Combat.Local.Scripting.Adapters;
 
 namespace Combat.Local.Scripting.Capabilities.Statuses
@@ -27,7 +28,7 @@ namespace Combat.Local.Scripting.Capabilities.Statuses
             return new(target, healer, source, instance.OriginalHealing, instance.Flags);
         }
 
-        public static DamageRecord Adapt(in DamageResult result, CharacterApiAdapter units, AbilityApiAdapter abilities)
+        public static API.DTO.DamageRecord Adapt(in Application.DTO.DamageRecord result, CharacterApiAdapter units, AbilityApiAdapter abilities)
         {
             Unit target = units.Adaptee(result.Target);
             Unit attacker = result.Attacker.HasValue ? units.Adaptee(result.Attacker.Value) : null;

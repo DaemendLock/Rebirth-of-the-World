@@ -1,13 +1,13 @@
 using Combat.API.Contexts;
 using Combat.API.Statuses;
-using Combat.Local.Domain.ValueObjects;
+using Combat.Local.Application.DTO;
 using Combat.Local.Scripting.Adapters;
 
 namespace Combat.Local.Scripting.Capabilities.Statuses
 {
     public interface IStatusHandleIncomingDamageCapability
     {
-        void Handle(IStatusContext context, in DamageResult result);
+        void Handle(IStatusContext context, in DamageRecord result);
     }
 
     public sealed class HandleIncomingDamageCapability : IStatusHandleIncomingDamageCapability
@@ -23,7 +23,7 @@ namespace Combat.Local.Scripting.Capabilities.Statuses
             _skillApiProvider = skillApiProvider;
         }
 
-        public void Handle(IStatusContext context, in DamageResult result) =>
+        public void Handle(IStatusContext context, in DamageRecord result) =>
             _handler.OnTakeDamage(StatusCapabilityMapper.Adapt(result, _unitApiAdapter, _skillApiProvider));
     }
 }

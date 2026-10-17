@@ -1,8 +1,8 @@
 ﻿using Combat.API.Contexts;
 using Combat.API.Events;
 using Combat.Common.Primitives;
-using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.OutputPorts.Statuses;
+using Combat.Domain.Entities;
+using Combat.Local.Application.OutputPorts.Statuses;
 using Combat.Local.Scripting.Capabilities.Statuses;
 using Combat.Local.Scripting.Factories;
 using Combat.Local.Scripting.IDK;

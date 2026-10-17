@@ -1,6 +1,6 @@
 using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Endpoints.Skills;
+using Combat.Local.Application.Endpoints.Skills;
 using Combat.Local.Scripting.Capabilities.Skills;
 using Combat.Local.Scripting.Factories;
 using Combat.Local.Scripting.Runtime;

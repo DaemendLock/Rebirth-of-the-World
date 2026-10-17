@@ -1,7 +1,7 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Queries;
-using Combat.Local.Domain.Repositories;
+using Combat.Domain.Entities;
+using Combat.Local.Application.Queries;
+using Combat.Local.Application.Repositories;
 using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Factories;
 using Combat.Local.Gateways.Models;

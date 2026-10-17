@@ -1,6 +1,6 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
-using Combat.Local.Domain.UseCases.Encounter;
+using Combat.Local.Application.Repositories;
 
 namespace Combat.Local.Gateways.Models
 {

@@ -1,6 +1,6 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Local.Controllers;
-using Combat.Local.Domain.UseCases;
+using Combat.Local.Application.UseCases;
 using Combat.Local.Gateways.DataSources;
 
 using UnityEngine;

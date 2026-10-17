@@ -1,5 +1,5 @@
 using Combat.API.Statuses;
-using Combat.Local.Domain.ValueObjects;
+using Combat.Local.Application.ValueObjects;
 using Combat.Local.Scripting.Adapters;
 
 namespace Combat.Local.Scripting.Capabilities.Statuses

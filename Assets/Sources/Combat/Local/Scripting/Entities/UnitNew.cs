@@ -3,8 +3,8 @@ using Combat.API.Capabilities;
 using Combat.API.Contexts;
 using Combat.Common.Primitives;
 using Combat.Local.Application.Facades;
-using Combat.Local.Domain.Facades;
-using Combat.Local.Domain.UseCases;
+using Combat.Local.Application.Facades;
+using Combat.Local.Application.UseCases;
 using Combat.Local.Scripting.Capabilities.Units;
 
 using System.Collections.Generic;

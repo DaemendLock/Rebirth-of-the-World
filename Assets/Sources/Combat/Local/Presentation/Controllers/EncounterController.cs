@@ -1,11 +1,11 @@
 using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
-using Combat.Local.Domain.DTO;
-using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.UseCases;
-using Combat.Local.Domain.UseCases.Encounter;
-using Combat.Local.Domain.UseCases.Scene;
-using Combat.Local.Domain.ValueObjects;
+using Combat.Domain.Entities;
+using Combat.Local.Application.DTO;
+using Combat.Local.Application.UseCases;
+using Combat.Local.Application.UseCases.Encounter;
+using Combat.Local.Application.UseCases.Scene;
+using Combat.Local.Application.ValueObjects;
 
 using System;
 using System.Collections.Generic;
@@ -75,13 +75,13 @@ namespace Combat.Local.Controllers
 
         public UnitId CreateUnit(UnitCreationInfo data)
         {
-            Domain.DTO.UnitCreationInfo unitCreationDTO = new(data.ModelName, data.Team, data.Position, data.CurrentHealth, data.BaseHealth, data.DefaultAttributes, data.DefaultResources, data.Skills);
+            Application.DTO.UnitCreationInfo unitCreationDTO = new(data.ModelName, data.Team, data.Position, data.CurrentHealth, data.BaseHealth, data.DefaultAttributes, data.DefaultResources, data.Skills);
             return _createUnitUseCase.Execute(unitCreationDTO);
         }
 
         public void CreateUnit(UnitId targetId, UnitCreationInfo data)
         {
-            Domain.DTO.UnitCreationInfo unitCreationDTO = new(data.ModelName, data.Team, data.Position, data.CurrentHealth, data.BaseHealth, data.DefaultAttributes, data.DefaultResources, data.Skills);
+            Application.DTO.UnitCreationInfo unitCreationDTO = new(data.ModelName, data.Team, data.Position, data.CurrentHealth, data.BaseHealth, data.DefaultAttributes, data.DefaultResources, data.Skills);
             _createUnitUseCase.Execute(targetId, unitCreationDTO);
         }
 

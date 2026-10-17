@@ -1,5 +1,5 @@
 using Combat.API.Scripting;
-using Combat.Local.Domain.Entities;
+using Combat.Domain.Entities;
 
 using System;
 using System.Collections.Generic;

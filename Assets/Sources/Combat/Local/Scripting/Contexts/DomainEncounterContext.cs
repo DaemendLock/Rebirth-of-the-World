@@ -4,9 +4,9 @@ using Combat.API.DTO;
 using Combat.API.Skills;
 using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
-using Combat.Local.Domain.DTO;
-using Combat.Local.Domain.Facades;
-using Combat.Local.Domain.ValueObjects;
+using Combat.Local.Application.DTO;
+using Combat.Local.Application.Facades;
+using Combat.Local.Application.ValueObjects;
 using Combat.Local.Scripting.Adapters;
 
 namespace Combat.Local.Scripting.Contexts
@@ -35,7 +35,7 @@ namespace Combat.Local.Scripting.Contexts
 
         public void CreateStatus(ApplyStatusInfo info)
         {
-            ApplStatusDTO dto = new(info.Target, info.Name, info.Duration, info.StackCount, info.Source);
+            ApplyStatusDTO dto = new(info.Target, info.Name, info.Duration, info.StackCount, info.Source);
             _sceneFacade.CreateStatus(dto);
         }
 

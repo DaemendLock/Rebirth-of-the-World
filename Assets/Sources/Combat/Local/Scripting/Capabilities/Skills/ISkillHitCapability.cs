@@ -1,7 +1,7 @@
 using Combat.API;
 using Combat.API.Contexts;
 using Combat.API.Skills;
-using Combat.Local.Domain.ValueObjects;
+using Combat.Local.Application.DTO;
 using Combat.Local.Scripting.Adapters;
 
 namespace Combat.Local.Scripting.Capabilities.Skills

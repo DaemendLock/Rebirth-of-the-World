@@ -1,8 +1,9 @@
-﻿using Combat.Common.Primitives;
-using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.OutputPorts;
-using Combat.Local.Domain.UseCases;
-using Combat.Local.Domain.ValueObjects;
+﻿using Combat.Common;
+using Combat.Common.Primitives;
+using Combat.Local.Application.DTO;
+using Combat.Local.Application.OutputPorts;
+using Combat.Local.Application.UseCases;
+using Combat.Local.Application.ValueObjects;
 
 using UnityEngine;
 
@@ -25,9 +26,9 @@ namespace Combat.Local.Presentation.Presenters
             Debug.Log($"Resource update for {value.Id}: {value.CurrentValue}/{value.MaxValue}");
         }
 
-        void IHealthOutput.Present(HealthOwner value)
+        void IHealthOutput.Present(HealthChangeRecord value)
         {
-            Debug.Log($"Health updated for {value.Id}: {value.CurrentValue}/{value.MaxHealth}");
+            Debug.Log($"Health updated for {value.Target}: {value.CurrentHealth}/{value.MaxHealth}");
         }
 
         void ICharacterConsciousStateOutput.Present(UnitId value, ConsciousState state)

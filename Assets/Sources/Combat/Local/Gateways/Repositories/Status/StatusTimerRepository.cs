@@ -1,6 +1,6 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Repositories;
+using Combat.Domain.Entities;
+using Combat.Domain.Repositories;
 
 using System.Collections.Generic;
 
@@ -22,8 +22,6 @@ namespace Combat.Local.Gateways.Repositories
         public void Delete(StatusId statusId) => _values.Remove(statusId);
 
         public bool TryGet(StatusId id, out StatusTimer value) => _values.TryGetValue(id, out value);
-
-        public ICollection<StatusTimer> GetAll() => _values.Values;
 
         public void Update(StatusTimer value) => _values[value.StatusId] = value;
     }

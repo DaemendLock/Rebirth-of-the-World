@@ -3,8 +3,8 @@ using Assets.Sources.Testing.Local;
 using Client.Testing.View;
 
 using Combat.API.Objectives;
-using Combat.Local.Domain.UseCases.Encounter;
-using Combat.Local.Domain.UseCases.Objectives;
+using Combat.Local.Application.UseCases.Encounter;
+using Combat.Local.Application.UseCases.Objectives;
 using Combat.Local.Scripting.Factories;
 
 using Zenject;

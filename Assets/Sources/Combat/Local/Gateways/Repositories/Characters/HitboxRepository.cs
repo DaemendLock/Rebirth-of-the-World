@@ -1,6 +1,6 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Local.Domain.Repositories;
-using Combat.Local.Domain.ValueObjects;
+using Combat.Local.Application.Repositories;
+using Combat.Local.Application.ValueObjects;
 using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Models;
 
@@ -12,15 +12,6 @@ using HitboxInfo = Data.Entities.Components.Hitbox;
 
 namespace Combat.Local.Gateways.Repositories.Characters
 {
-    public sealed class HitRecordQueue : IHitRecordQueue
-    {
-        private readonly Queue<HitRecord> _values = new();
-
-        public void Enqueue(HitRecord record) => _values.Enqueue(record);
-
-        public bool TryDequeue(out HitRecord record) => _values.TryDequeue(out record);
-    }
-
     public readonly struct HitboxOwnerData
     {
         public readonly List<HitboxModelComponent> Hitboxes;

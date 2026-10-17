@@ -1,7 +1,6 @@
-﻿using Combat.Common.Primitives;
-using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.ValueObjects;
-using Combat.Local.Gateways.DataSources;
+﻿using Combat.Common;
+using Combat.Domain.Entities;
+using Combat.Local.Application.ValueObjects;
 
 using DaeAnimator;
 
@@ -9,25 +8,6 @@ using UnityEngine;
 
 namespace Combat.Local.Gateways.Models
 {
-    public readonly struct ActorData
-    {
-        public ActorData(ActorState state, Action action, ConsciousState consciousState, DesiredActions desiredActions)
-        {
-            State = state;
-            Action = action;
-            ConsciousState = consciousState;
-            DesiredActions = desiredActions;
-        }
-
-        public ActorState State { get; }
-
-        public Action Action { get; }
-
-        public ConsciousState ConsciousState { get; }
-
-        public DesiredActions DesiredActions { get; }
-    }
-
     public sealed class ActorModelComponent : MonoBehaviour
     {
         private CharacterAnimator _characterAnimator;

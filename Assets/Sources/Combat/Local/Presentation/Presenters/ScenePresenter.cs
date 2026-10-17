@@ -1,5 +1,5 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Local.Domain.OutputPorts;
+using Combat.Local.Application.OutputPorts;
 
 namespace Combat.Local.Presentation.Presenters
 {

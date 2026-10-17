@@ -1,9 +1,9 @@
-﻿using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Entities.Units;
-using Combat.Local.Domain.Repositories;
-using Combat.Local.Domain.UseCases;
-using Combat.Local.Domain.UseCases.Scene;
-using Combat.Local.Domain.UseCases.Skills;
+﻿using Combat.Domain.Entities;
+using Combat.Domain.Entities.Units;
+using Combat.Local.Application.Repositories;
+using Combat.Local.Application.UseCases;
+using Combat.Local.Application.UseCases.Scene;
+using Combat.Local.Application.UseCases.Skills;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -64,7 +64,7 @@ namespace Testing.Local
 
             while (_hitRecordQueue.TryDequeue(out var hitRecord))
             {
-                _handleHitUseCase.Execute(hitRecord);
+                _handleHitUseCase.Execute(new(hitRecord));
             }
 
             _skillUpdateAllUseCase.Execute(updateList, deltaTime);

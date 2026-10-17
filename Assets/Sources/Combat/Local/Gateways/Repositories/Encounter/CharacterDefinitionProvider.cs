@@ -1,6 +1,6 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Local.Domain.Repositories;
-using Combat.Local.Domain.UseCases.Encounter;
+using Combat.Local.Application.Repositories;
+using Combat.Local.Application.UseCases.Encounter;
 using Combat.Local.Gateways.DataSources;
 
 namespace Combat.Local.Gateways.Repositories.Encounter

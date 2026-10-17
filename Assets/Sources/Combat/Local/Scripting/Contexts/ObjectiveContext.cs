@@ -3,8 +3,8 @@ using Combat.API.Events;
 using Combat.API.Objectives;
 using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
-using Combat.Local.Domain.Facades;
-using Combat.Local.Domain.Repositories.Objectives;
+using Combat.Domain.Repositories;
+using Combat.Local.Application.Facades;
 
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace Combat.Local.Scripting.Contexts
     public sealed class ObjectiveContext : IObjectiveContext
     {
         private readonly ObjectiveId _id;
-        private readonly IObjectiveMemoryRepository _memoryRepository;
+        private readonly IObjectiveDynamicMemoryRepository _memoryRepository;
         private readonly IEventContext _eventContext;
         private readonly ObjectiveCompleteFacade _objectiveFacade;
 
@@ -25,7 +25,7 @@ namespace Combat.Local.Scripting.Contexts
 
         private bool _disposed;
 
-        public ObjectiveContext(ObjectiveId id, IObjectiveMemoryRepository memoryRepository, IEventContext eventContext, IEncounterContext context, ObjectiveCompleteFacade objectiveFacade)
+        public ObjectiveContext(ObjectiveId id, IObjectiveDynamicMemoryRepository memoryRepository, IEventContext eventContext, IEncounterContext context, ObjectiveCompleteFacade objectiveFacade)
         {
             _id = id;
             _disposed = false;

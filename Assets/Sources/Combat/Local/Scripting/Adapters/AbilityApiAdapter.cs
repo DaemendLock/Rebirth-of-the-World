@@ -1,8 +1,8 @@
 ﻿using Combat.API;
 using Combat.API.Adapters;
 using Combat.Common.Primitives;
-using Combat.Local.Domain.Entities;
-using Combat.Local.Domain.Factories;
+using Combat.Local.Application.Entities;
+using Combat.Local.Application.Factories;
 using Combat.Local.Scripting.Contexts;
 
 namespace Combat.Local.Scripting.Adapters

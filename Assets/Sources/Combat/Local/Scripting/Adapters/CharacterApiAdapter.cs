@@ -1,7 +1,7 @@
 ﻿using Combat.API;
 using Combat.Common.Primitives;
 using Combat.Local.Application.Facades;
-using Combat.Local.Domain.UseCases;
+using Combat.Local.Application.UseCases;
 
 namespace Combat.Local.Scripting.Adapters
 {

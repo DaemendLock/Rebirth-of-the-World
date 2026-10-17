@@ -1,7 +1,7 @@
 ﻿using Combat.API.Contexts;
 using Combat.Common.Primitives;
+using Combat.Domain.Repositories;
 using Combat.Local.Application.Facades;
-using Combat.Local.Domain.Repositories;
 using Combat.Local.Scripting.Adapters;
 using Combat.Local.Scripting.Contexts;
 using Combat.Local.Scripting.Idk;
