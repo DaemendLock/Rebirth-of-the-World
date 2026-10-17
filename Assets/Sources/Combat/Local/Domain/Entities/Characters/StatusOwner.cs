@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Combat.Common.Primitives;
+using Combat.Local.Domain.ValueObjects;
 
 namespace Combat.Local.Domain.Entities
 {
     public readonly struct StatusOwner
     {
-        private readonly List<StatusId> _values;
+        private readonly List<StatusInstance> _values;
 
         public StatusOwner(UnitId id)
         {
@@ -16,23 +18,68 @@ namespace Combat.Local.Domain.Entities
 
         public UnitId Id { get; }
 
-        public void AddStatus(StatusId statusId) => _values.Add(statusId);
+        public int Count => _values.Count;
 
-        public bool RemoveStatus(StatusId statusId) => _values.Remove(statusId);
+        public void Add(StatusInstance instance) => _values.Add(instance);
 
-        public bool HasStatus(StatusId id)
+        public bool Remove(StatusId id) => _values.RemoveAll(value => value.Id == id) > 0;
+
+        public bool TryGet(StatusId id, out StatusInstance instance)
         {
-            foreach (StatusId status in _values)
-            {
-                if (status != id)
-                    continue;
-
-                return true;
-            }
-
-            return false;
+            int index = GetIndex(id);
+            instance = index >= 0 ? _values[index] : default;
+            return index >= 0;
         }
 
-        public IReadOnlyCollection<StatusId> GetAll() => _values;
+        public void SetDuration(StatusId id, float duration)
+        {
+            int index = GetIndex(id);
+            _values[index] = _values[index].WithDuration(new(0, duration));
+        }
+
+        public void ExtendDuration(StatusId id, float duration)
+        {
+            int index = GetIndex(id);
+            var current = _values[index].Duration;
+            _values[index] = _values[index].WithDuration(new(current.ActiveTime, current.FullDuration + duration));
+        }
+
+        public void SetStackCount(StatusId id, int stackCount)
+        {
+            int index = GetIndex(id);
+            _values[index] = _values[index].WithStackCount(stackCount);
+        }
+
+        public void ProgressAll(float deltaTime, Span<StatusUpdateResult> progressResults)
+        {
+            if (progressResults.Length < Count) throw new ArgumentException("The progress buffer is too small.", nameof(progressResults));
+
+            for (int i = 0; i < _values.Count; i++)
+            {
+                StatusInstance instance = _values[i];
+
+                if (instance.Duration.Left <= 0)
+                {
+                    progressResults[i] = new(instance.Id, false, true);
+                    continue;
+                }
+
+                instance = instance.Progress(deltaTime);
+                _values[i] = instance;
+                progressResults[i] = new(instance.Id, instance.Duration.Left <= 0, false);
+            }
+        }
+
+        public IReadOnlyCollection<StatusInstance> GetAll() => _values;
+
+        private int GetIndex(StatusId id)
+        {
+            for (int i = 0; i < _values.Count; i++)
+            {
+                if (_values[i].Id == id) return i;
+            }
+
+            return -1;
+        }
     }
 }

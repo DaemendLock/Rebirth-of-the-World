@@ -18,7 +18,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
             _statusRuntimeRegistry = statusRuntimeRegistry;
         }
 
-        public AttributesModification Evaluate(IReadOnlyCollection<StatusId> values)
+        public AttributesModification Evaluate(IEnumerable<StatusId> values)
         {
             AttributesModification result = new();
 

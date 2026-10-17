@@ -6,32 +6,28 @@ namespace Combat.Local.Domain.UseCases
 {
     public readonly struct StatusOwnerFindStatusUseCase
     {
-        private readonly IStatusRepository _statusRepository;
-        private readonly IStatusOwnerRepository _statusOwnerRepository;
+        private readonly IStatusOwnerRepository _statusRepository;
 
-        public StatusOwnerFindStatusUseCase(IStatusRepository statusRepository, IStatusOwnerRepository statusOwnerRepository)
+        public StatusOwnerFindStatusUseCase(IStatusOwnerRepository statusRepository)
         {
             _statusRepository = statusRepository;
-            _statusOwnerRepository = statusOwnerRepository;
         }
 
         public StatusId? FindStatus(UnitId id, StatusType statusName)
         {
-            ref StatusOwner statusOwner = ref _statusOwnerRepository.Get(id);
-
-            foreach (StatusId item in statusOwner.GetAll())
+            if (_statusRepository.TryGet(id, out StatusOwner target) == false)
             {
-                if (_statusRepository.TryGet(item, out Status status) == false)
+                return null;
+            }
+
+            foreach (StatusInstance item in target.GetAll())
+            {
+                if (item.Name != statusName)
                 {
                     continue;
                 }
 
-                if (status.Name != statusName)
-                {
-                    continue;
-                }
-
-                return item;
+                return item.Id;
             }
 
             return default;

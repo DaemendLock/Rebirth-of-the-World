@@ -30,7 +30,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
             _statusStrategyFactories.Add(factory);
         }
 
-        public void Apply(Status status)
+        public void Apply(UnitId parent, StatusInstance status)
         {
             IStatusRuntimeFactory factory = GetFactory(status.Name);
 
@@ -40,7 +40,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
                 return;
             }
 
-            StatusRuntime runtime = factory.Create(status.Id, status.Name, status.Parent, status.Source);
+            StatusRuntime runtime = factory.Create(parent, status.Id, status.Name, status.Source);
             IStatusCapabilityProvider container = runtime.Container;
 
             if (container != null)
@@ -49,7 +49,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
                 container.GetCapability<IStatusLifecycleCapability>()?.Apply(runtime.Context);
             }
 
-            _eventContext.Publish<StatusAppliedEventData>(new(new(status.Id, status.Parent, status.Source)));
+            _eventContext.Publish<StatusAppliedEventData>(new(new(parent, status.Source, status.Id)));
         }
 
         public void Remove(StatusId id)

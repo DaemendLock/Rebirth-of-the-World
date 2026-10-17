@@ -12,13 +12,13 @@ namespace Combat.Local.Application.Queries.Statuses
 
     public interface IDamageModificationCalculator : IHealingModificationCalculator
     {
-        DamageModification GetOutgoingDamageModification(IReadOnlyCollection<StatusId> attackerModifier, in DamageInstance instance);
-        DamageModification GetIncomingDamageModification(IReadOnlyCollection<StatusId> defenderModifier, in DamageInstance instance);
+        DamageModification GetOutgoingDamageModification(IEnumerable<StatusId> attackerModifier, in DamageInstance instance);
+        DamageModification GetIncomingDamageModification(IEnumerable<StatusId> defenderModifier, in DamageInstance instance);
     }
 
     public interface IHealingModificationCalculator
     {
-        HealingModification GetOutgoingHealingModification(IReadOnlyCollection<StatusId> modifiers, in HealingInstance instance);
+        HealingModification GetOutgoingHealingModification(IEnumerable<StatusId> modifiers, in HealingInstance instance);
         //HealingModification GetHealeeModification(ReadOnlySpan<StatusId> modifiers, in HealingInstance instance);
     }
 }

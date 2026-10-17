@@ -8,68 +8,46 @@ namespace Combat.Local.Application.Facades
 {
     public readonly struct StatusFacade
     {
-        private readonly StatusTimerStartUseCase _startStatusTimerUseCase;
-        private readonly StatusTimerStopUseCase _stopStatusTimerUseCase;
-        private readonly StatusRemoveUseCase _removeStatusUseCase;
+        private readonly StatusTimerStartUseCase _startTimer;
+        private readonly StatusTimerStopUseCase _stopTimer;
+        private readonly IStatusOwnerRepository _statusOwnerRepository;
 
-        private readonly IStatusRepository _statusRepository;
-
-        public StatusFacade(StatusTimerStartUseCase startStatusTimerUseCase, StatusTimerStopUseCase stopStatusTimerUseCase, StatusRemoveUseCase removeStatusUseCase, IStatusRepository statusRepository)
+        public StatusFacade(StatusTimerStartUseCase startTimer, StatusTimerStopUseCase stopTimer, IStatusOwnerRepository statusOwnerRepository)
         {
-            _startStatusTimerUseCase = startStatusTimerUseCase;
-            _stopStatusTimerUseCase = stopStatusTimerUseCase;
-            _removeStatusUseCase = removeStatusUseCase;
-            _statusRepository = statusRepository;
+            _startTimer = startTimer;
+            _stopTimer = stopTimer;
+            _statusOwnerRepository = statusOwnerRepository;
         }
 
-        public void StartPeriodicAction(StatusId target, float period, float startTime = 0)
+        public void StartPeriodicAction(StatusId id, float period, float startTime = 0) => _startTimer.Execute(id, period, startTime);
+
+        public void StopPeriodicAction(StatusId id) => _stopTimer.Execute(id);
+
+        public Duration GetDuration(UnitId parent, StatusId id) =>
+            _statusOwnerRepository.TryGet(parent, out StatusOwner owner) && owner.TryGet(id, out StatusInstance instance) ? instance.Duration : default;
+
+        public int GetStackCount(UnitId parent, StatusId id) =>
+            _statusOwnerRepository.TryGet(parent, out StatusOwner owner) && owner.TryGet(id, out StatusInstance instance) ? instance.StackCount : 0;
+
+        public void ExtendDuration(UnitId parent, StatusId id, float duration)
         {
-            _startStatusTimerUseCase.Execute(target, period, startTime);
+            if (_statusOwnerRepository.TryGet(parent, out StatusOwner owner))
+                owner.ExtendDuration(id, duration);
         }
 
-        public void StopPeriodicAction(StatusId target)
+        public void SetDuration(UnitId parent, StatusId id, float duration)
         {
-            _stopStatusTimerUseCase.Execute(target);
+
+            if (_statusOwnerRepository.TryGet(parent, out StatusOwner owner))
+                owner.SetDuration(id, duration);
         }
 
-        public void ExtendDuration(StatusId id, float duration)
+        public void SetStackCount(UnitId parent, StatusId id, int stackCount)
         {
-            if (_statusRepository.TryGet(id, out Status target) == false)
+            if (_statusOwnerRepository.TryGet(parent, out StatusOwner owner))
             {
-                return;
+                owner.SetStackCount(id, stackCount);
             }
-
-            Duration value = target.Duration;
-            value = new(value.ActiveTime, value.FullDuration + duration);
-            target.Duration = value;
-            _statusRepository.Update(target);
-        }
-
-        public Duration GetDuration(StatusId target)
-        {
-            if (_statusRepository.TryGet(target, out Status data) == false)
-            {
-                return default;
-            }
-
-            return data.Duration;
-        }
-
-        public void SetDuration(StatusId id, float duration) => throw new System.NotImplementedException();
-
-        public int GetStackCount(StatusId target)
-        {
-            if (_statusRepository.TryGet(target, out Status data) == false)
-            {
-                return default;
-            }
-
-            return data.StackCount;
-        }
-
-        public void SetStackCount(StatusId id, int stackCount)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

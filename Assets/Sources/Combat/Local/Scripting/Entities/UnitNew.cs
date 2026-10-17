@@ -21,7 +21,7 @@ namespace Combat.Local.Scripting
 
         private readonly List<ScaleEffectId> _scaleEffectIds;
 
-        public UnitNew(UnitId id, HealthOwnerFacade healthOwnerFacade, CharacterFacade characterFacade, StatusOwnerApplyUseCase statusApplyUseCase, StatusRemoveUseCase statusRemoveUse)
+        public UnitNew(UnitId id, HealthOwnerFacade healthOwnerFacade, CharacterFacade characterFacade, StatusOwnerApplyUseCase statusApplyUseCase, StatusOwnerRemoveUseCase statusRemoveUse)
         {
             _id = id;
             _healthOwnerFacade = healthOwnerFacade;

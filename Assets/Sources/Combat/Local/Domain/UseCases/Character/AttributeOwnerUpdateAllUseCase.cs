@@ -8,6 +8,7 @@ using Combat.Local.Domain.ValueObjects;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Combat.Local.Domain.UseCases
 {
@@ -15,17 +16,15 @@ namespace Combat.Local.Domain.UseCases
     {
         private readonly IAttributesRepository _attributesRepository;
         private readonly IStatusOwnerRepository _statusOwnerRepository;
-        private readonly IStatusRepository _statusRepository;
         private readonly ICharacterUpdateRepository _characterUpdateList;
         private readonly IAttributesModificationCalculator _statusAttributeCalculator;
 
         private readonly AttributeOwnerOperations _attributeOwnerOperations;
 
-        public AttributeOwnerUpdateAllUseCase(IAttributesRepository attributesRepository, IStatusOwnerRepository statusOwnerRepository, IStatusRepository statusRepository, ICharacterUpdateRepository characterUpdateList, IAttributesModificationCalculator statusAttributeCalculator)
+        public AttributeOwnerUpdateAllUseCase(IAttributesRepository attributesRepository, IStatusOwnerRepository statusOwnerRepository, ICharacterUpdateRepository characterUpdateList, IAttributesModificationCalculator statusAttributeCalculator)
         {
             _attributesRepository = attributesRepository;
             _statusOwnerRepository = statusOwnerRepository;
-            _statusRepository = statusRepository;
             _characterUpdateList = characterUpdateList;
             _statusAttributeCalculator = statusAttributeCalculator;
 
@@ -76,7 +75,7 @@ namespace Combat.Local.Domain.UseCases
                     continue;
                 }
 
-                AttributesModification finalModification = _statusAttributeCalculator.Evaluate(statusOwner.GetAll());
+                AttributesModification finalModification = _statusAttributeCalculator.Evaluate(statusOwner.GetAll().Select(value => value.Id));
                 _attributeOwnerOperations.Cache(attributesOwner, finalModification);
                 _characterUpdateList.Update(new(value, Math.Max(1 + (finalModification.TimeScale / 100f), 0f)));
             }

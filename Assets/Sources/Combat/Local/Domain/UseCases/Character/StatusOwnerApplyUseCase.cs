@@ -9,14 +9,12 @@ namespace Combat.Local.Domain.UseCases
 {
     public readonly struct StatusOwnerApplyUseCase
     {
-        private readonly IStatusRepository _statusRepository;
         private readonly IStatusOwnerRepository _statusOwnerRepository;
         private readonly StatusFactory _statusFactory;
         private readonly IStatusLifecycleHandler _statusLyfecycleHandler;
 
-        public StatusOwnerApplyUseCase(IStatusRepository statusRepository, StatusFactory statusFactory, IStatusOwnerRepository statusOwnerRepository, IStatusLifecycleHandler statusInitCleanupPort)
+        public StatusOwnerApplyUseCase(StatusFactory statusFactory, IStatusOwnerRepository statusOwnerRepository, IStatusLifecycleHandler statusInitCleanupPort)
         {
-            _statusRepository = statusRepository;
             _statusFactory = statusFactory;
             _statusOwnerRepository = statusOwnerRepository;
             _statusLyfecycleHandler = statusInitCleanupPort;
@@ -24,50 +22,14 @@ namespace Combat.Local.Domain.UseCases
 
         public StatusId Execute(ApplStatusDTO data)
         {
-            ref StatusOwner target = ref _statusOwnerRepository.Get(data.Target);
+            StatusOwner owner = _statusOwnerRepository.Get(data.Target);
 
-            if (TryReapplyStatus(target, data, out StatusId id))
-            {
-                return id;
-            }
-
-            Status status = _statusFactory.Create(data.StatusName, data.Target, data.InitialDuration, data.InitialStackCount, data.Ability);
-            RegisterStatus(target, status);
-            return status.Id;
-        }
-
-        private bool TryReapplyStatus(StatusOwner target, ApplStatusDTO data, out StatusId result)
-        {
-            StatusType name = data.StatusName;
-
-            foreach (StatusId id in target.GetAll())
-            {
-                if (_statusRepository.TryGet(id, out Status status) == false)
-                {
-                    continue;
-                }
-
-                if (status.Name != name)
-                {
-                    continue;
-                }
-
-                status.RefreshDuration(data.InitialDuration);
-                _statusRepository.Update(status);
-                _statusLyfecycleHandler.Reapply(status.Id, status.Duration.FullDuration, data.Ability);
-                result = id;
-                return true;
-            }
-
-            result = default;
-            return false;
-        }
-
-        private void RegisterStatus(StatusOwner target, Status status)
-        {
-            target.AddStatus(status.Id);
-            _statusRepository.Create(status);
-            _statusLyfecycleHandler.Apply(status);
+            StatusInstance instance = _statusFactory.Create(data.StatusName, data.Ability)
+                .WithDuration(new(0, data.InitialDuration))
+                .WithStackCount(data.InitialStackCount);
+            owner.Add(instance);
+            _statusLyfecycleHandler.Apply(owner.Id, instance);
+            return instance.Id;
         }
     }
 }

@@ -9,9 +9,9 @@ namespace Combat.Local.Scripting.Capabilities.Units
     {
         private readonly UnitId _owner;
         private readonly StatusOwnerApplyUseCase _statusOwnerApplyUseCase;
-        private readonly StatusRemoveUseCase _statusRemoveUseCase;
+        private readonly StatusOwnerRemoveUseCase _statusRemoveUseCase;
 
-        public StatusApplyRemoveCapabilty(UnitId owner, StatusOwnerApplyUseCase statusOwnerApplyUseCase, StatusRemoveUseCase statusRemoveUseCase)
+        public StatusApplyRemoveCapabilty(UnitId owner, StatusOwnerApplyUseCase statusOwnerApplyUseCase, StatusOwnerRemoveUseCase statusRemoveUseCase)
         {
             _owner = owner;
             _statusOwnerApplyUseCase = statusOwnerApplyUseCase;

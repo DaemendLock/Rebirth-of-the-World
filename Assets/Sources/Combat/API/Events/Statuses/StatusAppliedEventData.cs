@@ -9,7 +9,7 @@ namespace Combat.API.Events
         public readonly UnitId Parent;
         public readonly AbilityKey? Source;
 
-        public StatusAppliedEventData(StatusId statusId, UnitId parent, AbilityKey? source)
+        public StatusAppliedEventData(UnitId parent, AbilityKey? source, StatusId statusId)
         {
             StatusId = statusId;
             Parent = parent;

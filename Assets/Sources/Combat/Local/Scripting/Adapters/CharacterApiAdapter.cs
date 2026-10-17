@@ -10,9 +10,9 @@ namespace Combat.Local.Scripting.Adapters
         private readonly HealthOwnerFacade _healthOwnerFacade;
         private readonly CharacterFacade _characterFacade;
         private readonly StatusOwnerApplyUseCase _statusOwnerApplyUseCase;
-        private readonly StatusRemoveUseCase _statusRemoveUseCase;
+        private readonly StatusOwnerRemoveUseCase _statusRemoveUseCase;
 
-        public UnitNewAdapter(HealthOwnerFacade healthOwnerFacade, CharacterFacade characterFacade, StatusOwnerApplyUseCase statusOwnerApplyUseCase, StatusRemoveUseCase statusRemoveUseCase)
+        public UnitNewAdapter(HealthOwnerFacade healthOwnerFacade, CharacterFacade characterFacade, StatusOwnerApplyUseCase statusOwnerApplyUseCase, StatusOwnerRemoveUseCase statusRemoveUseCase)
         {
             _healthOwnerFacade = healthOwnerFacade;
             _characterFacade = characterFacade;

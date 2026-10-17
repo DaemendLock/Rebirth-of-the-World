@@ -71,7 +71,6 @@ namespace Combat.Local.Composition
 
         private void BindRepositories()
         {
-            Container.Bind<IStatusRepository>().To<StatusRepository>().AsSingle();
             Container.Bind<IHealthRepository>().To<DictionaryHealthRepository>().AsSingle();
             Container.Bind<IAttributesRepository>().To<AttributesRepository>().AsSingle();
             Container.Bind<IResourceOwnerRepository>().To<ResourceRepository>().AsSingle();
@@ -153,7 +152,7 @@ namespace Combat.Local.Composition
             Container.Bind<StatusOwnerApplyUseCase>().AsSingle();
             Container.Bind<StatusTimerStartUseCase>().AsSingle();
             Container.Bind<StatusTimerStopUseCase>().AsSingle();
-            Container.Bind<StatusRemoveUseCase>().AsSingle();
+            Container.Bind<StatusOwnerRemoveUseCase>().AsSingle();
             Container.Bind<StatusOwnerProgressAllUseCases>().AsSingle();
 
             Container.Bind<AttributeOwnerGetAttributeValueUseCase>().AsSingle();

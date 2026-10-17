@@ -7,6 +7,8 @@ using Combat.Local.Domain.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
 
+using System.Linq;
+
 namespace Combat.Local.Domain.UseCases
 {
     public readonly struct HealthApplyDamageUseCase
@@ -55,12 +57,12 @@ namespace Combat.Local.Domain.UseCases
 
             if (_statusOwnerRepository.TryGet(target, out StatusOwner defenderStatuses))
             {
-                defenderModification = _damageModificationCalculator.GetIncomingDamageModification(defenderStatuses.GetAll(), instance);
+                defenderModification = _damageModificationCalculator.GetIncomingDamageModification(defenderStatuses.GetAll().Select(value => value.Id), instance);
             }
 
             if (instance.Attacker.HasValue && _statusOwnerRepository.TryGet(instance.Attacker.Value, out StatusOwner attackerStatuses))
             {
-                attackerModification = _damageModificationCalculator.GetOutgoingDamageModification(attackerStatuses.GetAll(), instance);
+                attackerModification = _damageModificationCalculator.GetOutgoingDamageModification(attackerStatuses.GetAll().Select(value => value.Id), instance);
             }
 
             DamageModification finalModification = defenderModification + attackerModification;
@@ -111,12 +113,12 @@ namespace Combat.Local.Domain.UseCases
         {
             if (_statusOwnerRepository.TryGet(@event.Target, out StatusOwner statusOwner))
             {
-                _damageResultHandler.NotifyDamageRecieved(@event, statusOwner.GetAll());
+                _damageResultHandler.NotifyDamageRecieved(@event, statusOwner.GetAll().Select(value => value.Id));
             }
 
             if (@event.Attacker.HasValue && _statusOwnerRepository.TryGet(@event.Attacker.Value, out StatusOwner attackerStatuses))
             {
-                _damageResultHandler.NotifyDamageDealth(@event, attackerStatuses.GetAll());
+                _damageResultHandler.NotifyDamageDealth(@event, attackerStatuses.GetAll().Select(value => value.Id));
             }
         }
 

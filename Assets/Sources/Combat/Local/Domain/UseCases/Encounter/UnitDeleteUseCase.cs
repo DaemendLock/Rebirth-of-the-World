@@ -25,7 +25,6 @@ namespace Combat.Local.Domain.UseCases.Scene
         private readonly IHurtableRepository _hurtableRepository;
         private readonly IHitboxOwnerRepository _hitboxOwnerRepository;
 
-        private readonly IStatusRepository _statusRepository;
         private readonly IStatusTimerRepository _statusTimerRepository;
 
         private readonly ISkillLyfecycleHandler _skillLyfecycleHandler;
@@ -39,8 +38,7 @@ namespace Combat.Local.Domain.UseCases.Scene
                                       IResourceOwnerRepository resourceRepository, ISkillOwnerRepository skillOwnerRepository,
                                       IPositionableRepository positionableRepository, IActorRepository actorRepository,
                                       IStatusOwnerRepository statusOwnerRepository, ICharacterUpdateRepository characterUpdateList,
-                                      IHurtableRepository hurtableRepository, IHitboxOwnerRepository hitboxOwnerRepository,
-                                      IStatusRepository statusRepository, IStatusTimerRepository statusTimerRepository,
+                                      IHurtableRepository hurtableRepository, IHitboxOwnerRepository hitboxOwnerRepository, IStatusTimerRepository statusTimerRepository,
                                       ISkillLyfecycleHandler skillLyfecycleHandler, IStatusLifecycleHandler statusLifecycleHandler,
                                       IMovementEffectOwnerRepository movementEffectOwnerRepository, IScaleEffectOwnerRepository scaleEffectOwnerRepository, PlayerSession playerSession)
         {
@@ -54,7 +52,6 @@ namespace Combat.Local.Domain.UseCases.Scene
             _characterUpdateList = characterUpdateList;
             _hurtableRepository = hurtableRepository;
             _hitboxOwnerRepository = hitboxOwnerRepository;
-            _statusRepository = statusRepository;
             _statusTimerRepository = statusTimerRepository;
             _skillLyfecycleHandler = skillLyfecycleHandler;
             _statusLifecycleHandler = statusLifecycleHandler;
@@ -83,9 +80,12 @@ namespace Combat.Local.Domain.UseCases.Scene
             {
                 foreach (var item in statusOwner.GetAll())
                 {
-                    _statusLifecycleHandler.Remove(item);
-                    _statusTimerRepository.Delete(item);
-                    _statusRepository.Delete(item);
+                    _statusTimerRepository.Delete(item.Id);
+                    try
+                    {
+                        _statusLifecycleHandler.Remove(item.Id);
+                    }
+                    catch { }
                 }
             }
 

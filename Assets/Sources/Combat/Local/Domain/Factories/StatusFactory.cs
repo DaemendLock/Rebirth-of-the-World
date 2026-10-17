@@ -7,7 +7,7 @@ namespace Combat.Local.Domain.Factories
     {
         private int _nextId = 0;
 
-        public Status Create(StatusType name, UnitId parentId, float duration, int stackCount, AbilityKey? source) =>
-            new(new StatusId(_nextId++), parentId, name, source, stackCount, new(0, duration));
+        public StatusInstance Create(StatusType name, AbilityKey? source) =>
+            new(new StatusId(_nextId++), name, default, 1, source);
     }
 }

@@ -23,6 +23,7 @@ namespace Combat.Local.Scripting.Adapters
 
         public StatusApi Adaptee(StatusId id, UnitId parent, AbilityKey? abilityKey)
         {
+            StatusContext statusContext = new(parent, id, _statusFacade);
             Unit parentApi = _unitApiProvider.Adaptee(parent);
 
             AbilityApi skill = null;
@@ -32,7 +33,7 @@ namespace Combat.Local.Scripting.Adapters
                 skill = _skillApiProvider.Adaptee(abilityKey.Value);
             }
 
-            return new(new StatusContext(id, _statusFacade), parentApi, skill);
+            return new(statusContext, parentApi, skill);
         }
     }
 }

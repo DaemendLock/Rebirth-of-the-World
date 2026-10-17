@@ -5,6 +5,8 @@ using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 using Combat.Local.Domain.ValueObjects;
 
+using System.Linq;
+
 using static UnityEngine.Analytics.IAnalytic;
 using static UnityEngine.GraphicsBuffer;
 
@@ -62,7 +64,7 @@ namespace Combat.Local.Domain.UseCases
                     return result;
                 }
 
-                finalModification += _damageModifierCalculator.GetOutgoingHealingModification(healerStatuses.GetAll(), result);
+                finalModification += _damageModifierCalculator.GetOutgoingHealingModification(healerStatuses.GetAll().Select(value => value.Id), result);
             }
 
             result.Healing = (result.OriginalHealing + finalModification.BaseValue) * 100f / (100 + finalModification.PercentModication) + finalModification.BonusValue;

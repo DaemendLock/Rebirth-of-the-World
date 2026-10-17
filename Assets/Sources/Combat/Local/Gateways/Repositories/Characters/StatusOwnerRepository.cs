@@ -2,11 +2,13 @@
 using Combat.Local.Domain.Entities;
 using Combat.Local.Domain.Repositories;
 
+using System.Collections.Generic;
+
 namespace Combat.Local.Gateways.Repositories.Characters
 {
     public class StatusOwnerRepository : IStatusOwnerRepository
     {
-        private readonly RefContainer<UnitId, StatusOwner> _values;
+        private readonly Dictionary<UnitId, StatusOwner> _values;
 
         public StatusOwnerRepository()
         {
@@ -17,19 +19,8 @@ namespace Combat.Local.Gateways.Repositories.Characters
 
         public void Delete(UnitId id) => _values.Remove(id);
 
-        public ref StatusOwner Get(UnitId id) => ref _values.Get(id);
-        public bool TryGet(UnitId id, out StatusOwner statusOwner)
-        {
-            try
-            {
-                statusOwner = _values.Get(id);
-                return true;
-            }
-            catch
-            {
-                statusOwner = default;
-                return false;
-            }
-        }
+        public StatusOwner Get(UnitId id) => _values[id];
+
+        public bool TryGet(UnitId id, out StatusOwner statusOwner) => _values.TryGetValue(id, out statusOwner);
     }
 }
