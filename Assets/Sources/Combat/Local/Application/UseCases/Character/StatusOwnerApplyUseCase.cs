@@ -20,7 +20,7 @@ namespace Combat.Local.Application.UseCases
             _statusLyfecycleHandler = statusInitCleanupPort;
         }
 
-        public StatusId Execute(ApplyStatusDTO data)
+        public StatusId Execute(ApplyStatusInfo data)
         {
             StatusOwner owner = _statusOwnerRepository.Get(data.Target);
 

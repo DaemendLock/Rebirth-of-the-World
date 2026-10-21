@@ -59,7 +59,8 @@ namespace Combat.Local.Application.ValueObjects
     {
         public UnitId Target { get; }
         public UnitId? Attacker { get; }
-        public float OriginalDamage { get; }
+        public float OriginalHealthDamage { get; }
+        //public float OriginalComposureDamage { get; }
         public AbilityKey? Source { get; }
         public float Damage { get; set; }
         public DamageFlags Flags { get; set; }
@@ -68,7 +69,7 @@ namespace Combat.Local.Application.ValueObjects
         {
             Target = target;
             Attacker = attacker;
-            OriginalDamage = originalDamage;
+            OriginalHealthDamage = originalDamage;
             Source = source;
             Damage = damage;
             Flags = flags;
@@ -77,7 +78,7 @@ namespace Combat.Local.Application.ValueObjects
         public DamageInstance(UnitId target, float originalDamage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
         {
             Target = target;
-            OriginalDamage = originalDamage;
+            OriginalHealthDamage = originalDamage;
             Source = source;
             Damage = originalDamage;
             Flags = flags;

@@ -33,9 +33,9 @@ namespace Combat.Local.Scripting.Contexts
             return _chracterApiAdapter.Adaptee(_sceneFacade.CreateUnit(dto));
         }
 
-        public void CreateStatus(ApplyStatusInfo info)
+        public void CreateStatus(API.DTO.ApplyStatusInfo info)
         {
-            ApplyStatusDTO dto = new(info.Target, info.Name, info.Duration, info.StackCount, info.Source);
+            Application.DTO.ApplyStatusInfo dto = new(info.Target, info.Name, info.Duration, info.StackCount, info.Source);
             _sceneFacade.CreateStatus(dto);
         }
 

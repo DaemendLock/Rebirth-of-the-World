@@ -2,9 +2,10 @@
 
 namespace Combat.Local.Application.DTO
 {
-    public readonly ref struct ApplyStatusDTO
+
+    public readonly ref struct ApplyStatusInfo
     {
-        public ApplyStatusDTO(UnitId target, StatusType statusName, float initialDuration, int initialStackCount, AbilityKey? skill)
+        public ApplyStatusInfo(UnitId target, StatusType statusName, float initialDuration, int initialStackCount, AbilityKey? skill)
         {
             Target = target;
             StatusName = statusName;

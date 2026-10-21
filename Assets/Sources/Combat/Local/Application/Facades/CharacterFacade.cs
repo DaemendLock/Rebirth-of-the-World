@@ -88,7 +88,7 @@ namespace Combat.Local.Application.Facades
 
         public void ApplyStatus(UnitId target, StatusType name, int stackCount, float duration, AbilityKey? source)
         {
-            ApplyStatusDTO dto = new(target, name, duration, stackCount, source);
+            ApplyStatusInfo dto = new(target, name, duration, stackCount, source);
             _applyStatusUseCase.Execute(dto);
         }
 

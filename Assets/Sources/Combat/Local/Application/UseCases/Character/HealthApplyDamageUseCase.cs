@@ -1,18 +1,17 @@
-﻿using Combat.Common.Flags;
+﻿using Combat.Common;
+using Combat.Common.Flags;
 using Combat.Common.Primitives;
 using Combat.Domain.Entities;
-using Combat.Local.Application.Queries.Statuses;
+using Combat.Domain.Repositories;
+using Combat.Local.Application.DTO;
 using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.OutputPorts.Statuses;
+using Combat.Local.Application.Queries.Statuses;
 using Combat.Local.Application.Repositories;
 using Combat.Local.Application.ValueObjects;
 
-using System;
 using System.Buffers;
 using System.Linq;
-using Combat.Domain.Repositories;
-using Combat.Local.Application.DTO;
-using Combat.Common;
 
 namespace Combat.Local.Application.UseCases
 {
@@ -41,9 +40,9 @@ namespace Combat.Local.Application.UseCases
             _characterDeathHandler = characterDeathHandler;
         }
 
-        public void Execute(UnitId target, float damage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
+        public void Execute(ApplyDamageInfo info)
         {
-            DamageInstance instance = CreateDamageInstance(target, damage, flags, attacker, source);
+            DamageInstance instance = CreateDamageInstance(info);
             DamageRecord finalDamage = ApplyDamageInstance(instance);
 
             if (finalDamage.Flags.HasFlag(DamageFlags.NonReactable) == false)
@@ -54,13 +53,13 @@ namespace Combat.Local.Application.UseCases
             UpdateConsciosState(instance);
         }
 
-        private DamageInstance CreateDamageInstance(UnitId target, float damage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
+        private DamageInstance CreateDamageInstance(ApplyDamageInfo info)
         {
-            DamageInstance instance = new(target, damage, flags, attacker, source);
+            DamageInstance instance = new(info.Target, info.HealthDamage, info.Flags, info.Attacker, info.Source);
             DamageModification defenderModification = default;
             DamageModification attackerModification = default;
 
-            if (_statusOwnerRepository.TryGet(target, out StatusOwner defenderStatuses))
+            if (_statusOwnerRepository.TryGet(info.Target, out StatusOwner defenderStatuses))
             {
                 defenderModification = _damageModificationCalculator.GetIncomingDamageModification(defenderStatuses.GetAll().Select(value => value.Id), instance);
             }
@@ -91,7 +90,7 @@ namespace Combat.Local.Application.UseCases
             health.TakeDamage(finalDamage);
             _healthOutput.Present(instance);
 
-            return new(instance.Target, instance.OriginalDamage, finalDamage, instance.Flags, instance.Attacker, instance.Source);
+            return new(instance.Target, instance.OriginalHealthDamage, finalDamage, instance.Flags, instance.Attacker, instance.Source);
 
         }
 

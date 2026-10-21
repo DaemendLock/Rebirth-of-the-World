@@ -16,7 +16,7 @@ namespace Combat.Local.Scripting.Capabilities.Statuses
             Unit attacker = instance.Attacker.HasValue ? units.Adaptee(instance.Attacker.Value) : null;
             AbilityApi source = instance.Source.HasValue ? abilities.Adaptee(instance.Source.Value) : null;
 
-            return new(target, attacker, source, instance.OriginalDamage, instance.Flags);
+            return new(target, attacker, source, instance.OriginalHealthDamage, instance.Flags);
         }
 
         public static HealingInstanceApi Adapt(in HealingInstance instance, CharacterApiAdapter units, AbilityApiAdapter abilities)

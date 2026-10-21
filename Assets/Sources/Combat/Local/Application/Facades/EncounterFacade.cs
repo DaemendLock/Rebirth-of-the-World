@@ -34,7 +34,7 @@ namespace Combat.Local.Application.Facades
 
         public UnitId CreateUnit(UnitCreationInfo dto) => _createUnitUseCase.Execute(dto);
 
-        public void CreateStatus(ApplyStatusDTO dto) => _applyStatusUseCase.Execute(dto);
+        public void CreateStatus(ApplyStatusInfo dto) => _applyStatusUseCase.Execute(dto);
 
         public void RemoveUnit(UnitId id) => _characterDeleteQueue.Enqueue(id);
 
