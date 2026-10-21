@@ -12,13 +12,16 @@ namespace Combat.Local.Application.DTO
     {
         public UnitCreationInfo(ModelName model, Team team, Vector3 position,
             float initialHealth, float defaultHealth,
-            ReadOnlySpan<AttributeValue> defaultAttributes, ReadOnlySpan<ResourceValue> defaultResources, ReadOnlySpan<SkillId> skills)
+            ReadOnlySpan<AttributeValue> defaultAttributes, ReadOnlySpan<ResourceValue> defaultResources, ReadOnlySpan<SkillId> skills,
+            float initialComposure = -1f, float defaultComposure = 100f)
         {
             Model = model;
             Team = team;
             Position = position;
             InitialHealth = initialHealth;
             DefaultHealth = defaultHealth;
+            InitialComposure = initialComposure;
+            DefaultComposure = defaultComposure;
             DefaultResources = defaultResources;
             DefaultAttributes = defaultAttributes;
             Skills = skills;
@@ -29,6 +32,8 @@ namespace Combat.Local.Application.DTO
         public Vector3 Position { get; }
         public float InitialHealth { get; }
         public float DefaultHealth { get; }
+        public float InitialComposure { get; }
+        public float DefaultComposure { get; }
         public ReadOnlySpan<ResourceValue> DefaultResources { get; }
         public ReadOnlySpan<AttributeValue> DefaultAttributes { get; }
         public ReadOnlySpan<SkillId> Skills { get; }

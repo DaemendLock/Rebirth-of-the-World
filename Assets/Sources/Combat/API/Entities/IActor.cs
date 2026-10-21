@@ -19,6 +19,8 @@ namespace Combat.API
     public interface ITargetable
     {
         float CurrentHealth { get; }
+        float CurrentComposure { get; }
+        float MaxComposure { get; }
 
         void ApplyDamage(DTO.ApplyDamageInfo damageInfo);
         void ApplyHealing(DTO.ApplyHealingInfo healingInfo);

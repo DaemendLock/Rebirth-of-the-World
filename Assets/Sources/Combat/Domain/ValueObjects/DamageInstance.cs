@@ -60,29 +60,27 @@ namespace Combat.Local.Application.ValueObjects
         public UnitId Target { get; }
         public UnitId? Attacker { get; }
         public float OriginalHealthDamage { get; }
-        //public float OriginalComposureDamage { get; }
+        public float OriginalComposureDamage { get; }
         public AbilityKey? Source { get; }
-        public float Damage { get; set; }
+        public float HealthDamage { get; set; }
+        public float ComposureDamage { get; set; }
         public DamageFlags Flags { get; set; }
 
-        public DamageInstance(UnitId target, float originalDamage, float damage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
+        public DamageInstance(UnitId target, float originalHealthDamage, float originalComposureDamage,
+            float healthDamage, float composureDamage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
         {
             Target = target;
             Attacker = attacker;
-            OriginalHealthDamage = originalDamage;
+            OriginalHealthDamage = originalHealthDamage;
+            OriginalComposureDamage = originalComposureDamage;
             Source = source;
-            Damage = damage;
+            HealthDamage = healthDamage;
+            ComposureDamage = composureDamage;
             Flags = flags;
         }
 
-        public DamageInstance(UnitId target, float originalDamage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
-        {
-            Target = target;
-            OriginalHealthDamage = originalDamage;
-            Source = source;
-            Damage = originalDamage;
-            Flags = flags;
-            Attacker = attacker;
-        }
+        public DamageInstance(UnitId target, float healthDamage, float composureDamage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
+            : this(target, healthDamage, composureDamage, healthDamage, composureDamage, flags, attacker, source)
+        { }
     }
 }

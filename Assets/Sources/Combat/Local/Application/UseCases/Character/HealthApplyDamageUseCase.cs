@@ -20,6 +20,7 @@ namespace Combat.Local.Application.UseCases
         private readonly IHealthOwnerRepository _healthRepository;
         private readonly IActorRepository _actorRepository;
         private readonly IStatusOwnerRepository _statusOwnerRepository;
+        private readonly IAttributesRepository _attributesRepository;
 
         private readonly IHealthOutput _healthOutput;
         private readonly ICharacterConsciousStateOutput _characterConsciousStateOutput;
@@ -28,7 +29,7 @@ namespace Combat.Local.Application.UseCases
 
         private readonly ICharacterDeathHandler _characterDeathHandler;
 
-        public HealthApplyDamageUseCase(IHealthOwnerRepository healthRepository, IHealthOutput healthOutput, IActorRepository stateRepository, IStatusOwnerRepository statusOwnerRepository, ICharacterConsciousStateOutput characterConsciousStateOutput, IHealingDamageModificationCalculator damageModifierCalculator, IDamageResultHandler damageResultHandler, ICharacterDeathHandler characterDeathHandler)
+        public HealthApplyDamageUseCase(IHealthOwnerRepository healthRepository, IHealthOutput healthOutput, IActorRepository stateRepository, IStatusOwnerRepository statusOwnerRepository, ICharacterConsciousStateOutput characterConsciousStateOutput, IHealingDamageModificationCalculator damageModifierCalculator, IDamageResultHandler damageResultHandler, ICharacterDeathHandler characterDeathHandler, IAttributesRepository attributesRepository)
         {
             _healthRepository = healthRepository;
             _healthOutput = healthOutput;
@@ -38,6 +39,7 @@ namespace Combat.Local.Application.UseCases
             _damageModificationCalculator = damageModifierCalculator;
             _damageResultHandler = damageResultHandler;
             _characterDeathHandler = characterDeathHandler;
+            _attributesRepository = attributesRepository;
         }
 
         public void Execute(ApplyDamageInfo info)
@@ -55,23 +57,29 @@ namespace Combat.Local.Application.UseCases
 
         private DamageInstance CreateDamageInstance(ApplyDamageInfo info)
         {
-            DamageInstance instance = new(info.Target, info.HealthDamage, info.Flags, info.Attacker, info.Source);
+            DamageInstance instance = new(info.Target, info.HealthDamage, info.ComposureDamage, info.Flags, info.Attacker, info.Source);
             DamageModification defenderModification = default;
+            float versatilityModifier = 1;
             DamageModification attackerModification = default;
 
             if (_statusOwnerRepository.TryGet(info.Target, out StatusOwner defenderStatuses))
             {
+                AttributesOwner defenderAttributes = _attributesRepository.Get(info.Target);
                 defenderModification = _damageModificationCalculator.GetIncomingDamageModification(defenderStatuses.GetAll().Select(value => value.Id), instance);
+                versatilityModifier /= defenderAttributes.GetVersalityModifier();
             }
 
             if (instance.Attacker.HasValue && _statusOwnerRepository.TryGet(instance.Attacker.Value, out StatusOwner attackerStatuses))
             {
+                AttributesOwner attackerAttributes = _attributesRepository.Get(info.Target);
                 attackerModification = _damageModificationCalculator.GetOutgoingDamageModification(attackerStatuses.GetAll().Select(value => value.Id), instance);
+                versatilityModifier *= attackerAttributes.GetVersalityModifier();
             }
 
             DamageModification finalModification = defenderModification + attackerModification;
 
-            instance.Damage = (instance.Damage + finalModification.BaseValue) * 100f / (100 + finalModification.PercentModication) + finalModification.BonusValue;
+            instance.HealthDamage = finalModification.ApplyTo(instance.HealthDamage) * versatilityModifier;
+            instance.ComposureDamage = finalModification.ApplyTo(instance.ComposureDamage) * versatilityModifier;
             instance.Flags |= finalModification.FlagsModification;
             return instance;
         }
@@ -80,17 +88,25 @@ namespace Combat.Local.Application.UseCases
         {
             ref HealthOwner health = ref _healthRepository.Get(instance.Target);
 
-            float finalDamage = instance.Damage;
+            float originalHealth = health.CurrentHealth;
+            float originalComposure = health.CurrentComposure;
+            float finalHealthDamage = instance.HealthDamage;
+            float finalComposureDamage = System.Math.Min(instance.ComposureDamage, health.CurrentComposure);
 
-            if (finalDamage >= health.CurrentHealth && instance.Flags.HasFlag(DamageFlags.NonLethal))
+            if (finalHealthDamage >= health.CurrentHealth && instance.Flags.HasFlag(DamageFlags.NonLethal))
             {
-                finalDamage = health.CurrentHealth - 1;
+                finalHealthDamage = System.Math.Max(0f, health.CurrentHealth - 1f);
             }
 
-            health.TakeDamage(finalDamage);
+            health.TakeDamage(finalHealthDamage, finalComposureDamage);
+            instance.HealthDamage = finalHealthDamage;
+            instance.ComposureDamage = finalComposureDamage;
             _healthOutput.Present(instance);
+            _healthOutput.Present(new HealthChangeRecord(health.Id, health.CurrentHealth, health.MaxHealth, originalHealth));
+            _healthOutput.Present(new ComposureChangeRecord(health.Id, health.CurrentComposure, health.MaxComposure, originalComposure));
 
-            return new(instance.Target, instance.OriginalHealthDamage, finalDamage, instance.Flags, instance.Attacker, instance.Source);
+            return new(instance.Target, instance.OriginalHealthDamage, instance.OriginalComposureDamage,
+                finalHealthDamage, finalComposureDamage, instance.Flags, instance.Attacker, instance.Source);
 
         }
 
@@ -101,8 +117,8 @@ namespace Combat.Local.Application.UseCases
             if (health.CurrentHealth > 0)
             {
                 return;
-
             }
+
             //if (instance.Flags.HasFlag(DamageFlags.InstantKill))
             //{
             Kill(health.Id, instance.Attacker, instance.Source);

@@ -4,11 +4,14 @@ namespace Combat.API.Events
 {
     public readonly struct TakeDamageEventData : IEventData
     {
-        public TakeDamageEventData(float finalDamage)
+        public TakeDamageEventData(float finalHealthDamage, float finalComposureDamage)
         {
-            FinalDamage = finalDamage;
+            FinalHealthDamage = finalHealthDamage;
+            FinalComposureDamage = finalComposureDamage;
         }
 
-        public readonly float FinalDamage { get; }
+        public float FinalHealthDamage { get; }
+        public float FinalComposureDamage { get; }
+        public float FinalDamage => FinalHealthDamage;
     }
 }

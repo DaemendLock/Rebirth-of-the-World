@@ -24,5 +24,8 @@ namespace Combat.Local.Application.ValueObjects
                         value1.BonusValue + value2.BonusValue,
                         value1.FlagsModification | value2.FlagsModification);
         }
+
+        public readonly float ApplyTo(float damage) =>
+            System.Math.Max(0f, (damage + BaseValue) * 100f / (100f + PercentModication) + BonusValue);
     }
 }

@@ -29,6 +29,14 @@ namespace Combat.API
 
         public float MaxHealth => _unitContext.MaxHealth;
 
+        public float CurrentComposure
+        {
+            get => _unitContext.CurrentComposure;
+            set => _unitContext.CurrentComposure = value;
+        }
+
+        public float MaxComposure => _unitContext.MaxComposure;
+
         public ModelName ModelName => _unitContext.ModelName;
 
         public UnityEngine.Vector3 Position => _unitContext.Position;

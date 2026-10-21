@@ -73,7 +73,8 @@ namespace Combat.Local.Application.UseCases
             UnsortedCreate(id, context);
 
             float currentHealth = context.InitialHealth < 0 ? context.DefaultHealth : context.InitialHealth;
-            _healthRepository.Create(new(id, currentHealth, context.DefaultHealth));
+            float currentComposure = context.InitialComposure < 0 ? context.DefaultComposure : context.InitialComposure;
+            _healthRepository.Create(new(id, currentHealth, context.DefaultHealth, currentComposure, context.DefaultComposure));
 
             SkillOwner skillOwner = CreateSkillOwner(id, context);
             _skillOwnerRepository.Create(skillOwner);

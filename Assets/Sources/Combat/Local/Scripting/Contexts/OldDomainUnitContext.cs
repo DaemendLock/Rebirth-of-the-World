@@ -53,6 +53,14 @@ namespace Combat.Local.Scripting
 
         public float MaxHealth => _healthOwnerFacade.GetHealth(_id).MaxHealth;
 
+        public float CurrentComposure
+        {
+            get => _healthOwnerFacade.GetHealth(_id).CurrentComposure;
+            set => _healthOwnerFacade.SetComposure(_id, value);
+        }
+
+        public float MaxComposure => _healthOwnerFacade.GetHealth(_id).MaxComposure;
+
         public float GetCooldown(SkillId skillId) => 0;
 
         public float GetAttributeValue(UnitAttribute attribute) => _attributeOwnerFacade.GetAttributeValue(_id, attribute);
@@ -75,7 +83,7 @@ namespace Combat.Local.Scripting
 
         public void ApplyDamage(Combat.API.DTO.ApplyDamageInfo info)
         {
-            Application.Facades.ApplyDamageInfo applyDamageInfo = new(_id, info.Damage, info.Flags, info.Attacker?.Id, info.Source?.AbilityKey);
+            Application.DTO.ApplyDamageInfo applyDamageInfo = new(_id, info.HealthDamage, info.ComposureDamage, info.Flags, info.Attacker?.Id, info.Source?.AbilityKey);
             _healthOwnerFacade.ApplyDamage(applyDamageInfo);
         }
 

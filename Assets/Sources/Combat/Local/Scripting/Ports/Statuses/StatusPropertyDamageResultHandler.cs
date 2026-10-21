@@ -40,7 +40,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
                 effect.Handle(runtime.Context, @event);
             }
 
-            _eventContext.Publish(new GameEvent<DealDamageEventData>(new(@event.FinalDamage)));
+            _eventContext.Publish(new GameEvent<DealDamageEventData>(new(@event.FinalHealthDamage, @event.FinalComposureDamage)));
         }
 
         public void NotifyDamageRecieved(DamageRecord @event, IEnumerable<StatusId> handlers)
@@ -62,7 +62,7 @@ namespace Combat.Local.Scripting.Ports.Statuses
                 effect.Handle(runtime.Context, @event);
             }
 
-            _eventContext.Publish(new GameEvent<TakeDamageEventData>(new(@event.FinalDamage)));
+            _eventContext.Publish(new GameEvent<TakeDamageEventData>(new(@event.FinalHealthDamage, @event.FinalComposureDamage)));
         }
     }
 }

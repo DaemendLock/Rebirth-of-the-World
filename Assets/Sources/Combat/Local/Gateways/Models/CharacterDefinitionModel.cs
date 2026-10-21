@@ -8,14 +8,17 @@ namespace Combat.Local.Gateways.Models
     {
         public readonly ModelName Model;
         public readonly float BaseHealth;
+        public readonly float BaseComposure;
         public readonly AttributeValue[] Attributes;
         public readonly ResourceValue[] Resources;
         public readonly SkillId[] Skills;
 
-        public CharacterDefinitionModel(ModelName model, float baseHealth, AttributeValue[] attributes, ResourceValue[] resources, SkillId[] skills)
+        public CharacterDefinitionModel(ModelName model, float baseHealth, AttributeValue[] attributes, ResourceValue[] resources, SkillId[] skills,
+            float baseComposure = 100f)
         {
             Model = model;
             BaseHealth = baseHealth;
+            BaseComposure = baseComposure;
             Attributes = attributes;
             Resources = resources;
             Skills = skills;
@@ -31,7 +34,7 @@ namespace Combat.Local.Gateways.Models
                 resources[i] = new(item.ResourceId, item.MaxValue);
             }
 
-            return new(Model, BaseHealth, Attributes, resources, Skills);
+            return new(Model, BaseHealth, Attributes, resources, Skills, BaseComposure);
         }
     }
 }

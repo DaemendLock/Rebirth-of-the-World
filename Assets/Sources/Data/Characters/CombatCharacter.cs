@@ -15,6 +15,7 @@ namespace Data.Characters
         [SerializeField] private string _modelName;
 
         [field: SerializeField] public float BaseHealth { get; private set; }
+        [field: SerializeField, Min(0)] public float BaseComposure { get; private set; } = 100f;
         [field: SerializeField] public AttributeInfo[] AttributeInfo { get; private set; } = Array.Empty<AttributeInfo>();
         [field: SerializeField] public CharacterResourceInfo[] Resources { get; private set; } = Array.Empty<CharacterResourceInfo>();
         [field: SerializeField] public SkillData[] Skills { get; private set; } = Array.Empty<SkillData>();

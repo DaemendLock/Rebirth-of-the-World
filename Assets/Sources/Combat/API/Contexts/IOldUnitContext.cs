@@ -12,6 +12,8 @@ namespace Combat.API.Contexts
         float CurrentHealth { get; set; }
         UnitId Id { get; }
         float MaxHealth { get; }
+        float CurrentComposure { get; set; }
+        float MaxComposure { get; }
         ModelName ModelName { get; }
         UnityEngine.Vector3 Position { get; }
         float Scale { get; set; }

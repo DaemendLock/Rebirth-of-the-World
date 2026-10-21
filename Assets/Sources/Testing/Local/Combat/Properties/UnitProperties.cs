@@ -38,6 +38,8 @@ namespace Testing.Local
         [field: SerializeField] public byte Team { get; private set; }
         [field: SerializeField] public float MaxHealth { get; private set; }
         [field: SerializeField] public float InitialHealth { get; private set; }
+        [field: SerializeField, Min(0)] public float MaxComposure { get; private set; } = 100f;
+        [field: SerializeField] public float InitialComposure { get; private set; } = -1f;
         [field: SerializeField] public float MoveSpeed { get; private set; }
         [field: SerializeField] public SkillData[] Skills { get; private set; }
         [field: SerializeField] public ResourceTemplate[] Resources { get; private set; }
@@ -84,7 +86,8 @@ namespace Testing.Local
                     Debug.Log("Null skill");
             }
 
-            return new(ModelName, new(Team), transform.position, MaxHealth, InitialHealth, statsTable.ToAttributeArray(), Resources.Select(value => value.ToResourceValue).ToArray(), skills);
+            return new(ModelName, new(Team), transform.position, MaxHealth, InitialHealth, statsTable.ToAttributeArray(), Resources.Select(value => value.ToResourceValue).ToArray(), skills,
+                MaxComposure, InitialComposure);
         }
     }
 }

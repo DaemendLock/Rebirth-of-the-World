@@ -91,7 +91,7 @@ namespace Combat.API.Objectives
 
         private void UpdateProgress(GameEvent<DealDamageEventData> @event, IObjectiveContext context)
         {
-            _currentProgress += @event.Data.FinalDamage;
+            _currentProgress += @event.Data.FinalHealthDamage;
             context.Save(new DealDamageObjectiveData(_currentProgress, _targetProgress));
 
             if (_currentProgress >= _targetProgress)

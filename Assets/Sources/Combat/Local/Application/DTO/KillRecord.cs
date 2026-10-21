@@ -19,6 +19,22 @@ namespace Combat.Local.Application.DTO
         public readonly float? OldValue { get; }
     }
 
+    public readonly ref struct ComposureChangeRecord
+    {
+        public ComposureChangeRecord(UnitId target, float currentComposure, float maxComposure, float? oldValue = null)
+        {
+            Target = target;
+            CurrentComposure = currentComposure;
+            MaxComposure = maxComposure;
+            OldValue = oldValue;
+        }
+
+        public UnitId Target { get; }
+        public float CurrentComposure { get; }
+        public float MaxComposure { get; }
+        public float? OldValue { get; }
+    }
+
     public readonly ref struct KillRecord
     {
         public readonly UnitId Victim;

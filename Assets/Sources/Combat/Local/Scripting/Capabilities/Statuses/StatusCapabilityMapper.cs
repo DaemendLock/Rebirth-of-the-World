@@ -16,7 +16,7 @@ namespace Combat.Local.Scripting.Capabilities.Statuses
             Unit attacker = instance.Attacker.HasValue ? units.Adaptee(instance.Attacker.Value) : null;
             AbilityApi source = instance.Source.HasValue ? abilities.Adaptee(instance.Source.Value) : null;
 
-            return new(target, attacker, source, instance.OriginalHealthDamage, instance.Flags);
+            return new(target, attacker, source, instance.OriginalHealthDamage, instance.OriginalComposureDamage, instance.Flags);
         }
 
         public static HealingInstanceApi Adapt(in HealingInstance instance, CharacterApiAdapter units, AbilityApiAdapter abilities)
@@ -34,7 +34,8 @@ namespace Combat.Local.Scripting.Capabilities.Statuses
             Unit attacker = result.Attacker.HasValue ? units.Adaptee(result.Attacker.Value) : null;
             AbilityApi source = result.Skill.HasValue ? abilities.Adaptee(result.Skill.Value) : null;
 
-            return new(target, result.OriginalDamage, result.FinalDamage, result.Flags, attacker, source);
+            return new(target, result.OriginalHealthDamage, result.OriginalComposureDamage,
+                result.FinalHealthDamage, result.FinalComposureDamage, result.Flags, attacker, source);
         }
     }
 }

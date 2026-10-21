@@ -37,9 +37,9 @@ namespace Testing.Local
 
         public void Resurrect() => _model?.Revive(default);
 
-        public void TakeDamage() => _model?.ApplyDamage(new(null, null, 1, DamageFlags.None));
+        public void TakeDamage() => _model?.ApplyDamage(new(null, null, 1, 1, DamageFlags.None));
 
-        public void HalfHealth() => _model?.ApplyDamage(new(null, null, _model.CurrentHealth / 2, DamageFlags.NonReactable));
+        public void HalfHealth() => _model?.ApplyDamage(new(null, null, _model.CurrentHealth / 2, 0, DamageFlags.NonReactable));
 
         public void HealHealth() => _model?.ApplyHealing(new(_model.MaxHealth, HealingFlags.NonReactable | HealingFlags.CanRevive, null, null));
 

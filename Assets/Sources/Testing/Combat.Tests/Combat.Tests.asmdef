@@ -1,0 +1,13 @@
+{
+    "name": "Combat.Tests",
+    "references": [
+        "Combat.Common",
+        "Combat.Domain",
+        "Combat.API",
+        "Combat.Local.Application",
+        "Combat.Local.Gateways"
+    ],
+    "includePlatforms": ["Editor"],
+    "optionalUnityReferences": ["TestAssemblies"],
+    "autoReferenced": false
+}

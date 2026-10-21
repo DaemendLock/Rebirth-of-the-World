@@ -22,17 +22,22 @@ namespace Combat.Local.Controllers
         public readonly Team Team;
         public readonly float BaseHealth;
         public readonly float CurrentHealth;
+        public readonly float BaseComposure;
+        public readonly float CurrentComposure;
         public readonly Span<AttributeValue> DefaultAttributes;
         public readonly Span<ResourceValue> DefaultResources;
         public readonly Span<SkillId> Skills;
 
-        public UnitCreationInfo(ModelName modelName, Team team, Vector3 position, float baseHealth, float currentHealth, Span<AttributeValue> defaultAttributes, Span<ResourceValue> defaultResources, Span<SkillId> skills)
+        public UnitCreationInfo(ModelName modelName, Team team, Vector3 position, float baseHealth, float currentHealth, Span<AttributeValue> defaultAttributes, Span<ResourceValue> defaultResources, Span<SkillId> skills,
+            float baseComposure = 100f, float currentComposure = -1f)
         {
             ModelName = modelName;
             Position = position;
             Team = team;
             BaseHealth = baseHealth;
             CurrentHealth = currentHealth;
+            BaseComposure = baseComposure;
+            CurrentComposure = currentComposure;
             DefaultAttributes = defaultAttributes;
             Skills = skills;
             DefaultResources = defaultResources;
@@ -75,22 +80,24 @@ namespace Combat.Local.Controllers
 
         public UnitId CreateUnit(UnitCreationInfo data)
         {
-            Application.DTO.UnitCreationInfo unitCreationDTO = new(data.ModelName, data.Team, data.Position, data.CurrentHealth, data.BaseHealth, data.DefaultAttributes, data.DefaultResources, data.Skills);
+            Application.DTO.UnitCreationInfo unitCreationDTO = new(data.ModelName, data.Team, data.Position, data.CurrentHealth, data.BaseHealth, data.DefaultAttributes, data.DefaultResources, data.Skills,
+                data.CurrentComposure, data.BaseComposure);
             return _createUnitUseCase.Execute(unitCreationDTO);
         }
 
         public void CreateUnit(UnitId targetId, UnitCreationInfo data)
         {
-            Application.DTO.UnitCreationInfo unitCreationDTO = new(data.ModelName, data.Team, data.Position, data.CurrentHealth, data.BaseHealth, data.DefaultAttributes, data.DefaultResources, data.Skills);
+            Application.DTO.UnitCreationInfo unitCreationDTO = new(data.ModelName, data.Team, data.Position, data.CurrentHealth, data.BaseHealth, data.DefaultAttributes, data.DefaultResources, data.Skills,
+                data.CurrentComposure, data.BaseComposure);
             _createUnitUseCase.Execute(targetId, unitCreationDTO);
         }
 
         public UnitId CreateCharacter(CharacterKey charcterKey, Team team, UnityEngine.Vector3 position, float? baseHealth = null,
-            IReadOnlyCollection<int> skills = null)
+            IReadOnlyCollection<int> skills = null, float? baseComposure = null)
         {
             SkillId[] skillIds = skills?.Select(value => new SkillId(value)).ToArray();
 
-            return _createCharacterUseCase.Execute(charcterKey, team, position, baseHealth, skillIds);
+            return _createCharacterUseCase.Execute(charcterKey, team, position, baseHealth, skillIds, baseComposure);
         }
     }
 }

@@ -36,9 +36,14 @@ namespace Combat.Local.Presentation.Presenters
             Debug.Log($"Conscious State updated for {value}: {state}");
         }
 
+        void IHealthOutput.Present(ComposureChangeRecord value)
+        {
+            Debug.Log($"Composure updated for {value.Target}: {value.CurrentComposure}/{value.MaxComposure}");
+        }
+
         void IHealthOutput.Present(DamageInstance value)
         {
-            Debug.Log($"Damage taken by {value.Target} {value.Damage}; With {value.Source?.Skill} from {value.Source?.Owner}");
+            Debug.Log($"Damage taken by {value.Target}: {value.HealthDamage} health, {value.ComposureDamage} composure; With {value.Source?.Skill} from {value.Source?.Owner}");
         }
     }
 }

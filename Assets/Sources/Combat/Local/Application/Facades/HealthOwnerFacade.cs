@@ -1,8 +1,7 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.Primitives;
 using Combat.Domain.Repositories;
-using Combat.Local.Application.Entities;
-using Combat.Local.Application.Facades;
+using Combat.Local.Application.DTO;
 using Combat.Local.Application.UseCases;
 
 namespace Combat.Local.Application.Facades
@@ -26,7 +25,7 @@ namespace Combat.Local.Application.Facades
         public HealthValueDTO GetHealth(UnitId entityId)
         {
             var value = _healthRepository.Get(entityId);
-            return new(value.CurrentHealth, value.MaxHealth);
+            return new(value.CurrentHealth, value.MaxHealth, value.CurrentComposure, value.MaxComposure);
         }
 
         public void SetHealth(UnitId target, float value)
@@ -36,7 +35,12 @@ namespace Combat.Local.Application.Facades
 
         public void ApplyDamage(ApplyDamageInfo info)
         {
-            _applyDamageUseCase.Execute(info.Target, info.OriginalDamage, info.Flags, info.Attacker, info.Source);
+            _applyDamageUseCase.Execute(info);
+        }
+
+        public void SetComposure(UnitId target, float value)
+        {
+            _setHealthUseCase.SetComposure(target, value);
         }
 
         public void ApplyHealing(ApplyHealingInfo info)
@@ -50,32 +54,18 @@ namespace Combat.Local.Application.Facades
 {
     public readonly struct HealthValueDTO
     {
-        public HealthValueDTO(float currentHealth, float maxHealth)
+        public HealthValueDTO(float currentHealth, float maxHealth, float currentComposure, float maxComposure)
         {
             CurrentHealth = currentHealth;
             MaxHealth = maxHealth;
+            CurrentComposure = currentComposure;
+            MaxComposure = maxComposure;
         }
 
         public float CurrentHealth { get; }
         public float MaxHealth { get; }
-    }
-
-    public readonly ref struct ApplyDamageInfo
-    {
-        public ApplyDamageInfo(UnitId target, float originalDamage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
-        {
-            Target = target;
-            OriginalDamage = originalDamage;
-            Flags = flags;
-            Attacker = attacker;
-            Source = source;
-        }
-
-        public UnitId Target { get; }
-        public float OriginalDamage { get; }
-        public DamageFlags Flags { get; }
-        public UnitId? Attacker { get; }
-        public AbilityKey? Source { get; }
+        public float CurrentComposure { get; }
+        public float MaxComposure { get; }
     }
 
     public readonly ref struct ApplyHealingInfo

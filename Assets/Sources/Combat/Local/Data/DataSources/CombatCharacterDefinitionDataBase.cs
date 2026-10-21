@@ -66,7 +66,7 @@ namespace Combat.Local.Data.DataSources
                 skills[i] = data.Skills[i].Id;
             }
 
-            return new(data.ModelName, data.BaseHealth, attributeValues, resources, skills);
+            return new(data.ModelName, data.BaseHealth, attributeValues, resources, skills, data.BaseComposure);
         }
     }
 }
