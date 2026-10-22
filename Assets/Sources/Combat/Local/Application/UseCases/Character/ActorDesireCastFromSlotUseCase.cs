@@ -1,20 +1,20 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
-using Combat.Domain.Repositories;
 using Combat.Local.Application.Repositories;
+using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases
 {
     public class ActorDesireCastFromSlotUseCase
     {
-        private readonly ISkillOwnerRepository _skillOwnerRepository;
+        private readonly IUnitStore _unitStore;
         private readonly IActorRepository _actorRepository;
         private readonly IDesireCastOutput _desireCastOutput;
 
-        public ActorDesireCastFromSlotUseCase(ISkillOwnerRepository skillOwnerRepository, IActorRepository actorRepository, IDesireCastOutput desireCastOutput)
+        public ActorDesireCastFromSlotUseCase(IUnitStore units, IActorRepository actorRepository, IDesireCastOutput desireCastOutput)
         {
-            _skillOwnerRepository = skillOwnerRepository;
+            _unitStore = units;
             _actorRepository = actorRepository;
             _desireCastOutput = desireCastOutput;
         }
@@ -38,22 +38,26 @@ namespace Combat.Local.Application.UseCases
 
         private bool TryGetSkillId(UnitId owner, int slot, out SkillId result)
         {
-            if (_skillOwnerRepository.TryGet(owner, out SkillOwner skillOwner) == false)
+            try
+            {
+                SkillOwner unit = _unitStore.Get(owner).Skills;
+                SkillId? skillId = unit.GetSkill(slot);
+
+                if (skillId.HasValue == false)
+                {
+                    result = default;
+                    return false;
+                }
+
+                result = skillId.Value;
+                return true;
+
+            }
+            catch
             {
                 result = default;
                 return false;
             }
-
-            SkillId? skillId = skillOwner.GetSkill(slot);
-
-            if (skillId.HasValue == false)
-            {
-                result = default;
-                return false;
-            }
-
-            result = skillId.Value;
-            return true;
         }
     }
 

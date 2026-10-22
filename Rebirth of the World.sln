@@ -53,8 +53,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing.Local.Lobby", "Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lobby.Common", "Lobby.Common.csproj", "{52270EF4-7E47-2DC8-7039-33A4B3FA47A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Combat.Tests", "Combat.Tests.csproj", "{14B794EB-F519-3B3B-F8C0-D3830A66CCA1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Combat.Local.Data", "Combat.Local.Data.csproj", "{36C104CC-5AF9-7451-53CF-B9851C68353B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Combat.Local.Composition", "Combat.Local.Composition.csproj", "{AA495417-194A-04F6-32E8-5344442F066A}"
@@ -180,10 +178,6 @@ Global
 		{52270EF4-7E47-2DC8-7039-33A4B3FA47A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52270EF4-7E47-2DC8-7039-33A4B3FA47A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52270EF4-7E47-2DC8-7039-33A4B3FA47A0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{14B794EB-F519-3B3B-F8C0-D3830A66CCA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{14B794EB-F519-3B3B-F8C0-D3830A66CCA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{14B794EB-F519-3B3B-F8C0-D3830A66CCA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{14B794EB-F519-3B3B-F8C0-D3830A66CCA1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{36C104CC-5AF9-7451-53CF-B9851C68353B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{36C104CC-5AF9-7451-53CF-B9851C68353B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36C104CC-5AF9-7451-53CF-B9851C68353B}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -1,30 +1,28 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Domain.Entities;
-using Combat.Domain.Repositories;
+using Combat.Domain.Entities.Units;
 using Combat.Local.Application.Entities;
 using Combat.Local.Application.Repositories;
+using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases
 {
     public sealed class ActorReleaseSkillFromSlotUseCase
     {
-        private readonly ISkillOwnerRepository _skillOwnerRepository;
+        private readonly IUnitStore _unitStore;
         private readonly IActorRepository _actorRepository;
 
-        public ActorReleaseSkillFromSlotUseCase(ISkillOwnerRepository skillOwnerRepository, IActorRepository actorRepository)
+        public ActorReleaseSkillFromSlotUseCase(IUnitStore units, IActorRepository actorRepository)
         {
-            _skillOwnerRepository = skillOwnerRepository;
+            _unitStore = units;
             _actorRepository = actorRepository;
         }
 
         public void Execute(UnitId caster, int slot)
         {
-            if (_skillOwnerRepository.TryGet(caster, out SkillOwner skillOwner) == false)
-            {
-                return;
-            }
+            ref UnitContext unit = ref _unitStore.Get(caster);
 
-            SkillId? skillId = skillOwner.GetSkill(slot);
+            SkillId? skillId = unit.Skills.GetSkill(slot);
 
             if (skillId.HasValue == false)
             {

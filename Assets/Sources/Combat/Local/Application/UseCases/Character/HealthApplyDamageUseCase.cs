@@ -2,13 +2,14 @@
 using Combat.Common.Flags;
 using Combat.Common.Primitives;
 using Combat.Domain.Entities;
-using Combat.Domain.Repositories;
+using Combat.Domain.Entities.Units;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.OutputPorts.Statuses;
 using Combat.Local.Application.Queries.Statuses;
 using Combat.Local.Application.Repositories;
 using Combat.Local.Application.ValueObjects;
+using Combat.Local.Domain.Repositories;
 
 using System.Buffers;
 using System.Linq;
@@ -17,10 +18,8 @@ namespace Combat.Local.Application.UseCases
 {
     public readonly struct HealthApplyDamageUseCase
     {
-        private readonly IHealthOwnerRepository _healthRepository;
+        private readonly IUnitStore _unitStore;
         private readonly IActorRepository _actorRepository;
-        private readonly IStatusOwnerRepository _statusOwnerRepository;
-        private readonly IAttributesRepository _attributesRepository;
 
         private readonly IHealthOutput _healthOutput;
         private readonly ICharacterConsciousStateOutput _characterConsciousStateOutput;
@@ -29,17 +28,15 @@ namespace Combat.Local.Application.UseCases
 
         private readonly ICharacterDeathHandler _characterDeathHandler;
 
-        public HealthApplyDamageUseCase(IHealthOwnerRepository healthRepository, IHealthOutput healthOutput, IActorRepository stateRepository, IStatusOwnerRepository statusOwnerRepository, ICharacterConsciousStateOutput characterConsciousStateOutput, IHealingDamageModificationCalculator damageModifierCalculator, IDamageResultHandler damageResultHandler, ICharacterDeathHandler characterDeathHandler, IAttributesRepository attributesRepository)
+        public HealthApplyDamageUseCase(IUnitStore units, IActorRepository stateRepository, IHealthOutput healthOutput, ICharacterConsciousStateOutput characterConsciousStateOutput, IHealingDamageModificationCalculator damageModifierCalculator, IDamageResultHandler damageResultHandler, ICharacterDeathHandler characterDeathHandler)
         {
-            _healthRepository = healthRepository;
+            _unitStore = units;
             _healthOutput = healthOutput;
             _actorRepository = stateRepository;
-            _statusOwnerRepository = statusOwnerRepository;
             _characterConsciousStateOutput = characterConsciousStateOutput;
             _damageModificationCalculator = damageModifierCalculator;
             _damageResultHandler = damageResultHandler;
             _characterDeathHandler = characterDeathHandler;
-            _attributesRepository = attributesRepository;
         }
 
         public void Execute(ApplyDamageInfo info)
@@ -62,18 +59,21 @@ namespace Combat.Local.Application.UseCases
             float versatilityModifier = 1;
             DamageModification attackerModification = default;
 
-            if (_statusOwnerRepository.TryGet(info.Target, out StatusOwner defenderStatuses))
-            {
-                AttributesOwner defenderAttributes = _attributesRepository.Get(info.Target);
-                defenderModification = _damageModificationCalculator.GetIncomingDamageModification(defenderStatuses.GetAll().Select(value => value.Id), instance);
-                versatilityModifier /= defenderAttributes.GetVersalityModifier();
-            }
+            ref UnitContext defender = ref _unitStore.Get(info.Target);
 
-            if (instance.Attacker.HasValue && _statusOwnerRepository.TryGet(instance.Attacker.Value, out StatusOwner attackerStatuses))
+            defenderModification = _damageModificationCalculator.GetIncomingDamageModification(defender.Statuses.GetAll().Select(value => value.Id), instance);
+            versatilityModifier /= defender.Attributes.GetVersalityModifier();
+
+            if (instance.Attacker.HasValue)
             {
-                AttributesOwner attackerAttributes = _attributesRepository.Get(info.Target);
-                attackerModification = _damageModificationCalculator.GetOutgoingDamageModification(attackerStatuses.GetAll().Select(value => value.Id), instance);
-                versatilityModifier *= attackerAttributes.GetVersalityModifier();
+                try
+                {
+                    ref UnitContext attacker = ref _unitStore.Get(info.Attacker.Value);
+                    attackerModification = _damageModificationCalculator.GetOutgoingDamageModification(attacker.Statuses.GetAll().Select(value => value.Id), instance);
+                    versatilityModifier *= attacker.Attributes.GetVersalityModifier();
+                }
+                catch
+                { }
             }
 
             DamageModification finalModification = defenderModification + attackerModification;
@@ -86,24 +86,25 @@ namespace Combat.Local.Application.UseCases
 
         private DamageRecord ApplyDamageInstance(DamageInstance instance)
         {
-            ref HealthOwner health = ref _healthRepository.Get(instance.Target);
+            ref UnitContext target = ref _unitStore.Get(instance.Target);
 
-            float originalHealth = health.CurrentHealth;
-            float originalComposure = health.CurrentComposure;
+            float originalHealth = target.Health.CurrentHealth;
+            float originalComposure = target.Composure.CurrentComposure;
             float finalHealthDamage = instance.HealthDamage;
-            float finalComposureDamage = System.Math.Min(instance.ComposureDamage, health.CurrentComposure);
+            float finalComposureDamage = System.Math.Min(instance.ComposureDamage, target.Composure.CurrentComposure);
 
-            if (finalHealthDamage >= health.CurrentHealth && instance.Flags.HasFlag(DamageFlags.NonLethal))
+            if (finalHealthDamage >= target.Health.CurrentHealth && instance.Flags.HasFlag(DamageFlags.NonLethal))
             {
-                finalHealthDamage = System.Math.Max(0f, health.CurrentHealth - 1f);
+                finalHealthDamage = System.Math.Max(0f, target.Health.CurrentHealth - 1f);
             }
 
-            health.TakeDamage(finalHealthDamage, finalComposureDamage);
+            target.Health.TakeDamage(finalHealthDamage);
+            target.Composure.TakeDamage(finalComposureDamage);
             instance.HealthDamage = finalHealthDamage;
             instance.ComposureDamage = finalComposureDamage;
             _healthOutput.Present(instance);
-            _healthOutput.Present(new HealthChangeRecord(health.Id, health.CurrentHealth, health.MaxHealth, originalHealth));
-            _healthOutput.Present(new ComposureChangeRecord(health.Id, health.CurrentComposure, health.MaxComposure, originalComposure));
+            _healthOutput.Present(new HealthChangeRecord(target.Id, target.Health.CurrentHealth, target.Health.MaxHealth, originalHealth));
+            _healthOutput.Present(new ComposureChangeRecord(target.Id, target.Composure.CurrentComposure, target.Composure.MaxComposure, originalComposure));
 
             return new(instance.Target, instance.OriginalHealthDamage, instance.OriginalComposureDamage,
                 finalHealthDamage, finalComposureDamage, instance.Flags, instance.Attacker, instance.Source);
@@ -112,7 +113,7 @@ namespace Combat.Local.Application.UseCases
 
         private void UpdateConsciosState(DamageInstance instance)
         {
-            ref HealthOwner health = ref _healthRepository.Get(instance.Target);
+            ref HealthOwner health = ref _unitStore.Get(instance.Target).Health;
 
             if (health.CurrentHealth > 0)
             {
@@ -131,9 +132,10 @@ namespace Combat.Local.Application.UseCases
 
         private void PostDamageEvent(DamageRecord @event)
         {
-            if (_statusOwnerRepository.TryGet(@event.Target, out StatusOwner statusOwner))
+            try
             {
-                var statuses = statusOwner.GetAll();
+                ref UnitContext target = ref _unitStore.Get(@event.Target);
+                var statuses = target.Statuses.GetAll();
                 StatusId[] ids = ArrayPool<StatusId>.Shared.Rent(statuses.Count);
                 int i = 0;
 
@@ -151,26 +153,32 @@ namespace Combat.Local.Application.UseCases
                     ArrayPool<StatusId>.Shared.Return(ids);
                 }
             }
+            catch { }
 
-            if (@event.Attacker.HasValue && _statusOwnerRepository.TryGet(@event.Attacker.Value, out StatusOwner attackerStatuses))
+            if (@event.Attacker.HasValue)
             {
-                var statuses = attackerStatuses.GetAll();
-                StatusId[] ids = ArrayPool<StatusId>.Shared.Rent(statuses.Count);
-                int i = 0;
-
-                foreach (var item in statuses)
-                {
-                    ids[i++] = item.Id;
-                }
-
                 try
                 {
-                    _damageResultHandler.NotifyDamageDealth(@event, ids.Take(i));
+                    ref UnitContext attacker = ref _unitStore.Get(@event.Attacker.Value);
+                    var statuses = attacker.Statuses.GetAll();
+                    StatusId[] ids = ArrayPool<StatusId>.Shared.Rent(statuses.Count);
+                    int i = 0;
+
+                    foreach (var item in statuses)
+                    {
+                        ids[i++] = item.Id;
+                    }
+
+                    try
+                    {
+                        _damageResultHandler.NotifyDamageDealth(@event, ids.Take(i));
+                    }
+                    finally
+                    {
+                        ArrayPool<StatusId>.Shared.Return(ids);
+                    }
                 }
-                finally
-                {
-                    ArrayPool<StatusId>.Shared.Return(ids);
-                }
+                catch { }
             }
         }
 

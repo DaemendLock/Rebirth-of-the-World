@@ -1,24 +1,22 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
+using Combat.Domain.Entities.Units;
 using Combat.Domain.Repositories;
 using Combat.Domain.ValueObjects;
 using Combat.Local.Application.Endpoints.Skills;
 using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.OutputPorts.Statuses;
 using Combat.Local.Application.Repositories;
+using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases.Scene
 {
     public sealed class UnitDeleteUseCase
     {
-        private readonly IHealthOwnerRepository _healthRepository;
-        private readonly IAttributesRepository _attributesRepository;
-        private readonly IResourceOwnerRepository _resourceRepository;
-        private readonly ISkillOwnerRepository _skillOwnerRepository;
+        private readonly IUnitStore _unitStore;
         private readonly IPositionableRepository _positionableRepository;
         private readonly IActorRepository _actorRepository;
-        private readonly IStatusOwnerRepository _statusOwnerRepository;
         private readonly ICharacterUpdateRepository _characterUpdateList;
         private readonly IMovementEffectOwnerRepository _movementEffectOwnerRepository;
         private readonly IScaleEffectOwnerRepository _scaleEffectOwnerRepository;
@@ -35,21 +33,16 @@ namespace Combat.Local.Application.UseCases.Scene
 
         private readonly ICharacterRemoveOutput _outputPort;
 
-        public UnitDeleteUseCase(IHealthOwnerRepository healthRepository, IAttributesRepository attributesRepository,
-                                      IResourceOwnerRepository resourceRepository, ISkillOwnerRepository skillOwnerRepository,
+        public UnitDeleteUseCase(IUnitStore unitStore,
                                       IPositionableRepository positionableRepository, IActorRepository actorRepository,
-                                      IStatusOwnerRepository statusOwnerRepository, ICharacterUpdateRepository characterUpdateList,
+                                      ICharacterUpdateRepository characterUpdateList,
                                       IHurtableRepository hurtableRepository, IHitboxOwnerRepository hitboxOwnerRepository, IStatusTimerRepository statusTimerRepository,
                                       ISkillLyfecycleHandler skillLyfecycleHandler, IStatusLifecycleHandler statusLifecycleHandler,
                                       IMovementEffectOwnerRepository movementEffectOwnerRepository, IScaleEffectOwnerRepository scaleEffectOwnerRepository, PlayerSession playerSession)
         {
-            _healthRepository = healthRepository;
-            _attributesRepository = attributesRepository;
-            _resourceRepository = resourceRepository;
-            _skillOwnerRepository = skillOwnerRepository;
+            _unitStore = unitStore;
             _positionableRepository = positionableRepository;
             _actorRepository = actorRepository;
-            _statusOwnerRepository = statusOwnerRepository;
             _characterUpdateList = characterUpdateList;
             _hurtableRepository = hurtableRepository;
             _hitboxOwnerRepository = hitboxOwnerRepository;
@@ -63,23 +56,26 @@ namespace Combat.Local.Application.UseCases.Scene
 
         public void Execute(UnitId target)
         {
-            if (_playerSession.ControlledUnitId.HasValue && _playerSession.ControlledUnitId.Value == target)
+            try
             {
-                _playerSession.ControlledUnitId = default;
-            }
+                ref UnitContext unit = ref _unitStore.Get(target);
 
-            if (_skillOwnerRepository.TryGet(target, out SkillOwner skillOwner))
-            {
-                foreach (var item in skillOwner.Skills)
+                if (_playerSession.ControlledUnitId.HasValue && _playerSession.ControlledUnitId.Value == target)
+                {
+                    _playerSession.ControlledUnitId = default;
+                }
+
+                foreach (var item in unit.Skills.Skills)
                 {
                     AbilityKey abilityKey = new(target, item);
-                    _skillLyfecycleHandler.Remove(abilityKey);
+                    try
+                    {
+                        _skillLyfecycleHandler.Remove(abilityKey);
+                    }
+                    catch { }
                 }
-            }
 
-            if (_statusOwnerRepository.TryGet(target, out StatusOwner statusOwner))
-            {
-                foreach (var item in statusOwner.GetAll())
+                foreach (var item in unit.Statuses.GetAll())
                 {
                     _statusTimerRepository.Delete(item.Id);
                     try
@@ -88,27 +84,23 @@ namespace Combat.Local.Application.UseCases.Scene
                     }
                     catch { }
                 }
+
+                if (_actorRepository.TryGet(target, out Actor actor))
+                {
+                    actor.CurrentAction?.Interrupt(InterruptReason.Forced);
+                }
+
+                _hitboxOwnerRepository.Delete(target);
+                _hurtableRepository.Delete(target);
+                _actorRepository.Delete(target);
+                _movementEffectOwnerRepository.Delete(target);
+                _scaleEffectOwnerRepository.Delete(target);
+                _unitStore.Delete(target);
+                _characterUpdateList.Delete(target);
+
+                _positionableRepository.Delete(target);
             }
-
-            if (_actorRepository.TryGet(target, out Actor actor))
-            {
-                actor.CurrentAction?.Interrupt(InterruptReason.Forced);
-            }
-
-            _skillOwnerRepository.Delete(target);
-            _statusOwnerRepository.Delete(target);
-            _healthRepository.Delete(target);
-            _characterUpdateList.Delete(target);
-
-            _hitboxOwnerRepository.Delete(target);
-            _hurtableRepository.Delete(target);
-            _actorRepository.Delete(target);
-            _resourceRepository.Delete(target);
-            _movementEffectOwnerRepository.Delete(target);
-            _scaleEffectOwnerRepository.Delete(target);
-
-            _attributesRepository.Delete(target);
-            _positionableRepository.Delete(target);
+            catch { }
         }
     }
 }

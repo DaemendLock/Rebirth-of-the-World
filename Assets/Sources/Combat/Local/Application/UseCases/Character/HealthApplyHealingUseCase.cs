@@ -1,10 +1,11 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.Primitives;
 using Combat.Domain.Entities;
-using Combat.Domain.Repositories;
+using Combat.Domain.Entities.Units;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.Queries.Statuses;
 using Combat.Local.Application.ValueObjects;
+using Combat.Local.Domain.Repositories;
 
 using System.Linq;
 
@@ -12,24 +13,22 @@ namespace Combat.Local.Application.UseCases
 {
     public sealed class HealthApplyHealingUseCase
     {
-        private readonly IHealthOwnerRepository _healthRepository;
+        private readonly IUnitStore _unitStore;
         private readonly IHealthOutput _healthOutput;
-
-        private readonly IStatusOwnerRepository _statusOwnerRepository;
 
         private readonly IHealingDamageModificationCalculator _damageModifierCalculator;
 
-        public HealthApplyHealingUseCase(IHealthOwnerRepository healthRepository, IHealthOutput healthOutput, IStatusOwnerRepository statusOwnerRepository, IHealingDamageModificationCalculator damageModifierCalculator)
+        public HealthApplyHealingUseCase(IUnitStore units, IHealthOutput healthOutput, IHealingDamageModificationCalculator damageModifierCalculator)
         {
-            _healthRepository = healthRepository;
+            _unitStore = units;
             _healthOutput = healthOutput;
-            _statusOwnerRepository = statusOwnerRepository;
+
             _damageModifierCalculator = damageModifierCalculator;
         }
 
         public void Execute(UnitId target, float healing, HealingFlags flags, UnitId? healer, AbilityKey? source)
         {
-            ref HealthOwner health = ref _healthRepository.Get(target);
+            ref HealthOwner health = ref _unitStore.Get(target).Health;
             float originalHealth = health.CurrentHealth;
             HealingInstance instance = CreateHealingInstance(target, healing, flags, healer, source);
             healing = instance.Healing;
@@ -50,19 +49,22 @@ namespace Combat.Local.Application.UseCases
             }
         }
 
-        private HealingInstance CreateHealingInstance(UnitId targetId, float healing, HealingFlags flags, UnitId? healer, AbilityKey? source)
+        private HealingInstance CreateHealingInstance(UnitId targetId, float healing, HealingFlags flags, UnitId? healerId, AbilityKey? source)
         {
-            HealingInstance result = new(targetId, healing, flags, healer, source);
+            HealingInstance result = new(targetId, healing, flags, healerId, source);
             HealingModification finalModification = new(0, 100f, 0, HealingFlags.None);
 
-            if (healer.HasValue)
+            if (healerId.HasValue)
             {
-                if (_statusOwnerRepository.TryGet(healer.Value, out StatusOwner healerStatuses) == false)
+                try
+                {
+                    ref UnitContext healer = ref _unitStore.Get(healerId.Value);
+                    finalModification += _damageModifierCalculator.GetOutgoingHealingModification(healer.Statuses.GetAll().Select(value => value.Id), result);
+                }
+                catch
                 {
                     return result;
                 }
-
-                finalModification += _damageModifierCalculator.GetOutgoingHealingModification(healerStatuses.GetAll().Select(value => value.Id), result);
             }
 
             result.Healing = (result.OriginalHealing + finalModification.BaseValue) * 100f / (100 + finalModification.PercentModication) + finalModification.BonusValue;

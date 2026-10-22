@@ -1,53 +1,46 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
-using Combat.Domain.Repositories;
+using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases
 {
     public readonly struct AttributeOwnerGetAttributeValueUseCase
     {
-        private readonly IAttributesRepository _attributesRepository;
+        private readonly IUnitStore _unitStore;
 
-        public AttributeOwnerGetAttributeValueUseCase(IAttributesRepository attributesRepository)
+        public AttributeOwnerGetAttributeValueUseCase(IUnitStore units)
         {
-            _attributesRepository = attributesRepository;
+            _unitStore = units;
         }
 
-        public float GetAttributeValue(UnitId target, UnitAttribute attributes)
-        {
-            return _attributesRepository.Get(target)[attributes];
-        }
+        public float GetAttributeValue(UnitId target, UnitAttribute attributes) => _unitStore.Get(target).Attributes[attributes];
     }
 
     public readonly struct AttributeOwnerGetVersalityModifierUseCase
     {
-        private readonly IAttributesRepository _attributesRepository;
+        private readonly IUnitStore _unitStore;
 
-        public AttributeOwnerGetVersalityModifierUseCase(IAttributesRepository attributesRepository)
+        public AttributeOwnerGetVersalityModifierUseCase(IUnitStore units)
         {
-            _attributesRepository = attributesRepository;
+            _unitStore = units;
         }
 
-        public float Execute(UnitId target)
-        {
-            AttributesOwner attributes = _attributesRepository.Get(target);
-            return attributes.GetVersalityModifier();
-        }
+        public float Execute(UnitId target) => _unitStore.Get(target).Attributes.GetVersalityModifier();
     }
 
     public readonly struct AttributeOwnerGetHasteModifierUseCase
     {
-        private readonly IAttributesRepository _attributesRepository;
+        private readonly IUnitStore _unitStore;
 
-        public AttributeOwnerGetHasteModifierUseCase(IAttributesRepository attributesRepository)
+        public AttributeOwnerGetHasteModifierUseCase(IUnitStore units)
         {
-            _attributesRepository = attributesRepository;
+            _unitStore = units;
         }
 
         public float Execute(UnitId target)
         {
-            AttributesOwner attributes = _attributesRepository.Get(target);
+            AttributesOwner attributes = _unitStore.Get(target).Attributes;
             return attributes.GetHasteModifier();
         }
     }

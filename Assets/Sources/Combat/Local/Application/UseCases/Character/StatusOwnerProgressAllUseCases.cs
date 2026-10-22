@@ -3,8 +3,8 @@ using Combat.Domain.Entities;
 using Combat.Domain.Entities.Units;
 using Combat.Domain.Repositories;
 using Combat.Local.Application.OutputPorts.Statuses;
-using Combat.Local.Application.Repositories;
 using Combat.Local.Application.ValueObjects;
+using Combat.Local.Domain.Repositories;
 
 using System;
 
@@ -13,16 +13,14 @@ namespace Combat.Local.Application.UseCases
     public sealed class StatusOwnerProgressAllUseCases
     {
         private readonly IStatusTimerRepository _statusTimerRepository;
-        private readonly IStatusOwnerRepository _statusOwnerRepository;
-        private readonly ICharacterUpdateRepository _characterUpdateList;
+        private readonly IUnitStore _unitStore;
         private readonly IStatusLifecycleHandler _statusLifecycleHandler;
         private readonly IStatusTickHandler _statusTickHandler;
 
-        public StatusOwnerProgressAllUseCases(IStatusTimerRepository statusTimerRepository, IStatusOwnerRepository statusOwnerRepository, ICharacterUpdateRepository characterUpdateList, IStatusTickHandler statusTickHandler, IStatusLifecycleHandler statusLifecycleHandler)
+        public StatusOwnerProgressAllUseCases(IStatusTimerRepository statusTimerRepository, IUnitStore units, IStatusTickHandler statusTickHandler, IStatusLifecycleHandler statusLifecycleHandler)
         {
             _statusTimerRepository = statusTimerRepository;
-            _statusOwnerRepository = statusOwnerRepository;
-            _characterUpdateList = characterUpdateList;
+            _unitStore = units;
             _statusLifecycleHandler = statusLifecycleHandler;
             _statusTickHandler = statusTickHandler;
         }
@@ -37,23 +35,24 @@ namespace Combat.Local.Application.UseCases
 
         private void ProgressTarget(UnitId target, float deltaTime)
         {
-            StatusOwner statusOwner = _statusOwnerRepository.Get(target);
+            ref UnitContext unit = ref _unitStore.Get(target);
+            StatusOwner statusOwner = unit.Statuses;
             Span<StatusUpdateResult> results = stackalloc StatusUpdateResult[statusOwner.Count];
             statusOwner.ProgressAll(deltaTime, results);
 
             foreach (StatusUpdateResult updateResult in results)
             {
-                HandleResult(deltaTime, statusOwner, updateResult);
+                HandleResult(deltaTime, unit, updateResult);
             }
         }
 
-        private void HandleResult(float deltaTime, StatusOwner statusOwner, StatusUpdateResult updateResult)
+        private void HandleResult(float deltaTime, UnitContext unit, StatusUpdateResult updateResult)
         {
             if (updateResult.Remove)
             {
-                _statusLifecycleHandler.Remove(updateResult.Id);
                 _statusTimerRepository.Delete(updateResult.Id);
-                statusOwner.Remove(updateResult.Id);
+                unit.Statuses.Remove(updateResult.Id);
+                _statusLifecycleHandler.Remove(updateResult.Id);
                 return;
             }
 
@@ -71,8 +70,10 @@ namespace Combat.Local.Application.UseCases
 
             if (timer.TimePassed > timer.Priod)
             {
-                _statusTickHandler.Handle(updateResult.Id);
                 timer.TimePassed -= timer.Priod;
+                _statusTimerRepository.Update(timer);
+                _statusTickHandler.Handle(updateResult.Id);
+                return;
             }
 
             _statusTimerRepository.Update(timer);

@@ -2,24 +2,26 @@
 using Combat.API.Contexts;
 using Combat.API.Scripting;
 using Combat.Domain.Entities;
+using Combat.Domain.Repositories;
 using Combat.Domain.ValueObjects;
-using Combat.Local.Application.Facades;
-using Combat.Local.Application.Queries.Statuses;
-using Combat.Local.Controllers;
-using Combat.Local.Data.Databases;
-using Combat.Local.Data.DataSources;
-using Combat.Local.Data.Repositories;
 using Combat.Local.Application.Endpoints.Skills;
+using Combat.Local.Application.Facades;
 using Combat.Local.Application.Factories;
 using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.OutputPorts.Statuses;
 using Combat.Local.Application.Queries;
+using Combat.Local.Application.Queries.Statuses;
 using Combat.Local.Application.Repositories;
 using Combat.Local.Application.UseCases;
 using Combat.Local.Application.UseCases.Encounter;
 using Combat.Local.Application.UseCases.Objectives;
 using Combat.Local.Application.UseCases.Scene;
 using Combat.Local.Application.UseCases.Skills;
+using Combat.Local.Controllers;
+using Combat.Local.Data.Databases;
+using Combat.Local.Data.DataSources;
+using Combat.Local.Data.Repositories;
+using Combat.Local.Domain.Repositories;
 using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Factories;
 using Combat.Local.Gateways.Repositories;
@@ -42,7 +44,6 @@ using Game.Application.DTO;
 using UnityEngine;
 
 using Zenject;
-using Combat.Domain.Repositories;
 
 namespace Combat.Local.Composition
 {
@@ -67,20 +68,16 @@ namespace Combat.Local.Composition
 
         private void BindRepositories()
         {
-            Container.Bind<IHealthOwnerRepository>().To<DictionaryHealthRepository>().AsSingle();
-            Container.Bind<IAttributesRepository>().To<AttributesRepository>().AsSingle();
-            Container.Bind<IResourceOwnerRepository>().To<ResourceRepository>().AsSingle();
             Container.Bind<IHitboxOwnerRepository>().To<HitboxRepository>().AsSingle();
             Container.Bind<IHitRecordQueue>().To<HitRecordQueue>().AsSingle();
             Container.Bind<IHurtableRepository>().To<HurtableRepository>().AsSingle();
             Container.Bind<PositionableRepository>().AsSingle();
             Container.Bind<IPositionableRepository>().To<PositionableRepository>().FromResolve();
             Container.Bind<IUnitSpatialQuery>().To<PositionableRepository>().FromResolve();
-            Container.Bind<ISkillOwnerRepository>().To<SkillOwnerRepository>().AsSingle();
+            Container.Bind<IUnitStore>().To<UnitStore>().AsSingle();
             Container.Bind<IActorRepository>().To<ActorRepository>().AsSingle();
             Container.Bind<IStatusTimerRepository>().To<StatusTimerRepository>().AsSingle();
             Container.Bind<ICharacterUpdateRepository>().To<UpdateTargetRepository>().AsSingle();
-            Container.Bind<IStatusOwnerRepository>().To<StatusOwnerRepository>().AsSingle();
             Container.Bind<IMovementEffectOwnerRepository>().To<MovementEffectOwnerRepository>().AsSingle();
             Container.Bind<IScaleEffectOwnerRepository>().To<ScaleEffectOwnerRepository>().AsSingle();
             Container.Bind<ISkillDynamicMemoryRepository>().To<FixedSizeArraySkillMemoryRepository>().AsSingle();
@@ -121,6 +118,7 @@ namespace Combat.Local.Composition
             Container.Bind<HealthApplyDamageUseCase>().AsSingle();
             Container.Bind<HealthApplyHealingUseCase>().AsSingle();
             Container.Bind<HealthSetUseCase>().AsSingle();
+            Container.Bind<ComposureSetUseCase>().AsSingle();
             Container.Bind<ObjectiveCreateUseCase>().AsSingle();
             Container.Bind<ObjectiveFinalizeUseCase>().AsSingle();
             Container.Bind<ObjectiveFinalizeAllUseCase>().AsSingle();

@@ -1,24 +1,24 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Domain.Entities;
-using Combat.Domain.Repositories;
 using Combat.Local.Application.OutputPorts;
+using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases
 {
     public readonly struct ResourceSpendUseCase
     {
-        private readonly IResourceOwnerRepository _resourceRepository;
+        private readonly IUnitStore _unitStore;
         private readonly ISpendResourceOutput _spendResourceOutput;
 
-        public ResourceSpendUseCase(IResourceOwnerRepository resourceRepository, ISpendResourceOutput spendResourceOutput)
+        public ResourceSpendUseCase(IUnitStore units, ISpendResourceOutput spendResourceOutput)
         {
-            _resourceRepository = resourceRepository;
+            _unitStore = units;
             _spendResourceOutput = spendResourceOutput;
         }
 
         public void Execute(UnitId target, ResourceId resource, float value, AbilityKey? abilityId)
         {
-            ResourceOwner resourceOwner = _resourceRepository.Get(target);
+            ResourceOwner resourceOwner = _unitStore.Get(target).Resources;
             resourceOwner.TrySpendResource(resource, value);
 
             _spendResourceOutput.Present(new(target, resource, resourceOwner.GetResource(resource).MaxValue, resourceOwner.GetResource(resource).Value));

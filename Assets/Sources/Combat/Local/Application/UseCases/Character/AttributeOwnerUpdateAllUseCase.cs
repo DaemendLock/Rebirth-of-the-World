@@ -6,6 +6,7 @@ using Combat.Domain.Repositories;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.Queries.Statuses;
 using Combat.Local.Application.Repositories;
+using Combat.Local.Domain.Repositories;
 
 using System;
 using System.Collections.Generic;
@@ -15,16 +16,13 @@ namespace Combat.Local.Application.UseCases
 {
     public sealed class AttributeOwnerUpdateAllUseCase
     {
-        private readonly IAttributesRepository _attributesRepository;
-        private readonly IStatusOwnerRepository _statusOwnerRepository;
-        private readonly IHealthOwnerRepository _healthOwnerRepository;
+        private readonly IUnitStore _unitStore;
         private readonly ICharacterUpdateRepository _characterUpdateList;
         private readonly IAttributesModificationCalculator _statusAttributeCalculator;
 
-        public AttributeOwnerUpdateAllUseCase(IAttributesRepository attributesRepository, IStatusOwnerRepository statusOwnerRepository, ICharacterUpdateRepository characterUpdateList, IAttributesModificationCalculator statusAttributeCalculator)
+        public AttributeOwnerUpdateAllUseCase(IUnitStore unitStore, ICharacterUpdateRepository characterUpdateList, IAttributesModificationCalculator statusAttributeCalculator)
         {
-            _attributesRepository = attributesRepository;
-            _statusOwnerRepository = statusOwnerRepository;
+            _unitStore = unitStore;
             _characterUpdateList = characterUpdateList;
             _statusAttributeCalculator = statusAttributeCalculator;
         }
@@ -45,7 +43,7 @@ namespace Combat.Local.Application.UseCases
 
                 try
                 {
-                    attributesOwner = _attributesRepository.Get(value);
+                    attributesOwner = _unitStore.Get(value).Attributes;
                 }
                 catch
                 {
@@ -57,32 +55,17 @@ namespace Combat.Local.Application.UseCases
 
             foreach (UnitId value in values)
             {
-                AttributesOwner attributesOwner;
+                ref UnitContext unit = ref _unitStore.Get(value);
 
-                try
-                {
-                    attributesOwner = _attributesRepository.Get(value);
-                }
-                catch
-                {
-                    continue;
-                }
+                AttributesBonuses finalModification = _statusAttributeCalculator.Evaluate(unit.Statuses.GetAll().Select(value => value.Id));
 
-                if (_statusOwnerRepository.TryGet(value, out StatusOwner statusOwner) == false)
+                for (int j = 0; j < unit.Attributes.BaseValues.Length; j++)
                 {
-                    continue;
-                }
-
-                AttributesBonuses finalModification = _statusAttributeCalculator.Evaluate(statusOwner.GetAll().Select(value => value.Id));
-
-                for (int j = 0; j < attributesOwner.BaseValues.Length; j++)
-                {
-                    attributesOwner.SetModification((UnitAttribute)i, finalModification[(UnitAttribute)i]);
+                    unit.Attributes.SetModification((UnitAttribute)j, finalModification[(UnitAttribute)j]);
                 }
 
                 _characterUpdateList.Update(new(value, Math.Max(1 + (finalModification.TimeScale / 100f), 0f)));
-                ref HealthOwner healthOwner = ref _healthOwnerRepository.Get(value);
-                healthOwner.BonusHealth = attributesOwner.GetMaxHealthBonus();
+                unit.Health.BonusHealth = unit.Attributes.GetMaxHealthBonus();
             }
         }
     }

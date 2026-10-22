@@ -1,24 +1,24 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Domain.Entities;
-using Combat.Domain.Repositories;
 using Combat.Local.Application.OutputPorts;
+using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases
 {
     public readonly struct ResourceGiveUseCase
     {
-        private readonly IResourceOwnerRepository _resourceRepository;
+        private readonly IUnitStore _unitStore;
         private readonly IGiveResourceOutput _giveResourceOutput;
 
-        public ResourceGiveUseCase(IResourceOwnerRepository resourceRepository, IGiveResourceOutput giveResourceOutput)
+        public ResourceGiveUseCase(IUnitStore units, IGiveResourceOutput giveResourceOutput)
         {
-            _resourceRepository = resourceRepository;
+            _unitStore = units;
             _giveResourceOutput = giveResourceOutput;
         }
 
         public void Execute(UnitId target, ResourceId resourceType, float value, AbilityKey? abilityId)
         {
-            ResourceOwner resourceOwner = _resourceRepository.Get(target);
+            ResourceOwner resourceOwner = _unitStore.Get(target).Resources;
             resourceOwner.FillResource(resourceType, value);
 
             GiveResourceResult result = new(target, resourceType, value, resourceOwner.GetResource(resourceType).Value, resourceOwner.GetResource(resourceType).MaxValue, abilityId);

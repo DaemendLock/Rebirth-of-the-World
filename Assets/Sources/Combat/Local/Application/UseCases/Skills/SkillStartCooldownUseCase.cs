@@ -1,16 +1,16 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Domain.Entities;
-using Combat.Domain.Repositories;
+using Combat.Domain.Entities.Units;
+using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases.Skills
 {
     public sealed class SkillStartCooldownUseCase
     {
-        private readonly ISkillOwnerRepository _skillOwnerRepository;
+        private readonly IUnitStore _unitStore;
 
-        public SkillStartCooldownUseCase(ISkillOwnerRepository skillOwnerRepository)
+        public SkillStartCooldownUseCase(IUnitStore unitStore)
         {
-            _skillOwnerRepository = skillOwnerRepository;
+            _unitStore = unitStore;
         }
 
         public void Execute(AbilityKey abilityId, float cooldown)
@@ -20,12 +20,7 @@ namespace Combat.Local.Application.UseCases.Skills
                 throw new System.InvalidOperationException("Unable to set cooldown of null unit.");
             }
 
-            if (_skillOwnerRepository.TryGet(abilityId.Owner.Value, out SkillOwner skillOwner) == false)
-            {
-                return;
-            }
-
-            skillOwner.SetCooldown(abilityId.Skill, cooldown);
+            _unitStore.Get(abilityId.Owner.Value).Skills.SetCooldown(abilityId.Skill, cooldown);
         }
     }
 }

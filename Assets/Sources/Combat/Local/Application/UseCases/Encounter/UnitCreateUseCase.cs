@@ -2,12 +2,14 @@
 using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
+using Combat.Domain.Entities.Units;
 using Combat.Domain.Repositories;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.Endpoints.Skills;
 using Combat.Local.Application.Factories;
 using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.Repositories;
+using Combat.Local.Domain.Repositories;
 
 using UnityEngine;
 
@@ -16,12 +18,7 @@ namespace Combat.Local.Application.UseCases
     public class UnitCreateUseCase
     {
         private readonly UnitIdFactory _idFactory;
-
-        private readonly IHealthOwnerRepository _healthRepository;
-        private readonly IAttributesRepository _attributesRepository;
-        private readonly IResourceOwnerRepository _resourceRepository;
-        private readonly ISkillOwnerRepository _skillOwnerRepository;
-        private readonly IStatusOwnerRepository _statusOwnerRepository;
+        private readonly IUnitStore _unitStore;
         private readonly IPositionableRepository _positionableRepository;
         private readonly IActorRepository _actorRepository;
         private readonly ISkillLyfecycleHandler _skillLyfecycleHandler;
@@ -34,18 +31,15 @@ namespace Combat.Local.Application.UseCases
         private readonly ICharacterCreateOutput _outputPort;
 
         public UnitCreateUseCase(
-            IHealthOwnerRepository healthRepository, IAttributesRepository attributesRepository,
-            IResourceOwnerRepository resourceRepository, ISkillOwnerRepository skillOwnerRepository,
+            IUnitStore unitStore,
             IPositionableRepository positionableRepository, IActorRepository actorRepository,
             ICharacterCreateOutput outputPort,
             ISkillLyfecycleHandler skillLyfecycleHandler, ICharacterUpdateRepository characterUpdateList,
-            IStatusOwnerRepository statusOwnerRepository, IMovementEffectOwnerRepository movementEffectOwnerRepository,
+            IMovementEffectOwnerRepository movementEffectOwnerRepository,
             IHitboxOwnerRepository hitboxOwnerRepository, IHurtableRepository hurtableRepository, IScaleEffectOwnerRepository scaleEffectOwnerRepository)
+
         {
-            _healthRepository = healthRepository;
-            _attributesRepository = attributesRepository;
-            _resourceRepository = resourceRepository;
-            _skillOwnerRepository = skillOwnerRepository;
+            _unitStore = unitStore;
             _positionableRepository = positionableRepository;
             _actorRepository = actorRepository;
 
@@ -53,7 +47,6 @@ namespace Combat.Local.Application.UseCases
             _skillLyfecycleHandler = skillLyfecycleHandler;
             _characterUpdateList = characterUpdateList;
             _outputPort = outputPort;
-            _statusOwnerRepository = statusOwnerRepository;
             _movementEffectOwnerRepository = movementEffectOwnerRepository;
             _hitboxOwnerRepository = hitboxOwnerRepository;
             _hurtableRepository = hurtableRepository;
@@ -67,18 +60,20 @@ namespace Combat.Local.Application.UseCases
                 throw new System.InvalidOperationException($"Character with Id {id} alreday exists");
             }
 
+            UnitContext unit = new(id);
             _positionableRepository.Create(CreatePositionable(id, context));
-            _attributesRepository.Create(CreateAttributesOwner(id, context));
+            unit.Attributes = CreateAttributesOwner(id, context);
 
-            UnsortedCreate(id, context);
+            UnsortedCreate(ref unit, context);
 
             float currentHealth = context.InitialHealth < 0 ? context.DefaultHealth : context.InitialHealth;
             float currentComposure = context.InitialComposure < 0 ? context.DefaultComposure : context.InitialComposure;
-            _healthRepository.Create(new(id, currentHealth, context.DefaultHealth, currentComposure, context.DefaultComposure));
-
+            unit.Health = new(id, currentHealth, context.DefaultHealth);
+            unit.Composure = new(id, currentComposure, context.DefaultComposure);
             SkillOwner skillOwner = CreateSkillOwner(id, context);
-            _skillOwnerRepository.Create(skillOwner);
-            _statusOwnerRepository.Create(new(id));
+            unit.Skills = skillOwner;
+            unit.Statuses = new(id);
+            _unitStore.Create(unit);
 
             foreach (SkillId skillId in skillOwner.Skills)
             {
@@ -124,9 +119,10 @@ namespace Combat.Local.Application.UseCases
             return new(id, attributeValue);
         }
 
-        private void UnsortedCreate(UnitId id, UnitCreationInfo context)
+        private void UnsortedCreate(ref UnitContext unit, UnitCreationInfo context)
         {
-            _resourceRepository.Create(new(id, context.DefaultResources.ToArray()));
+            UnitId id = unit.Id;
+            unit.Resources = new(id, context.DefaultResources.ToArray());
             _actorRepository.Create(new(id, ActorState.None, null, ConsciousState.Alive, new(default, System.Numerics.Vector2.Zero)));
             _hitboxOwnerRepository.Create(id);
             _hurtableRepository.Create(id);

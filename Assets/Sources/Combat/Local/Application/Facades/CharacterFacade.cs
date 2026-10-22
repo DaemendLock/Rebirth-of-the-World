@@ -1,11 +1,10 @@
 ﻿using Combat.Common;
 using Combat.Common.Primitives;
 using Combat.Domain.Entities;
-using Combat.Domain.Repositories;
 using Combat.Local.Application.DTO;
-using Combat.Local.Application.Facades;
 using Combat.Local.Application.Repositories;
 using Combat.Local.Application.UseCases;
+using Combat.Local.Domain.Repositories;
 
 using UnityEngine;
 
@@ -26,12 +25,12 @@ namespace Combat.Local.Application.Facades
         private readonly StatusOwnerApplyUseCase _applyStatusUseCase;
         private readonly IActorRepository _killableRepository;
         private readonly IPositionableRepository _positionableRepository;
-        private readonly IResourceOwnerRepository _resourceRepository;
+        private readonly IUnitStore _unitStore;
 
         public CharacterFacade(ResourceGiveUseCase giveResourceUseCase, ResourceSpendUseCase spendResourceUseCase,
                                ActorForceKillUseCase killUnitUseCase, StatusOwnerFindStatusUseCase findStatusUseCase,
                                IActorRepository killableRepository, IPositionableRepository positionableRepository,
-                               IResourceOwnerRepository resourceRepository, StatusOwnerApplyUseCase applyStatusUseCase,
+                               IUnitStore unitStore, StatusOwnerApplyUseCase applyStatusUseCase,
                                ActorDesireMoveInDirectionUseCase moveInDirectionUseCase, AddMovementEffectUseCase addMovementEffectUseCase,
                                ActorReviveUseCase reviveUnitUseCase,
                                PositionableStartScaleUseCase startScaleUseCase, PositionableStopScaleUseCase stopScaleUseCase)
@@ -42,7 +41,7 @@ namespace Combat.Local.Application.Facades
             _findStatusUseCase = findStatusUseCase;
             _killableRepository = killableRepository;
             _positionableRepository = positionableRepository;
-            _resourceRepository = resourceRepository;
+            _unitStore = unitStore;
             _applyStatusUseCase = applyStatusUseCase;
             _addMovementEffectUseCase = addMovementEffectUseCase;
             _reviveUnitUseCase = reviveUnitUseCase;
@@ -50,17 +49,14 @@ namespace Combat.Local.Application.Facades
             _stopScaleUseCase = stopScaleUseCase;
         }
 
-        public float GetResourceValue(UnitId target, ResourceId resource) => _resourceRepository.Get(target).GetResource(resource).Value;
+        public float GetResourceValue(UnitId target, ResourceId resource) =>
+            _unitStore.Get(target).Resources.GetResource(resource).Value;
 
-        public void GiveResource(UnitId target, ResourceId resource, float value, AbilityKey? abilityId)
-        {
+        public void GiveResource(UnitId target, ResourceId resource, float value, AbilityKey? abilityId) =>
             _giveResourceUseCase.Execute(target, resource, value, abilityId);
-        }
 
-        public void SpendResource(UnitId target, ResourceId resource, float value, AbilityKey? abilityId)
-        {
+        public void SpendResource(UnitId target, ResourceId resource, float value, AbilityKey? abilityId) =>
             _spendResourceUseCase.Execute(target, resource, value, abilityId);
-        }
 
         public bool IsAlive(UnitId target)
         {

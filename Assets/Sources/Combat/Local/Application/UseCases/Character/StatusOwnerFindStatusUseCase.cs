@@ -1,36 +1,38 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Domain.Entities;
-using Combat.Domain.Repositories;
+using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases
 {
     public readonly struct StatusOwnerFindStatusUseCase
     {
-        private readonly IStatusOwnerRepository _statusRepository;
+        private readonly IUnitStore _unitStore;
 
-        public StatusOwnerFindStatusUseCase(IStatusOwnerRepository statusRepository)
+        public StatusOwnerFindStatusUseCase(IUnitStore units)
         {
-            _statusRepository = statusRepository;
+            _unitStore = units;
         }
 
         public StatusId? FindStatus(UnitId id, StatusType statusName)
         {
-            if (_statusRepository.TryGet(id, out StatusOwner target) == false)
+            try
+            {
+                foreach (StatusInstance item in _unitStore.Get(id).Statuses.GetAll())
+                {
+                    if (item.Name != statusName)
+                    {
+                        continue;
+                    }
+
+                    return item.Id;
+                }
+
+                return default;
+            }
+            catch
             {
                 return null;
             }
-
-            foreach (StatusInstance item in target.GetAll())
-            {
-                if (item.Name != statusName)
-                {
-                    continue;
-                }
-
-                return item.Id;
-            }
-
-            return default;
         }
     }
 }

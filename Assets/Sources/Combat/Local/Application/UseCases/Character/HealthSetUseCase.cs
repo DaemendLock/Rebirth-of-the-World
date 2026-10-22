@@ -1,36 +1,49 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Domain.Entities;
-using Combat.Domain.Repositories;
+using Combat.Domain.Entities.Units;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.ValueObjects;
+using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases
 {
     public readonly struct HealthSetUseCase
     {
-        private readonly IHealthOwnerRepository _healthRepository;
+        private readonly IUnitStore _unitStore;
         private readonly IHealthOutput _healthOutput;
 
-        public HealthSetUseCase(IHealthOwnerRepository healthRepository, IHealthOutput healthOutput)
+        public HealthSetUseCase(IUnitStore unitStore, IHealthOutput healthOutput)
         {
-            _healthRepository = healthRepository;
+            _unitStore = unitStore;
             _healthOutput = healthOutput;
         }
 
         public void Execute(UnitId target, float value)
         {
-            ref HealthOwner healthOwner = ref _healthRepository.Get(target);
+            ref HealthOwner healthOwner = ref _unitStore.Get(target).Health;
             float oldValue = healthOwner.CurrentHealth;
             healthOwner.CurrentHealth = value;
             _healthOutput.Present(new HealthChangeRecord(healthOwner.Id, healthOwner.CurrentHealth, healthOwner.MaxHealth, oldValue));
         }
+    }
 
-        public void SetComposure(UnitId target, float value)
+    public readonly struct ComposureSetUseCase
+    {
+        private readonly IUnitStore _unitStore;
+        private readonly IHealthOutput _healthOutput;
+
+        public ComposureSetUseCase(IUnitStore unitStore, IHealthOutput healthOutput)
         {
-            ref HealthOwner healthOwner = ref _healthRepository.Get(target);
-            float oldValue = healthOwner.CurrentComposure;
-            healthOwner.CurrentComposure = value;
-            _healthOutput.Present(new ComposureChangeRecord(healthOwner.Id, healthOwner.CurrentComposure, healthOwner.MaxComposure, oldValue));
+            _unitStore = unitStore;
+            _healthOutput = healthOutput;
+        }
+
+        public void Execute(UnitId target, float value)
+        {
+            ref UnitContext unit = ref _unitStore.Get(target); ;
+            float oldValue = unit.Composure.CurrentComposure;
+            unit.Composure.CurrentComposure = value;
+            _healthOutput.Present(new ComposureChangeRecord(unit.Composure.Id, unit.Composure.CurrentComposure, unit.Composure.MaxComposure, oldValue));
         }
     }
 

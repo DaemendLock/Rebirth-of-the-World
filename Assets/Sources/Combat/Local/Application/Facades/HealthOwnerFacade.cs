@@ -1,52 +1,43 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.Primitives;
-using Combat.Domain.Repositories;
+using Combat.Domain.Entities.Units;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.UseCases;
+using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Application.Facades
 {
     public readonly struct HealthOwnerFacade
     {
+        private readonly ComposureSetUseCase _setComposureUseCase;
         private readonly HealthSetUseCase _setHealthUseCase;
         private readonly HealthApplyDamageUseCase _applyDamageUseCase;
         private readonly HealthApplyHealingUseCase _applyHealingUseCase;
 
-        private readonly IHealthOwnerRepository _healthRepository;
+        private readonly IUnitStore _unitStore;
 
-        public HealthOwnerFacade(HealthSetUseCase setHealthUseCase, HealthApplyDamageUseCase applyDamageUseCase, HealthApplyHealingUseCase applyHealingUseCase, IHealthOwnerRepository healthRepository)
+        public HealthOwnerFacade(HealthSetUseCase setHealthUseCase, HealthApplyDamageUseCase applyDamageUseCase, HealthApplyHealingUseCase applyHealingUseCase, IUnitStore unitStore, ComposureSetUseCase composureSetUseCase)
         {
             _setHealthUseCase = setHealthUseCase;
             _applyDamageUseCase = applyDamageUseCase;
             _applyHealingUseCase = applyHealingUseCase;
-            _healthRepository = healthRepository;
+            _unitStore = unitStore;
+            _setComposureUseCase = composureSetUseCase;
         }
 
         public HealthValueDTO GetHealth(UnitId entityId)
         {
-            var value = _healthRepository.Get(entityId);
-            return new(value.CurrentHealth, value.MaxHealth, value.CurrentComposure, value.MaxComposure);
+            ref UnitContext value = ref _unitStore.Get(entityId);;
+            return new(value.Health.CurrentHealth, value.Health.MaxHealth, value.Composure.CurrentComposure, value.Composure.MaxComposure);
         }
 
-        public void SetHealth(UnitId target, float value)
-        {
-            _setHealthUseCase.Execute(target, value);
-        }
+        public void ApplyDamage(ApplyDamageInfo info) => _applyDamageUseCase.Execute(info);
 
-        public void ApplyDamage(ApplyDamageInfo info)
-        {
-            _applyDamageUseCase.Execute(info);
-        }
+        public void ApplyHealing(ApplyHealingInfo info) => _applyHealingUseCase.Execute(info.Target, info.OriginalHealing, info.Flags, info.Healer, info.Source);
 
-        public void SetComposure(UnitId target, float value)
-        {
-            _setHealthUseCase.SetComposure(target, value);
-        }
+        public void SetComposure(UnitId target, float value) => _setComposureUseCase.Execute(target, value);
 
-        public void ApplyHealing(ApplyHealingInfo info)
-        {
-            _applyHealingUseCase.Execute(info.Target, info.OriginalHealing, info.Flags, info.Healer, info.Source);
-        }
+        public void SetHealth(UnitId target, float value) => _setHealthUseCase.Execute(target, value);
     }
 }
 

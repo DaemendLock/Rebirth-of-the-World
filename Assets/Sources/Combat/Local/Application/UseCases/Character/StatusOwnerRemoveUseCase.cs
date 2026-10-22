@@ -1,37 +1,39 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Domain.Entities;
+using Combat.Domain.Entities.Units;
 using Combat.Domain.Repositories;
 using Combat.Local.Application.OutputPorts.Statuses;
+using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases
 {
     public sealed class StatusOwnerRemoveUseCase
     {
-        private readonly IStatusOwnerRepository _statusOwnerRepository;
+        private readonly IUnitStore _unitStore;
         private readonly IStatusLifecycleHandler _statusLifecycleHandler;
         private readonly IStatusTimerRepository _statusTimerRepository;
 
-        public StatusOwnerRemoveUseCase(IStatusOwnerRepository statusOwnerRepository, IStatusLifecycleHandler statusLifecycleHandler, IStatusTimerRepository statusTimerRepository)
+        public StatusOwnerRemoveUseCase(IUnitStore units, IStatusLifecycleHandler statusLifecycleHandler, IStatusTimerRepository statusTimerRepository)
         {
-            _statusOwnerRepository = statusOwnerRepository;
+            _unitStore = units;
             _statusLifecycleHandler = statusLifecycleHandler;
             _statusTimerRepository = statusTimerRepository;
         }
 
         public void Execute(UnitId target, StatusId statusId)
         {
-            if (_statusOwnerRepository.TryGet(target, out StatusOwner owner) == false)
+            try
             {
-                return;
-            }
+                ref UnitContext unit = ref _unitStore.Get(target);
 
-            if (owner.Remove(statusId) == false)
-            {
-                return;
-            }
+                if (unit.Statuses.Remove(statusId) == false)
+                {
+                    return;
+                }
 
-            _statusTimerRepository.Delete(statusId);
-            _statusLifecycleHandler.Remove(statusId);
+                _statusTimerRepository.Delete(statusId);
+                _statusLifecycleHandler.Remove(statusId);
+            }
+            catch { }
         }
     }
 }

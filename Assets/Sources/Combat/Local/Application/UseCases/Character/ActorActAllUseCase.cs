@@ -4,11 +4,11 @@ using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
 using Combat.Domain.Entities.Units;
-using Combat.Domain.Repositories;
 using Combat.Local.Application.Endpoints.Skills;
 using Combat.Local.Application.Entities;
 using Combat.Local.Application.Factories;
 using Combat.Local.Application.Repositories;
+using Combat.Local.Domain.Repositories;
 
 using System.Linq;
 
@@ -16,10 +16,9 @@ namespace Combat.Local.Application.UseCases
 {
     public sealed class ActorActAllUseCase
     {
-        private readonly IAttributesRepository _attributesRepository;
+        private readonly IUnitStore _unitStore;
         private readonly IPositionableRepository _positionableRepository;
         private readonly IActorRepository _actorRepository;
-        private readonly ISkillOwnerRepository _skillOwnerRepository;
         private readonly IAbilityFactory _abilityFactory;
         private readonly ActionFactory _actionFactory;
 
@@ -27,15 +26,14 @@ namespace Combat.Local.Application.UseCases
         private readonly ISkillActionStateChangeHandler _skillActionStateChangeHandler;
         private readonly ISkillHitHandler _skillHitHandler;
 
-        public ActorActAllUseCase(IAttributesRepository attributesRepository, IPositionableRepository positionableRepository,
-            IActorRepository actorRepository, ISkillOwnerRepository skillOwnerRepository,
+        public ActorActAllUseCase(IUnitStore units, IPositionableRepository positionableRepository,
+            IActorRepository actorRepository,
             IAbilityFactory abilityFactory, ActionFactory actionFactory, ISkillExecutionPort skillExecutionPort,
             ISkillActionStateChangeHandler skillActionStateChangeHandler, ISkillHitHandler skillHitHandler)
         {
-            _attributesRepository = attributesRepository;
+            _unitStore = units;
             _positionableRepository = positionableRepository;
             _actorRepository = actorRepository;
-            _skillOwnerRepository = skillOwnerRepository;
             _abilityFactory = abilityFactory;
             _actionFactory = actionFactory;
             _skillExecutionPort = skillExecutionPort;
@@ -58,17 +56,12 @@ namespace Combat.Local.Application.UseCases
 
         private void ExecuteFor(Actor actor, float deltaTime)
         {
-            AttributesOwner attributesOwner = _attributesRepository.Get(actor.Id);
+            ref UnitContext unit = ref _unitStore.Get(actor.Id);
 
             UpdateAction(actor, deltaTime);
 
-            if (_actorRepository.TryGet(actor.Id, out actor) == false)
-            {
-                return;
-            }
-
             Cast(actor);
-            Move(actor, attributesOwner);
+            Move(actor, _unitStore.Get(actor.Id).Attributes);
         }
 
         private void UpdateAction(Actor actor, float deltaTime)
@@ -145,12 +138,9 @@ namespace Combat.Local.Application.UseCases
             actor.DesireCast(default);
             _actorRepository.Update(actor);
 
-            if (_skillOwnerRepository.TryGet(caster, out SkillOwner skillOwner) == false)
-            {
-                return;
-            }
+            ref UnitContext unit = ref _unitStore.Get(actor.Id);
 
-            if (skillOwner.GetCooldown(skillId) > 0)
+            if (unit.Skills.GetCooldown(skillId) > 0)
             {
                 return;
             }
@@ -167,7 +157,7 @@ namespace Combat.Local.Application.UseCases
             if (_skillExecutionPort.BeginCast(abilityKey) == false)
             {
                 if (ability.BaseCooldown > 0)
-                    skillOwner.SetCooldown(skillId, ability.BaseCooldown);
+                    unit.Skills.SetCooldown(skillId, ability.BaseCooldown);
                 return;
             }
 
@@ -177,7 +167,7 @@ namespace Combat.Local.Application.UseCases
             }
 
             if (ability.BaseCooldown > 0)
-                skillOwner.SetCooldown(skillId, ability.BaseCooldown);
+                unit.Skills.SetCooldown(skillId, ability.BaseCooldown);
         }
 
         private CastFailReason CanCast(Actor actor, SkillFlags skillFlags, AbilityKey abilityKey)
