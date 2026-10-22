@@ -2,7 +2,6 @@
 using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
-using Combat.Domain.Entities.Units;
 using Combat.Domain.Repositories;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.Endpoints.Skills;

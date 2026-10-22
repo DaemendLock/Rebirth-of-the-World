@@ -172,6 +172,11 @@ namespace Combat.Local.Application.UseCases
 
         private CastFailReason CanCast(Actor actor, SkillFlags skillFlags, AbilityKey abilityKey)
         {
+            if(actor.ConsciousState != ConsciousState.Alive)
+            {
+                return CastFailReason.CantCast;
+            }
+
             Action action = actor.CurrentAction;
 
             if (skillFlags.HasFlag(Common.Flags.SkillFlags.Instant) || action == null)

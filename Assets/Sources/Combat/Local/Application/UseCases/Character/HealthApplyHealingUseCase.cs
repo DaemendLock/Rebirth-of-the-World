@@ -1,7 +1,6 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.Primitives;
 using Combat.Domain.Entities;
-using Combat.Domain.Entities.Units;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.Queries.Statuses;
 using Combat.Local.Application.ValueObjects;
@@ -29,15 +28,15 @@ namespace Combat.Local.Application.UseCases
         public void Execute(UnitId target, float healing, HealingFlags flags, UnitId? healer, AbilityKey? source)
         {
             ref HealthOwner health = ref _unitStore.Get(target).Health;
-            float originalHealth = health.CurrentHealth;
+            float originalHealth = health.Current;
             HealingInstance instance = CreateHealingInstance(target, healing, flags, healer, source);
             healing = instance.Healing;
 
             health.TakeHealing(healing);
 
-            _healthOutput.Present(new HealthChangeRecord(health.Id, health.CurrentHealth, health.MaxHealth, originalHealth));
+            _healthOutput.Present(new HealthChangeRecord(health.Id, health.Current, health.Max, originalHealth));
 
-            if (instance.Flags.HasFlag(HealingFlags.CanRevive) && health.CurrentHealth > 0)
+            if (instance.Flags.HasFlag(HealingFlags.CanRevive) && health.Current > 0)
             {
                 //Revive(new(data.Healer, data.Source, ReviveFlags.Healed));
             }

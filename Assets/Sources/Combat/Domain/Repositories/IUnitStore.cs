@@ -1,5 +1,5 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Domain.Entities.Units;
+using Combat.Domain.Entities;
 
 namespace Combat.Local.Domain.Repositories
 {

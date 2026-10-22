@@ -28,7 +28,7 @@ namespace Combat.Domain.Entities
 
         public float Default { get; set; }
 
-        public float CurrentHealth
+        public float Current
         {
             readonly get => _currentValue;
             set
@@ -38,9 +38,9 @@ namespace Combat.Domain.Entities
                     throw new System.InvalidOperationException($"Value can't be NaN");
                 }
 
-                if (value > MaxHealth)
+                if (value > Max)
                 {
-                    _currentValue = MaxHealth;
+                    _currentValue = Max;
                     return;
                 }
 
@@ -62,7 +62,7 @@ namespace Combat.Domain.Entities
             }
         }
 
-        public readonly float MaxHealth => _bonusHealth + Default;
+        public readonly float Max => _bonusHealth + Default;
 
         public void TakeDamage(float damage)
         {
@@ -71,7 +71,7 @@ namespace Combat.Domain.Entities
                 return;
             }
 
-            CurrentHealth -= damage;
+            Current -= damage;
         }
 
         public void TakeHealing(float healing)
@@ -81,7 +81,7 @@ namespace Combat.Domain.Entities
                 return;
             }
 
-            CurrentHealth += healing;
+            Current += healing;
         }
     }
 }

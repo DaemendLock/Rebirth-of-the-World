@@ -5,6 +5,7 @@ using System;
 
 namespace Combat.Local.Application.UseCases
 {
+
     public sealed class SkillOwnerProgressAllUseCase
     {
         private readonly IUnitStore _unitStore;

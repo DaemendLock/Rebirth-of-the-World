@@ -9,6 +9,8 @@ namespace Combat.Domain.Entities
 {
     public ref struct Actor
     {
+        public const float MaxDamageSeverity = 2;
+
         public Actor(UnitId id, ActorState state, Action action, ConsciousState consciousState, DesiredActions desiredActions)
         {
             Id = id;
@@ -46,6 +48,12 @@ namespace Combat.Domain.Entities
         public void Kill()
         {
             ConsciousState = ConsciousState.Dead;
+            CurrentAction?.Interrupt(InterruptReason.Death);
+        }
+
+        public void Down()
+        {
+            ConsciousState = ConsciousState.Downed;
             CurrentAction?.Interrupt(InterruptReason.Death);
         }
 

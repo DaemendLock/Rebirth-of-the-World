@@ -1,6 +1,5 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Domain.Entities;
-using Combat.Domain.Entities.Units;
 using Combat.Local.Application.Entities;
 using Combat.Local.Application.Repositories;
 using Combat.Local.Domain.Repositories;

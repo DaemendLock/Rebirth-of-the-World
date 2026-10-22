@@ -1,6 +1,6 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.Primitives;
-using Combat.Domain.Entities.Units;
+using Combat.Domain.Entities;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.UseCases;
 using Combat.Local.Domain.Repositories;
@@ -11,12 +11,12 @@ namespace Combat.Local.Application.Facades
     {
         private readonly ComposureSetUseCase _setComposureUseCase;
         private readonly HealthSetUseCase _setHealthUseCase;
-        private readonly HealthApplyDamageUseCase _applyDamageUseCase;
+        private readonly UnitApplyDamageUseCase _applyDamageUseCase;
         private readonly HealthApplyHealingUseCase _applyHealingUseCase;
 
         private readonly IUnitStore _unitStore;
 
-        public HealthOwnerFacade(HealthSetUseCase setHealthUseCase, HealthApplyDamageUseCase applyDamageUseCase, HealthApplyHealingUseCase applyHealingUseCase, IUnitStore unitStore, ComposureSetUseCase composureSetUseCase)
+        public HealthOwnerFacade(HealthSetUseCase setHealthUseCase, UnitApplyDamageUseCase applyDamageUseCase, HealthApplyHealingUseCase applyHealingUseCase, IUnitStore unitStore, ComposureSetUseCase composureSetUseCase)
         {
             _setHealthUseCase = setHealthUseCase;
             _applyDamageUseCase = applyDamageUseCase;
@@ -28,7 +28,7 @@ namespace Combat.Local.Application.Facades
         public HealthValueDTO GetHealth(UnitId entityId)
         {
             ref UnitContext value = ref _unitStore.Get(entityId);;
-            return new(value.Health.CurrentHealth, value.Health.MaxHealth, value.Composure.CurrentComposure, value.Composure.MaxComposure);
+            return new(value.Health.Current, value.Health.Max, value.Composure.Current, value.Composure.Max);
         }
 
         public void ApplyDamage(ApplyDamageInfo info) => _applyDamageUseCase.Execute(info);

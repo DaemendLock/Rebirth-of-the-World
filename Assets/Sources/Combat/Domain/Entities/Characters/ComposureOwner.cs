@@ -4,8 +4,13 @@ namespace Combat.Domain.Entities
 {
     public struct ComposureOwner
     {
+        public const float RegenRate = 0.10f;
+        public const float BaseDrainRate = 0.05f;
+        public const float HealingDelay = 3f;
+
         private float _currentValue;
         private float _bonus;
+        private float _healingCooldown;
 
         public ComposureOwner(UnitId id, float currentHealth, float defaultHealth) : this(id, currentHealth, defaultHealth, 0f)
         { }
@@ -19,13 +24,16 @@ namespace Combat.Domain.Entities
 
             Id = id;
             _currentValue = currentHealth;
-            DefaultComposure = defaultHealth;
+            Default = defaultHealth;
             _bonus = bonus;
+            _healingCooldown = 0f;
         }
 
         public UnitId Id { get; }
 
-        public float CurrentComposure
+        public float Default { get; set; }
+
+        public float Current
         {
             readonly get => _currentValue;
             set
@@ -35,7 +43,13 @@ namespace Combat.Domain.Entities
                     throw new System.InvalidOperationException("Value can't be NaN");
                 }
 
-                _currentValue = System.Math.Max(0f, System.Math.Min(value, MaxComposure));
+                if (value < 0f)
+                {
+                    _currentValue = 0;
+                    return;
+                }
+
+                _currentValue = System.Math.Min(value, Max);
             }
         }
 
@@ -53,9 +67,13 @@ namespace Combat.Domain.Entities
             }
         }
 
-        public float DefaultComposure { get; set; }
+        public readonly float Max => _bonus + Default;
 
-        public readonly float MaxComposure => _bonus + DefaultComposure;
+        public float HealingCooldown
+        {
+            readonly get => _healingCooldown;
+            set => _healingCooldown = System.Math.Max(value, 0);
+        }
 
         public void TakeDamage(float damage)
         {
@@ -64,7 +82,7 @@ namespace Combat.Domain.Entities
                 return;
             }
 
-            CurrentComposure -= damage;
+            Current -= damage;
         }
 
         public void TakeHealing(float healing)
@@ -74,7 +92,14 @@ namespace Combat.Domain.Entities
                 return;
             }
 
-            CurrentComposure += healing;
+            if (Current > Max)
+            {
+                return;
+            }
+
+            Current += healing;
         }
+
+        public void Progress(float deltaTime) => HealingCooldown -= deltaTime;
     }
 }

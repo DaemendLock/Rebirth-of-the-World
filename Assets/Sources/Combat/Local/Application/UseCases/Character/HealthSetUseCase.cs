@@ -1,6 +1,5 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Domain.Entities;
-using Combat.Domain.Entities.Units;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.ValueObjects;
 using Combat.Local.Domain.Repositories;
@@ -21,9 +20,9 @@ namespace Combat.Local.Application.UseCases
         public void Execute(UnitId target, float value)
         {
             ref HealthOwner healthOwner = ref _unitStore.Get(target).Health;
-            float oldValue = healthOwner.CurrentHealth;
-            healthOwner.CurrentHealth = value;
-            _healthOutput.Present(new HealthChangeRecord(healthOwner.Id, healthOwner.CurrentHealth, healthOwner.MaxHealth, oldValue));
+            float oldValue = healthOwner.Current;
+            healthOwner.Current = value;
+            _healthOutput.Present(new HealthChangeRecord(healthOwner.Id, healthOwner.Current, healthOwner.Max, oldValue));
         }
     }
 
@@ -41,9 +40,9 @@ namespace Combat.Local.Application.UseCases
         public void Execute(UnitId target, float value)
         {
             ref UnitContext unit = ref _unitStore.Get(target); ;
-            float oldValue = unit.Composure.CurrentComposure;
-            unit.Composure.CurrentComposure = value;
-            _healthOutput.Present(new ComposureChangeRecord(unit.Composure.Id, unit.Composure.CurrentComposure, unit.Composure.MaxComposure, oldValue));
+            float oldValue = unit.Composure.Current;
+            unit.Composure.Current = value;
+            _healthOutput.Present(new ComposureChangeRecord(unit.Composure.Id, unit.Composure.Current, unit.Composure.Max, oldValue));
         }
     }
 

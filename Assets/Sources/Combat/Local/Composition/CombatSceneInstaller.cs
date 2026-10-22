@@ -111,11 +111,11 @@ namespace Combat.Local.Composition
 
             Container.Bind<UnitCreateUseCase>().AsSingle();
             Container.Bind<UnitDeleteUseCase>().AsSingle();
+            Container.Bind<UnitApplyDamageUseCase>().AsSingle();
             Container.Bind<ActorDesireCastFromSlotUseCase>().AsSingle();
             Container.Bind<ActorReleaseSkillFromSlotUseCase>().AsSingle();
             Container.Bind<ResourceGiveUseCase>().AsSingle();
             Container.Bind<ResourceSpendUseCase>().AsSingle();
-            Container.Bind<HealthApplyDamageUseCase>().AsSingle();
             Container.Bind<HealthApplyHealingUseCase>().AsSingle();
             Container.Bind<HealthSetUseCase>().AsSingle();
             Container.Bind<ComposureSetUseCase>().AsSingle();
@@ -128,12 +128,14 @@ namespace Combat.Local.Composition
             Container.Bind<ActorForceKillUseCase>().AsSingle();
             Container.Bind<ActorReviveUseCase>().AsSingle();
             Container.Bind<ActorActAllUseCase>().AsSingle();
+            Container.Bind<ActorEvaluateConsciousStateAllUseCase>().AsSingle();
             Container.Bind<StatusOwnerFindStatusUseCase>().AsSingle();
             Container.Bind<AddMovementEffectUseCase>().AsSingle();
             Container.Bind<PositionableStartScaleUseCase>().AsSingle();
             Container.Bind<PositionableStopScaleUseCase>().AsSingle();
 
             Container.Bind<HitsHandleUseCase>().AsSingle();
+            Container.Bind<ComposureRecoverAllUseCase>().AsSingle();
             Container.Bind<SkillOwnerProgressAllUseCase>().AsSingle();
             Container.Bind<SkillStartCooldownUseCase>().AsSingle();
 

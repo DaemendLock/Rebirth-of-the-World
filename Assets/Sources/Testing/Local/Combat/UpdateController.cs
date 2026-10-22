@@ -3,7 +3,6 @@ using Combat.Domain.Entities.Units;
 using Combat.Local.Application.Repositories;
 using Combat.Local.Application.UseCases;
 using Combat.Local.Application.UseCases.Scene;
-using Combat.Local.Application.UseCases.Skills;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +13,12 @@ namespace Testing.Local
 {
     public class UpdateController : ITickable
     {
-        private readonly AttributeOwnerUpdateAllUseCase _attributeOwnerUpdateAllUseCase;
         private readonly StatusOwnerProgressAllUseCases _updateStatusesUseCase;
         private readonly SkillOwnerProgressAllUseCase _skillUpdateAllUseCase;
+        private readonly ComposureRecoverAllUseCase _composureRecoverAllUseCase;
         private readonly ActorActAllUseCase _actorUpdateAllUseCase;
+        private readonly AttributeOwnerUpdateAllUseCase _attributeOwnerUpdateAllUseCase;
+        private readonly ActorEvaluateConsciousStateAllUseCase _updateConsciousStateAllUseCase;
         private readonly HitsHandleUseCase _handleHitUseCase;
         private readonly ICharacterUpdateRepository _characterUpdateList;
         private readonly ICharacterDeleteQueue _characterDeleteQueue;
@@ -29,6 +30,8 @@ namespace Testing.Local
                                 HitsHandleUseCase handleHitUseCase,
                                 ICharacterUpdateRepository characterUpdateList,
                                 ActorActAllUseCase actorActAllUseCase,
+                                ActorEvaluateConsciousStateAllUseCase updateConsciousStateAllUseCase,
+                                ComposureRecoverAllUseCase composureRecoverAllUseCase,
                                 SkillOwnerProgressAllUseCase skillUpdateAllUseCase,
                                 ICharacterDeleteQueue characterDeleteQueue,
                                 UnitDeleteUseCase characterDeleteUseCase,
@@ -40,11 +43,13 @@ namespace Testing.Local
             _handleHitUseCase = handleHitUseCase;
             _characterUpdateList = characterUpdateList;
             _actorUpdateAllUseCase = actorActAllUseCase;
+            _composureRecoverAllUseCase = composureRecoverAllUseCase;
             _skillUpdateAllUseCase = skillUpdateAllUseCase;
             _characterDeleteQueue = characterDeleteQueue;
             _characterDeleteUseCase = characterDeleteUseCase;
             _encounterState = encounterState;
             _hitRecordQueue = hitRecordQueue;
+            _updateConsciousStateAllUseCase = updateConsciousStateAllUseCase;
         }
 
         public void Tick()
@@ -62,16 +67,18 @@ namespace Testing.Local
             float deltaTime = UnityEngine.Time.deltaTime;
             Updatable[] updateList = _characterUpdateList.GetAll().ToArray();
 
+            _composureRecoverAllUseCase.Execute(updateList, deltaTime);
+            _skillUpdateAllUseCase.Execute(updateList, deltaTime);
+
             while (_hitRecordQueue.TryDequeue(out var hitRecord))
             {
                 _handleHitUseCase.Execute(new(hitRecord));
             }
 
-            _skillUpdateAllUseCase.Execute(updateList, deltaTime);
             _updateStatusesUseCase.Execute(updateList, deltaTime);
             _actorUpdateAllUseCase.Execute(updateList, deltaTime);
-
             _attributeOwnerUpdateAllUseCase.Execute(updateList);
+            _updateConsciousStateAllUseCase.Execute(updateList, deltaTime);
         }
 
         public void UpdateCombat()

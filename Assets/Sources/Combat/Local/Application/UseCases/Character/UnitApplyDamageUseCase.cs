@@ -2,7 +2,6 @@
 using Combat.Common.Flags;
 using Combat.Common.Primitives;
 using Combat.Domain.Entities;
-using Combat.Domain.Entities.Units;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.OutputPorts.Statuses;
@@ -16,7 +15,7 @@ using System.Linq;
 
 namespace Combat.Local.Application.UseCases
 {
-    public readonly struct HealthApplyDamageUseCase
+    public readonly struct UnitApplyDamageUseCase
     {
         private readonly IUnitStore _unitStore;
         private readonly IActorRepository _actorRepository;
@@ -28,7 +27,7 @@ namespace Combat.Local.Application.UseCases
 
         private readonly ICharacterDeathHandler _characterDeathHandler;
 
-        public HealthApplyDamageUseCase(IUnitStore units, IActorRepository stateRepository, IHealthOutput healthOutput, ICharacterConsciousStateOutput characterConsciousStateOutput, IHealingDamageModificationCalculator damageModifierCalculator, IDamageResultHandler damageResultHandler, ICharacterDeathHandler characterDeathHandler)
+        public UnitApplyDamageUseCase(IUnitStore units, IActorRepository stateRepository, IHealthOutput healthOutput, ICharacterConsciousStateOutput characterConsciousStateOutput, IHealingDamageModificationCalculator damageModifierCalculator, IDamageResultHandler damageResultHandler, ICharacterDeathHandler characterDeathHandler)
         {
             _unitStore = units;
             _healthOutput = healthOutput;
@@ -48,8 +47,6 @@ namespace Combat.Local.Application.UseCases
             {
                 PostDamageEvent(finalDamage);
             }
-
-            UpdateConsciosState(instance);
         }
 
         private DamageInstance CreateDamageInstance(ApplyDamageInfo info)
@@ -88,46 +85,28 @@ namespace Combat.Local.Application.UseCases
         {
             ref UnitContext target = ref _unitStore.Get(instance.Target);
 
-            float originalHealth = target.Health.CurrentHealth;
-            float originalComposure = target.Composure.CurrentComposure;
+            float originalHealth = target.Health.Current;
+            float originalComposure = target.Composure.Current;
             float finalHealthDamage = instance.HealthDamage;
-            float finalComposureDamage = System.Math.Min(instance.ComposureDamage, target.Composure.CurrentComposure);
+            float finalComposureDamage = System.Math.Min(instance.ComposureDamage, target.Composure.Current);
 
-            if (finalHealthDamage >= target.Health.CurrentHealth && instance.Flags.HasFlag(DamageFlags.NonLethal))
+            if (instance.Flags.HasFlag(DamageFlags.NonLethal) && finalHealthDamage >= target.Health.Current)
             {
-                finalHealthDamage = System.Math.Max(0f, target.Health.CurrentHealth - 1f);
+                finalHealthDamage = System.Math.Max(0f, target.Health.Current - 1f);
             }
 
             target.Health.TakeDamage(finalHealthDamage);
             target.Composure.TakeDamage(finalComposureDamage);
             instance.HealthDamage = finalHealthDamage;
             instance.ComposureDamage = finalComposureDamage;
+            target.Composure.HealingCooldown = ComposureOwner.HealingDelay;
             _healthOutput.Present(instance);
-            _healthOutput.Present(new HealthChangeRecord(target.Id, target.Health.CurrentHealth, target.Health.MaxHealth, originalHealth));
-            _healthOutput.Present(new ComposureChangeRecord(target.Id, target.Composure.CurrentComposure, target.Composure.MaxComposure, originalComposure));
+            _healthOutput.Present(new HealthChangeRecord(target.Id, target.Health.Current, target.Health.Max, originalHealth));
+            _healthOutput.Present(new ComposureChangeRecord(target.Id, target.Composure.Current, target.Composure.Max, originalComposure));
 
             return new(instance.Target, instance.OriginalHealthDamage, instance.OriginalComposureDamage,
                 finalHealthDamage, finalComposureDamage, instance.Flags, instance.Attacker, instance.Source);
 
-        }
-
-        private void UpdateConsciosState(DamageInstance instance)
-        {
-            ref HealthOwner health = ref _unitStore.Get(instance.Target).Health;
-
-            if (health.CurrentHealth > 0)
-            {
-                return;
-            }
-
-            //if (instance.Flags.HasFlag(DamageFlags.InstantKill))
-            //{
-            Kill(health.Id, instance.Attacker, instance.Source);
-            //}
-            //else
-            //{
-            //    KnockDown(health.Id, instance.Attacker, instance.Source);
-            //}
         }
 
         private void PostDamageEvent(DamageRecord @event)

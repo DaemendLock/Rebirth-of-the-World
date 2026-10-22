@@ -1,5 +1,5 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Domain.Entities.Units;
+using Combat.Domain.Entities;
 using Combat.Domain.Repositories;
 using Combat.Local.Application.OutputPorts.Statuses;
 using Combat.Local.Domain.Repositories;

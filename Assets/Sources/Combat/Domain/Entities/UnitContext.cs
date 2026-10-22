@@ -4,7 +4,7 @@ using Combat.Local.Application.ValueObjects;
 
 using System;
 
-namespace Combat.Domain.Entities.Units
+namespace Combat.Domain.Entities
 {
     public struct UnitContext
     {
