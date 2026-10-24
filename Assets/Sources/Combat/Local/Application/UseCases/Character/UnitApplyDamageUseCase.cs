@@ -6,7 +6,6 @@ using Combat.Local.Application.DTO;
 using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.OutputPorts.Statuses;
 using Combat.Local.Application.Queries.Statuses;
-using Combat.Local.Application.Repositories;
 using Combat.Local.Application.ValueObjects;
 using Combat.Local.Domain.Repositories;
 
@@ -18,24 +17,17 @@ namespace Combat.Local.Application.UseCases
     public readonly struct UnitApplyDamageUseCase
     {
         private readonly IUnitStore _unitStore;
-        private readonly IActorRepository _actorRepository;
-
         private readonly IHealthOutput _healthOutput;
-        private readonly ICharacterConsciousStateOutput _characterConsciousStateOutput;
         private readonly IHealingDamageModificationCalculator _damageModificationCalculator;
         private readonly IDamageResultHandler _damageResultHandler;
 
-        private readonly ICharacterDeathHandler _characterDeathHandler;
-
-        public UnitApplyDamageUseCase(IUnitStore units, IActorRepository stateRepository, IHealthOutput healthOutput, ICharacterConsciousStateOutput characterConsciousStateOutput, IHealingDamageModificationCalculator damageModifierCalculator, IDamageResultHandler damageResultHandler, ICharacterDeathHandler characterDeathHandler)
+        public UnitApplyDamageUseCase(IUnitStore units, IHealthOutput healthOutput,
+            IHealingDamageModificationCalculator damageModifierCalculator, IDamageResultHandler damageResultHandler)
         {
             _unitStore = units;
             _healthOutput = healthOutput;
-            _actorRepository = stateRepository;
-            _characterConsciousStateOutput = characterConsciousStateOutput;
             _damageModificationCalculator = damageModifierCalculator;
             _damageResultHandler = damageResultHandler;
-            _characterDeathHandler = characterDeathHandler;
         }
 
         public void Execute(ApplyDamageInfo info)
@@ -159,25 +151,6 @@ namespace Combat.Local.Application.UseCases
                 }
                 catch { }
             }
-        }
-
-        private void Kill(UnitId target, UnitId? attacker, AbilityKey? source)
-        {
-            if (_actorRepository.TryGet(target, out Actor actor) == false)
-            {
-                return;
-            }
-
-            if (actor.ConsciousState == ConsciousState.Dead)
-            {
-                return;
-            }
-
-            actor.Kill();
-            _actorRepository.Update(actor);
-            _characterDeathHandler.Handle(new(target));
-            _characterConsciousStateOutput.Present(target, actor.ConsciousState);
-            return;
         }
     }
 }

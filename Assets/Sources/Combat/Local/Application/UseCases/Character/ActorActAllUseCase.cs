@@ -7,6 +7,7 @@ using Combat.Domain.Entities.Units;
 using Combat.Local.Application.Endpoints.Skills;
 using Combat.Local.Application.Entities;
 using Combat.Local.Application.Factories;
+using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.Repositories;
 using Combat.Local.Domain.Repositories;
 
@@ -18,7 +19,6 @@ namespace Combat.Local.Application.UseCases
     {
         private readonly IUnitStore _unitStore;
         private readonly IPositionableRepository _positionableRepository;
-        private readonly IActorRepository _actorRepository;
         private readonly IAbilityFactory _abilityFactory;
         private readonly ActionFactory _actionFactory;
 
@@ -26,60 +26,74 @@ namespace Combat.Local.Application.UseCases
         private readonly ISkillActionStateChangeHandler _skillActionStateChangeHandler;
         private readonly ISkillHitHandler _skillHitHandler;
 
+        private readonly IActorActionUpdateOutput _actorUpdateOutput;
+
         public ActorActAllUseCase(IUnitStore units, IPositionableRepository positionableRepository,
-            IActorRepository actorRepository,
-            IAbilityFactory abilityFactory, ActionFactory actionFactory, ISkillExecutionPort skillExecutionPort,
-            ISkillActionStateChangeHandler skillActionStateChangeHandler, ISkillHitHandler skillHitHandler)
+            IAbilityFactory abilityFactory, ActionFactory actionFactory,
+            ISkillExecutionPort skillExecutionPort, ISkillActionStateChangeHandler skillActionStateChangeHandler,
+            ISkillHitHandler skillHitHandler, IActorActionUpdateOutput actionUpdateOutput)
         {
             _unitStore = units;
             _positionableRepository = positionableRepository;
-            _actorRepository = actorRepository;
             _abilityFactory = abilityFactory;
             _actionFactory = actionFactory;
             _skillExecutionPort = skillExecutionPort;
             _skillActionStateChangeHandler = skillActionStateChangeHandler;
             _skillHitHandler = skillHitHandler;
+            _actorUpdateOutput = actionUpdateOutput;
         }
 
         public void Execute(System.ReadOnlySpan<Updatable> targets, float deltaTime)
         {
             foreach (Updatable target in targets)
             {
-                if (_actorRepository.TryGet(target.Id, out Actor actor) == false)
+                try
                 {
-                    continue;
+                    ExecuteFor(target.Id, deltaTime * target.TimeScale);
                 }
-
-                ExecuteFor(actor, deltaTime * target.TimeScale);
+                catch (System.Exception e)
+                {
+                    UnityEngine.Debug.LogException(e);
+                }
             }
         }
 
-        private void ExecuteFor(Actor actor, float deltaTime)
+        private void ExecuteFor(UnitId target, float deltaTime)
         {
-            ref UnitContext unit = ref _unitStore.Get(actor.Id);
+            ref UnitContext unit = ref _unitStore.Get(target);
 
-            UpdateAction(actor, deltaTime);
+            UpdateAction(ref unit, deltaTime);
 
-            Cast(actor);
-            Move(actor, _unitStore.Get(actor.Id).Attributes);
+            Cast(ref unit);
+            Move(ref unit);
         }
 
-        private void UpdateAction(Actor actor, float deltaTime)
+        private void UpdateAction(ref UnitContext unit, float deltaTime)
         {
-            Action action = actor.CurrentAction;
+            Action action = unit.Actor.CurrentAction;
 
             if (action == null)
             {
                 return;
             }
 
-            if (actor.ConsciousState != ConsciousState.Alive)
+            if (unit.LifeState.State != ConsciousState.Alive)
             {
-                StopAction(actor);
+                InterruptReason reason = unit.LifeState.State == ConsciousState.Dead
+                    ? InterruptReason.Death
+                    : InterruptReason.Downed;
+
+                if (unit.Actor.TryInterrupt(reason))
+                {
+                    _actorUpdateOutput.Clear(unit.Id);
+                }
 
                 if (action.TryGet(out IAbilityAction abilityAction))
                 {
-                    _skillActionStateChangeHandler.Handle(new(actor.Id, abilityAction.Source), ActionState.Inactive);
+                    AbilityKey key = new(unit.Id, abilityAction.Source);
+                    _skillHitHandler.Reset(key);
+                    _skillActionStateChangeHandler.Handle(key, ActionState.Inactive);
+                    return;
                 }
 
                 return;
@@ -87,7 +101,7 @@ namespace Combat.Local.Application.UseCases
 
             if (action.IsComplete)
             {
-                StopAction(actor);
+                StopAction(ref unit);
                 return;
             }
 
@@ -95,20 +109,29 @@ namespace Combat.Local.Application.UseCases
             ActionState oldState = isAbilityAction ? abilityActionStrategy.State : default;
 
             action.Progress(deltaTime);
-            _actorRepository.Update(actor);
 
-            if (isAbilityAction)
+            if (action.Flags.HasFlag(ActionFlags.Holdable) && abilityActionStrategy.State == ActionState.Recovery)
             {
-                HandleStateChanges(actor.Id, abilityActionStrategy, oldState);
+                _actorUpdateOutput.Release(unit.Id);
+            }
+
+            if (isAbilityAction && abilityActionStrategy.State != oldState)
+            {
+                HandleStateChanges(unit.Id, abilityActionStrategy, oldState);
+                return;
             }
         }
 
-        private void Move(Actor actor, AttributesOwner attributesOwner)
+        private void Move(ref UnitContext unit)
         {
-            UnityEngine.Vector2 relativeDirection = new(actor.DesiredActions.MovementDirection.X, actor.DesiredActions.MovementDirection.Y);
+            UnityEngine.Vector2 relativeDirection = new(unit.Actor.DesiredActions.MovementDirection.X, unit.Actor.DesiredActions.MovementDirection.Y);
+            Positionable positionable = _positionableRepository.Get(unit.Id);
 
-            if (actor.CanMove == false)
+            if (unit.Actor.CanMove == false || unit.LifeState.State == ConsciousState.Dead)
             {
+                UnityEngine.Vector3 velocity = positionable.Velocity;
+                positionable.Velocity = new UnityEngine.Vector3(0, velocity.y, 0);
+                _positionableRepository.Update(positionable);
                 return;
             }
 
@@ -117,67 +140,71 @@ namespace Combat.Local.Application.UseCases
                 relativeDirection = relativeDirection.normalized;
             }
 
-            float speed = attributesOwner.GetAttributeValue(UnitAttribute.Speed);
-
-            Positionable positionable = _positionableRepository.Get(actor.Id);
+            float speed = unit.Attributes.GetAttributeValue(UnitAttribute.Speed);
 
             UnityEngine.Vector3 oldSpeed = positionable.Velocity;
             positionable.Velocity = (positionable.Rotation * new UnityEngine.Vector3(relativeDirection.x, 0, relativeDirection.y) * speed) + new UnityEngine.Vector3(0, oldSpeed.y, 0);
             _positionableRepository.Update(positionable);
         }
 
-        private void Cast(Actor actor)
+        private bool Cast(ref UnitContext unit)
         {
-            if (actor.DesiredActions.Skill.HasValue == false)
+            if (unit.Actor.DesiredActions.Skill.HasValue == false)
             {
-                return;
+                return true;
             }
 
-            SkillId skillId = actor.DesiredActions.Skill.Value;
-            UnitId caster = actor.Id;
-            actor.DesireCast(default);
-            _actorRepository.Update(actor);
+            SkillId skillId = unit.Actor.DesiredActions.Skill.Value;
+            UnitId caster = unit.Id;
+            unit.Actor.DesireCast(default);
 
-            ref UnitContext unit = ref _unitStore.Get(actor.Id);
+            if (unit.LifeState.State != ConsciousState.Alive)
+            {
+                return true;
+            }
 
             if (unit.Skills.GetCooldown(skillId) > 0)
             {
-                return;
+                return true;
             }
 
             AbilityKey abilityKey = new(caster, skillId);
             SkillInfo ability = _abilityFactory.Create(skillId);
 
-            if (CanCast(actor, ability.Flags, abilityKey) != CastFailReason.Success)
+            if (CanCast(ref unit, ability.Flags, abilityKey) != CastFailReason.Success)
             {
                 UnityEngine.Debug.Log("Can't cast - cast forbidden");
-                return;
+                return true;
             }
 
-            if (_skillExecutionPort.BeginCast(abilityKey) == false)
+            bool beginAction = _skillExecutionPort.BeginCast(abilityKey);
+
+            if (ability.BaseCooldown > 0)
             {
-                if (ability.BaseCooldown > 0)
-                    unit.Skills.SetCooldown(skillId, ability.BaseCooldown);
-                return;
+                unit.Skills.SetCooldown(skillId, ability.BaseCooldown);
+            }
+
+            if (beginAction == false || unit.LifeState.State != ConsciousState.Alive)
+            {
+                return true;
             }
 
             if (ability.Actions != null && ability.Actions.Count > 0)
             {
-                StartCastAction(actor, ability.Actions.First(), skillId, ability.Flags);
+                return StartCastAction(ref unit, ability.Actions.First(), skillId, ability.Flags);
             }
 
-            if (ability.BaseCooldown > 0)
-                unit.Skills.SetCooldown(skillId, ability.BaseCooldown);
+            return true;
         }
 
-        private CastFailReason CanCast(Actor actor, SkillFlags skillFlags, AbilityKey abilityKey)
+        private CastFailReason CanCast(ref UnitContext unit, SkillFlags skillFlags, AbilityKey abilityKey)
         {
-            if(actor.ConsciousState != ConsciousState.Alive)
+            if (unit.LifeState.State != ConsciousState.Alive)
             {
                 return CastFailReason.CantCast;
             }
 
-            Action action = actor.CurrentAction;
+            Action action = unit.Actor.CurrentAction;
 
             if (skillFlags.HasFlag(Common.Flags.SkillFlags.Instant) || action == null)
             {
@@ -210,28 +237,36 @@ namespace Combat.Local.Application.UseCases
             return _skillExecutionPort.CanCast(abilityKey);
         }
 
-        private void StartCastAction(Actor actor, ActionId actionId, SkillId skillId, SkillFlags skillFlags)
+        private bool StartCastAction(ref UnitContext unit, ActionId actionId, SkillId skillId, SkillFlags skillFlags)
         {
-            if (actor.CurrentAction != null)
+            if (unit.Actor.TryInterrupt(InterruptReason.Chained, out Action oldAction))
             {
-                Action oldAction = actor.CurrentAction;
-                oldAction.Interrupt(InterruptReason.Chained);
+                _actorUpdateOutput.Clear(unit.Id);
 
                 if (oldAction.TryGet(out IAbilityAction oldAbilityAction))
                 {
-                    _skillActionStateChangeHandler.Handle(new(actor.Id, oldAbilityAction.Source), ActionState.Inactive);
+                    AbilityKey oldKey = new(unit.Id, oldAbilityAction.Source);
+                    _skillHitHandler.Reset(oldKey);
+                    _skillActionStateChangeHandler.Handle(oldKey, ActionState.Inactive);
+
+                    if (unit.LifeState.State != ConsciousState.Alive)
+                    {
+                        return true;
+                    }
                 }
             }
 
-            actor.StartAction(_actionFactory.CreateCastAction(actionId, skillId, skillFlags));
-            _actorRepository.Update(actor);
-            _skillActionStateChangeHandler.Handle(new(actor.Id, skillId), ActionState.Startup);
+            Action newAction = _actionFactory.CreateCastAction(actionId, skillId, skillFlags);
+            unit.Actor.StartAction(newAction);
+            _actorUpdateOutput.Present(unit.Id, newAction.Id, newAction.Flags, newAction.ActiveTime);
+            _skillActionStateChangeHandler.Handle(new(unit.Id, skillId), ActionState.Startup);
+            return true;
         }
 
-        private void StopAction(Actor actor)
+        private void StopAction(ref UnitContext unit)
         {
-            actor.StopAction();
-            _actorRepository.Update(actor);
+            unit.Actor.StopAction();
+            _actorUpdateOutput.Clear(unit.Id);
         }
 
         private void HandleStateChanges(UnitId actorId, IAbilityAction action, ActionState oldState)
@@ -243,7 +278,6 @@ namespace Combat.Local.Application.UseCases
 
             AbilityKey key = new(actorId, action.Source);
             _skillHitHandler.Reset(key);
-
             _skillActionStateChangeHandler.Handle(key, action.State);
         }
     }

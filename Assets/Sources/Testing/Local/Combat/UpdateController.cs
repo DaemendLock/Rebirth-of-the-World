@@ -18,7 +18,7 @@ namespace Testing.Local
         private readonly ComposureRecoverAllUseCase _composureRecoverAllUseCase;
         private readonly ActorActAllUseCase _actorUpdateAllUseCase;
         private readonly AttributeOwnerUpdateAllUseCase _attributeOwnerUpdateAllUseCase;
-        private readonly ActorEvaluateConsciousStateAllUseCase _updateConsciousStateAllUseCase;
+        private readonly LifeStateEvaluateAllUseCase _updateConsciousStateAllUseCase;
         private readonly HitsHandleUseCase _handleHitUseCase;
         private readonly ICharacterUpdateRepository _characterUpdateList;
         private readonly ICharacterDeleteQueue _characterDeleteQueue;
@@ -30,7 +30,7 @@ namespace Testing.Local
                                 HitsHandleUseCase handleHitUseCase,
                                 ICharacterUpdateRepository characterUpdateList,
                                 ActorActAllUseCase actorActAllUseCase,
-                                ActorEvaluateConsciousStateAllUseCase updateConsciousStateAllUseCase,
+                                LifeStateEvaluateAllUseCase updateConsciousStateAllUseCase,
                                 ComposureRecoverAllUseCase composureRecoverAllUseCase,
                                 SkillOwnerProgressAllUseCase skillUpdateAllUseCase,
                                 ICharacterDeleteQueue characterDeleteQueue,

@@ -1,4 +1,6 @@
-﻿using Combat.Common.Primitives;
+﻿using CastStateSkill;
+
+using Combat.Common.Primitives;
 using Combat.Local.Application.Entities;
 using Combat.Local.Application.Factories;
 using Combat.Local.Gateways.DataSources;
@@ -18,9 +20,9 @@ namespace Combat.Local.Gateways.Factories
         {
             IActionStrategy result = null;
 
-            if (_skillDataBase.TryGetActionData(id, out var actionData))
+            if (_skillDataBase.TryGetFrameData(id, out IFrameData frameData))
             {
-                result = new FrameDataAbilityActionStrategy(actionData.FrameData, source, holdable);
+                result = new FrameDataAbilityActionStrategy(frameData, source, holdable);
             }
 
             return result;

@@ -1,6 +1,5 @@
 ﻿using Combat.Domain.Entities;
 using Combat.Domain.Entities.Units;
-using Combat.Local.Application.Repositories;
 using Combat.Local.Domain.Repositories;
 
 using System;
@@ -10,12 +9,9 @@ namespace Combat.Local.Application.UseCases
     public sealed class ComposureRecoverAllUseCase
     {
         private readonly IUnitStore _unitStore;
-        private readonly IActorRepository _actorRepository;
-
-        public ComposureRecoverAllUseCase(IUnitStore unitStore, IActorRepository actorRepository)
+        public ComposureRecoverAllUseCase(IUnitStore unitStore)
         {
             _unitStore = unitStore;
-            _actorRepository = actorRepository;
         }
 
         public void Execute(ReadOnlySpan<Updatable> targets, float progressTime)
@@ -28,9 +24,8 @@ namespace Combat.Local.Application.UseCases
 
         private void HandleTarget(Updatable target, float progressTime)
         {
-            float time = progressTime * target.TimeScale;
-
             ref UnitContext unit = ref _unitStore.Get(target.Id);
+            float time = progressTime * target.TimeScale;
 
             if (unit.Composure.HealingCooldown >= time)
             {
@@ -44,7 +39,7 @@ namespace Combat.Local.Application.UseCases
                 unit.Composure.HealingCooldown = 0f;
             }
 
-            if ((_actorRepository.TryGet(target.Id, out var actor) ? actor.ConsciousState : Common.ConsciousState.Dead) != Common.ConsciousState.Alive)
+            if (unit.LifeState.State != Common.ConsciousState.Alive)
             {
                 return;
             }

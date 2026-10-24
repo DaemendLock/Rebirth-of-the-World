@@ -7,17 +7,14 @@ using System.Numerics;
 
 namespace Combat.Domain.Entities
 {
-    public ref struct Actor
+    public struct Actor
     {
-        public const float MaxDamageSeverity = 2;
-
-        public Actor(UnitId id, ActorState state, Action action, ConsciousState consciousState, DesiredActions desiredActions)
+        public Actor(UnitId id)
         {
             Id = id;
-            State = state;
-            CurrentAction = action;
-            ConsciousState = consciousState;
-            DesiredActions = desiredActions;
+            State = default;
+            CurrentAction = null;
+            DesiredActions = new(default, Vector2.Zero);
         }
 
         public readonly UnitId Id { get; }
@@ -26,13 +23,11 @@ namespace Combat.Domain.Entities
 
         public DesiredActions DesiredActions { readonly get; private set; }
 
-        public ConsciousState ConsciousState { readonly get; private set; }
-
         public ActorState State { get; set; }
 
         public readonly bool CanCast => State.HasFlag(ActorState.Silenced) == false;
 
-        public readonly bool CanMove => State.HasFlag(ActorState.Rooted) == false && (CurrentAction == null || CurrentAction.AllowMovement) && ConsciousState != ConsciousState.Dead;
+        public readonly bool CanMove => State.HasFlag(ActorState.Rooted) == false && (CurrentAction == null || CurrentAction.AllowMovement);
 
         public void StartAction(Action action)
         {
@@ -45,21 +40,21 @@ namespace Combat.Domain.Entities
             CurrentAction = null;
         }
 
-        public void Kill()
-        {
-            ConsciousState = ConsciousState.Dead;
-            CurrentAction?.Interrupt(InterruptReason.Death);
-        }
+        public bool TryInterrupt(InterruptReason reason) => TryInterrupt(reason, out _);
 
-        public void Down()
+        public bool TryInterrupt(InterruptReason reason, out Action interruptedAction)
         {
-            ConsciousState = ConsciousState.Downed;
-            CurrentAction?.Interrupt(InterruptReason.Death);
-        }
+            interruptedAction = CurrentAction;
+            StopAction();
+            DesireCast(null);
 
-        public void Revive()
-        {
-            ConsciousState = ConsciousState.Alive;
+            if (interruptedAction == null)
+            {
+                return false;
+            }
+
+            interruptedAction.Interrupt(reason);
+            return true;
         }
 
         public void DesireCast(SkillId? skillId)

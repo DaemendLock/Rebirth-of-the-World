@@ -1,17 +1,13 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Local.Application.UseCases;
+using Combat.Local.Presentation.Providers;
 using Combat.Local.Presentation.Views;
 
 using UnityEngine;
 
 namespace Combat.Local.Presentation.Presenters
 {
-    public interface ITransformProvider
-    {
-        bool TryGet(UnitId unitId, out Transform transform);
-    }
-
     public sealed class PlayerPresenter : ITakeControllOutput, IDesireCastOutput
     {
         private readonly ITransformProvider _sceneObjectDataSource;

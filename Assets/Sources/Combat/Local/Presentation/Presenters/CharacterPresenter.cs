@@ -4,6 +4,9 @@ using Combat.Local.Application.DTO;
 using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.UseCases;
 using Combat.Local.Application.ValueObjects;
+using Combat.Local.Presentation.Providers;
+
+using DaeAnimator;
 
 using UnityEngine;
 
@@ -11,8 +14,11 @@ namespace Combat.Local.Presentation.Presenters
 {
     public class CharacterPresenter : IHealthOutput, IGiveResourceOutput, ISpendResourceOutput, ICharacterConsciousStateOutput
     {
-        public CharacterPresenter()
+        private readonly ITransformProvider _transforms;
+
+        public CharacterPresenter(ITransformProvider transforms)
         {
+            _transforms = transforms;
         }
 
         void IGiveResourceOutput.Present(GiveResourceResult value)
@@ -33,6 +39,19 @@ namespace Combat.Local.Presentation.Presenters
 
         void ICharacterConsciousStateOutput.Present(UnitId value, ConsciousState state)
         {
+            if (_transforms.TryGet(value, out Transform model) && model.TryGetComponent(out CharacterAnimator animator))
+            {
+                switch (state)
+                {
+                    case ConsciousState.Alive:
+                        animator.SetConsciousState(true);
+                        break;
+                    case ConsciousState.Dead:
+                        animator.SetConsciousState(false);
+                        break;
+                }
+            }
+
             Debug.Log($"Conscious State updated for {value}: {state}");
         }
 

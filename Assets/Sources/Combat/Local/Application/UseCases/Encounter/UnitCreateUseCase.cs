@@ -19,7 +19,6 @@ namespace Combat.Local.Application.UseCases
         private readonly UnitIdFactory _idFactory;
         private readonly IUnitStore _unitStore;
         private readonly IPositionableRepository _positionableRepository;
-        private readonly IActorRepository _actorRepository;
         private readonly ISkillLyfecycleHandler _skillLyfecycleHandler;
         private readonly IHitboxOwnerRepository _hitboxOwnerRepository;
         private readonly IHurtableRepository _hurtableRepository;
@@ -28,11 +27,11 @@ namespace Combat.Local.Application.UseCases
         private readonly ICharacterUpdateRepository _characterUpdateList;
 
         private readonly ICharacterCreateOutput _outputPort;
+        private readonly ICharacterConsciousStateOutput _consciousStateOutput;
 
         public UnitCreateUseCase(
-            IUnitStore unitStore,
-            IPositionableRepository positionableRepository, IActorRepository actorRepository,
-            ICharacterCreateOutput outputPort,
+            IUnitStore unitStore, IPositionableRepository positionableRepository,
+            ICharacterCreateOutput outputPort, ICharacterConsciousStateOutput consciousStateOutput,
             ISkillLyfecycleHandler skillLyfecycleHandler, ICharacterUpdateRepository characterUpdateList,
             IMovementEffectOwnerRepository movementEffectOwnerRepository,
             IHitboxOwnerRepository hitboxOwnerRepository, IHurtableRepository hurtableRepository, IScaleEffectOwnerRepository scaleEffectOwnerRepository)
@@ -40,12 +39,12 @@ namespace Combat.Local.Application.UseCases
         {
             _unitStore = unitStore;
             _positionableRepository = positionableRepository;
-            _actorRepository = actorRepository;
 
             _idFactory = new(characterUpdateList);
             _skillLyfecycleHandler = skillLyfecycleHandler;
             _characterUpdateList = characterUpdateList;
             _outputPort = outputPort;
+            _consciousStateOutput = consciousStateOutput;
             _movementEffectOwnerRepository = movementEffectOwnerRepository;
             _hitboxOwnerRepository = hitboxOwnerRepository;
             _hurtableRepository = hurtableRepository;
@@ -80,6 +79,7 @@ namespace Combat.Local.Application.UseCases
             }
 
             _outputPort.Present(id);
+            _consciousStateOutput.Present(id, _unitStore.Get(id).LifeState.State);
         }
 
         public UnitId Execute(UnitCreationInfo context)
@@ -122,7 +122,7 @@ namespace Combat.Local.Application.UseCases
         {
             UnitId id = unit.Id;
             unit.Resources = new(id, context.DefaultResources.ToArray());
-            _actorRepository.Create(new(id, ActorState.None, null, ConsciousState.Alive, new(default, System.Numerics.Vector2.Zero)));
+            unit.Actor = new(id);
             _hitboxOwnerRepository.Create(id);
             _hurtableRepository.Create(id);
             _characterUpdateList.Create(new(id, 1));

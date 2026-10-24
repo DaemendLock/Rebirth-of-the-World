@@ -9,10 +9,12 @@ namespace Combat.Local.Gateways.Repositories.Characters
 {
     public sealed class UnitStore : IUnitStore
     {
+        private const int UnitsPerChunk = 32;
+
         private readonly Dictionary<UnitId, int> _indices;
         private readonly Stack<int> _free;
 
-        private UnitContext[] _units;
+        private readonly List<UnitContext[]> _chunks;
         private int _nextIndex;
 
         public UnitStore()
@@ -20,7 +22,7 @@ namespace Combat.Local.Gateways.Repositories.Characters
             _indices = new();
             _free = new();
 
-            _units = new UnitContext[16];
+            _chunks = new() { new UnitContext[UnitsPerChunk] };
             _nextIndex = 0;
         }
 
@@ -32,16 +34,17 @@ namespace Combat.Local.Gateways.Repositories.Characters
             }
 
             int index = _free.Count > 0 ? _free.Pop() : _nextIndex++;
-            if (index == _units.Length)
+
+            if (index / UnitsPerChunk == _chunks.Count)
             {
-                Array.Resize(ref _units, _units.Length * 2);
+                _chunks.Add(new UnitContext[UnitsPerChunk]);
             }
 
-            _units[index] = unit;
+            GetSlot(index) = unit;
             _indices.Add(unit.Id, index);
         }
 
-        public ref UnitContext Get(UnitId id) => ref _units[_indices[id]];
+        public ref UnitContext Get(UnitId id) => ref GetSlot(_indices[id]);
 
         public void Delete(UnitId id)
         {
@@ -51,8 +54,10 @@ namespace Combat.Local.Gateways.Repositories.Characters
             }
 
             _indices.Remove(id);
-            _units[index] = default;
+            GetSlot(index) = default;
             _free.Push(index);
         }
+
+        private ref UnitContext GetSlot(int index) => ref _chunks[index / UnitsPerChunk][index % UnitsPerChunk];
     }
 }

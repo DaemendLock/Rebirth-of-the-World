@@ -1,6 +1,8 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Domain.Entities;
+using Combat.Common;
 using Combat.Local.Application.Repositories;
+using Combat.Local.Domain.Repositories;
 
 using UnityEngine;
 
@@ -8,23 +10,20 @@ namespace Combat.Local.Application.UseCases
 {
     public class RotateUseCase
     {
-        private readonly IActorRepository _actorRepository;
         private readonly IPositionableRepository _positionableRepository;
+        private readonly IUnitStore _unitStore;
 
-        public RotateUseCase(IActorRepository actorRepository, IPositionableRepository positionableRepository)
+        public RotateUseCase(IPositionableRepository positionableRepository, IUnitStore unitStore)
         {
-            _actorRepository = actorRepository;
             _positionableRepository = positionableRepository;
+            _unitStore = unitStore;
         }
 
         public void Execute(UnitId target, Vector2 angles)
         {
-            if (_actorRepository.TryGet(target, out Actor actor) == false)
-            {
-                return;
-            }
+            ref UnitContext unit = ref _unitStore.Get(target);
 
-            if (actor.CanMove == false)
+            if (unit.Actor.CanMove == false || unit.LifeState.State == ConsciousState.Dead)
             {
                 return;
             }

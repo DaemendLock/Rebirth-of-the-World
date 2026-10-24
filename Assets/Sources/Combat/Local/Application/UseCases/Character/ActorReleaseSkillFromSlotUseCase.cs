@@ -1,7 +1,7 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Domain.Entities;
 using Combat.Local.Application.Entities;
-using Combat.Local.Application.Repositories;
+using Combat.Local.Application.OutputPorts;
 using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases
@@ -9,43 +9,41 @@ namespace Combat.Local.Application.UseCases
     public sealed class ActorReleaseSkillFromSlotUseCase
     {
         private readonly IUnitStore _unitStore;
-        private readonly IActorRepository _actorRepository;
+        private readonly IActorActionUpdateOutput _actionUpdateOutput;
 
-        public ActorReleaseSkillFromSlotUseCase(IUnitStore units, IActorRepository actorRepository)
+        public ActorReleaseSkillFromSlotUseCase(IUnitStore units, IActorActionUpdateOutput actionUpdateOutput)
         {
             _unitStore = units;
-            _actorRepository = actorRepository;
+            _actionUpdateOutput = actionUpdateOutput;
         }
 
         public void Execute(UnitId caster, int slot)
         {
             ref UnitContext unit = ref _unitStore.Get(caster);
 
+            Action action = unit.Actor.CurrentAction;
+
+            if (action == null || (action.TryGet(out IAbilityAction abilityAction) == false))
+            {
+                return;
+            }
+
             SkillId? skillId = unit.Skills.GetSkill(slot);
 
-            if (skillId.HasValue == false)
+            if ((skillId.HasValue == false) || abilityAction.Source != skillId.Value)
             {
                 return;
             }
 
-            if (_actorRepository.TryGet(caster, out Actor actor) == false)
-            {
-                return;
-            }
-
-            Action action = actor.CurrentAction;
-
-            if (action == null || action.TryGet(out IAbilityAction abilityAction) == false ||
-                abilityAction.Source != skillId.Value)
-            {
-                return;
-            }
-
-            if (action != null && action.TryGet(out IReleasableAction releasable))
+            if (action.TryGet(out IReleasableAction releasable))
             {
                 releasable.Release();
             }
-            _actorRepository.Update(actor);
+
+            if (action.Flags.HasFlag(Common.Flags.ActionFlags.Holdable) && abilityAction.State == Common.ValueObjects.ActionState.Recovery)
+            {
+                _actionUpdateOutput.Release(caster);
+            }
         }
     }
 }

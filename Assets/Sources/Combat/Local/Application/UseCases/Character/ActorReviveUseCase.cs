@@ -2,37 +2,31 @@
 using Combat.Common.Primitives;
 using Combat.Domain.Entities;
 using Combat.Local.Application.OutputPorts;
-using Combat.Local.Application.Repositories;
+using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases
 {
     public readonly struct ActorReviveUseCase
     {
-        private readonly IActorRepository _actorRepository;
+        private readonly IUnitStore _unitStore;
         private readonly ICharacterConsciousStateOutput _characterStateOutput;
 
-        public ActorReviveUseCase(IActorRepository stateRepository, ICharacterConsciousStateOutput characterStateOutput)
+        public ActorReviveUseCase(IUnitStore unitStore, ICharacterConsciousStateOutput characterStateOutput)
         {
-            _actorRepository = stateRepository;
+            _unitStore = unitStore;
             _characterStateOutput = characterStateOutput;
         }
 
         public void Execute(UnitId target, AbilityKey? source)
         {
-            if (_actorRepository.TryGet(target, out Actor actor) == false)
+            ref LifeStateOwner lifeState = ref _unitStore.Get(target).LifeState;
+
+            if (lifeState.TryRevive() == false)
             {
                 return;
             }
 
-            if (actor.ConsciousState == ConsciousState.Alive)
-            {
-                return;
-            }
-
-            actor.Revive();
-            _actorRepository.Update(actor);
-
-            _characterStateOutput.Present(target, actor.ConsciousState);
+            _characterStateOutput.Present(target, ConsciousState.Alive);
         }
     }
 }

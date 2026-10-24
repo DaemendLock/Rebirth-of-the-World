@@ -29,6 +29,7 @@ using Combat.Local.Gateways.Repositories.Characters;
 using Combat.Local.Gateways.Repositories.Encounter;
 using Combat.Local.Gateways.Repositories.Skills;
 using Combat.Local.Presentation.Presenters;
+using Combat.Local.Presentation.Providers;
 using Combat.Local.Scripting.Adapters;
 using Combat.Local.Scripting.Contexts;
 using Combat.Local.Scripting.Factories;
@@ -75,7 +76,6 @@ namespace Combat.Local.Composition
             Container.Bind<IPositionableRepository>().To<PositionableRepository>().FromResolve();
             Container.Bind<IUnitSpatialQuery>().To<PositionableRepository>().FromResolve();
             Container.Bind<IUnitStore>().To<UnitStore>().AsSingle();
-            Container.Bind<IActorRepository>().To<ActorRepository>().AsSingle();
             Container.Bind<IStatusTimerRepository>().To<StatusTimerRepository>().AsSingle();
             Container.Bind<ICharacterUpdateRepository>().To<UpdateTargetRepository>().AsSingle();
             Container.Bind<IMovementEffectOwnerRepository>().To<MovementEffectOwnerRepository>().AsSingle();
@@ -128,7 +128,7 @@ namespace Combat.Local.Composition
             Container.Bind<ActorForceKillUseCase>().AsSingle();
             Container.Bind<ActorReviveUseCase>().AsSingle();
             Container.Bind<ActorActAllUseCase>().AsSingle();
-            Container.Bind<ActorEvaluateConsciousStateAllUseCase>().AsSingle();
+            Container.Bind<LifeStateEvaluateAllUseCase>().AsSingle();
             Container.Bind<StatusOwnerFindStatusUseCase>().AsSingle();
             Container.Bind<AddMovementEffectUseCase>().AsSingle();
             Container.Bind<PositionableStartScaleUseCase>().AsSingle();
@@ -223,6 +223,7 @@ namespace Combat.Local.Composition
             Container.Bind<ISpendResourceOutput>().To<CharacterPresenter>().FromResolve();
             Container.Bind<IHealthOutput>().To<CharacterPresenter>().FromResolve();
             Container.Bind<ICharacterConsciousStateOutput>().To<CharacterPresenter>().FromResolve();
+            Container.Bind<IActorActionUpdateOutput>().To<ActorUpdatePresenter>().AsSingle();
 
             Container.Bind<IDesireCastOutput>().To<PlayerPresenter>().FromResolve();
             Container.Bind<ITakeControllOutput>().To<PlayerPresenter>().FromResolve();

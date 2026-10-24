@@ -23,13 +23,12 @@ namespace Combat.Local.Application.Facades
 
         private readonly StatusOwnerFindStatusUseCase _findStatusUseCase;
         private readonly StatusOwnerApplyUseCase _applyStatusUseCase;
-        private readonly IActorRepository _killableRepository;
         private readonly IPositionableRepository _positionableRepository;
         private readonly IUnitStore _unitStore;
 
         public CharacterFacade(ResourceGiveUseCase giveResourceUseCase, ResourceSpendUseCase spendResourceUseCase,
                                ActorForceKillUseCase killUnitUseCase, StatusOwnerFindStatusUseCase findStatusUseCase,
-                               IActorRepository killableRepository, IPositionableRepository positionableRepository,
+                               IPositionableRepository positionableRepository,
                                IUnitStore unitStore, StatusOwnerApplyUseCase applyStatusUseCase,
                                ActorDesireMoveInDirectionUseCase moveInDirectionUseCase, AddMovementEffectUseCase addMovementEffectUseCase,
                                ActorReviveUseCase reviveUnitUseCase,
@@ -39,7 +38,6 @@ namespace Combat.Local.Application.Facades
             _spendResourceUseCase = spendResourceUseCase;
             _killUnitUseCase = killUnitUseCase;
             _findStatusUseCase = findStatusUseCase;
-            _killableRepository = killableRepository;
             _positionableRepository = positionableRepository;
             _unitStore = unitStore;
             _applyStatusUseCase = applyStatusUseCase;
@@ -58,15 +56,8 @@ namespace Combat.Local.Application.Facades
         public void SpendResource(UnitId target, ResourceId resource, float value, AbilityKey? abilityId) =>
             _spendResourceUseCase.Execute(target, resource, value, abilityId);
 
-        public bool IsAlive(UnitId target)
-        {
-            if (_killableRepository.TryGet(target, out var value))
-            {
-                return value.ConsciousState == ConsciousState.Alive;
-            }
-
-            return false;
-        }
+        public bool IsAlive(UnitId target) =>
+            _unitStore.Get(target).LifeState.State == ConsciousState.Alive;
 
         public void Kill(UnitId target, AbilityKey? source) => _killUnitUseCase.Execute(target, source);
 

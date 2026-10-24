@@ -1,7 +1,7 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Models;
-using Combat.Local.Presentation.Presenters;
+using Combat.Local.Presentation.Providers;
 
 using Data.Levels;
 

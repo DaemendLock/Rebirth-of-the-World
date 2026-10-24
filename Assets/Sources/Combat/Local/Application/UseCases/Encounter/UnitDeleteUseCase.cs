@@ -15,7 +15,6 @@ namespace Combat.Local.Application.UseCases.Scene
     {
         private readonly IUnitStore _unitStore;
         private readonly IPositionableRepository _positionableRepository;
-        private readonly IActorRepository _actorRepository;
         private readonly ICharacterUpdateRepository _characterUpdateList;
         private readonly IMovementEffectOwnerRepository _movementEffectOwnerRepository;
         private readonly IScaleEffectOwnerRepository _scaleEffectOwnerRepository;
@@ -32,16 +31,14 @@ namespace Combat.Local.Application.UseCases.Scene
 
         private readonly ICharacterRemoveOutput _outputPort;
 
-        public UnitDeleteUseCase(IUnitStore unitStore,
-                                      IPositionableRepository positionableRepository, IActorRepository actorRepository,
-                                      ICharacterUpdateRepository characterUpdateList,
-                                      IHurtableRepository hurtableRepository, IHitboxOwnerRepository hitboxOwnerRepository, IStatusTimerRepository statusTimerRepository,
+        public UnitDeleteUseCase(IUnitStore unitStore, IPositionableRepository positionableRepository,
+                                      ICharacterUpdateRepository characterUpdateList, IHurtableRepository hurtableRepository,
+                                      IHitboxOwnerRepository hitboxOwnerRepository, IStatusTimerRepository statusTimerRepository,
                                       ISkillLyfecycleHandler skillLyfecycleHandler, IStatusLifecycleHandler statusLifecycleHandler,
                                       IMovementEffectOwnerRepository movementEffectOwnerRepository, IScaleEffectOwnerRepository scaleEffectOwnerRepository, PlayerSession playerSession)
         {
             _unitStore = unitStore;
             _positionableRepository = positionableRepository;
-            _actorRepository = actorRepository;
             _characterUpdateList = characterUpdateList;
             _hurtableRepository = hurtableRepository;
             _hitboxOwnerRepository = hitboxOwnerRepository;
@@ -84,14 +81,10 @@ namespace Combat.Local.Application.UseCases.Scene
                     catch { }
                 }
 
-                if (_actorRepository.TryGet(target, out Actor actor))
-                {
-                    actor.CurrentAction?.Interrupt(InterruptReason.Forced);
-                }
+                unit.Actor.CurrentAction?.Interrupt(InterruptReason.Forced);
 
                 _hitboxOwnerRepository.Delete(target);
                 _hurtableRepository.Delete(target);
-                _actorRepository.Delete(target);
                 _movementEffectOwnerRepository.Delete(target);
                 _scaleEffectOwnerRepository.Delete(target);
                 _unitStore.Delete(target);

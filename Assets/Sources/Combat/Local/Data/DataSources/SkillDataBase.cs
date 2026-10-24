@@ -1,8 +1,10 @@
-﻿using Combat.API.Scripting;
+﻿using CastStateSkill;
+
+using Combat.API.Scripting;
 using Combat.Common.Flags;
 using Combat.Common.Primitives;
 using Combat.Local.Gateways.DataSources;
-using Combat.Local.Gateways.Models;
+using Combat.Local.Presentation.Providers;
 using Combat.Local.Scripting.Idk;
 
 using Data.Skills.Components;
@@ -101,7 +103,7 @@ namespace Combat.Local.Data.Databases
             return result;
         }
 
-        public bool TryGetActionData(ActionId id, out ActionData value)
+        public bool TryGetFrameData(ActionId id, out IFrameData value)
         {
             if (_actions.TryGetValue(id, out ActionData data) == false)
             {
@@ -109,7 +111,7 @@ namespace Combat.Local.Data.Databases
                 return false;
             }
 
-            value = data;
+            value = data.FrameData;
             return true;
         }
 

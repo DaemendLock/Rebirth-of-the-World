@@ -5,6 +5,7 @@
         None,
         Chained,
         Death,
-        Forced
+        Forced,
+        Downed
     }
 }
