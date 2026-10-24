@@ -6,7 +6,7 @@ using System;
 
 namespace Combat.Domain.Entities
 {
-    public struct UnitContext
+    public sealed class UnitContext
     {
         public HealthOwner Health;
         public ComposureOwner Composure;

@@ -1,10 +1,10 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.Primitives;
 using Combat.Domain.Entities;
+using Combat.Domain.Repositories;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.Queries.Statuses;
 using Combat.Local.Application.ValueObjects;
-using Combat.Local.Domain.Repositories;
 
 using System.Linq;
 
@@ -57,7 +57,7 @@ namespace Combat.Local.Application.UseCases
             {
                 try
                 {
-                    ref UnitContext healer = ref _unitStore.Get(healerId.Value);
+                    UnitContext healer = _unitStore.Get(healerId.Value);
                     finalModification += _damageModifierCalculator.GetOutgoingHealingModification(healer.Statuses.GetAll().Select(value => value.Id), result);
                 }
                 catch

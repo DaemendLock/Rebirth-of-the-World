@@ -1,6 +1,6 @@
 ﻿using Combat.Domain.Entities;
 using Combat.Domain.Entities.Units;
-using Combat.Local.Domain.Repositories;
+using Combat.Domain.Repositories;
 
 using System;
 
@@ -24,7 +24,7 @@ namespace Combat.Local.Application.UseCases
 
         private void HandleTarget(Updatable target, float progressTime)
         {
-            ref UnitContext unit = ref _unitStore.Get(target.Id);
+            UnitContext unit = _unitStore.Get(target.Id);
             float time = progressTime * target.TimeScale;
 
             if (unit.Composure.HealingCooldown >= time)

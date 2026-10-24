@@ -1,8 +1,8 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Domain.Entities;
+using Combat.Domain.Repositories;
 using Combat.Local.Application.Entities;
 using Combat.Local.Application.OutputPorts;
-using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases
 {
@@ -19,7 +19,7 @@ namespace Combat.Local.Application.UseCases
 
         public void Execute(UnitId caster, int slot)
         {
-            ref UnitContext unit = ref _unitStore.Get(caster);
+            UnitContext unit = _unitStore.Get(caster);
 
             Action action = unit.Actor.CurrentAction;
 

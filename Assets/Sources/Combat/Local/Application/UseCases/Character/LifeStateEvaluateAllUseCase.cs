@@ -3,12 +3,12 @@ using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
 using Combat.Domain.Entities.Units;
+using Combat.Domain.Repositories;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.Endpoints.Skills;
 using Combat.Local.Application.Entities;
 using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.Repositories;
-using Combat.Local.Domain.Repositories;
 
 using System;
 
@@ -42,15 +42,15 @@ namespace Combat.Local.Application.UseCases
         {
             foreach (Updatable item in target)
             {
-                ref UnitContext unit = ref _unitStore.Get(item.Id);
+                UnitContext unit = _unitStore.Get(item.Id);
 
                 switch (unit.LifeState.State)
                 {
                     case ConsciousState.Alive:
-                        UpdateAlive(ref unit);
+                        UpdateAlive(unit);
                         continue;
                     case ConsciousState.Downed:
-                        UpdateDowned(ref unit, deltaTime * item.TimeScale);
+                        UpdateDowned(unit, deltaTime * item.TimeScale);
                         continue;
                     case ConsciousState.Dead:
                         continue;
@@ -60,7 +60,7 @@ namespace Combat.Local.Application.UseCases
             }
         }
 
-        private void UpdateAlive(ref UnitContext unit)
+        private void UpdateAlive(UnitContext unit)
         {
             if (unit.Health.Current > 0)
             {
@@ -71,18 +71,18 @@ namespace Combat.Local.Application.UseCases
 
             if (unit.Composure.Current > 0 && damageSeverity <= LifeStateOwner.MaxDamageSeverity)
             {
-                Down(ref unit);
+                Down(unit);
                 return;
             }
 
-            Kill(ref unit);
+            Kill(unit);
         }
 
-        private void UpdateDowned(ref UnitContext unit, float deltaTime)
+        private void UpdateDowned(UnitContext unit, float deltaTime)
         {
             if (unit.Health.Current > 0)
             {
-                Revive(ref unit);
+                Revive(unit);
                 return;
             }
 
@@ -90,7 +90,7 @@ namespace Combat.Local.Application.UseCases
 
             if (damageSeverity > LifeStateOwner.MaxDamageSeverity || unit.Composure.Current <= 0)
             {
-                Kill(ref unit);
+                Kill(unit);
                 return;
             }
 
@@ -99,13 +99,13 @@ namespace Combat.Local.Application.UseCases
 
             if (unit.Composure.Current <= 0)
             {
-                Kill(ref unit);
+                Kill(unit);
             }
 
             _healthOutput.Present(change);
         }
 
-        private void Down(ref UnitContext unit)
+        private void Down(UnitContext unit)
         {
             if (unit.LifeState.TryEnterDowned() == false)
             {
@@ -113,11 +113,11 @@ namespace Combat.Local.Application.UseCases
             }
 
             UnitId target = unit.Id;
-            Interrupt(ref unit, InterruptReason.Downed);
+            Interrupt(unit, InterruptReason.Downed);
             _characterLifeStateOutput.Present(target, ConsciousState.Downed);
         }
 
-        private void Kill(ref UnitContext unit)
+        private void Kill(UnitContext unit)
         {
             if (unit.LifeState.TryEnterDead() == false)
             {
@@ -125,12 +125,12 @@ namespace Combat.Local.Application.UseCases
             }
 
             UnitId target = unit.Id;
-            Interrupt(ref unit, InterruptReason.Death);
+            Interrupt(unit, InterruptReason.Death);
             _characterLifeStateOutput.Present(target, ConsciousState.Dead);
             _characterDeathHandler.Handle(new KillRecord(target));
         }
 
-        private void Revive(ref UnitContext unit)
+        private void Revive(UnitContext unit)
         {
             if (unit.LifeState.TryRevive() == false)
             {
@@ -140,7 +140,7 @@ namespace Combat.Local.Application.UseCases
             _characterLifeStateOutput.Present(unit.Id, ConsciousState.Alive);
         }
 
-        private void Interrupt(ref UnitContext unit, InterruptReason reason)
+        private void Interrupt(UnitContext unit, InterruptReason reason)
         {
             if (unit.Actor.TryInterrupt(reason, out var interruptedAction) == false)
             {

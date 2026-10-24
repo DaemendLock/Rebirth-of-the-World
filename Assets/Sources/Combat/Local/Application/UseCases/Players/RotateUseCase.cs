@@ -2,9 +2,9 @@
 using Combat.Domain.Entities;
 using Combat.Common;
 using Combat.Local.Application.Repositories;
-using Combat.Local.Domain.Repositories;
 
 using UnityEngine;
+using Combat.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases
 {
@@ -21,7 +21,7 @@ namespace Combat.Local.Application.UseCases
 
         public void Execute(UnitId target, Vector2 angles)
         {
-            ref UnitContext unit = ref _unitStore.Get(target);
+            UnitContext unit = _unitStore.Get(target);
 
             if (unit.Actor.CanMove == false || unit.LifeState.State == ConsciousState.Dead)
             {

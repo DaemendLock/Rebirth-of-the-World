@@ -21,7 +21,6 @@ using Combat.Local.Controllers;
 using Combat.Local.Data.Databases;
 using Combat.Local.Data.DataSources;
 using Combat.Local.Data.Repositories;
-using Combat.Local.Domain.Repositories;
 using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Factories;
 using Combat.Local.Gateways.Repositories;

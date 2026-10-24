@@ -1,8 +1,8 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
+using Combat.Domain.Repositories;
 using Combat.Local.Application.UseCases;
-using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Application.Facades
 {

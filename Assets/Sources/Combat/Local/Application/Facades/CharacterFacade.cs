@@ -1,10 +1,10 @@
 ﻿using Combat.Common;
 using Combat.Common.Primitives;
 using Combat.Domain.Entities;
+using Combat.Domain.Repositories;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.Repositories;
 using Combat.Local.Application.UseCases;
-using Combat.Local.Domain.Repositories;
 
 using UnityEngine;
 

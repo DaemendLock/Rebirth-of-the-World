@@ -1,10 +1,10 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
+using Combat.Domain.Repositories;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.Endpoints.Skills;
 using Combat.Local.Application.Entities;
-using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases.Scene
 {
@@ -23,7 +23,7 @@ namespace Combat.Local.Application.UseCases.Scene
         {
             UnitId target = record.HitboxOwner;
 
-            ref UnitContext unit = ref _unitStore.Get(target);
+            UnitContext unit = _unitStore.Get(target);
 
             if (unit.Actor.CurrentAction == null)
             {

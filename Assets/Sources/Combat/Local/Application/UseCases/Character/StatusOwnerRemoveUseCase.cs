@@ -2,7 +2,6 @@
 using Combat.Domain.Entities;
 using Combat.Domain.Repositories;
 using Combat.Local.Application.OutputPorts.Statuses;
-using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases
 {
@@ -23,7 +22,7 @@ namespace Combat.Local.Application.UseCases
         {
             try
             {
-                ref UnitContext unit = ref _unitStore.Get(target);
+                UnitContext unit = _unitStore.Get(target);
 
                 if (unit.Statuses.Remove(statusId) == false)
                 {

@@ -2,12 +2,12 @@
 using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
+using Combat.Domain.Repositories;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.Endpoints.Skills;
 using Combat.Local.Application.Entities;
 using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.Repositories;
-using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases
 {
@@ -32,19 +32,19 @@ namespace Combat.Local.Application.UseCases
 
         public void Execute(UnitId target, AbilityKey? source)
         {
-            ref UnitContext unit = ref _unitStore.Get(target);
+            UnitContext unit = _unitStore.Get(target);
 
             if (unit.LifeState.TryEnterDead() == false)
             {
                 return;
             }
 
-            Interrupt(ref unit);
+            Interrupt(unit);
             _characterStateOutput.Present(target, ConsciousState.Dead);
             _deathHandler.Handle(new KillRecord(target));
         }
 
-        private void Interrupt(ref UnitContext unit)
+        private void Interrupt(UnitContext unit)
         {
             unit.Actor.TryInterrupt(InterruptReason.Death, out var interruptedAction);
 

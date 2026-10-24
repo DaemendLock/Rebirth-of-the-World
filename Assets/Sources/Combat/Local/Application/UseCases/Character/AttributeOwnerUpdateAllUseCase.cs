@@ -6,7 +6,6 @@ using Combat.Domain.Repositories;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.Queries.Statuses;
 using Combat.Local.Application.Repositories;
-using Combat.Local.Domain.Repositories;
 
 using System;
 using System.Collections.Generic;
@@ -39,23 +38,20 @@ namespace Combat.Local.Application.UseCases
 
             foreach (UnitId value in values)
             {
-                AttributesOwner attributesOwner;
-
-                try
-                {
-                    attributesOwner = _unitStore.Get(value).Attributes;
-                }
-                catch
+                if (_unitStore.TryGet(value, out UnitContext unit) == false)
                 {
                     continue;
                 }
 
-                attributesOwner.Clear();
+                unit.Attributes.Clear();
             }
 
             foreach (UnitId value in values)
             {
-                ref UnitContext unit = ref _unitStore.Get(value);
+                if (_unitStore.TryGet(value, out UnitContext unit) == false)
+                {
+                    continue;
+                }
 
                 AttributesBonuses finalModification = _statusAttributeCalculator.Evaluate(unit.Statuses.GetAll().Select(value => value.Id));
 

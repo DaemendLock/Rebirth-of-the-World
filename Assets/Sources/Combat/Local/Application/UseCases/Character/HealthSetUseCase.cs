@@ -1,8 +1,8 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Domain.Entities;
+using Combat.Domain.Repositories;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.ValueObjects;
-using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases
 {
@@ -39,7 +39,7 @@ namespace Combat.Local.Application.UseCases
 
         public void Execute(UnitId target, float value)
         {
-            ref UnitContext unit = ref _unitStore.Get(target); ;
+            UnitContext unit = _unitStore.Get(target);
             float oldValue = unit.Composure.Current;
             unit.Composure.Current = value;
             _healthOutput.Present(new ComposureChangeRecord(unit.Composure.Id, unit.Composure.Current, unit.Composure.Max, oldValue));

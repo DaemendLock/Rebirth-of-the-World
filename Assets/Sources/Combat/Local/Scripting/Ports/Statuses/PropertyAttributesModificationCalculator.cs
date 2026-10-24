@@ -4,7 +4,6 @@ using Combat.Local.Application.Queries.Statuses;
 using Combat.Local.Scripting.Capabilities.Statuses;
 using Combat.Local.Scripting.Runtime;
 
-using System;
 using System.Collections.Generic;
 
 namespace Combat.Local.Scripting.Ports.Statuses

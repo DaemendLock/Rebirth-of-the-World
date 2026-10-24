@@ -1,6 +1,5 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Domain.Entities.Units;
-using Combat.Local.Domain.Repositories;
+using Combat.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases.Skills
 {

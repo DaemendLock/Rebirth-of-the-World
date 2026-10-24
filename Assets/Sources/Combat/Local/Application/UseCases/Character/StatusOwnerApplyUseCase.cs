@@ -1,9 +1,9 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Domain.Entities;
+using Combat.Domain.Repositories;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.Factories;
 using Combat.Local.Application.OutputPorts.Statuses;
-using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases
 {

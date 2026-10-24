@@ -4,7 +4,6 @@ using Combat.Domain.Entities.Units;
 using Combat.Domain.Repositories;
 using Combat.Local.Application.OutputPorts.Statuses;
 using Combat.Local.Application.ValueObjects;
-using Combat.Local.Domain.Repositories;
 
 using System;
 
@@ -35,7 +34,7 @@ namespace Combat.Local.Application.UseCases
 
         private void ProgressTarget(UnitId target, float deltaTime)
         {
-            ref UnitContext unit = ref _unitStore.Get(target);
+            UnitContext unit = _unitStore.Get(target);
             StatusOwner statusOwner = unit.Statuses;
             Span<StatusUpdateResult> results = stackalloc StatusUpdateResult[statusOwner.Count];
             statusOwner.ProgressAll(deltaTime, results);

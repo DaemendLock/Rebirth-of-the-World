@@ -1,5 +1,5 @@
 ﻿using Combat.Domain.Entities.Units;
-using Combat.Local.Domain.Repositories;
+using Combat.Domain.Repositories;
 
 using System;
 

@@ -2,12 +2,12 @@
 using Combat.Common.Flags;
 using Combat.Common.Primitives;
 using Combat.Domain.Entities;
+using Combat.Domain.Repositories;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.OutputPorts.Statuses;
 using Combat.Local.Application.Queries.Statuses;
 using Combat.Local.Application.ValueObjects;
-using Combat.Local.Domain.Repositories;
 
 using System.Buffers;
 using System.Linq;
@@ -48,7 +48,7 @@ namespace Combat.Local.Application.UseCases
             float versatilityModifier = 1;
             DamageModification attackerModification = default;
 
-            ref UnitContext defender = ref _unitStore.Get(info.Target);
+            UnitContext defender = _unitStore.Get(info.Target);
 
             defenderModification = _damageModificationCalculator.GetIncomingDamageModification(defender.Statuses.GetAll().Select(value => value.Id), instance);
             versatilityModifier /= defender.Attributes.GetVersalityModifier();
@@ -57,7 +57,7 @@ namespace Combat.Local.Application.UseCases
             {
                 try
                 {
-                    ref UnitContext attacker = ref _unitStore.Get(info.Attacker.Value);
+                    UnitContext attacker = _unitStore.Get(info.Attacker.Value);
                     attackerModification = _damageModificationCalculator.GetOutgoingDamageModification(attacker.Statuses.GetAll().Select(value => value.Id), instance);
                     versatilityModifier *= attacker.Attributes.GetVersalityModifier();
                 }
@@ -75,7 +75,7 @@ namespace Combat.Local.Application.UseCases
 
         private DamageRecord ApplyDamageInstance(DamageInstance instance)
         {
-            ref UnitContext target = ref _unitStore.Get(instance.Target);
+            UnitContext target = _unitStore.Get(instance.Target);
 
             float originalHealth = target.Health.Current;
             float originalComposure = target.Composure.Current;
@@ -105,7 +105,7 @@ namespace Combat.Local.Application.UseCases
         {
             try
             {
-                ref UnitContext target = ref _unitStore.Get(@event.Target);
+                UnitContext target = _unitStore.Get(@event.Target);
                 var statuses = target.Statuses.GetAll();
                 StatusId[] ids = ArrayPool<StatusId>.Shared.Rent(statuses.Count);
                 int i = 0;
@@ -130,7 +130,7 @@ namespace Combat.Local.Application.UseCases
             {
                 try
                 {
-                    ref UnitContext attacker = ref _unitStore.Get(@event.Attacker.Value);
+                    UnitContext attacker = _unitStore.Get(@event.Attacker.Value);
                     var statuses = attacker.Statuses.GetAll();
                     StatusId[] ids = ArrayPool<StatusId>.Shared.Rent(statuses.Count);
                     int i = 0;

@@ -1,7 +1,7 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
-using Combat.Local.Domain.Repositories;
+using Combat.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases
 {

@@ -1,12 +1,13 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Domain.Entities;
 
-namespace Combat.Local.Domain.Repositories
+namespace Combat.Domain.Repositories
 {
     public interface IUnitStore
     {
         void Create(UnitContext context);
-        ref UnitContext Get(UnitId id);
+        UnitContext Get(UnitId id);
+        bool TryGet(UnitId id, out UnitContext unit);
         void Delete(UnitId id);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
-using Combat.Local.Domain.Repositories;
+using Combat.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases
 {
@@ -18,9 +18,9 @@ namespace Combat.Local.Application.UseCases
 
         public void Execute(UnitId caster, int slot)
         {
-            ref UnitContext unit = ref _unitStore.Get(caster);
+            UnitContext unit = _unitStore.Get(caster);
 
-            if (TryGetSkillId(ref unit, slot, out SkillId skillId) == false)
+            if (TryGetSkillId(unit, slot, out SkillId skillId) == false)
             {
                 _desireCastOutput.Present(DesireCastFailReason.NoSkillFound);
                 return;
@@ -29,7 +29,7 @@ namespace Combat.Local.Application.UseCases
             unit.Actor.DesireCast(skillId);
         }
 
-        private bool TryGetSkillId(ref UnitContext unit, int slot, out SkillId result)
+        private bool TryGetSkillId(UnitContext unit, int slot, out SkillId result)
         {
             SkillId? skillId = unit.Skills.GetSkill(slot);
 

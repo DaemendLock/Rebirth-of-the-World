@@ -4,12 +4,12 @@ using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
 using Combat.Domain.Entities.Units;
+using Combat.Domain.Repositories;
 using Combat.Local.Application.Endpoints.Skills;
 using Combat.Local.Application.Entities;
 using Combat.Local.Application.Factories;
 using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.Repositories;
-using Combat.Local.Domain.Repositories;
 
 using System.Linq;
 
@@ -60,15 +60,15 @@ namespace Combat.Local.Application.UseCases
 
         private void ExecuteFor(UnitId target, float deltaTime)
         {
-            ref UnitContext unit = ref _unitStore.Get(target);
+            UnitContext unit = _unitStore.Get(target);
 
-            UpdateAction(ref unit, deltaTime);
+            UpdateAction(unit, deltaTime);
 
-            Cast(ref unit);
-            Move(ref unit);
+            Cast(unit);
+            Move(unit);
         }
 
-        private void UpdateAction(ref UnitContext unit, float deltaTime)
+        private void UpdateAction(UnitContext unit, float deltaTime)
         {
             Action action = unit.Actor.CurrentAction;
 
@@ -101,7 +101,7 @@ namespace Combat.Local.Application.UseCases
 
             if (action.IsComplete)
             {
-                StopAction(ref unit);
+                StopAction(unit);
                 return;
             }
 
@@ -122,7 +122,7 @@ namespace Combat.Local.Application.UseCases
             }
         }
 
-        private void Move(ref UnitContext unit)
+        private void Move(UnitContext unit)
         {
             UnityEngine.Vector2 relativeDirection = new(unit.Actor.DesiredActions.MovementDirection.X, unit.Actor.DesiredActions.MovementDirection.Y);
             Positionable positionable = _positionableRepository.Get(unit.Id);
@@ -147,7 +147,7 @@ namespace Combat.Local.Application.UseCases
             _positionableRepository.Update(positionable);
         }
 
-        private bool Cast(ref UnitContext unit)
+        private bool Cast(UnitContext unit)
         {
             if (unit.Actor.DesiredActions.Skill.HasValue == false)
             {
@@ -171,7 +171,7 @@ namespace Combat.Local.Application.UseCases
             AbilityKey abilityKey = new(caster, skillId);
             SkillInfo ability = _abilityFactory.Create(skillId);
 
-            if (CanCast(ref unit, ability.Flags, abilityKey) != CastFailReason.Success)
+            if (CanCast(unit, ability.Flags, abilityKey) != CastFailReason.Success)
             {
                 UnityEngine.Debug.Log("Can't cast - cast forbidden");
                 return true;
@@ -191,13 +191,13 @@ namespace Combat.Local.Application.UseCases
 
             if (ability.Actions != null && ability.Actions.Count > 0)
             {
-                return StartCastAction(ref unit, ability.Actions.First(), skillId, ability.Flags);
+                return StartCastAction(unit, ability.Actions.First(), skillId, ability.Flags);
             }
 
             return true;
         }
 
-        private CastFailReason CanCast(ref UnitContext unit, SkillFlags skillFlags, AbilityKey abilityKey)
+        private CastFailReason CanCast(UnitContext unit, SkillFlags skillFlags, AbilityKey abilityKey)
         {
             if (unit.LifeState.State != ConsciousState.Alive)
             {
@@ -237,7 +237,7 @@ namespace Combat.Local.Application.UseCases
             return _skillExecutionPort.CanCast(abilityKey);
         }
 
-        private bool StartCastAction(ref UnitContext unit, ActionId actionId, SkillId skillId, SkillFlags skillFlags)
+        private bool StartCastAction(UnitContext unit, ActionId actionId, SkillId skillId, SkillFlags skillFlags)
         {
             if (unit.Actor.TryInterrupt(InterruptReason.Chained, out Action oldAction))
             {
@@ -263,7 +263,7 @@ namespace Combat.Local.Application.UseCases
             return true;
         }
 
-        private void StopAction(ref UnitContext unit)
+        private void StopAction(UnitContext unit)
         {
             unit.Actor.StopAction();
             _actorUpdateOutput.Clear(unit.Id);

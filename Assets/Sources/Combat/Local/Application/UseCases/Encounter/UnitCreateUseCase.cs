@@ -8,7 +8,6 @@ using Combat.Local.Application.Endpoints.Skills;
 using Combat.Local.Application.Factories;
 using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.Repositories;
-using Combat.Local.Domain.Repositories;
 
 using UnityEngine;
 

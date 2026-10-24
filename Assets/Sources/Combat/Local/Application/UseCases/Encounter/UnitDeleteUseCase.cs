@@ -7,7 +7,6 @@ using Combat.Local.Application.Endpoints.Skills;
 using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.OutputPorts.Statuses;
 using Combat.Local.Application.Repositories;
-using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases.Scene
 {
@@ -52,47 +51,46 @@ namespace Combat.Local.Application.UseCases.Scene
 
         public void Execute(UnitId target)
         {
-            try
+            if (_unitStore.TryGet(target, out UnitContext unit) == false)
             {
-                ref UnitContext unit = ref _unitStore.Get(target);
-
-                if (_playerSession.ControlledUnitId.HasValue && _playerSession.ControlledUnitId.Value == target)
-                {
-                    _playerSession.ControlledUnitId = default;
-                }
-
-                foreach (var item in unit.Skills.Skills)
-                {
-                    AbilityKey abilityKey = new(target, item);
-                    try
-                    {
-                        _skillLyfecycleHandler.Remove(abilityKey);
-                    }
-                    catch { }
-                }
-
-                foreach (var item in unit.Statuses.GetAll())
-                {
-                    _statusTimerRepository.Delete(item.Id);
-                    try
-                    {
-                        _statusLifecycleHandler.Remove(item.Id);
-                    }
-                    catch { }
-                }
-
-                unit.Actor.CurrentAction?.Interrupt(InterruptReason.Forced);
-
-                _hitboxOwnerRepository.Delete(target);
-                _hurtableRepository.Delete(target);
-                _movementEffectOwnerRepository.Delete(target);
-                _scaleEffectOwnerRepository.Delete(target);
-                _unitStore.Delete(target);
-                _characterUpdateList.Delete(target);
-
-                _positionableRepository.Delete(target);
+                return;
             }
-            catch { }
+
+            if (_playerSession.ControlledUnitId.HasValue && _playerSession.ControlledUnitId.Value == target)
+            {
+                _playerSession.ControlledUnitId = default;
+            }
+
+            foreach (var item in unit.Skills.Skills)
+            {
+                AbilityKey abilityKey = new(target, item);
+                try
+                {
+                    _skillLyfecycleHandler.Remove(abilityKey);
+                }
+                catch { }
+            }
+
+            foreach (var item in unit.Statuses.GetAll())
+            {
+                _statusTimerRepository.Delete(item.Id);
+                try
+                {
+                    _statusLifecycleHandler.Remove(item.Id);
+                }
+                catch { }
+            }
+
+            unit.Actor.CurrentAction?.Interrupt(InterruptReason.Forced);
+
+            _hitboxOwnerRepository.Delete(target);
+            _hurtableRepository.Delete(target);
+            _movementEffectOwnerRepository.Delete(target);
+            _scaleEffectOwnerRepository.Delete(target);
+            _unitStore.Delete(target);
+            _characterUpdateList.Delete(target);
+
+            _positionableRepository.Delete(target);
         }
     }
 }

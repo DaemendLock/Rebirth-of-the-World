@@ -1,9 +1,9 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.Primitives;
 using Combat.Domain.Entities;
+using Combat.Domain.Repositories;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.UseCases;
-using Combat.Local.Domain.Repositories;
 
 namespace Combat.Local.Application.Facades
 {
@@ -27,7 +27,7 @@ namespace Combat.Local.Application.Facades
 
         public HealthValueDTO GetHealth(UnitId entityId)
         {
-            ref UnitContext value = ref _unitStore.Get(entityId);;
+            UnitContext value = _unitStore.Get(entityId);
             return new(value.Health.Current, value.Health.Max, value.Composure.Current, value.Composure.Max);
         }
 
