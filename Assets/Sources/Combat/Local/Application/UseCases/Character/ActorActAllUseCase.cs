@@ -79,21 +79,19 @@ namespace Combat.Local.Application.UseCases
 
             if (unit.LifeState.State != ConsciousState.Alive)
             {
-                InterruptReason reason = unit.LifeState.State == ConsciousState.Dead
-                    ? InterruptReason.Death
-                    : InterruptReason.Downed;
+                InterruptReason reason = unit.LifeState.State == ConsciousState.Dead ? InterruptReason.Death : InterruptReason.Downed;
 
                 if (unit.Actor.TryInterrupt(reason))
                 {
                     _actorUpdateOutput.Clear(unit.Id);
-                }
 
-                if (action.TryGet(out IAbilityAction abilityAction))
-                {
-                    AbilityKey key = new(unit.Id, abilityAction.Source);
-                    _skillHitHandler.Reset(key);
-                    _skillActionStateChangeHandler.Handle(key, ActionState.Inactive);
-                    return;
+                    if (action.TryGet(out IAbilityAction abilityAction))
+                    {
+                        AbilityKey key = new(unit.Id, abilityAction.Source);
+                        _skillHitHandler.Reset(key);
+                        _skillActionStateChangeHandler.Handle(key, ActionState.Inactive);
+                        return;
+                    }
                 }
 
                 return;
@@ -101,7 +99,7 @@ namespace Combat.Local.Application.UseCases
 
             if (action.IsComplete)
             {
-                StopAction(unit);
+                StopAction(unit, action);
                 return;
             }
 
@@ -140,7 +138,7 @@ namespace Combat.Local.Application.UseCases
                 relativeDirection = relativeDirection.normalized;
             }
 
-            float speed = unit.Attributes.GetAttributeValue(UnitAttribute.Speed);
+            float speed = positionable.Speed;
 
             UnityEngine.Vector3 oldSpeed = positionable.Velocity;
             positionable.Velocity = (positionable.Rotation * new UnityEngine.Vector3(relativeDirection.x, 0, relativeDirection.y) * speed) + new UnityEngine.Vector3(0, oldSpeed.y, 0);
@@ -263,10 +261,17 @@ namespace Combat.Local.Application.UseCases
             return true;
         }
 
-        private void StopAction(UnitContext unit)
+        private void StopAction(UnitContext unit, Action action)
         {
             unit.Actor.StopAction();
             _actorUpdateOutput.Clear(unit.Id);
+
+            if (action.TryGet(out IAbilityAction abilityAction))
+            {
+                AbilityKey key = new(unit.Id, abilityAction.Source);
+                _skillHitHandler.Reset(key);
+                _skillActionStateChangeHandler.Handle(key, ActionState.Inactive);
+            }
         }
 
         private void HandleStateChanges(UnitId actorId, IAbilityAction action, ActionState oldState)

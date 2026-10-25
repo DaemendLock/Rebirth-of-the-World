@@ -9,6 +9,7 @@ using Combat.Local.Scripting.IDK;
 using Combat.Local.Scripting.Runtime;
 
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Combat.Local.Scripting.Ports.Statuses
 {
@@ -46,7 +47,11 @@ namespace Combat.Local.Scripting.Ports.Statuses
             if (container != null)
             {
                 _statusRuntimeRegistry.Create(status.Id, runtime);
-                container.GetCapability<IStatusLifecycleCapability>()?.Apply(runtime.Context);
+
+                if (container.TryGetCapability(out IStatusLifecycleCapability effect))
+                {
+                    effect.Apply(runtime.Context);
+                }
             }
 
             _eventContext.Publish<StatusAppliedEventData>(new(new(parent, status.Source, status.Id)));
@@ -60,7 +65,11 @@ namespace Combat.Local.Scripting.Ports.Statuses
             }
 
             IStatusCapabilityProvider capabilities = runtime.Container;
-            capabilities.GetCapability<IStatusLifecycleCapability>()?.Remove(runtime.Context);
+
+            if (capabilities.TryGetCapability(out IStatusLifecycleCapability effect))
+            {
+                effect.Remove(runtime.Context);
+            }
 
             runtime.Context?.Cleanup();
             _statusRuntimeRegistry.Remove(id);
@@ -74,32 +83,26 @@ namespace Combat.Local.Scripting.Ports.Statuses
                 return;
             }
 
-            IStatusLifecycleCapability lifecycle = runtime.Container.GetCapability<IStatusLifecycleCapability>();
 
-            if (lifecycle == null)
+            if (runtime.Container.TryGetCapability(out IStatusLifecycleCapability effect))
             {
-                return;
+                effect.Expire(runtime.Context);
             }
 
-            lifecycle.Expire(runtime.Context);
             _eventContext.Publish<StatusExpiredEventData>(new(new(id)));
         }
 
         public void Reapply(StatusId id, float duration, AbilityKey? source)
         {
-            if (!_statusRuntimeRegistry.TryGet(id, out StatusRuntime runtime))
+            if (_statusRuntimeRegistry.TryGet(id, out StatusRuntime runtime) == false)
             {
                 return;
             }
 
-            IStatusLifecycleCapability lifecycle = runtime.Container.GetCapability<IStatusLifecycleCapability>();
-
-            if (lifecycle == null)
+            if (runtime.Container.TryGetCapability(out IStatusLifecycleCapability effect))
             {
-                return;
+                effect.Reapply(runtime.Context);
             }
-
-            lifecycle.Reapply(runtime.Context);
         }
 
         private IStatusRuntimeFactory GetFactory(StatusType name)
@@ -129,19 +132,10 @@ namespace Combat.Local.Scripting.Ports.Statuses
 
         public void Handle(StatusId statusId)
         {
-            if (!_statusRuntimeRegistry.TryGet(statusId, out StatusRuntime runtime))
+            if (_statusRuntimeRegistry.TryGet(statusId, out StatusRuntime runtime) && runtime.Container.TryGetCapability(out IStatusTickCapability tick))
             {
-                return;
+                tick.Tick(runtime.Context);
             }
-
-            IStatusTickCapability tick = runtime.Container.GetCapability<IStatusTickCapability>();
-
-            if (tick == null)
-            {
-                return;
-            }
-
-            tick.Tick(runtime.Context);
         }
     }
 }

@@ -13,19 +13,19 @@ namespace Combat.API.DTO
         public Team Team;
         public Vector3 Position;
         public float BaseHealth;
-        public float? BaseComposure;
-        public float? InitialComposure;
+        public float BaseComposure;
+        public float BaseMovespeed;
         public Span<AttributeValue> Attributes;
 
-        public CreateUnitInfo(ModelName modelName, Team team, Vector3 position, float baseHealth, Span<AttributeValue> attributes,
-            float baseComposure = 100f, float? initialComposure = null)
+        public CreateUnitInfo(ModelName modelName, Team team, Vector3 position, float baseHealth, float baseComposure,
+            float baseMovespeed, Span<AttributeValue> attributes)
         {
             ModelName = modelName;
             Team = team;
             Position = position;
             BaseHealth = baseHealth;
             BaseComposure = baseComposure;
-            InitialComposure = initialComposure;
+            BaseMovespeed = baseMovespeed;
             Attributes = attributes;
         }
     }

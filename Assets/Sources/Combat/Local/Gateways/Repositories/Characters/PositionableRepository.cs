@@ -12,6 +12,15 @@ using UnityEngine;
 
 namespace Combat.Local.Gateways.Repositories.Characters
 {
+    public sealed class CharacterData
+    {
+        public Transform Transform { get; set; }
+
+        public float LocalTimeScale { get; set; }
+
+        public byte TeamId { get; set; }
+    }
+
     public sealed class PositionableRepository : IPositionableRepository, IUnitSpatialQuery
     {
         private readonly Dictionary<UnitId, CharacterModelComponent> _values;
@@ -51,6 +60,7 @@ namespace Combat.Local.Gateways.Repositories.Characters
             result.transform.localScale = value.Scale * Vector3.one;
             result.Velocity = value.Velocity;
             result.TeamId = value.Team.Value;
+            result.Speed = value.Speed;
 
             _values.Add(value.Id, result);
         }
@@ -68,7 +78,10 @@ namespace Combat.Local.Gateways.Repositories.Characters
                 return default;
             }
 
-            return new(id, model.transform.position, model.transform.rotation, model.transform.localScale.x, model.LookDirection, model.ModelName, model.Velocity, new(model.TeamId));
+            return new(id, model.transform.position, model.transform.rotation, model.transform.localScale.x, model.LookDirection, model.ModelName, model.Velocity, new(model.TeamId))
+            {
+                Speed = model.Speed
+            };
         }
 
         public void Update(Positionable value)
@@ -86,6 +99,7 @@ namespace Combat.Local.Gateways.Repositories.Characters
             model.transform.localScale = value.Scale * Vector3.one;
             model.Velocity = value.Velocity;
             model.TeamId = value.Team.Value;
+            model.Speed = value.Speed;
         }
 
         public IReadOnlyCollection<UnitId> FindInRadius(Vector3 center, float radius)

@@ -19,7 +19,7 @@ namespace Combat.Local.Application.UseCases.Encounter
         }
 
         public UnitId Execute(CharacterKey charcterKey, Team team, UnityEngine.Vector3 position, float? baseHealth = null, SkillId[] skills = null,
-            float? baseComposure = null)
+            float? baseComposure = null, float? movespeed = null)
         {
             CharacterDefinition characterDefinition = _characterDefinitionProvider.Get(charcterKey);
             Span<ResourceValue> resources = stackalloc ResourceValue[characterDefinition.Resources.Length];
@@ -34,13 +34,14 @@ namespace Combat.Local.Application.UseCases.Encounter
                     characterDefinition.Model,
                     team,
                     position,
-                    -1,
                     baseHealth ?? characterDefinition.BaseHealth,
-                    characterDefinition.BaseAttributes,
-                    resources,
-                    skills ?? characterDefinition.Skills,
-                    defaultComposure: baseComposure ?? characterDefinition.BaseComposure
-                );
+                    defaultComposure: baseComposure ?? characterDefinition.BaseComposure,
+                    baseMovespeed: movespeed ?? characterDefinition.BaseMovespeed
+,
+                    defaultResources: resources,
+                    defaultAttributes: characterDefinition.BaseAttributes,
+                    skills: skills ?? characterDefinition.Skills,
+                    initialHealth: -1);
 
             return _unitCreateUseCase.Execute(unitInfo);
         }

@@ -28,6 +28,8 @@ namespace Combat.Domain.Entities
 
         public bool AllowMovement => Flags.HasFlag(ActionFlags.AllowMovement);
 
+        public bool IsHoldable => Flags.HasFlag(ActionFlags.Holdable);
+
         public void Start()
         {
             _strategy.Start();

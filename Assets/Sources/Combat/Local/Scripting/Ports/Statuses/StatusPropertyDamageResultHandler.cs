@@ -30,14 +30,10 @@ namespace Combat.Local.Scripting.Ports.Statuses
                     continue;
                 }
 
-                IStatusHandleOutgoingDamageCapability effect = runtime.Container.GetCapability<IStatusHandleOutgoingDamageCapability>();
-
-                if (effect == null)
+                if (runtime.Container.TryGetCapability(out IStatusHandleOutgoingDamageCapability effect))
                 {
-                    continue;
+                    effect.Handle(runtime.Context, @event);
                 }
-
-                effect.Handle(runtime.Context, @event);
             }
 
             _eventContext.Publish(new GameEvent<DealDamageEventData>(new(@event.FinalHealthDamage, @event.FinalComposureDamage)));
@@ -52,14 +48,10 @@ namespace Combat.Local.Scripting.Ports.Statuses
                     continue;
                 }
 
-                IStatusHandleIncomingDamageCapability effect = runtime.Container.GetCapability<IStatusHandleIncomingDamageCapability>();
-
-                if (effect == null)
+                if (runtime.Container.TryGetCapability(out IStatusHandleIncomingDamageCapability effect))
                 {
-                    continue;
+                    effect.Handle(runtime.Context, @event);
                 }
-
-                effect.Handle(runtime.Context, @event);
             }
 
             _eventContext.Publish(new GameEvent<TakeDamageEventData>(new(@event.FinalHealthDamage, @event.FinalComposureDamage)));

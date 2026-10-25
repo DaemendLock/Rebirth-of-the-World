@@ -7,12 +7,8 @@
         Haste,
         Lethality,
         Versality,
-        LIFESTEAL,
-        Speed,
-        AOERESIST,
-        Endurance,
-        BLOCK,
-        EVADE,
-        PARRY,
+        Impact,
+        Swiftness,
+        Endurance
     }
 }

@@ -35,12 +35,12 @@ namespace Combat.Local.Application.UseCases
                 return;
             }
 
-            if (action.TryGet(out IReleasableAction releasable))
+            if (action.IsHoldable && action.TryGet(out IReleasableAction releasable))
             {
                 releasable.Release();
             }
 
-            if (action.Flags.HasFlag(Common.Flags.ActionFlags.Holdable) && abilityAction.State == Common.ValueObjects.ActionState.Recovery)
+            if (action.IsHoldable && abilityAction.State == Common.ValueObjects.ActionState.Recovery)
             {
                 _actionUpdateOutput.Release(caster);
             }

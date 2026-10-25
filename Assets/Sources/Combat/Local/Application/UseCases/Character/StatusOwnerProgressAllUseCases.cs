@@ -41,41 +41,39 @@ namespace Combat.Local.Application.UseCases
 
             foreach (StatusUpdateResult updateResult in results)
             {
-                HandleResult(deltaTime, unit, updateResult);
+                HandleResult(unit, updateResult);
             }
         }
 
-        private void HandleResult(float deltaTime, UnitContext unit, StatusUpdateResult updateResult)
+        private void HandleResult(UnitContext unit, StatusUpdateResult updateResult)
         {
-            if (updateResult.Remove)
-            {
-                _statusTimerRepository.Delete(updateResult.Id);
-                unit.Statuses.Remove(updateResult.Id);
-                _statusLifecycleHandler.Remove(updateResult.Id);
-                return;
-            }
+            AdvanceTimer(updateResult.Id, updateResult.TimePassed);
 
             if (updateResult.Expired)
             {
                 _statusLifecycleHandler.Expire(updateResult.Id);
+                _statusTimerRepository.Delete(updateResult.Id);
+                unit.Statuses.Remove(updateResult.Id);
+                _statusLifecycleHandler.Remove(updateResult.Id);
             }
+        }
 
-            if (_statusTimerRepository.TryGet(updateResult.Id, out StatusTimer timer) == false)
+        private void AdvanceTimer(StatusId status, float value)
+        {
+            if (_statusTimerRepository.TryGet(status, out StatusTimer timer))
             {
-                return;
-            }
+                timer.TimePassed += value;
 
-            timer.TimePassed += deltaTime;
+                if (timer.TimePassed > timer.Priod)
+                {
+                    timer.TimePassed -= timer.Priod;
+                    _statusTimerRepository.Update(timer);
+                    _statusTickHandler.Handle(status);
+                    return;
+                }
 
-            if (timer.TimePassed > timer.Priod)
-            {
-                timer.TimePassed -= timer.Priod;
                 _statusTimerRepository.Update(timer);
-                _statusTickHandler.Handle(updateResult.Id);
-                return;
             }
-
-            _statusTimerRepository.Update(timer);
         }
     }
 

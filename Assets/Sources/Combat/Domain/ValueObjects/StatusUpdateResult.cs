@@ -4,15 +4,15 @@ namespace Combat.Local.Application.ValueObjects
 {
     public readonly struct StatusUpdateResult
     {
-        internal StatusUpdateResult(StatusId id, bool expired, bool remove)
+        internal StatusUpdateResult(StatusId id, bool expired, float time)
         {
             Id = id;
             Expired = expired;
-            Remove = remove;
+            TimePassed = time;
         }
 
         public StatusId Id { get; }
         public bool Expired { get; }
-        public bool Remove { get; }
+        public float TimePassed { get; }
     }
 }

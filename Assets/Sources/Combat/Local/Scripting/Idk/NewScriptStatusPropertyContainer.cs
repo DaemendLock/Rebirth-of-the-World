@@ -8,6 +8,7 @@ namespace Combat.Local.Scripting.Idk
     {
         private readonly IStatusLifecycleCapability _lifecycleCapability;
         private readonly IStatusTickCapability _tickCapability;
+        private readonly IStatusModifyMovespeedCapability _modifyMovespeedCapability;
 
         public NewScriptStatusCapabilityProvider(UnitNew parent, IStatusScriptNew script)
         {
@@ -22,19 +23,22 @@ namespace Combat.Local.Scripting.Idk
             }
         }
 
-        public T GetCapability<T>() where T : class
+        public bool TryGetCapability<T>(out T capability) where T : class
         {
             if (typeof(T) == typeof(IStatusScriptNew))
             {
-                return _lifecycleCapability as T;
+                capability = _lifecycleCapability as T;
+                return capability != null;
             }
 
             if (typeof(T) == typeof(IStatusTickCapability))
             {
-                return _tickCapability as T;
+                capability = _tickCapability as T;
+                return capability != null;
             }
 
-            return null;
+            capability = null;
+            return false;
         }
     }
 }

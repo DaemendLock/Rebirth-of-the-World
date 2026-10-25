@@ -17,9 +17,12 @@ namespace Combat.Domain.Entities
             LookDirection = lookDiration;
             Velocity = velocity;
             Team = team;
+            Speed = 0f;
         }
 
         public UnitId Id { get; }
+
+        public float Speed { get; set; }
 
         public Vector3 Position { get; set; }
 

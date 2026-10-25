@@ -4,9 +4,6 @@ using Combat.Local.Application.Repositories;
 using Combat.Local.Application.UseCases;
 using Combat.Local.Application.UseCases.Scene;
 
-using System.Collections.Generic;
-using System.Linq;
-
 using Zenject;
 
 namespace Testing.Local
@@ -15,20 +12,18 @@ namespace Testing.Local
     {
         private readonly StatusOwnerProgressAllUseCases _updateStatusesUseCase;
         private readonly SkillOwnerProgressAllUseCase _skillUpdateAllUseCase;
-        private readonly ComposureRecoverAllUseCase _composureRecoverAllUseCase;
+        private readonly ComposureRecoverAllUseCase _composureUpdateAllUseCase;
         private readonly ActorActAllUseCase _actorUpdateAllUseCase;
-        private readonly AttributeOwnerUpdateAllUseCase _attributeOwnerUpdateAllUseCase;
+        private readonly AttributeOwnerEvaluateAllUseCase _attributeOwnerUpdateAllUseCase;
         private readonly LifeStateEvaluateAllUseCase _updateConsciousStateAllUseCase;
         private readonly HitsHandleUseCase _handleHitUseCase;
-        private readonly ICharacterUpdateRepository _characterUpdateList;
         private readonly ICharacterDeleteQueue _characterDeleteQueue;
         private readonly IHitRecordQueue _hitRecordQueue;
         private readonly UnitDeleteUseCase _characterDeleteUseCase;
         private readonly IEncounterStateMachine _encounterState;
-        public UpdateController(AttributeOwnerUpdateAllUseCase updateCombatUseCase,
+        public UpdateController(AttributeOwnerEvaluateAllUseCase updateCombatUseCase,
                                 StatusOwnerProgressAllUseCases updateStatusesUseCase,
                                 HitsHandleUseCase handleHitUseCase,
-                                ICharacterUpdateRepository characterUpdateList,
                                 ActorActAllUseCase actorActAllUseCase,
                                 LifeStateEvaluateAllUseCase updateConsciousStateAllUseCase,
                                 ComposureRecoverAllUseCase composureRecoverAllUseCase,
@@ -41,9 +36,8 @@ namespace Testing.Local
             _attributeOwnerUpdateAllUseCase = updateCombatUseCase;
             _updateStatusesUseCase = updateStatusesUseCase;
             _handleHitUseCase = handleHitUseCase;
-            _characterUpdateList = characterUpdateList;
             _actorUpdateAllUseCase = actorActAllUseCase;
-            _composureRecoverAllUseCase = composureRecoverAllUseCase;
+            _composureUpdateAllUseCase = composureRecoverAllUseCase;
             _skillUpdateAllUseCase = skillUpdateAllUseCase;
             _characterDeleteQueue = characterDeleteQueue;
             _characterDeleteUseCase = characterDeleteUseCase;
@@ -59,69 +53,37 @@ namespace Testing.Local
                 return;
             }
 
-            while (_characterDeleteQueue.TryDequeue(out var characterDelete))
-            {
-                _characterDeleteUseCase.Execute(characterDelete);
-            }
+            Updatable[] updateList = PrepairTick();
 
             float deltaTime = UnityEngine.Time.deltaTime;
-            Updatable[] updateList = _characterUpdateList.GetAll().ToArray();
 
-            _composureRecoverAllUseCase.Execute(updateList, deltaTime);
+            _composureUpdateAllUseCase.Execute(updateList, deltaTime);
             _skillUpdateAllUseCase.Execute(updateList, deltaTime);
+            _updateStatusesUseCase.Execute(updateList, deltaTime);
 
             while (_hitRecordQueue.TryDequeue(out var hitRecord))
             {
                 _handleHitUseCase.Execute(new(hitRecord));
             }
 
-            _updateStatusesUseCase.Execute(updateList, deltaTime);
             _actorUpdateAllUseCase.Execute(updateList, deltaTime);
-            _attributeOwnerUpdateAllUseCase.Execute(updateList);
-            _updateConsciousStateAllUseCase.Execute(updateList, deltaTime);
+            _updateConsciousStateAllUseCase.Execute(updateList);
+
+            FinalizeTick(updateList);
         }
 
-        public void UpdateCombat()
+        private Updatable[] PrepairTick()
         {
-            UpdateContext updateContext = new();
-            List<ICombatPhase> steps = new();
-
-            foreach (var step in steps)
-            {
-                step.Execute(updateContext);
-            }
+            Updatable[] updateList = _attributeOwnerUpdateAllUseCase.Execute();
+            return updateList;
         }
-    }
 
-    public readonly struct UpdateContext
-    {
-        public readonly Updatable[] Targets;
-    }
-
-    public interface ICombatPhase
-    {
-        void Execute(UpdateContext updateContext);
-    }
-
-    public sealed class PerformCleanup : ICombatPhase
-    {
-        private readonly ICharacterDeleteQueue _characterDeleteQueue;
-        private readonly UnitDeleteUseCase _characterDeleteUseCase;
-
-        public void Execute(UpdateContext updateContext)
+        private void FinalizeTick(Updatable[] updateList)
         {
             while (_characterDeleteQueue.TryDequeue(out var characterDelete))
             {
                 _characterDeleteUseCase.Execute(characterDelete);
             }
-        }
-    }
-
-    public sealed class CacheAttributes : ICombatPhase
-    {
-        public void Execute(UpdateContext updateContext)
-        {
-
         }
     }
 }

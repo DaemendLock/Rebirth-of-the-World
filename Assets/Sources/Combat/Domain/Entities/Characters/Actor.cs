@@ -3,18 +3,34 @@ using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Local.Application.ValueObjects;
 
+using System.Collections.Generic;
 using System.Numerics;
 
 namespace Combat.Domain.Entities
 {
+    public struct BreakEffect
+    {
+        public ActorState State;
+        public float Duration;
+
+        public BreakEffect(ActorState state, float duration)
+        {
+            State = state;
+            Duration = duration;
+        }
+    }
+
     public struct Actor
     {
-        public Actor(UnitId id)
+        private readonly List<BreakEffect> _breakEffects;
+
+        public Actor(UnitId id, float baseMovespeed)
         {
             Id = id;
-            State = default;
             CurrentAction = null;
             DesiredActions = new(default, Vector2.Zero);
+            _breakEffects = new List<BreakEffect>();
+            BaseMovespeed = baseMovespeed;
         }
 
         public readonly UnitId Id { get; }
@@ -23,7 +39,22 @@ namespace Combat.Domain.Entities
 
         public DesiredActions DesiredActions { readonly get; private set; }
 
-        public ActorState State { get; set; }
+        public float BaseMovespeed { get; }
+
+        public readonly ActorState State
+        {
+            get
+            {
+                ActorState state = ActorState.None;
+
+                foreach (BreakEffect breakEffect in _breakEffects)
+                {
+                    state |= breakEffect.State;
+                }
+
+                return state;
+            }
+        }
 
         public readonly bool CanCast => State.HasFlag(ActorState.Silenced) == false;
 
@@ -65,6 +96,16 @@ namespace Combat.Domain.Entities
         public void DesireMoveDirection(Vector2 direction)
         {
             DesiredActions = new(DesiredActions.Skill, direction);
+        }
+
+        public readonly void ApplyBreak(ActorState type, float duration)
+        {
+            _breakEffects.Add(new(type, duration));
+        }
+
+        public readonly void EndBreak()
+        {
+            _breakEffects.Clear();
         }
     }
 }

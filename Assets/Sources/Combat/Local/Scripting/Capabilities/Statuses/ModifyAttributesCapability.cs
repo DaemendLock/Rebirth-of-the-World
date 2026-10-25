@@ -32,7 +32,12 @@ namespace Combat.Local.Scripting.Capabilities.Statuses
 
             result.Attack = new(bonusValues[(int)UnitAttribute.Atk]);
             result.Spellpower = new(bonusValues[(int)UnitAttribute.Spellpower]);
-            result.Speed = new(bonusValues[(int)UnitAttribute.Speed]);
+            result.Haste = new(baseValues[(int)UnitAttribute.Haste]);
+            result.Lethality = new(baseValues[(int)UnitAttribute.Lethality]);
+            result.Versatility = new(baseValues[(int)UnitAttribute.Versality]);
+            result.Impact = new(baseValues[(int)UnitAttribute.Impact]);
+            result.Endurance = new(baseValues[(int)UnitAttribute.Endurance]);
+            result.Swiftness = new(bonusValues[(int)UnitAttribute.Swiftness]);
             return result;
         }
     }

@@ -42,7 +42,7 @@ namespace Combat.Local.Data.Repositories
         public Updatable Parse(UnitId id) => new(id, TimeScale);
     }
 
-    public class UpdateTargetRepository : ICharacterUpdateRepository
+    public class UpdateTargetRepository : ICharacterUpdateQueue
     {
         private readonly Dictionary<UnitId, UpdatableModel> _values;
         private readonly ISceneObjectDataSource _sceneCharacterModelDataSource;
@@ -58,45 +58,13 @@ namespace Combat.Local.Data.Repositories
         public void Create(Updatable value)
         {
             _values.Add(value.Id, new(value));
-
-            if (_sceneCharacterModelDataSource.TryGet(value.Id, out var model))
-            {
-                model.GetComponent<CharacterModelComponent>().TimeScale = value.TimeScale;
-
-                if (model.TryGetComponent(out DaeAnimator.CharacterAnimator animator))
-                {
-                    animator.SetTimeScale(value.TimeScale);
-                }
-            }
+            SetViewTimescale(value.Id, value.TimeScale);
         }
 
         public void Update(Updatable value)
         {
             _values[value.Id] = new(value);
-
-            if (_sceneCharacterModelDataSource.TryGet(value.Id, out var model))
-            {
-                model.GetComponent<CharacterModelComponent>().TimeScale = value.TimeScale;
-
-                if (model.TryGetComponent(out DaeAnimator.CharacterAnimator animator))
-                {
-                    animator.SetTimeScale(value.TimeScale);
-                }
-            }
-        }
-
-        public Updatable Get(UnitId id) => _values[id].Parse(id);
-
-        public bool TryGet(UnitId id, out Updatable updatable)
-        {
-            if ((_values.TryGetValue(id, out var data) == false) || data.IsDead)
-            {
-                updatable = new(id, 1f);
-                return false;
-            }
-
-            updatable = data.Parse(id);
-            return true;
+            SetViewTimescale(value.Id, value.TimeScale);
         }
 
         public IEnumerable<Updatable> GetAll()
@@ -126,6 +94,19 @@ namespace Combat.Local.Data.Repositories
             target = new(target.TimeScale, true);
             _values[id] = target;
             _hasPendingDeletes = true;
+        }
+
+        private void SetViewTimescale(UnitId id, float scale)
+        {
+            if (_sceneCharacterModelDataSource.TryGet(id, out var model))
+            {
+                model.GetComponent<CharacterModelComponent>().TimeScale = scale;
+
+                if (model.TryGetComponent(out DaeAnimator.CharacterAnimator animator))
+                {
+                    animator.SetTimeScale(scale);
+                }
+            }
         }
     }
 }

@@ -11,12 +11,10 @@ namespace Combat.Local.Application.Repositories
         bool TryDequeue(out UnitId unitId);
     }
 
-    public interface ICharacterUpdateRepository
+    public interface ICharacterUpdateQueue
     {
         void Create(Updatable value);
         void Update(Updatable value);
-        Updatable Get(UnitId id);
-        bool TryGet(UnitId id, out Updatable updatable);
         IEnumerable<Updatable> GetAll();
         void Delete(UnitId id);
     }

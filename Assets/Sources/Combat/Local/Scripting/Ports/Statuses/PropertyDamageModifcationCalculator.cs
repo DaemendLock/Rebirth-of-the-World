@@ -5,7 +5,6 @@ using Combat.Local.Application.ValueObjects;
 using Combat.Local.Scripting.Capabilities.Statuses;
 using Combat.Local.Scripting.Runtime;
 
-using System;
 using System.Collections.Generic;
 
 namespace Combat.Local.Scripting.Ports.Statuses
@@ -30,14 +29,10 @@ namespace Combat.Local.Scripting.Ports.Statuses
                     continue;
                 }
 
-                IStatusModifyOutgoingDamageCapability effect = runtime.Container.GetCapability<IStatusModifyOutgoingDamageCapability>();
-
-                if (effect == null)
+                if (runtime.Container.TryGetCapability<IStatusModifyOutgoingDamageCapability>(out var effect))
                 {
-                    continue;
+                    result += effect.GetModification(instance);
                 }
-
-                result += effect.GetModification(instance);
             }
 
             return result;
@@ -54,14 +49,10 @@ namespace Combat.Local.Scripting.Ports.Statuses
                     continue;
                 }
 
-                IStatusModifyIncomingDamageCapability effect = runtime.Container.GetCapability<IStatusModifyIncomingDamageCapability>();
-
-                if (effect == null)
+                if (runtime.Container.TryGetCapability(out IStatusModifyIncomingDamageCapability effect))
                 {
-                    continue;
+                    result += effect.GetModification(instance);
                 }
-
-                result += effect.GetModification(instance);
             }
 
             return result;
@@ -78,18 +69,14 @@ namespace Combat.Local.Scripting.Ports.Statuses
                     continue;
                 }
 
-                IStatusModifyOutgoingHealingCapability effect = runtime.Container.GetCapability<IStatusModifyOutgoingHealingCapability>();
-
-                if (effect == null)
+                if (runtime.Container.TryGetCapability(out IStatusModifyOutgoingHealingCapability effect))
                 {
-                    continue;
+                    HealingModification modification = effect.GetModification(instance);
+                    result = new(result.BaseValue + modification.BaseValue,
+                        result.PercentModication + modification.PercentModication,
+                        result.BonusValue + modification.BonusValue,
+                        result.FlagsModification | modification.FlagsModification);
                 }
-
-                HealingModification modification = effect.GetModification(instance);
-                result = new(result.BaseValue + modification.BaseValue,
-                    result.PercentModication + modification.PercentModication,
-                    result.BonusValue + modification.BonusValue,
-                    result.FlagsModification | modification.FlagsModification);
             }
 
             return result;

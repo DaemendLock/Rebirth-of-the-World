@@ -29,8 +29,7 @@ namespace Combat.Local.Scripting.Contexts
 
         public Unit CreateUnit(CreateUnitInfo data)
         {
-            UnitCreationInfo dto = new(data.ModelName, data.Team, data.Position, -1, data.BaseHealth, data.Attributes, System.Array.Empty<ResourceValue>(), System.Array.Empty<SkillId>(),
-                data.InitialComposure ?? -1f, data.BaseComposure ?? 100f);
+            UnitCreationInfo dto = new(data.ModelName, data.Team, data.Position, data.BaseHealth, data.BaseComposure, data.BaseMovespeed, System.Array.Empty<ResourceValue>(), data.Attributes, System.Array.Empty<SkillId>());
             return _chracterApiAdapter.Adaptee(_sceneFacade.CreateUnit(dto));
         }
 

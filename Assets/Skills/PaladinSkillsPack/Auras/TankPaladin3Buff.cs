@@ -1,16 +1,11 @@
-﻿using Combat.API.DTO;
-using Combat.API.Scripting;
+﻿using Combat.API.Scripting;
 using Combat.API.Statuses;
-using Combat.Common.ValueObjects;
 
 namespace TestSkillsPack.Paladin
 {
     [StatusScriptName("TankPaladin3Buff")]
-    public class TankPaladin3Buff : StatusScript, IAttributesModifier
+    public class TankPaladin3Buff : StatusScript, IMovespeedModifier
     {
-        public void GetAttributesBonuses(AttributesData data)
-        {
-            data[UnitAttribute.Speed] += new AttributeValue(0, 20f, 0);
-        }
+        float IMovespeedModifier.GetBonusMovespeedPercent() => 20f;
     }
 }

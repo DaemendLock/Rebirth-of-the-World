@@ -1,4 +1,5 @@
 using Combat.API.Statuses;
+using Combat.Local.Application.ValueObjects;
 
 namespace Combat.Local.Scripting.Capabilities.Statuses
 {
@@ -17,5 +18,23 @@ namespace Combat.Local.Scripting.Capabilities.Statuses
         }
 
         public float GetModification() => _modifier.GetTimeModification();
+    }
+
+    public interface IStatusModifyMovespeedCapability
+    {
+        AttributeModifcation GetModification();
+    }
+
+    public sealed class ModifyMovespeedCapability : IStatusModifyMovespeedCapability
+    {
+        private readonly IMovespeedModifier _modifier;
+
+        public ModifyMovespeedCapability(IMovespeedModifier modifier)
+        {
+            _modifier = modifier;
+        }
+
+        public AttributeModifcation GetModification() =>
+            new(_modifier.GetBonusMovespeedValue(), _modifier.GetBonusMovespeedPercent(), _modifier.GetBonusMovespeed());
     }
 }

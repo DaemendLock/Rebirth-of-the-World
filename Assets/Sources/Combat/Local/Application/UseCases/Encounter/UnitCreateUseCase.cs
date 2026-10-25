@@ -23,7 +23,7 @@ namespace Combat.Local.Application.UseCases
         private readonly IHurtableRepository _hurtableRepository;
         private readonly IMovementEffectOwnerRepository _movementEffectOwnerRepository;
         private readonly IScaleEffectOwnerRepository _scaleEffectOwnerRepository;
-        private readonly ICharacterUpdateRepository _characterUpdateList;
+        private readonly ICharacterUpdateQueue _characterUpdateList;
 
         private readonly ICharacterCreateOutput _outputPort;
         private readonly ICharacterConsciousStateOutput _consciousStateOutput;
@@ -31,7 +31,7 @@ namespace Combat.Local.Application.UseCases
         public UnitCreateUseCase(
             IUnitStore unitStore, IPositionableRepository positionableRepository,
             ICharacterCreateOutput outputPort, ICharacterConsciousStateOutput consciousStateOutput,
-            ISkillLyfecycleHandler skillLyfecycleHandler, ICharacterUpdateRepository characterUpdateList,
+            ISkillLyfecycleHandler skillLyfecycleHandler, ICharacterUpdateQueue characterUpdateList,
             IMovementEffectOwnerRepository movementEffectOwnerRepository,
             IHitboxOwnerRepository hitboxOwnerRepository, IHurtableRepository hurtableRepository, IScaleEffectOwnerRepository scaleEffectOwnerRepository)
 
@@ -39,7 +39,7 @@ namespace Combat.Local.Application.UseCases
             _unitStore = unitStore;
             _positionableRepository = positionableRepository;
 
-            _idFactory = new(characterUpdateList);
+            _idFactory = new(unitStore);
             _skillLyfecycleHandler = skillLyfecycleHandler;
             _characterUpdateList = characterUpdateList;
             _outputPort = outputPort;
@@ -52,7 +52,7 @@ namespace Combat.Local.Application.UseCases
 
         public void Execute(UnitId id, UnitCreationInfo context)
         {
-            if (_characterUpdateList.TryGet(id, out _))
+            if (_unitStore.TryGet(id, out _))
             {
                 throw new System.InvalidOperationException($"Character with Id {id} alreday exists");
             }
@@ -88,7 +88,8 @@ namespace Combat.Local.Application.UseCases
             return id;
         }
 
-        private Positionable CreatePositionable(UnitId id, UnitCreationInfo context) => new(id, context.Position, default, 1f, default, context.Model, Vector3.zero, context.Team);
+        private Positionable CreatePositionable(UnitId id, UnitCreationInfo context) =>
+            new(id, context.Position, default, 1f, default, context.Model, Vector3.zero, context.Team);
 
         private SkillOwner CreateSkillOwner(UnitId id, UnitCreationInfo context)
         {
@@ -121,7 +122,7 @@ namespace Combat.Local.Application.UseCases
         {
             UnitId id = unit.Id;
             unit.Resources = new(id, context.DefaultResources.ToArray());
-            unit.Actor = new(id);
+            unit.Actor = new(id, context.BaseMovespeed);
             _hitboxOwnerRepository.Create(id);
             _hurtableRepository.Create(id);
             _characterUpdateList.Create(new(id, 1));

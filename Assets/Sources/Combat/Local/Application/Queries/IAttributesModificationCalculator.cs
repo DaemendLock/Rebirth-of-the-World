@@ -7,6 +7,6 @@ namespace Combat.Local.Application.Queries.Statuses
 {
     public interface IAttributesModificationCalculator
     {
-        AttributesBonuses Evaluate(IEnumerable<StatusId> values);
+        StatusBonuses Evaluate(IEnumerable<StatusId> values);
     }
 }

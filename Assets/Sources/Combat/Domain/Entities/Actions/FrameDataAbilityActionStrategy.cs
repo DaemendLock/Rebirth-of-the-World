@@ -7,6 +7,70 @@ using System.Linq;
 
 namespace Combat.Local.Application.Entities
 {
+    public struct SkillActionHandler
+    {
+        private enum HoldState
+        {
+            Disabled,
+            WaitingForRecovery,
+            OnHold,
+            Recovering
+        }
+
+        private readonly IFrameData _frameData;
+        private bool _released;
+        private HoldState _holdState;
+
+        public SkillId SkillId { get; }
+
+        public ActionState State { get; private set; }
+
+        public float EffectiveTime { get; private set; }
+
+        public void Release() => _released = true;
+
+        public void Progress(float deltaTime)
+        {
+            switch (_holdState)
+            {
+                case HoldState.Disabled:
+                case HoldState.Recovering:
+                    ProgressTimeline(deltaTime);
+                    return;
+
+                case HoldState.WaitingForRecovery:
+                    ProgressTimeline(deltaTime);
+
+                    if (EffectiveTime >= _frameData.RecoveryEnterTime)
+                    {
+                        EffectiveTime = _frameData.RecoveryEnterTime;
+                        State = ActionState.Active;
+                        _holdState = HoldState.OnHold;
+                    }
+
+                    return;
+
+                case HoldState.OnHold:
+                    if (_released == false)
+                    {
+                        return;
+                    }
+
+                    EffectiveTime = _frameData.RecoveryEnterTime;
+                    State = ActionState.Recovery;
+                    _holdState = HoldState.Recovering;
+                    ProgressTimeline(deltaTime);
+                    return;
+            }
+        }
+
+        private void ProgressTimeline(float deltaTime)
+        {
+            EffectiveTime += deltaTime;
+            State = (ActionState)_frameData.GetCastState(EffectiveTime);
+        }
+    }
+
     public sealed class FrameDataAbilityActionStrategy : IActionStrategy, IAbilityAction, IReleasableAction
     {
         private enum HoldState

@@ -11,4 +11,9 @@ namespace Combat.Local.Application.OutputPorts
     {
         void Present(UnitId value);
     }
+
+    public interface ICharacterLocalTimeScaleOutput
+    {
+        void Present(UnitId target, float timeScale);
+    }
 }

@@ -8,16 +8,18 @@ namespace Combat.Local.Application.Repositories
         public readonly ModelName Model;
         public readonly float BaseHealth;
         public readonly float BaseComposure;
+        public readonly float BaseMovespeed;
         public readonly AttributeValue[] BaseAttributes;
         public readonly CharacterResourceDefinition[] Resources;
         public readonly SkillId[] Skills;
 
         public CharacterDefinition(ModelName model, float baseHealth, AttributeValue[] baseAttributes, CharacterResourceDefinition[] resources, SkillId[] skills,
-            float baseComposure = 100f)
+            float baseComposure, float baseMovespeed)
         {
             Model = model;
             BaseHealth = baseHealth;
             BaseComposure = baseComposure;
+            BaseMovespeed = baseMovespeed;
             BaseAttributes = baseAttributes;
             Resources = resources;
             Skills = skills;

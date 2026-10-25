@@ -41,6 +41,13 @@ namespace Combat.API.Statuses
         void GetAttributesBonuses(AttributesData data);
     }
 
+    public interface IMovespeedModifier : IStatusPropery
+    {
+        float GetBonusMovespeedValue() => 0f;
+        float GetBonusMovespeedPercent() => 0f;
+        float GetBonusMovespeed() => 0f;
+    }
+
     public interface IResourceGainSpendHandler
     {
         void OnGainResource(ResourceChangeRecord @event);

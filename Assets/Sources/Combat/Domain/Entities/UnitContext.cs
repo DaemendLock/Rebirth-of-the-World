@@ -21,7 +21,7 @@ namespace Combat.Domain.Entities
         public UnitContext(UnitId id)
         {
             Id = id;
-            Actor = new(id);
+            Actor = new(id, 1f);
             Health = new(id, 0, 0);
             Composure = new(id, 0, 0);
             LifeState = new(id);

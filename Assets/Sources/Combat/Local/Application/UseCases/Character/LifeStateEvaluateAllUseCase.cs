@@ -8,7 +8,6 @@ using Combat.Local.Application.DTO;
 using Combat.Local.Application.Endpoints.Skills;
 using Combat.Local.Application.Entities;
 using Combat.Local.Application.OutputPorts;
-using Combat.Local.Application.Repositories;
 
 using System;
 
@@ -38,7 +37,7 @@ namespace Combat.Local.Application.UseCases
             _actionUpdateOutput = actionUpdateOutput;
         }
 
-        public void Execute(ReadOnlySpan<Updatable> target, float deltaTime)
+        public void Execute(ReadOnlySpan<Updatable> target)
         {
             foreach (Updatable item in target)
             {
@@ -50,7 +49,7 @@ namespace Combat.Local.Application.UseCases
                         UpdateAlive(unit);
                         continue;
                     case ConsciousState.Downed:
-                        UpdateDowned(unit, deltaTime * item.TimeScale);
+                        UpdateDowned(unit);
                         continue;
                     case ConsciousState.Dead:
                         continue;
@@ -78,7 +77,7 @@ namespace Combat.Local.Application.UseCases
             Kill(unit);
         }
 
-        private void UpdateDowned(UnitContext unit, float deltaTime)
+        private void UpdateDowned(UnitContext unit)
         {
             if (unit.Health.Current > 0)
             {
@@ -91,18 +90,7 @@ namespace Combat.Local.Application.UseCases
             if (damageSeverity > LifeStateOwner.MaxDamageSeverity || unit.Composure.Current <= 0)
             {
                 Kill(unit);
-                return;
             }
-
-            unit.Composure.TakeDamage(unit.Composure.Max * ComposureOwner.BaseDrainRate * deltaTime * damageSeverity);
-            ComposureChangeRecord change = new(unit.Id, unit.Composure.Current, unit.Composure.Max);
-
-            if (unit.Composure.Current <= 0)
-            {
-                Kill(unit);
-            }
-
-            _healthOutput.Present(change);
         }
 
         private void Down(UnitContext unit)
@@ -147,12 +135,13 @@ namespace Combat.Local.Application.UseCases
                 return;
             }
 
+            _actionUpdateOutput.Clear(unit.Id);
+
             if (interruptedAction.TryGet(out IAbilityAction abilityAction) == false)
             {
                 return;
             }
 
-            _actionUpdateOutput.Clear(unit.Id);
             AbilityKey key = new(unit.Id, abilityAction.Source);
             _hitHandler.Reset(key);
             _stateChangeHandler.Handle(key, ActionState.Inactive);

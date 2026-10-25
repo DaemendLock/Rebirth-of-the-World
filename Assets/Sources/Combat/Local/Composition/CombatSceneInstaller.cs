@@ -76,7 +76,7 @@ namespace Combat.Local.Composition
             Container.Bind<IUnitSpatialQuery>().To<PositionableRepository>().FromResolve();
             Container.Bind<IUnitStore>().To<UnitStore>().AsSingle();
             Container.Bind<IStatusTimerRepository>().To<StatusTimerRepository>().AsSingle();
-            Container.Bind<ICharacterUpdateRepository>().To<UpdateTargetRepository>().AsSingle();
+            Container.Bind<ICharacterUpdateQueue>().To<UpdateTargetRepository>().AsSingle();
             Container.Bind<IMovementEffectOwnerRepository>().To<MovementEffectOwnerRepository>().AsSingle();
             Container.Bind<IScaleEffectOwnerRepository>().To<ScaleEffectOwnerRepository>().AsSingle();
             Container.Bind<ISkillDynamicMemoryRepository>().To<FixedSizeArraySkillMemoryRepository>().AsSingle();
@@ -106,7 +106,7 @@ namespace Combat.Local.Composition
         }
         private void BindUseCases()
         {
-            Container.Bind<AttributeOwnerUpdateAllUseCase>().AsSingle();
+            Container.Bind<AttributeOwnerEvaluateAllUseCase>().AsSingle();
 
             Container.Bind<UnitCreateUseCase>().AsSingle();
             Container.Bind<UnitDeleteUseCase>().AsSingle();

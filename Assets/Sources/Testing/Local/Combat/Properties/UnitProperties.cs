@@ -68,7 +68,7 @@ namespace Testing.Local
         private UnitCreationInfo GetUnitCreationData()
         {
             StatsTable statsTable = StatsTable.UnitDefault;
-            statsTable[UnitAttribute.Speed] = new(MoveSpeed, 100);
+            statsTable[UnitAttribute.Swiftness] = new(0, 100);
             statsTable[UnitAttribute.Haste] = new(0, 100);
 
             SkillId[] skills = new SkillId[Skills.Length];
@@ -87,7 +87,7 @@ namespace Testing.Local
             }
 
             return new(ModelName, new(Team), transform.position, MaxHealth, InitialHealth, statsTable.ToAttributeArray(), Resources.Select(value => value.ToResourceValue).ToArray(), skills,
-                MaxComposure, InitialComposure);
+                MaxComposure, InitialComposure, MoveSpeed);
         }
     }
 }

@@ -2,6 +2,6 @@ namespace Combat.Local.Scripting.IDK
 {
     public interface IStatusCapabilityProvider
     {
-        T GetCapability<T>() where T : class;
+        bool TryGetCapability<T>(out T capability) where T : class;
     }
 }

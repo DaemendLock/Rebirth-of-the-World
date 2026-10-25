@@ -42,7 +42,7 @@ namespace Combat.Local.Data.DataSources
         private CharacterDefinitionModel Adapt(CombatCharacter data)
         {
             var attributesInfo = data.AttributeInfo;
-            AttributeValue[] attributeValues = new AttributeValue[(int)UnitAttribute.PARRY + 1];
+            AttributeValue[] attributeValues = new AttributeValue[(int)UnitAttribute.Endurance + 1];
 
             foreach (var item in attributesInfo)
             {
@@ -66,7 +66,7 @@ namespace Combat.Local.Data.DataSources
                 skills[i] = data.Skills[i].Id;
             }
 
-            return new(data.ModelName, data.BaseHealth, attributeValues, resources, skills, data.BaseComposure);
+            return new(data.ModelName, data.BaseHealth, data.BaseComposure, data.BaseMovespeed, attributeValues, resources, skills);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Local.Application.Repositories;
-using Combat.Local.Application.ValueObjects;
 using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Models;
 
@@ -44,7 +43,7 @@ namespace Combat.Local.Gateways.Repositories.Characters
 
             foreach (HitboxInfo hitboxData in hitboxes)
             {
-                var value = hitboxData.gameObject.AddComponent<HitboxModelComponent>();
+                HitboxModelComponent value = hitboxData.gameObject.AddComponent<HitboxModelComponent>();
                 value.Owner = id;
                 value.Type = hitboxData.Type;
                 value.Hitted += _hitRecordQueue.Enqueue;
@@ -61,7 +60,7 @@ namespace Combat.Local.Gateways.Repositories.Characters
                 return;
             }
 
-            foreach (var value in models)
+            foreach (HitboxModelComponent value in models)
             {
                 UnityEngine.Object.Destroy(value);
             }

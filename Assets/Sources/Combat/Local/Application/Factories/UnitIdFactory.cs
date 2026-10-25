@@ -1,21 +1,22 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Local.Application.Repositories;
+using Combat.Domain.Repositories;
 
 namespace Combat.Local.Application.Factories
 {
     public class UnitIdFactory
     {
-        private readonly ICharacterUpdateRepository _characterUpdateRepository;
+        private readonly IUnitStore _unitStore;
         private int _nextId = 0;
 
-        public UnitIdFactory(ICharacterUpdateRepository characterUpdateRepository)
+        public UnitIdFactory(IUnitStore unitStore)
         {
-            _characterUpdateRepository = characterUpdateRepository;
+            _unitStore = unitStore;
+            _nextId = 0;
         }
 
         public UnitId GetId()
         {
-            while (_characterUpdateRepository.TryGet(new(_nextId), out _))
+            while (_unitStore.TryGet(new(_nextId), out _))
             {
                 _nextId++;
             }

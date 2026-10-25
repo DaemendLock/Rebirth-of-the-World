@@ -30,8 +30,7 @@ namespace Combat.Local.Application.UseCases.Scene
                 return;
             }
 
-            if (unit.Actor.CurrentAction.TryGet(out IAbilityAction currentAction) == false ||
-                currentAction.State != ActionState.Active)
+            if (unit.Actor.CurrentAction.TryGet(out IAbilityAction currentAction) == false || currentAction.State != ActionState.Active)
             {
                 return;
             }

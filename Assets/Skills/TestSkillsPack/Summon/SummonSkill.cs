@@ -16,7 +16,7 @@ namespace TestSkillPack.Assets.Skills.TestSkillsPack.Summon
                 Attributes = new AttributeSet()
                 {
                     Haste = 100,
-                    Speed = 5,
+                    Swiftness = 5,
                 }.ToAttributesArray(),
                 Position = Owner.Position + UnityEngine.Vector3.forward * 2,
                 BaseHealth = 100,

@@ -58,15 +58,16 @@ namespace Combat.Domain.Entities
             {
                 StatusInstance instance = _values[i];
 
+                instance = instance.Progress(deltaTime);
+                _values[i] = instance;
+
                 if (instance.Duration.Left <= 0)
                 {
-                    progressResults[i] = new(instance.Id, false, true);
+                    progressResults[i] = new(instance.Id, true, deltaTime + instance.Duration.Left);
                     continue;
                 }
 
-                instance = instance.Progress(deltaTime);
-                _values[i] = instance;
-                progressResults[i] = new(instance.Id, instance.Duration.Left <= 0, false);
+                progressResults[i] = new(instance.Id, false, deltaTime);
             }
         }
 

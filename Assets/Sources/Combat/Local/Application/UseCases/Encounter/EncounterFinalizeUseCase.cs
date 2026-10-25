@@ -16,12 +16,12 @@ namespace Combat.Local.Application.UseCases.Scene
         private readonly IEncounterStateMachine _stateMachine;
         private readonly ObjectiveFinalizeAllUseCase _finalizeObjectives;
         private readonly ICharacterDeleteQueue _characterDeleteQueue;
-        private readonly ICharacterUpdateRepository _characterUpdateRepository;
+        private readonly ICharacterUpdateQueue _characterUpdateRepository;
         private readonly UnitDeleteUseCase _deleteCharacter;
         private readonly IEncounterEndOutput _output;
 
         public EncounterFinalizeUseCase(IEncounterStateMachine stateMachine, ObjectiveFinalizeAllUseCase finalizeObjectives,
-                                   ICharacterDeleteQueue characterDeleteQueue, ICharacterUpdateRepository characterUpdateRepository,
+                                   ICharacterDeleteQueue characterDeleteQueue, ICharacterUpdateQueue characterUpdateRepository,
                                    UnitDeleteUseCase deleteCharacter, IEncounterEndOutput output)
         {
             _stateMachine = stateMachine;

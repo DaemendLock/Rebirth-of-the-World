@@ -103,9 +103,8 @@ namespace Combat.Local.Application.UseCases
 
         private void PostDamageEvent(DamageRecord @event)
         {
-            try
+            if (_unitStore.TryGet(@event.Target, out UnitContext target))
             {
-                UnitContext target = _unitStore.Get(@event.Target);
                 var statuses = target.Statuses.GetAll();
                 StatusId[] ids = ArrayPool<StatusId>.Shared.Rent(statuses.Count);
                 int i = 0;
@@ -124,32 +123,26 @@ namespace Combat.Local.Application.UseCases
                     ArrayPool<StatusId>.Shared.Return(ids);
                 }
             }
-            catch { }
 
-            if (@event.Attacker.HasValue)
+            if (@event.Attacker.HasValue && _unitStore.TryGet(@event.Attacker.Value, out var attacker))
             {
+                var attackerStatuses = attacker.Statuses.GetAll();
+                StatusId[] ids = ArrayPool<StatusId>.Shared.Rent(attackerStatuses.Count);
+                int i = 0;
+
+                foreach (var item in attackerStatuses)
+                {
+                    ids[i++] = item.Id;
+                }
+
                 try
                 {
-                    UnitContext attacker = _unitStore.Get(@event.Attacker.Value);
-                    var statuses = attacker.Statuses.GetAll();
-                    StatusId[] ids = ArrayPool<StatusId>.Shared.Rent(statuses.Count);
-                    int i = 0;
-
-                    foreach (var item in statuses)
-                    {
-                        ids[i++] = item.Id;
-                    }
-
-                    try
-                    {
-                        _damageResultHandler.NotifyDamageDealth(@event, ids.Take(i));
-                    }
-                    finally
-                    {
-                        ArrayPool<StatusId>.Shared.Return(ids);
-                    }
+                    _damageResultHandler.NotifyDamageDealth(@event, ids.Take(i));
                 }
-                catch { }
+                finally
+                {
+                    ArrayPool<StatusId>.Shared.Return(ids);
+                }
             }
         }
     }

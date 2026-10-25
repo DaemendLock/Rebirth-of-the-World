@@ -34,6 +34,8 @@ namespace Combat.Local.Gateways.Models
 
         public byte TeamId { get; set; }
 
+        public float Speed { get; set; }
+
         public Vector3 Velocity
         {
             get => _rigidbody.linearVelocity;

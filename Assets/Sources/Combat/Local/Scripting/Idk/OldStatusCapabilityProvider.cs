@@ -4,6 +4,8 @@ using Combat.Local.Scripting.Adapters;
 using Combat.Local.Scripting.Capabilities.Statuses;
 using Combat.Local.Scripting.IDK;
 
+using System;
+
 namespace Combat.Local.Scripting.Idk
 {
     public class OldStatusCapabilityProvider : IStatusCapabilityProvider
@@ -59,54 +61,64 @@ namespace Combat.Local.Scripting.Idk
             }
         }
 
-        public T GetCapability<T>() where T : class
+        public bool TryGetCapability<T>(out T capability) where T : class
         {
             if (typeof(T) == typeof(IStatusLifecycleCapability))
             {
-                return _lifecycleCapability as T;
+                capability = _lifecycleCapability as T;
+                return capability != null;
             }
 
             if (typeof(T) == typeof(IStatusTickCapability))
             {
-                return _tickCapability as T;
+                capability = _tickCapability as T;
+                return capability != null;
             }
 
             if (typeof(T) == typeof(IStatusHandleIncomingDamageCapability))
             {
-                return _handleIncomingDamageCapability as T;
+                capability = _handleIncomingDamageCapability as T;
+                return capability != null;
             }
 
             if (typeof(T) == typeof(IStatusHandleOutgoingDamageCapability))
             {
-                return _handleOutgoingDamageCapability as T;
+                capability = _handleOutgoingDamageCapability as T;
+                return capability != null;
             }
 
             if (typeof(T) == typeof(IStatusModifyOutgoingDamageCapability))
             {
-                return _modifyOutgoingDamageCapability as T;
+                capability = _modifyOutgoingDamageCapability as T;
+                return capability != null;
             }
 
             if (typeof(T) == typeof(IStatusModifyOutgoingHealingCapability))
             {
-                return _modifyOutgoingHealingCapability as T;
+                capability = _modifyOutgoingHealingCapability as T;
+                return capability != null;
             }
 
             if (typeof(T) == typeof(IStatusModifyIncomingDamageCapability))
             {
-                return _modifyIncomingDamageCapability as T;
+                capability = _modifyIncomingDamageCapability as T;
+                return capability != null;
             }
 
             if (typeof(T) == typeof(IStatusModifyAttributesCapability))
             {
-                return _modifyAttributesCapability as T;
+                capability = _modifyAttributesCapability as T;
+                return capability != null;
             }
 
             if (typeof(T) == typeof(IStatusModifyTimeScaleCapability))
             {
-                return _modifyTimeScaleCapability as T;
+                capability = _modifyTimeScaleCapability as T;
+                return capability != null;
             }
 
-            return null;
+            capability = null;
+            return false;
         }
     }
 }

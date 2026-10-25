@@ -8,14 +8,10 @@ namespace Temp.Domain.Implementations
     [Serializable]
     public class StatsTable
     {
-        public const int AttributesCount = (int)UnitAttribute.PARRY + 1;
+        public const int AttributesCount = (int)UnitAttribute.Endurance + 1;
 
         public static StatsTable UnitDefault => new(new AttributeValue[]
         {
-            new(0, 100),
-            new(0, 100),
-            new(0, 100),
-            new(0, 100),
             new(0, 100),
             new(0, 100),
             new(0, 100),

@@ -1,6 +1,7 @@
 using Combat.Common.Primitives;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.Queries.Statuses;
+using Combat.Local.Application.ValueObjects;
 using Combat.Local.Scripting.Capabilities.Statuses;
 using Combat.Local.Scripting.Runtime;
 
@@ -17,9 +18,11 @@ namespace Combat.Local.Scripting.Ports.Statuses
             _statusRuntimeRegistry = statusRuntimeRegistry;
         }
 
-        public AttributesBonuses Evaluate(IEnumerable<StatusId> values)
+        public StatusBonuses Evaluate(IEnumerable<StatusId> values)
         {
-            AttributesBonuses result = new();
+            AttributesBonuses attributes = new();
+            float timeScale = 1.0f;
+            AttributeModifcation movespeed = new();
 
             foreach (StatusId statusId in values)
             {
@@ -28,25 +31,26 @@ namespace Combat.Local.Scripting.Ports.Statuses
                     continue;
                 }
 
-                IStatusModifyAttributesCapability attributeEffect = runtime.Container.GetCapability<IStatusModifyAttributesCapability>();
-
-                if (attributeEffect != null)
+                if (runtime.Container.TryGetCapability(out IStatusModifyAttributesCapability attributeEffect))
                 {
                     AttributesBonuses modification = attributeEffect.GetModification();
-                    result.Attack += modification.Attack;
-                    result.Spellpower += modification.Spellpower;
-                    result.Speed += modification.Speed;
+                    attributes.Attack += modification.Attack;
+                    attributes.Spellpower += modification.Spellpower;
+                    attributes.Swiftness += modification.Swiftness;
                 }
 
-                IStatusModifyTimeScaleCapability timeScaleEffect = runtime.Container.GetCapability<IStatusModifyTimeScaleCapability>();
-
-                if (timeScaleEffect != null)
+                if (runtime.Container.TryGetCapability(out IStatusModifyTimeScaleCapability timeScaleEffect))
                 {
-                    result.TimeScale += timeScaleEffect.GetModification();
+                    timeScale += timeScaleEffect.GetModification();
+                }
+
+                if (runtime.Container.TryGetCapability(out IStatusModifyMovespeedCapability movespeedEffect))
+                {
+                    movespeed += movespeedEffect.GetModification();
                 }
             }
 
-            return result;
+            return new(attributes, timeScale, movespeed);
         }
     }
 }

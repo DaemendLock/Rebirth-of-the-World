@@ -8,7 +8,7 @@ namespace Combat.Domain.Entities
 {
     public readonly struct AttributesOwner
     {
-        public const int AttributeCount = (int)(UnitAttribute.PARRY + 1);
+        public const int AttributeCount = (int)(UnitAttribute.Endurance + 1);
 
         private readonly AttributeValue[] _baseValues;
         private readonly float?[] _cachedValues;
@@ -64,8 +64,12 @@ namespace Combat.Domain.Entities
         public readonly AttributeValue GetBaseValue(UnitAttribute attribute) => _baseValues[(int)attribute];
 
         public readonly float GetAttributeValue(UnitAttribute attribute) => this[attribute];
+
+        public readonly float GetSwiftnessMovespeedBonus() => GetAttributeValue(UnitAttribute.Swiftness);
+
         public readonly float GetHasteModifier() => 1f + GetAttributeValue(UnitAttribute.Haste) * 0.007f;
         public readonly float GetVersalityModifier() => 1f + GetAttributeValue(UnitAttribute.Versality) * 0.007f;
         public readonly float GetMaxHealthBonus() => GetAttributeValue(UnitAttribute.Endurance) * 10f;
+        public readonly float GetMaxComposureBonus() => GetAttributeValue(UnitAttribute.Endurance) * 0.3f;
     }
 }
