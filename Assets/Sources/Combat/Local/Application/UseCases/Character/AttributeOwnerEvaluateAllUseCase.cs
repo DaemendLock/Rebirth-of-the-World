@@ -3,6 +3,7 @@ using Combat.Domain.Entities;
 using Combat.Domain.Entities.Units;
 using Combat.Domain.Repositories;
 using Combat.Local.Application.DTO;
+using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.Queries.Statuses;
 using Combat.Local.Application.Repositories;
 using Combat.Local.Application.ValueObjects;
@@ -18,18 +19,20 @@ namespace Combat.Local.Application.UseCases
         private readonly ICharacterUpdateQueue _characterUpdateList;
         private readonly IAttributesModificationCalculator _statusAttributeCalculator;
         private readonly IPositionableRepository _positionableRepository;
+        private readonly ICharacterLocalTimeScaleOutput _characterLocalTimeScaleOutput;
 
-        public AttributeOwnerEvaluateAllUseCase(IUnitStore unitStore, ICharacterUpdateQueue characterUpdateList, IAttributesModificationCalculator statusAttributeCalculator, IPositionableRepository positionableRepository)
+        public AttributeOwnerEvaluateAllUseCase(IUnitStore unitStore, ICharacterUpdateQueue characterUpdateList, IAttributesModificationCalculator statusAttributeCalculator, IPositionableRepository positionableRepository, ICharacterLocalTimeScaleOutput characterLocalTimeScaleOutput)
         {
             _unitStore = unitStore;
             _characterUpdateList = characterUpdateList;
             _statusAttributeCalculator = statusAttributeCalculator;
             _positionableRepository = positionableRepository;
+            _characterLocalTimeScaleOutput = characterLocalTimeScaleOutput;
         }
 
         public Updatable[] Execute()
         {
-            Updatable[] targets = _characterUpdateList.GetAll().ToArray();
+            Updatable[] targets = _characterUpdateList.GetAll().Select(value => new Updatable(value, 1f)).ToArray();
 
             for (int i = 0; i < targets.Length; i++)
             {
@@ -58,19 +61,27 @@ namespace Combat.Local.Application.UseCases
                 }
 
                 float scale = Math.Max(1 + (finalModification.TimeScale / 100f), 0f);
-                _characterUpdateList.Update(new(target.Id, scale));
                 target = new(target.Id, scale);
 
-                unit.Health.BonusHealth = unit.Attributes.GetMaxHealthBonus();
-                unit.Composure.BonusComposure = unit.Attributes.GetMaxComposureBonus();
+                ApplyBonuses(unit, finalModification);
 
-                AttributeModifcation movespeedBonus = finalModification.Movespeed;
-                Positionable positionable = _positionableRepository.Get(target.Id);
-                positionable.Speed = (unit.Actor.BaseMovespeed + unit.Attributes.GetSwiftnessMovespeedBonus() + movespeedBonus.BaseValue) * (1 + movespeedBonus.Percent / 100) + movespeedBonus.BonusValue;
-                _positionableRepository.Update(positionable);
+                _characterLocalTimeScaleOutput.Present(unit.Id, scale);
             }
 
             return targets;
+        }
+
+        private void ApplyBonuses(UnitContext unit, StatusBonuses modification)
+        {
+            float endurance = unit.Attributes.GetAttributeValue(UnitAttribute.Endurance);
+            unit.Health.BonusHealth = unit.Attributes.GetMaxHealthBonus();
+            unit.Composure.BonusComposure = unit.Attributes.GetMaxComposureBonus();
+            unit.Composure.BaseDrainModifier = 1 + (endurance * 0.002f);
+
+            AttributeModifcation movespeedBonus = modification.Movespeed;
+            Positionable positionable = _positionableRepository.Get(unit.Id);
+            positionable.Speed = (unit.Actor.BaseMovespeed + unit.Attributes.GetSwiftnessMovespeedBonus() + movespeedBonus.BaseValue) * (1 + movespeedBonus.Percent / 100) + movespeedBonus.BonusValue;
+            _positionableRepository.Update(positionable);
         }
     }
 }

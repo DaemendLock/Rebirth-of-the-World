@@ -15,8 +15,6 @@ namespace Combat.Local.Application.UseCases.Scene
         private readonly IUnitStore _unitStore;
         private readonly IPositionableRepository _positionableRepository;
         private readonly ICharacterUpdateQueue _characterUpdateList;
-        private readonly IMovementEffectOwnerRepository _movementEffectOwnerRepository;
-        private readonly IScaleEffectOwnerRepository _scaleEffectOwnerRepository;
 
         private readonly IHurtableRepository _hurtableRepository;
         private readonly IHitboxOwnerRepository _hitboxOwnerRepository;
@@ -36,7 +34,7 @@ namespace Combat.Local.Application.UseCases.Scene
                                       ICharacterUpdateQueue characterUpdateList, IHurtableRepository hurtableRepository,
                                       IHitboxOwnerRepository hitboxOwnerRepository, IStatusTimerRepository statusTimerRepository,
                                       ISkillLyfecycleHandler skillLyfecycleHandler, IStatusLifecycleHandler statusLifecycleHandler,
-                                      IMovementEffectOwnerRepository movementEffectOwnerRepository, IScaleEffectOwnerRepository scaleEffectOwnerRepository, PlayerSession playerSession, ICharacterDeleteQueue characterDeleteQueue)
+                                      PlayerSession playerSession, ICharacterDeleteQueue characterDeleteQueue)
         {
             _unitStore = unitStore;
             _positionableRepository = positionableRepository;
@@ -46,8 +44,6 @@ namespace Combat.Local.Application.UseCases.Scene
             _statusTimerRepository = statusTimerRepository;
             _skillLyfecycleHandler = skillLyfecycleHandler;
             _statusLifecycleHandler = statusLifecycleHandler;
-            _movementEffectOwnerRepository = movementEffectOwnerRepository;
-            _scaleEffectOwnerRepository = scaleEffectOwnerRepository;
             _playerSession = playerSession;
             _characterDeleteQueue = characterDeleteQueue;
         }
@@ -98,8 +94,6 @@ namespace Combat.Local.Application.UseCases.Scene
 
             _hitboxOwnerRepository.Delete(target);
             _hurtableRepository.Delete(target);
-            _movementEffectOwnerRepository.Delete(target);
-            _scaleEffectOwnerRepository.Delete(target);
             _unitStore.Delete(target);
             _characterUpdateList.Delete(target);
 
@@ -112,8 +106,6 @@ namespace Combat.Local.Application.UseCases.Scene
         private readonly IUnitStore _unitStore;
         private readonly IPositionableRepository _positionableRepository;
         private readonly ICharacterUpdateQueue _characterUpdateList;
-        private readonly IMovementEffectOwnerRepository _movementEffectOwnerRepository;
-        private readonly IScaleEffectOwnerRepository _scaleEffectOwnerRepository;
 
         private readonly IHurtableRepository _hurtableRepository;
         private readonly IHitboxOwnerRepository _hitboxOwnerRepository;
@@ -131,7 +123,7 @@ namespace Combat.Local.Application.UseCases.Scene
                                       ICharacterUpdateQueue characterUpdateList, IHurtableRepository hurtableRepository,
                                       IHitboxOwnerRepository hitboxOwnerRepository, IStatusTimerRepository statusTimerRepository,
                                       ISkillLyfecycleHandler skillLyfecycleHandler, IStatusLifecycleHandler statusLifecycleHandler,
-                                      IMovementEffectOwnerRepository movementEffectOwnerRepository, IScaleEffectOwnerRepository scaleEffectOwnerRepository, PlayerSession playerSession)
+                                       PlayerSession playerSession)
         {
             _unitStore = unitStore;
             _positionableRepository = positionableRepository;
@@ -141,8 +133,6 @@ namespace Combat.Local.Application.UseCases.Scene
             _statusTimerRepository = statusTimerRepository;
             _skillLyfecycleHandler = skillLyfecycleHandler;
             _statusLifecycleHandler = statusLifecycleHandler;
-            _movementEffectOwnerRepository = movementEffectOwnerRepository;
-            _scaleEffectOwnerRepository = scaleEffectOwnerRepository;
             _playerSession = playerSession;
         }
 
@@ -184,8 +174,6 @@ namespace Combat.Local.Application.UseCases.Scene
 
             _hitboxOwnerRepository.Delete(target);
             _hurtableRepository.Delete(target);
-            _movementEffectOwnerRepository.Delete(target);
-            _scaleEffectOwnerRepository.Delete(target);
             _unitStore.Delete(target);
             _characterUpdateList.Delete(target);
 

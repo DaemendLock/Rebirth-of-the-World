@@ -5,14 +5,16 @@ using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.UseCases;
 using Combat.Local.Application.ValueObjects;
 using Combat.Local.Presentation.Providers;
+using Combat.Local.Presentation.Views;
 
 using DaeAnimator;
 
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 namespace Combat.Local.Presentation.Presenters
 {
-    public class CharacterPresenter : IHealthOutput, IGiveResourceOutput, ISpendResourceOutput, ICharacterConsciousStateOutput
+    public class CharacterPresenter : IHealthOutput, IGiveResourceOutput, ISpendResourceOutput, ICharacterConsciousStateOutput, ICharacterLocalTimeScaleOutput, ICharacterForcedMovementOutput, ICharacterScaleOverTimeOutput
     {
         private readonly ITransformProvider _transforms;
 
@@ -63,6 +65,31 @@ namespace Combat.Local.Presentation.Presenters
         void IHealthOutput.Present(DamageInstance value)
         {
             Debug.Log($"Damage taken by {value.Target}: {value.HealthDamage} health, {value.ComposureDamage} composure; With {value.Source?.Skill} from {value.Source?.Owner}");
+        }
+
+        void ICharacterLocalTimeScaleOutput.Present(UnitId target, float timeScale)
+        {
+            if (_transforms.TryGet(target, out Transform model) && model.TryGetComponent(out CharacterViewComponent view))
+            {
+                view.TimeScale = timeScale;
+            }
+        }
+
+        void ICharacterForcedMovementOutput.Present(UnitId target, System.Numerics.Vector3 directionalVelocity, System.Numerics.Vector3 relativeVelocity)
+        {
+            if (_transforms.TryGet(target, out Transform model) && model.TryGetComponent(out MovableViewComponent view))
+            {
+                view.DirectionalVelocity = new(directionalVelocity.X, directionalVelocity.Y, directionalVelocity.Z);
+                view.RelativeVelocity = new(relativeVelocity.X, relativeVelocity.Y, relativeVelocity.Z);
+            }
+        }
+
+        void ICharacterScaleOverTimeOutput.Present(UnitId target, float scaleRate)
+        {
+            if (_transforms.TryGet(target, out Transform model) && model.TryGetComponent(out ScalableViewComponent view))
+            {
+                view.Rate = scaleRate;
+            }
         }
     }
 }

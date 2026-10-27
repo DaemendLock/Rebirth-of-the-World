@@ -3,6 +3,8 @@ using Combat.Common.Flags;
 using Combat.Common.Primitives;
 using Combat.Local.Application.DTO;
 
+using System.Numerics;
+
 namespace Combat.Local.Application.OutputPorts
 {
     public interface ICharacterDeathHandler
@@ -22,6 +24,11 @@ namespace Combat.Local.Application.OutputPorts
         void Release(UnitId target);
 
         void Clear(UnitId unit);
+    }
+
+    public interface ICharacterForcedMovementOutput
+    {
+        void Present(UnitId target, Vector3 directionalVelocity, Vector3 relativeVelocity);
     }
 
     public readonly ref struct ActionUpdateInfo

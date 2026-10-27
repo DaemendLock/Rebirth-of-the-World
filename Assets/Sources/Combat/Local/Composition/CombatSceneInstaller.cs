@@ -77,8 +77,6 @@ namespace Combat.Local.Composition
             Container.Bind<IUnitStore>().To<UnitStore>().AsSingle();
             Container.Bind<IStatusTimerRepository>().To<StatusTimerRepository>().AsSingle();
             Container.Bind<ICharacterUpdateQueue>().To<UpdateTargetRepository>().AsSingle();
-            Container.Bind<IMovementEffectOwnerRepository>().To<MovementEffectOwnerRepository>().AsSingle();
-            Container.Bind<IScaleEffectOwnerRepository>().To<ScaleEffectOwnerRepository>().AsSingle();
             Container.Bind<ISkillDynamicMemoryRepository>().To<FixedSizeArraySkillMemoryRepository>().AsSingle();
             Container.Bind<IStatusDynamicMemoryRepository>().To<FixedSizeArrayStatusMemoryRepository>().AsSingle();
             Container.Bind<IObjectiveDynamicMemoryRepository>().To<FixedSizeArrayObjectiveMemoryRepository>().AsSingle();
@@ -222,6 +220,9 @@ namespace Combat.Local.Composition
             Container.Bind<ISpendResourceOutput>().To<CharacterPresenter>().FromResolve();
             Container.Bind<IHealthOutput>().To<CharacterPresenter>().FromResolve();
             Container.Bind<ICharacterConsciousStateOutput>().To<CharacterPresenter>().FromResolve();
+            Container.Bind<ICharacterLocalTimeScaleOutput>().To<CharacterPresenter>().FromResolve();
+            Container.Bind<ICharacterForcedMovementOutput>().To<CharacterPresenter>().FromResolve();
+            Container.Bind<ICharacterScaleOverTimeOutput>().To<CharacterPresenter>().FromResolve();
             Container.Bind<IActorActionUpdateOutput>().To<ActorUpdatePresenter>().AsSingle();
 
             Container.Bind<IDesireCastOutput>().To<PlayerPresenter>().FromResolve();

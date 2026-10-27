@@ -123,13 +123,12 @@ namespace Combat.Local.Application.UseCases
         private void Move(UnitContext unit)
         {
             UnityEngine.Vector2 relativeDirection = new(unit.Actor.DesiredActions.MovementDirection.X, unit.Actor.DesiredActions.MovementDirection.Y);
-            Positionable positionable = _positionableRepository.Get(unit.Id);
 
             if (unit.Actor.CanMove == false || unit.LifeState.State == ConsciousState.Dead)
             {
-                UnityEngine.Vector3 velocity = positionable.Velocity;
-                positionable.Velocity = new UnityEngine.Vector3(0, velocity.y, 0);
-                _positionableRepository.Update(positionable);
+                //UnityEngine.Vector3 velocity = positionable.Velocity;
+                //positionable.Velocity = new UnityEngine.Vector3(0, velocity.y, 0);
+                //_positionableRepository.Update(positionable);
                 return;
             }
 
@@ -138,10 +137,12 @@ namespace Combat.Local.Application.UseCases
                 relativeDirection = relativeDirection.normalized;
             }
 
+            Positionable positionable = _positionableRepository.Get(unit.Id);
             float speed = positionable.Speed;
 
             UnityEngine.Vector3 oldSpeed = positionable.Velocity;
-            positionable.Velocity = (positionable.Rotation * new UnityEngine.Vector3(relativeDirection.x, 0, relativeDirection.y) * speed) + new UnityEngine.Vector3(0, oldSpeed.y, 0);
+            positionable.Velocity =
+                (positionable.Rotation * new UnityEngine.Vector3(relativeDirection.x, 0, relativeDirection.y) * speed) + new UnityEngine.Vector3(0, oldSpeed.y, 0);
             _positionableRepository.Update(positionable);
         }
 

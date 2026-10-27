@@ -67,9 +67,10 @@ namespace Combat.Domain.Entities
 
         public readonly float GetSwiftnessMovespeedBonus() => GetAttributeValue(UnitAttribute.Swiftness);
 
-        public readonly float GetHasteModifier() => 1f + GetAttributeValue(UnitAttribute.Haste) * 0.007f;
+        public readonly float GetHasteModifier() => 1f + GetAttributeValue(UnitAttribute.Haste) * 0.004f;
         public readonly float GetVersalityModifier() => 1f + GetAttributeValue(UnitAttribute.Versality) * 0.007f;
         public readonly float GetMaxHealthBonus() => GetAttributeValue(UnitAttribute.Endurance) * 10f;
         public readonly float GetMaxComposureBonus() => GetAttributeValue(UnitAttribute.Endurance) * 0.3f;
+        public readonly float GetEnduranceDrainModifier() => 1 + GetAttributeValue(UnitAttribute.Endurance) / 150f;
     }
 }

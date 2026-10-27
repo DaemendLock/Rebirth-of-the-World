@@ -1,5 +1,4 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Domain.Entities.Units;
 
 using System.Collections.Generic;
 
@@ -13,9 +12,8 @@ namespace Combat.Local.Application.Repositories
 
     public interface ICharacterUpdateQueue
     {
-        void Create(Updatable value);
-        void Update(Updatable value);
-        IEnumerable<Updatable> GetAll();
+        void Add(UnitId value);
+        IReadOnlyCollection<UnitId> GetAll();
         void Delete(UnitId id);
     }
 }

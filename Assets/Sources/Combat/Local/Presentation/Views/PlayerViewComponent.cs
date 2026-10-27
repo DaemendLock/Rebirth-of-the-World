@@ -1,6 +1,4 @@
-﻿using Combat.Common.Primitives;
-
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Combat.Local.Presentation.Views
 {

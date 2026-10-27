@@ -82,7 +82,7 @@ namespace Combat.Local.Application.UseCases.Scene
 
             foreach (var target in _characterUpdateRepository.GetAll().ToArray())
             {
-                targets.Add(target.Id);
+                targets.Add(target);
             }
 
             List<Exception> errors = null;

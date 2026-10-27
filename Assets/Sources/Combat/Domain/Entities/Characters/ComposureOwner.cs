@@ -27,6 +27,7 @@ namespace Combat.Domain.Entities
             Default = defaultHealth;
             _bonus = bonus;
             _healingCooldown = 0f;
+            BaseDrainModifier = 1f;
         }
 
         public UnitId Id { get; }
@@ -74,6 +75,8 @@ namespace Combat.Domain.Entities
             readonly get => _healingCooldown;
             set => _healingCooldown = System.Math.Max(value, 0);
         }
+
+        public float BaseDrainModifier { get; set; }
 
         public void TakeDamage(float damage)
         {

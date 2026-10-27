@@ -1,21 +1,29 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Local.Application.OutputPorts;
-using Combat.Local.Application.Repositories;
 using Combat.Local.Presentation.Providers;
-
-using UnityEngine;
+using Combat.Local.Presentation.Views;
 
 namespace Combat.Local.Presentation.Presenters
 {
     public class ScenePresenter : ICharacterCreateOutput, ICharacterRemoveOutput
     {
-        public ScenePresenter()
+        private readonly ITransformProvider _transformProvider;
+
+        public ScenePresenter(ITransformProvider transformProvider)
         {
+            _transformProvider = transformProvider;
         }
 
         void ICharacterCreateOutput.Present(UnitId value)
         {
             UnityEngine.Debug.Log($"Character created: Id - {value}");
+
+            if (_transformProvider.TryGet(value, out var transform))
+            {
+                transform.gameObject.AddComponent<CharacterViewComponent>();
+                transform.gameObject.AddComponent<MovableViewComponent>();
+                transform.gameObject.AddComponent<ScalableViewComponent>();
+            }
         }
 
         void ICharacterRemoveOutput.Present(UnitId value)

@@ -61,6 +61,8 @@ namespace Combat.Local.Gateways.Repositories.Characters
             result.Velocity = value.Velocity;
             result.TeamId = value.Team.Value;
             result.Speed = value.Speed;
+            result.ForcedMovements = value.MovementEffects;
+            result.ScaleEffects = value.ScaleEffects;
 
             _values.Add(value.Id, result);
         }
@@ -78,7 +80,9 @@ namespace Combat.Local.Gateways.Repositories.Characters
                 return default;
             }
 
-            return new(id, model.transform.position, model.transform.rotation, model.transform.localScale.x, model.LookDirection, model.ModelName, model.Velocity, new(model.TeamId))
+            return new(id,
+                model.transform.position, model.transform.rotation, model.transform.localScale.x,
+                model.LookDirection, model.ModelName, model.Velocity, new(model.TeamId), model.ForcedMovements, model.ScaleEffects)
             {
                 Speed = model.Speed
             };

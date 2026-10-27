@@ -1,4 +1,8 @@
 ﻿using Combat.Common.Primitives;
+using Combat.Domain.Entities.Units;
+using Combat.Local.Application.ValueObjects;
+
+using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -41,5 +45,9 @@ namespace Combat.Local.Gateways.Models
             get => _rigidbody.linearVelocity;
             set => _rigidbody.linearVelocity = value;
         }
+
+        public List<MoveInDirectionEffect> ForcedMovements { get; set; }
+
+        public List<ScaleOverTimeEffect> ScaleEffects { get; set; }
     }
 }
