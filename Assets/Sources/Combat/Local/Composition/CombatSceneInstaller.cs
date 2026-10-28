@@ -106,7 +106,7 @@ namespace Combat.Local.Composition
         }
         private void BindUseCases()
         {
-            Container.Bind<AttributeOwnerEvaluateAllUseCase>().AsSingle();
+            Container.Bind<TickEvaluateAllUseCase>().AsSingle();
 
             Container.Bind<UnitCreateUseCase>().AsSingle();
             Container.Bind<UnitDeleteUseCase>().AsSingle();

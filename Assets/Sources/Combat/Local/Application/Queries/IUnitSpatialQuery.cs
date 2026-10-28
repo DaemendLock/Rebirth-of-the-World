@@ -12,6 +12,8 @@ namespace Combat.Local.Application.Queries
     {
         IReadOnlyCollection<UnitId> FindInRadius(Vector3 center, float radius);
         IReadOnlyCollection<UnitId> FindInCone(Vector3 origin, Quaternion direction, float angle, float maxDistance);
+
+        (Vector3 Position, Quaternion Rotation) GetPositionAndRotation(UnitId target);
     }
 
     public interface IHitRecordQueue

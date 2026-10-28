@@ -87,6 +87,7 @@ namespace Combat.Local.Application.UseCases.Scene
             _characterUpdateList.Delete(target);
 
             _positionableRepository.Delete(target);
+            _outputPort.Present(target);
         }
     }
 }

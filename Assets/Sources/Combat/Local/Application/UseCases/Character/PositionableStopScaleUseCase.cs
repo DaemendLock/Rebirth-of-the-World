@@ -1,8 +1,7 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Domain.Entities;
 using Combat.Domain.Entities.Units;
+using Combat.Domain.Repositories;
 using Combat.Local.Application.Factories;
-using Combat.Local.Application.Repositories;
 
 namespace Combat.Local.Application.UseCases
 {
@@ -14,40 +13,42 @@ namespace Combat.Local.Application.UseCases
     public sealed class PositionableStartScaleUseCase
     {
         private readonly ScaleEffectFactory _factory;
-        private readonly IPositionableRepository _repository;
+        private readonly IUnitStore _unitStore;
         private readonly ICharacterScaleOverTimeOutput _output;
 
-        public PositionableStartScaleUseCase(ScaleEffectFactory factory, IPositionableRepository repository)
+        public PositionableStartScaleUseCase(ScaleEffectFactory factory, IUnitStore unitStore, ICharacterScaleOverTimeOutput output)
         {
             _factory = factory;
-            _repository = repository;
+            _unitStore = unitStore;
+            _output = output;
         }
 
         public ScaleEffectId Execute(UnitId target, float rate)
         {
-            Positionable positionable = _repository.Get(target);
+            var unit = _unitStore.Get(target);
             ScaleOverTimeEffect effect = _factory.Create(target, rate);
-            positionable.StartScaleOverTime(effect);
-            _output.Present(target, positionable.GetScaleRate());
+            unit.Positionable.StartScaleOverTime(effect);
+            _output.Present(target, unit.Positionable.GetScaleRate());
             return effect.Id;
         }
     }
 
     public sealed class PositionableStopScaleUseCase
     {
-        private readonly IPositionableRepository _repository;
+        private readonly IUnitStore _unitStore;
         private readonly ICharacterScaleOverTimeOutput _output;
 
-        public PositionableStopScaleUseCase(IPositionableRepository repository)
+        public PositionableStopScaleUseCase(IUnitStore unitStore, ICharacterScaleOverTimeOutput output)
         {
-            _repository = repository;
+            _unitStore = unitStore;
+            _output = output;
         }
 
         public void Execute(ScaleEffectId effectId)
         {
-            Positionable positionable = _repository.Get(effectId.OwnerId);
-            positionable.StopScaleOverTime(effectId);
-            _output.Present(positionable.Id, positionable.GetScaleRate());
+            var unit = _unitStore.Get(effectId.OwnerId);
+            unit.Positionable.StopScaleOverTime(effectId);
+            _output.Present(unit.Id, unit.Positionable.GetScaleRate());
         }
     }
 }

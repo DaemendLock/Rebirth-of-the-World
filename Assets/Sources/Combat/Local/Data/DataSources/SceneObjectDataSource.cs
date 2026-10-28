@@ -3,6 +3,7 @@ using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Factories;
 using Combat.Local.Gateways.Models;
 using Combat.Local.Presentation.Providers;
+using Combat.Local.Presentation.Views;
 
 using Data.Levels;
 
@@ -77,17 +78,6 @@ namespace Combat.Local.Data.DataSources
             _values[entityId] = transform;
         }
 
-        public Transform GetOrCreate(UnitId id)
-        {
-            if (_values.TryGetValue(id, out Transform value) == false)
-            {
-                value = new GameObject(id.ToString()).transform;
-                _values[id] = value;
-            }
-
-            return value;
-        }
-
         public void Destroy(UnitId id)
         {
             if (_values.Remove(id, out Transform value) == false)
@@ -98,9 +88,7 @@ namespace Combat.Local.Data.DataSources
             UnityEngine.Object.Destroy(value.gameObject);
         }
 
-        public bool TryGet(UnitId id, out Transform model) => _values.TryGetValue(id, out model);
-
-        public bool TryGetValue(UnitId entityId, out Transform result) => _values.TryGetValue(entityId, out result);
+        public bool TryGet(UnitId id, out Transform model) => _values.TryGetValue(id, out model) && model != null;
 
         public IReadOnlyCollection<UnitId> FindCharactersInRadius(Vector3 origin, float radius)
         {
@@ -109,7 +97,7 @@ namespace Combat.Local.Data.DataSources
 
             for (int i = 0; i < count; i++)
             {
-                if (_buffer[i].attachedRigidbody.TryGetComponent(out CharacterModelComponent view))
+                if (_buffer[i].attachedRigidbody.TryGetComponent(out CharacterView view))
                 {
                     result.Add(view.Id);
                 }

@@ -7,6 +7,7 @@ using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
 using Combat.Local.Controllers;
 using Combat.Local.Gateways.Models;
+using Combat.Local.Presentation.Views;
 using Combat.Local.Scripting.Adapters;
 
 using UnityEngine;
@@ -53,7 +54,7 @@ namespace Testing.Local
                 return;
             }
 
-            CharacterModelComponent model = hit.collider.GetComponentInParent<CharacterModelComponent>();
+            CharacterView model = hit.collider.GetComponentInParent<CharacterView>();
 
             if (model == null)
             {

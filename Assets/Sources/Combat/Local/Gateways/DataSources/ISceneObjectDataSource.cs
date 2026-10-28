@@ -23,14 +23,13 @@ namespace Combat.Local.Gateways.DataSources
     {
         Scene? Scene { get; set; }
 
-        Transform GetOrCreate(UnitId id);
+        void Register(UnitId entityId, Transform transform);
         void Destroy(UnitId id);
         bool TryGet(UnitId id, out Transform model);
 
         IReadOnlyCollection<UnitId> FindCharactersInRadius(Vector3 location, float radius);
 
         IReadOnlyCollection<UnitId> FindCharactersInCone(Vector3 origin, Quaternion direction, float angle, float maxDistance);
-        void Register(UnitId entityId, Transform transform);
 
         SpawnpointModel[] GetSpawnpoints();
     }

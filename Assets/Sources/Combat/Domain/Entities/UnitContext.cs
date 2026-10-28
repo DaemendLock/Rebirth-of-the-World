@@ -11,6 +11,7 @@ namespace Combat.Domain.Entities
         public HealthOwner Health;
         public ComposureOwner Composure;
         public LifeStateOwner LifeState;
+        public Positionable Positionable;
         public Actor Actor;
         public AttributesOwner Attributes;
         public ResourceOwner Resources;
@@ -30,6 +31,7 @@ namespace Combat.Domain.Entities
             Skills = new(id);
             Statuses = new(id);
             Equipment = new(id, new ItemSlot?[Enum.GetValues(typeof(EquipmentSlotType)).Length]);
+            Positionable = new(id, default, default, 1f, default, default, default, null, null);
         }
 
         public UnitId Id { get; }

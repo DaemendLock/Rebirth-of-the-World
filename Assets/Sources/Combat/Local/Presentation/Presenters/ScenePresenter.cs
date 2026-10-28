@@ -3,6 +3,8 @@ using Combat.Local.Application.OutputPorts;
 using Combat.Local.Presentation.Providers;
 using Combat.Local.Presentation.Views;
 
+using UnityEngine;
+
 namespace Combat.Local.Presentation.Presenters
 {
     public class ScenePresenter : ICharacterCreateOutput, ICharacterRemoveOutput
@@ -29,6 +31,11 @@ namespace Combat.Local.Presentation.Presenters
         void ICharacterRemoveOutput.Present(UnitId value)
         {
             UnityEngine.Debug.Log($"Character removed: Id - {value}");
+
+            if (_transformProvider.TryGet(value, out var transform))
+            {
+                Object.Destroy(transform.gameObject);
+            }
         }
     }
 }

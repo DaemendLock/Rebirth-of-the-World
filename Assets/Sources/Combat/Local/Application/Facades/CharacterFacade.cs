@@ -65,12 +65,12 @@ namespace Combat.Local.Application.Facades
 
         public bool HasStatus(UnitId target, StatusType statusName) => _findStatusUseCase.FindStatus(target, statusName).HasValue;
 
-        public Team GetTeam(UnitId target) => _positionableRepository.Get(target).Team;
+        public Team GetTeam(UnitId target) => _unitStore.Get(target).Positionable.Team;
 
         public PositionDTO GetPosition(UnitId target)
         {
-            Positionable value = _positionableRepository.Get(target);
-            return new(value.Position, value.Rotation, value.Scale, value.ModelName);
+            UnitContext value = _unitStore.Get(target);
+            return new(value.Positionable.Position, value.Positionable.Rotation, value.Positionable.Scale, value.Positionable.ModelName);
         }
 
         public void ApplyStatus(UnitId target, StatusType name, int stackCount, float duration, AbilityKey? source)

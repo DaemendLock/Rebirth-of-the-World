@@ -2,14 +2,13 @@
 using Combat.Domain.Entities.Units;
 using Combat.Local.Application.ValueObjects;
 
-using System;
 using System.Collections.Generic;
 
 using UnityEngine;
 
 namespace Combat.Domain.Entities
 {
-    public ref struct Positionable
+    public struct Positionable
     {
         public readonly List<MoveInDirectionEffect> MovementEffects;
         public readonly List<ScaleOverTimeEffect> ScaleEffects;
@@ -33,9 +32,9 @@ namespace Combat.Domain.Entities
 
         public float Speed { get; set; }
 
-        public Vector3 Position { get; set; }
+        public Vector3 Position { get; }
 
-        public Quaternion Rotation { get; set; }
+        public Quaternion Rotation { get; }
 
         public Quaternion LookDirection { get; set; }
 
@@ -104,6 +103,9 @@ namespace Combat.Domain.Entities
             return result;
         }
 
-        public bool StopScaleOverTime(ScaleEffectId effectId) => ScaleEffects.RemoveAll(value => value.Id == effectId) > 0;
+        public readonly bool StopScaleOverTime(ScaleEffectId effectId) => ScaleEffects.RemoveAll(value => value.Id == effectId) > 0;
+
+        public readonly Positionable With(Vector3 position, Quaternion rotation) =>
+            new(Id, position, rotation, Scale, LookDirection, ModelName, Team, MovementEffects, ScaleEffects);
     }
 }

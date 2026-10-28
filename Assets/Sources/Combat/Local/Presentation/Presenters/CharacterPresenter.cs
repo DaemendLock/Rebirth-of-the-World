@@ -91,5 +91,13 @@ namespace Combat.Local.Presentation.Presenters
                 view.ScaleRate = scaleRate;
             }
         }
+
+        void ICharacterMotionOutput.Rotate(UnitId target, float angle)
+        {
+            if (_transforms.TryGet(target, out Transform model) && model.TryGetComponent(out PositionableView view))
+            {
+                view.transform.rotation *= Quaternion.Euler(0, angle, 0);
+            }
+        }
     }
 }

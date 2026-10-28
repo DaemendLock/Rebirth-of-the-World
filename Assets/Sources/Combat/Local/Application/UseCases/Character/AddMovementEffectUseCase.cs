@@ -3,7 +3,6 @@ using Combat.Common.Primitives;
 using Combat.Domain.Entities;
 using Combat.Domain.Repositories;
 using Combat.Local.Application.OutputPorts;
-using Combat.Local.Application.Repositories;
 using Combat.Local.Application.ValueObjects;
 
 using UnityEngine;
@@ -13,12 +12,10 @@ namespace Combat.Local.Application.UseCases
     public sealed class AddMovementEffectUseCase
     {
         private readonly IUnitStore _unitStore;
-        private readonly IPositionableRepository _repository;
         private readonly ICharacterMotionOutput _output;
 
-        public AddMovementEffectUseCase(IPositionableRepository repository, ICharacterMotionOutput output, IUnitStore unitStore)
+        public AddMovementEffectUseCase(ICharacterMotionOutput output, IUnitStore unitStore)
         {
-            _repository = repository;
             _output = output;
             _unitStore = unitStore;
         }
@@ -26,17 +23,17 @@ namespace Combat.Local.Application.UseCases
         //TODO: DTO
         public void Execute(UnitId targetId, Vector3 direction, float speed, bool relative, float maxDuration)
         {
-            var positionable = _repository.Get(targetId);
+            UnitContext unit = _unitStore.Get(targetId);
 
             Vector3 vector = direction.normalized * speed;
 
             MoveInDirectionEffect effect = new(new(vector.x, vector.y, vector.z), relative, maxDuration);
-            positionable.ApplyForcedMovement(effect);
-            var (Directional, Relative) = positionable.GetForcedVelocity();
-            _output.Present(targetId, Directional, Relative, GetDesiredVelocity(_unitStore.Get(targetId), positionable));
+            unit.Positionable.ApplyForcedMovement(effect);
+            var (Directional, Relative) = unit.Positionable.GetForcedVelocity();
+            _output.Present(targetId, Directional, Relative, GetDesiredVelocity(unit));
         }
 
-        private System.Numerics.Vector3 GetDesiredVelocity(UnitContext unit, Positionable positionable)
+        private System.Numerics.Vector3 GetDesiredVelocity(UnitContext unit)
         {
             if (unit.Actor.CanMove == false || unit.LifeState.State == ConsciousState.Dead)
             {
@@ -53,7 +50,7 @@ namespace Combat.Local.Application.UseCases
                 desiredDirection = desiredDirection.normalized;
             }
 
-            float speed = positionable.Speed;
+            float speed = unit.Positionable.Speed;
             var velocity = new UnityEngine.Vector3(desiredDirection.x, 0, desiredDirection.y) * speed;
             return new(velocity.x, velocity.y, velocity.z);
         }

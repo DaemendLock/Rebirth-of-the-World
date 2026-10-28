@@ -16,7 +16,7 @@ namespace Testing.Local
         private readonly SkillOwnerProgressAllUseCase _skillUpdateAllUseCase;
         private readonly ComposureRecoverAllUseCase _composureUpdateAllUseCase;
         private readonly ActorProgressAllUseCase _actorUpdateAllUseCase;
-        private readonly AttributeOwnerEvaluateAllUseCase _attributeOwnerUpdateAllUseCase;
+        private readonly TickEvaluateAllUseCase _attributeOwnerUpdateAllUseCase;
         private readonly LifeStateEvaluateAllUseCase _updateConsciousStateAllUseCase;
         private readonly HitsHandleUseCase _handleHitUseCase;
         private readonly ICharacterDeleteQueue _characterDeleteQueue;
@@ -29,7 +29,7 @@ namespace Testing.Local
 
         private readonly IInputQueue _inputQueue;
 
-        public UpdateController(AttributeOwnerEvaluateAllUseCase updateCombatUseCase,
+        public UpdateController(TickEvaluateAllUseCase updateCombatUseCase,
                                 StatusOwnerProgressAllUseCases updateStatusesUseCase,
                                 HitsHandleUseCase handleHitUseCase,
                                 ActorProgressAllUseCase actorActAllUseCase,

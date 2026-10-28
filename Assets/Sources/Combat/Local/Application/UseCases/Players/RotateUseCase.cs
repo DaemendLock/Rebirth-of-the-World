@@ -1,22 +1,22 @@
-﻿using Combat.Common.Primitives;
+﻿using Combat.Common;
+using Combat.Common.Primitives;
 using Combat.Domain.Entities;
-using Combat.Common;
-using Combat.Local.Application.Repositories;
+using Combat.Domain.Repositories;
+using Combat.Local.Application.OutputPorts;
 
 using UnityEngine;
-using Combat.Domain.Repositories;
 
 namespace Combat.Local.Application.UseCases
 {
     public class RotateUseCase
     {
-        private readonly IPositionableRepository _positionableRepository;
         private readonly IUnitStore _unitStore;
+        private readonly ICharacterMotionOutput _characterMotionOutput;
 
-        public RotateUseCase(IPositionableRepository positionableRepository, IUnitStore unitStore)
+        public RotateUseCase(IUnitStore unitStore, ICharacterMotionOutput characterMotionOutput)
         {
-            _positionableRepository = positionableRepository;
             _unitStore = unitStore;
+            _characterMotionOutput = characterMotionOutput;
         }
 
         public void Execute(UnitId target, Vector2 angles)
@@ -28,9 +28,7 @@ namespace Combat.Local.Application.UseCases
                 return;
             }
 
-            Positionable positionable = _positionableRepository.Get(target);
-            positionable.Rotation *= Quaternion.Euler(0, angles.x, 0);
-            _positionableRepository.Update(positionable);
+            _characterMotionOutput.Rotate(target, angles.x);
         }
     }
 }

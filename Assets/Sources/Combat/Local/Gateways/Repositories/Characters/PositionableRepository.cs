@@ -12,97 +12,29 @@ using UnityEngine;
 
 namespace Combat.Local.Gateways.Repositories.Characters
 {
-    public sealed class CharacterData
-    {
-        public Transform Transform { get; set; }
-
-        public float LocalTimeScale { get; set; }
-
-        public byte TeamId { get; set; }
-    }
-
     public sealed class PositionableRepository : IPositionableRepository, IUnitSpatialQuery
     {
-        private readonly Dictionary<UnitId, CharacterModelComponent> _values;
         private readonly ISceneObjectDataSource _sceneObjectDataSource;
         private readonly CharacterModelFactory _characterModelFactory;
 
         public PositionableRepository(ISceneObjectDataSource sceneObjectDataSource, CharacterModelFactory characterModelFactory)
         {
-            _values = new();
             _sceneObjectDataSource = sceneObjectDataSource;
             _characterModelFactory = characterModelFactory;
         }
 
         public void Create(Positionable value)
         {
-            if (_values.ContainsKey(value.Id))
+            if (_sceneObjectDataSource.TryGet(value.Id, out Transform parent))
             {
-                return;
+                throw new System.InvalidOperationException();
             }
 
-            CharacterModelComponent result;
-
-            if (_sceneObjectDataSource.TryGet(value.Id, out Transform parent) == false)
-            {
-                parent = _characterModelFactory.Create(parent, value.ModelName);
-                _sceneObjectDataSource.Register(value.Id, parent);
-            }
-
-            result = parent.gameObject.AddComponent<CharacterModelComponent>();
-
-            result.Id = value.Id;
-            result.name = value.ModelName.ToString() + value.Id.ToString();
-            result.ModelName = value.ModelName;
-
-            result.LookDirection = value.LookDirection;
-            result.transform.SetPositionAndRotation(value.Position, value.Rotation);
-            result.transform.localScale = value.Scale * Vector3.one;
-            result.TeamId = value.Team.Value;
-            result.Speed = value.Speed;
-            result.ForcedMovements = value.MovementEffects;
-            result.ScaleEffects = value.ScaleEffects;
-
-            _values.Add(value.Id, result);
+            parent = _characterModelFactory.Create(parent, value.ModelName);
+            _sceneObjectDataSource.Register(value.Id, parent);
         }
 
-        public void Delete(UnitId id)
-        {
-            _sceneObjectDataSource.Destroy(id);
-            _values.Remove(id);
-        }
-
-        public Positionable Get(UnitId id)
-        {
-            if (_values.TryGetValue(id, out CharacterModelComponent model) == false || model == null)
-            {
-                return default;
-            }
-
-            return new(id,
-                model.transform.position, model.transform.rotation, model.transform.localScale.x,
-                model.LookDirection, model.ModelName, new(model.TeamId), model.ForcedMovements, model.ScaleEffects)
-            {
-                Speed = model.Speed
-            };
-        }
-
-        public void Update(Positionable value)
-        {
-            if (_values.TryGetValue(value.Id, out var model) == false)
-            {
-                return;
-            }
-
-            //if(model.ModelName != value.ModelName)
-            //{
-            //    model = _sceneObjectDataSource.Create(value.Id, value.ModelName, null);
-            //}
-            model.transform.SetPositionAndRotation(value.Position, value.Rotation);
-            model.transform.localScale = value.Scale * Vector3.one;
-            model.TeamId = value.Team.Value;
-            model.Speed = value.Speed;
-        }
+        public void Delete(UnitId id) => _sceneObjectDataSource.Destroy(id);
 
         public IReadOnlyCollection<UnitId> FindInRadius(Vector3 center, float radius)
         {
@@ -120,9 +52,17 @@ namespace Combat.Local.Gateways.Repositories.Characters
             return result;
         }
 
-        public IReadOnlyCollection<UnitId> FindInCone(Vector3 origin, Quaternion direction, float angle, float maxDistance)
+        public IReadOnlyCollection<UnitId> FindInCone(Vector3 origin, Quaternion direction, float angle, float maxDistance) =>
+            _sceneObjectDataSource.FindCharactersInCone(origin, direction, angle, maxDistance);
+
+        public (Vector3, Quaternion) GetPositionAndRotation(UnitId target)
         {
-            return _sceneObjectDataSource.FindCharactersInCone(origin, direction, angle, maxDistance);
+            if (_sceneObjectDataSource.TryGet(target, out var model) == false || model == null)
+            {
+                throw new KeyNotFoundException();
+            }
+
+            return (model.position, model.rotation);
         }
     }
 }

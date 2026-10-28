@@ -52,7 +52,7 @@ namespace Combat.Local.Application.UseCases
             UnitContext unit = CreateUnitContext(id, context);
             _unitStore.Create(unit);
 
-            _positionableRepository.Create(CreatePositionable(id, context)); //Uses view
+            _positionableRepository.Create(unit.Positionable); //Uses view
             _hitboxOwnerRepository.Create(id); //Uses view
             _hurtableRepository.Create(id); //Uses view
 
@@ -74,9 +74,6 @@ namespace Combat.Local.Application.UseCases
             return id;
         }
 
-        private Positionable CreatePositionable(UnitId id, UnitCreationInfo context) =>
-            new(id, context.Position, default, 1f, default, context.Model, context.Team, new(), new());
-
         private UnitContext CreateUnitContext(UnitId id, UnitCreationInfo context)
         {
             float currentHealth = context.InitialHealth < 0 ? context.DefaultHealth : context.InitialHealth;
@@ -86,11 +83,12 @@ namespace Combat.Local.Application.UseCases
             {
                 Resources = new(id, context.DefaultResources.ToArray()),
                 Actor = new(id, context.BaseMovespeed),
+                Positionable = new(id, context.Position, default, 1f, default, context.Model, context.Team, new(), new()),
                 Attributes = CreateAttributesOwner(id, context),
                 Health = new(id, currentHealth, context.DefaultHealth),
                 Composure = new(id, currentComposure, context.DefaultComposure),
                 Skills = CreateSkillOwner(id, context),
-                Statuses = new(id)
+                Statuses = new(id),
             };
 
             return unit;

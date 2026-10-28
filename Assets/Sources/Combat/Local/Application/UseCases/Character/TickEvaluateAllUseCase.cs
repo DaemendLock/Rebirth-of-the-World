@@ -3,6 +3,7 @@ using Combat.Domain.Entities;
 using Combat.Domain.Repositories;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.OutputPorts;
+using Combat.Local.Application.Queries;
 using Combat.Local.Application.Queries.Statuses;
 using Combat.Local.Application.Repositories;
 using Combat.Local.Application.ValueObjects;
@@ -39,21 +40,23 @@ namespace Combat.Local.Application.UseCases
         }
     }
 
-    public sealed class AttributeOwnerEvaluateAllUseCase
+    public sealed class TickEvaluateAllUseCase
     {
         private readonly IUnitStore _unitStore;
         private readonly ICharacterUpdateQueue _characterUpdateList;
         private readonly IAttributesModificationCalculator _statusAttributeCalculator;
-        private readonly IPositionableRepository _positionableRepository;
+        private readonly IUnitSpatialQuery _unitSpatialQuery;
         private readonly ICharacterLocalTimeScaleOutput _characterLocalTimeScaleOutput;
 
-        public AttributeOwnerEvaluateAllUseCase(IUnitStore unitStore, ICharacterUpdateQueue characterUpdateList, IAttributesModificationCalculator statusAttributeCalculator, IPositionableRepository positionableRepository, ICharacterLocalTimeScaleOutput characterLocalTimeScaleOutput)
+        public TickEvaluateAllUseCase(IUnitStore unitStore, ICharacterUpdateQueue characterUpdateList,
+            IAttributesModificationCalculator statusAttributeCalculator, ICharacterLocalTimeScaleOutput characterLocalTimeScaleOutput,
+            IUnitSpatialQuery unitSpatialQuery)
         {
             _unitStore = unitStore;
             _characterUpdateList = characterUpdateList;
             _statusAttributeCalculator = statusAttributeCalculator;
-            _positionableRepository = positionableRepository;
             _characterLocalTimeScaleOutput = characterLocalTimeScaleOutput;
+            _unitSpatialQuery = unitSpatialQuery;
         }
 
         public TickContext Execute()
@@ -119,9 +122,10 @@ namespace Combat.Local.Application.UseCases
             unit.Composure.BaseDrainModifier = 1 + (endurance * 0.002f);
 
             AttributeModifcation movespeedBonus = modification.Movespeed;
-            Positionable positionable = _positionableRepository.Get(unit.Id);
-            positionable.Speed = (unit.Actor.BaseMovespeed + unit.Attributes.GetSwiftnessMovespeedBonus() + movespeedBonus.BaseValue) * (1 + movespeedBonus.Percent / 100) + movespeedBonus.BonusValue;
-            _positionableRepository.Update(positionable);
+            unit.Positionable.Speed = (unit.Actor.BaseMovespeed + unit.Attributes.GetSwiftnessMovespeedBonus() + movespeedBonus.BaseValue) * (1 + movespeedBonus.Percent / 100) + movespeedBonus.BonusValue;
+
+            var (Position, Rotation) = _unitSpatialQuery.GetPositionAndRotation(unit.Id);
+            unit.Positionable = unit.Positionable.With(Position, Rotation);
         }
     }
 }
