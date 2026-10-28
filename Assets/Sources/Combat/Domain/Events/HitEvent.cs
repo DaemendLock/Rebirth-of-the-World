@@ -1,12 +1,12 @@
 ﻿using Combat.Common.Primitives;
 
-using UnityEngine;
+using System.Numerics;
 
-namespace Combat.Local.Application.Repositories
+namespace Combat.Domain.Events
 {
-    public readonly struct HitInfo
+    public readonly struct HitEvent
     {
-        public HitInfo(UnitId hitboxOwner, HitboxType hitboxType, UnitId hurtboxOwner, HurtboxType hurtboxType, Vector3 location)
+        public HitEvent(UnitId hitboxOwner, HitboxType hitboxType, UnitId hurtboxOwner, HurtboxType hurtboxType, Vector3 location)
         {
             HitboxOwner = hitboxOwner;
             HitboxType = hitboxType;
@@ -22,11 +22,5 @@ namespace Combat.Local.Application.Repositories
         public HurtboxType HurtboxType { get; }
 
         public Vector3 Location { get; }
-    }
-
-    public interface IHitRecordQueue
-    {
-        void Enqueue(HitInfo record);
-        bool TryDequeue(out HitInfo record);
     }
 }

@@ -2,22 +2,22 @@
 
 namespace Combat.Local.Presentation.Views
 {
-    [RequireComponent(typeof(CharacterViewComponent))]
+    [RequireComponent(typeof(CharacterView))]
     public sealed class ScalableViewComponent : MonoBehaviour
     {
-        private CharacterViewComponent _characterModel;
+        private CharacterView _characterModel;
 
         private void Start()
         {
-            _characterModel = GetComponent<CharacterViewComponent>();
+            _characterModel = GetComponent<CharacterView>();
         }
-        public float Rate { get; set; }
+        public float ScaleRate { get; set; }
 
         private void Update()
         {
             float currentScale = transform.localScale.x;
 
-            currentScale += Rate * Time.deltaTime * _characterModel.TimeScale;
+            currentScale += ScaleRate * Time.deltaTime * _characterModel.TimeScale;
             transform.localScale = Vector3.one * currentScale;
         }
     }

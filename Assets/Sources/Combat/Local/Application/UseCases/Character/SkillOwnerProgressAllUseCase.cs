@@ -1,25 +1,16 @@
-﻿using Combat.Domain.Entities.Units;
-using Combat.Domain.Repositories;
+﻿using Combat.Domain.Entities;
 
 using System;
 
 namespace Combat.Local.Application.UseCases
 {
-
     public sealed class SkillOwnerProgressAllUseCase
     {
-        private readonly IUnitStore _unitStore;
-
-        public SkillOwnerProgressAllUseCase(IUnitStore unitStore)
+        public void Execute(ReadOnlySpan<UnitContext> targets, float progressTime)
         {
-            _unitStore = unitStore;
-        }
-
-        public void Execute(ReadOnlySpan<Updatable> targets, float progressTime)
-        {
-            foreach (Updatable target in targets)
+            foreach (UnitContext target in targets)
             {
-                _unitStore.Get(target.Id).Skills.ProgressCooldowns(progressTime * target.TimeScale);
+                target.Skills.ProgressCooldowns(progressTime * target.Attributes.TimeScale);
             }
         }
     }

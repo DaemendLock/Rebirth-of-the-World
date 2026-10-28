@@ -1,4 +1,5 @@
 ﻿using Combat.Common.Primitives;
+using Combat.Local.Application.Queries;
 using Combat.Local.Application.Repositories;
 using Combat.Local.Gateways.DataSources;
 using Combat.Local.Gateways.Models;
@@ -11,11 +12,6 @@ using HitboxInfo = Data.Entities.Components.Hitbox;
 
 namespace Combat.Local.Gateways.Repositories.Characters
 {
-    public readonly struct HitboxOwnerData
-    {
-        public readonly List<HitboxModelComponent> Hitboxes;
-    }
-
     public class HitboxRepository : IHitboxOwnerRepository
     {
         private readonly Dictionary<UnitId, List<HitboxModelComponent>> _values;

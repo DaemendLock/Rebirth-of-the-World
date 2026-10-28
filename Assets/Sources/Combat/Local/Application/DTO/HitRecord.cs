@@ -1,13 +1,13 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Local.Application.Repositories;
+using Combat.Domain.Events;
 
-using UnityEngine;
+using System.Numerics;
 
 namespace Combat.Local.Application.DTO
 {
     public readonly ref struct HitRecord
     {
-        public HitRecord(HitInfo info) : this(info.HitboxOwner, info.HitboxType, info.HurtboxOwner, info.HurtboxType, info.Location) { }
+        public HitRecord(HitEvent info) : this(info.HitboxOwner, info.HitboxType, info.HurtboxOwner, info.HurtboxType, info.Location) { }
 
         public HitRecord(UnitId hitboxOwner, HitboxType hitboxType, UnitId hurtboxOwner, HurtboxType hurtboxType, Vector3 location)
         {
@@ -26,6 +26,6 @@ namespace Combat.Local.Application.DTO
 
         public Vector3 Location { get; }
 
-        public HitInfo HitInfo => new(HitboxOwner, HitboxType, HurtboxOwner, HurtboxType, Location);
+        public HitEvent HitInfo => new(HitboxOwner, HitboxType, HurtboxOwner, HurtboxType, Location);
     }
 }

@@ -2,7 +2,9 @@
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
 using Combat.Domain.ValueObjects;
+using Combat.Local.Application.Queries;
 using Combat.Local.Application.UseCases;
+using Combat.Local.Application.ValueObjects;
 
 using UnityEngine;
 
@@ -10,25 +12,23 @@ namespace Combat.Local.Controllers
 {
     public sealed class PlayerController
     {
-        private readonly ActorReleaseSkillFromSlotUseCase _releaseSkillFromSlotUseCase;
         private readonly ActorDesireMoveInDirectionUseCase _moveUseCase;
-        private readonly ActorDesireCastFromSlotUseCase _desireCastFromSlotUseCase;
         private readonly RotateUseCase _rotateUseCase;
         private readonly AssumeControlOverCharacterUseCase _assumeControllOverCharacterUseCase;
         private readonly IEncounterStateMachine _encounterState;
         private readonly PlayerSession _playerSession;
+        private readonly IInputQueue _inputQueue;
 
-        public PlayerController(ActorReleaseSkillFromSlotUseCase releaseSkillFromSlotUseCase, ActorDesireMoveInDirectionUseCase moveUseCase,
-                                RotateUseCase rotateUseCase, AssumeControlOverCharacterUseCase assumeControllOverCharacterUseCase,
-                                IEncounterStateMachine encounterState, PlayerSession playerSession, ActorDesireCastFromSlotUseCase desireCastFromSlotUseCase)
+        public PlayerController(ActorDesireMoveInDirectionUseCase moveUseCase, RotateUseCase rotateUseCase,
+            AssumeControlOverCharacterUseCase assumeControllOverCharacterUseCase, IEncounterStateMachine encounterState,
+            PlayerSession playerSession, IInputQueue inputQueue)
         {
-            _releaseSkillFromSlotUseCase = releaseSkillFromSlotUseCase;
             _moveUseCase = moveUseCase;
             _rotateUseCase = rotateUseCase;
             _assumeControllOverCharacterUseCase = assumeControllOverCharacterUseCase;
             _encounterState = encounterState;
             _playerSession = playerSession;
-            _desireCastFromSlotUseCase = desireCastFromSlotUseCase;
+            _inputQueue = inputQueue;
         }
 
         public bool AcceptsInput => _encounterState.IsRunning;
@@ -73,7 +73,7 @@ namespace Combat.Local.Controllers
                 return;
             }
 
-            _desireCastFromSlotUseCase.Execute(_playerSession.ControlledUnitId.Value, slot);
+            _inputQueue.Enqueue(new CastCommand(_playerSession.ControlledUnitId.Value, slot));
         }
 
         public void ReleaseCast(int slot)
@@ -85,7 +85,7 @@ namespace Combat.Local.Controllers
                 return;
             }
 
-            _releaseSkillFromSlotUseCase.Execute(_playerSession.ControlledUnitId.Value, slot);
+            _inputQueue.Enqueue(new ReleaseCommand(_playerSession.ControlledUnitId.Value, slot));
         }
     }
 }

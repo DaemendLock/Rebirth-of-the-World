@@ -2,8 +2,6 @@
 using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
-using Combat.Domain.Entities.Units;
-using Combat.Domain.Repositories;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.Endpoints.Skills;
 using Combat.Local.Application.Entities;
@@ -15,7 +13,6 @@ namespace Combat.Local.Application.UseCases
 {
     public sealed class LifeStateEvaluateAllUseCase
     {
-        private readonly IUnitStore _unitStore;
         private readonly ICharacterDeathHandler _characterDeathHandler;
         private readonly IHealthOutput _healthOutput;
         private readonly ICharacterConsciousStateOutput _characterLifeStateOutput;
@@ -23,12 +20,10 @@ namespace Combat.Local.Application.UseCases
         private readonly ISkillActionStateChangeHandler _stateChangeHandler;
         private readonly IActorActionUpdateOutput _actionUpdateOutput;
 
-        public LifeStateEvaluateAllUseCase(IUnitStore unitStore,
-            IHealthOutput healthOutput, ICharacterDeathHandler characterDeathHandler,
+        public LifeStateEvaluateAllUseCase(IHealthOutput healthOutput, ICharacterDeathHandler characterDeathHandler,
             ICharacterConsciousStateOutput characterConsciousStateOutput,
             ISkillHitHandler hitHandler, ISkillActionStateChangeHandler stateChangeHandler, IActorActionUpdateOutput actionUpdateOutput)
         {
-            _unitStore = unitStore;
             _healthOutput = healthOutput;
             _characterLifeStateOutput = characterConsciousStateOutput;
             _characterDeathHandler = characterDeathHandler;
@@ -37,12 +32,10 @@ namespace Combat.Local.Application.UseCases
             _actionUpdateOutput = actionUpdateOutput;
         }
 
-        public void Execute(ReadOnlySpan<Updatable> target)
+        public void Execute(ReadOnlySpan<UnitContext> target)
         {
-            foreach (Updatable item in target)
+            foreach (UnitContext unit in target)
             {
-                UnitContext unit = _unitStore.Get(item.Id);
-
                 switch (unit.LifeState.State)
                 {
                     case ConsciousState.Alive:
@@ -54,7 +47,7 @@ namespace Combat.Local.Application.UseCases
                     case ConsciousState.Dead:
                         continue;
                     default:
-                        throw new InvalidOperationException($"Failed to update life state for {item.Id}: unknown state {unit.LifeState.State}.");
+                        throw new InvalidOperationException($"Failed to update life state for {unit.Id}: unknown state {unit.LifeState.State}.");
                 }
             }
         }

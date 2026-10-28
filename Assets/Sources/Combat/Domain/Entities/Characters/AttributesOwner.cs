@@ -6,7 +6,7 @@ using System;
 
 namespace Combat.Domain.Entities
 {
-    public readonly struct AttributesOwner
+    public struct AttributesOwner
     {
         public const int AttributeCount = (int)(UnitAttribute.Endurance + 1);
 
@@ -17,13 +17,16 @@ namespace Combat.Domain.Entities
         {
             Id = id;
 
+            TimeScale = 1f;
             _baseValues = baseValues.ToArray();
             _cachedValues = new float?[_baseValues.Length];
         }
 
         public UnitId Id { get; }
 
-        public ReadOnlySpan<AttributeValue> BaseValues => _baseValues;
+        public float TimeScale { get; set; }
+
+        public readonly ReadOnlySpan<AttributeValue> BaseValues => _baseValues;
 
         public readonly float this[UnitAttribute attribute]
         {
@@ -45,9 +48,9 @@ namespace Combat.Domain.Entities
             }
         }
 
-        public void Clear() => Array.Clear(_cachedValues, 0, _cachedValues.Length);
+        public readonly void Clear() => Array.Clear(_cachedValues, 0, _cachedValues.Length);
 
-        public void SetModification(UnitAttribute attribute, AttributeModifcation modifcation)
+        public readonly void SetModification(UnitAttribute attribute, AttributeModifcation modifcation)
         {
             int index = (int)attribute;
 

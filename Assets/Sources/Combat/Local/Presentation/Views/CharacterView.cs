@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Combat.Local.Presentation.Views
 {
     [RequireComponent(typeof(Rigidbody))]
-    public sealed class CharacterViewComponent : MonoBehaviour
+    public sealed class CharacterView : MonoBehaviour
     {
         [SerializeField] private string _modelName;
 

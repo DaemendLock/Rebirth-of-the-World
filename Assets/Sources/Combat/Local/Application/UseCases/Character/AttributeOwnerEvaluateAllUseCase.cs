@@ -1,6 +1,5 @@
 ﻿using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
-using Combat.Domain.Entities.Units;
 using Combat.Domain.Repositories;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.OutputPorts;
@@ -9,10 +8,37 @@ using Combat.Local.Application.Repositories;
 using Combat.Local.Application.ValueObjects;
 
 using System;
+using System.Buffers;
 using System.Linq;
 
 namespace Combat.Local.Application.UseCases
 {
+    public sealed class TickContext : IDisposable
+    {
+        private readonly UnitContext[] _values;
+        private readonly int _count;
+
+        private bool _disposed;
+
+        public TickContext(UnitContext[] values, int count)
+        {
+            _values = values;
+            _count = count;
+
+            _disposed = false;
+        }
+
+        public ReadOnlySpan<UnitContext> Updatables => _values.AsSpan(0, _count);
+
+        public void Dispose()
+        {
+            if (_disposed) return;
+
+            ArrayPool<UnitContext>.Shared.Return(_values);
+            _disposed = true;
+        }
+    }
+
     public sealed class AttributeOwnerEvaluateAllUseCase
     {
         private readonly IUnitStore _unitStore;
@@ -30,45 +56,59 @@ namespace Combat.Local.Application.UseCases
             _characterLocalTimeScaleOutput = characterLocalTimeScaleOutput;
         }
 
-        public Updatable[] Execute()
+        public TickContext Execute()
         {
-            Updatable[] targets = _characterUpdateList.GetAll().Select(value => new Updatable(value, 1f)).ToArray();
+            var ids = _characterUpdateList.GetAll();
+            UnitContext[] targets = ArrayPool<UnitContext>.Shared.Rent(ids.Count);
 
-            for (int i = 0; i < targets.Length; i++)
+            try
             {
-                if (_unitStore.TryGet(targets[i].Id, out UnitContext unit) == false)
+                int count = 0;
+
+                foreach (var item in ids)
                 {
-                    continue;
+                    if (_unitStore.TryGet(item, out UnitContext unitContext) == false)
+                    {
+                        continue;
+                    }
+
+                    targets[count++] = unitContext;
                 }
 
-                unit.Attributes.Clear();
-            }
+                foreach (var item in targets.AsSpan(0, count))
+                {
+                    item.Attributes.Clear();
+                }
 
-            for (int i = 0; i < targets.Length; i++)
+                foreach (var target in targets.AsSpan(0, count))
+                {
+                    if (_unitStore.TryGet(target.Id, out UnitContext unit) == false)
+                    {
+                        continue;
+                    }
+
+                    StatusBonuses finalModification = _statusAttributeCalculator.Evaluate(unit.Statuses.GetAll().Select(value => value.Id));
+
+                    for (int j = 0; j < unit.Attributes.BaseValues.Length; j++)
+                    {
+                        unit.Attributes.SetModification((UnitAttribute)j, finalModification.Attributes[(UnitAttribute)j]);
+                    }
+
+                    float scale = Math.Max(1 + (finalModification.TimeScale / 100f), 0f);
+                    target.Attributes.TimeScale = scale;
+
+                    ApplyBonuses(unit, finalModification);
+
+                    _characterLocalTimeScaleOutput.Present(unit.Id, scale);
+                }
+
+                return new(targets, count);
+            }
+            catch
             {
-                ref Updatable target = ref targets[i];
-
-                if (_unitStore.TryGet(target.Id, out UnitContext unit) == false)
-                {
-                    continue;
-                }
-
-                StatusBonuses finalModification = _statusAttributeCalculator.Evaluate(unit.Statuses.GetAll().Select(value => value.Id));
-
-                for (int j = 0; j < unit.Attributes.BaseValues.Length; j++)
-                {
-                    unit.Attributes.SetModification((UnitAttribute)j, finalModification.Attributes[(UnitAttribute)j]);
-                }
-
-                float scale = Math.Max(1 + (finalModification.TimeScale / 100f), 0f);
-                target = new(target.Id, scale);
-
-                ApplyBonuses(unit, finalModification);
-
-                _characterLocalTimeScaleOutput.Present(unit.Id, scale);
+                ArrayPool<UnitContext>.Shared.Return(targets);
+                throw;
             }
-
-            return targets;
         }
 
         private void ApplyBonuses(UnitContext unit, StatusBonuses modification)

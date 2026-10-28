@@ -62,7 +62,7 @@ namespace Combat.Local.Scripting.Contexts
 
         public EventHandlerId SubscribeToEvent<TEventData>(IEventContext.EventHandler<TEventData> callback) where TEventData : IEventData
         {
-            var id = _eventContext.Subscribe(callback);
+            EventHandlerId id = _eventContext.Subscribe(callback);
             _eventHandlers.Add(id);
             return id;
         }

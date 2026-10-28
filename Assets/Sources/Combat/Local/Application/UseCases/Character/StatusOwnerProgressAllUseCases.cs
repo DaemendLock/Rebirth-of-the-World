@@ -1,6 +1,5 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Domain.Entities;
-using Combat.Domain.Entities.Units;
 using Combat.Domain.Repositories;
 using Combat.Local.Application.OutputPorts.Statuses;
 using Combat.Local.Application.ValueObjects;
@@ -12,29 +11,26 @@ namespace Combat.Local.Application.UseCases
     public sealed class StatusOwnerProgressAllUseCases
     {
         private readonly IStatusTimerRepository _statusTimerRepository;
-        private readonly IUnitStore _unitStore;
         private readonly IStatusLifecycleHandler _statusLifecycleHandler;
         private readonly IStatusTickHandler _statusTickHandler;
 
-        public StatusOwnerProgressAllUseCases(IStatusTimerRepository statusTimerRepository, IUnitStore units, IStatusTickHandler statusTickHandler, IStatusLifecycleHandler statusLifecycleHandler)
+        public StatusOwnerProgressAllUseCases(IStatusTimerRepository statusTimerRepository, IStatusTickHandler statusTickHandler, IStatusLifecycleHandler statusLifecycleHandler)
         {
             _statusTimerRepository = statusTimerRepository;
-            _unitStore = units;
             _statusLifecycleHandler = statusLifecycleHandler;
             _statusTickHandler = statusTickHandler;
         }
 
-        public void Execute(ReadOnlySpan<Updatable> targets, float deltaTime)
+        public void Execute(ReadOnlySpan<UnitContext> targets, float deltaTime)
         {
-            foreach (Updatable target in targets)
+            foreach (UnitContext target in targets)
             {
-                ProgressTarget(target.Id, deltaTime * target.TimeScale);
+                ProgressTarget(target, deltaTime * target.Attributes.TimeScale);
             }
         }
 
-        private void ProgressTarget(UnitId target, float deltaTime)
+        private void ProgressTarget(UnitContext unit, float deltaTime)
         {
-            UnitContext unit = _unitStore.Get(target);
             StatusOwner statusOwner = unit.Statuses;
             Span<StatusUpdateResult> results = stackalloc StatusUpdateResult[statusOwner.Count];
             statusOwner.ProgressAll(deltaTime, results);

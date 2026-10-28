@@ -1,6 +1,6 @@
 ﻿using Combat.Common.Primitives;
 
-using UnityEngine;
+using System.Numerics;
 
 namespace Combat.API.DTO
 {

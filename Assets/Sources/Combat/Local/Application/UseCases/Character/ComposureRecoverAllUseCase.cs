@@ -1,34 +1,27 @@
-﻿using Combat.Common.Primitives;
-using Combat.Domain.Entities;
-using Combat.Domain.Entities.Units;
-using Combat.Domain.Repositories;
+﻿using Combat.Domain.Entities;
 using Combat.Local.Application.DTO;
-
-using System;
 
 namespace Combat.Local.Application.UseCases
 {
     public sealed class ComposureRecoverAllUseCase
     {
-        private readonly IUnitStore _unitStore;
         private readonly IHealthOutput _healthOutput;
-        public ComposureRecoverAllUseCase(IUnitStore unitStore, IHealthOutput healthOutput)
+
+        public ComposureRecoverAllUseCase(IHealthOutput healthOutput)
         {
-            _unitStore = unitStore;
             _healthOutput = healthOutput;
         }
 
-        public void Execute(ReadOnlySpan<Updatable> targets, float deltaTime)
+        public void Execute(TickContext tick, float deltaTime)
         {
-            foreach (Updatable target in targets)
+            foreach (UnitContext target in tick.Updatables)
             {
-                HandleTarget(target.Id, deltaTime * target.TimeScale);
+                HandleTarget(target, deltaTime * target.Attributes.TimeScale);
             }
         }
 
-        private void HandleTarget(UnitId target, float deltaTime)
+        private void HandleTarget(UnitContext unit, float deltaTime)
         {
-            UnitContext unit = _unitStore.Get(target);
             float recoveryTime = UpdateCooldown(unit, deltaTime);
 
             switch (unit.LifeState.State)

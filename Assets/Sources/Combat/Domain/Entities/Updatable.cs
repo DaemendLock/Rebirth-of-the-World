@@ -4,9 +4,9 @@ namespace Combat.Domain.Entities.Units
 {
     public readonly struct Updatable
     {
-        public Updatable(UnitId id, float timeScale)
+        public Updatable(UnitContext unit, float timeScale)
         {
-            Id = id;
+            Unit = unit;
             TimeScale = timeScale;
 
             if (TimeScale < 0)
@@ -15,7 +15,7 @@ namespace Combat.Domain.Entities.Units
             }
         }
 
-        public UnitId Id { get; }
+        public UnitContext Unit { get; }
         public float TimeScale { get; }
     }
 }

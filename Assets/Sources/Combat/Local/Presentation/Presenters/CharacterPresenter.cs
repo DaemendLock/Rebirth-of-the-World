@@ -10,11 +10,10 @@ using Combat.Local.Presentation.Views;
 using DaeAnimator;
 
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 
 namespace Combat.Local.Presentation.Presenters
 {
-    public class CharacterPresenter : IHealthOutput, IGiveResourceOutput, ISpendResourceOutput, ICharacterConsciousStateOutput, ICharacterLocalTimeScaleOutput, ICharacterForcedMovementOutput, ICharacterScaleOverTimeOutput
+    public class CharacterPresenter : IHealthOutput, IGiveResourceOutput, ISpendResourceOutput, ICharacterConsciousStateOutput, ICharacterLocalTimeScaleOutput, ICharacterMotionOutput, ICharacterScaleOverTimeOutput
     {
         private readonly ITransformProvider _transforms;
 
@@ -69,18 +68,19 @@ namespace Combat.Local.Presentation.Presenters
 
         void ICharacterLocalTimeScaleOutput.Present(UnitId target, float timeScale)
         {
-            if (_transforms.TryGet(target, out Transform model) && model.TryGetComponent(out CharacterViewComponent view))
+            if (_transforms.TryGet(target, out Transform model) && model.TryGetComponent(out CharacterView view))
             {
                 view.TimeScale = timeScale;
             }
         }
 
-        void ICharacterForcedMovementOutput.Present(UnitId target, System.Numerics.Vector3 directionalVelocity, System.Numerics.Vector3 relativeVelocity)
+        void ICharacterMotionOutput.Present(UnitId target, System.Numerics.Vector3 directionalVelocity, System.Numerics.Vector3 relativeVelocity, System.Numerics.Vector3 desiredVelocity)
         {
-            if (_transforms.TryGet(target, out Transform model) && model.TryGetComponent(out MovableViewComponent view))
+            if (_transforms.TryGet(target, out Transform model) && model.TryGetComponent(out PositionableView view))
             {
                 view.DirectionalVelocity = new(directionalVelocity.X, directionalVelocity.Y, directionalVelocity.Z);
                 view.RelativeVelocity = new(relativeVelocity.X, relativeVelocity.Y, relativeVelocity.Z);
+                view.DesiredVelocity = new(desiredVelocity.X, desiredVelocity.Y, desiredVelocity.Z);
             }
         }
 
@@ -88,7 +88,7 @@ namespace Combat.Local.Presentation.Presenters
         {
             if (_transforms.TryGet(target, out Transform model) && model.TryGetComponent(out ScalableViewComponent view))
             {
-                view.Rate = scaleRate;
+                view.ScaleRate = scaleRate;
             }
         }
     }

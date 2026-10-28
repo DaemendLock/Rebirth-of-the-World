@@ -1,5 +1,5 @@
 ﻿using Combat.Common.Primitives;
-using Combat.Local.Application.Repositories;
+using Combat.Domain.Events;
 
 using System;
 
@@ -20,7 +20,7 @@ namespace Combat.Local.Gateways.Models
             Hitted = null;
         }
 
-        public event Action<HitInfo> Hitted;
+        public event Action<HitEvent> Hitted;
 
         public HitboxType Type { get; set; }
 
@@ -43,7 +43,8 @@ namespace Combat.Local.Gateways.Models
                 return;
             }
 
-            Hitted?.Invoke(new(Owner, Type, hurtbox.Owner, hurtbox.Type, transform.position));
+            Vector3 location = transform.position;
+            Hitted?.Invoke(new(Owner, Type, hurtbox.Owner, hurtbox.Type, new(location.x, location.y, location.z)));
         }
 
         public void OnCollisionEnter(Collision collision)
@@ -64,7 +65,7 @@ namespace Combat.Local.Gateways.Models
             }
 
             Vector3 location = collision.GetContact(0).point;
-            Hitted?.Invoke(new(Owner, Type, hurtbox.Owner, hurtbox.Type, location));
+            Hitted?.Invoke(new(Owner, Type, hurtbox.Owner, hurtbox.Type, new(location.x, location.y, location.z)));
         }
     }
 }

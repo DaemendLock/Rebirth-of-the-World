@@ -20,8 +20,8 @@ namespace Combat.Local.Presentation.Presenters
 
             if (_transformProvider.TryGet(value, out var transform))
             {
-                transform.gameObject.AddComponent<CharacterViewComponent>();
-                transform.gameObject.AddComponent<MovableViewComponent>();
+                transform.gameObject.AddComponent<CharacterView>();
+                transform.gameObject.AddComponent<PositionableView>();
                 transform.gameObject.AddComponent<ScalableViewComponent>();
             }
         }

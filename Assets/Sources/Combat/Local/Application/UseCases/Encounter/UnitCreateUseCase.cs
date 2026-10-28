@@ -1,5 +1,4 @@
-﻿using Combat.Common;
-using Combat.Common.Primitives;
+﻿using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
 using Combat.Domain.Repositories;
@@ -8,8 +7,6 @@ using Combat.Local.Application.Endpoints.Skills;
 using Combat.Local.Application.Factories;
 using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.Repositories;
-
-using UnityEngine;
 
 namespace Combat.Local.Application.UseCases
 {
@@ -55,9 +52,11 @@ namespace Combat.Local.Application.UseCases
             UnitContext unit = CreateUnitContext(id, context);
             _unitStore.Create(unit);
 
-            _positionableRepository.Create(CreatePositionable(id, context));
+            _positionableRepository.Create(CreatePositionable(id, context)); //Uses view
+            _hitboxOwnerRepository.Create(id); //Uses view
+            _hurtableRepository.Create(id); //Uses view
 
-            UnsortedCreate(id);
+            _characterUpdateList.Add(id);
 
             foreach (SkillId skillId in unit.Skills.Skills)
             {
@@ -76,7 +75,7 @@ namespace Combat.Local.Application.UseCases
         }
 
         private Positionable CreatePositionable(UnitId id, UnitCreationInfo context) =>
-            new(id, context.Position, default, 1f, default, context.Model, Vector3.zero, context.Team, new(), new());
+            new(id, context.Position, default, 1f, default, context.Model, context.Team, new(), new());
 
         private UnitContext CreateUnitContext(UnitId id, UnitCreationInfo context)
         {
@@ -122,13 +121,6 @@ namespace Combat.Local.Application.UseCases
             }
 
             return new(id, attributeValue);
-        }
-
-        private void UnsortedCreate(UnitId id)
-        {
-            _hitboxOwnerRepository.Create(id); //Uses view
-            _hurtableRepository.Create(id); //Uses view
-            _characterUpdateList.Add(id);
         }
     }
 }

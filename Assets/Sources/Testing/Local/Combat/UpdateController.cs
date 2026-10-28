@@ -1,8 +1,10 @@
 ﻿using Combat.Domain.Entities;
-using Combat.Domain.Entities.Units;
+using Combat.Local.Application.Queries;
 using Combat.Local.Application.Repositories;
 using Combat.Local.Application.UseCases;
+using Combat.Local.Application.UseCases.Character;
 using Combat.Local.Application.UseCases.Scene;
+using Combat.Local.Application.ValueObjects;
 
 using Zenject;
 
@@ -13,7 +15,7 @@ namespace Testing.Local
         private readonly StatusOwnerProgressAllUseCases _updateStatusesUseCase;
         private readonly SkillOwnerProgressAllUseCase _skillUpdateAllUseCase;
         private readonly ComposureRecoverAllUseCase _composureUpdateAllUseCase;
-        private readonly ActorActAllUseCase _actorUpdateAllUseCase;
+        private readonly ActorProgressAllUseCase _actorUpdateAllUseCase;
         private readonly AttributeOwnerEvaluateAllUseCase _attributeOwnerUpdateAllUseCase;
         private readonly LifeStateEvaluateAllUseCase _updateConsciousStateAllUseCase;
         private readonly HitsHandleUseCase _handleHitUseCase;
@@ -21,17 +23,27 @@ namespace Testing.Local
         private readonly IHitRecordQueue _hitRecordQueue;
         private readonly UnitDeleteUseCase _characterDeleteUseCase;
         private readonly IEncounterStateMachine _encounterState;
+        private readonly PositionableUpdateAllUseCase _positionableUpdateAllUseCase;
+        private readonly ActorCastSkillFromSlotUseCase _actorCastSkillFromSlotUse;
+        private readonly ActorReleaseSkillFromSlotUseCase _actorReleaseSkillFromSlotUseCase;
+
+        private readonly IInputQueue _inputQueue;
+
         public UpdateController(AttributeOwnerEvaluateAllUseCase updateCombatUseCase,
                                 StatusOwnerProgressAllUseCases updateStatusesUseCase,
                                 HitsHandleUseCase handleHitUseCase,
-                                ActorActAllUseCase actorActAllUseCase,
+                                ActorProgressAllUseCase actorActAllUseCase,
                                 LifeStateEvaluateAllUseCase updateConsciousStateAllUseCase,
                                 ComposureRecoverAllUseCase composureRecoverAllUseCase,
                                 SkillOwnerProgressAllUseCase skillUpdateAllUseCase,
                                 ICharacterDeleteQueue characterDeleteQueue,
                                 UnitDeleteUseCase characterDeleteUseCase,
                                 IEncounterStateMachine encounterState,
-                                IHitRecordQueue hitRecordQueue)
+                                IHitRecordQueue hitRecordQueue,
+                                PositionableUpdateAllUseCase positionableUpdateAllUseCase,
+                                ActorCastSkillFromSlotUseCase actorCastUseCase,
+                                IInputQueue inputQueue,
+                                ActorReleaseSkillFromSlotUseCase actorReleaseSkillFromSlotUseCase)
         {
             _attributeOwnerUpdateAllUseCase = updateCombatUseCase;
             _updateStatusesUseCase = updateStatusesUseCase;
@@ -44,6 +56,10 @@ namespace Testing.Local
             _encounterState = encounterState;
             _hitRecordQueue = hitRecordQueue;
             _updateConsciousStateAllUseCase = updateConsciousStateAllUseCase;
+            _positionableUpdateAllUseCase = positionableUpdateAllUseCase;
+            _actorCastSkillFromSlotUse = actorCastUseCase;
+            _inputQueue = inputQueue;
+            _actorReleaseSkillFromSlotUseCase = actorReleaseSkillFromSlotUseCase;
         }
 
         public void Tick()
@@ -53,33 +69,50 @@ namespace Testing.Local
                 return;
             }
 
-            Updatable[] updateList = PrepairTick();
+            using TickContext context = PrepairTick();
+            HandleInputs();
+            ProgressState(context);
+            FinalizeTick(context);
+        }
 
-            float deltaTime = UnityEngine.Time.deltaTime;
+        private TickContext PrepairTick() => _attributeOwnerUpdateAllUseCase.Execute();
 
-            _composureUpdateAllUseCase.Execute(updateList, deltaTime);
-            _skillUpdateAllUseCase.Execute(updateList, deltaTime);
-            _updateStatusesUseCase.Execute(updateList, deltaTime);
+        private void HandleInputs()
+        {
+            while (_inputQueue.TryDequeue(out var command))
+            {
+                switch (command)
+                {
+                    case CastCommand cast:
+                        _actorCastSkillFromSlotUse.Execute(cast.Target, cast.SkillSlot);
+                        continue;
+                    case ReleaseCommand release:
+                        _actorReleaseSkillFromSlotUseCase.Execute(release.Target, release.SkillSlot);
+                        continue;
+                }
+            }
 
             while (_hitRecordQueue.TryDequeue(out var hitRecord))
             {
                 _handleHitUseCase.Execute(new(hitRecord));
             }
-
-            _actorUpdateAllUseCase.Execute(updateList, deltaTime);
-            _updateConsciousStateAllUseCase.Execute(updateList);
-
-            FinalizeTick(updateList);
         }
 
-        private Updatable[] PrepairTick()
+        private void ProgressState(TickContext context)
         {
-            Updatable[] updateList = _attributeOwnerUpdateAllUseCase.Execute();
-            return updateList;
+            float deltaTime = UnityEngine.Time.deltaTime;
+
+            _composureUpdateAllUseCase.Execute(context, deltaTime);
+            _skillUpdateAllUseCase.Execute(context.Updatables, deltaTime);
+            _updateStatusesUseCase.Execute(context.Updatables, deltaTime);
+            _positionableUpdateAllUseCase.Execute(context.Updatables, deltaTime);
+            _actorUpdateAllUseCase.Execute(context.Updatables, deltaTime);
         }
 
-        private void FinalizeTick(Updatable[] updateList)
+        private void FinalizeTick(TickContext context)
         {
+            _updateConsciousStateAllUseCase.Execute(context.Updatables);
+
             while (_characterDeleteQueue.TryDequeue(out var characterDelete))
             {
                 _characterDeleteUseCase.Execute(characterDelete);

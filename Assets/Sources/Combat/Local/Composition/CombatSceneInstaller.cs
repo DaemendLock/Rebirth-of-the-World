@@ -13,6 +13,7 @@ using Combat.Local.Application.Queries;
 using Combat.Local.Application.Queries.Statuses;
 using Combat.Local.Application.Repositories;
 using Combat.Local.Application.UseCases;
+using Combat.Local.Application.UseCases.Character;
 using Combat.Local.Application.UseCases.Encounter;
 using Combat.Local.Application.UseCases.Objectives;
 using Combat.Local.Application.UseCases.Scene;
@@ -84,6 +85,7 @@ namespace Combat.Local.Composition
             Container.Bind<ICharacterDeleteQueue>().To<CharacterDeleteQueue>().AsSingle();
 
             Container.Bind<ICharacterDefinitionProvider>().To<CharacterDefinitionProvider>().AsSingle();
+            Container.Bind<IInputQueue>().To<InputBuffer>().AsSingle();
         }
 
         private void BindFactories()
@@ -124,12 +126,14 @@ namespace Combat.Local.Composition
 
             Container.Bind<ActorForceKillUseCase>().AsSingle();
             Container.Bind<ActorReviveUseCase>().AsSingle();
-            Container.Bind<ActorActAllUseCase>().AsSingle();
+            Container.Bind<ActorProgressAllUseCase>().AsSingle();
+            Container.Bind<ActorCastSkillFromSlotUseCase>().AsSingle();
             Container.Bind<LifeStateEvaluateAllUseCase>().AsSingle();
             Container.Bind<StatusOwnerFindStatusUseCase>().AsSingle();
             Container.Bind<AddMovementEffectUseCase>().AsSingle();
             Container.Bind<PositionableStartScaleUseCase>().AsSingle();
             Container.Bind<PositionableStopScaleUseCase>().AsSingle();
+            Container.Bind<PositionableUpdateAllUseCase>().AsSingle();
 
             Container.Bind<HitsHandleUseCase>().AsSingle();
             Container.Bind<ComposureRecoverAllUseCase>().AsSingle();
@@ -221,7 +225,7 @@ namespace Combat.Local.Composition
             Container.Bind<IHealthOutput>().To<CharacterPresenter>().FromResolve();
             Container.Bind<ICharacterConsciousStateOutput>().To<CharacterPresenter>().FromResolve();
             Container.Bind<ICharacterLocalTimeScaleOutput>().To<CharacterPresenter>().FromResolve();
-            Container.Bind<ICharacterForcedMovementOutput>().To<CharacterPresenter>().FromResolve();
+            Container.Bind<ICharacterMotionOutput>().To<CharacterPresenter>().FromResolve();
             Container.Bind<ICharacterScaleOverTimeOutput>().To<CharacterPresenter>().FromResolve();
             Container.Bind<IActorActionUpdateOutput>().To<ActorUpdatePresenter>().AsSingle();
 

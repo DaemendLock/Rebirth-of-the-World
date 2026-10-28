@@ -14,7 +14,7 @@ namespace Combat.Domain.Entities
         public readonly List<MoveInDirectionEffect> MovementEffects;
         public readonly List<ScaleOverTimeEffect> ScaleEffects;
 
-        public Positionable(UnitId id, Vector3 position, Quaternion rotation, float scale, Quaternion lookDiration, ModelName modelName, Vector3 velocity, Team team, List<MoveInDirectionEffect> movementEffects, List<ScaleOverTimeEffect> scaleEffects)
+        public Positionable(UnitId id, Vector3 position, Quaternion rotation, float scale, Quaternion lookDiration, ModelName modelName, Team team, List<MoveInDirectionEffect> movementEffects, List<ScaleOverTimeEffect> scaleEffects)
         {
             Id = id;
             ModelName = modelName;
@@ -23,7 +23,6 @@ namespace Combat.Domain.Entities
             Position = position;
             Rotation = rotation;
             LookDirection = lookDiration;
-            Velocity = velocity;
             Team = team;
             Speed = 0f;
             MovementEffects = movementEffects;
@@ -41,8 +40,6 @@ namespace Combat.Domain.Entities
         public Quaternion LookDirection { get; set; }
 
         public ModelName ModelName { get; }
-
-        public Vector3 Velocity { get; set; }
 
         public float Scale { get; set; }
 
@@ -65,7 +62,7 @@ namespace Combat.Domain.Entities
             return MovementEffects.RemoveAll(value => value.MaxDuration <= 0) > 0;
         }
 
-        public readonly (System.Numerics.Vector3 Directional, System.Numerics.Vector3 Relative) GetForcedMovement()
+        public readonly (System.Numerics.Vector3 Directional, System.Numerics.Vector3 Relative) GetForcedVelocity()
         {
             System.Numerics.Vector3 Directional = System.Numerics.Vector3.Zero;
             System.Numerics.Vector3 Relative = System.Numerics.Vector3.Zero;

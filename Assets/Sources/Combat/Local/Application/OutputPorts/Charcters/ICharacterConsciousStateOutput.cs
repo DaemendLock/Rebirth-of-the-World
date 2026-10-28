@@ -26,9 +26,9 @@ namespace Combat.Local.Application.OutputPorts
         void Clear(UnitId unit);
     }
 
-    public interface ICharacterForcedMovementOutput
+    public interface ICharacterMotionOutput
     {
-        void Present(UnitId target, Vector3 directionalVelocity, Vector3 relativeVelocity);
+        void Present(UnitId target, Vector3 forcedDirectionalVelocity, Vector3 forcedRelativeVelocity, Vector3 desiredVelocity);
     }
 
     public readonly ref struct ActionUpdateInfo

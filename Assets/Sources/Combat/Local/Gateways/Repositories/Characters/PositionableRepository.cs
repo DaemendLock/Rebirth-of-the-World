@@ -58,7 +58,6 @@ namespace Combat.Local.Gateways.Repositories.Characters
             result.LookDirection = value.LookDirection;
             result.transform.SetPositionAndRotation(value.Position, value.Rotation);
             result.transform.localScale = value.Scale * Vector3.one;
-            result.Velocity = value.Velocity;
             result.TeamId = value.Team.Value;
             result.Speed = value.Speed;
             result.ForcedMovements = value.MovementEffects;
@@ -82,7 +81,7 @@ namespace Combat.Local.Gateways.Repositories.Characters
 
             return new(id,
                 model.transform.position, model.transform.rotation, model.transform.localScale.x,
-                model.LookDirection, model.ModelName, model.Velocity, new(model.TeamId), model.ForcedMovements, model.ScaleEffects)
+                model.LookDirection, model.ModelName, new(model.TeamId), model.ForcedMovements, model.ScaleEffects)
             {
                 Speed = model.Speed
             };
@@ -101,7 +100,6 @@ namespace Combat.Local.Gateways.Repositories.Characters
             //}
             model.transform.SetPositionAndRotation(value.Position, value.Rotation);
             model.transform.localScale = value.Scale * Vector3.one;
-            model.Velocity = value.Velocity;
             model.TeamId = value.Team.Value;
             model.Speed = value.Speed;
         }

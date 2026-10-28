@@ -1,5 +1,6 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Local.Gateways.DataSources;
+using Combat.Local.Gateways.Factories;
 using Combat.Local.Gateways.Models;
 using Combat.Local.Presentation.Providers;
 
@@ -12,8 +13,50 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using HitboxInfo = Data.Entities.Components.Hitbox;
+
 namespace Combat.Local.Data.DataSources
 {
+    public sealed class Idk
+    {
+        private readonly Dictionary<UnitId, Transform> _values;
+        private readonly CharacterModelFactory _characterModelFactory;
+
+        public Transform Create(UnitId id, ModelName modelName)
+        {
+            Transform model = _characterModelFactory.Create(null, modelName);
+            _values[id] = model;
+            
+            var hitboxes = CreateHitboxes(id, model);
+
+            foreach(var item in hitboxes)
+            {
+                //item.Hitted += 
+            }
+
+            return model;
+        }
+
+        public List<HitboxModelComponent> CreateHitboxes(UnitId id, Transform model)
+        {
+            HitboxInfo[] hitboxes = model.GetComponentsInChildren<HitboxInfo>();
+
+            List<HitboxModelComponent> result = new(hitboxes.Length);
+
+            foreach (HitboxInfo hitboxData in hitboxes)
+            {
+                HitboxModelComponent value = hitboxData.gameObject.AddComponent<HitboxModelComponent>();
+                value.Owner = id;
+                value.Type = hitboxData.Type;
+                result.Add(value);
+
+                UnityEngine.Object.Destroy(hitboxData);
+            }
+
+            return result;
+        }
+    }
+
     public sealed class SceneObjectDataSource : ISceneObjectDataSource, ITransformProvider
     {
         private readonly Dictionary<UnitId, Transform> _values;
