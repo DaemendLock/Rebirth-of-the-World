@@ -16,8 +16,6 @@ namespace Combat.Local.Application.UseCases
         private readonly IUnitStore _unitStore;
         private readonly IPositionableRepository _positionableRepository;
         private readonly ISkillLyfecycleHandler _skillLyfecycleHandler;
-        private readonly IHitboxOwnerRepository _hitboxOwnerRepository;
-        private readonly IHurtableRepository _hurtableRepository;
         private readonly ICharacterUpdateQueue _characterUpdateList;
 
         private readonly ICharacterCreateOutput _outputPort;
@@ -26,8 +24,7 @@ namespace Combat.Local.Application.UseCases
         public UnitCreateUseCase(
             IUnitStore unitStore, IPositionableRepository positionableRepository,
             ICharacterCreateOutput outputPort, ICharacterConsciousStateOutput consciousStateOutput,
-            ISkillLyfecycleHandler skillLyfecycleHandler, ICharacterUpdateQueue characterUpdateList,
-            IHitboxOwnerRepository hitboxOwnerRepository, IHurtableRepository hurtableRepository)
+            ISkillLyfecycleHandler skillLyfecycleHandler, ICharacterUpdateQueue characterUpdateList)
 
         {
             _unitStore = unitStore;
@@ -38,8 +35,6 @@ namespace Combat.Local.Application.UseCases
             _characterUpdateList = characterUpdateList;
             _outputPort = outputPort;
             _consciousStateOutput = consciousStateOutput;
-            _hitboxOwnerRepository = hitboxOwnerRepository;
-            _hurtableRepository = hurtableRepository;
         }
 
         public void Execute(UnitId id, UnitCreationInfo context)
@@ -51,12 +46,9 @@ namespace Combat.Local.Application.UseCases
 
             UnitContext unit = CreateUnitContext(id, context);
             _unitStore.Create(unit);
+            _characterUpdateList.Add(id);
 
             _positionableRepository.Create(unit.Positionable); //Uses view
-            _hitboxOwnerRepository.Create(id); //Uses view
-            _hurtableRepository.Create(id); //Uses view
-
-            _characterUpdateList.Add(id);
 
             foreach (SkillId skillId in unit.Skills.Skills)
             {

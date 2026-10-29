@@ -6,13 +6,10 @@ namespace Combat.Local.Application.ValueObjects
 {
     public readonly struct DesiredActions
     {
-        public DesiredActions(SkillId? skill, Vector2 movementDirection)
+        public DesiredActions(Vector2 movementDirection)
         {
-            Skill = skill;
             MovementDirection = movementDirection;
         }
-
-        public SkillId? Skill { get; }
         public Vector2 MovementDirection { get; }
     }
 
@@ -21,11 +18,11 @@ namespace Combat.Local.Application.ValueObjects
         UnitId Target { get; }
     }
 
-    public readonly struct CastCommand : IInputCommand
+    public readonly struct CastSkillCommand : IInputCommand
     {
         public readonly int SkillSlot;
 
-        public CastCommand(UnitId target, int skillSlot)
+        public CastSkillCommand(UnitId target, int skillSlot)
         {
             Target = target;
             SkillSlot = skillSlot;
@@ -34,11 +31,11 @@ namespace Combat.Local.Application.ValueObjects
         public readonly UnitId Target { get; }
     }
 
-    public readonly struct ReleaseCommand : IInputCommand
+    public readonly struct ReleaseSkillCommand : IInputCommand
     {
         public readonly int SkillSlot;
 
-        public ReleaseCommand(UnitId target, int skillSlot)
+        public ReleaseSkillCommand(UnitId target, int skillSlot)
         {
             SkillSlot = skillSlot;
             Target = target;

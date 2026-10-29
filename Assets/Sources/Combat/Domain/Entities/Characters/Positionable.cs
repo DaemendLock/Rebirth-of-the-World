@@ -106,6 +106,9 @@ namespace Combat.Domain.Entities
         public readonly bool StopScaleOverTime(ScaleEffectId effectId) => ScaleEffects.RemoveAll(value => value.Id == effectId) > 0;
 
         public readonly Positionable With(Vector3 position, Quaternion rotation) =>
-            new(Id, position, rotation, Scale, LookDirection, ModelName, Team, MovementEffects, ScaleEffects);
+            new(Id, position, rotation, Scale, LookDirection, ModelName, Team, MovementEffects, ScaleEffects)
+            {
+                Speed = Speed
+            };
     }
 }

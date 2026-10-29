@@ -54,7 +54,6 @@ namespace Combat.Local.Application.UseCases.Character
         private bool Cast(UnitContext unit, SkillId skillId)
         {
             UnitId caster = unit.Id;
-            unit.Actor.DesireCast(default);
 
             if (unit.LifeState.State != ConsciousState.Alive)
             {

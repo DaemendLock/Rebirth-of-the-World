@@ -73,7 +73,7 @@ namespace Combat.Local.Controllers
                 return;
             }
 
-            _inputQueue.Enqueue(new CastCommand(_playerSession.ControlledUnitId.Value, slot));
+            _inputQueue.Enqueue(new CastSkillCommand(_playerSession.ControlledUnitId.Value, slot));
         }
 
         public void ReleaseCast(int slot)
@@ -85,7 +85,7 @@ namespace Combat.Local.Controllers
                 return;
             }
 
-            _inputQueue.Enqueue(new ReleaseCommand(_playerSession.ControlledUnitId.Value, slot));
+            _inputQueue.Enqueue(new ReleaseSkillCommand(_playerSession.ControlledUnitId.Value, slot));
         }
     }
 }

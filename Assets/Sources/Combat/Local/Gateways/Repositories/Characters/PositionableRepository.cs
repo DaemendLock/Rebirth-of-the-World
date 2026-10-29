@@ -10,31 +10,48 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+using HitboxInfo = Data.Entities.Components.Hitbox;
+using HurtboxInfo = Data.Entities.Components.Hurtbox;
+
 namespace Combat.Local.Gateways.Repositories.Characters
 {
     public sealed class PositionableRepository : IPositionableRepository, IUnitSpatialQuery
     {
         private readonly ISceneObjectDataSource _sceneObjectDataSource;
         private readonly CharacterModelFactory _characterModelFactory;
+        private readonly IHitRecordQueue _hitRecordQueue;
+        private readonly Dictionary<UnitId, List<HitboxModelComponent>> _hitboxes;
+        private readonly Dictionary<UnitId, List<HurtboxModelComponent>> _hurtboxes;
 
-        public PositionableRepository(ISceneObjectDataSource sceneObjectDataSource, CharacterModelFactory characterModelFactory)
+        public PositionableRepository(ISceneObjectDataSource sceneObjectDataSource, CharacterModelFactory characterModelFactory, IHitRecordQueue hitRecordQueue)
         {
             _sceneObjectDataSource = sceneObjectDataSource;
             _characterModelFactory = characterModelFactory;
+            _hitRecordQueue = hitRecordQueue;
+
+            _hitboxes = new();
+            _hurtboxes = new();
         }
 
         public void Create(Positionable value)
         {
-            if (_sceneObjectDataSource.TryGet(value.Id, out Transform parent))
+            if (_sceneObjectDataSource.TryGet(value.Id, out Transform parent) == false)
             {
-                throw new System.InvalidOperationException();
+                parent = _characterModelFactory.Create(parent, value.ModelName);
+                _sceneObjectDataSource.Register(value.Id, parent);
             }
 
-            parent = _characterModelFactory.Create(parent, value.ModelName);
-            _sceneObjectDataSource.Register(value.Id, parent);
+            parent.SetPositionAndRotation(value.Position, value.Rotation);
+            _hitboxes.Add(value.Id, CreateHitboxes(value.Id, parent));
+            _hurtboxes.Add(value.Id, CreateHurtboxes(value.Id, parent));
         }
 
-        public void Delete(UnitId id) => _sceneObjectDataSource.Destroy(id);
+        public void Delete(UnitId id)
+        {
+            DeleteHitboxes(id);
+            DeleteHurtboxes(id);
+            _sceneObjectDataSource.Destroy(id);
+        }
 
         public IReadOnlyCollection<UnitId> FindInRadius(Vector3 center, float radius)
         {
@@ -63,6 +80,74 @@ namespace Combat.Local.Gateways.Repositories.Characters
             }
 
             return (model.position, model.rotation);
+        }
+
+        private List<HitboxModelComponent> CreateHitboxes(UnitId id, Transform root)
+        {
+            HitboxInfo[] hitboxes = root.GetComponentsInChildren<HitboxInfo>();
+
+            List<HitboxModelComponent> result = new(hitboxes.Length);
+
+            foreach (HitboxInfo hitboxData in hitboxes)
+            {
+                HitboxModelComponent value = hitboxData.gameObject.AddComponent<HitboxModelComponent>();
+                value.Owner = id;
+                value.Type = hitboxData.Type;
+                value.Hitted += _hitRecordQueue.Enqueue;
+                result.Add(value);
+
+                UnityEngine.Object.Destroy(hitboxData);
+            }
+
+            return result;
+        }
+
+        private void DeleteHitboxes(UnitId id)
+        {
+            if (_hitboxes.TryGetValue(id, out var models) == false)
+            {
+                return;
+            }
+
+            foreach (HitboxModelComponent value in models)
+            {
+                UnityEngine.Object.Destroy(value);
+            }
+
+            _hitboxes.Remove(id);
+        }
+
+        private List<HurtboxModelComponent> CreateHurtboxes(UnitId id, Transform root)
+        {
+            HurtboxInfo[] hurtboxes = root.GetComponentsInChildren<HurtboxInfo>();
+            List<HurtboxModelComponent> result = new();
+
+            foreach (HurtboxInfo hurtboxData in hurtboxes)
+            {
+                var value = hurtboxData.gameObject.AddComponent<HurtboxModelComponent>();
+                value.Type = hurtboxData.Type;
+                value.Owner = id;
+                result.Add(value);
+
+                UnityEngine.Object.Destroy(hurtboxData);
+            }
+
+            return result;
+        }
+
+        private void DeleteHurtboxes(UnitId id)
+        {
+            if (_hurtboxes.TryGetValue(id, out var models) == false)
+            {
+                return;
+            }
+
+            foreach (var value in models)
+            {
+                UnityEngine.Object.Destroy(value);
+            }
+
+            _hurtboxes.Remove(id);
         }
     }
 }

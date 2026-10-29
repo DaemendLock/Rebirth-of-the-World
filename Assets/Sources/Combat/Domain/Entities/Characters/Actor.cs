@@ -28,7 +28,7 @@ namespace Combat.Domain.Entities
         {
             Id = id;
             CurrentAction = null;
-            DesiredActions = new(default, Vector2.Zero);
+            DesiredActions = new(Vector2.Zero);
             _breakEffects = new List<BreakEffect>();
             BaseMovespeed = baseMovespeed;
         }
@@ -77,7 +77,6 @@ namespace Combat.Domain.Entities
         {
             interruptedAction = CurrentAction;
             StopAction();
-            DesireCast(null);
 
             if (interruptedAction == null)
             {
@@ -88,14 +87,9 @@ namespace Combat.Domain.Entities
             return true;
         }
 
-        public void DesireCast(SkillId? skillId)
-        {
-            DesiredActions = new(skillId, DesiredActions.MovementDirection);
-        }
-
         public void DesireMoveDirection(Vector2 direction)
         {
-            DesiredActions = new(DesiredActions.Skill, direction);
+            DesiredActions = new(direction);
         }
 
         public readonly void ApplyBreak(ActorState type, float duration)

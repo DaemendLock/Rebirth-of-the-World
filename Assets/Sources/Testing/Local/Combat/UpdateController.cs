@@ -79,22 +79,22 @@ namespace Testing.Local
 
         private void HandleInputs()
         {
+            while (_hitRecordQueue.TryDequeue(out var hitRecord))
+            {
+                _handleHitUseCase.Execute(new(hitRecord));
+            }
+
             while (_inputQueue.TryDequeue(out var command))
             {
                 switch (command)
                 {
-                    case CastCommand cast:
+                    case CastSkillCommand cast:
                         _actorCastSkillFromSlotUse.Execute(cast.Target, cast.SkillSlot);
                         continue;
-                    case ReleaseCommand release:
+                    case ReleaseSkillCommand release:
                         _actorReleaseSkillFromSlotUseCase.Execute(release.Target, release.SkillSlot);
                         continue;
                 }
-            }
-
-            while (_hitRecordQueue.TryDequeue(out var hitRecord))
-            {
-                _handleHitUseCase.Execute(new(hitRecord));
             }
         }
 
@@ -105,8 +105,8 @@ namespace Testing.Local
             _composureUpdateAllUseCase.Execute(context, deltaTime);
             _skillUpdateAllUseCase.Execute(context.Updatables, deltaTime);
             _updateStatusesUseCase.Execute(context.Updatables, deltaTime);
-            _positionableUpdateAllUseCase.Execute(context.Updatables, deltaTime);
             _actorUpdateAllUseCase.Execute(context.Updatables, deltaTime);
+            _positionableUpdateAllUseCase.Execute(context.Updatables, deltaTime);
         }
 
         private void FinalizeTick(TickContext context)

@@ -2,18 +2,22 @@
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
 using Combat.Domain.Repositories;
+using Combat.Local.Application.Queries;
+using Combat.Local.Application.ValueObjects;
 
 namespace Combat.Local.Application.UseCases
 {
     public class ActorDesireCastFromSlotUseCase
     {
         private readonly IUnitStore _unitStore;
+        private readonly IInputQueue _inputQueue;
         private readonly IDesireCastOutput _desireCastOutput;
 
-        public ActorDesireCastFromSlotUseCase(IUnitStore units, IDesireCastOutput desireCastOutput)
+        public ActorDesireCastFromSlotUseCase(IUnitStore units, IDesireCastOutput desireCastOutput, IInputQueue inputQueue)
         {
             _unitStore = units;
             _desireCastOutput = desireCastOutput;
+            _inputQueue = inputQueue;
         }
 
         public void Execute(UnitId caster, int slot)
@@ -26,7 +30,7 @@ namespace Combat.Local.Application.UseCases
                 return;
             }
 
-            unit.Actor.DesireCast(skillId);
+            _inputQueue.Enqueue(new CastSkillCommand(caster, slot));
         }
 
         private bool TryGetSkillId(UnitContext unit, int slot, out SkillId result)

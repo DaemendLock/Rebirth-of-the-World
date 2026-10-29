@@ -69,9 +69,7 @@ namespace Combat.Local.Composition
 
         private void BindRepositories()
         {
-            Container.Bind<IHitboxOwnerRepository>().To<HitboxRepository>().AsSingle();
             Container.Bind<IHitRecordQueue>().To<HitRecordQueue>().AsSingle();
-            Container.Bind<IHurtableRepository>().To<HurtableRepository>().AsSingle();
             Container.Bind<PositionableRepository>().AsSingle();
             Container.Bind<IPositionableRepository>().To<PositionableRepository>().FromResolve();
             Container.Bind<IUnitSpatialQuery>().To<PositionableRepository>().FromResolve();

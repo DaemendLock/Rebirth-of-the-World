@@ -16,9 +16,6 @@ namespace Combat.Local.Application.UseCases.Scene
         private readonly IPositionableRepository _positionableRepository;
         private readonly ICharacterUpdateQueue _characterUpdateList;
 
-        private readonly IHurtableRepository _hurtableRepository;
-        private readonly IHitboxOwnerRepository _hitboxOwnerRepository;
-
         private readonly IStatusTimerRepository _statusTimerRepository;
 
         private readonly ISkillLyfecycleHandler _skillLyfecycleHandler;
@@ -29,16 +26,13 @@ namespace Combat.Local.Application.UseCases.Scene
         private readonly ICharacterRemoveOutput _outputPort;
 
         public UnitDeleteUseCase(IUnitStore unitStore, IPositionableRepository positionableRepository,
-                                      ICharacterUpdateQueue characterUpdateList, IHurtableRepository hurtableRepository,
-                                      IHitboxOwnerRepository hitboxOwnerRepository, IStatusTimerRepository statusTimerRepository,
+                                      ICharacterUpdateQueue characterUpdateList, IStatusTimerRepository statusTimerRepository,
                                       ISkillLyfecycleHandler skillLyfecycleHandler, IStatusLifecycleHandler statusLifecycleHandler,
                                        PlayerSession playerSession)
         {
             _unitStore = unitStore;
             _positionableRepository = positionableRepository;
             _characterUpdateList = characterUpdateList;
-            _hurtableRepository = hurtableRepository;
-            _hitboxOwnerRepository = hitboxOwnerRepository;
             _statusTimerRepository = statusTimerRepository;
             _skillLyfecycleHandler = skillLyfecycleHandler;
             _statusLifecycleHandler = statusLifecycleHandler;
@@ -81,8 +75,6 @@ namespace Combat.Local.Application.UseCases.Scene
 
             unit.Actor.CurrentAction?.Interrupt(InterruptReason.Forced);
 
-            _hitboxOwnerRepository.Delete(target);
-            _hurtableRepository.Delete(target);
             _unitStore.Delete(target);
             _characterUpdateList.Delete(target);
 
