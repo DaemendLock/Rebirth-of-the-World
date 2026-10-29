@@ -30,10 +30,7 @@ namespace Combat.Domain.Entities
 
         public bool IsHoldable => Flags.HasFlag(ActionFlags.Holdable);
 
-        public void Start()
-        {
-            _strategy.Start();
-        }
+        public void Start() => _strategy.Start();
 
         public void Progress(float deltaTime)
         {
@@ -43,7 +40,7 @@ namespace Combat.Domain.Entities
 
         public void Interrupt(InterruptReason reason) => _strategy.Interrupt(reason);
 
-        public bool TryGet<T>(out T capability) where T : class
+        public bool TryGetCapability<T>(out T capability) where T : class
         {
             capability = _strategy as T;
             return capability != null;

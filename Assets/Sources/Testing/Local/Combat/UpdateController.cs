@@ -12,10 +12,10 @@ namespace Testing.Local
 {
     public class UpdateController : ITickable
     {
-        private readonly StatusOwnerProgressAllUseCases _updateStatusesUseCase;
-        private readonly SkillOwnerProgressAllUseCase _skillUpdateAllUseCase;
+        private readonly StatusOwnerProgressAllUseCases _statusesProgressAllUseCase;
+        private readonly SkillOwnerProgressAllUseCase _skillsProgressllUseCase;
         private readonly ComposureRecoverAllUseCase _composureUpdateAllUseCase;
-        private readonly ActorProgressAllUseCase _actorUpdateAllUseCase;
+        private readonly ActorProgressAllUseCase _actorsProgressAllUseCase;
         private readonly TickEvaluateAllUseCase _attributeOwnerUpdateAllUseCase;
         private readonly LifeStateEvaluateAllUseCase _updateConsciousStateAllUseCase;
         private readonly HitsHandleUseCase _handleHitUseCase;
@@ -46,11 +46,11 @@ namespace Testing.Local
                                 ActorReleaseSkillFromSlotUseCase actorReleaseSkillFromSlotUseCase)
         {
             _attributeOwnerUpdateAllUseCase = updateCombatUseCase;
-            _updateStatusesUseCase = updateStatusesUseCase;
+            _statusesProgressAllUseCase = updateStatusesUseCase;
             _handleHitUseCase = handleHitUseCase;
-            _actorUpdateAllUseCase = actorActAllUseCase;
+            _actorsProgressAllUseCase = actorActAllUseCase;
             _composureUpdateAllUseCase = composureRecoverAllUseCase;
-            _skillUpdateAllUseCase = skillUpdateAllUseCase;
+            _skillsProgressllUseCase = skillUpdateAllUseCase;
             _characterDeleteQueue = characterDeleteQueue;
             _characterDeleteUseCase = characterDeleteUseCase;
             _encounterState = encounterState;
@@ -103,9 +103,9 @@ namespace Testing.Local
             float deltaTime = UnityEngine.Time.deltaTime;
 
             _composureUpdateAllUseCase.Execute(context, deltaTime);
-            _skillUpdateAllUseCase.Execute(context.Updatables, deltaTime);
-            _updateStatusesUseCase.Execute(context.Updatables, deltaTime);
-            _actorUpdateAllUseCase.Execute(context.Updatables, deltaTime);
+            _skillsProgressllUseCase.Execute(context.Updatables, deltaTime);
+            _statusesProgressAllUseCase.Execute(context.Updatables, deltaTime);
+            _actorsProgressAllUseCase.Execute(context.Updatables, deltaTime);
             _positionableUpdateAllUseCase.Execute(context.Updatables, deltaTime);
         }
 

@@ -108,7 +108,7 @@ namespace Combat.Local.Application.UseCases.Character
                 return _skillExecutionPort.CanCast(abilityKey);
             }
 
-            if (action.TryGet(out IAbilityAction abilityAction) == false)
+            if (action.TryGetCapability(out IAbilityAction abilityAction) == false)
             {
                 return CastFailReason.CastInProgress;
             }
@@ -121,7 +121,7 @@ namespace Combat.Local.Application.UseCases.Character
                 }
             }
 
-            if (action.TryGet(out IChainableAction chainableAction) == false)
+            if (action.TryGetCapability(out IChainableAction chainableAction) == false)
             {
                 return CastFailReason.CastInProgress;
             }
@@ -140,7 +140,7 @@ namespace Combat.Local.Application.UseCases.Character
             {
                 _actorUpdateOutput.Clear(unit.Id);
 
-                if (oldAction.TryGet(out IAbilityAction oldAbilityAction))
+                if (oldAction.TryGetCapability(out IAbilityAction oldAbilityAction))
                 {
                     AbilityKey oldKey = new(unit.Id, oldAbilityAction.Source);
                     _skillHitHandler.Reset(oldKey);

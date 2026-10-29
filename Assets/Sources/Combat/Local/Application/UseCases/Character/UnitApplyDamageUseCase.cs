@@ -1,10 +1,8 @@
-﻿using Combat.Common;
-using Combat.Common.Flags;
+﻿using Combat.Common.Flags;
 using Combat.Common.Primitives;
 using Combat.Domain.Entities;
 using Combat.Domain.Repositories;
 using Combat.Local.Application.DTO;
-using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.OutputPorts.Statuses;
 using Combat.Local.Application.Queries.Statuses;
 using Combat.Local.Application.ValueObjects;
@@ -46,29 +44,33 @@ namespace Combat.Local.Application.UseCases
             DamageInstance instance = new(info.Target, info.HealthDamage, info.ComposureDamage, info.Flags, info.Attacker, info.Source);
             DamageModification defenderModification = default;
             float versatilityModifier = 1;
+            float impactModifier = 1f;
             DamageModification attackerModification = default;
 
             UnitContext defender = _unitStore.Get(info.Target);
 
             defenderModification = _damageModificationCalculator.GetIncomingDamageModification(defender.Statuses.GetAll().Select(value => value.Id), instance);
-            versatilityModifier /= defender.Attributes.GetVersalityModifier();
+            versatilityModifier /= 1f + defender.Attributes.GetVersalityModifier();
+            impactModifier /= versatilityModifier;
 
-            if (instance.Attacker.HasValue)
+            if (instance.Attacker.HasValue && _unitStore.TryGet(info.Attacker.Value, out UnitContext attacker))
             {
                 try
                 {
-                    UnitContext attacker = _unitStore.Get(info.Attacker.Value);
                     attackerModification = _damageModificationCalculator.GetOutgoingDamageModification(attacker.Statuses.GetAll().Select(value => value.Id), instance);
-                    versatilityModifier *= attacker.Attributes.GetVersalityModifier();
+                    versatilityModifier *= 1f + attacker.Attributes.GetVersalityModifier();
+                    impactModifier *= 1f + attacker.Attributes.GetImpactComposureDamageModifier();
                 }
                 catch
-                { }
+                {
+
+                }
             }
 
             DamageModification finalModification = defenderModification + attackerModification;
 
             instance.HealthDamage = finalModification.ApplyTo(instance.HealthDamage) * versatilityModifier;
-            instance.ComposureDamage = finalModification.ApplyTo(instance.ComposureDamage) * versatilityModifier;
+            instance.ComposureDamage = instance.OriginalComposureDamage * impactModifier * (1f + defenderModification.PercentModication / 100f);
             instance.Flags |= finalModification.FlagsModification;
             return instance;
         }

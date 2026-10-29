@@ -130,7 +130,7 @@ namespace Combat.Local.Application.UseCases
 
             _actionUpdateOutput.Clear(unit.Id);
 
-            if (interruptedAction.TryGet(out IAbilityAction abilityAction) == false)
+            if (interruptedAction.TryGetCapability(out IAbilityAction abilityAction) == false)
             {
                 return;
             }

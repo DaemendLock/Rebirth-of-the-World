@@ -10,10 +10,10 @@ namespace Combat.Domain.Entities
 {
     public struct Positionable
     {
-        public readonly List<MoveInDirectionEffect> MovementEffects;
-        public readonly List<ScaleOverTimeEffect> ScaleEffects;
+        private readonly List<MoveInDirectionEffect> _movementEffects;
+        private readonly List<ScaleOverTimeEffect> _scaleEffects;
 
-        public Positionable(UnitId id, Vector3 position, Quaternion rotation, float scale, Quaternion lookDiration, ModelName modelName, Team team, List<MoveInDirectionEffect> movementEffects, List<ScaleOverTimeEffect> scaleEffects)
+        public Positionable(UnitId id, Vector3 position, Quaternion rotation, float scale, Quaternion lookDiration, ModelName modelName, Team team)
         {
             Id = id;
             ModelName = modelName;
@@ -24,8 +24,21 @@ namespace Combat.Domain.Entities
             LookDirection = lookDiration;
             Team = team;
             Speed = 0f;
-            MovementEffects = movementEffects;
-            ScaleEffects = scaleEffects;
+            _movementEffects = new();
+            _scaleEffects = new();
+        }
+        private Positionable(UnitId id, float speed, Vector3 position, Quaternion rotation, Quaternion lookDirection, ModelName modelName, float scale, Team team, List<MoveInDirectionEffect> movementEffects, List<ScaleOverTimeEffect> scaleEffects)
+        {
+            Id = id;
+            Speed = speed;
+            Position = position;
+            Rotation = rotation;
+            LookDirection = lookDirection;
+            ModelName = modelName;
+            Scale = scale;
+            Team = team;
+            _movementEffects = movementEffects;
+            _scaleEffects = scaleEffects;
         }
 
         public UnitId Id { get; }
@@ -46,19 +59,19 @@ namespace Combat.Domain.Entities
 
         public readonly void ApplyForcedMovement(MoveInDirectionEffect effect)
         {
-            MovementEffects.Add(effect);
+            _movementEffects.Add(effect);
         }
 
         public readonly bool ProgressMovementEffects(float deltaTime)
         {
-            for (int i = 0; i < MovementEffects.Count; i++)
+            for (int i = 0; i < _movementEffects.Count; i++)
             {
-                MoveInDirectionEffect effect = MovementEffects[i];
+                MoveInDirectionEffect effect = _movementEffects[i];
                 float newDuration = effect.MaxDuration - deltaTime;
-                MovementEffects[i] = new(effect.Velocity, effect.IsRelative, newDuration);
+                _movementEffects[i] = new(effect.Velocity, effect.IsRelative, newDuration);
             }
 
-            return MovementEffects.RemoveAll(value => value.MaxDuration <= 0) > 0;
+            return _movementEffects.RemoveAll(value => value.MaxDuration <= 0) > 0;
         }
 
         public readonly (System.Numerics.Vector3 Directional, System.Numerics.Vector3 Relative) GetForcedVelocity()
@@ -66,7 +79,7 @@ namespace Combat.Domain.Entities
             System.Numerics.Vector3 Directional = System.Numerics.Vector3.Zero;
             System.Numerics.Vector3 Relative = System.Numerics.Vector3.Zero;
 
-            foreach (var effect in MovementEffects)
+            foreach (var effect in _movementEffects)
             {
                 if (effect.MaxDuration <= 0)
                 {
@@ -88,14 +101,14 @@ namespace Combat.Domain.Entities
 
         public readonly void StartScaleOverTime(ScaleOverTimeEffect effect)
         {
-            ScaleEffects.Add(effect);
+            _scaleEffects.Add(effect);
         }
 
         public readonly float GetScaleRate()
         {
             float result = 0;
 
-            foreach (var effect in ScaleEffects)
+            foreach (var effect in _scaleEffects)
             {
                 result += effect.Rate;
             }
@@ -103,12 +116,9 @@ namespace Combat.Domain.Entities
             return result;
         }
 
-        public readonly bool StopScaleOverTime(ScaleEffectId effectId) => ScaleEffects.RemoveAll(value => value.Id == effectId) > 0;
+        public readonly bool StopScaleOverTime(ScaleEffectId effectId) => _scaleEffects.RemoveAll(value => value.Id == effectId) > 0;
 
         public readonly Positionable With(Vector3 position, Quaternion rotation) =>
-            new(Id, position, rotation, Scale, LookDirection, ModelName, Team, MovementEffects, ScaleEffects)
-            {
-                Speed = Speed
-            };
+            new(Id, Speed, position, rotation, LookDirection, ModelName, Scale, Team, _movementEffects, _scaleEffects);
     }
 }

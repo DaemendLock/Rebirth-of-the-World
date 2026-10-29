@@ -23,7 +23,7 @@ namespace Combat.Local.Application.UseCases
 
             Action action = unit.Actor.CurrentAction;
 
-            if (action == null || (action.TryGet(out IAbilityAction abilityAction) == false))
+            if (action == null || (action.TryGetCapability(out IAbilityAction abilityAction) == false))
             {
                 return;
             }
@@ -35,7 +35,7 @@ namespace Combat.Local.Application.UseCases
                 return;
             }
 
-            if (action.IsHoldable && action.TryGet(out IReleasableAction releasable))
+            if (action.IsHoldable && action.TryGetCapability(out IReleasableAction releasable))
             {
                 releasable.Release();
             }

@@ -49,14 +49,13 @@ namespace Combat.Local.Application.UseCases
             _characterUpdateList.Add(id);
 
             _positionableRepository.Create(unit.Positionable); //Uses view
+            _outputPort.Present(id);
+            _consciousStateOutput.Present(id, unit.LifeState.State);
 
             foreach (SkillId skillId in unit.Skills.Skills)
             {
                 _skillLyfecycleHandler.Give(new(id, skillId));
             }
-
-            _outputPort.Present(id);
-            _consciousStateOutput.Present(id, unit.LifeState.State);
         }
 
         public UnitId Execute(UnitCreationInfo context)
@@ -75,7 +74,7 @@ namespace Combat.Local.Application.UseCases
             {
                 Resources = new(id, context.DefaultResources.ToArray()),
                 Actor = new(id, context.BaseMovespeed),
-                Positionable = new(id, context.Position, default, 1f, default, context.Model, context.Team, new(), new()),
+                Positionable = new(id, context.Position, default, 1f, default, context.Model, context.Team),
                 Attributes = CreateAttributesOwner(id, context),
                 Health = new(id, currentHealth, context.DefaultHealth),
                 Composure = new(id, currentComposure, context.DefaultComposure),

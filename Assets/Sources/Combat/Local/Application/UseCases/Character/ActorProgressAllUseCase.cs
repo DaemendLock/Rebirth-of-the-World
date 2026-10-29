@@ -49,31 +49,22 @@ namespace Combat.Local.Application.UseCases
 
             if (unit.LifeState.State != ConsciousState.Alive)
             {
-                InterruptReason reason = unit.LifeState.State == ConsciousState.Dead ? InterruptReason.Death : InterruptReason.Downed;
-
-                if (unit.Actor.TryInterrupt(reason))
-                {
-                    _actorUpdateOutput.Clear(unit.Id);
-
-                    if (action.TryGet(out IAbilityAction abilityAction))
-                    {
-                        AbilityKey key = new(unit.Id, abilityAction.Source);
-                        _skillHitHandler.Reset(key);
-                        _skillActionStateChangeHandler.Handle(key, ActionState.Inactive);
-                        return;
-                    }
-                }
-
+                ClearAction(action, unit);
                 return;
             }
 
             if (action.IsComplete)
             {
-                StopAction(unit, action);
+                FinishAction(action, unit);
                 return;
             }
 
-            bool isAbilityAction = action.TryGet(out IAbilityAction abilityActionStrategy);
+            ProgressAction(action, unit, deltaTime);
+        }
+
+        private void ProgressAction(Action action, UnitContext unit, float deltaTime)
+        {
+            bool isAbilityAction = action.TryGetCapability(out IAbilityAction abilityActionStrategy);
             ActionState oldState = isAbilityAction ? abilityActionStrategy.State : default;
 
             action.Progress(deltaTime);
@@ -83,36 +74,48 @@ namespace Combat.Local.Application.UseCases
                 _actorUpdateOutput.Release(unit.Id);
             }
 
-            if (isAbilityAction && abilityActionStrategy.State != oldState)
+            if (isAbilityAction == false)
             {
-                HandleStateChanges(unit.Id, abilityActionStrategy, oldState);
                 return;
             }
+
+            if (abilityActionStrategy.State == oldState)
+            {
+                return;
+            }
+
+            HandleStateChanges(unit.Id, abilityActionStrategy, abilityActionStrategy.State);
         }
 
-        private void StopAction(UnitContext unit, Action action)
+        private void FinishAction(Action action, UnitContext unit)
         {
             unit.Actor.StopAction();
-            _actorUpdateOutput.Clear(unit.Id);
-
-            if (action.TryGet(out IAbilityAction abilityAction))
-            {
-                AbilityKey key = new(unit.Id, abilityAction.Source);
-                _skillHitHandler.Reset(key);
-                _skillActionStateChangeHandler.Handle(key, ActionState.Inactive);
-            }
+            SetInactive(action, unit);
         }
 
-        private void HandleStateChanges(UnitId actorId, IAbilityAction action, ActionState oldState)
+        private void ClearAction(Action action, UnitContext unit)
         {
-            if (action.State == oldState)
+            unit.Actor.TryInterrupt(unit.LifeState.State == ConsciousState.Dead ? InterruptReason.Death : InterruptReason.Downed);
+            SetInactive(action, unit);
+        }
+
+        private void SetInactive(Action action, UnitContext unit)
+        {
+            _actorUpdateOutput.Clear(unit.Id);
+
+            if (action.TryGetCapability(out IAbilityAction abilityAction) == false)
             {
                 return;
             }
 
+            HandleStateChanges(unit.Id, abilityAction, ActionState.Inactive);
+        }
+
+        private void HandleStateChanges(UnitId actorId, IAbilityAction action, ActionState state)
+        {
             AbilityKey key = new(actorId, action.Source);
             _skillHitHandler.Reset(key);
-            _skillActionStateChangeHandler.Handle(key, action.State);
+            _skillActionStateChangeHandler.Handle(key, state);
         }
     }
 }

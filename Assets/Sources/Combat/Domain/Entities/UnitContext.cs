@@ -31,7 +31,7 @@ namespace Combat.Domain.Entities
             Skills = new(id);
             Statuses = new(id);
             Equipment = new(id, new ItemSlot?[Enum.GetValues(typeof(EquipmentSlotType)).Length]);
-            Positionable = new(id, default, default, 1f, default, default, default, null, null);
+            Positionable = default;
         }
 
         public UnitId Id { get; }

@@ -48,7 +48,7 @@ namespace Combat.Local.Application.UseCases
         {
             unit.Actor.TryInterrupt(InterruptReason.Death, out var interruptedAction);
 
-            if (interruptedAction != null && interruptedAction.TryGet(out IAbilityAction abilityAction))
+            if (interruptedAction != null && interruptedAction.TryGetCapability(out IAbilityAction abilityAction))
             {
                 AbilityKey key = new(unit.Id, abilityAction.Source);
                 _hitHandler.Reset(key);
