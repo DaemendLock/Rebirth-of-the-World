@@ -14,6 +14,7 @@
         CastInProgress,
         NotCastable,
         CantCast,
+        Dead,
         Custom
     }
 }

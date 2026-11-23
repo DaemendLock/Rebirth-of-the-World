@@ -65,9 +65,9 @@ namespace Combat.Domain.Entities
 
         public readonly bool CanMove => State.HasFlag(ActorState.Rooted) == false && (CurrentActivity.Type == ActivityType.Idle);
 
-        public void StartCast(ActionId action, CastActivity cast)
+        public void StartCast(CastActivity cast)
         {
-            CurrentActivity = ActivityState.Casting(action);
+            CurrentActivity = ActivityState.Casting();
             CastActivity = cast;
         }
 
@@ -83,7 +83,7 @@ namespace Combat.Domain.Entities
 
             return interruptedAction.Type switch
             {
-                ActivityType.Idle => false,
+                ActivityType.Idle => true,
                 _ => true
             };
         }

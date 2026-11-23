@@ -6,7 +6,6 @@ namespace Combat.API.Contexts
     public interface ICastContext
     {
         IActor Caster { get; }
-        AbilityKey Key { get; }
 
         EventHandlerId SubscribeToEvent<TEventData>(IEventContext.EventHandler<TEventData> callback) where TEventData : IEventData;
         void Unsubscribe(EventHandlerId id);

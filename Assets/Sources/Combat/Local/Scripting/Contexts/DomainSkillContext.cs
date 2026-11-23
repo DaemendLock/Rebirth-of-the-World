@@ -1,32 +1,23 @@
 ﻿using Combat.API.Contexts;
-using Combat.API.Events;
 using Combat.API.Skills;
 using Combat.Common.Primitives;
 using Combat.Domain.Repositories;
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Combat.Local.Scripting.Contexts
 {
-    public sealed class DomainSkillContext : ISkillContext
+    public readonly struct DomainSkillContext : ISkillContext
     {
         private readonly AbilityKey _key;
         private readonly IEncounterContext _environmentContext;
-        private readonly IEventContext _eventContext;
         private readonly ISkillDynamicMemoryRepository _memoryRepository;
 
-        private readonly List<EventHandlerId> _eventHandlers;
-
-        public DomainSkillContext(AbilityKey key, ISkillDynamicMemoryRepository skillMemoryRepository, IEventContext eventContext, IEncounterContext environmentContext)
+        public DomainSkillContext(AbilityKey key, ISkillDynamicMemoryRepository skillMemoryRepository, IEncounterContext environmentContext)
         {
             _key = key;
-
             _memoryRepository = skillMemoryRepository;
-            _eventContext = eventContext;
-
-            _eventHandlers = new();
             _environmentContext = environmentContext;
         }
 
@@ -45,10 +36,7 @@ namespace Combat.Local.Scripting.Contexts
             return new(dynamicData);
         }
 
-        public void SaveState<T>(SkillState<T> value) where T : unmanaged, IDynamicSkillData
-        {
-            _memoryRepository.Save(_key, value);
-        }
+        public void SaveState<T>(SkillState<T> value) where T : unmanaged, IDynamicSkillData => _memoryRepository.Save(_key, value);
 
         public TQuery GetCapability<TQuery>() where TQuery : class
         {
@@ -58,33 +46,6 @@ namespace Combat.Local.Scripting.Contexts
             }
 
             return null;
-        }
-
-        public EventHandlerId SubscribeToEvent<TEventData>(IEventContext.EventHandler<TEventData> callback) where TEventData : IEventData
-        {
-            EventHandlerId id = _eventContext.Subscribe(callback);
-            _eventHandlers.Add(id);
-            return id;
-        }
-
-        public void Unsubscribe(EventHandlerId eventHandlerId)
-        {
-            if (_eventHandlers.Remove(eventHandlerId) == false)
-            {
-                return;
-            }
-
-            _eventContext.Unsubscribe(eventHandlerId);
-        }
-
-        public void Cleanup()
-        {
-            foreach (var id in _eventHandlers)
-            {
-                _eventContext.Unsubscribe(id);
-            }
-
-            _eventHandlers.Clear();
         }
     }
 }

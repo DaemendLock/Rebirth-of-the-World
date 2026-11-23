@@ -88,7 +88,7 @@ namespace Combat.Local.Composition
 
         private void BindFactories()
         {
-            Container.Bind<IAbilityFactory>().To<AbilityFactory>().AsSingle();
+            Container.Bind<ISkillInfoRepository>().To<SkillInfoRepository>().AsSingle();
             Container.Bind<IObjectiveFactory>().To<ObjectiveFactory>().AsSingle();
             Container.Bind<CustomScriptSkillStrategyFactory>().AsSingle();
             Container.Bind<NewScriptSkillStrategyFactory>().AsSingle();
@@ -99,8 +99,7 @@ namespace Combat.Local.Composition
             Container.Bind<NewScriptStatusStrategyFactory>().AsSingle();
 
             Container.Bind<CharacterModelFactory>().AsSingle();
-            Container.Bind<ActionFactory>().AsSingle();
-            Container.Bind<IAbilityActionStrategyFactory>().To<AbilityActionStrategyFactory>().AsSingle();
+            Container.Bind<CastActionFactory>().AsSingle();
         }
         private void BindUseCases()
         {
@@ -177,6 +176,7 @@ namespace Combat.Local.Composition
         {
             Container.Bind<ScriptSkillRuntimeRegistry>().AsSingle();
             Container.Bind<ISkillRuntimeRegistry>().To<ScriptSkillRuntimeRegistry>().FromResolve();
+            Container.Bind<ICastRuntimeRegistry>().To<ScriptCastlRuntimeRegistry>().FromResolve();
             Container.Bind<ScriptStatusRuntimeRegistry>().AsSingle();
             Container.Bind<IStatusRuntimeRegistry>().To<ScriptStatusRuntimeRegistry>().FromResolve();
             Container.Bind<ObjectiveRuntimeRegistry>().AsSingle();

@@ -5,8 +5,6 @@ using Combat.Local.Presentation.Providers;
 
 using DaeAnimator;
 
-using UnityEngine;
-
 namespace Combat.Local.Presentation.Presenters
 {
     public sealed class ActorUpdatePresenter : IActorActionUpdateOutput

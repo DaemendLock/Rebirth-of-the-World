@@ -12,22 +12,29 @@ namespace Combat.Local.Scripting.SkillPorts
     public sealed class PropertySkillHitHandler : ISkillHitHandler
     {
         private readonly ISkillRuntimeRegistry _runtimeRegistry;
+        private readonly ICastRuntimeRegistry _castRegistry;
         private readonly Dictionary<AbilityKey, List<UnitId>> _hittedTargets;
 
-        public PropertySkillHitHandler(ISkillRuntimeRegistry runtimeRegistry)
+        public PropertySkillHitHandler(ISkillRuntimeRegistry runtimeRegistry, ICastRuntimeRegistry castRegistry)
         {
             _runtimeRegistry = runtimeRegistry;
             _hittedTargets = new();
+            _castRegistry = castRegistry;
         }
 
         public void HandleHit(AbilityKey abilityKey, HitRecord hitRecord)
         {
+            if (_castRegistry.TryGet(abilityKey, out var castRuntime) == false)
+            {
+                return;
+            }
+
             if (_runtimeRegistry.TryGet(abilityKey, out var skillRuntime) == false)
             {
                 return;
             }
 
-            var handler = skillRuntime.Container.GetCapability<ISkillHitCapability>();
+            var handler = castRuntime.Container.GetCapability<ISkillHitCapability>();
 
             if (handler == null)
             {
@@ -40,7 +47,7 @@ namespace Combat.Local.Scripting.SkillPorts
                 _hittedTargets[abilityKey] = targets;
             }
 
-            HandleHit(skillRuntime.Context, skillRuntime.CastContexts.Current, handler, targets, hitRecord);
+            HandleHit(skillRuntime.Context, castRuntime.Context, handler, targets, hitRecord);
         }
 
         public void Reset(AbilityKey abilityKey)

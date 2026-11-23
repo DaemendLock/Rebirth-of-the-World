@@ -1,8 +1,8 @@
 ﻿using Combat.API;
 using Combat.API.Adapters;
 using Combat.Common.Primitives;
-using Combat.Local.Application.Entities;
-using Combat.Local.Application.Factories;
+using Combat.Domain.Repositories;
+using Combat.Domain.ValueObjects;
 using Combat.Local.Scripting.Contexts;
 
 namespace Combat.Local.Scripting.Adapters
@@ -11,10 +11,10 @@ namespace Combat.Local.Scripting.Adapters
     {
         private readonly CharacterApiAdapter _characterApiProvider;
         private readonly ISceneApiAdapter _sceneApiProvider;
-        private readonly IAbilityFactory _abilityFactory;
+        private readonly ISkillInfoRepository _abilityFactory;
 
         public AbilityApiAdapter(CharacterApiAdapter characterApiProvider, ISceneApiAdapter sceneApiProvider,
-            IAbilityFactory abilityFactory)
+            ISkillInfoRepository abilityFactory)
         {
             _characterApiProvider = characterApiProvider;
             _sceneApiProvider = sceneApiProvider;
@@ -23,7 +23,7 @@ namespace Combat.Local.Scripting.Adapters
 
         public AbilityApi Adaptee(AbilityKey abilityKey)
         {
-            SkillInfo ability = _abilityFactory.Create(abilityKey.Skill);
+            SkillInfo ability = _abilityFactory.Get(abilityKey.Skill);
             var context = new DomainAbilityContext(abilityKey.Skill,
                 abilityKey.Owner.HasValue ? _characterApiProvider.Adaptee(abilityKey.Owner.Value) : null,
                 ability.Flags,

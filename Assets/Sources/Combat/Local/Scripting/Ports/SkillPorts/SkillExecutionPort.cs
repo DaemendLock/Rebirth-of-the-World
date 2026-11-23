@@ -1,4 +1,4 @@
-﻿using Combat.Common.Primitives;
+﻿using Combat.Common.Flags;
 using Combat.Common.ValueObjects;
 using Combat.Local.Application.Endpoints.Skills;
 using Combat.Local.Scripting.Adapters;
@@ -10,49 +10,47 @@ namespace Combat.Local.Scripting.SkillPorts
 {
     public sealed class SkillExecutionPort : ISkillExecutionPort
     {
-        private readonly ISkillRuntimeRegistry _runtimeRegistry;
+        private readonly ISkillRuntimeRegistry _skillScriptRegistry;
+        private readonly ICastRuntimeRegistry _castRuntimeRegistry;
         private readonly UnitNewAdapter _unitNewAdapter;
 
-        public SkillExecutionPort(ISkillRuntimeRegistry runtimeRegistry, UnitNewAdapter unitNewAdapter)
+        public SkillExecutionPort(ISkillRuntimeRegistry runtimeRegistry, ICastRuntimeRegistry castRuntimeRegistry, UnitNewAdapter unitNewAdapter)
         {
-            _runtimeRegistry = runtimeRegistry;
+            _skillScriptRegistry = runtimeRegistry;
+            _castRuntimeRegistry = castRuntimeRegistry;
             _unitNewAdapter = unitNewAdapter;
         }
 
-        public bool BeginCast(AbilityKey abilityKey)
+        public ActionFlags BeginCast(CastInfo castInfo)
         {
-            if (_runtimeRegistry.TryGet(abilityKey, out var skillRuntime) == false)
+            if (_skillScriptRegistry.TryGet(new(castInfo.Caster, castInfo.SkillId), out var skillRuntime) == false)
             {
-                return false;
+                throw new System.InvalidOperationException("Script is not registered");
             }
 
-            var castable = skillRuntime.Container.GetCapability<ISkillExecuteCapability>();
+            ISkillExecuteCapability castable = skillRuntime.Container.GetCapability<ISkillExecuteCapability>()
+                ?? throw new System.InvalidOperationException("Script is not castable");
+            DomainCastContext domainCastContext = new(null, _unitNewAdapter.Adaptee(castInfo.Caster));
 
-            if (castable == null)
+            castable.BeginCast(skillRuntime.Context, domainCastContext);
+
+            if (castInfo.RequestedAction.HasValue == false)
             {
-                return false;
+                return ActionFlags.None;
             }
 
-            UnitNew caster = abilityKey.Owner.HasValue ? _unitNewAdapter.Adaptee(abilityKey.Owner.Value) : null;
-            DomainCastContext domainCastContext = skillRuntime.CastContexts.Begin(skillRuntime.Context, caster);
-            bool changedCurrent = castable.BeginCast(skillRuntime.Context, domainCastContext);
-
-            if (changedCurrent == false)
-            {
-                skillRuntime.CastContexts.DiscardPending(domainCastContext);
-            }
-
-            return changedCurrent;
+            _castRuntimeRegistry.Create(new(castInfo.Caster, castInfo.SkillId), new(domainCastContext, skillRuntime.Container));
+            return ParseFlags(castInfo);
         }
 
-        public CastFailReason CanCast(AbilityKey abilityKey)
+        public CastFailReason CanCast(CastInfo castInfo)
         {
-            if (_runtimeRegistry.TryGet(abilityKey, out var skillRuntime) == false)
+            if (_skillScriptRegistry.TryGet(new(castInfo.Caster, castInfo.SkillId), out SkillRuntime skillRuntime) == false)
             {
                 return CastFailReason.UnknownSkill;
             }
 
-            var castable = skillRuntime.Container.GetCapability<ISkillExecuteCapability>();
+            ISkillExecuteCapability castable = skillRuntime.Container.GetCapability<ISkillExecuteCapability>();
 
             if (castable == null)
             {
@@ -60,6 +58,23 @@ namespace Combat.Local.Scripting.SkillPorts
             }
 
             return castable.CanCast(skillRuntime.Context);
+        }
+
+        private ActionFlags ParseFlags(CastInfo castInfo)
+        {
+            ActionFlags flags = ActionFlags.None;
+
+            if (castInfo.Flags.HasFlag(SkillFlags.DontRestrictMovement))
+            {
+                flags |= ActionFlags.AllowMovement;
+            }
+
+            if (castInfo.Flags.HasFlag(SkillFlags.CanHold))
+            {
+                flags |= ActionFlags.Holdable;
+            }
+
+            return flags;
         }
     }
 }

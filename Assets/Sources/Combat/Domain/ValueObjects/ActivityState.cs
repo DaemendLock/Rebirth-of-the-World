@@ -13,22 +13,19 @@ namespace Combat.Domain.ValueObjects
 
     public readonly struct ActivityState
     {
-        private ActivityState(ActivityType type, float activeTime, ActionId actionId)
+        private ActivityState(ActivityType type, float activeTime)
         {
             Type = type;
             ActiveTime = activeTime;
-            ActionId = actionId;
         }
 
         public ActivityType Type { get; }
 
         public float ActiveTime { get; }
 
-        public ActionId ActionId { get; }
+        public static ActivityState Idle => new(ActivityType.Idle, 0);
 
-        public static ActivityState Idle => new(ActivityType.Idle, 0, default);
-
-        public static ActivityState Casting(ActionId actionId) => new(ActivityType.Casting, 0, actionId);
+        public static ActivityState Casting() => new(ActivityType.Casting, 0);
     }
 
     public struct CastActivity

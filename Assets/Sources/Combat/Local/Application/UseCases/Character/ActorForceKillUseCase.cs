@@ -6,7 +6,6 @@ using Combat.Domain.Repositories;
 using Combat.Domain.ValueObjects;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.Endpoints.Skills;
-using Combat.Local.Application.Entities;
 using Combat.Local.Application.OutputPorts;
 
 namespace Combat.Local.Application.UseCases

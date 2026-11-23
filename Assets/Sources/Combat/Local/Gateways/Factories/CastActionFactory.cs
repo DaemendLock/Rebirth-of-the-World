@@ -1,5 +1,6 @@
 ﻿using CastStateSkill;
 
+using Combat.Common.Flags;
 using Combat.Common.Primitives;
 using Combat.Domain.ValueObjects;
 using Combat.Local.Application.Factories;
@@ -7,25 +8,25 @@ using Combat.Local.Gateways.DataSources;
 
 namespace Combat.Local.Gateways.Factories
 {
-    public class AbilityActionStrategyFactory : IAbilityActionStrategyFactory
+    public sealed class CastActionFactory : ICastActionFactory
     {
         private readonly ISkillDataBase _skillDataBase;
 
-        public AbilityActionStrategyFactory(ISkillDataBase skillDataBase)
+        public CastActionFactory(ISkillDataBase skillDataBase)
         {
             _skillDataBase = skillDataBase;
         }
 
-        public CastActivity Create(ActionId id, SkillId source, bool holdable)
+        public CastActivity Create(ActionId actionId, SkillId skillId, SkillFlags skillFlags, ActionFlags flags)
         {
-            if (_skillDataBase.TryGetFrameData(id, out IFrameData frameData) == false)
+            if (_skillDataBase.TryGetFrameData(actionId, out IFrameData frameData) == false)
             {
                 throw new System.InvalidOperationException();
             }
 
-            CastActivity castActivity = new(source, frameData);
+            CastActivity castActivity = new(skillId, frameData);
 
-            if (holdable == false)
+            if (flags.HasFlag(ActionFlags.Holdable) == false)
             {
                 castActivity.Release();
             }

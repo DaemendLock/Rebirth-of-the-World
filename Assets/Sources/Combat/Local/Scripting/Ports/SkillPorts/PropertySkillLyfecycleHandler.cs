@@ -12,12 +12,14 @@ namespace Combat.Local.Scripting.SkillPorts
     public sealed class PropertySkillLyfecycleHandler : ISkillLyfecycleHandler
     {
         private readonly List<ISkillRuntimeFactory> _factories;
-        private readonly ISkillRuntimeRegistry _runtimeRegistry;
+        private readonly ISkillRuntimeRegistry _skillRuntimeRegistry;
+        private readonly ICastRuntimeRegistry _castRuntimeRegistry;
 
-        public PropertySkillLyfecycleHandler(ISkillRuntimeRegistry runtimeRegistry)
+        public PropertySkillLyfecycleHandler(ISkillRuntimeRegistry runtimeRegistry, ICastRuntimeRegistry castRuntimeRegistry)
         {
-            _runtimeRegistry = runtimeRegistry;
+            _skillRuntimeRegistry = runtimeRegistry;
             _factories = new();
+            _castRuntimeRegistry = castRuntimeRegistry;
         }
 
         public void RegisterStrategyFactory(ISkillRuntimeFactory factory)
@@ -34,19 +36,13 @@ namespace Combat.Local.Scripting.SkillPorts
                 throw new System.InvalidOperationException($"No skill property factory can handle skill '{abilityKey.Skill}'.");
             }
 
-            _runtimeRegistry.Create(abilityKey, properties.Value);
+            _skillRuntimeRegistry.Create(abilityKey, properties.Value);
         }
 
         public void Remove(AbilityKey abilityKey)
         {
-            if (_runtimeRegistry.TryGet(abilityKey, out var properties) == false)
-            {
-                return;
-            }
-
-            properties.Context?.Cleanup();
-            properties.CastContexts.Cleanup();
-            _runtimeRegistry.Remove(abilityKey);
+            _skillRuntimeRegistry.Remove(abilityKey);
+            _castRuntimeRegistry.Remove(abilityKey);
         }
 
         private ISkillRuntimeFactory GetFactory(SkillId id)
@@ -65,32 +61,32 @@ namespace Combat.Local.Scripting.SkillPorts
 
     public sealed class PropertySkillActionStateChangeHandler : ISkillActionStateChangeHandler
     {
-        private readonly ISkillRuntimeRegistry _runtimeRegistry;
+        private readonly ICastRuntimeRegistry _castRuntimeRegistry;
+        private readonly ISkillRuntimeRegistry _skillRuntimeRegistry;
 
-        public PropertySkillActionStateChangeHandler(ISkillRuntimeRegistry runtimeRegistry)
+        public PropertySkillActionStateChangeHandler(ICastRuntimeRegistry runtimeRegistry, ISkillRuntimeRegistry skillRuntimeRegistry)
         {
-            _runtimeRegistry = runtimeRegistry;
+            _castRuntimeRegistry = runtimeRegistry;
+            _skillRuntimeRegistry = skillRuntimeRegistry;
         }
 
         public void Handle(AbilityKey abilityKey, ActionState newState)
         {
-            if (_runtimeRegistry.TryGet(abilityKey, out SkillRuntime properties) == false)
+            if (_castRuntimeRegistry.TryGet(abilityKey, out CastRuntime properties) == false)
             {
                 return;
             }
 
-            var handler = properties.Container.GetCapability<ISkillHandleActionCapability>();
-
-            if (newState == ActionState.Startup)
+            if (_skillRuntimeRegistry.TryGet(abilityKey, out SkillRuntime skillRuntime) == false)
             {
-                properties.CastContexts.PromotePending();
+                return;
             }
 
-            handler?.HandlePhaseChange(properties.CastContexts.Current, properties.Context, newState);
+            properties.Container.GetCapability<ISkillHandleActionCapability>()?.HandlePhaseChange(properties.Context, skillRuntime.Context, newState);
 
             if (newState == ActionState.Inactive)
             {
-                properties.CastContexts.CompleteActive();
+                _castRuntimeRegistry.Remove(abilityKey);
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Combat.Common.Primitives;
+using Combat.Domain.Entities;
 using Combat.Domain.Repositories;
 
 using System.Numerics;
@@ -7,16 +8,26 @@ namespace Combat.Local.Application.UseCases
 {
     public class ActorDesireMoveInDirectionUseCase
     {
-        private readonly IUnitStore _actorRepository;
+        private readonly IUnitStore _unitStore;
 
-        public ActorDesireMoveInDirectionUseCase(IUnitStore actorRepository)
+        public ActorDesireMoveInDirectionUseCase(IUnitStore unitStore)
         {
-            _actorRepository = actorRepository;
+            _unitStore = unitStore;
         }
 
         public void Execute(UnitId target, Vector2 relativeDirection)
         {
-            _actorRepository.Get(target).Actor.DesireMoveDirection(relativeDirection);
+            if (_unitStore.TryGet(target, out UnitContext unit) == false)
+            {
+                return;
+            }
+
+            if (relativeDirection.LengthSquared() > 1)
+            {
+                relativeDirection = Vector2.Normalize(relativeDirection);
+            }
+
+            unit.Actor.DesireMoveDirection(relativeDirection);
         }
     }
 }

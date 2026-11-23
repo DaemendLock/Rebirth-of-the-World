@@ -14,6 +14,16 @@ namespace Combat.Local.Scripting.Runtime
 
         public bool TryGet(AbilityKey id, out SkillRuntime container) => _values.TryGetValue(id, out container);
     }
+    public sealed class ScriptCastlRuntimeRegistry : ICastRuntimeRegistry
+    {
+        private readonly Dictionary<AbilityKey, CastRuntime> _values = new();
+
+        public void Create(AbilityKey id, CastRuntime value) => _values.Add(id, value);
+
+        public void Remove(AbilityKey id) => _values.Remove(id);
+
+        public bool TryGet(AbilityKey id, out CastRuntime container) => _values.TryGetValue(id, out container);
+    }
 
     public sealed class UnitRuntimeRegistry : IUnitRuntimeRegistry
     {

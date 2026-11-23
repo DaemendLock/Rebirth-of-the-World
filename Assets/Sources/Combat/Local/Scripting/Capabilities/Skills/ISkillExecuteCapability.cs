@@ -34,7 +34,8 @@ namespace Combat.Local.Scripting.Capabilities.Skills
             _script = script;
         }
 
-        public bool BeginCast(ISkillContext skillContext, ICastContext castContext) => _script.OnCast(skillContext, castContext);
         public CastFailReason CanCast(ISkillContext context) => CastFailReason.Success;
+
+        public bool BeginCast(ISkillContext skillContext, ICastContext castContext) => _script.OnCast(skillContext, castContext);
     }
 }

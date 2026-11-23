@@ -6,7 +6,6 @@ using Combat.Domain.Entities;
 using Combat.Domain.Repositories;
 using Combat.Domain.ValueObjects;
 using Combat.Local.Application.Endpoints.Skills;
-using Combat.Local.Application.Entities;
 using Combat.Local.Application.Factories;
 using Combat.Local.Application.OutputPorts;
 
@@ -17,19 +16,19 @@ namespace Combat.Local.Application.UseCases.Character
     public sealed class ActorCastSkillFromSlotUseCase
     {
         private readonly IUnitStore _unitStore;
-        private readonly IAbilityFactory _abilityFactory;
-        private readonly ActionFactory _actionFactory;
-        private readonly IActorActionUpdateOutput _actorUpdateOutput;
+        private readonly ISkillInfoRepository _skillInfoRepository;
+        private readonly ICastActionFactory _castActionFactory;
+        private readonly IActorActionUpdateOutput _actionUpdateOutput;
         private readonly ISkillHitHandler _skillHitHandler;
         private readonly ISkillExecutionPort _skillExecutionPort;
         private readonly ISkillActionStateChangeHandler _skillActionStateChangeHandler;
 
-        public ActorCastSkillFromSlotUseCase(IUnitStore unitStore, IAbilityFactory abilityFactory, ActionFactory actionFactory, IActorActionUpdateOutput actorUpdateOutput, ISkillHitHandler skillHitHandler, ISkillExecutionPort skillExecutionPort, ISkillActionStateChangeHandler skillActionStateChangeHandler)
+        public ActorCastSkillFromSlotUseCase(IUnitStore unitStore, ISkillInfoRepository abilityFactory, ICastActionFactory actionFactory, IActorActionUpdateOutput actorUpdateOutput, ISkillHitHandler skillHitHandler, ISkillExecutionPort skillExecutionPort, ISkillActionStateChangeHandler skillActionStateChangeHandler)
         {
             _unitStore = unitStore;
-            _abilityFactory = abilityFactory;
-            _actionFactory = actionFactory;
-            _actorUpdateOutput = actorUpdateOutput;
+            _skillInfoRepository = abilityFactory;
+            _castActionFactory = actionFactory;
+            _actionUpdateOutput = actorUpdateOutput;
             _skillHitHandler = skillHitHandler;
             _skillExecutionPort = skillExecutionPort;
             _skillActionStateChangeHandler = skillActionStateChangeHandler;
@@ -52,110 +51,111 @@ namespace Combat.Local.Application.UseCases.Character
             Cast(unit, skill.Value);
         }
 
-        private bool Cast(UnitContext unit, SkillId skillId)
+        private void Cast(UnitContext unit, SkillId skillId)
         {
-            UnitId caster = unit.Id;
-
-            if (unit.LifeState.State != ConsciousState.Alive)
-            {
-                return true;
-            }
-
             if (unit.Skills.GetCooldown(skillId) > 0)
             {
-                return true;
+                return;
             }
 
-            AbilityKey abilityKey = new(caster, skillId);
-            SkillInfo ability = _abilityFactory.Create(skillId);
+            UnitId casterId = unit.Id;
+            Actor actor = unit.Actor;
+            SkillInfo skillInfo = _skillInfoRepository.Get(skillId);
+            CastInfo castInfo = new(casterId, skillId, skillInfo.Flags, skillInfo.Actions?.FirstOrDefault());
 
-            if (CanCast(unit, ability.Flags, abilityKey) != CastFailReason.Success)
+            if (castInfo.RequestedAction.HasValue)
             {
-                UnityEngine.Debug.Log("Can't cast - cast forbidden");
-                return true;
+                CastActivity oldCast = actor.CastActivity;
+                var frameType = (ActionState)oldCast.FrameType;
+
+                if (frameType != ActionState.Recovery && frameType != ActionState.Inactive)
+                {
+                    return;
+                }
+
+                if (oldCast.CanChainInto(skillId) == false)
+                {
+                    return;
+                }
+
+                if (TryEndOldAction(actor) == false)
+                {
+                    return;
+                }
             }
 
-            bool beginAction = _skillExecutionPort.BeginCast(abilityKey);
+            CastFailReason reason = CanCast(castInfo, unit);
 
-            if (ability.BaseCooldown > 0)
+            if (reason != CastFailReason.Success)
             {
-                unit.Skills.SetCooldown(skillId, ability.BaseCooldown);
+                UnityEngine.Debug.Log($"Cast failed. Reason: {reason}");
+                return;
             }
 
-            if (beginAction == false || unit.LifeState.State != ConsciousState.Alive)
+            try
             {
-                return true;
+                ActionFlags flags = _skillExecutionPort.BeginCast(castInfo);
+
+                if (castInfo.RequestedAction.HasValue)
+                {
+                    CastActivity cast = _castActionFactory.Create(castInfo.RequestedAction.Value, castInfo.SkillId, castInfo.Flags, flags);
+                    unit.Actor.StartCast(cast);
+                    _actionUpdateOutput.Present(castInfo.Caster, castInfo.RequestedAction.Value, flags, unit.Actor.CurrentActivity.ActiveTime);
+                    _skillActionStateChangeHandler.Handle(new(unit.Id, skillId), ActionState.Startup);
+                }
+            }
+            catch
+            {
+                return;
             }
 
-            if (ability.Actions != null && ability.Actions.Count > 0)
+            if (skillInfo.BaseCooldown > 0)
             {
-                return StartCastAction(unit, ability.Actions.First(), skillId, ability.Flags);
+                unit.Skills.SetCooldown(skillId, skillInfo.BaseCooldown);
+            }
+        }
+
+        private bool TryEndOldAction(Actor actor)
+        {
+            if (actor.TryInterrupt(InterruptReason.Chained, out var oldAction) == false)
+            {
+                return false;
+            }
+
+            if (oldAction.Type == ActivityType.Casting)
+            {
+                CastActivity cast = actor.CastActivity;
+                _actionUpdateOutput.Clear(actor.Id);
+                AbilityKey oldKey = new(actor.Id, cast.Skill);
+                _skillHitHandler.Reset(oldKey);
+                _skillActionStateChangeHandler.Handle(oldKey, ActionState.Inactive);
             }
 
             return true;
         }
 
-        private CastFailReason CanCast(UnitContext unit, SkillFlags skillFlags, AbilityKey abilityKey)
+        private CastFailReason CanCast(CastInfo abilityKey, UnitContext unit)
         {
             if (unit.LifeState.State != ConsciousState.Alive)
             {
-                return CastFailReason.CantCast;
+                return CastFailReason.Dead;
             }
 
-            var activity = unit.Actor.CurrentActivity;
+            Actor actor = unit.Actor;
 
-            if (activity.Type == ActivityType.Idle || skillFlags.HasFlag(SkillFlags.Instant))
+            ActivityState activity = actor.CurrentActivity;
+
+            if (activity.Type == ActivityType.Idle || abilityKey.Flags.HasFlag(SkillFlags.Instant))
             {
                 return _skillExecutionPort.CanCast(abilityKey);
             }
 
-            if (activity.Type != ActivityType.Casting)
-            {
-                return CastFailReason.CastInProgress;
-            }
-
-            CastActivity castActivity = unit.Actor.CastActivity;
-            var frameType = (ActionState)castActivity.FrameType;
-
-            if (frameType != ActionState.Recovery && frameType != ActionState.Inactive)
-            {
-                return CastFailReason.CastInProgress;
-            }
-
-            if (castActivity.CanChainInto(abilityKey.Skill) == false)
+            if (activity.Type != ActivityType.Idle)
             {
                 return CastFailReason.CastInProgress;
             }
 
             return _skillExecutionPort.CanCast(abilityKey);
-        }
-
-        private bool StartCastAction(UnitContext unit, ActionId actionId, SkillId skillId, SkillFlags skillFlags)
-        {
-            CastActivity cast = unit.Actor.CastActivity;
-
-            if (unit.Actor.TryInterrupt(InterruptReason.Chained, out var oldAction))
-            {
-                _actorUpdateOutput.Clear(unit.Id);
-
-                if (oldAction.Type == ActivityType.Casting)
-                {
-                    AbilityKey oldKey = new(unit.Id, cast.Skill);
-                    _skillHitHandler.Reset(oldKey);
-                    _skillActionStateChangeHandler.Handle(oldKey, ActionState.Inactive);
-
-                    if (unit.LifeState.State != ConsciousState.Alive)
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            cast = _actionFactory.CreateCastAction(actionId, skillId, skillFlags, out ActionFlags flags);
-            unit.Actor.StartCast(actionId, cast);
-            _actorUpdateOutput.Present(unit.Id, actionId, flags, unit.Actor.CurrentActivity.ActiveTime);
-            _skillActionStateChangeHandler.Handle(new(unit.Id, skillId), ActionState.Startup);
-            return true;
         }
     }
 }
