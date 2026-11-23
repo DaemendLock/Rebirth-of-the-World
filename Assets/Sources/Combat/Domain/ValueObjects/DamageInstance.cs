@@ -81,6 +81,7 @@ namespace Combat.Domain.ValueObjects
             HealthDamage = healthDamage;
             ComposureDamage = composureDamage;
             Flags = flags;
+            DamageCap = damageCap;
         }
 
         public DamageInstance(UnitId target, float healthDamage, float composureDamage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
