@@ -1,6 +1,7 @@
 using Combat.API;
 using Combat.API.DTO;
 using Combat.API.ValueObjects;
+using Combat.Domain.ValueObjects;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.ValueObjects;
 using Combat.Local.Scripting.Adapters;

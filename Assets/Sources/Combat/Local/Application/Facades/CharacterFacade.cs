@@ -1,9 +1,5 @@
-﻿using Combat.Common;
-using Combat.Common.Primitives;
-using Combat.Domain.Entities;
-using Combat.Domain.Repositories;
+﻿using Combat.Common.Primitives;
 using Combat.Local.Application.DTO;
-using Combat.Local.Application.Repositories;
 using Combat.Local.Application.UseCases;
 
 using UnityEngine;
@@ -21,25 +17,16 @@ namespace Combat.Local.Application.Facades
         private readonly PositionableStartScaleUseCase _startScaleUseCase;
         private readonly PositionableStopScaleUseCase _stopScaleUseCase;
 
-        private readonly StatusOwnerFindStatusUseCase _findStatusUseCase;
         private readonly StatusOwnerApplyUseCase _applyStatusUseCase;
-        private readonly IPositionableRepository _positionableRepository;
-        private readonly IUnitStore _unitStore;
 
         public CharacterFacade(ResourceGiveUseCase giveResourceUseCase, ResourceSpendUseCase spendResourceUseCase,
-                               ActorForceKillUseCase killUnitUseCase, StatusOwnerFindStatusUseCase findStatusUseCase,
-                               IPositionableRepository positionableRepository,
-                               IUnitStore unitStore, StatusOwnerApplyUseCase applyStatusUseCase,
-                               ActorDesireMoveInDirectionUseCase moveInDirectionUseCase, AddMovementEffectUseCase addMovementEffectUseCase,
-                               ActorReviveUseCase reviveUnitUseCase,
+                               ActorForceKillUseCase killUnitUseCase, StatusOwnerApplyUseCase applyStatusUseCase,
+                               AddMovementEffectUseCase addMovementEffectUseCase, ActorReviveUseCase reviveUnitUseCase,
                                PositionableStartScaleUseCase startScaleUseCase, PositionableStopScaleUseCase stopScaleUseCase)
         {
             _giveResourceUseCase = giveResourceUseCase;
             _spendResourceUseCase = spendResourceUseCase;
             _killUnitUseCase = killUnitUseCase;
-            _findStatusUseCase = findStatusUseCase;
-            _positionableRepository = positionableRepository;
-            _unitStore = unitStore;
             _applyStatusUseCase = applyStatusUseCase;
             _addMovementEffectUseCase = addMovementEffectUseCase;
             _reviveUnitUseCase = reviveUnitUseCase;
@@ -47,31 +34,15 @@ namespace Combat.Local.Application.Facades
             _stopScaleUseCase = stopScaleUseCase;
         }
 
-        public float GetResourceValue(UnitId target, ResourceId resource) =>
-            _unitStore.Get(target).Resources.GetResource(resource).Value;
-
         public void GiveResource(UnitId target, ResourceId resource, float value, AbilityKey? abilityId) =>
             _giveResourceUseCase.Execute(target, resource, value, abilityId);
 
         public void SpendResource(UnitId target, ResourceId resource, float value, AbilityKey? abilityId) =>
             _spendResourceUseCase.Execute(target, resource, value, abilityId);
 
-        public bool IsAlive(UnitId target) =>
-            _unitStore.Get(target).LifeState.State == ConsciousState.Alive;
-
         public void Kill(UnitId target, AbilityKey? source) => _killUnitUseCase.Execute(target, source);
 
         public void Revive(UnitId target, AbilityKey? source) => _reviveUnitUseCase.Execute(target, source);
-
-        public bool HasStatus(UnitId target, StatusType statusName) => _findStatusUseCase.FindStatus(target, statusName).HasValue;
-
-        public Team GetTeam(UnitId target) => _unitStore.Get(target).Positionable.Team;
-
-        public PositionDTO GetPosition(UnitId target)
-        {
-            UnitContext value = _unitStore.Get(target);
-            return new(value.Positionable.Position, value.Positionable.Rotation, value.Positionable.Scale, value.Positionable.ModelName);
-        }
 
         public void ApplyStatus(UnitId target, StatusType name, int stackCount, float duration, AbilityKey? source)
         {
@@ -79,32 +50,11 @@ namespace Combat.Local.Application.Facades
             _applyStatusUseCase.Execute(dto);
         }
 
-        public void AddMoveInDirectionEffect(UnitId target, Vector3 direction, float speed, bool isRelative, float maxDuration = 10f)
-        {
+        public void AddMoveInDirectionEffect(UnitId target, Vector3 direction, float speed, bool isRelative, float maxDuration = 10f) =>
             _addMovementEffectUseCase.Execute(target, direction, speed, isRelative, maxDuration);
-        }
 
         public ScaleEffectId StartScaleOverTime(UnitId target, float rate) => _startScaleUseCase.Execute(target, rate);
 
         public void StopScaleOverTime(ScaleEffectId effectId) => _stopScaleUseCase.Execute(effectId);
-    }
-}
-
-namespace Combat.Local.Application.Facades
-{
-    public readonly ref struct PositionDTO
-    {
-        public PositionDTO(Vector3 position, Quaternion roation, float scale, ModelName modelName)
-        {
-            Position = position;
-            Roation = roation;
-            Scale = scale;
-            ModelName = modelName;
-        }
-
-        public Vector3 Position { get; }
-        public Quaternion Roation { get; }
-        public float Scale { get; }
-        public ModelName ModelName { get; }
     }
 }

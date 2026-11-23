@@ -2,8 +2,6 @@
 using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 
-using System;
-
 namespace Combat.API.Contexts
 {
     public interface IOldUnitContext

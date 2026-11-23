@@ -1,6 +1,7 @@
 ﻿using Combat.Common;
 using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
+using Combat.Domain.ValueObjects;
 using Combat.Local.Application.ValueObjects;
 
 using System.Collections.Generic;
@@ -22,20 +23,24 @@ namespace Combat.Domain.Entities
 
     public struct Actor
     {
+        public CastActivity CastActivity;
+
         private readonly List<BreakEffect> _breakEffects;
 
         public Actor(UnitId id, float baseMovespeed)
         {
             Id = id;
-            CurrentAction = null;
             DesiredActions = new(Vector2.Zero);
             _breakEffects = new List<BreakEffect>();
             BaseMovespeed = baseMovespeed;
+
+            CurrentActivity = ActivityState.Idle;
+            CastActivity = default;
         }
 
         public readonly UnitId Id { get; }
 
-        public Action CurrentAction { readonly get; private set; }
+        public ActivityState CurrentActivity { get; private set; }
 
         public DesiredActions DesiredActions { readonly get; private set; }
 
@@ -58,33 +63,29 @@ namespace Combat.Domain.Entities
 
         public readonly bool CanCast => State.HasFlag(ActorState.Silenced) == false;
 
-        public readonly bool CanMove => State.HasFlag(ActorState.Rooted) == false && (CurrentAction == null || CurrentAction.AllowMovement);
+        public readonly bool CanMove => State.HasFlag(ActorState.Rooted) == false && (CurrentActivity.Type == ActivityType.Idle);
 
-        public void StartAction(Action action)
+        public void StartCast(ActionId action, CastActivity cast)
         {
-            CurrentAction = action;
-            action.Start();
+            CurrentActivity = ActivityState.Casting(action);
+            CastActivity = cast;
         }
 
         public void StopAction()
         {
-            CurrentAction = null;
+            CurrentActivity = ActivityState.Idle;
         }
 
-        public bool TryInterrupt(InterruptReason reason) => TryInterrupt(reason, out _);
-
-        public bool TryInterrupt(InterruptReason reason, out Action interruptedAction)
+        public bool TryInterrupt(InterruptReason reason, out ActivityState interruptedAction)
         {
-            interruptedAction = CurrentAction;
+            interruptedAction = CurrentActivity;
             StopAction();
 
-            if (interruptedAction == null)
+            return interruptedAction.Type switch
             {
-                return false;
-            }
-
-            interruptedAction.Interrupt(reason);
-            return true;
+                ActivityType.Idle => false,
+                _ => true
+            };
         }
 
         public void DesireMoveDirection(Vector2 direction)

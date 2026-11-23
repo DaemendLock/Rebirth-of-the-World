@@ -1,7 +1,10 @@
-﻿using Combat.Common.Primitives;
+﻿using CastStateSkill;
+
+using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
 using Combat.Domain.Repositories;
+using Combat.Domain.ValueObjects;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.Endpoints.Skills;
 using Combat.Local.Application.Entities;
@@ -25,17 +28,19 @@ namespace Combat.Local.Application.UseCases.Scene
 
             UnitContext unit = _unitStore.Get(target);
 
-            if (unit.Actor.CurrentAction == null)
+            if (unit.Actor.CurrentActivity.Type != ActivityType.Casting)
             {
                 return;
             }
 
-            if (unit.Actor.CurrentAction.TryGetCapability(out IAbilityAction currentAction) == false || currentAction.State != ActionState.Active)
+            ref CastActivity cast = ref unit.Actor.CastActivity;
+
+            if (cast.FrameType != SkillCastState.Active)
             {
                 return;
             }
 
-            _skillHitHandler.HandleHit(new(unit.Actor.Id, currentAction.Source), record);
+            _skillHitHandler.HandleHit(new(unit.Id, cast.Skill), record);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using CastStateSkill;
 
 using Combat.Common.Primitives;
-using Combat.Local.Application.Entities;
+using Combat.Domain.ValueObjects;
 using Combat.Local.Application.Factories;
 using Combat.Local.Gateways.DataSources;
 
@@ -16,16 +16,21 @@ namespace Combat.Local.Gateways.Factories
             _skillDataBase = skillDataBase;
         }
 
-        public IActionStrategy Create(ActionId id, SkillId source, bool holdable)
+        public CastActivity Create(ActionId id, SkillId source, bool holdable)
         {
-            IActionStrategy result = null;
-
-            if (_skillDataBase.TryGetFrameData(id, out IFrameData frameData))
+            if (_skillDataBase.TryGetFrameData(id, out IFrameData frameData) == false)
             {
-                result = new FrameDataAbilityActionStrategy(frameData, source, holdable);
+                throw new System.InvalidOperationException();
             }
 
-            return result;
+            CastActivity castActivity = new(source, frameData);
+
+            if (holdable == false)
+            {
+                castActivity.Release();
+            }
+
+            return castActivity;
         }
     }
 }

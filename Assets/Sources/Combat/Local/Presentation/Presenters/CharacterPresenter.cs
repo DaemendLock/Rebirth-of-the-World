@@ -1,5 +1,6 @@
 ﻿using Combat.Common;
 using Combat.Common.Primitives;
+using Combat.Domain.ValueObjects;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.OutputPorts;
 using Combat.Local.Application.UseCases;

@@ -1,13 +1,14 @@
 ﻿using Combat.Common.Flags;
 using Combat.Common.Primitives;
 using Combat.Domain.Entities;
+using Combat.Domain.ValueObjects;
 using Combat.Local.Application.Entities;
 
 namespace Combat.Local.Application.Factories
 {
     public interface IAbilityActionStrategyFactory
     {
-        IActionStrategy Create(ActionId id, SkillId source, bool holdable);
+        CastActivity Create(ActionId id, SkillId source, bool holdable);
     }
 
     public class ActionFactory
@@ -19,9 +20,9 @@ namespace Combat.Local.Application.Factories
             _actionStrategyFactory = actionStrategyFactory;
         }
 
-        public Action CreateCastAction(ActionId actionId, SkillId skillId, SkillFlags skillFlags)
+        public CastActivity CreateCastAction(ActionId actionId, SkillId skillId, SkillFlags skillFlags, out ActionFlags flags)
         {
-            ActionFlags flags = ActionFlags.None;
+            flags = ActionFlags.None;
 
             if (skillFlags.HasFlag(SkillFlags.DontRestrictMovement))
             {
@@ -33,9 +34,9 @@ namespace Combat.Local.Application.Factories
                 flags |= ActionFlags.Holdable;
             }
 
-            IActionStrategy strategy = _actionStrategyFactory.Create(actionId, skillId, flags.HasFlag(ActionFlags.Holdable));
+            var result = _actionStrategyFactory.Create(actionId, skillId, flags.HasFlag(ActionFlags.Holdable));
 
-            return new Action(actionId, flags, strategy);
+            return result;
         }
     }
 }

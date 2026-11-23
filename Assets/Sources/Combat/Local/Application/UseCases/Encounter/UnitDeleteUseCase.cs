@@ -73,7 +73,7 @@ namespace Combat.Local.Application.UseCases.Scene
                 catch (System.Exception e) { UnityEngine.Debug.LogException(e); }
             }
 
-            unit.Actor.CurrentAction?.Interrupt(InterruptReason.Forced);
+            unit.Actor.TryInterrupt(InterruptReason.Forced, out _);
 
             _unitStore.Delete(target);
             _characterUpdateList.Delete(target);

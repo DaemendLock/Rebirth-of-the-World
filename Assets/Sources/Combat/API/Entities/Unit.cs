@@ -3,9 +3,6 @@ using Combat.API.DTO;
 using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 
-using System;
-using System.Collections.Generic;
-
 namespace Combat.API
 {
     public sealed class Unit

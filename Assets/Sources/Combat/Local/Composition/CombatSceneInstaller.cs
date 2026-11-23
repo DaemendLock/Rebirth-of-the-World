@@ -240,7 +240,6 @@ namespace Combat.Local.Composition
 
             Container.Bind<StatusFacade>().AsSingle();
             Container.Bind<HealthOwnerFacade>().AsSingle();
-            Container.Bind<AttributeOwnerFacade>().AsSingle();
             Container.Bind<CharacterFacade>().AsSingle();
             Container.Bind<EncounterFacade>().AsSingle();
             Container.Bind<ObjectiveCompleteFacade>().AsSingle();

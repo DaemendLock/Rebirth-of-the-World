@@ -1,10 +1,9 @@
 ﻿using Combat.Common;
-using Combat.Common.Flags;
 using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
+using Combat.Domain.ValueObjects;
 using Combat.Local.Application.Endpoints.Skills;
-using Combat.Local.Application.Entities;
 using Combat.Local.Application.OutputPorts;
 
 namespace Combat.Local.Application.UseCases
@@ -40,80 +39,67 @@ namespace Combat.Local.Application.UseCases
 
         private void HandleTarget(UnitContext unit, float deltaTime)
         {
-            Action action = unit.Actor.CurrentAction;
+            var activity = unit.Actor.CurrentActivity;
 
-            if (action == null)
+            switch (activity.Type)
             {
-                return;
+                case ActivityType.Idle:
+                    return;
+                case ActivityType.Casting:
+                    HandleCast(unit, deltaTime);
+                    return;
             }
+        }
+
+        private void HandleCast(UnitContext unit, float deltaTime)
+        {
+            ref CastActivity cast = ref unit.Actor.CastActivity;
 
             if (unit.LifeState.State != ConsciousState.Alive)
             {
-                ClearAction(action, unit);
+                ClearAction(unit, cast);
                 return;
             }
 
-            if (action.IsComplete)
+            CastStateSkill.SkillCastState oldState = cast.FrameType;
+
+            if (oldState == CastStateSkill.SkillCastState.Inactive)
             {
-                FinishAction(action, unit);
+                FinishAction(unit, cast);
                 return;
             }
 
-            ProgressAction(action, unit, deltaTime);
+            cast.Progress(deltaTime);
+
+            if (cast.FrameType == oldState)
+            {
+                return;
+            }
+
+            HandleStateChanges(unit.Id, cast.Skill, (ActionState)cast.FrameType);
         }
 
-        private void ProgressAction(Action action, UnitContext unit, float deltaTime)
-        {
-            bool isAbilityAction = action.TryGetCapability(out IAbilityAction abilityActionStrategy);
-            ActionState oldState = isAbilityAction ? abilityActionStrategy.State : default;
-
-            action.Progress(deltaTime);
-
-            if (action.Flags.HasFlag(ActionFlags.Holdable) && abilityActionStrategy.State == ActionState.Recovery)
-            {
-                _actorUpdateOutput.Release(unit.Id);
-            }
-
-            if (isAbilityAction == false)
-            {
-                return;
-            }
-
-            if (abilityActionStrategy.State == oldState)
-            {
-                return;
-            }
-
-            HandleStateChanges(unit.Id, abilityActionStrategy, abilityActionStrategy.State);
-        }
-
-        private void FinishAction(Action action, UnitContext unit)
+        private void FinishAction(UnitContext unit, CastActivity cast)
         {
             unit.Actor.StopAction();
-            SetInactive(action, unit);
+            SetInactive(unit, cast);
         }
 
-        private void ClearAction(Action action, UnitContext unit)
+        private void ClearAction(UnitContext unit, CastActivity cast)
         {
-            unit.Actor.TryInterrupt(unit.LifeState.State == ConsciousState.Dead ? InterruptReason.Death : InterruptReason.Downed);
-            SetInactive(action, unit);
+            unit.Actor.TryInterrupt(unit.LifeState.State == ConsciousState.Dead ? InterruptReason.Death : InterruptReason.Downed, out _);
+            SetInactive(unit, cast);
         }
 
-        private void SetInactive(Action action, UnitContext unit)
+        private void SetInactive(UnitContext unit, CastActivity cast)
         {
             _actorUpdateOutput.Clear(unit.Id);
-
-            if (action.TryGetCapability(out IAbilityAction abilityAction) == false)
-            {
-                return;
-            }
-
-            HandleStateChanges(unit.Id, abilityAction, ActionState.Inactive);
+            HandleStateChanges(unit.Id, cast.Skill, ActionState.Inactive);
         }
 
-        private void HandleStateChanges(UnitId actorId, IAbilityAction action, ActionState state)
+        private void HandleStateChanges(UnitId actorId, SkillId skillId, ActionState state)
         {
-            AbilityKey key = new(actorId, action.Source);
+            AbilityKey key = new(actorId, skillId);
             _skillHitHandler.Reset(key);
             _skillActionStateChangeHandler.Handle(key, state);
         }

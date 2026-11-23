@@ -3,11 +3,11 @@ using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
 using Combat.Domain.Repositories;
+using Combat.Domain.ValueObjects;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.Endpoints.Skills;
 using Combat.Local.Application.Entities;
 using Combat.Local.Application.OutputPorts;
-using Combat.Local.Application.Repositories;
 
 namespace Combat.Local.Application.UseCases
 {
@@ -46,11 +46,12 @@ namespace Combat.Local.Application.UseCases
 
         private void Interrupt(UnitContext unit)
         {
-            unit.Actor.TryInterrupt(InterruptReason.Death, out var interruptedAction);
+            CastActivity cast = unit.Actor.CastActivity;
+            unit.Actor.TryInterrupt(InterruptReason.Death, out ActivityState interruptedAction);
 
-            if (interruptedAction != null && interruptedAction.TryGetCapability(out IAbilityAction abilityAction))
+            if (interruptedAction.Type == ActivityType.Casting)
             {
-                AbilityKey key = new(unit.Id, abilityAction.Source);
+                AbilityKey key = new(unit.Id, cast.Skill);
                 _hitHandler.Reset(key);
                 _stateChangeHandler.Handle(key, ActionState.Inactive);
             }

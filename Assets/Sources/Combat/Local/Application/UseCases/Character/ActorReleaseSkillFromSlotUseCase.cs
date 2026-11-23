@@ -1,7 +1,7 @@
 ﻿using Combat.Common.Primitives;
 using Combat.Domain.Entities;
 using Combat.Domain.Repositories;
-using Combat.Local.Application.Entities;
+using Combat.Domain.ValueObjects;
 using Combat.Local.Application.OutputPorts;
 
 namespace Combat.Local.Application.UseCases
@@ -21,26 +21,22 @@ namespace Combat.Local.Application.UseCases
         {
             UnitContext unit = _unitStore.Get(caster);
 
-            Action action = unit.Actor.CurrentAction;
-
-            if (action == null || (action.TryGetCapability(out IAbilityAction abilityAction) == false))
+            if (unit.Actor.CurrentActivity.Type != ActivityType.Casting)
             {
                 return;
             }
 
+            ref CastActivity cast = ref unit.Actor.CastActivity;
             SkillId? skillId = unit.Skills.GetSkill(slot);
 
-            if ((skillId.HasValue == false) || abilityAction.Source != skillId.Value)
+            if ((skillId.HasValue == false) || cast.Skill != skillId.Value)
             {
                 return;
             }
 
-            if (action.IsHoldable && action.TryGetCapability(out IReleasableAction releasable))
-            {
-                releasable.Release();
-            }
+            cast.Release();
 
-            if (action.IsHoldable && abilityAction.State == Common.ValueObjects.ActionState.Recovery)
+            if (cast.FrameType == CastStateSkill.SkillCastState.Recovery)
             {
                 _actionUpdateOutput.Release(caster);
             }

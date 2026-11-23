@@ -4,6 +4,7 @@ using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
 using Combat.Domain.Repositories;
+using Combat.Domain.ValueObjects;
 using Combat.Local.Application.Endpoints.Skills;
 using Combat.Local.Application.Entities;
 using Combat.Local.Application.Factories;
@@ -101,32 +102,27 @@ namespace Combat.Local.Application.UseCases.Character
                 return CastFailReason.CantCast;
             }
 
-            Action action = unit.Actor.CurrentAction;
+            var activity = unit.Actor.CurrentActivity;
 
-            if (skillFlags.HasFlag(SkillFlags.Instant) || action == null)
+            if (activity.Type == ActivityType.Idle || skillFlags.HasFlag(SkillFlags.Instant))
             {
                 return _skillExecutionPort.CanCast(abilityKey);
             }
 
-            if (action.TryGetCapability(out IAbilityAction abilityAction) == false)
+            if (activity.Type != ActivityType.Casting)
             {
                 return CastFailReason.CastInProgress;
             }
 
-            if (abilityAction.State != ActionState.Recovery)
-            {
-                if (abilityAction.State != ActionState.Inactive)
-                {
-                    return CastFailReason.CastInProgress;
-                }
-            }
+            CastActivity castActivity = unit.Actor.CastActivity;
+            var frameType = (ActionState)castActivity.FrameType;
 
-            if (action.TryGetCapability(out IChainableAction chainableAction) == false)
+            if (frameType != ActionState.Recovery && frameType != ActionState.Inactive)
             {
                 return CastFailReason.CastInProgress;
             }
 
-            if (chainableAction.CanChainInto(abilityKey.Skill) == false)
+            if (castActivity.CanChainInto(abilityKey.Skill) == false)
             {
                 return CastFailReason.CastInProgress;
             }
@@ -136,13 +132,15 @@ namespace Combat.Local.Application.UseCases.Character
 
         private bool StartCastAction(UnitContext unit, ActionId actionId, SkillId skillId, SkillFlags skillFlags)
         {
-            if (unit.Actor.TryInterrupt(InterruptReason.Chained, out Action oldAction))
+            CastActivity cast = unit.Actor.CastActivity;
+
+            if (unit.Actor.TryInterrupt(InterruptReason.Chained, out var oldAction))
             {
                 _actorUpdateOutput.Clear(unit.Id);
 
-                if (oldAction.TryGetCapability(out IAbilityAction oldAbilityAction))
+                if (oldAction.Type == ActivityType.Casting)
                 {
-                    AbilityKey oldKey = new(unit.Id, oldAbilityAction.Source);
+                    AbilityKey oldKey = new(unit.Id, cast.Skill);
                     _skillHitHandler.Reset(oldKey);
                     _skillActionStateChangeHandler.Handle(oldKey, ActionState.Inactive);
 
@@ -153,9 +151,9 @@ namespace Combat.Local.Application.UseCases.Character
                 }
             }
 
-            Action newAction = _actionFactory.CreateCastAction(actionId, skillId, skillFlags);
-            unit.Actor.StartAction(newAction);
-            _actorUpdateOutput.Present(unit.Id, newAction.Id, newAction.Flags, newAction.ActiveTime);
+            cast = _actionFactory.CreateCastAction(actionId, skillId, skillFlags, out ActionFlags flags);
+            unit.Actor.StartCast(actionId, cast);
+            _actorUpdateOutput.Present(unit.Id, actionId, flags, unit.Actor.CurrentActivity.ActiveTime);
             _skillActionStateChangeHandler.Handle(new(unit.Id, skillId), ActionState.Startup);
             return true;
         }

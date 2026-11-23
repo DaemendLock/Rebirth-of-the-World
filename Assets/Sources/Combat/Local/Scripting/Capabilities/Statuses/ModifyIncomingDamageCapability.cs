@@ -1,4 +1,5 @@
 using Combat.API.Statuses;
+using Combat.Domain.ValueObjects;
 using Combat.Local.Application.ValueObjects;
 using Combat.Local.Scripting.Adapters;
 

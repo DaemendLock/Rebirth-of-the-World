@@ -2,6 +2,7 @@
 using Combat.Common.Primitives;
 using Combat.Domain.Entities;
 using Combat.Domain.Repositories;
+using Combat.Domain.ValueObjects;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.OutputPorts.Statuses;
 using Combat.Local.Application.Queries.Statuses;
@@ -51,7 +52,7 @@ namespace Combat.Local.Application.UseCases
 
             defenderModification = _damageModificationCalculator.GetIncomingDamageModification(defender.Statuses.GetAll().Select(value => value.Id), instance);
             versatilityModifier /= 1f + defender.Attributes.GetVersalityModifier();
-            impactModifier /= versatilityModifier;
+            impactModifier *= versatilityModifier;
 
             if (instance.Attacker.HasValue && _unitStore.TryGet(info.Attacker.Value, out UnitContext attacker))
             {

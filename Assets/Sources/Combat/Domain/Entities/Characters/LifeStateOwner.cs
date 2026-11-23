@@ -17,6 +17,8 @@ namespace Combat.Domain.Entities
 
         public ConsciousState State { readonly get; private set; }
 
+        public readonly bool IsAlive => State == ConsciousState.Alive;
+
         public bool TryEnterDead()
         {
             if (State == ConsciousState.Dead)

@@ -3,102 +3,98 @@ using Combat.API.Contexts;
 using Combat.API.DTO;
 using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
+using Combat.Domain.Entities;
 using Combat.Local.Application.Facades;
+
+using System.Linq;
 
 namespace Combat.Local.Scripting
 {
     public sealed class OldDomainUnitContext : IOldUnitContext
     {
-        private readonly UnitId _id;
+        private readonly UnitContext _unit;
         private readonly CharacterFacade _characterFacade;
         private readonly HealthOwnerFacade _healthOwnerFacade;
-        private readonly AttributeOwnerFacade _attributeOwnerFacade;
 
-        public OldDomainUnitContext(UnitId id,
-            CharacterFacade characterController,
+        public OldDomainUnitContext(CharacterFacade characterController,
             HealthOwnerFacade healthOwnerController,
-            AttributeOwnerFacade attributeOwnerController)
+            UnitContext unitContext)
         {
-            _id = id;
-
             _characterFacade = characterController;
             _healthOwnerFacade = healthOwnerController;
-            _attributeOwnerFacade = attributeOwnerController;
+            _unit = unitContext;
         }
 
-        public UnitId Id => _id;
+        public UnitId Id => _unit.Id;
 
-        public Team Team => _characterFacade.GetTeam(_id);
+        public Team Team => _unit.Positionable.Team;
 
-        public ModelName ModelName => _characterFacade.GetPosition(_id).ModelName;
+        public ModelName ModelName => _unit.Positionable.ModelName;
 
         public float Scale
         {
-            get => _characterFacade.GetPosition(_id).Scale;
+            get => _unit.Positionable.Scale;
             set
             {
                 throw new System.NotImplementedException();
             }
         }
 
-        public UnityEngine.Vector3 Position => _characterFacade.GetPosition(_id).Position;
+        public UnityEngine.Vector3 Position => _unit.Positionable.Position;
 
-        public bool Alive => _characterFacade.IsAlive(_id);
+        public bool Alive => _unit.LifeState.IsAlive;
 
         public float CurrentHealth
         {
-            get => _healthOwnerFacade.GetHealth(_id).CurrentHealth;
-            set => _healthOwnerFacade.SetHealth(_id, value);
+            get => _unit.Health.Current;
+            set => _healthOwnerFacade.SetHealth(Id, value);
         }
 
-        public float MaxHealth => _healthOwnerFacade.GetHealth(_id).MaxHealth;
+        public float MaxHealth => _unit.Health.Max;
 
         public float CurrentComposure
         {
-            get => _healthOwnerFacade.GetHealth(_id).CurrentComposure;
-            set => _healthOwnerFacade.SetComposure(_id, value);
+            get => _unit.Composure.Current;
+            set => _healthOwnerFacade.SetComposure(Id, value);
         }
 
-        public float MaxComposure => _healthOwnerFacade.GetHealth(_id).MaxComposure;
+        public float MaxComposure => _unit.Composure.Max;
 
         public float GetCooldown(SkillId skillId) => 0;
 
-        public float GetAttributeValue(UnitAttribute attribute) => _attributeOwnerFacade.GetAttributeValue(_id, attribute);
+        public float GetAttributeValue(UnitAttribute attribute) => _unit.Attributes.GetAttributeValue(attribute);
 
-        public float GetVersalityModifier() => _attributeOwnerFacade.GetVersalityModifier(_id);
+        public float GetVersalityModifier() => _unit.Attributes.GetVersalityModifier();
 
-        public float GetHasteModifier() => _attributeOwnerFacade.GetHasteModifier(_id);
+        public float GetHasteModifier() => _unit.Attributes.GetHasteModifier();
 
         public bool CanHurt(IOldUnitContext target) => Team != target.Team;
 
-        public void ApplyStatus(ApplyStatusInfo info) => _characterFacade.ApplyStatus(_id, info.Name, info.StackCount, info.Duration, info.Source);
+        public void ApplyStatus(ApplyStatusInfo info) => _characterFacade.ApplyStatus(Id, info.Name, info.StackCount, info.Duration, info.Source);
 
-        public bool HasStatus(StatusType name) => _characterFacade.HasStatus(_id, name);
+        public bool HasStatus(StatusType name) => _unit.Statuses.GetAll().Any(value => value.Name == name);
 
-        public float GetResourceValue(ResourceId resource) => _characterFacade.GetResourceValue(_id, resource);
+        public float GetResourceValue(ResourceId resource) => _unit.Resources.GetResource(resource).Value;
 
-        public void GiveResource(GiveResourceInfo info) => _characterFacade.GiveResource(_id, info.Resource, info.Value, info.Source?.AbilityKey);
+        public void GiveResource(GiveResourceInfo info) => _characterFacade.GiveResource(Id, info.Resource, info.Value, info.Source?.AbilityKey);
 
-        public void SpendResource(ResourceId resource, float value, AbilityApi source) => _characterFacade.SpendResource(_id, resource, value, source?.AbilityKey);
+        public void SpendResource(ResourceId resource, float value, AbilityApi source) => _characterFacade.SpendResource(Id, resource, value, source?.AbilityKey);
 
-        public void ApplyDamage(Combat.API.DTO.ApplyDamageInfo info)
+        public void ApplyDamage(ApplyDamageInfo info) =>
+            _healthOwnerFacade.ApplyDamage(new(Id, info.HealthDamage, info.ComposureDamage, info.Flags, info.Attacker?.Id, info.Source?.AbilityKey));
+
+        public void ApplyHealing(API.DTO.ApplyHealingInfo info)
         {
-            Application.DTO.ApplyDamageInfo applyDamageInfo = new(_id, info.HealthDamage, info.ComposureDamage, info.Flags, info.Attacker?.Id, info.Source?.AbilityKey);
-            _healthOwnerFacade.ApplyDamage(applyDamageInfo);
-        }
-
-        public void ApplyHealing(Combat.API.DTO.ApplyHealingInfo info)
-        {
-            Application.Facades.ApplyHealingInfo applyHealingInfo = new(_id, info.Healing, info.Flags, info.Healer?.Id, info.Source?.AbilityKey);
+            Application.Facades.ApplyHealingInfo applyHealingInfo = new(Id, info.Healing, info.Flags, info.Healer?.Id, info.Source?.AbilityKey);
             _healthOwnerFacade.ApplyHealing(applyHealingInfo);
         }
 
         public void AddMovement(UnityEngine.Vector3 direction, float speed, bool isRelative) => _characterFacade.AddMoveInDirectionEffect(Id, direction, speed, isRelative);
 
-        public void Kill(KillInfo data) => _characterFacade.Kill(_id, data.Source?.AbilityKey);
+        public void Kill(KillInfo data) => _characterFacade.Kill(Id, data.Source?.AbilityKey);
 
-        public void Revive(ReviveInfo data) => _characterFacade.Revive(_id, data.Source?.AbilityKey);
+        public void Revive(ReviveInfo data) => _characterFacade.Revive(Id, data.Source?.AbilityKey);
 
-        public bool Equals(Unit other) => other.Id == _id;
+        public bool Equals(Unit other) => other.Id == Id;
     }
 }

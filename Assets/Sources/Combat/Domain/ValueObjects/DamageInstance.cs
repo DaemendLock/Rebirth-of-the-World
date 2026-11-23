@@ -54,20 +54,24 @@ namespace Combat.Local.Application.ValueObjects
         public float Healing { get; set; }
         public HealingFlags Flags { get; set; }
     }
+}
 
+namespace Combat.Domain.ValueObjects
+{
     public struct DamageInstance
     {
         public UnitId Target { get; }
         public UnitId? Attacker { get; }
         public float OriginalHealthDamage { get; }
         public float OriginalComposureDamage { get; }
+        public float DamageCap { get; }
         public AbilityKey? Source { get; }
         public float HealthDamage { get; set; }
         public float ComposureDamage { get; set; }
         public DamageFlags Flags { get; set; }
 
         public DamageInstance(UnitId target, float originalHealthDamage, float originalComposureDamage,
-            float healthDamage, float composureDamage, DamageFlags flags, UnitId? attacker, AbilityKey? source)
+            float healthDamage, float composureDamage, DamageFlags flags, UnitId? attacker, AbilityKey? source, float damageCap = 10000f)
         {
             Target = target;
             Attacker = attacker;

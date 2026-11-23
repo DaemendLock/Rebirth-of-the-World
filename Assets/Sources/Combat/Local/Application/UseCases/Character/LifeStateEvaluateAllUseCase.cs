@@ -2,6 +2,7 @@
 using Combat.Common.Primitives;
 using Combat.Common.ValueObjects;
 using Combat.Domain.Entities;
+using Combat.Domain.ValueObjects;
 using Combat.Local.Application.DTO;
 using Combat.Local.Application.Endpoints.Skills;
 using Combat.Local.Application.Entities;
@@ -123,6 +124,8 @@ namespace Combat.Local.Application.UseCases
 
         private void Interrupt(UnitContext unit, InterruptReason reason)
         {
+            CastActivity cast = unit.Actor.CastActivity;
+
             if (unit.Actor.TryInterrupt(reason, out var interruptedAction) == false)
             {
                 return;
@@ -130,12 +133,12 @@ namespace Combat.Local.Application.UseCases
 
             _actionUpdateOutput.Clear(unit.Id);
 
-            if (interruptedAction.TryGetCapability(out IAbilityAction abilityAction) == false)
+            if (interruptedAction.Type != ActivityType.Casting)
             {
                 return;
             }
 
-            AbilityKey key = new(unit.Id, abilityAction.Source);
+            AbilityKey key = new(unit.Id, cast.Skill);
             _hitHandler.Reset(key);
             _stateChangeHandler.Handle(key, ActionState.Inactive);
         }
